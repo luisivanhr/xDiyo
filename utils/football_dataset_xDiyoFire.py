@@ -93,15 +93,15 @@ def divide_stats(stat_type = None):
             periods = ['total','45_min','90_min']
             attack = ['accuratecross_all','accuratecross_value','accuratelongballs_all','accuratelongballs_value',
             'accuratepasses','accuratethroughball','bigchancecreated','bigchancescored','cornerkicks',
-            'dribblespercentage_all','dribblespercentage_value','finalthirdentries', #deleted duelwonpercent
+            'dribblespercentage_all','dribblespercentage_value','finalthirdentries', 'deleted duelwonpercent',
             'fouledfinalthird','freekicks','passes','shotsongoal','totalshotsinsidebox','totalshotsongoal',
             'totalshotsoutsidebox']
             defense = ['aerialduelspercentage_all','aerialduelspercentage_value','ballpossession','ballrecovery',
             'goalkeepersaves','groundduelspercentage_all','groundduelspercentage_value','interceptionwon',
-            'throwins','totalclearance','wontacklepercent_all','wontacklepercent_value']
+            'throwins','totalclearance','wontacklepercent_all','wontacklepercent_value', 'total_goalsprevented']
             mistakes = ['bigchancemissed','blockedscoringattempt','dispossessed','hitwoodwork','offsides',
             'redcards','shotsoffgoal','yellowcards']
-            #extra=['total_goalsprevented']
+
         
         if stat_type == 'corners':
             periods = ['total','45_min','90_min']
@@ -109,19 +109,19 @@ def divide_stats(stat_type = None):
             attack = ['accuratecross_all','accuratecross_value','cornerkicks',
             'fouledfinalthird','freekicks','shotsongoal','totalshotsinsidebox','totalshotsongoal',
             'totalshotsoutsidebox','blockedscoringattempt']
-            defense = ['goalkeepersaves']
+            defense = ['goalkeepersaves', 'total_goalsprevented']
             mistakes = []
-            #extra=['total_goalsprevented']
+
 
         if stat_type == 'older_stats':
             periods = ['total','45_min','90_min']
             attack = ['accuratepasses','accuratethroughball','bigchancecreated','bigchancescored','cornerkicks',
-            'finalthirdentries', #deleted duelwonpercent
+            'finalthirdentries', 'duelwonpercent',
             'fouledfinalthird','freekicks','passes','shotsongoal','totalshotsinsidebox','totalshotsongoal',
             'totalshotsoutsidebox']
             defense = ['ballpossession',
             'goalkeepersaves','interceptionwon',
-            'throwins','totalclearance','bigchancemissed','blockedscoringattempt','dispossessed','hitwoodwork','offsides']
+            'throwins','totalclearance','bigchancemissed','blockedscoringattempt','dispossessed','hitwoodwork','offsides','total_goalsprevented']
             mistakes = []
             #extra=['total_goalsprevented']
         
@@ -145,13 +145,8 @@ def extract_league_name(league_str):
         return '_'.join(parts[:-2])
     return league_str
 
-def split_and_merge_leagues(leagues, train_p, val_p, test_p):
-    if not (train_p + val_p + test_p == 1.0):
-        raise ValueError("Proportions train_p, val_p, and test_p must sum up to 1.0")
-
-    train_df = pd.DataFrame()
-    val_df = pd.DataFrame()
-    test_df = pd.DataFrame()
+def merge_leagues(leagues):
+    merged_df = pd.DataFrame()
 
     standard_columns = None  # To hold the standard column order
 
@@ -181,6 +176,16 @@ def split_and_merge_leagues(leagues, train_p, val_p, test_p):
         df['home_standing'] = df['home_standing'] / df['home_standing'].max()
         df['away_standing'] = df['away_standing'] / df['away_standing'].max()
 
+        # Normalize round number within the league
+        max_round = df['round'].max()
+        if pd.isna(max_round) or max_round == 0:
+            normalized_round = pd.Series(0, index=df.index, dtype=float)
+        else:
+            normalized_round = df['round'] / max_round
+
+        round_position = df.columns.get_loc('round') + 1
+        df.insert(round_position, 'normalized_round', normalized_round)
+
         # Add league_index column to mark league membership
         df['league_index'] = current_league_index
 
@@ -191,33 +196,19 @@ def split_and_merge_leagues(leagues, train_p, val_p, test_p):
         # Align current DataFrame's columns to the standard order
         df = df.reindex(columns=standard_columns)
 
-        # Calculate split indices
-        n_matches = len(df)
-        train_end = int(train_p * n_matches)
-        val_end = train_end + int(val_p * n_matches)
-
-        # Split the data
-        train_portion = df.iloc[:train_end]
-        val_portion = df.iloc[train_end:val_end]
-        test_portion = df.iloc[val_end:]
-
-        # Merge portions into respective DataFrames
-        train_df = pd.concat([train_df, train_portion], axis=0)
-        val_df = pd.concat([val_df, val_portion], axis=0)
-        test_df = pd.concat([test_df, test_portion], axis=0)
-
+        # Merge into the combined DataFrame
+        merged_df = pd.concat([merged_df, df], axis=0)
+    
     # Drop the 'index' column if it exists
-    for df in [train_df, val_df, test_df]:
-        if 'index' in df.columns:
-            df.drop('index', axis=1, inplace=True)
+    if 'index' in merged_df.columns:
+        merged_df.drop('index', axis=1, inplace=True)
 
     # Fill missing values with 0 and reset indexes
-    for df in [train_df, val_df, test_df]:
-        df.fillna(0, inplace=True)
-        df.reset_index(drop=True, inplace=True)
+    merged_df.fillna(0, inplace=True)
+    merged_df.reset_index(drop=True, inplace=True)
 
-    # Return the splits along with the league mapping dictionary
-    return train_df, val_df, test_df, league_indices
+    # Return the merged dataframe along with the league mapping dictionary
+    return merged_df, league_indices
 
 
 def calculate_mean_std(train_df, columns):
