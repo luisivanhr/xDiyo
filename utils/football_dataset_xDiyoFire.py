@@ -4,6 +4,7 @@ import json
 import torch
 from torch.utils.data import DataLoader, Subset
 from torch.utils.data import Dataset
+from typing import List, Optional, Sequence, Tuple
 import numpy as np
 import os
 import pickle
@@ -211,6 +212,7 @@ def merge_leagues(leagues):
     return merged_df, league_indices
 
 
+
 def calculate_mean_std(train_df, columns):
     """
     Calculates league-specific mean and standard deviation statistics.
@@ -286,7 +288,6 @@ def convert_team_names_to_ids(team_name, team2id):
     """
     return team2id[team_name] if team_name in team2id else team2id["<PAD>"]
 
-import torch
 
 def process_heatmap_data(heatmap_data, n_x, n_y, reverse_x=False, reverse_y=False, flatten=True, density=False):
     """
