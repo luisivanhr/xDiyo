@@ -146,7 +146,7 @@ def extract_league_name(league_str):
         return '_'.join(parts[:-2])
     return league_str
 
-def merge_leagues(leagues):
+def merge_leagues(leagues, home_flags: bool = False):
     merged_df = pd.DataFrame()
 
     standard_columns = None  # To hold the standard column order
@@ -186,6 +186,21 @@ def merge_leagues(leagues):
 
         round_position = df.columns.get_loc('round') + 1
         df.insert(round_position, 'normalized_round', normalized_round)
+
+        # Add season start indicator derived from the first two digits of season_year
+        if 'season_year' in df.columns:
+            season_year_str = df['season_year'].astype(str)
+            season_start = pd.to_numeric(
+                season_year_str.str.slice(0, 2), errors='coerce'
+            ).fillna(0).astype(int)
+        else:
+            season_start = pd.Series(0, index=df.index, dtype=int)
+        df['season_start'] = season_start
+
+        # Optionally include flags identifying the home side in the row structure
+        if home_flags:
+            df['home_is_home'] = 1
+            df['away_is_home'] = 0
 
         # Add league_index column to mark league membership
         df['league_index'] = current_league_index
