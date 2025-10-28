@@ -167,7 +167,7 @@ def to_team_match_long(
 
     # Put useful keys up front for readability
     front = [c for c in [match_id_col, "team_id", "opponent_id"] if c in stacked.columns]
-    for c in ("league", "league_index", "season", "season_start", "round", "normalized_round", "date_utc"):
+    for c in ("league", "league_index", "season_year", "season_start", "round", "normalized_round"):
         if c in stacked.columns and c not in front:
             front.append(c)
 
