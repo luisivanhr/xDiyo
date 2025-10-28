@@ -23,20 +23,20 @@ def to_team_match_long(
     -----
     - Columns without the `home_`/`away_` prefix are treated as shared context and copied to both rows.
     - For columns with home_/away_:
-        * On the home row:  home_{x} -> team_{x},  away_{x} -> opponent_{x}
-        * On the away row:  away_{x} -> team_{x},  home_{x} -> opponent_{x}
+        - On the home row:  home_{x} -> team_{x},  away_{x} -> opponent_{x}
+        - On the away row:  away_{x} -> team_{x},  home_{x} -> opponent_{x}
     - Adds:
-        * team_id: value from home_team_col/away_team_col
-        * opponent_id: the opposing team
-      (Note: This function does NOT add or modify `is_home`. If present in the input, it will be passed through as a shared column.)
+        - team_id: value from home_team_col/away_team_col
+        - opponent_id: the opposing team
+    (Note: This function does NOT add or modify `is_home`. If present in the input, it will be passed through as a shared column.)
     - Preserves everything else (date/league/season/round/etc.) as shared columns.
 
     Parameters
     ----------
     shared_passthrough : list of column names to always pass through unchanged (non-prefixed).
-                         If None, auto-detect as all columns that don't start with home_/away_.
+                        If None, auto-detect as all columns that don't start with home_/away_.
     include_only : base names (without prefix) to include for TEAM features; if provided, only those stats
-                   are transformed into `team_*`.
+                are transformed into `team_*`.
     exclude : base names to exclude from TEAM transformation.
     opponent_include_only : base names (without prefix) to include for OPPONENT features. If None, no opponent
                             features are created by default (prevents feature explosion).
