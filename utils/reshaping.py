@@ -125,9 +125,13 @@ def to_team_match_long(
         if h in df.columns:
             away_ren[h] = f"opponent_{b}"
 
+    # Create a set for efficient lookup
+    shared_set = set(shared_cols)
+    
     # Create the two projections
     # Home side
-    home_view_cols = shared_cols + list(set(home_ren.keys()))
+    extra_home_keys = [k for k in home_ren.keys() if k not in shared_set] # Guard vs duplicates
+    home_view_cols = shared_cols + extra_home_keys
     home_df = df[home_view_cols].rename(columns=home_ren).copy()
     home_df["team_id"] = df[home_team_col].values
     home_df["opponent_id"] = df[away_team_col].values
@@ -135,14 +139,15 @@ def to_team_match_long(
     home_df["_tmp_side_order"] = 0
 
     # Away side
-    away_view_cols = shared_cols + list(set(away_ren.keys()))
+    extra_away_keys = [k for k in away_ren.keys() if k not in shared_set] # Guard vs duplicates
+    away_view_cols = shared_cols + extra_away_keys
     away_df = df[away_view_cols].rename(columns=away_ren).copy()
     away_df["team_id"] = df[away_team_col].values
     away_df["opponent_id"] = df[home_team_col].values
     # mark side for interleaving
     away_df["_tmp_side_order"] = 1
 
-    # --- CHANGED CONCATENATION LOGIC (interleaved by match) -------------------
+    # --- CONCATENATION LOGIC (interleaved by match) -------------------
     stacked = pd.concat([home_df, away_df], axis=0, ignore_index=True, sort=False)
 
     # Stable sort so we get: match1 home, match1 away, match2 home, match2 away, ...
