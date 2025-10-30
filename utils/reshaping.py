@@ -9,7 +9,7 @@ def to_team_match_long(
     away_prefix: str = "away_",
     home_team_col: str = "home_team",
     away_team_col: str = "away_team",
-    match_id_col: Optional[str] = "match_id",   # if None, we’ll create one from the index
+    match_id_col: Optional[str] = None,   # if None, we’ll create one from the index
     shared_passthrough: Optional[Iterable[str]] = None,   # None => auto: all non-prefixed columns
     include_only: Optional[Iterable[str]] = None,  # optional whitelist of TEAM base names (w/o prefix)
     exclude: Optional[Iterable[str]] = None,       # optional blacklist of TEAM base names (w/o prefix)
@@ -51,14 +51,14 @@ def to_team_match_long(
     if match_id_col is None:
         # Create a deterministic id from the original order
         df = df.copy()
-        df["_tmp_match_row_id"] = range(len(df))
-        match_id_col = "_tmp_match_row_id"
+        df["match_order"] = range(len(df))
+        match_id_col = "match_order"
     else:
         if match_id_col not in df.columns:
             # fall back to index if requested but missing
             df = df.copy()
-            df["_tmp_match_row_id"] = range(len(df))
-            match_id_col = "_tmp_match_row_id"
+            df["match_order"] = range(len(df))
+            match_id_col = "match_order"
 
     # Identify prefixed and shared columns
     cols = list(df.columns)
@@ -153,8 +153,8 @@ def to_team_match_long(
     # Stable sort so we get: match1 home, match1 away, match2 home, match2 away, ...
     sort_keys = [match_id_col, "_tmp_side_order"]
     # If a temporary per-match creation order exists, use it to preserve original order
-    if "_tmp_match_row_id" in stacked.columns:
-        sort_keys.append("_tmp_match_row_id")
+    if "match_order" in stacked.columns:
+        sort_keys.append("match_order")
 
     stacked = stacked.sort_values(sort_keys, kind="mergesort").reset_index(drop=True)
     # -------------------------------------------------------------------------
