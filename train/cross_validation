@@ -55,7 +55,7 @@ class SeasonRoundTimeSeriesSplit(BaseCrossValidator):
 
     def __init__(
         self,
-        season_col: str = "season",
+        season_col: str = "season_start",
         round_col: str = "round",
         *,
         start_season: Optional[str] = None,
@@ -96,19 +96,24 @@ class SeasonRoundTimeSeriesSplit(BaseCrossValidator):
         if self.season_col not in X or self.round_col not in X:
             raise TypeError(f"X must contain columns {self.season_col!r} and {self.round_col!r}.")
 
-        seasons = X[self.season_col].to_numpy()
+        # Uncomment if data does not provide the starting year explicitly
+        # seasons = X[self.season_col].to_numpy()
+        years = X[self.season_col].to_numpy()
         rounds = X[self.round_col].to_numpy()
         if not np.issubdtype(rounds.dtype, np.number):
             raise ValueError(f"{self.round_col!r} must be numeric (integer rounds).")
         rounds = rounds.astype(int)
-
-        years = np.array([_first_year(s) for s in seasons], dtype=int)
+        
+        # Uncomment if data does not provide the starting year explicitly
+        # years = np.array([_first_year(s) for s in seasons], dtype=int)
         uniq_years = np.array(sorted(np.unique(years)))
 
         if self.start_season is None:
             start_year = int(uniq_years[0])
         else:
-            req_year = _first_year(self.start_season)
+            # Uncomment if data does not provide the starting year explicitly
+            # req_year = _first_year(self.start_season)
+            req_year = int(self.start_season)
             after = uniq_years[uniq_years >= req_year]
             if len(after) == 0:
                 raise ValueError("start_season is after all seasons in data.")
