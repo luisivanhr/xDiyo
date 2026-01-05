@@ -11,8 +11,7 @@ After specifying the set of templates that will be used for feature engineering,
 
 ### Feature template
 - name: A string that indicates the name of the feature. Naming format is capitalizing the first letter of each word, with no spaces. Some examples are "RollingMean", "ExponentialMean", "StatRatioDifference", etc.
-- family: This field will contain strings separated by a "|" character to enlist which feature families a particular operator supports. The purpose is that this, together with the warm-start status will determine the 
-partition over which the operators will act. The supported families are "league" | "team" | "rating" | "headtohead" | "postprocessing". "postprocessing" is used for example for shrinkage or warm-start operators. Which family is picked when specifying a template will be indicated by the choice in the GUI.
+- family: This field will contain strings separated by a "|" character to enlist which feature families a particular operator supports. The purpose is that this, together with the warm-start status will determine the partition over which the operators will act. The supported families are "league" | "team" | "rating" | "headtohead" | "postprocessing". "postprocessing" is used for example for shrinkage or warm-start operators. Which family is picked when specifying a template will be indicated by the choice in the GUI.
 - kernel: Again, this will contain strings separated by a "|" character to enlist which aggregation kinds a particular operator supports. The list is "rolling" |"expanding" |"snapshot" |"point" |"expression" | "teacher". Here the "expression" type is reserved for custom features that we will implement using a _feature builder_ and will have custom aggregation rules, and "teacher" will be reserved by those features that will be given by the output of pretrained models.
 - window: Will only have effect for "rolling" kernels and is just to specify the length of the lookback.
 - partition: Several types of partitions depending on the family and warm-start status. The indicate how Pandas vectorizes the computations. Some of the options are for league and no warm-start: ["league"], league and warm-start: ["league","season_start"], team and no warm-start: ["team_id"], team and warm-start: ["team_id","season_start"], head to head and no warm-start: ["team_id","opponent_id"], head to head and warm-start: ["team_id","opponent_id","season_start"]. More could be added at a later point.
@@ -31,3 +30,27 @@ partition over which the operators will act. The supported families are "league"
 - shift_policy: Indicates the amount of shift the feature will have. The idea is to prevent information leak from the future or to give information to the model from a more distant past. The values would be either "nolag" for 0 lag or 1,2,3,..., depending on how many steps the feature is delayed.
 - warm_start_blend: This will indicate the type of warm-start or shrinkage (if any) that a feature will use for borrowing strength from previous data or data from other teams. The structure is for example {"type": "LinearWarmStart", alpha_schedule: {"start_round": 1, "end_round": 6}}. The warm-start or shrinkage operators will be defined as features from templates that belong to the postprocessing family and their output will be a column with the weights corresponding to each round and also the column with the warm-started or shrunk features.
 - audit: This is for ensuring congruence between the input, the settings, and the feature in use. One example could be {"min_count": 3, "allow_zero_var": False}.
+
+### Target template
+- name: A string that indicates the name of the target. Naming format is capitalizing the first letter of each word, with no spaces. Some examples are "BettingOption", "Winner", "Rank", "SingleStat" "MultiStat", "MatchTotal", "MultiTotals", etc.
+- family: This field will contain strings separated by a "|" character to enlist which target families a particular operator supports. This will determine the partition over which the operators will act. The supported families for the targets are "team" | "match" | "bets" | "odds" | "rank". 
+    - "team" targets is for example for a specific stat or group of stats for a single team in a match
+    - "match" targets is for the pooled stats from both teams in a single match, for example total_corners = home_corners + away_corners
+    - "bets" targets are for selecting suitable bet options for a particular match. They are meant to be used in classification problems where some examples are "more than 1.5 goals", "more than 2.5 goals", "less than 2.5 goals", etc
+    - "odds" targets are meant to build our own set of odds as if we were bookmakers. Could be used paired with logit models.
+    - "rank" targets are meant to be used to find the positions of the teams relative to each other and for finding tournament winners.
+- source: It is the name of the raw columns to use
+- scaling: Indicates the desired scaler, some examples are "None", "league_zscore", "league_minmax", "team_zscore", "team_minmax", "quantiles", etc. Scalers will be defined as operators in our library, however, they will be able to check if the output columns already exist to avoid computing them again. For example, if we are already computing the league-wide z-score of a specific stat, then we should already have the league-wide mean and standard deviation computed, so we could reuse those columns for the scaler.
+- scaler_partition: It is just the partition for the scaler. In case warm-start is used, we do not warm-start the targets, only the moments or any prior used in the scaler. For example, for a z_score scaler, only the mean and std for the scaler are warm-started, not the target stat.
+- scaler_window: Specifies the lookback, we align it with the windows form the feature engineering.
+- scaler_shift: Indicates the amount of shift that the scaler will have. In the same way as the targets, this allows to avoid peeking into the future. The values would be either "nolag" for 0 lag (for debugging purposes) or 1.
+- transform: Optional operation on the raw target prior to scaling. Given by some operator in our library. Default is None.
+- export_mode: "stacked" or "match_wide" depending if we export in long or wide format.
+- audit: Same as before, it is for assuring consistency between targets and operators. Some examples could be a fallback to the unscaled target or using a global prior if variance collapses in early rounds {"min_std", "fallback": "use_mean_only"}
+
+### Implementing a feature builder
+
+For implementing a _feature builder_ we will work with the "expression" kernel introduced before. The idea of this type of feature is that the aggregation will be specified by Abstract Syntax Trees (AST) where the operations will be taken from our library of operators. One example of such feature is a difference of the ratios of the rolling means of the stat of one team against the other: Diff(Ratio(RollingMean,RollingMean),Ratio(RollingMean,RollingMean))
+
+- inputs: In this field we list all the raw stats needed to build the expression. In our example ["team_corners_infavor","team_corners_against","opponent_corners_infavor","opponent_corners_against"]
+- aggregation: In our example, the syntax tree would be {"operation": Diff, "args": [{"operation": Ratio, "args":}, {"operation": Ratio, "args":}]}
