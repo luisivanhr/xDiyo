@@ -1,5 +1,14 @@
 # Football analytics system
-The objective is to create a system that pulls the available football data and creates a dataset ready to use in the pipeline of a model. 
+The objective is to create a system that pulls the available football data and creates a dataset ready to use in the pipeline of a model. The output of this feature engineering step should be the following set of artifacts: 
+- Snapshots table: The snapshots table will hold all the computed columns, even if they will not form part of the final output. The purpose is to have an indexed and easy way to access the computed features, including all the columns that are specified as requirements of other templates. This table will also hold the ratings of the teams so they can be updated sequentially when another match comes. The final features that will form part of the output will be specified in a white list. The structure of the snapshots table will be given by:
+    - Key: The canonical ordering for the snapshots table will be ["league", "season_start", "round", "match_order", "team_id"] regardless of the export mode. The long/wide format will be given later at a pivoting stage.
+    - Columns: All lagged features, Glicko ($\mu$,$\varphi$,$\sigma$), flags (promoted, demoted, home , away, etc), and warm_start coefficients.
+
+The workflow will be the following
+0. Load the data to process. Through a GUI we will specify the feature and target templates for the feature engineering and design of the model.
+1. This stage will be directed by an _orchestrator layer_ (a lightweight classer or a pipeline registry) to run passes in a strict temporal order. The output will be a list of artifacts that will be described later. There will be 4 passes:
+    - Pass O: Receive a list of templates. The orchestrator should first scan the templates for >retrieve_location indicators and replace them with the information from the given location. Then, it should look at the families, output names, and requirements fields of all the templates in order to build a DAG (Directed Acyclic Graph) that represents the order in which the features should be computed.  The main temporal order is league-wide pass -> team-wide pass -> ratings pass. Furthermore, for features called inside "requirements" fields, the orchestrator first should look within the list of column output names if the feature is already computed (in which case it is reused), and if it is not present, then the orchestrator needs to run those templates before the one calling them.
+    - Pass A: League-wide pass. 
 
 ## Creation of feature templates
 The idea is to have three ingredients:
@@ -43,7 +52,7 @@ For templates called from the requirements of other templates, the orchestrator 
     - "bets" targets are for selecting suitable bet options for a particular match. They are meant to be used in classification problems where some examples are "more than 1.5 goals", "more than 2.5 goals", "less than 2.5 goals", etc
     - "odds" targets are meant to build our own set of odds as if we were bookmakers. Could be used paired with logit models.
     - "rank" targets are meant to be used to find the positions of the teams relative to each other and for finding tournament winners.
-- source: It is the name of the raw columns to use
+- input: Works the same way as the input for the feature templates.
 - scaling: Indicates the desired scaler, some examples are "None", "league_zscore", "league_minmax", "team_zscore", "team_minmax", "quantiles", etc. Scalers will be defined as operators in our library, however, they will be able to check if the output columns already exist to avoid computing them again. For example, if we are already computing the league-wide z-score of a specific stat, then we should already have the league-wide mean and standard deviation computed, so we could reuse those columns for the scaler.
 - scaler_partition: It is just the partition for the scaler. In case warm-start is used, we do not warm-start the targets, only the moments or any prior used in the scaler. For example, for a z_score scaler, only the mean and std for the scaler are warm-started, not the target stat.
 - scaler_window: Specifies the lookback, we align it with the windows form the feature engineering.
