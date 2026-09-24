@@ -10,6 +10,7 @@ data/prepared_v2/
 data/audits/
 **/_collection/
 **/_tables/
+!data/xDiyo_data/_tables/
 data/website_capture_v3/
 data/xDiyo_data/LATEST.json
 data/xDiyo_data_daily/
