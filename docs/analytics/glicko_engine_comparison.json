@@ -1,0 +1,23 @@
+{
+  "seed": 91826,
+  "random_periods": 1500,
+  "idle_comparisons": 15000,
+  "sequential_matches": 4000,
+  "exact_public_state_comparisons": 24500,
+  "public_state_max_absolute_difference": 0.0,
+  "default_tau": 1.0,
+  "official_example_tau": 0.5,
+  "official_example": {
+    "rating": 1464.0506705393013,
+    "rd": 151.51652412385727,
+    "sigma": 0.059995984286488495,
+    "mu": -0.20694096667525527,
+    "phi": 0.8721991881307342
+  },
+  "source_sha256": {
+    "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+    "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+    "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19"
+  },
+  "decision": "Retain utils.glicko_rating as single numerical engine; analytics adapter preserves defaults and adds snapshots-compatible state names."
+}

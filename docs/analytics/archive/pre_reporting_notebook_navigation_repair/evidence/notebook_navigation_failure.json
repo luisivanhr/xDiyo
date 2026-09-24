@@ -1,0 +1,15 @@
+{
+  "before": {
+    "url": "about:srcdoc",
+    "baseURI": "file:///C:/Users/luisi/Documents/Programming/Python/xDiyo/.pytest_tmp/reporting_verification/jupyter_frontend/saved_notebook.html",
+    "studies": 3,
+    "href": "file:///C:/Users/luisi/Documents/Programming/Python/xDiyo/.pytest_tmp/reporting_verification/jupyter_frontend/saved_notebook.html#study-2"
+  },
+  "after": {
+    "url": "file:///C:/Users/luisi/Documents/Programming/Python/xDiyo/.pytest_tmp/reporting_verification/jupyter_frontend/saved_notebook.html#study-2",
+    "baseURI": "file:///C:/Users/luisi/Documents/Programming/Python/xDiyo/.pytest_tmp/reporting_verification/jupyter_frontend/saved_notebook.html#study-2",
+    "studies": 0,
+    "notebooks": 1
+  },
+  "defect": "The srcdoc sidebar fragment resolves against the parent document and navigates the iframe away from the report."
+}

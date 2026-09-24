@@ -1,0 +1,87 @@
+{
+  "checked_at_utc": "2026-09-16T03:13:43.495862+00:00",
+  "scope": "Multi-season import with separate matches/statistics/pregame and independently selectable shots. Dedicated coverage scenarios and related prose removed; generic selected-table/missing-table behavior retained.",
+  "tests": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "passed": 55,
+    "existing_cases_preserved": 36,
+    "multiseason_cases": 19,
+    "exit_code": 0,
+    "test_sha256": {
+      "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a",
+      "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "test_multiseason.py": "833e3a2c5c4f1c7f1478b20dcdfad5066d0c7376531e9c6ced96b9ef9ad8c095",
+      "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+      "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc"
+    },
+    "before_utc": "2026-09-16T03:09:22.9393102Z",
+    "after_utc": "2026-09-16T03:09:27.9533302Z"
+  },
+  "source_sha256": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "256df91f2ddd40375da6ac90cf065896b0ca581c085659ef6950afff2c67972d",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf"
+  },
+  "import": {
+    "evidence_path": "docs/analytics/multiseason_import_check.json",
+    "evidence_sha256": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "publication_count": 39,
+    "league_count": 13,
+    "table_shapes": {
+      "matches": [
+        13976,
+        37
+      ],
+      "statistics": [
+        3303574,
+        20
+      ],
+      "pregame": [
+        27072,
+        10
+      ]
+    },
+    "missing_league_season_combinations": [],
+    "selected_source_files_rechecked_unchanged": 195,
+    "selection_records_rechecked_unchanged": 39,
+    "new_import_required": false
+  },
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "sha256": "71311caefc833f9d70cd2706d356422351005f77eb0f6ae0ea383e2decf3577c",
+    "total_cells": 9,
+    "code_cells": 6,
+    "changed_markdown_cells": 1,
+    "all_code_cells_and_outputs_unchanged": true,
+    "error_outputs": 0,
+    "execution_started_at_utc": "2026-09-16T02:52:11.314997+00:00",
+    "execution_finished_at_utc": "2026-09-16T02:52:35.641375+00:00",
+    "rerun": false,
+    "reason": "Prose-only revision; all six cells retain the prior successful fresh-kernel execution."
+  },
+  "preservation": {
+    "archive_manifest": "docs/analytics/archive/pre_scope_clarification/preservation_manifest.json",
+    "archived_originals": 8,
+    "historical_json_sha256": {
+      "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+      "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+      "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+      "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+      "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+      "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+      "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+      "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+      "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7"
+    },
+    "existing_test_files_unchanged": 5,
+    "table_descriptions_retained": 18,
+    "checked_guide_links": 12,
+    "library_implementation_changed": false,
+    "source_data_changed": false,
+    "files_deleted": false,
+    "callbacks_sent": 0
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "archived_before_edits": true,
+  "originals": [
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_features/src/README.md",
+      "sha256": "d99188d3bdaa852e3090f423f3a07caf271945b1d0542ddb4a9990cf32ee5c52"
+    },
+    {
+      "source": "docs/analytics/team_history.md",
+      "archive": "docs/analytics/archive/pre_features/docs/analytics/team_history.md",
+      "sha256": "f789f2c78163546ec1518488157795e7748b1d3a8ddb586bea54f1b4f9975038"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_features/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "3cc5345fe301d7691a00c04d6b2ab2bd509eb5aa920c56ea0837cb818825b802"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_features/coaching_history.md",
+      "sha256": "e3fe0f54c8f3c31e0dc629e2044c84ed6209a6c9e4fabbf9a32c0cbac7dccb08"
+    },
+    {
+      "source": "football_analytics_working_notes.md",
+      "archive": "docs/analytics/archive/pre_features/football_analytics_working_notes.md",
+      "sha256": "8cf10045e9eeb1df83acbc52d6e3cd7c827297a17d5e998c23af437ecfc48880"
+    }
+  ],
+  "prior_json_sha256": {
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+    "stat_selection_check.json": "36769610b13984adf703f278b7c82269c085074d854f43af6d8798f10f4587f8",
+    "multiseason_scope_check.json": "70e73e630692ecbb971f77724af244c3f384b57d28d94a603cf0252366603d3a",
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "team_history_check.json": "a07a27dc5e705852717e7b4c4321f4fd390b19dc9597880e773db26c84ac8450",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78"
+  },
+  "unchanged_loader_notebook_sha256": "3c0876e37e1d87899f0053fe7f3fc043472ddee8c879034b16983789fb82768d"
+}

@@ -1,0 +1,12 @@
+{
+  "created_at_utc": "2026-09-17T12:38:36.079350+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_reporting_implementation/coaching_history.md": "3ba7d446b0039762d5b300a4d4ca2d117755090c51906a78d53716d384507a36",
+    "docs/analytics/archive/pre_reporting_implementation/football_analytics_working_notes.md": "34a96661a811a42af1a4739af6fe259213dd7b3c3b970e16821404dc18ed8d6d",
+    "docs/analytics/archive/pre_reporting_implementation/IMPLEMENTATION_PROGRESS.md": "a6a8465ace0e8482e55586df0e3d2c2ef5a9800b234c47e987dcb6b0b16ce802",
+    "docs/analytics/archive/pre_reporting_implementation/pyproject.toml": "955b6c8df39a924410e14d589bc9d743664db30a6e499feb51ffe2822bd574ef",
+    "docs/analytics/archive/pre_reporting_implementation/src/README.md": "45b6c37e6de6914982971c7d3dc6b741be4498e18b89cefb86f422dcc317a54b"
+  },
+  "preserved_files": 5,
+  "note": "Primary archived tracker/working notes before this worker. The archived pyproject.toml already includes the reporting package registrations; it is not a pre-source snapshot."
+}

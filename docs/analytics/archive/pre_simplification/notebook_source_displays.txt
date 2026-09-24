@@ -1,0 +1,1051 @@
+season          2021/2022  2022/2023  2023/2024  2024/2025
+league                                                    
+Bundesliga            305        306        306        306
+Bundesliga_2          306        306        306        306
+Championship          552        552        552        552
+Eredivisie            306        306        306        306
+La_Liga               380        380        380        380
+La_Liga_2             462        462        462        462
+Ligue_1               380        380        306        306
+Ligue_2               379        379        380        306
+Premier_League        380        380        380        380
+Premiership           228        228        228        228
+Pro_League            312        328        240        311
+Serie_A               380        380        380        380
+Serie_B               380        380        380        380
+
+   event_id  competition_id  season_id  home_id  away_id  home_name away_name  \
+0  12436410              17      61627       50       42  Brentford   Arsenal   
+
+   round    status       scheduled_start_utc  \
+0     19  finished 2025-01-01 17:30:00+00:00   
+
+                 metadata_fetched_utc  
+0 2026-09-13 16:40:19.579999924+00:00  
+
+                  season               key  stored_rows  event_side_pairs  \
+0   Premier_League_21_22       cornerKicks          760               760   
+1   Premier_League_21_22  totalShotsOnGoal         1520               760   
+2   Premier_League_21_22       shotsOnGoal          760               760   
+3   Premier_League_21_22     expectedGoals            0                 0   
+4   Premier_League_24_25       cornerKicks          760               760   
+5   Premier_League_24_25  totalShotsOnGoal         1520               760   
+6   Premier_League_24_25       shotsOnGoal          760               760   
+7   Premier_League_24_25     expectedGoals         1520               760   
+8       Bundesliga_24_25       cornerKicks          610               610   
+9       Bundesliga_24_25  totalShotsOnGoal         1220               610   
+10      Bundesliga_24_25       shotsOnGoal          610               610   
+11      Bundesliga_24_25     expectedGoals         1220               610   
+
+                   groups  
+0          Match overview  
+1   Match overview, Shots  
+2                   Shots  
+3                          
+4          Match overview  
+5   Match overview, Shots  
+6                   Shots  
+7   Match overview, Shots  
+8          Match overview  
+9   Match overview, Shots  
+10                  Shots  
+11  Match overview, Shots  
+
+<IPython.lib.display.IFrame at 0x180eaa93b60>
+
+<IPython.lib.display.IFrame at 0x180ea6c74d0>
+
+
+
+<IPython.lib.display.IFrame at 0x24ffd0d34d0>
+
+   competition_id  season_id  season_start  season_end  \
+0              17      61627          2024        2025   
+
+                            version  declared_matches  declared_tables  
+0  6d950fa327de4fc29c796c7cca101606               380               15  
+
+@dataclass(frozen=True)
+class ResolvedSeason:
+    """Paths, fingerprints and captured metadata for one published season.
+
+    Table counts and hashes are publisher declarations, not verified table data.
+    Frozen fields prevent reassignment; the two metadata dictionaries are still
+    mutable Python objects and should be treated as read-only by callers.
+    """
+
+    publication_path: Path
+    manifest_path: Path
+    publication_sha256: str
+    manifest_sha256: str
+    publication: dict[str, Any]
+    manifest: dict[str, Any]
+    publication_bytes: bytes = field(repr=False)
+
+def resolve_season_export(data_root: Path, season_stem: str) -> ResolvedSeason:
+    """Resolve one schema-2 season sidecar to its explicitly linked version.
+
+    ``season_stem`` is a filename stem such as ``Premier_League_24_25``.
+    Read each JSON file once and fingerprint exactly the bytes that were parsed.
+    Preserve optional metadata, including any future team-season descriptor.
+
+    Raise FileNotFoundError for absent files, ValueError for invalid metadata or
+    selection, and propagate other filesystem errors. No Parquet, CURRENT pointer,
+    source writes, normalization or automatic population selection is involved.
+    """
+    return _resolve_season_publication(data_root, season_stem)
+
+def _resolve_season_publication(
+    data_root: Path, season_stem: str, publication_bytes: bytes | None = None,
+) -> ResolvedSeason:
+    """Apply the same resolution checks to a live or saved publication snapshot."""
+    if not isinstance(season_stem, str) or not re.fullmatch(
+        r"[A-Za-z][A-Za-z0-9_]*_[0-9]{2}_[0-9]{2}", season_stem
+    ):
+        raise ValueError("season_stem must be a league_YY_YY filename stem")
+
+    root = Path(data_root).resolve()
+    publication_path = (root / f"{season_stem}.manifest.json").resolve()
+    if not publication_path.is_relative_to(root):
+        raise ValueError("Publication path is outside data_root")
+    if publication_bytes is None:
+        publication_bytes = publication_path.read_bytes()
+    try:
+        publication = json.loads(publication_bytes)
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise ValueError(f"Invalid JSON in {publication_path}") from exc
+    if not isinstance(publication, dict):
+        raise ValueError(f"Publication must be a JSON object: {publication_path}")
+    if publication.get("complete") is not True:
+        raise ValueError(f"Season publication is not complete: {season_stem}")
+    if publication.get("schema_version") != "2":
+        raise ValueError("Unsupported publication schema_version; expected '2'")
+    if publication.get("season_file") != f"{season_stem}.parquet":
+        raise ValueError("Publication season_file does not match season_stem")
+
+
+    link = publication.get("manifest")
+    if not isinstance(link, str) or not link or Path(link).is_absolute():
+        raise ValueError("Publication manifest link must be a nonempty relative path")
+    manifest_path = (publication_path.parent / link).resolve()
+    if not manifest_path.is_relative_to(root):
+        raise ValueError("Canonical manifest path is outside data_root")
+    manifest_bytes = manifest_path.read_bytes()
+    try:
+        manifest = json.loads(manifest_bytes)
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise ValueError(f"Invalid JSON in {manifest_path}") from exc
+    if not isinstance(manifest, dict):
+        raise ValueError(f"Canonical manifest must be a JSON object: {manifest_path}")
+    if manifest.get("schema_version") != "2":
+        raise ValueError("Unsupported canonical schema_version; expected '2'")
+
+    scope = manifest.get("scope")
+    if not isinstance(scope, dict):
+        raise ValueError("Canonical manifest must contain a scope object")
+    for key in ("league_id", "season_id", "season_start", "season_end"):
+        if type(scope.get(key)) is not int or scope[key] <= 0:
+            raise ValueError(f"scope.{key} must be a positive integer")
+    league, start, end = season_stem.rsplit("_", 2)
+    if (scope.get("league_name") != league
+            or scope["season_start"] % 100 != int(start)
+            or scope["season_end"] % 100 != int(end)
+            or scope["season_end"] != scope["season_start"] + 1):
+        raise ValueError("Canonical scope does not match the requested league/season")
+
+    version = manifest.get("version")
+    if not isinstance(version, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", version):
+        raise ValueError("Canonical manifest must contain a valid version")
+    expected_path = (root / "_tables" / f"competition={scope['league_id']}"
+                     / f"season={scope['season_id']}" / "versions" / version
+                     / "manifest.json").resolve()
+    if manifest_path != expected_path:
+        raise ValueError("Manifest path does not match its scope IDs and version")
+    if not isinstance(manifest.get("parser_version"), str) or not manifest["parser_version"]:
+        raise ValueError("Canonical manifest must contain a parser_version string")
+
+
+    tables = manifest.get("tables")
+    if not isinstance(tables, dict) or "matches" not in tables:
+        raise ValueError("Canonical tables must include a matches descriptor")
+    for name, info in tables.items():
+        if not isinstance(info, dict):
+            raise ValueError(f"Table descriptor must be an object: {name}")
+        filename = info.get("file")
+        if (not isinstance(filename, str) or not filename.endswith(".parquet")
+                or any(char in filename for char in '/\\:') or filename == ".parquet"):
+            raise ValueError(f"Table file must be a local Parquet filename: {name}")
+        for key in ("rows", "bytes"):
+            if type(info.get(key)) is not int or info[key] < 0:
+                raise ValueError(f"Table {name}.{key} must be a nonnegative integer")
+        if not isinstance(info.get("sha256"), str) or not re.fullmatch(
+            r"[0-9a-fA-F]{64}", info["sha256"]
+        ):
+            raise ValueError(f"Table {name}.sha256 must be a SHA256 hex digest")
+    if (type(publication.get("matches")) is not int
+            or publication["matches"] != tables["matches"]["rows"]):
+        raise ValueError("Publication and canonical matches row declarations disagree")
+
+
+                                        file    rows    bytes
+table                                                        
+availability            availability.parquet    3145   142861
+coverage                    coverage.parquet    6080   128410
+goal_actions            goal_actions.parquet    4190   590821
+goal_sequences        goal_sequences.parquet    1115   576940
+heatmap_points        heatmap_points.parquet  573983  4561161
+incidents                  incidents.parquet    7647  1421490
+lineup_players        lineup_players.parquet   15188  3538923
+lineup_teams            lineup_teams.parquet     760    23379
+matches                      matches.parquet     380    24384
+passing_edges          passing_edges.parquet     691    31613
+player_statistics  player_statistics.parquet  387731  1378619
+pregame                      pregame.parquet     740    31149
+shots                          shots.parquet    9883  1812081
+statistics                statistics.parquet   98224  1192228
+timing                        timing.parquet    2275    10813
+
+    return ResolvedSeason(
+        publication_path=publication_path,
+        manifest_path=manifest_path,
+        publication_sha256=hashlib.sha256(publication_bytes).hexdigest(),
+        manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+        publication=publication,
+        manifest=manifest,
+        publication_bytes=publication_bytes,
+    )
+
+   event_id  competition_id  season_id  home_id  away_id       home_name  \
+0  12436410              17      61627       50       42       Brentford   
+1  12436419              17      61627        7       38  Crystal Palace   
+2  12436434              17      61627       48       40         Everton   
+3  12436436              17      61627       50       17       Brentford   
+4  12436437              17      61627        3       14   Wolverhampton   
+
+           away_name  round   kickoff_utc  
+0            Arsenal     19  1735752600.0  
+1            Chelsea     20  1736002800.0  
+2        Aston Villa     21  1736969400.0  
+3    Manchester City     21  1736883000.0  
+4  Nottingham Forest     20  1736193600.0  
+
+def read_season_table(resolved: ResolvedSeason, table_name: str) -> "pd.DataFrame":
+    """Read one whole table from a resolver-produced reference.
+
+    Check the pinned canonical JSON, then the selected table's byte count,
+    SHA256 and row count. Decode the same in-memory bytes that were hashed.
+    Return all physical columns and rows, in file order, with Arrow-backed
+    pandas dtypes and a fresh RangeIndex. Keep ``resolved`` for provenance.
+
+    An undeclared table raises KeyError, a missing file FileNotFoundError,
+    and changed metadata/data or invalid Parquet ValueError. No publication
+    pointer is reread. No filtering, joins or football-domain validation occurs.
+    Memory use includes the entire compressed file and its decoded table.
+    """
+    import pandas as pd
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    if not isinstance(resolved, ResolvedSeason):
+        raise TypeError("resolved must be a ResolvedSeason from resolve_season_export")
+    if not isinstance(table_name, str) or not table_name:
+        raise ValueError("table_name must be a nonempty table name")
+
+    # Recheck this fixed version, not the public sidecar, which may have advanced.
+    manifest_bytes = resolved.manifest_path.read_bytes()
+    if hashlib.sha256(manifest_bytes).hexdigest() != resolved.manifest_sha256:
+        raise ValueError(f"Pinned canonical manifest changed: {resolved.manifest_path}")
+    manifest = json.loads(manifest_bytes)
+    if manifest != resolved.manifest:
+        raise ValueError("Captured manifest metadata was modified after resolution")
+    if table_name not in manifest["tables"]:
+        available = ", ".join(sorted(manifest["tables"]))
+        raise KeyError(f"Table {table_name!r} is not declared; available: {available}")
+    info = manifest["tables"][table_name]
+
+
+    version_dir = resolved.manifest_path.parent.resolve()
+    table_path = (version_dir / info["file"]).resolve()
+    if table_path.parent != version_dir:
+        raise ValueError(f"Table path is outside its pinned version directory: {table_path}")
+    table_bytes = table_path.read_bytes()
+    if len(table_bytes) != info["bytes"]:
+        raise ValueError(f"Table byte count mismatch: {table_path}")
+    if hashlib.sha256(table_bytes).hexdigest() != info["sha256"].lower():
+        raise ValueError(f"Table SHA256 mismatch: {table_path}")
+
+
+    # Reading a file buffer also avoids inferring Hive partition columns from paths.
+    try:
+        with pq.ParquetFile(pa.BufferReader(table_bytes)) as parquet:
+            table = parquet.read()
+    except pa.ArrowException as exc:
+        raise ValueError(f"Invalid or unreadable Parquet table: {table_path}") from exc
+    if table.num_rows != info["rows"]:
+        raise ValueError(f"Table row count mismatch: {table_path}")
+
+
+    return table.to_pandas(types_mapper=pd.ArrowDtype, ignore_metadata=True)
+
+                                      dtype  missing_rows
+column                                                   
+event_id                     int64[pyarrow]             0
+competition_id               int64[pyarrow]             0
+tournament_id                int64[pyarrow]             0
+season_id                    int64[pyarrow]             0
+status_code                  int64[pyarrow]             0
+round                        int64[pyarrow]             0
+home_id                      int64[pyarrow]             0
+away_id                      int64[pyarrow]             0
+custom_id                   string[pyarrow]             0
+season_year                 string[pyarrow]             0
+status                      string[pyarrow]             0
+stage_json                  string[pyarrow]             0
+time_json                   string[pyarrow]             0
+home_name                   string[pyarrow]             0
+home_slug                   string[pyarrow]             0
+away_name                   string[pyarrow]             0
+away_slug                   string[pyarrow]             0
+kickoff_utc                 double[pyarrow]             0
+event_metadata_observed_at  double[pyarrow]             0
+home_score_current          double[pyarrow]             0
+home_score_display          double[pyarrow]             0
+home_score_period1          double[pyarrow]             0
+home_score_period2          double[pyarrow]             0
+home_score_extra1           double[pyarrow]           380
+home_score_extra2           double[pyarrow]           380
+home_score_overtime         double[pyarrow]           380
+home_score_penalties        double[pyarrow]           380
+away_score_current          double[pyarrow]             0
+away_score_display          double[pyarrow]             0
+away_score_period1          double[pyarrow]             0
+away_score_period2          double[pyarrow]             0
+away_score_extra1           double[pyarrow]           380
+away_score_extra2           double[pyarrow]           380
+away_score_overtime         double[pyarrow]           380
+away_score_penalties        double[pyarrow]           380
+
+   rows missing_kickoff_event_ids invalid_kickoff_event_ids
+0   380                        ()                        ()
+
+@dataclass(frozen=True)
+class MatchValidationReport:
+    """Structural success plus timing issues requiring a later eligibility policy."""
+
+    rows: int
+    missing_kickoff_event_ids: tuple[int, ...]
+    invalid_kickoff_event_ids: tuple[int, ...]
+
+def validate_matches(
+    matches: "pd.DataFrame", resolved: ResolvedSeason,
+) -> MatchValidationReport:
+    """Reject broken identities/scope; report timing issues without altering rows.
+
+    Require unique column labels, event_id, home_id, away_id, competition_id,
+    season_id and kickoff_utc. IDs must be positive integer values (not bools,
+    strings or floats), with unique events, distinct opponents and manifest scope.
+    Kickoff is numeric Unix seconds: missing values and invalid/nonpositive or
+    unrepresentable UTC times are reported separately. No seasonal date cutoff,
+    fixture completeness, finished-status or historical availability is inferred.
+    Empty tables with required columns are valid. Optional columns stay optional.
+    Raise TypeError for wrong inputs and ValueError for structural problems.
+    """
+    import pandas as pd
+
+    if not isinstance(matches, pd.DataFrame):
+        raise TypeError("matches must be a pandas DataFrame")
+    if not isinstance(resolved, ResolvedSeason):
+        raise TypeError("resolved must be a ResolvedSeason")
+    if not matches.columns.is_unique:
+        raise ValueError("Match table has repeated column labels")
+    id_columns = ("event_id", "home_id", "away_id", "competition_id", "season_id")
+    missing = sorted(set((*id_columns, "kickoff_utc")) - set(matches.columns))
+    if missing:
+        raise ValueError(f"Match table is missing required columns: {', '.join(missing)}")
+
+    errors = []
+    for name in id_columns:
+        invalid_positions = [
+            position for position, value in enumerate(matches[name].tolist())
+            if isinstance(value, bool) or not isinstance(value, Integral) or value <= 0
+        ]
+        if invalid_positions:
+            errors.append(f"{name}: {len(invalid_positions)} invalid positive integer IDs "
+                          f"at row positions {invalid_positions[:5]}")
+    if errors:
+        raise ValueError("Invalid match identities: " + "; ".join(errors))
+
+
+    if matches["event_id"].duplicated().any():
+        errors.append("event_id must be unique; duplicate match rows are not removed")
+    if matches["home_id"].eq(matches["away_id"]).any():
+        errors.append("home_id and away_id must differ")
+    for column, scope_key in (("competition_id", "league_id"), ("season_id", "season_id")):
+        expected = resolved.manifest["scope"][scope_key]
+        if not matches[column].eq(expected).all():
+            errors.append(f"{column} must match manifest scope {expected}")
+    if errors:
+        raise ValueError("Invalid match structure: " + "; ".join(errors))
+
+
+    missing_kickoff = []
+    invalid_kickoff = []
+    for event_id, value in zip(matches["event_id"].tolist(), matches["kickoff_utc"].tolist()):
+        # Only scalar nulls count as missing; malformed containers are invalid.
+        if value is None or value is pd.NA or value is pd.NaT:
+            missing_kickoff.append(int(event_id))
+            continue
+        if isinstance(value, bool) or not isinstance(value, Real):
+            invalid_kickoff.append(int(event_id))
+            continue
+        try:
+            numeric_value = float(value)
+        except (OverflowError, ValueError):
+            invalid_kickoff.append(int(event_id))
+            continue
+        if math.isnan(numeric_value):
+            missing_kickoff.append(int(event_id))
+            continue
+        if not math.isfinite(numeric_value) or numeric_value <= 0:
+            invalid_kickoff.append(int(event_id))
+            continue
+        try:
+            datetime.fromtimestamp(numeric_value, tz=timezone.utc)
+        except (OverflowError, OSError, ValueError):
+            invalid_kickoff.append(int(event_id))
+    return MatchValidationReport(len(matches), tuple(missing_kickoff), tuple(invalid_kickoff))
+
+   rows missing_kickoff_event_ids invalid_kickoff_event_ids
+0     2               (12436410,)               (12436419,)
+
+   event_id       home_name          away_name   kickoff_utc
+0  12436410       Brentford            Arsenal  1735752600.0
+1  12436419  Crystal Palace            Chelsea  1736002800.0
+2  12436434         Everton        Aston Villa  1736969400.0
+3  12436436       Brentford    Manchester City  1736883000.0
+4  12436437   Wolverhampton  Nottingham Forest  1736193600.0
+
+            status  rows missing_kickoff_event_ids invalid_kickoff_event_ids
+0  structure_valid   380                        ()                        ()
+
+def load_season_table(
+    data_root: Path, season_stem: str, *, table: str = "matches",
+    record_path: Path | None = None,
+) -> "pd.DataFrame":
+    """Resolve, verify and load a named table without user-supplied fingerprints.
+
+    Matches also receive structural validation; timing issues emit a warning and
+    stay in the data. Other tables receive file integrity checks only, independently.
+    Return the original rows/types with source and validation metadata in
+    ``frame.attrs['xdiyo']``. Pandas transformations may discard these attributes.
+
+    An optional record_path outside data_root saves this season's publication
+    snapshot after a successful load. Reusing it pins the same version for any
+    table in that season, even when the public sidecar advances or disappears.
+    Missing/changed pinned files fail; there is no fallback to newer data.
+    Records contain metadata, not table data, and can accompany a relocated root.
+    Without a record, each call selects the publication current at that call.
+    Existing records are never overwritten; concurrent first writes may raise
+    FileExistsError (retry with the now-existing record). Parent directories are
+    created only after successful validation. Source exports are never written.
+    """
+    root = Path(data_root).resolve()
+    path = Path(record_path).resolve() if record_path is not None else None
+    if path is not None and path.is_relative_to(root):
+        raise ValueError("record_path must be outside data_root to preserve source exports")
+    reuse_record = path is not None and path.exists()
+    resolved = (_read_season_record(root, season_stem, path) if reuse_record
+                else resolve_season_export(root, season_stem))
+    frame = read_season_table(resolved, table)
+
+    validation = {"status": "not_implemented", "table": table}
+    if table == "matches":
+        report = validate_matches(frame, resolved)
+        validation = {"status": "structure_valid", **asdict(report)}
+        missing_count = len(report.missing_kickoff_event_ids)
+        invalid_count = len(report.invalid_kickoff_event_ids)
+        if missing_count or invalid_count:
+            warnings.warn(
+                f"Match timing needs attention: {missing_count} missing and "
+                f"{invalid_count} invalid kickoff values; rows retained. "
+                "See frame.attrs['xdiyo']['validation'] for event IDs.",
+                UserWarning, stacklevel=2,
+            )
+
+
+    frame.attrs["xdiyo"] = {
+        "source": {
+            "season_stem": season_stem, "table": table,
+            "manifest_path": str(resolved.manifest_path),
+            "publication_sha256": resolved.publication_sha256,
+            "manifest_sha256": resolved.manifest_sha256,
+            "manifest": resolved.manifest,
+        },
+        "validation": validation,
+    }
+
+    if path is not None and not reuse_record:
+        record = {
+            "schema_version": 1, "season_stem": season_stem,
+            "publication_base64": base64.b64encode(resolved.publication_bytes).decode("ascii"),
+            "publication_sha256": resolved.publication_sha256,
+            "manifest_sha256": resolved.manifest_sha256,
+        }
+        payload = json.dumps(record, indent=2) + "\n"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("x", encoding="utf-8") as stream:
+            stream.write(payload)
+    return frame
+
+def _read_season_record(root: Path, season_stem: str, path: Path) -> ResolvedSeason:
+    """Restore a snapshot through the ordinary resolver's metadata checks."""
+    try:
+        record = json.loads(path.read_bytes())
+        if (not isinstance(record, dict) or type(record.get("schema_version")) is not int
+                or record["schema_version"] != 1 or record.get("season_stem") != season_stem):
+            raise ValueError("Record schema or season selection does not match")
+        publication_bytes = base64.b64decode(record["publication_base64"], validate=True)
+        if hashlib.sha256(publication_bytes).hexdigest() != record["publication_sha256"]:
+            raise ValueError("Saved publication snapshot hash mismatch")
+        manifest_sha256 = record["manifest_sha256"]
+        if not isinstance(manifest_sha256, str) or len(manifest_sha256) != 64:
+            raise ValueError("Invalid saved manifest fingerprint")
+    except (KeyError, TypeError, ValueError, UnicodeDecodeError, binascii.Error) as exc:
+        raise ValueError(f"Invalid season record {path}: {exc}") from exc
+    resolved = _resolve_season_publication(root, season_stem, publication_bytes)
+    if resolved.manifest_sha256 != manifest_sha256:
+        raise ValueError(f"Pinned canonical manifest changed since season record: {path}")
+    return resolved
+
+     table  rows  columns domain_validation
+0  matches   380       35   structure_valid
+1    shots  9883       34   not_implemented
+
+                   declared_rows  column_count  \
+table                                            
+availability                3145            15   
+coverage                    6080             8   
+goal_actions                4190            21   
+goal_sequences              1115            17   
+heatmap_points            573983            11   
+incidents                   7647            14   
+lineup_players             15188            16   
+lineup_teams                 760            10   
+matches                      380            35   
+passing_edges                691            10   
+player_statistics         387731            12   
+pregame                      740             8   
+shots                       9883            34   
+statistics                 98224            18   
+timing                      2275            11   
+
+                                                         description  
+table                                                                 
+availability       Reported player availability/absence context, ...  
+coverage           Collection status and latest attempt status fo...  
+goal_actions       Actions within goal-linked sequences: actors, ...  
+goal_sequences     Goal-linked sequences: scorer/team, classifica...  
+heatmap_points     Team spatial points with coordinates, weights,...  
+incidents          Match incidents: type/class, player, side and ...  
+lineup_players     Player lineup entries: identity, playing posit...  
+lineup_teams       Team lineup context: formation, roster status,...  
+matches            Match identity, teams, competition, season, sc...  
+passing_edges      Player-to-player links within goal sequences, ...  
+player_statistics  Player statistics by match/team/phase and key,...  
+pregame            Match-specific team positions in position, plu...  
+shots              Individual shots: players, classifications, ti...  
+statistics         Team statistics by match, period, group, stati...  
+timing             Period timing evidence, source values, quality...  
+
+def inspect_season(
+    data_root: Path, season_stem: str, *, record_path: Path | None = None,
+) -> "pd.DataFrame":
+    """Return a table catalogue indexed by name using Parquet metadata only.
+
+    Columns: description, declared_rows, file_bytes, column_count, columns (list),
+    column_types (name/type dict) and column_summary (name/type string).
+    Preserve physical column order and nested Arrow types. Descriptions document
+    known table roles; unknown tables remain visible with an explicit fallback.
+
+    Resolve the named publication automatically, or reuse an EXISTING selection
+    record. Unlike load_season_table, inspection creates no record or directories.
+    record_path must be outside data_root. File paths must stay in the pinned
+    version directory. Check file size and footer row count against the manifest.
+    Missing files raise FileNotFoundError; invalid metadata, paths, sizes, counts
+    or unreadable Parquet footers raise ValueError. Other I/O errors propagate.
+
+    Do not decode row values or verify whole-table hashes. A readable footer is
+    not proof of valid data pages. Source provenance and this inspection boundary
+    are explicit in catalogue.attrs['xdiyo']; use load_season_table for verified
+    observation reads. Field nullability is schema metadata, not measured missingness.
+    """
+    import pandas as pd
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    root = Path(data_root).resolve()
+    path = Path(record_path).resolve() if record_path is not None else None
+    if path is not None and path.is_relative_to(root):
+        raise ValueError("record_path must be outside data_root to preserve source exports")
+    resolved = (_read_season_record(root, season_stem, path) if path is not None
+                else resolve_season_export(root, season_stem))
+    version_dir = resolved.manifest_path.parent.resolve()
+
+
+    entries = []
+    for name, descriptor in sorted(resolved.manifest["tables"].items()):
+        table_path = (version_dir / descriptor["file"]).resolve()
+        if table_path.parent != version_dir:
+            raise ValueError(f"Table path is outside its pinned version directory: {table_path}")
+        # Size and footer come from the same open file, without decoding data pages.
+        with table_path.open("rb") as stream:
+            stream.seek(0, 2)
+            file_bytes = stream.tell()
+            if file_bytes != descriptor["bytes"]:
+                raise ValueError(f"Table byte count mismatch: {table_path}")
+            stream.seek(0)
+            try:
+                with pq.ParquetFile(stream) as parquet:
+                    schema = parquet.schema_arrow
+                    rows = parquet.metadata.num_rows
+            except pa.ArrowException as exc:
+                raise ValueError(f"Invalid or unreadable Parquet metadata: {table_path}") from exc
+        if rows != descriptor["rows"]:
+            raise ValueError(f"Table footer row count mismatch: {table_path}")
+        if len(set(schema.names)) != len(schema.names):
+            raise ValueError(f"Repeated physical column names: {table_path}")
+        entries.append({
+            "table": name,
+            "description": TABLE_DESCRIPTIONS.get(name, "No description documented for this table; inspect its physical columns."),
+            "declared_rows": descriptor["rows"],
+            "file_bytes": file_bytes,
+            "column_count": len(schema),
+            "columns": schema.names,
+            "column_types": {field.name: str(field.type) for field in schema},
+            "column_summary": ", ".join(f"{field.name}: {field.type}" for field in schema),
+        })
+
+    catalogue = pd.DataFrame(entries).set_index("table")
+    catalogue.attrs["xdiyo"] = {
+        "source": {
+            "season_stem": season_stem,
+            "manifest_path": str(resolved.manifest_path),
+            "publication_sha256": resolved.publication_sha256,
+            "manifest_sha256": resolved.manifest_sha256,
+            "manifest": resolved.manifest,
+        },
+        "inspection": {
+            "mode": "parquet_metadata", "file_sizes_checked": True,
+            "footer_row_counts_checked": True, "table_hashes_verified": False,
+            "row_values_read": False,
+        },
+    }
+    return catalogue
+
+mode                         parquet_metadata
+file_sizes_checked                       True
+footer_row_counts_checked                True
+table_hashes_verified                   False
+row_values_read                         False
+Name: inspection, dtype: object
+
+   event_id  side  team_id  position
+0  12436410  home       50      12.0
+1  12436410  away       42       3.0
+2  12436419  home        7      15.0
+3  12436419  away       38       4.0
+4  12436434  home       48      16.0
+5  12436434  away       40       8.0
+
+   pregame_rows  matches_with_pregame_rows  declared_matches  \
+0           740                        370               380   
+
+   missing_positions_in_present_rows  separate_standings_table  
+0                                  0                     False  
+
+{'avgRating': '6.97',
+ 'form': ['L', 'W', 'L', 'L', 'D'],
+ 'position': 12,
+ 'value': '24'}
+
+        table   rows  columns
+0     matches    380       35
+1  statistics  98224       18
+
+@dataclass(frozen=True)
+class StatisticsValidationReport:
+    """Structural success and gaps; row positions refer to the input's file order.
+
+    Missing numeric values do not imply an unavailable measure: display may hold
+    text. Missing match sides mean no statistic rows at all, not missing coverage
+    for a particular measure/period. A later selector defines required measures.
+    """
+
+    rows: int
+    matches_referenced: int
+    team_id_column_present: bool
+    missing_team_id_row_positions: tuple[int, ...]
+    missing_value_row_positions: tuple[int, ...]
+    match_sides_without_statistics: tuple[tuple[int, str], ...]
+
+rows                              98224
+matches_referenced                  380
+team_id_column_present             True
+missing_team_id_row_positions        ()
+missing_value_row_positions          ()
+match_sides_without_statistics       ()
+Name: real_statistics_report, dtype: object
+
+def validate_statistics(
+    statistics: "pd.DataFrame", matches: "pd.DataFrame",
+) -> StatisticsValidationReport:
+    """Check one statistics table against its season's match identities.
+
+    Require event_id, period, group_name, key, side and value in statistics, and
+    event_id/home_id/away_id in matches. IDs must be positive integer values,
+    excluding bools/floats/strings. Match IDs must be unique, with distinct teams.
+    Statistic labels must be nonempty strings; side must be home or away. Reject
+    orphan references and repeated (event_id, period, group_name, key, side).
+    The same measure in different groups is allowed. Preserve key casing.
+
+    If team_id is supplied, require it to match the referenced match's side.
+    Missing team IDs (including an absent column) are reported, not invented.
+    Report scalar null/NaN values without treating missing numeric values as a
+    structural error; display/text and all other columns remain untouched.
+    No numeric range, per-measure completeness or historical timing policy is
+    imposed. Report match sides with no statistic rows at all. Empty statistics
+    with required columns are valid. Duplicate column labels are rejected.
+
+    Return an immutable report; never mutate inputs, join/aggregate/filter rows,
+    or read files. TypeError denotes wrong argument types; ValueError denotes a
+    structural failure. Normally pass matches from load_season_table and use one
+    saved season selection for both inputs. This function rechecks the identity
+    subset, not match scope/timing, file integrity or version provenance.
+    """
+    import pandas as pd
+
+    grain = ("event_id", "period", "group_name", "key", "side")
+    for label, frame, required in (
+        ("statistics", statistics, (*grain, "value")),
+        ("matches", matches, ("event_id", "home_id", "away_id")),
+    ):
+        if not isinstance(frame, pd.DataFrame):
+            raise TypeError(f"{label} must be a pandas DataFrame")
+        if not frame.columns.is_unique:
+            raise ValueError(f"{label} has repeated column labels")
+        missing = sorted(set(required) - set(frame.columns))
+        if missing:
+            raise ValueError(f"{label} is missing required columns: {', '.join(missing)}")
+
+    for label, frame, columns in (
+        ("matches", matches, ("event_id", "home_id", "away_id")),
+        ("statistics", statistics, ("event_id",)),
+    ):
+        for column in columns:
+            bad = [i for i, value in enumerate(frame[column].tolist())
+                if isinstance(value, bool) or not isinstance(value, Integral) or value <= 0]
+            if bad:
+                raise ValueError(f"{label}.{column}: {len(bad)} invalid positive integer IDs "
+                                f"at row positions {bad[:5]}")
+    if matches["event_id"].duplicated().any():
+        raise ValueError("matches.event_id must be unique")
+    if matches["home_id"].eq(matches["away_id"]).any():
+        raise ValueError("Match home_id and away_id must differ")
+
+
+    for column in ("period", "group_name", "key"):
+        bad = [i for i, value in enumerate(statistics[column].tolist())
+            if not isinstance(value, str) or not value.strip()]
+        if bad:
+            raise ValueError(f"statistics.{column} requires nonempty strings; "
+                            f"invalid row positions {bad[:5]}")
+    bad_sides = [i for i, value in enumerate(statistics["side"].tolist())
+                if not isinstance(value, str) or value not in ("home", "away")]
+    if bad_sides:
+        raise ValueError(f"statistics.side must be home or away; row positions {bad_sides[:5]}")
+    duplicate_positions = [i for i, duplicate in enumerate(
+        statistics.duplicated(subset=list(grain), keep=False).tolist()) if duplicate]
+    if duplicate_positions:
+        raise ValueError("Repeated statistics entries at (event_id, period, group_name, key, side); "
+                        f"row positions {duplicate_positions[:5]}")
+
+
+    event_id period      group_name               key  side  value display
+8   12436410    ALL  Match overview  totalShotsOnGoal  home    5.0       5
+9   12436410    ALL  Match overview  totalShotsOnGoal  away   14.0      14
+26  12436410    ALL           Shots  totalShotsOnGoal  home    5.0       5
+27  12436410    ALL           Shots  totalShotsOnGoal  away   14.0      14
+
+                  distinct_groups
+key                              
+expectedGoals                   2
+goalkeeperSaves                 2
+totalShotsOnGoal                2
+totalTackle                     2
+
+    # Tuples retain exact integer IDs; iterrows can coerce mixed numeric rows.
+    match_teams = {int(event): {"home": int(home), "away": int(away)}
+                for event, home, away in matches[["event_id", "home_id", "away_id"]]
+                .itertuples(index=False, name=None)}
+    events = statistics["event_id"].tolist()
+    sides = statistics["side"].tolist()
+    orphans = [i for i, event in enumerate(events) if event not in match_teams]
+    if orphans:
+        raise ValueError(f"Statistics reference unknown match IDs at row positions {orphans[:5]}")
+
+    has_team_id = "team_id" in statistics.columns
+    team_ids = statistics["team_id"].tolist() if has_team_id else [None] * len(statistics)
+    missing_team_ids = []
+    for i, (event, side, team) in enumerate(zip(events, sides, team_ids)):
+        if pd.api.types.is_scalar(team) and pd.isna(team):
+            missing_team_ids.append(i)
+        elif isinstance(team, bool) or not isinstance(team, Integral) or team <= 0:
+            raise ValueError(f"statistics.team_id must be a positive integer when supplied; row position {i}")
+        elif team != match_teams[event][side]:
+            raise ValueError(f"statistics.team_id does not match the match's {side} team at row position {i}")
+
+
+    missing_values = tuple(i for i, value in enumerate(statistics["value"].tolist())
+                        if pd.api.types.is_scalar(value) and pd.isna(value))
+    present_sides = set(zip(events, sides))
+    absent_sides = tuple((event, side) for event in match_teams for side in ("home", "away")
+                        if (event, side) not in present_sides)
+    return StatisticsValidationReport(
+        rows=len(statistics), matches_referenced=len(set(events)),
+        team_id_column_present=has_team_id,
+        missing_team_id_row_positions=tuple(missing_team_ids),
+        missing_value_row_positions=missing_values,
+        match_sides_without_statistics=absent_sides,
+    )
+
+                    event_id period group_name           key  side  \
+user_index                                                           
+same label  9007199254740993    ALL  Synthetic  ratioExample  home   
+same label  9007199254740993    ALL  Synthetic  ratioExample  away   
+
+                     team_id  value       display  
+user_index                                         
+same label  9007199254740995   <NA>    7/10 (70%)  
+same label              <NA>    NaN  not supplied  
+
+rows                                                   2
+matches_referenced                                     1
+team_id_column_present                              True
+missing_team_id_row_positions                       (1,)
+missing_value_row_positions                       (0, 1)
+match_sides_without_statistics    ((7, home), (7, away))
+Name: synthetic_gap_report, dtype: object
+
+                      case  \
+0     duplicate full grain   
+1             invalid side   
+2         orphan reference   
+3      wrong team for side   
+4  missing required column   
+
+                                                                                            error  
+0  Repeated statistics entries at (event_id, period, group_name, key, side); row positions [0, 2]  
+1                                         statistics.side must be home or away; row positions [0]  
+2                                  Statistics reference unknown match IDs at row positions [0, 1]  
+3                       statistics.team_id does not match the match's home team at row position 0  
+4                                                  statistics is missing required columns: period  
+
+rows                                                                              0
+matches_referenced                                                                0
+team_id_column_present                                                         True
+missing_team_id_row_positions                                                    ()
+missing_value_row_positions                                                      ()
+match_sides_without_statistics    ((9007199254740993, home), (9007199254740993, ...
+Name: empty_statistics_report, dtype: object
+
+        table   rows  columns domain_validation
+0     matches    380       35   structure_valid
+1  statistics  98224       18   structure_valid
+2     pregame    740        8   not_implemented
+
+@dataclass(frozen=True)
+class SeasonData:
+    """Separate DataFrames with source provenance and per-table validation reports.
+
+    ``tables`` contains exactly the requested names, in request order. Convenience
+    properties return None for tables not requested; an unavailable requested
+    table instead makes loading fail. Access any other table through ``tables``.
+    Frozen fields prevent reassignment, not edits to nested dictionaries/frames.
+    Reports describe the loaded state and are not refreshed after caller edits.
+    """
+
+    tables: dict[str, "pd.DataFrame"]
+    provenance: dict[str, Any]
+    validation: dict[str, dict[str, Any]]
+
+    @property
+    def matches(self) -> "pd.DataFrame | None":
+        return self.tables.get("matches")
+
+    @property
+    def statistics(self) -> "pd.DataFrame | None":
+        return self.tables.get("statistics")
+
+    @property
+    def pregame(self) -> "pd.DataFrame | None":
+        return self.tables.get("pregame")
+
+    @property
+    def shots(self) -> "pd.DataFrame | None":
+        return self.tables.get("shots")
+
+   event_id  home_id  away_id
+0  12436410       50       42
+1  12436419        7       38
+2  12436434       48       40
+
+def load_season(
+    data_root: Path, season_stem: str, *, tables: Sequence[str] = ("matches",),
+    record_path: Path | None = None,
+) -> SeasonData:
+    """Load requested tables from one version, with available domain validation.
+
+    Resolve once, then verify every requested table against that same canonical
+    manifest. Require a nonempty ordered sequence of distinct nonempty names.
+    Selecting statistics requires explicitly selecting matches as its reference.
+    No additional tables are loaded implicitly. Run validate_matches when matches
+    is selected and validate_statistics when statistics is selected. Other tables
+    receive file integrity checks only, with domain status not_implemented.
+
+    Return separate tables, source provenance and structured per-table reports.
+    Retain source columns/types/order and missingness. Match timing gaps emit a
+    warning; statistics gaps are recorded without implying unusable text measures.
+    No joins, pivots, feature calculations, normalization or population filtering.
+
+    A supplied existing record pins the version; a new record is written only
+    after ALL requested reads and validations succeed. Records stay outside the
+    source root, are never overwritten, and use the same format as the single-
+    table loader. With no record, select the currently published version once.
+    A concurrent first record creation can raise FileExistsError; retry to reuse it.
+
+    Wrong tables argument type raises TypeError; empty/repeated/invalid names or
+    missing validation dependencies raise ValueError. Undeclared tables raise
+    KeyError before reading table files. Missing files raise FileNotFoundError;
+    integrity/structural failures raise ValueError. No partial bundle is returned
+    and no new record is saved on read/validation failure. Other I/O errors propagate.
+    Memory use includes every loaded DataFrame plus each reader's temporary bytes.
+    """
+    if isinstance(tables, (str, bytes)) or not isinstance(tables, Sequence):
+        raise TypeError("tables must be an ordered sequence of table names, such as ['matches']")
+    names = tuple(tables)
+    if not names or any(not isinstance(name, str) or not name.strip() for name in names):
+        raise ValueError("tables must contain at least one nonempty table name")
+    if len(set(names)) != len(names):
+        raise ValueError("tables must not contain repeated names")
+    if "statistics" in names and "matches" not in names:
+        raise ValueError("Selecting statistics requires matches for reference validation")
+
+    root = Path(data_root).resolve()
+    path = Path(record_path).resolve() if record_path is not None else None
+    if path is not None and path.is_relative_to(root):
+        raise ValueError("record_path must be outside data_root to preserve source exports")
+    reuse_record = path is not None and path.exists()
+    resolved = (_read_season_record(root, season_stem, path) if reuse_record
+                else resolve_season_export(root, season_stem))
+    absent = [name for name in names if name not in resolved.manifest["tables"]]
+    if absent:
+        available = ", ".join(sorted(resolved.manifest["tables"]))
+        raise KeyError(f"Tables not declared: {', '.join(absent)}; available: {available}")
+
+
+    frames = {name: read_season_table(resolved, name) for name in names}
+    validation = {name: {"status": "not_implemented", "table": name} for name in names}
+    if "matches" in frames:
+        report = validate_matches(frames["matches"], resolved)
+        validation["matches"] = {"status": "structure_valid", **asdict(report)}
+        missing_count = len(report.missing_kickoff_event_ids)
+        invalid_count = len(report.invalid_kickoff_event_ids)
+        if missing_count or invalid_count:
+            warnings.warn(
+                f"Match timing needs attention: {missing_count} missing and "
+                f"{invalid_count} invalid kickoff values; rows retained. "
+                "See season.validation['matches'] for event IDs.",
+                UserWarning, stacklevel=2,
+            )
+    if "statistics" in frames:
+        report = validate_statistics(frames["statistics"], frames["matches"])
+        validation["statistics"] = {"status": "structure_valid", **asdict(report)}
+
+
+status                       structure_valid
+rows                                     380
+missing_kickoff_event_ids                 ()
+invalid_kickoff_event_ids                 ()
+Name: match_validation, dtype: object
+
+status                            structure_valid
+rows                                        98224
+matches_referenced                            380
+team_id_column_present                       True
+missing_team_id_row_positions                  ()
+missing_value_row_positions                    ()
+match_sides_without_statistics                 ()
+Name: statistics_validation, dtype: object
+
+    provenance = {
+        "season_stem": season_stem, "loaded_tables": names,
+        "version": resolved.manifest["version"],
+        "manifest_path": str(resolved.manifest_path),
+        "publication_sha256": resolved.publication_sha256,
+        "manifest_sha256": resolved.manifest_sha256,
+        "manifest": deepcopy(resolved.manifest),
+    }
+    for name, frame in frames.items():
+        # Keep frame attributes independent of the bundle's mutable dictionaries.
+        frame.attrs["xdiyo"] = {
+            "source": {**deepcopy(provenance), "table": name},
+            "validation": deepcopy(validation[name]),
+        }
+    if path is not None and not reuse_record:
+        _write_season_record(resolved, season_stem, path)
+    return SeasonData(tables=frames, provenance=provenance, validation=validation)
+
+def _write_season_record(resolved: ResolvedSeason, season_stem: str, path: Path) -> None:
+    """Create a selection record after the caller has verified its entire load."""
+    record = {
+        "schema_version": 1, "season_stem": season_stem,
+        "publication_base64": base64.b64encode(resolved.publication_bytes).decode("ascii"),
+        "publication_sha256": resolved.publication_sha256,
+        "manifest_sha256": resolved.manifest_sha256,
+    }
+    payload = json.dumps(record, indent=2) + "\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(payload)
+
+season_stem                                   Premier_League_24_25
+loaded_tables                       (matches, statistics, pregame)
+version                           6d950fa327de4fc29c796c7cca101606
+manifest_path    C:\Users\luisi\Documents\Programming\Python\xD...
+Name: shared_selection, dtype: object
+
+   reference_matches  pregame_rows  matches_with_pregame_rows  \
+0                380           740                        370   
+
+   match_sides_without_pregame_rows  missing_positions_in_present_rows  
+0                                20                                  0  
+
+   event_id  side  team_id  position
+0  12436410  home       50      12.0
+1  12436410  away       42       3.0
+2  12436419  home        7      15.0
+3  12436419  away       38       4.0
+
+                           case        type  \
+0                   bare string   TypeError   
+1               empty selection  ValueError   
+2               duplicate names  ValueError   
+3  missing reference dependency  ValueError   
+4              undeclared table    KeyError   
+
+                                                                                                                                                                                                                                     message  
+0                                                                                                                                                                     tables must be an ordered sequence of table names, such as ['matches']  
+1                                                                                                                                                                                       tables must contain at least one nonempty table name  
+2                                                                                                                                                                                                     tables must not contain repeated names  
+3                                                                                                                                                                             Selecting statistics requires matches for reference validation  
+4  'Tables not declared: standings; available: availability, coverage, goal_actions, goal_sequences, heatmap_points, incidents, lineup_players, lineup_teams, matches, passing_edges, player_statistics, pregame, shots, statistics, timing'  

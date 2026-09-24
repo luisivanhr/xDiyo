@@ -1,0 +1,554 @@
+{
+  "status": "verified",
+  "verified_at_utc": "2026-09-16T15:04:46.256344+00:00",
+  "scope": "Opt-in league/LOO, feature warm starts and rating transitions; no pilot fitting or library edits by worker.",
+  "source_freeze_utc": "2026-09-16T14:28:56.6528886Z",
+  "source_sha256": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+    "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+    "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+    "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+    "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+    "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+    "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+    "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+    "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+    "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+    "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+    "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+    "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+    "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+    "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+    "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+    "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0",
+    "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19"
+  },
+  "package_source_count": 21,
+  "source_changes_during_primary_review": [
+    "src/xdiyo_analytics/ratings/transitions.py",
+    "src/xdiyo_analytics/features/warmup.py"
+  ],
+  "tests": {
+    "previous_cases": 178,
+    "new_cases": 97,
+    "full_passed": 275,
+    "command": "python -m pytest tests/analytics -q -p no:cacheprovider",
+    "log": ".pytest_tmp/league_transition_verification/full_suite.log",
+    "log_sha256": "d2c977c755957ee9a56907595f153eb9e4d7e5f7c59434e58f2100aae63cf6d0",
+    "new_files": {
+      "tests/analytics/transition_samples.py": "96185cc4f05b3639af14639d7a3a47c87d9de2b84c032f2ffb0f2b2e45dbcc44",
+      "tests/analytics/test_league.py": "edff77de97e34d845af3b62697136eaf69cf22ede0d91f84bb47bb397423c544",
+      "tests/analytics/test_warmup.py": "59ab817297a72c8d8b227cf3a1bd45b0799f720c80c197b4a3328087a3c58ca3",
+      "tests/analytics/test_transition_context.py": "11f06f2505333cd326e94c0171a14d6e6b7ceaebe38b9214272b9f8e17cdf4af",
+      "tests/analytics/test_rating_transitions.py": "26e0feabfc0cba2f83bb62cfaee5481c356dd4c1b2aef18b8b4df03725c8d740"
+    }
+  },
+  "real_check": {
+    "checked_at_utc": "2026-09-16T14:41:30.410188+00:00",
+    "source_sha256": {
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+      "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+      "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+      "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+      "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+      "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+      "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+      "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+      "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+      "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+      "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+      "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+      "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+      "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+      "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+      "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+      "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+      "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+      "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0",
+      "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19"
+    },
+    "selections": {
+      "seasons": [
+        "23_24",
+        "24_25"
+      ],
+      "leagues": [
+        "Premier_League"
+      ],
+      "tables": [
+        "matches",
+        "statistics",
+        "pregame"
+      ],
+      "sources": [
+        {
+          "season": "Premier_League_23_24",
+          "version": "322efd13dad5421dbf7bca734fe8c8fa",
+          "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\322efd13dad5421dbf7bca734fe8c8fa\\manifest.json",
+          "tables": [
+            "matches",
+            "statistics",
+            "pregame"
+          ]
+        },
+        {
+          "season": "Premier_League_24_25",
+          "version": "6d950fa327de4fc29c796c7cca101606",
+          "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\manifest.json",
+          "tables": [
+            "matches",
+            "statistics",
+            "pregame"
+          ]
+        }
+      ]
+    },
+    "input_shapes": {
+      "matches": [
+        760,
+        37
+      ],
+      "statistics": [
+        191310,
+        20
+      ],
+      "pregame": [
+        1480,
+        10
+      ]
+    },
+    "history_shape": [
+      1520,
+      21
+    ],
+    "raw_corner_cells_checked": 3040,
+    "source_file_sha256": {
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\322efd13dad5421dbf7bca734fe8c8fa\\manifest.json": "394e56dd7b582fa34428c8a46dddc2c57f2cf2ae445164a97c1da06c1170bf93",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\322efd13dad5421dbf7bca734fe8c8fa\\matches.parquet": "3d8a1ab19e0abb25baca18a87ce520c02bd0dfc4d4e0bf00e82aca67b40d4434",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\322efd13dad5421dbf7bca734fe8c8fa\\statistics.parquet": "d7512026220fa95ee39d167a631bb88298bb7f1232bb30a8c96949010bfe850d",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\322efd13dad5421dbf7bca734fe8c8fa\\pregame.parquet": "4b4f113db1424be2a960ec5c8aea5a7640c388ceabb34c17db82db3255ea4f27",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\experiment\\initial_population\\selections\\Premier_League_23_24.json": "93891fe92e4540b3dffc61f4377e8233a786a2056493dc3df7bcaff903e2672d",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\Premier_League_23_24.manifest.json": "cc1b413abf832fa9b55a0b804fb298dce9acdf510a59712968e13eb868cf992f",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\experiment\\initial_population\\selections\\Premier_League_24_25.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\Premier_League_24_25.manifest.json": "08b302fe765f48ca73a40ccceb6f789e6436aa52f656edc7e81f04dc5fb75faf"
+    },
+    "league_checks_by_cutoff_delay_days": {
+      "0": {
+        "rows": 1520,
+        "columns": 8,
+        "cells_checked": 12160
+      },
+      "2": {
+        "rows": 1520,
+        "columns": 8,
+        "cells_checked": 12160
+      }
+    },
+    "warmup_columns": [
+      "hard1_mean",
+      "hard1_std",
+      "hard3_mean",
+      "hard3_std",
+      "fade_mean",
+      "fade_std",
+      "count_mean",
+      "count_std"
+    ],
+    "warmup_cells_checked": 12160,
+    "movement_counts": {
+      "unknown": 23,
+      "retained": 17
+    },
+    "second_season_entries": 20,
+    "retained_entries_checked": 17,
+    "rating_snapshots": 1560,
+    "saved_run": "experiment/league_warmup_demo/Premier_League_23_25/result_phi_1_2",
+    "saved_files": {
+      "snapshots.parquet": "85dcc3b383b364e93c30797f07aad60c6857d00023c2db87b485fce4cc2f9cb9",
+      "ratings.json": "df2366a257d479dcca53e77afb1ff396ba701dd8133da9291df429c04475a411"
+    },
+    "saved_feature_shape": [
+      1520,
+      4
+    ],
+    "source_inputs_unchanged": true,
+    "limitations": [
+      "Two pinned Premier League seasons only.",
+      "Earlier finished kickoff is a retrospective availability proxy.",
+      "Movement remains unknown for new entries without an observed adjacent-tier origin.",
+      "No pilot fitting or model-quality claim."
+    ]
+  },
+  "real_check_tolerances": {
+    "league": {
+      "rtol": 1e-12,
+      "atol": 1e-12
+    },
+    "warmup": {
+      "rtol": 1e-11,
+      "atol": 1e-11
+    }
+  },
+  "notebook": {
+    "notebook": "notebooks\\04_league_warmup_quickstart.ipynb",
+    "cells": 9,
+    "code_cells": 5,
+    "kernel": "misc314_py314",
+    "fresh_top_to_bottom_execution": true,
+    "checked_at_utc": "2026-09-16T14:52:27.604240+00:00",
+    "sha256": "0e5700edb5bb3043e06a3fd21296987d50c0b82513383236ce49fe41cbc073b2",
+    "source_sha256": {
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+      "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+      "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+      "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+      "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+      "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+      "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+      "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+      "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+      "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+      "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+      "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+      "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+      "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+      "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+      "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+      "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+      "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+      "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0",
+      "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19"
+    },
+    "error_outputs": 0
+  },
+  "documentation_examples": {
+    "checked_at_utc": "2026-09-16T15:02:20.617128+00:00",
+    "examples": [
+      {
+        "guide": "league_warmup.md",
+        "example": 1,
+        "code_sha256": "9bba0be375e84ca61c09150e9d5add645eb8c60c45a0a2491e7b1cdc7ee34eef",
+        "elapsed_seconds": 1.126
+      },
+      {
+        "guide": "league_warmup.md",
+        "example": 2,
+        "code_sha256": "331b052b9b7f33e88ed28edf7c6ab44d0a0032795113947898bd85ab4a09eebd",
+        "elapsed_seconds": 0.364
+      },
+      {
+        "guide": "league_warmup.md",
+        "example": 3,
+        "code_sha256": "59cb43d4b30d418e873df48d5ced7447e40a5346f9184b5fc934c2d313f6ea79",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "guide": "league_warmup.md",
+        "example": 4,
+        "code_sha256": "42b9036fcbfd77e05d8cc0ee5a803e420e42423832ee6807743d63db7b0af987",
+        "elapsed_seconds": 0.098
+      },
+      {
+        "guide": "league_warmup.md",
+        "example": 5,
+        "code_sha256": "88b74d1cdab36a2f02120f5460ef4ac2a7264a125088d05babb7f3ad80233cc1",
+        "elapsed_seconds": 0.299
+      },
+      {
+        "guide": "league_warmup.md",
+        "example": 6,
+        "code_sha256": "a6b133d06c7f098a4e0eac1511a1539b8ccdb4952a0faefd68c4336718829206",
+        "elapsed_seconds": 0.579
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 1,
+        "code_sha256": "5f82e67b793fa34173aa9f37c1e6ec0f46d667d9d74f07efe943447f2bbffd29",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 2,
+        "code_sha256": "d81eeb35d1c6cd999081b4d858d44c9a0ed32c9dd21b7762174c26ca0489f254",
+        "elapsed_seconds": 0.151
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 3,
+        "code_sha256": "3d4c4f56674d3c5cd253d5af3b50bac93307778272f6c5852221c25717ab5f13",
+        "elapsed_seconds": 0.148
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 4,
+        "code_sha256": "90f1a99a3bb87a424103db72ee07ce269be2cd8f718e19dd4f69d39aa527d0d7",
+        "elapsed_seconds": 0.294
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 5,
+        "code_sha256": "c2376d08850ca352d2e2c9eb62ad0d942172221b33ddfec3a900a4bf1485f553",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 6,
+        "code_sha256": "02698598fb4f18c8bfc94cf83047943730a2da8a678a1e088d16f2618b04dbe8",
+        "elapsed_seconds": 0.166
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 7,
+        "code_sha256": "e517f0e47f94609722f7d6d42b9be2e1180fa47ad89dec967482a402ef4478f2",
+        "elapsed_seconds": 0.005
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 8,
+        "code_sha256": "5086c07c9eb894dd87b98d12825a538cdc12ed9e34258fcc6376a729e65e3f93",
+        "elapsed_seconds": 0.116
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 9,
+        "code_sha256": "f7898ff7b2f82e7138309d1a9bb9c6fd080cf88f37bb85da13e5829e90dd41ad",
+        "elapsed_seconds": 0.009
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 10,
+        "code_sha256": "65f765bbc7060cc3772c8e1feff2acb35039319127358b6138e50de789a98f57",
+        "elapsed_seconds": 0.0
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 11,
+        "code_sha256": "c6f2efcc56b60b346fe1630f3c985bd09bad298c6a38bfc489ad10bb42123a81",
+        "elapsed_seconds": 0.001
+      },
+      {
+        "guide": "league_warmup_reference.md",
+        "example": 12,
+        "code_sha256": "f3d2e237453b5b8c1f543644c30c7b553f6fa6f8ade64d468b260b64be72bc43",
+        "elapsed_seconds": 0.0
+      }
+    ],
+    "example_count": 18,
+    "source_sha256": {
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+      "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+      "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+      "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+      "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+      "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+      "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+      "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+      "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+      "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+      "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+      "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+      "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+      "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+      "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+      "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+      "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+      "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+      "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0",
+      "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19"
+    },
+    "guide_sha256": {
+      "league_warmup.md": "5fbb8b2e7345e431d3e4901878be2a55c8b94cdc40ce0e0f80049cb930ada300",
+      "league_warmup_reference.md": "055a0695512b630e6848e17c2c2e6ea9ab192253b3471a0276806e4e3245fb05"
+    }
+  },
+  "wheel": {
+    "wheel": ".pytest_tmp/league_transition_verification/wheel_output/xdiyo_collection-0.1.0-py3-none-any.whl",
+    "sha256": "f4f3c2c675266f6a0460345ed6c760b8c808730b0527bc14b1711dbb5d2a0f86",
+    "source_file_count": 67,
+    "source_sha256": {
+      "pyproject.toml": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19",
+      "scraping/football_scrape_xdiyo.py": "80dfe4341b36f1d2c73507006c99348d774a993ead04228fa62524445a44b207",
+      "scraping/__init__.py": "8c9492ea03b204b1fc5a0b377b0069b89d4b4d45ad547a47f34a35b6f54b4e51",
+      "scraping/football_scrape_xdiyo_novpn.py": "80dfe4341b36f1d2c73507006c99348d774a993ead04228fa62524445a44b207",
+      "scraping/football_scrape_xdiyo_wVPN.py": "db64b7293e61901037e488a764cd563e48fd2dd6c893723fcb15dbcc28bbca3c",
+      "scraping/sofascore/export.py": "f12aaaf671a09a2b77fab2ea7a7fc8a670da890465b4c31a08206dac05e2a3c9",
+      "scraping/sofascore/models.py": "3397d47cba8ee53f0093c643de2b8aba74cb0bff93d72c7cf67455f86bc3719a",
+      "scraping/sofascore/compatibility.py": "1731a442c768a5f8351d39eef223b35cfb409e1fc56f49ea8e40a9fba9b35a0f",
+      "scraping/sofascore/diagnose_access.py": "76d10af30c8287044fe81718371dee18b6c4dbdb1f0e9175af5cdddf0b794ef9",
+      "scraping/sofascore/runner.py": "8d62391ccd34e6557712c98fe06d42758f8efe27ed8dd1b0799161ccc25f1382",
+      "scraping/sofascore/planner.py": "90f97181f3b7a87334727f320c9b205754c672cde3aea5ee5ff42d57968c347e",
+      "scraping/sofascore/movements.py": "c1348df48d2c4970dc93a4a84a15514ab21a444de0a73f85ba280de68ef122ed",
+      "scraping/sofascore/config.py": "475b2651c17181c268f1d5d558994c8f677cbbbd14ecf50acd4a68258971d242",
+      "scraping/sofascore/campaign.py": "078f94afaed43eb2dd562de400232375fa457e844f53b6488c575734338d7012",
+      "scraping/sofascore/heatmap_benchmark.py": "16d57049dfeca301f2bcafa03cfc657fa59cc38d13b3a7ba539f634bcc55b872",
+      "scraping/sofascore/legacy.py": "6a04c3d8b59784897945d01246bb71142b438fbb421e49044389daefe17e3ec7",
+      "scraping/sofascore/competition_registry.json": "16f7b5dac35287c65fc5722d31f99a744971dde7e0461a33dfb181a3d887bdb7",
+      "scraping/sofascore/notebook_movement_seeds.json": "9471af1f6a9e82f49390ea36c5eebb00b3b8d444245dbb0412942dff4fce5b1e",
+      "scraping/sofascore/store.py": "b196c983213cad4528f6051ada2417bb60ad78d6d3e448fba52481df765cceac",
+      "scraping/sofascore/discovery.py": "86ae03731b761d35dd4f9ab7404b64ec031d34a94d643b734181149de4c5d35d",
+      "scraping/sofascore/validate_legacy_migration.py": "70f9d0ad91bf412d780f33c6b0c3092013c1335469d1f7b5c502bf491cf82135",
+      "scraping/sofascore/README.md": "a8023c481954bbb93b89b16a2365ec67d37cfde48fa16b219f02bab04132846e",
+      "scraping/sofascore/schema.py": "3841f8fb08beae07526266d577f11149879ba0e2460c318bde5206662258def7",
+      "scraping/sofascore/client.py": "c6352c8fc760202d33555c69ec18aee811d45031dd3ddc884692d8c0ec77c2ae",
+      "scraping/sofascore/cli.py": "0f13d55a9609c13ab2c2a9dab8045d2306ce6546a25a768bd38ecf5c2b49bd38",
+      "scraping/sofascore/migrate_legacy.py": "eef9bf5d3146d74e3ef7d73617b33a9b4f3f7d72a55e2dec42d06b9db8164d2d",
+      "scraping/sofascore/rate_limit.py": "75a0f0188ed0eaafecd133193a9caa579bb33938809899129814a21a5f79362c",
+      "scraping/sofascore/parsers.py": "92aaca1ce658214c7a7973a2763af6f2f515bd5250d00941673126788e410f22",
+      "scraping/sofascore/example_config.json": "0512e6d3482e2fad239595eeacbd6fe8d190e9d87ce682260543edecdd6334e7",
+      "scraping/sofascore/timing.py": "b9dc6c7f3906508ba7c984fd13ee6b7aa3ad9477ec23cc84e82a9622b0113af3",
+      "scraping/sofascore/__main__.py": "76fa916e93e0ae1a6c1bb51dcc0bcf289c014e9f760a47165f8a84401ccf41d7",
+      "scraping/sofascore/notebook_api.py": "f4f1d7cb01ff2c37e124f9ad980beba0f677a00713a2dfe5380f43cdf3d2b59d",
+      "scraping/sofascore/goal_actions.py": "84478ac46bc5b1d6b97f9ae50a8bb4c6cd4f967e88cae6d229c398398b8959b7",
+      "scraping/sofascore/__init__.py": "2b36892d2edc4c6f12d3df56e90cdcb39a2dc25548bdcb28439af2f2867228ac",
+      "scraping/sofascore/benchmark.py": "900eeff3de35d82322bac9a23d1373a444d8978806d3189b17a9a7b2bfc132ee",
+      "scraping/sofascore/audit.py": "e77f5f6e8673abc5126759df0cb4c06781d5224fee5fd2f4fd3ce4fe31d92324",
+      "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+      "utils/football_features.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "utils/utils_xDiyo.py": "c15a4afdbea093dfe9fb0bf03f7829d35457f725b4b5b606f0cd5d40e463c851",
+      "utils/promotions_demotions.py": "4809184418a5e5033c2d830168a49ede53ddb2a265fa0cb323c408e9fc6a3bbb",
+      "utils/data_loading.py": "3c3e8e7a9dd7581b0fa186b24415e11b74f62da46734a3f0cefcba66cc6ef822",
+      "utils/reshaping.py": "e75b28bf474de40a96dfa8b7f0ed31454e837ff6cf283f8576d39bbfab287068",
+      "utils/tensor_inputs.py": "17a8b6b9d12a3b36227e8d27e3f12d877a9284df300b0aa41aface2b0f41b978",
+      "utils/utils_xDiyo_wleague.py": "fffe3d0ef5f8f8594c7499d1a038ccf2e364e24a15b54664f0988d7928a7c9ee",
+      "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0",
+      "utils/football_dataset_xDiyoFire.py": "e9ce29ea4ef9c40b90eb7472b62561d9de45a6e36de8039a82361358fd095f62",
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+      "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+      "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+      "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+      "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+      "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+      "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+      "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+      "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+      "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+      "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+      "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+      "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+      "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+      "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+      "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+      "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7"
+    },
+    "required_members": [
+      "xdiyo_analytics/features/league.py",
+      "xdiyo_analytics/features/warmup.py",
+      "xdiyo_analytics/features/transitions.py",
+      "xdiyo_analytics/ratings/transitions.py",
+      "utils/team_seasons.py",
+      "utils/glicko_rating.py"
+    ],
+    "probe": {
+      "modules": [
+        "xdiyo_analytics.features.league",
+        "xdiyo_analytics.features.warmup",
+        "xdiyo_analytics.features.transitions",
+        "xdiyo_analytics.ratings.transitions",
+        "utils.team_seasons",
+        "utils.glicko_rating"
+      ],
+      "isolated_wheel_import": true,
+      "moment_and_transition_probes": "passed"
+    },
+    "no_installs": true
+  },
+  "documentation": {
+    "coverage_rows": 22,
+    "public_and_helper_signatures": {
+      "xdiyo_analytics.features.league.League": "(source: xdiyo_analytics.features.expressions.Expr, unit: str = 'team', schedule: str = 'completed_rounds', window_unit: str = 'rounds', round_keys: tuple = ('competition_id', 'season_id', 'round')) -> None",
+      "xdiyo_analytics.features.league.LeaveOneOut": "(source: xdiyo_analytics.features.league.League, exclude: str = 'team_contributions') -> None",
+      "xdiyo_analytics.features.league.LeaguePopulation": "(history, *, cutoffs=None, available_at=None)",
+      "xdiyo_analytics.features.league.LeaguePopulation.round_info": "(self, keys)",
+      "xdiyo_analytics.features.league.LeaguePopulation.rows": "(self, league, window, exclude=None)",
+      "xdiyo_analytics.features.league.league_values": "(history, source, frame, unit)",
+      "xdiyo_analytics.features.league.reduce_league": "(node, population, evaluate)",
+      "xdiyo_analytics.features.warmup.Hard": "(rounds: int = 1) -> None",
+      "xdiyo_analytics.features.warmup.Hard.weight": "(self, rounds, observations)",
+      "xdiyo_analytics.features.warmup.LinearFade": "(start: int = 1, rounds: int = 2) -> None",
+      "xdiyo_analytics.features.warmup.LinearFade.weight": "(self, rounds, observations)",
+      "xdiyo_analytics.features.warmup.ObservationCount": "(strength: float = 5.0) -> None",
+      "xdiyo_analytics.features.warmup.ObservationCount.weight": "(self, rounds, observations)",
+      "xdiyo_analytics.features.warmup.SeededEMA": "(alpha: float = 0.5, handoff: object = Hard(rounds=1), league_weight: float = 0.5, round_keys: tuple = ('competition_id', 'season_id', 'round')) -> None",
+      "xdiyo_analytics.features.warmup.WarmStart": "(source: xdiyo_analytics.features.expressions.Expr, policy: object = None) -> None",
+      "xdiyo_analytics.features.warmup.blend_moments": "(mean_a, variance_a, mean_b, variance_b, weight)",
+      "xdiyo_analytics.features.warmup.seeded_moments": "(mean, variance, observations, alpha)",
+      "xdiyo_analytics.features.warmup.evaluate_warm_start": "(node, context, evaluate, candidates, *, h2h=False, group_by=())",
+      "xdiyo_analytics.features.transitions.build_team_seasons": "(history, competition_info, *, season_years=None, complete_memberships=(), overrides=())",
+      "xdiyo_analytics.features.transitions.TransitionContext": "(history, *, cutoffs=None, available_at=None, team_seasons=None, season_starts=None, population=None)",
+      "xdiyo_analytics.features.transitions.TransitionContext.record": "(self, row)",
+      "xdiyo_analytics.features.transitions.TransitionContext.prior_rows": "(self, season, boundary)",
+      "xdiyo_analytics.features.transitions.TransitionContext.completed_rounds": "(self, row, round_keys, *, time=None)",
+      "xdiyo_analytics.ratings.transitions.RatingTransition": "(*args, **kwargs)",
+      "xdiyo_analytics.ratings.transitions.RatingTransition.apply": "(self, state, *, context, cohort)",
+      "xdiyo_analytics.ratings.transitions.GlickoTransition": "(phi_scale: float = 1.0, movement_phi_scale: float = 1.0, shrinkage: float = 0.5, top: int = 3, bottom: int = 3, rank_by: str = 'standings', aggregate: str = 'mean') -> None",
+      "xdiyo_analytics.ratings.transitions.GlickoTransition.apply": "(self, state, *, context, cohort)",
+      "xdiyo_analytics.ratings.transitions.TransitionReplay": "(context, scope, policy, initial)",
+      "xdiyo_analytics.ratings.transitions.TransitionReplay.key": "(self, record, previous=False)",
+      "xdiyo_analytics.ratings.transitions.TransitionReplay.apply": "(self, time, states, games_seen, latest, stream)",
+      "RollingZScore": "(source: xdiyo_analytics.features.expressions.Expr, window: int = 5, min_periods: int = 1, ddof: int = 1, reference: xdiyo_analytics.features.expressions.Expr | None = None) -> None",
+      "evaluate_features": "(history, features, *, group_by=('team_id', 'competition_id'), cutoffs=None, available_at=None, team_counts=None, ratings=None, team_seasons=None, season_starts=None)",
+      "build_ratings": "(history, *, stat=None, engine=None, higher_is_better=True, scope=('competition_id',), available_at=None, transition=None, team_seasons=None, season_starts=None, transition_context=None)",
+      "RatingRun.features": "(self, history, *, cutoffs=None, side='both', fields=None)"
+    },
+    "links_checked": 63,
+    "unexplained_omissions": [],
+    "document_sha256": {
+      "IMPLEMENTATION_PROGRESS.md": "16e30f9171a828289a52884d8c4fbd7d9d3e47b754349722968ce0ed3ed65e53",
+      "football_analytics_working_notes.md": "7cc5f58ad85d7a6e4297bcd1ea682c7e5d1561ba343ddbc97b1f8ba9800439d7",
+      "coaching_history.md": "5af87cefa6732577b82b9b2de85acb5a7af9dff20d3dacb48198b9e9c9d0d1b1",
+      "src/README.md": "b01fe4ccb4bbcc28ffecd8d142979d4fef7b7862fc86ed11ee92638ea9c35881",
+      "docs/analytics/features.md": "4efbc0e7e9cdd52c09253b4015fb5d2ceb5dc896e3b24fa830961edd7ef8b639",
+      "docs/analytics/ratings.md": "344fc4fc4dd6bb321e874cf3cbdff777ff93c7fe029e3080a29448ce8120e417",
+      "docs/analytics/league_warmup.md": "5fbb8b2e7345e431d3e4901878be2a55c8b94cdc40ce0e0f80049cb930ada300",
+      "docs/analytics/league_warmup_reference.md": "055a0695512b630e6848e17c2c2e6ea9ab192253b3471a0276806e4e3245fb05",
+      "docs/analytics/league_warmup_documentation_checklist.md": "319907f1695ca86c501e10a3bf513cecb141b9e11f9f2dc7d03ed7e2189d7bb1"
+    },
+    "all_acceptance_boxes_checked": true
+  },
+  "preservation": {
+    "protected_prior_files": 102,
+    "archived_originals": 7,
+    "existing_notebooks_unchanged": 3,
+    "existing_test_files_unchanged": 10,
+    "prior_evidence_jsons_unchanged": 15,
+    "pinned_source_files_unchanged": 12,
+    "legacy_glicko_and_membership_cores_unchanged": true,
+    "archive_manifest": "docs/analytics/archive/pre_league_transitions_implementation/preservation_manifest.json",
+    "archive_manifest_sha256": "8c70604ce5af0eba2b1fe202b055e4fdee731cd7d1cde0615cc1928c01abdc9a"
+  },
+  "callbacks": {
+    "failure": 0,
+    "success": 0,
+    "blocked": 0
+  },
+  "nonfatal_warnings": [
+    "Existing pandas all-NA concatenation FutureWarning.",
+    "Existing Windows/ZMQ selector-thread RuntimeWarning."
+  ]
+}

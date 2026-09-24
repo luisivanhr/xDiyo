@@ -2,6 +2,17 @@
 
 ## Purpose and sources
 
+**UI usability revision (19 September 2026):** the [recorded requirements](docs/analytics/ui_redesign_requirements.md)
+now drive a persistent presentation inventory rather than asking users to select
+Python value types. The inventory defines choices, compatible nested components,
+conditional controls and parameter explanations, including every CV scheme.
+Data choices come from selected publications; actual feature columns come from
+preparation. Reports retain numerical scopes while presenting pooled evaluation
+views, local team badges and compact artifacts. See the [inventory guide](docs/analytics/ui_inventory.md)
+and [scaling verification](docs/analytics/ui_scaling_verification.md).
+
+**Current implementation addition (19 September 2026):** the [experiment builder](docs/analytics/ui.md) provides a local UI and optional notebook iframe for the existing orchestration layers. It uses the report viewer's visual style. Registered constructors supply discoverable options; advanced options remain accessible rather than omitted. Preparation, fitting and reopening retained reports are separate actions. Recipes are portable, and Python/notebook exports retain an inspectable route back to code. Custom models/callbacks require catalog registration; device and checkpoint support remain adapter capabilities. The [extension guide](docs/analytics/ui_extensions.md) documents this boundary. Model-selection comparison views now show human-readable parameters without internal identifiers. One selected fold remains one parallel job under the existing execution policy.
+
 This is the new working reference for the continuing football analytics design conversation. It consolidates the original analytical ideas, the handwritten refinements, and the recent discussion so that ordinary planning can proceed without rereading the PDF. The analytical content remains relevant; the architecture is open to reconsideration.
 
 **Confirmed end-product goal:** build a **reusable football analytics library** that eventually makes experiments easy to set up and run. The total-match-corners experiment is its first pilot for exercising and refining reusable components. The library's scope includes multiple targets, model families, and training libraries. Ease of use and reproducibility are goals. (D)
@@ -34,7 +45,430 @@ Status terms used throughout:
 - **Documented capability:** a claim in P, or behavior visible in the inspected sources PF, LF, L, R, C, GR, and U; no new runtime verification is implied.
 - **Open:** a decision or interpretation that the discussion has not settled.
 
-For the next implementation session, begin with the proposed analytics loader plan after the user collects a representative export sample. Confirm the minimal pilot mappings and table grains from that sample before implementing the loader and connecting team-history preparation. The goals, artifacts, timing/CV decisions, and later template reference remain the broader context.
+Loading, histories, features, ratings/transitions, labels, assembly and the corrected splits/CV API are implemented and verified. Pre-training analysis, the reusable reporter/viewer library and common feature selectors pass their reporting checks. Single-configuration training and post-training metrics/reporting, bet accounting and saved-run comparison now pass synthetic verification. Live Jupyter frontend/trust behavior remains unverified; saved-notebook HTML and iframe behavior are verified. Finite model selection with independent holdout/nested evaluation now passes its separate verification below. Adaptive search, scheduled refitting and fold-aware state preparation remain later layers. Pilot recipe selection, tuning and real-data fitting remain deferred. Historical results retain their original source provenance and archived context.
+
+**Parallel execution and device choice — verified on the preserved execution-only source, with a known notebook shutdown limitation (19 September 2026):** one selected fold is one job. Explicit `ExecutionPolicy` controls CPU/auto/CUDA adapter requests, process count and per-fit thread budgets. Candidates and outer nested-CV loops remain sequential; inner/fixed folds can overlap in worker processes. Public fold order is stable; reporting and final/trial publication stay in the parent. Native checkpoint writes remain inside their fitting jobs. Unpicklable observers stay parent-side; parallel events arrive at fold completion, while serial observers stay live.
+
+**Execution verification:** **1,650 analytics tests (61 new)** pass on **75 frozen source files**. Actual worker PIDs and overlapping fit intervals, seeded prediction parity, nullable schemas, validation/selectors, parent stores, failed-worker cancellation, nested scheduling, recovery identities and interrupted native checkpoint parity are covered. Three executed guide examples, a new **five-cell/two-code-cell notebook 16**, **20 offline browser checks**, and isolated process/recovery/model-save use of a **121-file staging copy (72 analytics modules)** pass. Twenty signatures, three rendered documents and eight selected final screenshots were reviewed. A tiny synthetic Torch 2.9.0+cu130 model placed parameters and fit/prediction tensors on the observed cuda:0 device; CPU/CUDA predictions agreed within 2e-5. This does not establish multi-GPU, concurrent CUDA fits, speedup or production forecasting.
+
+**Known execution runtime limitation:** notebook cells complete correctly, but kernel shutdown on Windows/Python 3.14.0/joblib 1.5.2/ipykernel 7.1.0 emits loky `resource_tracker` KeyError tracebacks for temporary memmapping-folder names. Plain-joblib notebook controls reproduce it both with defaults and with max_nbytes=None. Corrected notebook output, all cleanup logs and the controls are retained; **clean notebook shutdown is not claimed**. One failure callback and two diagnostic follow-ups were sent. The primary authorized documenting the limitation with execution source/packages unchanged. Worker library edits, primary execution repairs, prior test edits and success callbacks are zero.
+
+**Execution preservation and scope:** **3,295 earlier artifacts**, **fifteen prior notebooks**, **20 prepared inputs**, **301 assets** and four archived continuity documents remain unchanged. The notebook's final limitation note changes markdown only; executed code/output is preserved. All fits are synthetic, no packages/drivers were installed, and the live Jupyter frontend remains unverified. Newer UI source in the shared checkout has separate verification scope. [Guide](docs/analytics/execution_policy.md), [reference](docs/analytics/execution_policy_reference.md), [notebook 16](notebooks/16_execution_policy_quickstart.ipynb), [evidence](docs/analytics/execution_policy_check.json).
+
+**Prediction fixtures and model persistence — independently verified on preserved revision 2 (19 September 2026):** analytics loaders exclude explicit awarded matches and their event-linked rows by default, while unknown flags remain included and `include_awarded=True` is available. Completed and future fixtures share ordinary `data/xDiyo_data` season publications. Explicit integer/list/per-league rounds select published fixtures; full history remains available for feature construction before exact one/two-row alignment with missing future labels. `save_model`/`load_model` and `FittedModel.save` preserve a fitted pipeline for prediction; custom adapters can supply native serializers. Numerical experiment recovery still restores `model=None`.
+
+**Prediction/persistence verification:** **1,589 analytics tests (79 new)** pass on **74 frozen source files**. Four executed guide examples, new **seven-cell/three-code-cell notebook 15**, **19 offline browser checks**, and isolated build/import/load/select/save/load/predict from a **120-file staging copy (71 analytics modules)** pass. Thirteen public signatures and three rendered documentation pages were checked; seven selected final documentation/report images were visually reviewed. One genuine failure callback led the primary to repair exact uint64 event membership in statistics validation and awarded exclusion. Worker source edits, prior test edits and success callbacks are zero. The notebook displays unknown-outcome predictions through the explicit test partition; initial empty-score display evidence remains preserved.
+
+**Prediction/persistence preservation and limits:** **2,903 earlier artifacts**, **fourteen prior notebooks**, **20 prepared input files**, **301 assets** and four archived continuity documents remain unchanged. Fits/publications are synthetic; no install or real forecasting claim. Joblib model artifacts require a trusted producer and compatible environment. Native serializers own their state completeness; saving a fitted model does not establish mid-fit resumability. Live Jupyter frontend remains unverified. The primary has started a separate parallel-execution/device-policy batch; this evidence verifies the preserved prediction/persistence revision. [Guide](docs/analytics/prediction_persistence.md), [reference](docs/analytics/prediction_persistence_reference.md), [notebook 15](notebooks/15_prediction_persistence_quickstart.ipynb), [evidence](docs/analytics/prediction_persistence_check.json).
+
+**FootballExperiment — independently verified on its preserved revision (19 September 2026):** fixed fitting, holdout/nested selection, combined reports, explicit deployment refit and three recovery levels (completed final run, completed search trials, capable native interrupted fit) are covered. Automatic execution identities include inputs/order/definitions/splits/configuration/factory code and local source. `run()` prepares current inputs; `load(run_id)` reopens saved numerical results without preparation, fitting or prediction. Restored model objects are `None`.
+
+**Experiment verification:** **1,510 analytics tests (68 new)** pass on **72 preserved source files, revision 2**. Five executable guide examples, new **seven-cell/three-code-cell notebook 14**, **26 offline browser checks**, and isolated build/import/fit/reuse/load from a **118-file staging copy (69 analytics modules)** pass. The reference records 23 API signatures. All 11 LaTeX expressions (three displayed equations) render without error or overflow; eight selected documentation/report screenshots were visually reviewed. The primary repaired duplicated nested source evaluation and StringDtype/MultiIndex recovery metadata after two genuine failure callbacks. Failed logs and all source snapshots remain preserved; worker library edits and success callbacks are zero.
+
+**Experiment preservation and limits:** **2,432 earlier artifacts**, **thirteen prior notebooks**, **20 prepared input files**, **301 assets** and four archived continuity documents remain unchanged. Synthetic fits only; no install or real forecasting claim. Native resume requires complete adapter-owned preprocessing/optimizer/RNG/cursor/history state and serialized writers. Live Jupyter frontend remains unverified. The shared checkout now contains a separately delegated prediction-fixture/model-persistence increment; this evidence verifies the preserved FootballExperiment source only. [Guide](docs/analytics/football_experiment.md), [reference](docs/analytics/football_experiment_reference.md), [notebook 14](notebooks/14_football_experiment_quickstart.ipynb), [evidence](docs/analytics/football_experiment_check.json).
+
+**Model selection — independently verified (18 September 2026):** optional finite candidate/grid search uses a declared development population, scalar/weighted/parsimony decisions and explicit fitted likelihood evidence. A selected configuration is fitted freshly for an untouched holdout; optional nested CV selects a separate winner per outer fold. Feature selection, preprocessing, validation, score/test membership and trial/final storage remain explicit.
+
+**Model-selection verification:** **1,442 analytics tests (130 new)** pass on **68 frozen source files (revision 1)**. Seven executable guide examples, the new **nine-cell/four-code-cell notebook 13**, **37 offline browser checks** and isolated build/import/fit from a **114-file wheel staging copy (65 analytics modules)** pass. The reference covers all **12 public exports and 21 signatures**, options and helpers. All **47 LaTeX expressions (seven display equations)** render without errors or overflow; 22 documentation segments and 11 report/notebook screenshots were reviewed.
+
+**Model-selection preservation and limits:** **2,037 earlier artifacts**, **twelve previous notebooks**, **20 prepared input/selection files**, **301 catalog/asset files** and four archived continuity documents are unchanged. One failure callback led to two primary repairs: composite preprocessing is included in the freshness guard, and declarative preparation/scope errors propagate outside candidate error recording. Original failures and source snapshots remain preserved. Worker library edits and success callbacks are zero. All fits are synthetic; no real pilot, adaptive Optuna engine, ExperimentRunner, scheduled retraining or installation was performed. Live Jupyter frontend behavior remains unverified; fresh-kernel execution and saved native iframes pass. Earlier batch evidence retains its original source scope. See the [guide](docs/analytics/model_selection.md), [reference](docs/analytics/model_selection_reference.md), [equations](docs/analytics/model_selection_equations.md), [coverage](docs/analytics/model_selection_documentation_checklist.md), [notebook 13](notebooks/13_model_selection_quickstart.ipynb) and [evidence](docs/analytics/model_selection_check.json). Earlier continuity versions are archived under `docs/analytics/archive/pre_model_selection_implementation/`.
+
+**Match-result reporting and optional local team badges — independently verified (18 September 2026):** `MatchResultReporter` displays retained results and predictions for match and team-match layouts, with numeric errors, independent side colors, explicit probability decisions, exact IDs, initial filters, full filtered CSV export and optional offline badges. The compact fixture view shows Result/Prediction and optional Error/Probabilities; status remains in exported data. Catalog names take precedence, with metadata fallback for nameless entries. No model is fitted or called by reporting.
+
+**Match-result verification:** **1,312 analytics tests** pass, including **96 new cases**, on **64 frozen source files (revision 3)**. Six guide examples, a separate **nine-cell/four-code-cell notebook 12**, **48 fixture browser checks**, **28 saved-notebook/guide browser checks**, and a **110-file wheel staging copy** pass. The shared controls viewer also passes 26 regression browser checks against newly generated scratch reports. All **34 LaTeX expressions (nine display equations)** render without errors or overflow; 18 document segments and 15 report/notebook screenshots were visually reviewed. The reference covers all 20 reporter options and eight entry-point signatures.
+
+**Match-result preservation and limits:** **1,601 earlier artifacts**, **eleven previous notebooks**, **301 optional catalog files**, **20 prepared data/selection files** and four archived continuity documents are unchanged. Identity-only reads reconcile all **289 catalog IDs/names** with **13,976 matches** from 39 exports across 13 leagues; all 286 active badges match recorded bytes. Two primary repairs address nameless-entry fallback and threshold class validation without available rows. Original failures and source snapshots remain preserved; the worker made no library repairs and sent no success callback. The final presentation revision removes status text while preserving colors and exports. Examples use artificial retained predictions; no real fitting or performance claim is included. Live Jupyter frontend behavior remains unverified. The original badge-agent sample also remains visually unverified; separate generated reports verify selected actual badges offline. See the [guide](docs/analytics/match_results.md), [reference](docs/analytics/match_results_reference.md), [equations](docs/analytics/match_results_equations.md), [coverage](docs/analytics/match_results_documentation_checklist.md), [notebook 12](notebooks/12_match_results_quickstart.ipynb) and [evidence](docs/analytics/match_results_check.json). Earlier continuity versions are archived under `docs/analytics/archive/pre_match_results_implementation/`.
+
+**Training controls, final refit, model diagnostics and run roles — verified on a preserved source revision (18 September 2026):** optional whole-match validation, early stopping, plateau rate scheduling, in-memory best-state restoration and fresh seeded attempts pass independent checks. Learning curves retain separate fold/attempt histories; coefficient diagnostics retain transformed names, signs and target/class labels. Explicit final refitting uses declared development rows. Saved trial/final roles keep final evaluations separate, with a final-only default leaderboard.
+
+**Controls verification and boundary:** **1,216 analytics tests** pass, including **138 new synthetic cases**, plus **seven guide examples**, the new **nine-cell/four-code-cell notebook 11**, **26 offline browser checks** and isolated use of a **107-file wheel staging copy**. Documentation covers **16 public APIs**, extensions and helpers; **49 LaTeX expressions (13 display equations)** render without errors or overflow. Twenty documentation segments and nine browser screenshots were visually reviewed. The primary repaired one genuine failure: coefficient survival now includes intercept-only inspected outputs in its denominator. Initial failure evidence remains preserved; the worker made no library repairs and sent no success callback.
+
+**Controls preservation and limits:** evidence binds **61 preserved source files**, **1,015 unchanged earlier artifacts**, **ten unchanged earlier notebooks**, **20 unchanged prepared data/selection files** and four archived continuity documents. The later MatchResult/viewer batch has the separate verification record above; the controls result remains bound to its original preserved source. All fits are synthetic. Live Jupyter frontend behavior remains unverified; fresh-kernel execution, controlled display events and saved SVG/HTML/iframe behavior were checked. No persisted resume, grid search, Optuna, scheduled retraining or installation is included. See the [guide](docs/analytics/training_controls.md), [reference](docs/analytics/training_controls_reference.md), [equations](docs/analytics/training_controls_equations.md), [coverage](docs/analytics/training_controls_documentation_checklist.md), [notebook 11](notebooks/11_training_controls_quickstart.ipynb) and [evidence](docs/analytics/training_controls_check.json). Earlier continuity files are archived under `docs/analytics/archive/pre_training_controls_implementation/`.
+
+## Post-training reports and saved runs — implemented and verified, 18 September 2026
+
+`PostTrainingAnalysis` uses retained `TrainingResult` outputs, with named reporters
+and explicit execution type, test/score partition and repeated-row pooling.
+Overall metrics use their actual pooled eligible observations. The reusable
+`evaluation` package supplies configurable regression, classification, probability
+and entropy metrics; `reporting` supplies residuals, calibration, timelines and
+observed/predicted KDE, ECDF or frequency overlays.
+
+`BetSpec` supplies an existing `BetOption`, decimal odds, explicit decisions and
+stakes. Both match and team-match layouts work when settlement units agree with
+predictions. Push/void return the stake and count in the settled-stake ROI
+denominator. Missing inputs remain unresolved; partial profit/ROI cannot qualify
+as complete ranking metrics. Decision eligibility stays the caller's responsibility.
+
+`ExperimentStore` saves run/configuration IDs, numerical records, tables and
+optional indexed Parquet/HTML. Weighted comparisons require explicit metric
+selectors and compatible definitions/populations, preserve failed/unranked runs,
+and support percentile or fixed reference scales. This does not run a search or
+automatically choose a model. A saved configuration does not prove provenance.
+
+All **1,078 analytics tests** pass, including **164 new cases**, plus 12 executed
+guide examples, a minimal nine-cell/four-code-cell tenth notebook, 33 offline
+browser checks and isolated package use from a 101-file staging copy. All 54
+LaTeX expressions render; 27 documentation segments and 11 report/notebook
+screenshots were reviewed. The primary corrected the initial match-only handoff
+and repaired intermittent Windows publication with bounded retries; all 12
+repeated saves then passed. The locking root cause remains unknown. Original
+failures and source revisions are preserved; the worker made no library edits.
+
+The final audit binds 55 source files and preserves 493 earlier artifacts, nine
+earlier notebooks, 20 data/selection files and four archived continuity documents.
+All new calculations and fits use synthetic data. No real pilot, search, scheduled
+refit, strategy execution or installation occurred. Fresh-kernel execution and
+saved HTML are verified; live Jupyter frontend trust remains unverified.
+
+See the [guide](docs/analytics/post_training.md),
+[API/helper reference](docs/analytics/post_training_reference.md),
+[equations](docs/analytics/post_training_equations.md),
+[coverage](docs/analytics/post_training_documentation_checklist.md),
+[tenth notebook](notebooks/10_post_training_quickstart.ipynb) and
+[final evidence](docs/analytics/post_training_check.json). (D)
+
+## Fixed-configuration training — implemented and verified, 18 September 2026
+
+`TrainingRunner(model_factory)` consumes an aligned `ModelDataset` and an existing
+`SplitPlan`. It fits a fresh adapter once per selected fold and predicts every
+test row. The scoring subset remains separate, including when it is empty.
+`fit_predict` supplies the one-fold form. `EstimatorAdapter` wraps a fresh
+estimator or pipeline; a custom `ModelAdapter` needs only context-based `fit`
+and `predict`. Training targets are withheld from prediction contexts. Metadata
+and exact match identities remain available without being appended to features.
+
+Learned imputation/scaling belongs inside the pipeline and is fitted on training
+rows. Optional stored feature selections use the named same-fold result first,
+then an overall result; the recorded calculation scope must lie wholly in that
+fold's training rows. The caller must bind reports and plans to the same dataset
+population/order because no source-fingerprint check is performed. Results retain
+fitted adapters, row positions, selected columns, targets, metadata and named
+prediction frames. Class vocabularies remain explicit; absent class columns are
+missing when folds are concatenated. Numeric complete-fold outputs can feed
+existing CPCV path reconstruction.
+
+All **914 analytics tests** pass, including **90 new cases**. Independent synthetic
+oracles cover preprocessing/Ridge, class probabilities, both layouts, identity
+and scope checks, optional selectors and CPCV. Nine guide examples, a new
+nine-cell/four-code-cell notebook and a 91-file isolated wheel staging copy pass.
+All 15 LaTeX expressions render; 14 documentation sections and four saved-notebook
+sections were reviewed. No implementation defect or worker library edit was needed.
+
+The final audit preserves 45 tested source files, 478 earlier artifacts, eight
+prior notebooks and four archived continuity documents. Sixteen pinned data and
+selection files retain their hashes. Four live publication manifests have newer
+version pointers with modification times before this batch; both hash sets are
+recorded, and the saved selections and versioned tables remain unchanged. This
+increment performs only small synthetic model fits. Search, nested evaluation,
+scheduled refitting, post-training reporters and real pilot fitting remain future
+work. Histories, ratings, cutoffs and fold-aware state construction stay upstream.
+
+See the [guide](docs/analytics/training.md),
+[API/helper reference](docs/analytics/training_reference.md),
+[coverage checklist](docs/analytics/training_documentation_checklist.md),
+[ninth notebook](notebooks/09_training_quickstart.ipynb) and
+[verification evidence](docs/analytics/training_check.json). (D)
+
+## Splits and CV — implemented and verified, 17 September 2026
+
+`TemporalSplit`, `MatchKFold`, `GroupKFold` and `CPCV` consume `ModelDataset`.
+`Fold` records original `train`, `test` and `score` positions; `SplitPlan` stores
+the collection and optional CPCV paths. Whole matches and paired team rows remain
+indivisible. Use `.iloc` with the original dataset order. Scoring subsets never
+return unscored test rows to training.
+
+Temporal windows support expanding/sliding observed rounds, seasons and kickoff
+batches, block/time gaps, explicit calendars/stages, optional earlier cutoffs,
+availability checks and later-round scoring. Actual training excludes postponed,
+unavailable and missing-target matches. Default kickoff availability is still a
+retrospective proxy. K-fold/CPCV membership does not automatically filter missing
+targets. CPCV uses exact closed-interval overlap and duration embargo after each
+contiguous held-out block run; reconstruction preserves held-out numeric values
+and NaNs in chronological paths.
+
+The corrected API passes all 142 focused split/CV cases, ten guide examples,
+the refreshed nine-cell notebook (five code cells) and isolated imports from a
+new 77-file wheel copy. The preceding API passed the full 632-test analytics
+suite, including the previous 490 regressions. On that revision, four pinned
+Premier League/Bundesliga publications supplied 1,372 matches and 2,744 team rows;
+14 scheme/layout combinations reconciled 192,240 membership positions and 41,160
+reconstructed numeric cells. Those results keep their original source hashes;
+an AST comparison confirms the split/path algorithms are unchanged, so unrelated
+regressions and real-data numerics were not repeated. Fresh rendering validates
+all 27 LaTeX expressions; the three affected API sections were visually checked
+again after the original 13-section review. No implementation defect or worker
+library edit was needed. The final audit confirms 33 stable current source files,
+164 unchanged earlier files, 108 unchanged archived revision artifacts, 20
+unchanged prepared-source/selection files and six unchanged earlier notebooks.
+
+The [guide](docs/analytics/splits.md), [API/helper reference](docs/analytics/splits_reference.md),
+[coverage matrix](docs/analytics/splits_documentation_checklist.md),
+[minimal notebook](notebooks/07_splits_quickstart.ipynb) and
+[evidence](docs/analytics/splits_check.json) record the exact contracts.
+The read-only reference notebook's CPCV incidence concept was reused; its
+questionable finance/statistical computations were neither adopted nor executed.
+Split plans contain fold membership, row ordering and CPCV path mappings.
+The future training runner will own `model_selector=None` and `refit_policy=None`,
+independently of its initial per-fold fit. Retrospective state reconstruction, inner selection,
+DSR/PBO/FDR corrections, strategy execution and cash accounting remain later
+layers. Purging cannot automatically remove held-out outcomes already carried
+by Glicko or rolling features, and CPCV paths are not independent evidence. (D)
+
+## Dataset assembly — implemented and verified, 17 September 2026
+
+`evaluate_features(..., keyed=True)` attaches explicit match/team/side identities
+without changing feature values or order; default unkeyed behavior is preserved.
+`assemble_dataset` consumes one `LabelData` and a matching explicit layout.
+Team-match data retains complete paired team rows. Match data independently joins
+home/away teams and orders their feature blocks home first, even for away targets.
+The resulting `ModelDataset` carries aligned `X`, `y`, metadata, observation and
+match identities, target perspective, copied definitions and exact group tuples.
+
+Optional feature/target selectors preserve requested order. Missing targets stay
+by default; enabled filtering removes a whole match if any selected target is
+missing. Missing feature values remain; missing feature records raise. Selected
+settlement categories stay in metadata. Group tuples identify matches and are
+not ranker size counts. No time splitting, imputation or model fitting occurs.
+
+All 490 analytics cases pass, including 96 new independent checks and the prior
+394 regressions. Sixteen real-data variants reconcile 48,640 feature cells and
+16,720 target cells across 380 Premier League 2024/25 matches. Seven guide
+examples, a separate nine-cell/five-code-cell notebook and isolated wheel import
+pass. All 13 LaTeX expressions render; eight documentation sections were visually
+reviewed. No implementation defect or worker library edit was needed. The first
+focused run's two settlement failures were incorrect fixture expectations and
+were corrected in the test fixture. The final audit confirms 29 stable source
+files, 141 unchanged earlier files, five unchanged source/selection files and
+51 valid local links.
+
+Use the [guide](docs/analytics/datasets.md), [complete API reference](docs/analytics/datasets_reference.md),
+[coverage checklist](docs/analytics/datasets_documentation_checklist.md) and
+[minimal notebook](notebooks/06_dataset_assembly_quickstart.ipynb).
+[Evidence](docs/analytics/datasets_check.json) records the source state and
+preservation checks; [archived originals](docs/analytics/archive/pre_datasets_implementation/football_analytics_working_notes.md)
+retain the earlier planning status. (D)
+
+## Observed labels — implemented and verified, 17 September 2026
+
+`create_labels` evaluates the separate `LabelExpr` namespace: `TeamValue`,
+`MatchTotal`, `Outcome`, `Above` and `BetOption`. Each named `LabelData` carries
+numeric `y`, aligned identity metadata, observation unit, perspective and its
+definition; `BetOption` additionally preserves settlement categories. Match rows
+follow home-row input order even for away outcomes. Exact IDs and duplicate
+indices are preserved. Period expansion may create several target columns.
+
+Only finished, finite observations produce ordinary labels. These are actual
+outcomes with no cutoff, lag or warm-up. Thresholds are strict; generic settlement
+keeps win/loss/push/void/missing separate, uses caller-selected tie/void rules and
+supports finite encoding overrides. Void-status lists normalize to tuples.
+Fractional lines are literal thresholds; split stakes, parlays, odds and profit
+are not implemented. W/D/L keeps the provider's current-score/shootout limitations.
+
+Independent verification passes **394 tests**, including **119 label cases**.
+The primary repaired the discovered object-dtype missing-value conversion;
+its original regression and mixed nullable/Arrow/object cases now pass. A pinned
+Premier League 2024/25 check reconciles 19,380 numeric and 5,320 settlement cells
+across 380 matches / 760 team rows. Eight guide examples, a separate nine-cell
+notebook and isolated wheel imports pass. The four previous notebooks and prior
+tests/evidence/source exports remain unchanged. All user-facing equations are
+LaTeX, reviewed against source and rendered locally.
+
+See the [practical guide](docs/analytics/labels.md),
+[API/schema reference](docs/analytics/labels_reference.md),
+[coverage matrix](docs/analytics/labels_documentation_checklist.md),
+[minimal notebook](notebooks/05_labels_quickstart.ipynb) and
+[verification evidence](docs/analytics/labels_check.json). Assembly and splits/CV
+are covered by the newer batches above; training and reporting orchestration
+remain later work. (D)
+
+## League histories and optional transitions — implemented and verified
+
+**Latest authorization supersedes the discussion-only status:** the user authorized all league/LOO, warm-start and rating-transition work, including explicit `WarmStart` and all three handoffs. The full analytics suite now passes **275 tests**, including 97 new independent cases. The source stayed frozen through real-data reconciliation, notebook execution, guide examples and wheel import. Existing unwrapped/no-policy behavior remains unchanged. No pilot configuration, fitting, targets, general orchestrator or scraping changes are included. (D)
+
+- **League populations:** `League` supports team contributions or one match total, rounds/matches/days windows, and completed-round or kickoff schedules. Completed mode uses the minimum target-round cutoff, requires all supplied fixtures eligible and keeps a shared frozen baseline. Incomplete rounds do not advance that baseline; stage keys disambiguate repeated round numbers. Pool individual finite observations, with observation-weighted means and explicit ddof/min_periods. `LeaveOneOut` excludes focal contributions or whole fixtures after selecting the window, without refill; match totals require fixture exclusion. League Z needs an explicit historical/known-context reference; raw observed references, even hidden inside wrappers, are rejected.
+- **Feature warm starts:** `WarmStart(expr, policy=None)` is a no-op until configured. `SeededEMA` supports rolling mean/std/Z over Stat/ForAgainst or League/LOO, with enabled defaults alpha=.5, league_weight=.5 and `Hard(1)`. **Hard, LinearFade and ObservationCount are all implemented.** Priors use eligible previous team/league data; known movers blend their own mean toward the destination league. Ordinary features never use rating top/bottom cohorts. Mean/variance update with the same weights and include between-mean mixture variance. Missing mean falls back to ordinary rolling; missing active spread stays missing except a complete alpha=1 replacement. Weight zero restores the original rolling ddof. Available partial windows are allowed.
+- **Context and movement:** `TransitionContext`, `LeaguePopulation` and `build_team_seasons` expose reusable helpers. The membership adapter reuses the ID-based core with prepared histories, explicit league tiers/systems and optional evidence/complete-membership declarations. New teams are not automatically promoted. Boundaries may be supplied before opening fixtures; evaluator defaults use earliest prediction cutoff while direct replay defaults to first kickoff. Season handling belongs to feature/state construction, not CV.
+- **Rating transitions:** explicit `GlickoTransition` or a custom adapter acts once on full state before field selection and equal-time result updates. Warmed/unwarmed/result/statistic/period streams remain distinct. Retained-state uncertainty may inflate without changing location/sigma; movers may shrink location toward a same-stream prior. **Ranked top/bottom priors apply only to ratings.** Frozen destination prior-season cohorts exclude focal/incoming teams and may include departing members; standings ranking uses latest eligible pregame positions. State transfer requires predecessor context and does not itself calibrate league scales. Custom engines need their own adapters. Transition kind/order and metadata persist; saved `Rating(name)` is transitioned while building its run.
+
+**Practical evidence:** the two pinned Premier League seasons supply 760 matches / 1,520 team rows. Independent checks matched 3,040 raw statistic cells, 24,320 league/LOO outputs and 12,160 warm-up outputs, plus all 17 retained-team entries at the new-season boundary. A saved run has 1,560 snapshots including 40 entries. The new separate notebook has 9 cells / 5 code cells and executed top-to-bottom; the existing three notebooks are unchanged. All 18 guide examples and an isolated wheel import passed. These checks do not establish actual result-publication times, complete final standings or predictive benefit.
+
+Use the [practical guide](docs/analytics/league_warmup.md), [full API/helper reference](docs/analytics/league_warmup_reference.md), [coverage matrix](docs/analytics/league_warmup_documentation_checklist.md) and [minimal notebook](notebooks/04_league_warmup_quickstart.ipynb). [Recorded evidence](docs/analytics/league_warmup_check.json) identifies the checked source and inputs. The [archived pre-implementation notes](docs/analytics/archive/pre_league_transitions_implementation/football_analytics_working_notes.md) preserve every earlier proposal and clarification. James-Stein, arbitrary model/graph-state dynamics, general orchestration and pilot fitting remain later work. (D)
+
+## Current loading and experiment population — 16 September 2026
+
+The user selected **all available leagues for 2022/23, 2023/24 and 2024/25** from
+`data/xDiyo_data`. The first actual import used `load_seasons` with
+`seasons=['22_23', '23_24', '24_25']`, `leagues=None` and separate `matches`,
+`statistics` and `pregame` tables. It loaded **39 publications across 13 leagues**:
+**13,976 matches**, **3,303,574 statistics rows** and **27,072 pregame rows**.
+All 13 leagues have a publication in each requested season; there are no missing
+league-season combinations in this imported snapshot. These are collected
+cohorts, not a claim that all provider fixtures were independently discovered.
+
+`load_seasons` adds `source_league` and `source_season` without changing source
+observations. Access tables through `.matches`, `.statistics`, `.pregame`,
+`.tables` or brackets. Shots remain independently selectable; no joins, features
+or model fitting were performed in this import. `load_season` remains available
+for one named publication and `inspect_season` lists tables, descriptions and
+columns. All 117 imported table partitions matched their source Parquet values,
+types, row order and nulls. Those 55 loading cases remain in the current 109-test
+suite, alongside 28 statistic-selection and 26 team-history cases.
+
+The **39 saved selection records** are in
+`experiment/initial_population/selections`. They pin publication versions, not
+discovery membership; later matching publications can expand a new call. The
+[import evidence](docs/analytics/multiseason_import_check.json) records the exact
+population, versions, per-table rows and fingerprints. The
+[twelve-cell notebook](notebooks/01_loader_walkthrough.ipynb) shows practical usage
+and match counts by league/season; [the guide](docs/analytics/season_loading.md)
+explains selections and table access.
+
+### General statistic selection — implemented and verified
+
+`select_stats` now combines attack/defense/all bundles with exact
+`(period, group_name, key)` statistics and optional standings. Every category has
+one period-independent list: `*_all` retains every supplied period, and totals
+or halves filter that shared selection using provider `ALL`, `1ST` or `2ND`.
+Totals do not sum halves. `all_stats` includes uncategorized and new measures.
+The initial attack/defense lists are editable through `STAT_CATEGORIES` or
+replaceable/extendable per call; `list_stat_bundles` lists the available names.
+
+Defense selects observed defensive metrics; it does not construct opponent
+statistics. Standings are the original match-specific pregame positions in a
+separate frame. Matches pass through when loaded. Group identities, values,
+nulls, order and types remain intact; missing observations are not fabricated.
+This selection step keeps tables separate. The history builder below reshapes
+the selected observations; feature construction and fitting remain future work.
+
+The representative Premier League 2024/25 union of `attack_totals`,
+`defense_first_half`, `standings` and exact `ALL / Match overview / ballPossession`
+contained **22,762 statistic rows**, **740 standings rows** and **380 matches**.
+All 12 category/period combinations matched independently selected source rows.
+The same notebook example across the unchanged experiment population selected
+**746,880 statistic rows**, retaining all **13,976 matches** and **27,072 pregame
+positions**. The [selection guide](docs/analytics/stat_selection.md) records the
+default definitions and customization semantics; [verification evidence](docs/analytics/stat_selection_check.json)
+records the stable source state, tests and fresh-kernel notebook execution.
+
+### Observed team histories — implemented and verified
+
+`from xdiyo_analytics.histories import build_team_history` supplies the next
+step: `history = build_team_history(selected)`. The frame contains two rows per
+match, reversing team/opponent IDs, names, current goals, statistics and pregame
+positions. Source league/season plus event ID identify each match. Statistic
+columns retain period/group/key/field identity with escaped components, and
+`history.attrs['stat_columns']` records their original labels. Missing
+observations remain missing and do not remove match rows.
+
+`kickoff_at` is timezone-aware UTC converted from actual `kickoff_utc` Unix
+seconds, retaining time of day. Missing/unrepresentable times become NaT and
+sort last. W/D/L compares current provider scores only for finished matches with
+both scores present. Penalty scores do not break a current-score tie. Unknown
+or unfinished statuses retain their rows with missing result.
+
+The real selected history contains **27,952 rows × 83 columns** over the unchanged
+39-publication population. All context/result rows were independently checked;
+the representative Premier League 2024/25 history also matched **47,120 statistic
+cells** and **1,520 position cells** against direct source Parquet. The final
+**109-test suite** and fresh 12-cell notebook passed after the primary fixed an
+out-of-range timestamp overflow. See the [history guide](docs/analytics/team_history.md)
+and [verification evidence](docs/analytics/team_history_check.json).
+
+These rows contain observed outcomes. The separate feature evaluator below
+supplies historical eligibility and cutoffs. Scheduled kickoff alone remains
+insufficient to establish exact completion/publication time. Model fitting remains
+deferred; the verified rating integration is described below.
+
+### Feature expressions — implemented and verified
+
+`xdiyo_analytics.features` provides `Stat`, `ForAgainst`, `H2H`, `IsHome`,
+`NormalizedStanding`, `Lag`, `RollingMean`, `RollingStd`, `RollingZScore` and
+optional `EMA`, evaluated through a named mapping with `evaluate_features`.
+`Stat(None, ...)` expands supplied periods separately. For/against selection
+uses existing observed columns; H2H follows ordered team/opponent identity
+through venue reversals. Direct observed-statistic roots are rejected.
+
+**Current choices supersede earlier open proposals below:** default history
+groups by team and competition, combining venues and crossing seasons. Windows
+count eligible matches including missing-valued matches; reductions use finite
+values inside that window, while lags retain missing positions. `min_periods=1`;
+std/Z-score default to `ddof=1` and require `n > ddof`. Z-score includes its latest
+eligible observation in the baseline, and remains missing for zero spread or a
+missing latest value. Nested children are evaluated at their own historical
+cutoffs. EMA initializes at the first observed value with alpha `2/(span+1)` and
+skips missing values without decay; it is optional, with no selected pilot prior,
+warm-up or seasonal blending.
+
+Standings use `1 - (position - 1)/(team_count - 1)`, with distinct team counts
+computed from the full league-season population **before filtering or folds**.
+Missing/invalid positions or denominators default to **zero**. This is specific
+to standings; undefined lag/rolling results stay missing. Current home context
+is allowed.
+
+`cutoffs=None` uses target kickoff; result-availability times are fully optional.
+Past candidates must be finished and strictly earlier than cutoff, with explicit
+availability no later than cutoff when supplied. Target identity and boundary
+ties are excluded. The default is an earlier-finished-kickoff **retrospective
+proxy**, not evidence of exact completion/publication time. Earlier cutoffs do
+not reconstruct historical versions of supplied match context such as standings.
+See [exact cutoff formats](docs/analytics/feature_cutoffs.md).
+
+**Verification:** 141 tests passed, including 32 new feature cases. Independent
+arithmetic matched **760 Premier League 2024/25 rows × 22 feature columns** at
+default and two-day-earlier cutoffs, with the named-column form matching the
+aligned Series. Full-population team count was 20; direct Parquet lookup matched
+4,560 corner cells. These real cutoffs happen to yield identical values;
+synthetic cases exercise actual eligibility changes. All 12 package sources,
+195 source fingerprints and 39 saved records remained stable. The new separate
+[8-cell feature notebook](notebooks/02_feature_quickstart.ipynb) executed in a
+fresh kernel; the 12-cell loading notebook remains unchanged. See the
+[feature guide](docs/analytics/features.md) and
+[evidence](docs/analytics/features_check.json).
+
+### Latest ratings implementation — 16 September 2026
+
+Result and statistic-comparison rating streams are now implemented and verified.
+`ratings.Glicko2` is a thin adapter around unchanged `utils.glicko_rating`, the
+single retained numerical engine. It inherits tau=1.0, with initial public
+rating/RD/volatility 1500/350/.06 and epsilon1e-6. Public `rating`/`rd` and internal
+`mu`/`phi` have distinct snapshot names; the legacy object's mu/phi are public-scale
+names. The primary's [comparison](docs/analytics/glicko_engine_comparison.md)
+records exact legacy parity after consolidation.
+
+`MatchResultGlicko`, `StatGlicko(Stat(...))` and named saved/custom `Rating` nodes
+return both perspectives into ordinary training/reporting `X`. Statistic values
+are compared as greater/equal/less to 1/.5/0, optionally reversed; missing pairs
+skip updates and periods use separate state. This is comparative strength, not
+a statistic-count forecast. All state fields survive build/save/load even when
+the model selects fewer fields.
+
+Replay uses event periods, batching equal release times against shared preceding
+states. Availability remains optional with a retrospective kickoff proxy.
+Lookup requires recorded time at/before cutoff and every contributing kickoff
+strictly before cutoff. Default scope is competition across seasons; scope=()
+crosses competitions and an explicit season scope resets state. Explicit idle
+advancement is available, but calendar inflation is not inserted automatically.
+New/revised data requires replay; incremental appending is not implemented.
+Numeric custom/vector snapshots are supported. GAT training, graph updates and
+temporal cross-fitting remain separate future work.
+
+Verification passed **37 focused / 178 full tests**, including the official
+tau=.5 example and permanent exact legacy comparisons. Independent replay of
+380 PL matches produced 760 snapshots per result/corner stream, checked 38,000
+lookup cells and exact saved-run feature parity. A delayed-release provenance
+defect was fixed by the primary, including opponent-prior contributions. Default
+solver precision differs from a high-precision reference by below 6.41e-6 public
+units; a configured 1e-12 tolerance reduces this below 1.3e-11. These checks are
+separate from exact equality with the retained legacy engine.
+
+The [8-cell ratings notebook](notebooks/03_ratings_quickstart.ipynb) executed in
+a fresh kernel; both earlier notebooks are unchanged. The wheel imports in an
+isolated interpreter without installs. All 17 package sources were stable through
+final verification, and the source population/records and legacy utility are
+preserved. See [ratings usage and scales](docs/analytics/ratings.md) and
+[evidence/saved runs](docs/analytics/ratings_check.json). These current choices
+supersede earlier open proposals for the first rating interface below.
 
 ## Confirmed goals and organizing map
 
@@ -50,13 +484,15 @@ The main conceptual roadblock is how to handle irregular football histories: sea
 
 **Confirmed immediate priority:** make reshaping, table management, feature extraction, and Glicko state integration concrete in the design. The team-history/snapshot/match-feature flow is the present focus, with Glicko as a challenging example; remaining experiment settings need not all be finalized first. The reusable library remains the end goal, and architecture beyond confirmed choices remains open. (D)
 
-**Current implementation direction:** build the reusable system scaffold and initial feature library, using the Lasso experiment as a first test rather than hard-coding the library around it. The user notes that real data may not yet be ready. Independent contracts, feature calculations, orchestration and reports can be developed using explicit example data; the production collector-to-loader mapping still requires inspection of a representative prepared export. No collection, real-data experiment or betting action has been requested. (D)
+**Current implementation direction:** loading, observed histories, features, league/LOO, explicit warm starts, rating transitions, labels, assembly, splits/CV and pre-training reports are verified. The common selector/viewer, fixed-configuration training, post-training evaluation/reporting and saved-run comparison also pass independent checks. Finite candidate/grid selection and independent holdout/nested evaluation are verified. Fold-aware state preparation, adaptive search and scheduled refitting remain later orchestration work. Existing league/season and eventual Lasso/corner choices remain context; pilot recipe selection, tuning and real-data fitting are deferred. (D)
+
+The generic skeleton connects persistent state preparation, feature and label evaluation, dataset assembly, temporal splitting, training-only fitted transformations/model adapters, and pre-training/post-training reporting. Feature evaluation should consume prepared rating states so reports, models and folds can reuse them. The orchestration must support multiple labels, models and prediction layouts without hard-coding corners, Lasso or one row format. Assembly, splitting, fixed-configuration execution, both reporter stages, saved-run comparison and finite model selection are implemented; fold-aware state reconstruction, adaptive search and scheduled refitting remain later work. (D)
 
 **Confirmed first experiment:** predict **total corner kicks in a match** with **Lasso regression**. Prepare lags 1-5 plus rolling mean/std/Z-score for corners earned/conceded and shots for/against, for each upcoming home and away team, alongside match-result Glicko. Individual lags yield 40 candidate columns. The latest clarification makes these a selectable feature library, not a requirement to include every candidate in every experiment. Earlier normalized-standings and season-entry context remain available to specify. **Use available eligible samples, with no seasonal warm-start/blending in this first experiment.** Glicko still needs initialization and updates both teams from the same preceding states when a completed result becomes available. The user also requests reusable saved promotion/relegation preprocessing, pre/post-training reports and configurable bet-option/strategy evaluation. Lasso replaces the earlier unselected LightGBM/XGBoost pilot candidates; those remain possible later models. (D)
 
 **Confirmed prediction-timing comparison:** make issuance timing selectable and compare both modes: separately before each match using that match's information cutoff, and all predictions for a competition round together before its first match using one frozen cutoff for that batch. Neither mode is the sole choice. (D)
 
-Match-duration/shot-statistic definitions, prediction lead times, postponement conventions, data availability, first competition/seasons, evaluation metrics, baseline, Lasso regularization and Glicko initialization/time accounting remain open. Standard [Lasso](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html) uses squared error plus an L1 penalty; selecting it does not supply a predictive probability distribution or quantile forecasts. Bet-option outcomes remain separate from the count predictor. Prior/exponential blending stays outside this pilot. Production collector mappings await a representative export, while the newly requested reusable scaffold can progress independently. The wider feature/target library remains extensible. (D)
+Match-duration/shot-statistic definitions, prediction lead times, postponement conventions, historical data availability, evaluation metrics, baseline, Lasso regularization and Glicko initialization/time accounting remain open. The starting population is the selected 13 leagues across 2022/23–2024/25 above. Standard [Lasso](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html) uses squared error plus an L1 penalty; selecting it does not supply a predictive probability distribution or quantile forecasts. Bet-option outcomes remain separate from the count predictor. Prior/exponential blending stays outside this pilot. Source tables are available; feature-specific mappings still need explicit choices. The wider feature/target library remains extensible. (D)
 
 **Desired model reuse:** the user wants to train a variety of models on existing data and reuse prepared data across model families. They have considered scikit-learn compatibility as a possible common interface and suggested skorch (spoken as “Scorch”) as a future PyTorch bridge, while reconsidering whether it is the best choice. Both remain proposed directions. (D)
 
@@ -127,6 +563,12 @@ H, p. 2 proposes an inverter that retrieves a scaler by name and invokes its inv
 
 Targets can be constructed retrospectively from outcomes. Keeping them in a separate artifact does not by itself prevent leakage: feature construction, scaling, and training still need explicit information cutoffs. (D; P, feature construction)
 
+**Shared dataset contract — first orchestration layer:** aligned **X, y, metadata and declared prediction unit/layout** must travel together. Initial layouts are match and team-match: a row represents a match or one team's perspective, respectively. Metadata carries the relevant match/team identifiers, times and group identities, including paired-match or ranking groups. Assembly, splitting and reporting consume this declaration rather than inferring a layout from row count. Feature values and realized labels remain separate. (D)
+
+**Extensible label families:** support statistic-derived quantities, perspective-aware win/draw/loss encoded **+1/0/-1**, configurable binary outcomes, and a **BetOption** family for outcome/threshold experiments. The label encoding is distinct from the rating engine's 1/.5/0 update scores. Binary mapping policies must be explicit: match draw, bet push, void and missing result remain distinct concepts and must not be silently collapsed. The design should allow future parlay composition without selecting bookmaker-specific settlement rules now. These general labels precede corner-experiment configuration; exact APIs and mapping choices remain open. (D)
+
+**Future BetOption templates and accounting:** extend individual selections with user-defined Parlay/accumulator, BetSlip and MultiBet/system templates. Templates specify legs and match/team identities, whether outputs settle jointly or independently, and composition of win/loss/push/void/missing states. Add decision-time odds, stakes, payouts and net profit in the later strategy-evaluation layer, separate from label creation. A push is a settled tie against the selected line (for example, over 10 corners with exactly 10); a void cancels the selection under the chosen rules. For an ordinary cash single, both normally return the stake with zero net profit, but they remain distinct statuses and composite handling must be explicit. A missing result is neither. Template APIs and exact market/accounting rules remain future work; this note does not authorize implementing them now. (D)
+
 ### Run metadata
 
 The original metadata list contains all template configurations, the selected exported features, target transformations and scalers, cross-validation configuration, export mode, and teacher-module configuration or pretraining weights when a teacher is used. (H, p. 2)
@@ -151,9 +593,9 @@ Detailed collector-to-feature container shapes, final input contracts, schema ma
 
 The [date-validation report](C:/Users/luisi/Documents/Programming/Python/xDiyo/data/audits/match_datetime_validation/report.json) records three cached live events checked with **zero new API requests**. Rescheduled values preserve stable event IDs and observed raw versions. The current matches export is the latest observed schedule view; it does not reconstruct schedule knowledge from before collection began. Old undated imports remain unknown. This collection follow-up checked only the date contract and its evidence; the scraping owner's tests were not rerun and its code task remains separate.
 
-### Proposed analytics loader plan
+### Proposed analytics loader plan (historical)
 
-**Newly requested planning component:** supply predictable tables to the reusable library's feature preparation. This is an analytics data loader, distinct from the deferred PyTorch Dataset/DataLoader. A complete corner-pilot dataset has not yet been verified. The user will collect a representative sample before implementation resumes. (D)
+**Earlier planning component:** supply predictable tables to the reusable library's feature preparation. This is an analytics data loader, distinct from the deferred PyTorch Dataset/DataLoader. The following proposal preserves the earlier design discussion. The simple implemented API and completed population import above supersede its sample prerequisite and proposed diagnostics/API details. Feature construction and historical-cutoff validation remain future work. (D)
 
 **Existing building blocks, inspected only:** `read_tables(manifest_path, *, names=None, verify_hashes=True)` resolves a CURRENT pointer or manifest, selects named tables, checks hashes by default, reads their Parquet files, and returns a dictionary of lists of row dictionaries. It does not currently provide competition/season queries, column projection, general schema-contract validation, or a DataFrame bundle. `merge_seasons` uses `legacy.load_season`, optional team-season flag joins, and a union of columns with missing observations preserved; it also normalizes standings and rounds by each loaded frame's maximum. Use the canonical export reader where suitable and keep statistical normalization in explicit feature policies, rather than adopting that compatibility helper wholesale. Prepared Parquet exports are versioned by competition/season, separate from raw archives; optional team-season flags have a separate reader. (L)
 
@@ -161,7 +603,7 @@ The following loader behavior is **proposed**:
 
 1. **Boundary:** prepared collector exports → loader → team-history preparation → rolling features/Glicko orchestration → model input assembly. The loader selects, reads, and validates data. Historical joins/pivots, statistical scaling, feature calculations, CV, and model fitting belong to their respective later stages.
 2. **Inputs:** accept a data root plus explicit competition/season selection, or explicit published manifest references, together with the experiment's required tables/statistics. Allow access to earlier history needed by requested features even when it lies outside the supervised training interval. Prefer explicit selection first; the exact function signature and automatic feature-dependency-to-query integration remain open.
-3. **Version resolution:** resolve each requested partition to one published manifest and retain the concrete versions, schema/parser metadata, and provenance. File discovery must not concatenate every historical export version. Reuse the reader's integrity checks; extra schema validation and any projected/filtered reads require separate design.
+3. **Version resolution:** resolve each requested partition to one published manifest and retain the concrete versions, schema/parser metadata, and provenance. Users supply a data directory, season and table; version IDs and SHA256 fingerprints are handled internally. An optional human-named season-selection record is saved after the first successful load and reused on later calls, with no fallback if its pinned files change or disappear. A later experiment runner can collect these records across its selected seasons. File discovery must not concatenate every historical export version. Keep shots and other model inputs separate, with explicit table/group selection. Current implementation and verification are tracked in `IMPLEMENTATION_PROGRESS.md`; projected/filtered reads and multi-season orchestration require later design.
 4. **Output:** return a small named collection of consistent tables plus load provenance and diagnostics. DataFrames are a proposed starting representation for grouped tabular work; the class/API, schemas, dtypes, and keys await the sample. Candidate pilot inputs are match records, long statistics, coverage/availability information, and available pregame standings/context, with optional team-season flags. Exact fields, statistic keys, periods, and join grains are unverified.
 5. **Validation:** check required tables/fields, supported schema versions, stable IDs, each table's proper row grain, and cross-table references. Preserve source missingness and time semantics; report incomplete coverage. Proposed handling is a clear failure for an unusable export/schema or absent indispensable table, while incomplete match-level observations retain diagnostics instead of silent zero-filling or removal. Exact strictness and optional-input rules remain reviewable. A frozen export does not establish historical point-in-time availability: feature construction still enforces cutoffs using supported source information. Verified kickoff/observation timestamps do not establish actual match-end or original publication times.
 6. **Inspection:** expose row/column summaries, coverage, and bounded samples for the planned visualization/inspection module. No UI is required for this planning step.
@@ -203,11 +645,11 @@ Realized statistics from a match can enter later historical calculations once av
 | --- | --- |
 | Lags 1-5 | Separate previous-match columns for corners earned/conceded and shots for/against: 20 per team, 40 for a match. Missing observations do not renumber lag positions. |
 | Rolling mean and standard deviation | Reusable summaries for all four historical series; a five-match horizon is the working pilot interpretation, independently configurable in the library. |
-| Composed rolling Z-score | A known historical value minus a rolling mean, divided by the matching rolling std; numerator/baseline and zero-spread behavior remain explicit settings. |
+| Composed rolling Z-score | Latest eligible historical value minus its trailing-window mean, divided by the same window's std; the latest value is included and zero spread gives missing. |
 | Match-result Glicko | All retained rating-state components; provisionally `mu`, `phi`, `sigma` per team based on the existing record. Additional derived outputs need their own definitions. |
-| Season context | Previously discussed normalized standings and promotion/relegation flags; exact predictor inclusion, causal normalization and any rating-adjustment role remain to specify. |
+| Season context | Normalized standings now use full-population team counts before filtering and a zero fallback. Promotion/relegation inclusion and any rating-adjustment role remain to specify. |
 
-Lag, mean and std definitions should all be available even when a recipe uses only some of them. A five-match mean repeats information already in five complete lag columns; this affects interpretation of Lasso's sparse selection, not the usefulness of providing both feature families. Partial eligible windows remain allowed, with no fabricated history or seasonal blend. The separately mentioned plain "mean" has no distinct population selected yet. Historical venue/competition scope, exact shot statistic and validity policies remain open. Whole-season maximum normalization from the old loader is not adopted as a causal standings definition.
+Lag, mean and std definitions are available even when a recipe uses only some of them. A five-match mean repeats information already in five complete lag columns; this affects interpretation of Lasso's sparse selection, not the usefulness of providing both feature families. Partial eligible windows remain allowed, with no fabricated history or seasonal blend. The separately mentioned plain "mean" has no distinct population selected yet. The first evaluator defaults to team+competition across venues/seasons, with explicit eligibility and missing-value rules; exact shot statistics and recipe overrides remain selectable. Standings use distinct full-population team counts, not an observed whole-season maximum position.
 
 **Working table-flow proposal:**
 
@@ -259,15 +701,37 @@ A no-match week contributes no match observation. It does not automatically crea
 
 ### Initial partial-history policy and future prior alternatives
 
-**Confirmed pilot choice:** use the available eligible samples within the requested window and chosen history scope. For example, a requested last-five-matches mean can use two eligible earlier matches when only two exist. A partial window is sufficient for the first experiment when the statistic has valid inputs and satisfies its mathematical minimum conditions. Do not require the full requested length merely because the scaffold currently does, fabricate padding matches, or reach outside the selected window to fill it. This feature/history policy leaves concrete window settings and venue/competition scope open. Season boundaries do not automatically reset history, and CV does not own warm-up or automatically exclude early-season rows. (D)
+**Confirmed pilot choice:** use the available eligible samples within the requested window and chosen history scope. For example, a requested last-five-matches mean can use two eligible earlier matches when only two exist. A partial window is sufficient for the first experiment when the statistic has valid inputs and satisfies its mathematical minimum conditions. Do not require the full requested length merely because the scaffold currently does, fabricate padding matches, or reach outside the selected window to fill it. Window settings remain selectable; the first evaluator defaults to team+competition across venues/seasons, with custom grouping supported. Season boundaries do not automatically reset history, and CV does not own warm-up or automatically exclude early-season rows. (D)
 
-**Remaining edge decisions:** a mean can use one valid observation. Zero eligible observations, missing source values, population versus sample standard deviation and its minimum sample count, and zero-spread Z-scores still require policies. Reporting a missing result with an available-sample count or flag is a **proposed diagnostic treatment**, not a finalized global imputation rule. Mean/std components of a Z-score must use the same defined eligible baseline and information cutoff; the standardized input and inclusion/exclusion of its latest observed value remain open. (D)
+**Implemented first-feature edge policies:** a mean can use one finite observation; zero eligible values produce missing. Windows count matches, while reductions skip missing/nonfinite values inside the chosen window and lags do not skip positions. Default std uses ddof=1 and requires n > ddof; min_periods is configurable and defaults to 1. Z-score standardizes the latest eligible value against a shared baseline including that value; missing-latest or zero-spread cases produce missing. Sample-count/flag outputs remain a diagnostic proposal, not a global imputation rule. The standing-specific zero fallback is described above. (D)
 
-**Future alternative within `warm_start_blend`, outside the pilot default:** initialize a feature from a previous-season average/prior, then gradually update it with new observations using an EMA-like procedure. This is a possible strategy within the existing conceptual feature mechanism, not a new architectural module. The original template illustrates `LinearWarmStart` with an `alpha_schedule` from round 1 to round 6; that historical linear example is distinct from the possible exponential strategy and does not establish an implemented or equivalent recurrence. The user retained this as one possible strategy and then chose available samples for the first experiment. Prior source (team, league, or another source), smoothing/decay, time unit, and seasonal-transition policy remain open. Continuing the recursion produces an exponentially weighted statistic; using it only to warm-start a fixed rolling statistic would require an explicit handoff/blending rule. Extending the idea to std/variance would need prior variability information as well as a mean. No EMA prior is selected or implemented for the pilot. (D)
+**Earlier discussion within `warm_start_blend`, outside the pilot default:** initialize a feature from a previous-season average/prior, then gradually update it with new observations using an EMA-like procedure. This is a possible strategy within the existing conceptual feature mechanism, not a new architectural module. The original template illustrates `LinearWarmStart` with an `alpha_schedule` from round 1 to round 6; that historical linear example is distinct from the possible exponential strategy and does not establish an implemented or equivalent recurrence. The user retained this as one possible strategy and then chose available samples for the first experiment. That discussion left prior source (team, league, or another source), smoothing/decay, time unit, seasonal transitions and any handoff to fixed rolling windows open; it also identified the need for prior variability to warm std/variance. The implemented league/transition section and reference now define all three handoffs, matching previous-season league variance priors, consistent weighting and explicit missing-prior fallback behavior. No EMA prior is selected or implemented for the pilot. (D)
 
 Glicko keeps its own initialization and update mathematics. Immediate completed-result updates are now chosen; raw-statistic EMA formulas do not replace them. Partial-history rolling summaries do not settle Glicko priors, uncertainty/volatility time units, idle-time accounting, or seasonal transitions. These alternatives remain planning material; no feature or experiment has been executed for this decision. (D)
 
+## Pre-training analysis and reporter composition — 17 September 2026
+
+**Verification result:** 824 analytics tests (192 new), ten executable examples, the separate eighth notebook, and an isolated 85-file wheel copy pass. Four pinned publications yield 1,372 matches / 2,744 team rows and 26 views across both layouts; independent checks cover scope, coefficients/ranks, histogram/KDE, timeline values and selections. The final browser checks pass 31 cases plus ten saved-notebook interactions. Six defects were repaired by the primary through four failure callbacks; no worker library edits occurred. The new notebook has **nine cells, five code cells**; its existing cells were retained when refreshing outputs for the navigation repair. Seven previous notebooks and prior evidence/data are preserved.
+
+All 32 LaTeX expressions render correctly; 17 sections were inspected. **Environment limit:** the installed nbconvert Lab HTML export verifies the saved notebook's iframe, navigation, folds and plots; a live Jupyter server/frontend is absent from the checked runtimes, so its trust and frontend behavior remain unverified. No installation occurred. The real numerical record predates only the final browser-handler repair and retains its exact provenance. See the [guide](docs/analytics/reporting.md), [API/helper reference](docs/analytics/reporting_reference.md), [coverage](docs/analytics/reporting_documentation_checklist.md), [notebook](notebooks/08_reporting_quickstart.ipynb) and [evidence](docs/analytics/reporting_check.json).
+
+**User clarification — common selection modes and notebook rendering:** selector scope behavior belongs to a generic FeatureSelector base, implemented via local select(context), common across-fold execution, and a customizable combine(context, fold_results) hook. Generic vote_selections reuses nominated-column voting with optional comparable score tie-breaking; no correlation-specific ranking is imposed on future selectors. TopKCorrelationSelector is the first subclass. Overall pooling means one calculation on the unique union of selected feature/label observations as a single population; it never averages fold coefficient estimates. AnalysisReport now supports inline rich display and show/to_notebook through an isolated self-contained iframe for trusted HTML-capable Jupyter frontends. This preserves navigation/fold controls and isolates styles/scripts from surrounding notebook cells; standalone HTML remains available. The verification result and live-frontend limitation are recorded above.
+
+The user authorized a PreTrainingAnalysis sub-orchestrator accepting any number of explicitly selected Reporter objects, including zero, and a separate reusable reporter library. Both execution type and row partition are explicit in the new contract. per_fold runs each selected fold; overall runs the selected union once; timeline orders that population chronologically. Reporters declare supported types rather than being forced to repeat per fold. Overall/timeline all means the whole supplied dataset; train/test/score means the deduplicated union across selected folds. per_fold all means that fold's train/test union. Data layout (match/team-match) remains distinct from presentation layout.
+
+Initial implementation: FeatureDistributionReporter (density histogram with Gaussian KDE), CorrelationAnalysis (selectable Pearson, Spearman, Kendall tau-b and MCC), FeatureTimeline (team/league histories), plus TopKCorrelationSelector. The user confirmed percentile ranks mean rank among features by absolute association, not an additional correlation coefficient. MCC uses explicit category declarations or strict greater-than thresholds; continuous features are never silently binned. Missing/constant coefficients remain unavailable. Leaderboard magnitude sums absolute selected metric/target coefficients, with defined-cell counts.
+
+Top-k selection is itself a study: it may calculate its own correlations or reuse matching earlier correlation metadata. It returns a reduced column-name selection and visible ranking without modifying the dataset. Named features_from references explicitly apply a selection to later reporters. Modes include individual fold selections, overall pooled selection, and winners across folds. Consensus nominates top fold_k (default k) in each selected fold, orders by vote count then mean absolute pooled association then input feature order, and returns up to k nominated features. Cross-fold choices do not constitute an unbiased evaluation on those same folds; later model orchestration must scope selection within outer training data. No fitting or automated model selection is introduced here.
+
+The common StudyResult/Artifact/AnalysisReport presentation foundation supports tables, text, Plotly figures, trusted custom HTML and custom registered renderers, preserving flexible layouts and future post-training reuse. The HTML viewer has a study sidebar/search, collapsible sections, fold switching, exact scope labels/downloads, entity controls, coefficient bars and CSV/SVG exports. Current numerical outputs are calculated before rendering; changing views does not rerun studies. No reporters are implicitly enabled. Independent verification, complete documentation and the separate eighth notebook are recorded above, including the live-frontend limitation.
+
 ## Cross-validation schemes and controls
+
+**Implementation update — 17 September 2026:** the user authorized the split/CV layer, then explicitly kept this batch focused on that layer. `xdiyo_analytics.splits` now implements temporal, whole-match K-fold, grouped K-fold and CPCV membership, plus CPCV held-out prediction paths. The earlier proposal/future language below remains design history; implemented behavior and remaining boundaries are summarized here and in `IMPLEMENTATION_PROGRESS.md`. Current focused verification, refreshed documentation and the final preservation audit pass. Earlier full-suite and real-data results are retained with their original source hashes. No model/strategy is fitted. The approved ownership correction removes selector/refit options from SplitPlan and create_split_plan. Grid search/model selection and extra refitting remain future training-runner responsibilities, with both options defaulting to None.
+
+Calendar policy for this version: round/season windows default to separate competition calendars; kickoff batches default to one pooled calendar. Explicit `calendar_by`/`block_by` configure other catalogues, including stage-aware rounds or deliberately shared season labels. Each catalogue is ordered by its earliest observed kickoff; actual prediction/label availability still filters training membership. Different leagues' equal round numbers are not silently treated as simultaneous. Scoring-only offsets/ranges leave excluded scoring rows held out, independent of feature warm-up and model fitting. None availability uses a documented kickoff proxy; explicit missing availability excludes temporal training matches.
+
+CPCV uses equal-kickoff batches, every held-out block combination, closed-interval information-overlap purging, a duration embargo after each contiguous test-block run, and deterministic incidence-based path mapping. Reference notebook `C:/Users/luisi/Escritorio/dsr_pbo_cpcv.ipynb` was inspected without execution; finance-specific/statistical formulas were not imported. Fold-aware rolling/rating reconstruction, DSR/PBO/FDR and betting account simulation remain separate later work. Splitting owns no selector/refit objects; pre-training reporters consume fold plans independently of fitting.
 
 ### Confirmed requirements and separate controls
 
@@ -374,6 +838,8 @@ The module has two capabilities:
 | **Feature exploration** | Plot and analyze computed features to understand their behavior. | Feature-history plots and distributions are examples; the chart set and comparison controls remain open. |
 
 Calendar weeks and competition rounds are distinct concepts and must remain distinguishable in selections and displays. Their eventual column or index representation depends on the completed collection contract. Inspecting a transformation does not settle its join keys or pivot schema in advance.
+
+**Required reporter stages:** the pre-training reporter consumes the shared X/y/metadata/layout contract. It must distinguish match counts from team observations and respect paired-match/ranking groups instead of guessing the prediction unit from the number of rows. A post-training reporter is also required, consuming predictions and applicable model outputs with the same layout/group context. Both reporters belong to the reusable execution skeleton; defining those stages does not authorize model fitting now. (D)
 
 No visualization framework, dashboard, GUI, notebook-only approach, sampling policy, or exact API has been selected. The original GUI and registry ideas remain historical design material; this additional module does not settle how those ideas will be delivered. Detailed integration with collection outputs remains follow-up work after the reported collector completion. (D)
 
@@ -611,31 +1077,32 @@ This recommendation remains deferred at the user's lowest refactor priority. The
 
 | Decision | What is still open |
 | --- | --- |
-| **Reusable library and experiment interface** | The reusable football analytics library is the confirmed end-product goal; the corner-count experiment is its first pilot. A small consistent experiment interface/configuration is proposed. Defaults/validation, exact syntax, package layout/name, API, GUI, distribution method, and implementation remain open; support for future combinations may require adaptation. |
+| **Reusable library and experiment interface** | Labels and dataset assembly now supply the shared X/y/metadata/prediction-unit contract for match/team-match layouts with group identities. Assembly runtime and preservation checks pass. Reusable orchestration comes before pilot configuration. Model/report interfaces, GUI and distribution remain open. |
 | **Prediction issuance** | Both modes are confirmed as selectable settings to compare: before each match with its own cutoff, and all predictions for a competition round before its first match with a frozen cutoff for that batch. Exact lead times, round schedule/postponement conventions, data-availability details, and implementation remain open. |
-| **First prediction experiment** | Total match corners with Lasso; selectable corner/shot lag and rolling features plus match-result Glicko, no seasonal blending, pre/post reports and configurable bet-option evaluation. Competition/seasons, feature subset, CV settings, regularization, baseline, metrics, strategy and statistical edge policies remain open. |
-| **Starting-feature definitions** | Provide lags 1-5, means, standard deviations and composed Z-scores for corners/shots for and against. Five-match rolling summaries are the working pilot interpretation. Historical venue/competition scope, exact shot statistic, separate plain-mean population, Z-score endpoints, standings normalization and extra Glicko outputs remain open. |
-| **Partial-history edge policies** | Available-sample partial windows are the pilot choice. Zero eligible observations, missing source values, population/sample std and minimum sample count, and zero-spread Z-scores remain unresolved. A missing result with a sample count/flag is a diagnostic proposal, not a global imputation rule. |
+| **First prediction experiment** | Total match corners with Lasso; selectable corner/shot lag and rolling features plus match-result Glicko, no seasonal blending, pre/post reports and configurable bet-option evaluation. The selected population is all 13 available leagues for 2022/23–2024/25. Feature subset, CV settings, regularization, baseline, metrics, strategy and statistical edge policies remain open. |
+| **Starting-feature definitions** | Lags, means, stds, latest-included Z-scores, H2H, context and optional EMA are implemented and verified. Default scope is team+competition across venues/seasons, with custom groups supported. Full-population standings normalization and zero fallback are chosen. Exact shot statistic, recipe subset, separate plain-mean population and extra Glicko outputs remain open. |
+| **Partial-history edge policies** | Implemented: match-count windows with finite-value reductions, non-skipping lags, min_periods=1, ddof=1 with n > ddof, and missing undefined/zero-spread Z-scores. Standing fallback is zero. Recipe overrides, sample-count/flag outputs and model-input missingness treatment remain separate decisions. |
 | **Corner-count target definition** | Total match corners remains the Lasso regression target. Match-duration scope and collector mapping remain open. Configurable under/over options have separately derived evaluation outcomes; integer-line settlement and strategy rules remain open. No probability distribution or predictive-quantile output is supplied by ordinary Lasso. |
-| **Collection inputs and queries** | The initial collector refactor is reported complete, and the narrow date contract is checked. The loader plan now proposes explicit selection and pinned published versions; minimal pilot fields, periods, grains, and feature input mappings await a representative sample. Current exports alone do not finalize the feature contract. Legacy-format support is not required. |
-| **Analytics loader** | Planning is complete at the proposed-behavior level; the loader is not implemented. The user collects a sample first. Function/class API, consistent schemas/dtypes/keys, validation strictness, optional inputs, and automatic dependency-to-query integration remain open. Future checks cover versions, multi-season data, IDs, missingness, and a season-boundary example before feature/rating integration. |
+| **Collection inputs and queries** | Corrected publications in `data/xDiyo_data` are inspected and the chosen population imported with saved versions. Feature input fields, periods, groups/keys and historical availability still need explicit choices. Current exports alone do not finalize the feature contract; legacy-format support is not required. |
+| **Analytics loader** | `load_seasons`, `load_season` and `inspect_season` are implemented and verified. Separate nullable tables retain source observations; multi-season output adds origin columns. The first import covers 39 publications, with selections saved outside the source. Automatic feature-dependency queries, joins and feature/rating integration remain future work. |
 | **Model reuse and interfaces** | Lasso is the first model family; a model-adapter boundary should support other models without rewriting orchestration/reporting. Importance providers declare methods and named outputs; unsupported capabilities are explicit. Neural adapters and optional skorch remain later choices. |
-| **Feature window policies** | Type/length remain selectable; the first catalog includes lags 1-5 and configurable rolling summaries. Eligible history may cross seasons. Endpoints, venue/competition scope and postponement policy remain explicit. |
-| **Season and league transitions** | No seasonal warm-start/blending in the first experiment; use available samples. Persist promotion/relegation context once per source/evidence version for reuse. Glicko initialization, future shrinkage and exact availability/adjustment policies remain to define. Boundaries do not automatically reset models or CV. |
-| **Future prior/exponential strategy** | Previous-season average/prior initialization followed by EMA-like updates is a later candidate within the existing conceptual `warm_start_blend` mechanism, not the pilot default or a new module. The original `LinearWarmStart` schedule is illustrative and distinct. Prior source, decay, time unit, seasonal transitions, any handoff/blend to fixed rolling windows, and prior variability for std/variance remain open. Glicko follows its own initialization/update rules. |
+| **Feature window policies** | Type/length remain selectable; the first catalog includes lags 1-5 and configurable rolling summaries. Eligible history may cross seasons. League design now fixes the window before LOO, without refill; incomplete rounds retain the last completed baseline, frozen for the target round. Observation units, endpoints, venue/competition scope and postponed-round completion rules remain explicit. |
+| **Season and league transitions** | Implemented opt-in context, ID-based movement adaptation and Glicko/custom transitions. Defaults still use available history without a policy. Rating-only top/bottom priors are frozen before entry and exclude incoming teams; explicit predecessor state transfer is supported. Cross-league calibration and optimal policy settings remain open; CV does not own warm-up. |
+| **Warm-up policy selection** | Implemented: WarmStart per feature/rating expression; policy=None is a no-op. Stream caches include definition/configuration and transition policy. Full-state transition happens once before field extraction; custom engines require adapters. WarmStart on a saved Rating with an active policy is unsupported: transition the run during build_ratings. |
+| **Optional prior/exponential strategy** | SeededEMA, Hard, LinearFade and ObservationCount are implemented. Enabled defaults are alpha=.5, league_weight=.5 and Hard(1). Mean/variance recurrence and mixture weights, population spread while blending, original ddof at weight zero and missing-prior fallbacks are specified in the reference. All remain opt-in; James-Stein is deferred. |
 | **Identifiers and ordering** | Stable match/team identity, source mappings, chronological order, simultaneous events, and the role of the original compound keys. |
-| **Rating-state timing** | Initial match-result Glicko updates as soon as a completed match's result is available, using the same preceding state pair for both teams. Uncertainty/volatility time units, idle inflation without double counting, ordering/revisions, exact completion/availability fields, replay, and league/season priors remain open. Issued predictions retain their cutoffs. |
-| **Named rating interfaces** | `MatchResultGlicko` and `CornerGlicko` illustrate the user's proposed local library features. Shared calculation code with separate definitions/configurations and independent state streams is a working proposal. Names/API, internal engine instances, cache/storage schema, snapshot keys, time accounting, ordering/replay, and scope remain open; full algorithm state must be retained independently of model-export selection. |
-| **Future statistic-based ratings** | Separate ratings for corners or other statistics are desired future extensibility, not a second pilot requirement. Corner comparison mapped to win/draw/loss is a proposal that discards margins; its validation, exact mapping, strength/ranking interpretation, and alternatives remain open. Keep each rating's state and definition separate. |
-| **Historical grouping and alignment** | Team versus venue-specific history, league-relative features, head-to-head scope, opponent lookups, and what a leave-one-out calculation excludes. |
+| **Rating-state timing** | Verified availability-ordered replay, equal-time batches, cumulative provenance, explicit idle advancement and transition snapshots. Entry precedes equal-time result updates; snapshot order 0/1 survives storage and lookup. Actual publication times, calendar-period mapping and incremental revision handling remain separate work. |
+| **Named rating interfaces** | Implemented and verified: `MatchResultGlicko`, general `StatGlicko(Stat(...))`, `build_ratings`, `RatingRun.save/load` and `Rating(name)`. The unchanged legacy numerical engine is shared while each definition/period retains independent state. Full fields persist independently of model selection. Graph producers and broader orchestration remain future work. |
+| **Statistic-based ratings** | Corner/other statistic comparisons now map greater/equal/less to1/.5/0, optionally reversed for lower-is-better; missing pairs skip updates and periods are separate. This comparative rating discards margins and is not a count forecast. Exact pilot inclusion and alternative rating definitions remain selectable. |
+| **Historical grouping and alignment** | Team grouping and H2H remain supported for ordinary histories. League team/match units, all three window units, both schedules, pooled moments and no-refill contribution/fixture LOO are verified. League H2H is unsupported. Identity-based match-wide and paired team assembly now pass independent checks. |
 | **Availability and revisions** | When statistics, standings, odds/context, and labels are usable; how later source corrections affect reconstruction of earlier inputs. |
-| **Evaluation design** | Selectable expanding/sliding chronological windows, season and within-season blocks, season-stage scoring, season-grouped K-fold, and future CPCV strategy evaluation are recorded in the cross-validation section. Retrospective schemes remain distinct from historical deployment simulation. Exact spans, stage boundaries, stride, calendar alignment, refitting, label maturity, inner validation, scoring, CPCV dependencies/state reconstruction, and betting rules remain open. |
-| **Configuration and orchestration** | On-demand dependency computation with explicit output selection is the initial preference; callers can request a Z-score alone. Exact configuration, grouped/vectorized execution, interaction with existing passes, and optional intermediate persistence/auditing remain open. Shared caching/deduplication is a later measured optimization, not a required first-phase DAG/cache design. |
-| **Temporal feature composition** | Composability is desired. The stability metric, inner/outer windows, historical child evaluation versus causal materialization, compounded history, endpoints, and intermediate-state policies remain to be specified. |
-| **Rolling Z-score composition test** | Corner/shot series are selected; numerator observation, shared baseline, endpoints, std/minimum count and missing/zero-spread policies remain explicit. Definitions can be selected independently. General rolling over another computed feature's history remains a later extension. |
+| **Evaluation design** | Temporal expanding/sliding blocks, gaps, calendars, score-only subsets, match/group K-fold and CPCV membership/path reconstruction now pass independent checks. Retrospective schemes remain distinct from historical deployment simulation. Experiment-specific spans, verified availability, fitting/refitting, inner validation, reports, fold-aware state reconstruction and betting rules remain later choices. |
+| **Configuration and orchestration** | Loading/features/state, labels, dataset assembly and splits provide reusable components. Training-only transforms/model adapters, both report stages, fold-aware state preparation and orchestration remain later work. Reuse compatible prepared rating states. Exact runner interfaces remain open; pilot configuration, tuning and fitting are deferred. |
+| **Temporal feature composition** | Nested temporal expressions are implemented: each historical child uses that row's cutoff before an outer window consumes it. Concrete stability metrics, recipe window choices, persisted intermediates and rating/model-derived state remain separate decisions. |
+| **Rolling Z-score composition test** | Verified: latest eligible observation is included in the trailing baseline, mean/std share its finite values, default ddof=1/min_periods=1, and missing-latest/zero-spread output is missing. General temporal nesting is also verified. Pilot measures and window overrides remain selectable. |
 | **Future model-derived features** | General auxiliary-model extraction is a confirmed future capability, excluded from the pilot. Named outputs from fitted/pretrained models may be consumed directly or by composition; training stays separate from frozen-state application. Output meaning/granularity, models, APIs, temporal cross-fitting/burn-in policy, provenance, and fitting/application schedules remain open. The Poisson-to-XGBoost example selects neither a distribution nor a model. |
-| **Target interpretation** | Exact transformations, scaler-fitting scopes and fallbacks, inverse rules where meaningful, and interpretation of ranks/bins. |
-| **Data visualization and reporting** | Bounded table/feature inspection plus pre-training preparation reports and post-training performance/explanation reports are requested. Model-independent importance interfaces are required; methods and richer renderers can be added as models arrive. Quantile-binned point diagnostics, empirical quantile comparison and predictive-quantile calibration must remain distinct. |
+| **Target interpretation** | Extensible labels include statistic-derived quantities, perspective W/D/L +1/0/-1, configurable binary outcomes and BetOption outcome/threshold labels with future parlay composition. Preserve draw/push/void/missing distinctions. Exact binary/settlement policies, transformations, fitted scopes/fallbacks and rank/bin interpretation remain open. |
+| **Data visualization and reporting** | Both pre-training and post-training reporters are required. They consume the declared dataset layout and metadata, distinguish matches from team observations and respect paired/ranking groups; post-training adds predictions/model outputs. Bounded inspection and model-independent importance interfaces remain required. Quantile-binned point diagnostics, empirical quantile comparison and predictive-quantile calibration remain distinct; methods/renderers are still selectable. |
 | **Saved state and user interface** | Storage layout, provenance/versioning and fitted-state persistence; timing and scope of a GUI or registry editor. |
 | **Future neural Dataset** | Excluded from the initial tabular implementation and the lowest refactor priority. Preserve the multi-architecture goal and later questions about shared preparation, stable identities, deliberate final-label routing, modalities, and caches. |
 

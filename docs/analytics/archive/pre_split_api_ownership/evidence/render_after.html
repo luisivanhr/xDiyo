@@ -1,0 +1,835 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="file:///C:/Users/luisi/.vscode/extensions/openai.chatgpt-26.908.40401-win32-x64/webview/assets/app-initial-ddb6c251267b.css"><style>html,body{margin:0;background:white;color:#15212b;font:16px/1.55 Segoe UI,sans-serif}body{padding:32px}article{max-width:1000px;margin:0 auto 80px}h1{font-size:28px}h2{font-size:24px;margin-top:32px}h3{font-size:20px;margin-top:24px}p{margin:12px 0}pre{background:#f4f6f8;padding:12px;overflow:auto}code{font:14px Consolas,monospace}table{border-collapse:collapse;width:100%;margin:16px 0}th,td{border:1px solid #bcc5cf;padding:8px;text-align:left}li{margin:5px 0}ul,ol{padding-left:24px}ul{list-style:disc}ol{list-style:decimal}a{color:#1653a3}.display{display:block;margin:18px 0}.katex{font-size:1.05em}.katex-display{overflow:visible}.math-error{color:#b00020}.file-name{color:#5c6570}</style></head><body><article data-guide="docs/analytics/splits.md"><p class="file-name">docs/analytics/splits.md</p><h1>Choose whole-match splits and inspect held-out rows</h1>
+<p>The <code>xdiyo_analytics.splits</code> module prepares fold membership from a <code>ModelDataset</code>.
+It supports chronological windows, match/group K-fold and retrospective CPCV.
+It returns positions for the original dataset; it does not train, search, refit,
+recompute features or calculate statistical/strategy reports.</p>
+<p>Use the <a href="../../notebooks/07_splits_quickstart.ipynb">minimal notebook</a>,
+<a href="splits_reference.md">complete API/helper reference</a> and
+<a href="splits_documentation_checklist.md">coverage checklist</a>.</p>
+<h2>Load and assemble a pinned example</h2>
+<pre><code class="language-python">from pathlib import Path
+import numpy as np
+import pandas as pd
+from xdiyo_analytics.data import load_seasons, select_stats
+from xdiyo_analytics.histories import build_team_history
+from xdiyo_analytics.features import IsHome, Lag, Stat, evaluate_features
+from xdiyo_analytics.labels import MatchTotal, create_labels
+from xdiyo_analytics.datasets import assemble_dataset
+from xdiyo_analytics.splits import (
+    TemporalSplit, MatchKFold, GroupKFold, CPCV,
+    create_split_plan, reconstruct_paths,
+)
+
+root = Path(&#39;C:/Users/luisi/Documents/Programming/Python/xDiyo&#39;)
+loaded = load_seasons(
+    root / &#39;data/xDiyo_data&#39;, [&#39;23_24&#39;, &#39;24_25&#39;], leagues=&#39;Premier_League&#39;,
+    tables=[&#39;matches&#39;, &#39;statistics&#39;],
+    record_dir=root / &#39;experiment/initial_population/selections&#39;, verify_hashes=True,
+)
+history = build_team_history(select_stats(
+    loaded, stats=[(&#39;ALL&#39;, &#39;Match overview&#39;, &#39;cornerKicks&#39;)],
+))
+corners = Stat(&#39;ALL&#39;, &#39;Match overview&#39;, &#39;cornerKicks&#39;)
+features = evaluate_features(
+    history, {&#39;venue&#39;: IsHome(), &#39;previous_corners&#39;: Lag(corners)}, keyed=True,
+)
+labels = create_labels(history, {&#39;corners&#39;: MatchTotal(corners)})
+dataset = assemble_dataset(features, labels[&#39;corners&#39;], layout=&#39;match&#39;)
+</code></pre>
+<p>The same splitters accept the assembler&#39;s <code>team_match</code> layout. Both team rows
+always travel together. Exact match tuples distinguish repeated event IDs across
+partitions. Match tuples identify observations/groups; they are not ranker group
+sizes. See the <a href="datasets_reference.md">assembly contract</a>.</p>
+<h2>Inspect expanding chronological folds</h2>
+<pre><code class="language-python">scheme = TemporalSplit(
+    train_size=20, test_size=6, score_start=1, allow_partial_test=True,
+)
+plan = create_split_plan(dataset, scheme)
+fold_counts = pd.DataFrame([
+    {&#39;fold&#39;: i, &#39;train&#39;: len(f.train), &#39;test&#39;: len(f.test), &#39;score&#39;: len(f.score),
+     &#39;fit_at&#39;: f.metadata[&#39;fit_at&#39;]}
+    for i, f in enumerate(plan.folds)
+])
+fold_counts.head()
+</code></pre>
+<p>Here <code>train_size</code> counts the initial observed round blocks, <code>test_size</code> counts
+held-out blocks, and the default <code>step=None</code> advances by <code>test_size</code>. Expanding
+windows keep the beginning of the calendar. <code>window=&#39;sliding&#39;</code> keeps only the
+most recent <code>train_size</code> candidate blocks. Gaps and timing checks can reduce the
+actual training population below the candidate span. Final short tests are
+omitted unless <code>allow_partial_test=True</code>.</p>
+<p>Round blocks default to <code>(season_id, round)</code> and are ordered by their earliest
+observed kickoff, even across seasons. Missing rounds are not fabricated.
+Postponed fixtures in an earlier nominal round are excluded from training if
+their actual supplied kickoff/availability is too late. Such a fixture can
+become eligible in a later fold while its block remains in the training span.</p>
+<h2>Slice with original positions</h2>
+<pre><code class="language-python">fold = plan.folds[0]
+train_X = dataset.X.iloc[fold.train]
+test_X = dataset.X.iloc[fold.test]
+score_y = dataset.y.iloc[fold.score]
+assert set(fold.train).isdisjoint(fold.test)
+assert set(fold.score) &lt;= set(fold.test)
+dataset.metadata.iloc[fold.test].head()
+</code></pre>
+<p><code>train</code>, <code>test</code> and <code>score</code> are integer positions, not DataFrame index labels.
+They refer to the input dataset&#39;s order, including when its rows are shuffled.
+Keep <code>X</code>, <code>y</code> and metadata aligned and use <code>.iloc</code>. Returned membership arrays
+are sorted by original position; <code>plan.row_order</code> separately records chronological
+positions, stable for kickoff ties. A plan cannot detect a later same-length
+reordering of your input.</p>
+<h2>Separate held-out membership from scoring</h2>
+<p>Let <span class="equation" id="eq-0-0"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">T_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>, <span class="equation" id="eq-0-1"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">H_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span> and <span class="equation" id="eq-0-2"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">S_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span> be a fold&#39;s training, held-out test and scoring
+position sets. Then</p>
+<p><span class="equation display" id="eq-0-3"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mi>f</mi></msub><mo>∩</mo><msub><mi>H</mi><mi>f</mi></msub><mo>=</mo><mi mathvariant="normal">∅</mi><mo separator="true">,</mo><mspace width="2em"/><msub><mi>S</mi><mi>f</mi></msub><mo>⊆</mo><msub><mi>H</mi><mi>f</mi></msub><mo separator="true">,</mo><mspace width="2em"/><mo stretchy="false">(</mo><msub><mi>H</mi><mi>f</mi></msub><mo>∖</mo><msub><mi>S</mi><mi>f</mi></msub><mo stretchy="false">)</mo><mo>∩</mo><msub><mi>T</mi><mi>f</mi></msub><mo>=</mo><mi mathvariant="normal">∅</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">
+T_f\cap H_f=\varnothing,\qquad S_f\subseteq H_f,\qquad
+(H_f\setminus S_f)\cap T_f=\varnothing.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord amsrm">∅</span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0813em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∖</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6633em;vertical-align:-0.0817em;"></span><span class="mord amsrm">∅</span><span class="mord">.</span></span></span></span></span></span></p>
+<p><code>score_start</code> skips that many held-out blocks for scoring only. <code>score_rounds</code>
+selects an inclusive round-number range in every held-out season; either bound
+can be <code>None</code>. The two rules intersect. An empty score set is allowed, including
+when a short final horizon contains only skipped blocks.</p>
+<pre><code class="language-python">later_season_score = create_split_plan(
+    dataset, TemporalSplit(1, unit=&#39;seasons&#39;, score_rounds=(6, None)),
+)
+season_fold = later_season_score.folds[0]
+assert dataset.metadata.iloc[season_fold.score][&#39;round&#39;].min() &gt;= 6
+assert set(season_fold.test) - set(season_fold.score)
+assert set(season_fold.train).isdisjoint(season_fold.test)
+</code></pre>
+<p>That example holds out the next season and scores its later rounds. The early
+test-season matches remain held out. This choice differs from a block <code>gap</code>
+between candidate training and testing, a <code>gap_time</code> before the fitting boundary,
+or feature-owned warm-up/history rules. The splitter does not change feature
+histories or create a refit schedule.</p>
+<h2>State prediction and availability times</h2>
+<p>For match <span class="equation" id="eq-0-4"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span></span>, let <span class="equation" id="eq-0-5"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">t_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> be kickoff, <span class="equation" id="eq-0-6"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">c_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> the earliest supplied prediction
+cutoff among its rows, and <span class="equation" id="eq-0-7"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">a_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> the latest availability among its rows.
+Any missing explicit availability makes that match unavailable for training.
+For held-out matches <span class="equation" id="eq-0-8"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">H</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">\mathcal H_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.0097em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0097em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>, candidate training matches <span class="equation" id="eq-0-9"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">C</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">\mathcal C_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.0583em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>,
+duration gap <span class="equation" id="eq-0-10"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0379em;">δ</span></span></span></span></span>, and complete-target indicator <span class="equation" id="eq-0-11"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">O_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>, the actual rule is</p>
+<p><span class="equation display" id="eq-0-12"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>u</mi><mi>f</mi></msub><mo>=</mo><munder><mrow><mi>min</mi><mo>⁡</mo></mrow><mrow><mi>m</mi><mo>∈</mo><msub><mi mathvariant="script">H</mi><mi>f</mi></msub></mrow></munder><msub><mi>c</mi><mi>m</mi></msub><mo separator="true">,</mo><mspace width="2em"/><msub><mi>b</mi><mi>f</mi></msub><mo>=</mo><msub><mi>u</mi><mi>f</mi></msub><mo>−</mo><mi>δ</mi><mo separator="true">,</mo></mrow><annotation encoding="application/x-tex">
+u_f=\min_{m\in\mathcal H_f}c_m,\qquad b_f=u_f-\delta,
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.6419em;vertical-align:-0.9474em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-2.3557em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mrel mtight">∈</span><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.0097em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0097em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2901em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">min</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9474em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0379em;">δ</span><span class="mpunct">,</span></span></span></span></span></span>
+<span class="equation display" id="eq-0-13"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="script">T</mi><mi>f</mi></msub><mo>=</mo><mo stretchy="false">{</mo><mi>m</mi><mo>∈</mo><msub><mi mathvariant="script">C</mi><mi>f</mi></msub><mo>:</mo><msub><mi>t</mi><mi>m</mi></msub><mo>&lt;</mo><msub><mi>b</mi><mi>f</mi></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>a</mi><mi>m</mi></msub><mo>≤</mo><msub><mi>b</mi><mi>f</mi></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>O</mi><mi>m</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false">}</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">
+\mathcal T_f=
+\{m\in\mathcal C_f:t_m&lt;b_f,\ a_m\le b_f,\ O_m=1\}.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.2542em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.2542em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.0583em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span><span class="mord">.</span></span></span></span></span></span></p>
+<p>Completeness means every selected target cell in every row of the match is
+nonmissing. Missing feature values do not filter membership. Test/scoring targets
+are retained even when unknown. Training at the same kickoff as the boundary is
+excluded; availability at the boundary is permitted if kickoff is earlier.</p>
+<pre><code class="language-python">prediction_cutoffs = dataset.metadata[&#39;kickoff_at&#39;] - pd.Timedelta(&#39;2D&#39;)
+lead_plan = create_split_plan(
+    dataset, TemporalSplit(20, test_size=6, allow_partial_test=True),
+    cutoffs=prediction_cutoffs,
+)
+lead_plan.folds[0].metadata[&#39;excluded_train&#39;][:10]
+</code></pre>
+<p>Both timing arguments accept a metadata column name or row-aligned datetime
+values. A Series must have the metadata index/order. Inputs are converted to UTC;
+numeric epochs need explicit conversion first. <code>cutoffs=None</code> uses kickoff.
+<code>available_at=None</code> also uses kickoff as a retrospective proxy; it does not
+establish historical result publication or completion. When verified availability
+exists, pass it through <code>available_at</code>. Missing explicit availability excludes
+training matches, including the all-missing case; empty training raises an error.</p>
+<p>The split cutoff does not retrospectively recompute a feature evaluated at a
+later cutoff. Feature construction must use compatible issuance and availability
+rules before a chronological evaluation can make a deployment claim.</p>
+<h2>Choose calendars deliberately</h2>
+<p>Rounds and seasons default to a separate calendar per <code>competition_id</code>.
+Kickoff mode defaults to one pooled calendar, with simultaneous matches in the
+same block. <code>calendar_by=()</code> explicitly pools calendars. A name or tuple of names
+can select another grouping; <code>block_by</code> replaces the default block identity.</p>
+<pre><code class="language-python">pooled_kickoffs = create_split_plan(
+    dataset, TemporalSplit(20, test_size=8, step=50, unit=&#39;kickoffs&#39;),
+)
+explicit_rounds = create_split_plan(
+    dataset, TemporalSplit(
+        20, test_size=6, calendar_by=(&#39;competition_id&#39;,),
+        block_by=(&#39;season_id&#39;, &#39;round&#39;),
+    ),
+)
+assert explicit_rounds.get_n_splits() &gt; 0
+</code></pre>
+<p>For multi-stage competitions, include the actual stage column in <code>block_by</code>.
+For synchronized cross-league rounds, supply deliberate shared season/round
+identifiers; unrelated season IDs or round numbers do not define a shared
+calendar. Separate-calendar folds evaluate only that calendar&#39;s matches.
+Their order follows first calendar appearance, then that calendar&#39;s block order;
+the complete fold list is not globally interleaved by fitting time.</p>
+<h2>Retrospective match and group K-fold</h2>
+<pre><code class="language-python">match_plan = create_split_plan(dataset, MatchKFold(5, shuffle=True, random_state=41))
+season_plan = create_split_plan(dataset, GroupKFold(2))
+external_groups = pd.Series(
+    list(zip(dataset.metadata.source_league, dataset.metadata.source_season)),
+    index=dataset.metadata.index, dtype=object,
+)
+external_plan = create_split_plan(dataset, GroupKFold(2), groups=external_groups)
+assert sum(len(f.test) for f in match_plan.folds) == len(dataset.X)
+</code></pre>
+<p><code>MatchKFold</code> partitions unique matches in first-appearance order, optionally
+shuffling reproducibly. <code>GroupKFold</code> defaults to competition-season tuples.
+It keeps every group in one test fold and balances match counts greedily, largest
+groups first. Shuffling changes equal-size tie order only; it is not sklearn&#39;s
+exact allocation rule. External hashable tuple groups are supported and must
+agree across rows of a match. The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html">sklearn GroupKFold reference</a>
+describes the general non-overlapping-group interface.</p>
+<p>These schemes are retrospective: their training data can come after held-out
+data. Neither K-fold family automatically filters missing targets or applies
+temporal availability checks. Group separation alone does not establish an
+out-of-team or past-only forecasting experiment.</p>
+<h2>Combinatorial purging and embargo</h2>
+<p>CPCV splits the sorted unique kickoff batches into <code>n_blocks</code> consecutive blocks.
+Block sizes differ by at most one <strong>batch</strong>, with larger blocks first; match/row
+counts can differ more because ties stay together. With <span class="equation" id="eq-0-14"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span></span> blocks and <span class="equation" id="eq-0-15"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span></span>
+held-out blocks per fold,</p>
+<p><span class="equation display" id="eq-0-16"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>N</mi><mi>k</mi></mfrac><mo fence="true">)</mo></mrow><mo separator="true">,</mo><mspace width="2em"/><mi>ϕ</mi><mo>=</mo><mfrac><mi>k</mi><mi>N</mi></mfrac><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>N</mi><mi>k</mi></mfrac><mo fence="true">)</mo></mrow><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo fence="true">)</mo></mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">
+F=\binom{N}{k},\qquad
+\phi=\frac{k}{N}\binom{N}{k}=\binom{N-1}{k-1}.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">ϕ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mord">.</span></span></span></span></span></span></p>
+<p>Each block occurs in <span class="equation" id="eq-0-17"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi></mrow><annotation encoding="application/x-tex">\phi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ϕ</span></span></span></span></span> held-out folds. Assigning its successive fold
+occurrences to successive paths yields one copy of each block in every path.
+For <span class="equation" id="eq-0-18"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">N=6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span></span></span></span></span>, <span class="equation" id="eq-0-19"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">k=2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span></span>, this gives 15 folds and five paths. This is the combinatorial
+construction in <a href="https://smallake.kr/wp-content/uploads/2018/07/SSRN-id3104816.pdf">López de Prado&#39;s exposition, pages 13–14 and Exhibit 8</a>.</p>
+<p>For a match&#39;s information interval <span class="equation" id="eq-0-20"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>i</mi></msub><mo>=</mo><mo stretchy="false">[</mo><msub><mi>s</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">I_i=[s_i,e_i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span>, purge a candidate training
+match if it overlaps any held-out interval, including touching endpoints:</p>
+<p><span class="equation display" id="eq-0-21"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mi>i</mi></msub><mo>∩</mo><msub><mi>I</mi><mi>j</mi></msub><mo mathvariant="normal">≠</mo><mi mathvariant="normal">∅</mi><mspace width="1em"/><mo>⟺</mo><mspace width="1em"/><msub><mi>s</mi><mi>i</mi></msub><mo>≤</mo><msub><mi>e</mi><mi>j</mi></msub><mtext> and </mtext><msub><mi>s</mi><mi>j</mi></msub><mo>≤</mo><msub><mi>e</mi><mi>i</mi></msub><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">
+I_i\cap I_j\ne\varnothing
+\quad\Longleftrightarrow\quad s_i\le e_j\ \text{and}\ s_j\le e_i.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0785em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6633em;vertical-align:-0.0817em;"></span><span class="mord amsrm">∅</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟺</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.786em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace"> </span><span class="mord text"><span class="mord">and</span></span><span class="mspace"> </span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">.</span></span></span></span></span></span></p>
+<p>Disjoint held-out intervals retain their intervening gaps. For each contiguous
+run <span class="equation" id="eq-0-22"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span></span></span></span></span> of held-out block numbers, let <span class="equation" id="eq-0-23"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>R</mi></msub></mrow><annotation encoding="application/x-tex">E_R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0077em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> be the latest interval end in
+that run. A duration embargo <span class="equation" id="eq-0-24"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi></mrow><annotation encoding="application/x-tex">\eta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">η</span></span></span></span></span> additionally removes candidate match <span class="equation" id="eq-0-25"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span>
+when</p>
+<p><span class="equation display" id="eq-0-26"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>E</mi><mi>R</mi></msub><mo>&lt;</mo><msub><mi>t</mi><mi>i</mi></msub><mo>≤</mo><msub><mi>E</mi><mi>R</mi></msub><mo>+</mo><mi>η</mi><mspace width="1em"/><mtext>for at least one held-out run </mtext><mi>R</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">
+E_R&lt;t_i\le E_R+\eta
+\quad\text{for at least one held-out run }R.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0077em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.786em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0077em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">η</span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">for at least one held-out run </span></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mord">.</span></span></span></span></span></span></p>
+<p>Within paired rows, starts use the minimum and ends the maximum. Default starts
+and ends are point intervals at kickoff, and <code>embargo=None</code> is zero duration.
+Use <code>information_start</code> and <code>available_at</code> with justified information/label
+times for a substantive purging experiment. This implementation uses durations,
+not a finance-specific percentage of price bars. See the broader
+<a href="https://random-docs.readthedocs.io/en/latest/implementations/cross_validation.html">purging/CPCV methodology</a>.</p>
+<pre><code class="language-python">cpcv = CPCV(n_blocks=6, n_test_blocks=2)
+cpcv_plan = create_split_plan(dataset, cpcv)
+assert cpcv_plan.get_n_splits() == 15 and cpcv.n_paths == 5
+cpcv_plan.paths[[&#39;path_id&#39;, &#39;block_id&#39;, &#39;fold_id&#39;]].head(8)
+</code></pre>
+<p>CPCV does not automatically filter missing targets. Empty training after purging
+or embargo raises; the fold is not silently skipped.</p>
+<h2>Reconstruct held-out values without fitting</h2>
+<p>The following values are alignment sentinels, not forecasts. A future fitting
+layer must supply genuinely held-out predictions with its own provenance.</p>
+<pre><code class="language-python">demonstration_values = [
+    pd.DataFrame({
+        &#39;example_value&#39;: f.test.astype(float),
+        &#39;example_missing&#39;: np.where(f.test % 7 == 0, np.nan, 1.0),
+    }, index=f.test)
+    for f in cpcv_plan.folds
+]
+paths = reconstruct_paths(cpcv_plan, demonstration_values)
+assert paths.groupby(&#39;path_id&#39;).size().eq(len(dataset.X)).all()
+assert paths[&#39;example_missing&#39;].isna().any()
+paths.head()
+</code></pre>
+<p>Supply one numeric DataFrame per fold, indexed by exactly its original held-out
+positions. The frame order may differ; duplicate, missing, extra or training
+positions are rejected. All folds need identical ordered output columns. NaNs
+remain missing, including for multiple outputs. The result contains <code>path_id</code>,
+<code>row_position</code>, <code>fold_id</code> and the output columns, sorted by path and kickoff with
+stable ties. The <a href="splits_reference.md#prediction-path-contract">reference</a> lists
+the complete contract and reserved names.</p>
+<h2>Connect a future fitting layer</h2>
+<pre><code class="language-python">outer_cv = plan.split()
+train_positions, test_positions = next(outer_cv)
+assert plan.model_selector is None and plan.refit_policy is None
+assert np.array_equal(train_positions, plan.folds[0].train)
+assert np.array_equal(test_positions, plan.folds[0].test)
+</code></pre>
+<p><code>scheme.split(dataset)</code> is a convenience iterator. <code>plan.split()</code> can be supplied
+as sklearn&#39;s <code>cv</code> iterable when the later caller uses the same dataset order.
+No sklearn dependency or private sklearn base class is introduced here. Only
+training/test membership is yielded; a later reporter must apply <code>fold.score</code>
+explicitly. These are outer folds. Optional future inner selection must remain
+inside each outer training population.</p>
+<p><code>model_selector=None</code> disables selection/search. <code>refit_policy=None</code> disables
+additional scheduled refits; it does not mean omitting a future initial fit for
+each fold. Today both options are merely stored, even when non-None objects are
+passed. No initial fit, selector call or scheduled refit runs in this module.</p>
+<h2>Interpretation and remaining work</h2>
+<p>CPCV paths reuse observations and fitted models; they are not independent evidence.
+Purging supplied intervals does not automatically remove held-out outcomes that
+later Glicko ratings or rolling features carry forward. Retrospective evaluation
+needs a future layer to reconstruct or restrict feature/state preparation for
+each fold, with a clear held-out information rule. Ordinary chronological
+features must also respect the evaluation&#39;s actual issuance times.</p>
+<p>The reference notebook <code>C:/Users/luisi/Escritorio/dsr_pbo_cpcv.ipynb</code> was inspected
+read-only. Its combinatorial incidence idea is the reference; its finance returns,
+variance, Sharpe, DSR/PBO and private sklearn code were not adopted or executed.
+Fold-aware preparation, selection corrections, DSR/PBO/FDR reporting, strategy
+execution and betting cash accounting remain later layers.</p>
+<p>Verification evidence is in <a href="splits_check.json">splits_check.json</a>. It establishes
+membership, alignment and preservation, not predictive benefit or actual
+historical publication times.</p>
+</article><article data-guide="docs/analytics/splits_reference.md"><p class="file-name">docs/analytics/splits_reference.md</p><h1>Splits and CV API and helper reference</h1>
+<p>Import public APIs from <code>xdiyo_analytics.splits</code>. The
+<a href="splits.md">practical guide</a> provides executable examples and LaTeX equations;
+the <a href="splits_documentation_checklist.md">coverage checklist</a> records verification.</p>
+<h2>Shared dataset and timing contract</h2>
+<p>All built-in splitters consume an assembled <code>ModelDataset</code>. <code>X</code>, <code>y</code> and metadata
+must have equal lengths and the same index/order. Data must be nonempty, and
+every <code>match_columns</code> value must be nonmissing. Exact <code>dataset.groups</code> tuples
+identify matches; neither float-converted IDs nor a plain event ID replace them.
+The complete pair and layout contract comes from <a href="datasets_reference.md">assembly</a>.
+Changing or manually constructing a container remains the caller&#39;s responsibility.</p>
+<p>Every membership array contains distinct integer original-row positions in
+ascending original order. Paired rows and partition identities remain whole.
+Training and test membership are disjoint; scoring is a subset of testing.
+All built-in families raise on empty training/test folds. Empty scoring is allowed.
+Inputs are not sorted, filtered or mutated in place.</p>
+<p>Temporal/CPCV require nonmissing, match-constant <code>kickoff_at</code>. Timestamp arguments
+accept a metadata column name, list/array or Series with one value per row. A
+Series must have the metadata index/order. Numeric dtypes are rejected rather
+than guessing epoch units. UTC conversion uses <code>pandas.to_datetime(..., utc=True)</code>;
+invalid timestamp strings raise. Naive values are interpreted as UTC by that
+conversion. Missing cutoff/information-start/CPCV availability raises; missing
+explicit temporal availability instead excludes the match from training.</p>
+<p>Metadata grouping columns must exist, be nonmissing and agree across all rows of
+each match. A grouping specification accepts a column name or tuple/sequence of
+names. Exact matching and equality apply; names do not imply domain relationships.</p>
+<h2>Fold and SplitPlan records</h2>
+<pre><code class="language-text">Fold(train, test, score, metadata=&lt;new empty dict&gt;)
+SplitPlan(folds, n_rows, row_order, paths=None,
+          model_selector=None, refit_policy=None)
+create_split_plan(dataset, splitter, *, model_selector=None, refit_policy=None,
+                  **split_options) -&gt; SplitPlan
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Fold.train</code></td>
+<td>Original positions eligible for this fold&#39;s training membership.</td>
+</tr>
+<tr>
+<td><code>Fold.test</code></td>
+<td>All held-out original positions, including unscored observations.</td>
+</tr>
+<tr>
+<td><code>Fold.score</code></td>
+<td>Original positions to score; does not move other test rows into training.</td>
+</tr>
+<tr>
+<td><code>Fold.metadata</code></td>
+<td>Scheme, timing/grouping assumptions and family-specific information below. Default is a separate empty dictionary per record.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.folds</code></td>
+<td>Prepared list of <code>Fold</code> objects.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.n_rows</code></td>
+<td>Original dataset row count.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.row_order</code></td>
+<td>Stable kickoff-sorted original positions if <code>kickoff_at</code> exists, otherwise original position order. It is not a change to the dataset.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.paths</code></td>
+<td>CPCV path mapping DataFrame; otherwise <code>None</code>.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.model_selector</code></td>
+<td>Supplied object retained by reference; <code>None</code> disables future search/selection. Never invoked here.</td>
+</tr>
+<tr>
+<td><code>SplitPlan.refit_policy</code></td>
+<td>Supplied object retained by reference; <code>None</code> disables additional scheduled refits, not a future initial fit per outer fold. Never invoked here.</td>
+</tr>
+</tbody></table>
+<p><code>create_split_plan</code> calls <code>splitter.folds(dataset, **split_options)</code> and, when
+present, <code>splitter.path_map(folds)</code>. Options therefore belong to the selected
+splitter&#39;s <code>folds</code> signature. It creates no inner folds, features, fitted state,
+selector run or model fit. Custom splitter objects can use that same interface
+but must uphold the membership contract themselves. The mutable dataclass
+constructors do not independently validate manually supplied fold/path arrays.</p>
+<h3>Iterator convenience and sklearn use</h3>
+<pre><code class="language-text">splitter.folds(dataset, **family_options) -&gt; list[Fold]
+splitter.split(dataset, **family_options) -&gt; iterator[(train, test)]
+splitter.get_n_splits(dataset, **family_options) -&gt; int
+plan.split(X=None, y=None, groups=None) -&gt; iterator[(train, test)]
+plan.get_n_splits(X=None, y=None, groups=None) -&gt; int
+</code></pre>
+<p>Splitter methods compute membership on each call; <code>get_n_splits(dataset)</code> also
+builds/validates the folds. Plan methods reuse prepared folds. Both iterators
+yield copies of the membership arrays. <code>plan.split</code> checks supplied <code>X</code> length
+but cannot verify its order; <code>y</code> and <code>groups</code> are unused compatibility parameters.
+<code>plan.get_n_splits</code> returns the stored fold count and ignores those parameters.</p>
+<p>Use <code>plan.split()</code> as a <code>cv</code> iterable for a later sklearn call with the original
+dataset order. No sklearn import, private base class or fit is needed to prepare
+it. This iterator exposes train/test only; scoring subsets require separate use
+of <code>fold.score</code>. All plans are outer evaluations; future inner selection belongs
+within the corresponding outer training data.</p>
+<h2>TemporalSplit settings and eligibility</h2>
+<pre><code class="language-text">TemporalSplit(train_size, test_size=1, step=None, window=&#39;expanding&#39;, unit=&#39;rounds&#39;,
+              gap=0, gap_time=None, calendar_by=None, block_by=None,
+              score_start=0, score_rounds=None, allow_partial_test=False)
+TemporalSplit.folds(dataset, *, cutoffs=None, available_at=None)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default, meaning and restrictions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>train_size</code></td>
+<td>Required positive integer. Initial/minimum candidate block span for expanding windows, fixed candidate span for sliding.</td>
+</tr>
+<tr>
+<td><code>test_size</code></td>
+<td>Positive integer, default 1 held-out block per horizon.</td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td><code>None</code> means <code>test_size</code>; otherwise a positive integer count of blocks between fold starts. Tests may overlap if the step is shorter than the horizon.</td>
+</tr>
+<tr>
+<td><code>window</code></td>
+<td><code>expanding</code> or <code>sliding</code>; default expanding from calendar start.</td>
+</tr>
+<tr>
+<td><code>unit</code></td>
+<td><code>rounds</code>, <code>seasons</code> or <code>kickoffs</code>; controls default calendar/block keys.</td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td>Nonnegative integer, default 0 candidate blocks skipped between training and testing.</td>
+</tr>
+<tr>
+<td><code>gap_time</code></td>
+<td>Nonnegative <code>pandas.Timedelta</code>-convertible duration; <code>None</code> is zero. Applied before both kickoff and availability eligibility. Prefer explicitly unit-bearing values such as <code>2D</code>.</td>
+</tr>
+<tr>
+<td><code>calendar_by</code></td>
+<td><code>None</code> means <code>(&#39;competition_id&#39;,)</code> for rounds/seasons and <code>()</code> for kickoffs. Empty tuple pools. Other names group independent calendars.</td>
+</tr>
+<tr>
+<td><code>block_by</code></td>
+<td><code>None</code> means <code>(&#39;season_id&#39;,&#39;round&#39;)</code>, <code>(&#39;season_id&#39;,)</code> or <code>(&#39;kickoff_at&#39;,)</code> according to unit. Explicit nonempty names replace that identity. Include stage when rounds repeat across stages.</td>
+</tr>
+<tr>
+<td><code>score_start</code></td>
+<td>Nonnegative integer, default 0. Skip held-out blocks only for scoring. Must be less than configured <code>test_size</code>, even when the final horizon is shorter.</td>
+</tr>
+<tr>
+<td><code>score_rounds</code></td>
+<td><code>None</code> or inclusive <code>(low, high)</code> round-number bounds; either may be <code>None</code>. Requires numeric-convertible, match-constant nonmissing <code>round</code>. Lower bound cannot exceed upper bound. Applied in every held-out season and intersected with <code>score_start</code>.</td>
+</tr>
+<tr>
+<td><code>allow_partial_test</code></td>
+<td>Default <code>False</code>; true includes a final shorter horizon. A short horizon may have no scoring rows.</td>
+</tr>
+<tr>
+<td><code>cutoffs</code></td>
+<td><code>None</code> uses kickoff. Explicit per-row datetimes reduce to the minimum within each match; the effective match cutoff must not exceed kickoff. Fit time is the earliest test-match cutoff.</td>
+</tr>
+<tr>
+<td><code>available_at</code></td>
+<td><code>None</code> uses kickoff as a retrospective proxy. Explicit per-row datetimes reduce to the maximum within a match only when every row is nonmissing; otherwise the match is unavailable.</td>
+</tr>
+</tbody></table>
+<p>Integer settings reject booleans and nonintegral values. Duration settings reject
+negative or missing durations. Dataclass construction stores settings; these
+validations run when folds are requested. <code>allow_partial_test</code> is intended as a
+boolean switch; it is not separately type-validated.</p>
+<p>Observed blocks are sorted by their minimum supplied kickoff, not by numerical
+round/season labels. First-appearance order breaks equal block-time ties.
+Calendar order follows first appearance in the original dataset. Default kickoff
+blocks keep all equal times together; a custom <code>block_by</code> defines a different
+blocking rule, so the caller owns its meaning. Same-time candidate training still
+fails the strict temporal kickoff check.</p>
+<p>After candidate block selection, retain a match only when its kickoff is strictly
+before <code>fit_at-gap_time</code>, its availability is at or before that boundary, and
+every selected target cell across the match is nonmissing. This excludes
+postponed and unknown-target training matches. Missing features are retained.
+This is an <code>isna</code> check, not a finiteness conversion for manually altered targets.
+Test/score targets are never filtered automatically. No fitting or feature warm-up
+is performed. See the <a href="splits.md#state-prediction-and-availability-times">eligibility equations</a>.</p>
+<p>No complete horizon raises unless partial horizons are enabled and one fits.
+Any horizon with no eligible training raises; it is not silently omitted.</p>
+<h3>Temporal fold metadata</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scheme</code>, <code>retrospective</code></td>
+<td><code>temporal</code>, <code>False</code>; describes membership direction, not proof of input-feature timing.</td>
+</tr>
+<tr>
+<td><code>calendar</code>, <code>calendar_by</code>, <code>block_by</code></td>
+<td>Calendar tuple and resolved grouping/block-column tuples.</td>
+</tr>
+<tr>
+<td><code>unit</code>, <code>window</code></td>
+<td>Requested span unit and expanding/sliding mode.</td>
+</tr>
+<tr>
+<td><code>fit_at</code>, <code>training_boundary</code></td>
+<td>Earliest held-out effective cutoff and that time minus the duration gap.</td>
+</tr>
+<tr>
+<td><code>train_blocks</code>, <code>test_blocks</code></td>
+<td>Ordered candidate training and held-out block tuples; train blocks precede eligibility pruning.</td>
+</tr>
+<tr>
+<td><code>excluded_train</code></td>
+<td>Original positions removed from the candidate training population by timing/target eligibility. Does not include skipped gap blocks.</td>
+</tr>
+<tr>
+<td><code>availability</code>, <code>cutoffs</code></td>
+<td><code>kickoff_proxy</code>/<code>explicit</code> and <code>kickoff</code>/<code>explicit</code>, respectively.</td>
+</tr>
+</tbody></table>
+<h2>MatchKFold and GroupKFold</h2>
+<pre><code class="language-text">MatchKFold(n_splits=5, shuffle=False, random_state=None)
+MatchKFold.folds(dataset)
+GroupKFold(n_splits=5, group_by=(&#39;competition_id&#39;,&#39;season_id&#39;),
+           shuffle=False, random_state=None)
+GroupKFold.folds(dataset, *, groups=None)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>n_splits</code></td>
+<td>Integer at least 2; cannot exceed match count for MatchKFold or distinct group count for GroupKFold. Booleans/nonintegral values are rejected.</td>
+</tr>
+<tr>
+<td><code>shuffle</code></td>
+<td>Default <code>False</code>. MatchKFold permutes unique match IDs; GroupKFold randomizes equal-size group ordering only. Intended boolean switch, not separately type-validated.</td>
+</tr>
+<tr>
+<td><code>random_state</code></td>
+<td>Default <code>None</code>; forwarded to <code>numpy.random.default_rng</code> only when shuffling. Use an integer seed for reproducibility. It is not sklearn&#39;s RandomState contract.</td>
+</tr>
+<tr>
+<td><code>group_by</code></td>
+<td>GroupKFold&#39;s nonempty metadata column name(s), default competition-season. Ignored when external <code>groups</code> is supplied.</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Optional row-aligned hashable values, including tuples; Series index/order must match metadata. Values must be nonmissing and identical for every row of a match.</td>
+</tr>
+</tbody></table>
+<p>Unshuffled MatchKFold uses unique matches in first-appearance order, with fold
+match counts differing by at most one; larger folds come first. GroupKFold sorts
+groups by descending match count, then repeatedly assigns the next group to the
+currently lightest fold. Stable ties use original group order or its shuffled
+order; equal fold loads choose the lowest fold number. It balances matches,
+preserves whole groups and is not sklearn-identical.</p>
+<p>Both schemes test each match exactly once and score every held-out row. Metadata
+contains <code>scheme</code> (<code>match_kfold</code> or <code>group_kfold</code>) and <code>retrospective=True</code>.
+GroupKFold additionally records <code>test_groups</code>, a tuple of the selected group keys.
+Neither scheme filters missing targets, enforces chronology, or checks result
+availability. They need no kickoff column to build folds; creating a plan uses
+it for <code>row_order</code> if present.</p>
+<h2>CPCV configuration, intervals and paths</h2>
+<pre><code class="language-text">CPCV(n_blocks=6, n_test_blocks=2, embargo=None)
+CPCV.folds(dataset, *, information_start=None, available_at=None)
+CPCV.n_paths -&gt; int
+CPCV.path_map(folds) -&gt; pandas.DataFrame
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>n_blocks</code></td>
+<td>Integer at least 2, default 6; cannot exceed the number of distinct kickoff batches.</td>
+</tr>
+<tr>
+<td><code>n_test_blocks</code></td>
+<td>Positive integer smaller than <code>n_blocks</code>, default 2. All combinations are used in lexicographic block order.</td>
+</tr>
+<tr>
+<td><code>embargo</code></td>
+<td>Nonnegative duration convertible with <code>pandas.Timedelta</code>; default <code>None</code> is zero. Removes training kickoffs strictly after each held-out run&#39;s latest end through the inclusive embargo endpoint.</td>
+</tr>
+<tr>
+<td><code>information_start</code></td>
+<td>Optional timestamp column/vector. Default kickoff; minimum across all rows of each match when supplied. Missing timestamps raise.</td>
+</tr>
+<tr>
+<td><code>available_at</code></td>
+<td>Optional timestamp column/vector. Default kickoff; maximum across all rows of each match when supplied. Missing timestamps raise.</td>
+</tr>
+</tbody></table>
+<p>Counts reject booleans/nonintegral values. Effective interval starts must not
+exceed ends; effective availability ends must not precede kickoff. There is no
+additional requirement that the supplied start equal or precede kickoff.
+The <a href="splits.md#combinatorial-purging-and-embargo">guide equations</a> define closed
+overlap, run embargo, fold count and path count. Intervals are checked against
+each held-out event; gaps between disjoint intervals are not filled. Embargo is
+applied after each contiguous run of selected block numbers, using the latest
+event end anywhere in that run. Empty training raises. Targets are not filtered.</p>
+<p><code>n_paths</code> validates block-count settings and returns the combinatorial path count
+without inspecting data. <code>path_map</code> consumes the complete generated CPCV fold
+collection. It assigns successive occurrences of each block to zero-based path
+IDs, then sorts by path/block. Missing occurrences raise. Preserve the generated
+fold order and metadata; arbitrary edited or manually built fold collections are
+not a separately validated protocol.</p>
+<p>The path table has <code>path_id</code>, <code>block_id</code>, <code>fold_id</code>, and <code>rows</code> (a copied NumPy
+array of original positions). Each generated path covers every block once and
+each fold/block incidence is used once. Repeated rows across different paths are
+expected; paths are not independent samples.</p>
+<h3>CPCV fold metadata</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scheme</code>, <code>retrospective</code></td>
+<td><code>cpcv</code>, <code>True</code>.</td>
+</tr>
+<tr>
+<td><code>test_blocks</code></td>
+<td>Selected zero-based block-number tuple.</td>
+</tr>
+<tr>
+<td><code>block_rows</code></td>
+<td>Mapping from selected block number to original position arrays.</td>
+</tr>
+<tr>
+<td><code>purged_train</code></td>
+<td>Candidate training positions whose intervals overlap held-out intervals.</td>
+</tr>
+<tr>
+<td><code>embargoed_train</code></td>
+<td>Positions excluded by embargo that were not already purged.</td>
+</tr>
+<tr>
+<td><code>information_start</code>, <code>availability</code></td>
+<td><code>kickoff_proxy</code> or <code>explicit</code> for each interval input.</td>
+</tr>
+<tr>
+<td><code>embargo</code></td>
+<td>Resolved nonnegative pandas Timedelta.</td>
+</tr>
+</tbody></table>
+<h2>Prediction path contract</h2>
+<pre><code class="language-text">reconstruct_paths(plan, predictions) -&gt; pandas.DataFrame
+</code></pre>
+<p><code>plan</code> must have CPCV paths. <code>predictions</code> is a sequence or integer <code>fold_id</code>
+mapping with one frame per fold, accessible by every zero-based fold ID.
+Each frame must be a numeric pandas DataFrame with a unique integer index equal
+to that fold&#39;s held-out <strong>original positions</strong>, in any order. Full-dataset,
+training, duplicate, missing or extra positions are invalid. A malformed mapping
+with absent fold IDs raises on lookup.</p>
+<p>All frames must have identical ordered, unique, nonempty output columns, excluding
+<code>path_id</code>, <code>row_position</code> and <code>fold_id</code>. The implementation accepts column labels
+supported by pandas; use descriptive names. Numeric nullable/Arrow types and
+missing predictions are supported. Non-numeric dtypes are rejected. It does not
+validate probabilities, finiteness, prediction quality, provenance or how a
+numeric value was produced.</p>
+<p>Output columns are <code>path_id</code>, <code>row_position</code>, <code>fold_id</code>, followed by prediction
+columns. Rows are sorted by path then <code>plan.row_order</code> and receive a fresh
+RangeIndex. Values and missingness are copied; inputs are unchanged. No NaN is
+interpreted as a loss, zero, absent trade or removed path row. A future reporting
+layer must state its own handling of missing predictions.</p>
+<h2>Internal helpers and error boundaries</h2>
+<p>These are internal helpers, not extra package exports. They live in <code>splits.core</code>
+except <code>CPCV._check</code>, which belongs to <code>splits.cpcv</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Splitter</code></td>
+<td>Shared <code>split</code> and <code>get_n_splits</code> convenience methods over a subclass&#39;s <code>folds</code>.</td>
+</tr>
+<tr>
+<td><code>_integer(value, name, minimum=1)</code></td>
+<td>Reject booleans, nonintegral values and counts below the threshold.</td>
+</tr>
+<tr>
+<td><code>_duration(value, name)</code></td>
+<td>Resolve <code>None</code> to zero and validate a nonnegative, nonmissing duration.</td>
+</tr>
+<tr>
+<td><code>_times(dataset, value, name)</code></td>
+<td>Validate row count/Series index, reject numeric epochs and convert to UTC.</td>
+</tr>
+<tr>
+<td><code>_Matches(dataset)</code></td>
+<td>Validate aligned/nonempty data, factorize exact match tuples and store reversible original-position membership.</td>
+</tr>
+<tr>
+<td><code>_Matches.rows(matches)</code></td>
+<td>Expand match codes to sorted original row positions.</td>
+</tr>
+<tr>
+<td><code>_Matches.constant(values, name)</code></td>
+<td>Require one common value per match and return its representative value.</td>
+</tr>
+<tr>
+<td><code>_Matches.columns(names)</code></td>
+<td>Resolve names and validate nonmissing, match-constant metadata groups.</td>
+</tr>
+<tr>
+<td><code>_Matches.times(value, name, reduction=None)</code></td>
+<td>Require nonmissing datetimes, then match-constant times or per-match min/max reduction.</td>
+</tr>
+<tr>
+<td><code>_fold(matches, train, test, metadata, score=None)</code></td>
+<td>Expand match membership, reject empty train/test and default score to all test rows.</td>
+</tr>
+<tr>
+<td><code>CPCV._check()</code></td>
+<td>Validate block counts for fold generation and <code>n_paths</code>.</td>
+</tr>
+</tbody></table>
+<p>Wrong dataset type raises <code>TypeError</code>. Invalid settings, alignment, time values,
+missing grouping values, insufficient groups/blocks, empty folds and malformed
+prediction frames generally raise <code>ValueError</code>; missing metadata column names
+raise <code>KeyError</code>. Unsupported keyword options raise the receiving method&#39;s
+<code>TypeError</code>. Timestamp/duration conversion errors retain pandas&#39; exception details.</p>
+<p>The module has no file I/O, sklearn dependency, private sklearn inheritance,
+statistical reports, selection runner, refit executor or model training.
+Retrospective fold-aware feature/state reconstruction remains a separate layer;
+purging alone does not remove held-out outcomes carried by earlier feature
+computations. See <a href="splits.md#interpretation-and-remaining-work">interpretation limits</a>.</p>
+</article><article data-guide="docs/analytics/splits_documentation_checklist.md"><p class="file-name">docs/analytics/splits_documentation_checklist.md</p><h1>Splits and CV documentation and verification coverage</h1>
+<p>Status: verified. Runtime checks, all examples, the fresh notebook, wheel imports,
+rendering and preservation audit pass. Evidence: <a href="splits_check.json">splits_check.json</a>.</p>
+<h2>Complete public API coverage</h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Signature, settings and schema</th>
+<th>Practical use or equations</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Fold</code></td>
+<td><a href="splits_reference.md#fold-and-splitplan-records">Every field and original positions</a></td>
+<td><a href="splits.md#slice-with-original-positions">Slice with iloc</a></td>
+</tr>
+<tr>
+<td><code>SplitPlan</code></td>
+<td><a href="splits_reference.md#fold-and-splitplan-records">Fields and iterator methods</a></td>
+<td><a href="splits.md#connect-a-future-fitting-layer">Future fitting boundary</a></td>
+</tr>
+<tr>
+<td><code>create_split_plan</code></td>
+<td><a href="splits_reference.md#fold-and-splitplan-records">Options and stored objects</a></td>
+<td><a href="splits.md#inspect-expanding-chronological-folds">Prepare chronological folds</a></td>
+</tr>
+<tr>
+<td><code>TemporalSplit</code></td>
+<td><a href="splits_reference.md#temporalsplit-settings-and-eligibility">All settings and metadata</a></td>
+<td><a href="splits.md#state-prediction-and-availability-times">Eligibility</a>, <a href="splits.md#separate-held-out-membership-from-scoring">score membership</a></td>
+</tr>
+<tr>
+<td><code>MatchKFold</code></td>
+<td><a href="splits_reference.md#matchkfold-and-groupkfold">Allocation, seed and assumptions</a></td>
+<td><a href="splits.md#retrospective-match-and-group-k-fold">Retrospective K-fold</a></td>
+</tr>
+<tr>
+<td><code>GroupKFold</code></td>
+<td><a href="splits_reference.md#matchkfold-and-groupkfold">Metadata/external groups and greedy balancing</a></td>
+<td><a href="splits.md#retrospective-match-and-group-k-fold">Group example</a></td>
+</tr>
+<tr>
+<td><code>CPCV</code></td>
+<td><a href="splits_reference.md#cpcv-configuration-intervals-and-paths">Intervals, paths, defaults and metadata</a></td>
+<td><a href="splits.md#combinatorial-purging-and-embargo">Combinatorics, overlap and embargo</a></td>
+</tr>
+<tr>
+<td><code>reconstruct_paths</code></td>
+<td><a href="splits_reference.md#prediction-path-contract">Every prediction/input/output constraint</a></td>
+<td><a href="splits.md#reconstruct-held-out-values-without-fitting">Multiple outputs and missing values</a></td>
+</tr>
+</tbody></table>
+<p>The <a href="splits_reference.md#internal-helpers-and-error-boundaries">internal helper inventory</a>
+also covers shared validation, time conversion, exact grouping and position expansion.</p>
+<h2>Behavioral coverage</h2>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Both layouts, exact large IDs, reused partition IDs, shuffled rows and indivisible matches.</li>
+<li><input checked="" disabled="" type="checkbox"> Temporal expanding/sliding multi-season spans, step, block/time gaps and partial horizons.</li>
+<li><input checked="" disabled="" type="checkbox"> Observed block ordering, postponed fixtures, kickoff ties and explicit stage keys.</li>
+<li><input checked="" disabled="" type="checkbox"> Separate league calendars, deliberately synchronized rounds and pooled kickoff batches.</li>
+<li><input checked="" disabled="" type="checkbox"> Two-day prediction lead, minimum pair cutoff and maximum pair availability.</li>
+<li><input checked="" disabled="" type="checkbox"> Missing explicit availability including all-NaT timezone conversion; missing training targets.</li>
+<li><input checked="" disabled="" type="checkbox"> Score-only block/round ranges retain every unscored test row outside training.</li>
+<li><input checked="" disabled="" type="checkbox"> Match/group K-fold allocation, reproducibility, greedy matching counts and external tuples.</li>
+<li><input checked="" disabled="" type="checkbox"> Group disagreement inside a match, missing groups and alignment errors.</li>
+<li><input checked="" disabled="" type="checkbox"> CPCV complete combinations, all incidence uses, equal-time batches and path coverage.</li>
+<li><input checked="" disabled="" type="checkbox"> Closed endpoint overlap, enclosing intervals, disjoint intervals and run-based embargo.</li>
+<li><input checked="" disabled="" type="checkbox"> Empty training errors, wrong/missing/extra prediction positions and numeric output contracts.</li>
+<li><input checked="" disabled="" type="checkbox"> Chronological paths, stable ties, multiple outputs and unchanged NaNs/nullable values.</li>
+<li><input checked="" disabled="" type="checkbox"> Selector/refit options default to None and are never invoked; inputs remain unchanged.</li>
+<li><input checked="" disabled="" type="checkbox"> Distinguish outer folds, future inner selection, initial fits and additional refit schedules.</li>
+<li><input checked="" disabled="" type="checkbox"> Explain retrospective state/feature reconstruction and nonindependent CPCV paths.</li>
+<li><input checked="" disabled="" type="checkbox"> Preserve the read-only reference notebook and exclude its finance/statistical calculations.</li>
+<li><input checked="" disabled="" type="checkbox"> Execute all practical examples and the separate minimal seventh notebook.</li>
+<li><input checked="" disabled="" type="checkbox"> Verify packaged imports, rendered LaTeX/tables, links and stable-source preservation.</li>
+</ul>
+<h2>Independent runtime evidence</h2>
+<p>All 632 analytics tests pass: 142 new splits/CV cases and the prior 490 regressions.
+The first focused core/temporal and CPCV runs passed. No implementation defect,
+source repair or failure callback was required. The all-missing availability
+regression checks the primary&#39;s pre-dispatch UTC normalization fix.</p>
+<p>The bounded real check loads four pinned Premier League/Bundesliga 2023/24 and
+2024/25 publications: 1,372 matches and 2,744 team rows. Fourteen scheme/layout
+combinations reconcile 192,240 membership positions and 41,160 reconstructed
+numeric cells. References use independent match dictionaries, block membership,
+pairwise interval overlap and contiguous-run embargo rules.</p>
+<p>The explicit availability scenario is kickoff plus three hours, a synthetic
+sensitivity input rather than observed result-publication evidence. Two-day lead
+times test prediction boundaries. Path values are alignment sentinels; no model
+was trained and no predictive/statistical conclusion follows from their values.
+Previous notebooks, tests, source data and evidence remain outside the edit scope.</p>
+<h2>Documentation and preservation evidence</h2>
+<p>All ten practical examples execute. The separate seventh notebook has nine cells,
+five containing code, and executed top-to-bottom in a fresh existing kernel.
+A bounded 77-file wheel copy imports every splitter and reconstructs paths in an
+isolated interpreter, without sklearn imports or package installation.</p>
+<p>All 27 LaTeX expressions, including six display equations, render without errors
+or overflow. Thirteen sections were visually inspected; table column counts and
+58 local links pass. The source review checks the scoring/eligibility rules,
+closed overlap, duration embargo and combinatorial identity; the latter also
+passes exact integer checks for 66 count pairs.</p>
+<p>The final audit confirms 33 unchanged source files across runtime, real-data,
+notebook and example execution; 164 protected earlier files; 20 prepared-source
+and selection files; and all six earlier notebooks. Six original documents are
+archived before replacement, including the two archived by the primary task.
+The user reference notebook&#39;s hash is unchanged and it was never executed.
+The worker made no library edits and sent no success or failure callbacks.</p>
+</article></body></html>

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xdiyo-collection"
+version = "0.1.0"
+description = "Resumable Sofascore collection and typed football data preparation"
+requires-python = ">=3.11"
+dependencies = ["pandas>=2.2,<4", "pyarrow>=17,<26", "selenium>=4.25,<5"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+notebook = ["ipykernel>=6,<8", "nbformat>=5,<6", "nbclient>=0.10,<1", "jupyterlab>=4,<5"]
+reporting = ["scipy>=1.14,<2", "plotly>=5.24,<7"]
+
+[project.scripts]
+xdiyo-collect = "scraping.sofascore.cli:main"
+
+[tool.setuptools]
+packages = ["scraping", "scraping.sofascore", "utils", "xdiyo_analytics", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting"]
+package-dir = {"xdiyo_analytics" = "src/xdiyo_analytics"}
+
+[tool.setuptools.package-data]
+"scraping.sofascore" = ["*.json", "README.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

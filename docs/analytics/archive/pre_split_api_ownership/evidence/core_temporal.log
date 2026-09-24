@@ -1,0 +1,9 @@
+........................................................................ [ 80%]
+.................                                                        [100%]
+============================== warnings summary ===============================
+..\.misc314\Lib\site-packages\_pytest\cacheprovider.py:469
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\cacheprovider.py:469: PytestCacheWarning: could not create cache path C:\Users\luisi\Documents\Programming\Python\xDiyo\.pytest_cache\v\cache\nodeids: [WinError 183] Cannot create a file when that file already exists: 'C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+89 passed, 1 warning in 1.02s

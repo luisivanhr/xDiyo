@@ -1,0 +1,1 @@
+{"isolated_wheel_import": true, "exports": ["CPCV", "Fold", "GroupKFold", "MatchKFold", "SplitPlan", "TemporalSplit", "create_split_plan", "reconstruct_paths"], "all_families_and_paths": "passed", "sklearn_imported": false}

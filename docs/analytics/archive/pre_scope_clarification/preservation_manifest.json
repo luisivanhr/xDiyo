@@ -1,0 +1,56 @@
+{
+  "archived_before_edits": true,
+  "originals": [
+    {
+      "source": "tests/analytics/test_multiseason.py",
+      "archive": "docs/analytics/archive/pre_scope_clarification/tests/analytics/test_multiseason.py",
+      "sha256": "d16d6d4b47e01a0b7a93e348062b4572bd10faf0bc7c4e755bd4bb0ee2447887"
+    },
+    {
+      "source": "notebooks/01_loader_walkthrough.ipynb",
+      "archive": "docs/analytics/archive/pre_scope_clarification/notebooks/01_loader_walkthrough.ipynb",
+      "sha256": "434973ed998b238f4024ababca4afc6f8953d138541acf8cb06845d3e59c7f7c"
+    },
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/src/README.md",
+      "sha256": "f99cc5ac37a09f32ed4dd4502810e471fdb6486542fe583c3faa9f587244852b"
+    },
+    {
+      "source": "docs/analytics/season_loading.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/docs/analytics/season_loading.md",
+      "sha256": "1c937c960ed011b02b61a582af86466781db36fd0914114b47ae8739fffab1aa"
+    },
+    {
+      "source": "docs/analytics/season_inspection.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/docs/analytics/season_inspection.md",
+      "sha256": "e51c9bde8d8ac036864840301656bbb9a783a4fc19a36ab38f5d899ca24648d4"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "790ceac1239ddc14cb10201b6dbba7828aaaef16d0f0d16161d1db37335fad40"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/coaching_history.md",
+      "sha256": "750fcebf8c10833a1c585d10e1820932fb79f230e8fe4f1c530de25589598471"
+    },
+    {
+      "source": "football_analytics_working_notes.md",
+      "archive": "docs/analytics/archive/pre_scope_clarification/football_analytics_working_notes.md",
+      "sha256": "afe32b3388b9b1dae34f126190f5851a2912d1074314264c0f4b7bc344defbcf"
+    }
+  ],
+  "prior_evidence_jsons_preserved": {
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7"
+  }
+}

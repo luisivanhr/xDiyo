@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xdiyo-analytics"
+version = "0.1.0"
+description = "Football data analysis and experiment building"
+requires-python = ">=3.11"
+dependencies = ["pandas>=2.2,<4", "pyarrow>=17,<26"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "xgboost>=3,<4"]
+notebook = ["ipykernel>=6,<8", "nbformat>=5,<6", "nbclient>=0.10,<1", "jupyterlab>=4,<5"]
+reporting = ["scipy>=1.14,<2", "plotly>=5.24,<7", "scikit-learn>=1.5,<2"]
+training = ["scikit-learn>=1.6,<2", "statsmodels>=0.14.5,<0.16", "joblib>=1.4,<2", "threadpoolctl>=3.1,<4"]
+
+[project.scripts]
+xdiyo-ui = "xdiyo_analytics.ui.server:main"
+
+[tool.setuptools]
+packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting", "xdiyo_analytics.training", "xdiyo_analytics.evaluation", "xdiyo_analytics.experiments", "xdiyo_analytics.selection", "xdiyo_analytics.ui"]
+package-dir = {"xdiyo_analytics" = "src/xdiyo_analytics"}
+
+[tool.setuptools.package-data]
+"xdiyo_analytics.ui" = ["static/*.html", "static/*.js", "static/*.css", "inventory.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

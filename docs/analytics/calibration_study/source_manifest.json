@@ -1,0 +1,39 @@
+{
+  "run_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\experiments\\corners_lasso_first_grid_search--fcd9789c\\runs\\bd20f431-2828-4e43-b0b4-026eeda650aa",
+  "run_id": "bd20f431-2828-4e43-b0b4-026eeda650aa",
+  "created_at": "2026-09-19T10:29:10.060961+00:00",
+  "name": "Tuned per fold",
+  "n_rows": 9204,
+  "folds": [
+    0,
+    1
+  ],
+  "feature_definition_count": 53,
+  "training_model_records": [
+    {
+      "fold_id": 0,
+      "n_iter": 41,
+      "termination_reason": "estimator_managed",
+      "n_features": 116
+    },
+    {
+      "fold_id": 1,
+      "n_iter": 345,
+      "termination_reason": "estimator_managed",
+      "n_features": 116
+    }
+  ],
+  "selected_alpha_by_fold": {
+    "0": 0.01,
+    "1": 0.01
+  },
+  "identifier_columns": [
+    "source_league",
+    "source_season",
+    "competition_id",
+    "season_id",
+    "event_id"
+  ],
+  "identifier_rows": 9204,
+  "train_predictions_retained": false
+}

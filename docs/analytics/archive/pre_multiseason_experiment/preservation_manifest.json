@@ -1,0 +1,42 @@
+{
+  "archived_before_edits": true,
+  "originals": [
+    {
+      "source": "notebooks/01_loader_walkthrough.ipynb",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/notebooks/01_loader_walkthrough.ipynb",
+      "sha256": "50da3641fa0bec7a74b4ae19cc27ba25269d1b7029426e99c8677d33e6f41c94"
+    },
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/src/README.md",
+      "sha256": "470b36d51094aded4ad0f70fb0a9f64157ce6656cbaae352bac441ba3d023e40"
+    },
+    {
+      "source": "docs/analytics/season_loading.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/docs/analytics/season_loading.md",
+      "sha256": "96d4468d27640173b432f762e84a58d0a9d95cf42f4616867f6ebc3b20b713b6"
+    },
+    {
+      "source": "docs/analytics/season_inspection.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/docs/analytics/season_inspection.md",
+      "sha256": "86a1118ac99cf67b0c4db6cac88586a7de7aaf51f057f1ba6fca6c5b11f370e0"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "76ca14e6c7312b508c95c3863908241e7aa8ba5538590704b602fe97fa8e522d"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/coaching_history.md",
+      "sha256": "ca9a6277d47d3c2cfe3c821293c6b410f460e0af780cb9bf9dab3ed604996911"
+    },
+    {
+      "source": "football_analytics_working_notes.md",
+      "archive": "docs/analytics/archive/pre_multiseason_experiment/football_analytics_working_notes.md",
+      "sha256": "2edeabbee36633966ed1369e7fdb276eb0591f67648ba41026fb3dc6b1d990fa"
+    }
+  ],
+  "original_notebook_cells": 9,
+  "previous_archive": "docs/analytics/archive/pre_simplification/preservation_manifest.json"
+}

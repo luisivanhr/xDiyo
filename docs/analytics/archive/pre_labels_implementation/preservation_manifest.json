@@ -1,0 +1,23 @@
+{
+  "created_at_utc": "2026-09-17T00:30:15.288568+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_labels_implementation/IMPLEMENTATION_PROGRESS.md": "36c2a2e7b56a528637509dabfd8fa9b68451038bfe29356013dc9bda0f56938b",
+    "docs/analytics/archive/pre_labels_implementation/football_analytics_working_notes.md": "7cc5f58ad85d7a6e4297bcd1ea682c7e5d1561ba343ddbc97b1f8ba9800439d7",
+    "docs/analytics/archive/pre_labels_implementation/coaching_history.md": "5af87cefa6732577b82b9b2de85acb5a7af9dff20d3dacb48198b9e9c9d0d1b1",
+    "docs/analytics/archive/pre_labels_implementation/src/README.md": "b01fe4ccb4bbcc28ffecd8d142979d4fef7b7862fc86ed11ee92638ea9c35881"
+  },
+  "verified_unchanged": true,
+  "current_document_sha256": {
+    "IMPLEMENTATION_PROGRESS.md": "50a0adda88b5d54b6262037e2a2fc111b8fcc42edd4cc284b31e4ac983a1df27",
+    "football_analytics_working_notes.md": "1937702092cf3ab1645b805c107191541f6cb3a760512d59ca3c5749c856441a",
+    "coaching_history.md": "5e1dc3edb02bad2e2de6617b9bf7919a20a1c4c46ac666817ac0fa21693e0f59",
+    "src/README.md": "b7c886adbce55e8b29eade58e8960e74d283e4eb2a100f2c750503bb02791155",
+    "docs/analytics/labels.md": "19f15bb337fcf1281491345d9f0174d3d09d195c3cc19ff72862a3fc16702bdf",
+    "docs/analytics/labels_reference.md": "d377b6196a8bd416afc727a1329df2678e963c89a89e45bc4a02861ad9becc1a",
+    "docs/analytics/labels_documentation_checklist.md": "e4e9c858c14438bcad58e203fda42e340ba7cd308f2d9545d6c2190d5e295ff4"
+  },
+  "evidence": {
+    "path": "docs/analytics/labels_check.json",
+    "sha256": "c8980ee2772eb752e7493deccd2ca0cb8eef8dbafad137dfa49e80d452901956"
+  }
+}

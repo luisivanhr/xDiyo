@@ -1,0 +1,283 @@
+running bdist_wheel
+running build
+running build_py
+creating build\lib\scraping
+copying scraping\football_scrape_xdiyo.py -> build\lib\scraping
+copying scraping\football_scrape_xdiyo_novpn.py -> build\lib\scraping
+copying scraping\football_scrape_xdiyo_wVPN.py -> build\lib\scraping
+copying scraping\__init__.py -> build\lib\scraping
+creating build\lib\scraping\sofascore
+copying scraping\sofascore\audit.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\benchmark.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\campaign.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\cli.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\client.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\compatibility.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\config.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\diagnose_access.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\discovery.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\export.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\goal_actions.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\heatmap_benchmark.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\legacy.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\migrate_legacy.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\models.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\movements.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\notebook_api.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\parsers.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\planner.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\rate_limit.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\runner.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\schema.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\statistics_backfill.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\store.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\timing.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\validate_legacy_migration.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\__init__.py -> build\lib\scraping\sofascore
+copying scraping\sofascore\__main__.py -> build\lib\scraping\sofascore
+creating build\lib\utils
+copying utils\data_loading.py -> build\lib\utils
+copying utils\football_dataset_xDiyoFire.py -> build\lib\utils
+copying utils\football_features.py -> build\lib\utils
+copying utils\glicko_rating.py -> build\lib\utils
+copying utils\promotions_demotions.py -> build\lib\utils
+copying utils\reshaping.py -> build\lib\utils
+copying utils\team_seasons.py -> build\lib\utils
+copying utils\tensor_inputs.py -> build\lib\utils
+copying utils\utils_xDiyo.py -> build\lib\utils
+copying utils\utils_xDiyo_wleague.py -> build\lib\utils
+creating build\lib\xdiyo_analytics
+copying src\xdiyo_analytics\__init__.py -> build\lib\xdiyo_analytics
+creating build\lib\xdiyo_analytics\data
+copying src\xdiyo_analytics\data\inspection.py -> build\lib\xdiyo_analytics\data
+copying src\xdiyo_analytics\data\loading.py -> build\lib\xdiyo_analytics\data
+copying src\xdiyo_analytics\data\selection.py -> build\lib\xdiyo_analytics\data
+copying src\xdiyo_analytics\data\_source.py -> build\lib\xdiyo_analytics\data
+copying src\xdiyo_analytics\data\__init__.py -> build\lib\xdiyo_analytics\data
+creating build\lib\xdiyo_analytics\histories
+copying src\xdiyo_analytics\histories\team.py -> build\lib\xdiyo_analytics\histories
+copying src\xdiyo_analytics\histories\__init__.py -> build\lib\xdiyo_analytics\histories
+creating build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\evaluation.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\expressions.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\history.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\league.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\ratings.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\transitions.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\warmup.py -> build\lib\xdiyo_analytics\features
+copying src\xdiyo_analytics\features\__init__.py -> build\lib\xdiyo_analytics\features
+creating build\lib\xdiyo_analytics\ratings
+copying src\xdiyo_analytics\ratings\glicko.py -> build\lib\xdiyo_analytics\ratings
+copying src\xdiyo_analytics\ratings\replay.py -> build\lib\xdiyo_analytics\ratings
+copying src\xdiyo_analytics\ratings\snapshots.py -> build\lib\xdiyo_analytics\ratings
+copying src\xdiyo_analytics\ratings\transitions.py -> build\lib\xdiyo_analytics\ratings
+copying src\xdiyo_analytics\ratings\__init__.py -> build\lib\xdiyo_analytics\ratings
+creating build\lib\xdiyo_analytics\labels
+copying src\xdiyo_analytics\labels\creation.py -> build\lib\xdiyo_analytics\labels
+copying src\xdiyo_analytics\labels\expressions.py -> build\lib\xdiyo_analytics\labels
+copying src\xdiyo_analytics\labels\__init__.py -> build\lib\xdiyo_analytics\labels
+creating build\lib\xdiyo_analytics\datasets
+copying src\xdiyo_analytics\datasets\assembly.py -> build\lib\xdiyo_analytics\datasets
+copying src\xdiyo_analytics\datasets\__init__.py -> build\lib\xdiyo_analytics\datasets
+creating build\lib\xdiyo_analytics\splits
+copying src\xdiyo_analytics\splits\core.py -> build\lib\xdiyo_analytics\splits
+copying src\xdiyo_analytics\splits\cpcv.py -> build\lib\xdiyo_analytics\splits
+copying src\xdiyo_analytics\splits\temporal.py -> build\lib\xdiyo_analytics\splits
+copying src\xdiyo_analytics\splits\__init__.py -> build\lib\xdiyo_analytics\splits
+running egg_info
+creating xdiyo_collection.egg-info
+writing xdiyo_collection.egg-info\PKG-INFO
+writing dependency_links to xdiyo_collection.egg-info\dependency_links.txt
+writing entry points to xdiyo_collection.egg-info\entry_points.txt
+writing requirements to xdiyo_collection.egg-info\requires.txt
+writing top-level names to xdiyo_collection.egg-info\top_level.txt
+writing manifest file 'xdiyo_collection.egg-info\SOURCES.txt'
+reading manifest file 'xdiyo_collection.egg-info\SOURCES.txt'
+writing manifest file 'xdiyo_collection.egg-info\SOURCES.txt'
+copying scraping\sofascore\README.md -> build\lib\scraping\sofascore
+copying scraping\sofascore\competition_registry.json -> build\lib\scraping\sofascore
+copying scraping\sofascore\example_config.json -> build\lib\scraping\sofascore
+copying scraping\sofascore\notebook_movement_seeds.json -> build\lib\scraping\sofascore
+installing to build\bdist.win-amd64\wheel
+running install
+running install_lib
+creating build\bdist.win-amd64\wheel
+creating build\bdist.win-amd64\wheel\scraping
+copying build\lib\scraping\football_scrape_xdiyo.py -> build\bdist.win-amd64\wheel\.\scraping
+copying build\lib\scraping\football_scrape_xdiyo_novpn.py -> build\bdist.win-amd64\wheel\.\scraping
+copying build\lib\scraping\football_scrape_xdiyo_wVPN.py -> build\bdist.win-amd64\wheel\.\scraping
+creating build\bdist.win-amd64\wheel\scraping\sofascore
+copying build\lib\scraping\sofascore\audit.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\benchmark.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\campaign.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\cli.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\client.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\compatibility.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\competition_registry.json -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\config.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\diagnose_access.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\discovery.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\example_config.json -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\export.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\goal_actions.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\heatmap_benchmark.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\legacy.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\migrate_legacy.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\models.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\movements.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\notebook_api.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\notebook_movement_seeds.json -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\parsers.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\planner.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\rate_limit.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\README.md -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\runner.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\schema.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\statistics_backfill.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\store.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\timing.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\validate_legacy_migration.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\__init__.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\sofascore\__main__.py -> build\bdist.win-amd64\wheel\.\scraping\sofascore
+copying build\lib\scraping\__init__.py -> build\bdist.win-amd64\wheel\.\scraping
+creating build\bdist.win-amd64\wheel\utils
+copying build\lib\utils\data_loading.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\football_dataset_xDiyoFire.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\football_features.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\glicko_rating.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\promotions_demotions.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\reshaping.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\team_seasons.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\tensor_inputs.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\utils_xDiyo.py -> build\bdist.win-amd64\wheel\.\utils
+copying build\lib\utils\utils_xDiyo_wleague.py -> build\bdist.win-amd64\wheel\.\utils
+creating build\bdist.win-amd64\wheel\xdiyo_analytics
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\data
+copying build\lib\xdiyo_analytics\data\inspection.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\data
+copying build\lib\xdiyo_analytics\data\loading.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\data
+copying build\lib\xdiyo_analytics\data\selection.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\data
+copying build\lib\xdiyo_analytics\data\_source.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\data
+copying build\lib\xdiyo_analytics\data\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\data
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\datasets
+copying build\lib\xdiyo_analytics\datasets\assembly.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\datasets
+copying build\lib\xdiyo_analytics\datasets\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\datasets
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\evaluation.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\expressions.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\history.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\league.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\ratings.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\transitions.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\warmup.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+copying build\lib\xdiyo_analytics\features\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\features
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\histories
+copying build\lib\xdiyo_analytics\histories\team.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\histories
+copying build\lib\xdiyo_analytics\histories\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\histories
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\labels
+copying build\lib\xdiyo_analytics\labels\creation.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\labels
+copying build\lib\xdiyo_analytics\labels\expressions.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\labels
+copying build\lib\xdiyo_analytics\labels\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\labels
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\ratings
+copying build\lib\xdiyo_analytics\ratings\glicko.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\ratings
+copying build\lib\xdiyo_analytics\ratings\replay.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\ratings
+copying build\lib\xdiyo_analytics\ratings\snapshots.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\ratings
+copying build\lib\xdiyo_analytics\ratings\transitions.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\ratings
+copying build\lib\xdiyo_analytics\ratings\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\ratings
+creating build\bdist.win-amd64\wheel\xdiyo_analytics\splits
+copying build\lib\xdiyo_analytics\splits\core.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\splits
+copying build\lib\xdiyo_analytics\splits\cpcv.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\splits
+copying build\lib\xdiyo_analytics\splits\temporal.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\splits
+copying build\lib\xdiyo_analytics\splits\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics\splits
+copying build\lib\xdiyo_analytics\__init__.py -> build\bdist.win-amd64\wheel\.\xdiyo_analytics
+running install_egg_info
+Copying xdiyo_collection.egg-info to build\bdist.win-amd64\wheel\.\xdiyo_collection-0.1.0-py3.14.egg-info
+running install_scripts
+creating build\bdist.win-amd64\wheel\xdiyo_collection-0.1.0.dist-info\WHEEL
+creating 'C:\Users\luisi\Documents\Programming\Python\xDiyo\.pytest_tmp\splits_verification\wheel_output\.tmp-ywufjc9q\xdiyo_collection-0.1.0-py3-none-any.whl' and adding 'build\bdist.win-amd64\wheel' to it
+adding 'scraping/__init__.py'
+adding 'scraping/football_scrape_xdiyo.py'
+adding 'scraping/football_scrape_xdiyo_novpn.py'
+adding 'scraping/football_scrape_xdiyo_wVPN.py'
+adding 'scraping/sofascore/README.md'
+adding 'scraping/sofascore/__init__.py'
+adding 'scraping/sofascore/__main__.py'
+adding 'scraping/sofascore/audit.py'
+adding 'scraping/sofascore/benchmark.py'
+adding 'scraping/sofascore/campaign.py'
+adding 'scraping/sofascore/cli.py'
+adding 'scraping/sofascore/client.py'
+adding 'scraping/sofascore/compatibility.py'
+adding 'scraping/sofascore/competition_registry.json'
+adding 'scraping/sofascore/config.py'
+adding 'scraping/sofascore/diagnose_access.py'
+adding 'scraping/sofascore/discovery.py'
+adding 'scraping/sofascore/example_config.json'
+adding 'scraping/sofascore/export.py'
+adding 'scraping/sofascore/goal_actions.py'
+adding 'scraping/sofascore/heatmap_benchmark.py'
+adding 'scraping/sofascore/legacy.py'
+adding 'scraping/sofascore/migrate_legacy.py'
+adding 'scraping/sofascore/models.py'
+adding 'scraping/sofascore/movements.py'
+adding 'scraping/sofascore/notebook_api.py'
+adding 'scraping/sofascore/notebook_movement_seeds.json'
+adding 'scraping/sofascore/parsers.py'
+adding 'scraping/sofascore/planner.py'
+adding 'scraping/sofascore/rate_limit.py'
+adding 'scraping/sofascore/runner.py'
+adding 'scraping/sofascore/schema.py'
+adding 'scraping/sofascore/statistics_backfill.py'
+adding 'scraping/sofascore/store.py'
+adding 'scraping/sofascore/timing.py'
+adding 'scraping/sofascore/validate_legacy_migration.py'
+adding 'utils/data_loading.py'
+adding 'utils/football_dataset_xDiyoFire.py'
+adding 'utils/football_features.py'
+adding 'utils/glicko_rating.py'
+adding 'utils/promotions_demotions.py'
+adding 'utils/reshaping.py'
+adding 'utils/team_seasons.py'
+adding 'utils/tensor_inputs.py'
+adding 'utils/utils_xDiyo.py'
+adding 'utils/utils_xDiyo_wleague.py'
+adding 'xdiyo_analytics/__init__.py'
+adding 'xdiyo_analytics/data/__init__.py'
+adding 'xdiyo_analytics/data/_source.py'
+adding 'xdiyo_analytics/data/inspection.py'
+adding 'xdiyo_analytics/data/loading.py'
+adding 'xdiyo_analytics/data/selection.py'
+adding 'xdiyo_analytics/datasets/__init__.py'
+adding 'xdiyo_analytics/datasets/assembly.py'
+adding 'xdiyo_analytics/features/__init__.py'
+adding 'xdiyo_analytics/features/evaluation.py'
+adding 'xdiyo_analytics/features/expressions.py'
+adding 'xdiyo_analytics/features/history.py'
+adding 'xdiyo_analytics/features/league.py'
+adding 'xdiyo_analytics/features/ratings.py'
+adding 'xdiyo_analytics/features/transitions.py'
+adding 'xdiyo_analytics/features/warmup.py'
+adding 'xdiyo_analytics/histories/__init__.py'
+adding 'xdiyo_analytics/histories/team.py'
+adding 'xdiyo_analytics/labels/__init__.py'
+adding 'xdiyo_analytics/labels/creation.py'
+adding 'xdiyo_analytics/labels/expressions.py'
+adding 'xdiyo_analytics/ratings/__init__.py'
+adding 'xdiyo_analytics/ratings/glicko.py'
+adding 'xdiyo_analytics/ratings/replay.py'
+adding 'xdiyo_analytics/ratings/snapshots.py'
+adding 'xdiyo_analytics/ratings/transitions.py'
+adding 'xdiyo_analytics/splits/__init__.py'
+adding 'xdiyo_analytics/splits/core.py'
+adding 'xdiyo_analytics/splits/cpcv.py'
+adding 'xdiyo_analytics/splits/temporal.py'
+adding 'xdiyo_collection-0.1.0.dist-info/METADATA'
+adding 'xdiyo_collection-0.1.0.dist-info/WHEEL'
+adding 'xdiyo_collection-0.1.0.dist-info/entry_points.txt'
+adding 'xdiyo_collection-0.1.0.dist-info/top_level.txt'
+adding 'xdiyo_collection-0.1.0.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
+xdiyo_collection-0.1.0-py3-none-any.whl
+warning: build_py: byte-compiling is disabled, skipping.
+
+warning: install_lib: byte-compiling is disabled, skipping.
+

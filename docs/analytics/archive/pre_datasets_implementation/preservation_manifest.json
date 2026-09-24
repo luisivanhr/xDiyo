@@ -1,0 +1,29 @@
+{
+  "created_at_utc": "2026-09-17T03:21:17.559850+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_datasets_implementation/IMPLEMENTATION_PROGRESS.md": "2177da8a829ef3f141dc1882e2ded069035ae50c076f067d442f0100eabd075a",
+    "docs/analytics/archive/pre_datasets_implementation/football_analytics_working_notes.md": "728e27ada16a2c8039d908ce3ce99e4bddb6f17a2d4c719f0d3ef51067588930",
+    "docs/analytics/archive/pre_datasets_implementation/coaching_history.md": "5e1dc3edb02bad2e2de6617b9bf7919a20a1c4c46ac666817ac0fa21693e0f59",
+    "docs/analytics/archive/pre_datasets_implementation/src/README.md": "b7c886adbce55e8b29eade58e8960e74d283e4eb2a100f2c750503bb02791155",
+    "docs/analytics/archive/pre_datasets_implementation/docs/analytics/features.md": "4efbc0e7e9cdd52c09253b4015fb5d2ceb5dc896e3b24fa830961edd7ef8b639",
+    "docs/analytics/archive/pre_datasets_implementation/docs/analytics/labels.md": "19f15bb337fcf1281491345d9f0174d3d09d195c3cc19ff72862a3fc16702bdf",
+    "docs/analytics/archive/pre_datasets_implementation/docs/analytics/labels_reference.md": "d377b6196a8bd416afc727a1329df2678e963c89a89e45bc4a02861ad9becc1a"
+  },
+  "verified_unchanged": true,
+  "current_document_sha256": {
+    "IMPLEMENTATION_PROGRESS.md": "9b48af09561e6c940b5ad36b61d9262468900ef6f04170b17b7f1f72ae59808a",
+    "football_analytics_working_notes.md": "99de849640352210d0faaea71a44a357399230ff64ba196725b1033c4278c071",
+    "coaching_history.md": "2a4a0ab90328fb32023d24dfdde45aaaa32c81da336c941c7ce91791b0ccf297",
+    "src/README.md": "4aeebaf2aa41f47564ffbdafd78814f3adf7be928ecc3a266137d2c7ef208511",
+    "docs/analytics/features.md": "6fefc3fa6c07ce9adc25a2845f609be7f42929fb07fbfabe5bc7dfcb3ca11223",
+    "docs/analytics/labels.md": "7a03cccd49371e0af7a51f8f0b8a632cb6882d03864f15a8b3bebd8c1591a5b9",
+    "docs/analytics/labels_reference.md": "c55de905e6e35fd888794f187f2d3413055c1c8fcbd4db4d65a4600f2ab2e8a4",
+    "docs/analytics/datasets.md": "da414732fb665069aafbba8de4d589cc8f515d3025b76b28a569c372f1e3740f",
+    "docs/analytics/datasets_reference.md": "4cf75316e5838cfa46cc971702cbba498dff685006a7b2f296daf359efc2e471",
+    "docs/analytics/datasets_documentation_checklist.md": "cd6bc8f339a9694c66c7c056bbe3c7d7fa891d6d6837cb896afbaa60d6db8007"
+  },
+  "evidence": {
+    "path": "docs/analytics/datasets_check.json",
+    "sha256": "974c48d23ac76f0d6d00ec13eedee80b12b879914385eefcbf1ac2c2fcc57266"
+  }
+}

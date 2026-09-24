@@ -1,0 +1,314 @@
+{
+  "checked_at_utc": "2026-09-16T01:56:28.029642+00:00",
+  "contract": "Simplified inspect_season/load_season; retired diagnostic APIs intentionally excluded",
+  "environment": {
+    "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0"
+  },
+  "initial_capture": {
+    "captured_at_utc": "2026-09-16T01:45:33.5431415Z",
+    "source_sha256": {
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/data/loading.py": "b5930a264fe74391a5c3e26e00f773d1af59ce83c65afa24cdd468d89f3fa1ba",
+      "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836"
+    },
+    "notebook_sha256": "ea90a29bf1d13d1a098789920d053723fa3d880790c3be68fba6d881a49a429d",
+    "selection_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8"
+  },
+  "checked_baseline": {
+    "captured_at_utc": "2026-09-16T01:55:29.4321950Z",
+    "source_sha256": {
+      "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693",
+      "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+      "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6"
+    },
+    "test_sha256": {
+      "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+      "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+      "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a"
+    }
+  },
+  "source_state_note": "loading.py changed after the initial capture but before testing; results apply only to the matching immediate before/after test state and subsequent checks",
+  "pytest": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "passed": 36,
+    "failed": 0,
+    "output": "....................................                                     [100%]\n36 passed in 1.72s",
+    "before": {
+      "captured_at_utc": "2026-09-16T01:55:29.4321950Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693",
+        "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+        "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+        "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6"
+      },
+      "test_sha256": {
+        "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+        "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+        "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+        "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+        "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a"
+      }
+    },
+    "after": {
+      "captured_at_utc": "2026-09-16T01:55:33.5007089Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693",
+        "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+        "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+        "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6"
+      },
+      "test_sha256": {
+        "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+        "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+        "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+        "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+        "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a"
+      }
+    }
+  },
+  "source_sha256_before_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693"
+  },
+  "source_sha256_after_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693"
+  },
+  "selection_record": "docs/analytics/loader_demo_selection.json",
+  "selected_version": "6d950fa327de4fc29c796c7cca101606",
+  "parquet_comparisons": {
+    "matches": {
+      "shape": [
+        380,
+        35
+      ],
+      "source_columns": [
+        "event_id",
+        "competition_id",
+        "tournament_id",
+        "season_id",
+        "status_code",
+        "round",
+        "home_id",
+        "away_id",
+        "custom_id",
+        "season_year",
+        "status",
+        "stage_json",
+        "time_json",
+        "home_name",
+        "home_slug",
+        "away_name",
+        "away_slug",
+        "kickoff_utc",
+        "event_metadata_observed_at",
+        "home_score_current",
+        "home_score_display",
+        "home_score_period1",
+        "home_score_period2",
+        "home_score_extra1",
+        "home_score_extra2",
+        "home_score_overtime",
+        "home_score_penalties",
+        "away_score_current",
+        "away_score_display",
+        "away_score_period1",
+        "away_score_period2",
+        "away_score_extra1",
+        "away_score_extra2",
+        "away_score_overtime",
+        "away_score_penalties"
+      ],
+      "exact_rows_values_order_dtypes_preserved_default_and_audit": true
+    },
+    "statistics": {
+      "shape": [
+        98224,
+        18
+      ],
+      "source_columns": [
+        "event_id",
+        "source_key",
+        "raw_hash",
+        "observed_at",
+        "period",
+        "group_name",
+        "key",
+        "name",
+        "side",
+        "display",
+        "value_type",
+        "statistics_type",
+        "source_item_json",
+        "team_id",
+        "group_order",
+        "stat_order",
+        "value",
+        "total"
+      ],
+      "exact_rows_values_order_dtypes_preserved_default_and_audit": true
+    },
+    "pregame": {
+      "shape": [
+        740,
+        8
+      ],
+      "source_columns": [
+        "event_id",
+        "source_key",
+        "raw_hash",
+        "observed_at",
+        "side",
+        "team_id",
+        "position",
+        "value_json"
+      ],
+      "exact_rows_values_order_dtypes_preserved_default_and_audit": true
+    }
+  },
+  "catalogue_tables": 15,
+  "catalogue_fields": [
+    "rows",
+    "column_count",
+    "description",
+    "columns",
+    "column_types",
+    "column_summary"
+  ],
+  "input_sha256_before": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3"
+  },
+  "input_sha256_after": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3"
+  },
+  "archived_files": [
+    {
+      "source": "tests/analytics/test_exports.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_exports.py",
+      "sha256": "c968947488c1460c86d3d80f8ed0138f437f32144c234584dd888ce671d44455"
+    },
+    {
+      "source": "tests/analytics/test_loading.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_loading.py",
+      "sha256": "9ac83ecb6f6ab40a57fd3e8e7f1a3847558dd3aa69860d0f91f34d2143bd03c2"
+    },
+    {
+      "source": "tests/analytics/test_statistics.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_statistics.py",
+      "sha256": "08300ca384535b5c60f6e770d3f7322098cfe9915792b16efdd7779094ba03e6"
+    },
+    {
+      "source": "tests/analytics/test_season.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_season.py",
+      "sha256": "a09564acacfbbd9485cb989da1a5d37da16f6aee2a9fe05490b85e93a7a1d946"
+    },
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_simplification/src/README.md",
+      "sha256": "de9038ce46663f7c8198a97dc5c464444ace3f8d04aa7686a2322c09f36c2146"
+    },
+    {
+      "source": "docs/analytics/season_loading.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/season_loading.md",
+      "sha256": "c5067f069cd14aa32a8139f74c17785fa853e328dee31295c19e0a94e9358739"
+    },
+    {
+      "source": "docs/analytics/season_inspection.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/season_inspection.md",
+      "sha256": "20dcbc0a0c48525efcd7212fc7a2d6ae09a4c933f5329b21c93dd9b2006b7add"
+    },
+    {
+      "source": "docs/analytics/statistics_validation.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/statistics_validation.md",
+      "sha256": "f400c0c08207907e466169b7b0a37c9639b626e85c169758e374012acfb232f5"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_simplification/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "0e6763a086aabf7764e5097a3e027e226807a1e15efe5bae111f24933b9ff708"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_simplification/coaching_history.md",
+      "sha256": "f9f696daa623f755016a2f898892b5c8f1b7c6103963b08c018d58fbc0662c4e"
+    }
+  ],
+  "historical_json_sha256": {
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10"
+  },
+  "limits": [
+    "Default table reads check size/count/readability/basic structure; full-file hashes are opt-in",
+    "Statistics can load alone; cross-table checks require matches in the same request",
+    "No joins, normalization, features, experiment population or historical availability claims"
+  ],
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "total_cells": 9,
+    "code_cells": 6,
+    "kernel": "misc314_py314",
+    "executed_top_to_bottom": true,
+    "error_outputs": 0,
+    "execution_started_at_utc": "2026-09-16T01:58:25.412897+00:00",
+    "execution_finished_at_utc": "2026-09-16T01:58:29.329128+00:00",
+    "archive": "docs/analytics/archive/pre_simplification/01_loader_walkthrough_detailed.ipynb",
+    "archive_sha256": "ea90a29bf1d13d1a098789920d053723fa3d880790c3be68fba6d881a49a429d",
+    "sha256": "50da3641fa0bec7a74b4ae19cc27ba25269d1b7029426e99c8677d33e6f41c94",
+    "dtale_controls_used": false,
+    "warnings": [
+      "Nonfatal Windows/ZMQ selector-thread warning; execution completed"
+    ]
+  },
+  "source_sha256_after_notebook": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "b3f2fccb2f2ee324d2fa549d0b6b1abc9d27677d3deadcb13a17969d9a7d5836",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "e1682d89464d8a1c74159e14d75c457e8ec2f35b85b38d2ac5b6305e7987d693"
+  },
+  "final_audit": {
+    "checked_at_utc": "2026-09-16T02:03:18.780105+00:00",
+    "unchanged_library_source_files": 5,
+    "unchanged_selected_input_files": 5,
+    "unchanged_historical_json_files": 7,
+    "archived_original_tests_docs_tracker_files": 10,
+    "original_notebook_cells_archived": 123,
+    "active_notebook_cells": 9,
+    "archive_manifest": "docs/analytics/archive/pre_simplification/preservation_manifest.json",
+    "retained_table_descriptions": 18,
+    "checked_active_guide_links": 9,
+    "library_source_edited_by_worker": false,
+    "files_removed_by_worker": false,
+    "callbacks_sent": 0
+  }
+}

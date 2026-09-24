@@ -1,0 +1,94 @@
+........................................................................ [ 37%]
+........................................................................ [ 75%]
+........FF...........................F.........                          [100%]
+================================== FAILURES ===================================
+____ test_consensus_children_have_same_fold_metadata_as_per_fold_execution ____
+
+    def test_consensus_children_have_same_fold_metadata_as_per_fold_execution():
+        seen = []
+        @dataclass(kw_only=True)
+        class MetadataSelector(MeanSelector):
+            def select(self, ctx):
+                seen.append((self.across_folds, ctx.fold_id, deepcopy(ctx.fold_metadata)))
+                return super().select(ctx)
+        data = sample()
+        PreTrainingAnalysis({'local': MetadataSelector(type='per_fold', partition='train'),
+                             'consensus': MetadataSelector(type='overall', partition='train', across_folds=True)}).run(data, split_plan=plan(data))
+>       assert [(fold, metadata) for _, fold, metadata in seen[:2]] == [(fold, metadata) for _, fold, metadata in seen[2:]]
+E       AssertionError: assert [(0, {'nested...ested': [1]})] == [(0, {}), (1, {})]
+E         
+E         At index 0 diff: (0, {'nested': [0]}) != (0, {})
+E         Use -v to get more diff
+
+tests\analytics\test_reporting_selector_contract.py:103: AssertionError
+_________ test_consensus_children_isolate_mutable_context_definitions _________
+
+    def test_consensus_children_isolate_mutable_context_definitions():
+        @dataclass(kw_only=True)
+        class MutatingSelector(MeanSelector):
+            def select(self, ctx):
+                assert ctx.definitions['features']['linear']['description'] == 'synthetic'
+                ctx.definitions['features']['linear']['description'] = 'changed'
+                return super().select(ctx)
+        data = sample()
+>       PreTrainingAnalysis({'consensus': MutatingSelector(type='overall', partition='train', across_folds=True)}).run(data, split_plan=plan(data))
+
+tests\analytics\test_reporting_selector_contract.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\xdiyo_analytics\analysis\pre_training.py:126: in run
+    result = reporter.run(context)
+             ^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\reporting\selectors.py:70: in run
+    results[fold_id] = self.for_fold().run(child)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\reporting\selectors.py:55: in run
+    return self._selection_result(self.select(context), context)
+                                  ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = test_consensus_children_isolate_mutable_context_definitions.<locals>.MutatingSelector(type='per_fold', partition='train', features_from=None, across_folds=False)
+ctx = AnalysisContext(X=              linear  negative  cycle  constant  missing
+row_position                               ..., definitions={'features': {'linear': {'description': 'changed'}}}, previous_results={}, fold_rows={}, fold_results={})
+
+    def select(self, ctx):
+>       assert ctx.definitions['features']['linear']['description'] == 'synthetic'
+E       AssertionError: assert 'changed' == 'synthetic'
+E         
+E         - synthetic
+E         + changed
+E       Reporter 'consensus', type=overall, partition=train, fold=None
+
+tests\analytics\test_reporting_selector_contract.py:110: AssertionError
+______ test_custom_artifact_layouts_text_escaping_and_full_csv_download _______
+
+tmp_path = WindowsPath('C:/Users/luisi/Documents/Programming/Python/xDiyo/.pytest_tmp/d46054f0391c4ff99838493c112e6df4/test_custom_artifact_layouts_t0')
+
+    def test_custom_artifact_layouts_text_escaping_and_full_csv_download(tmp_path):
+        hostile = '<img src=x onerror="window.bad=1">'
+        frame = pd.DataFrame({'label': [hostile] + ['value']*204, 'position': range(205)})
+        artifacts = [Artifact('text', hostile), Artifact('table', frame, hostile),
+                     Artifact('html', '<div id="trusted">trusted local HTML</div>'),
+                     Artifact('custom', {'message': 'own layout'})]
+        report = simple_report(artifacts, {'full': frame}, title=hostile)
+        with pytest.raises(ValueError, match='renderer'):
+            report.to_html()
+        original = deepcopy(frame)
+        path = tmp_path / 'nested/report.html'
+        html = report.to_html(path, renderers={'custom': lambda artifact: '<section id="extension">own layout</section>'})
+        assert path.read_text(encoding='utf-8') == html
+        assert hostile not in html and '&lt;img' in html
+        assert '<div id="trusted">' in html and '<section id="extension">' in html
+        assert 'first 200 of 205 rows' in html
+        links = [attrs for tag, attrs in Tags(html).tags if tag == 'a' and attrs.get('class') == 'download']
+        decoded = [base64.b64decode(link['href'].split(',', 1)[1]).decode('utf-8-sig') for link in links]
+        assert sum(text == frame.to_csv(index=False) for text in decoded) == 2
+>       assert any(text.startswith('row_position\n') and len(text.splitlines()) == 13 for text in decoded)
+E       assert False
+E        +  where False = any(<generator object test_custom_artifact_layouts_text_escaping_and_full_csv_download.<locals>.<genexpr> at 0x000001F3C55282E0>)
+
+tests\analytics\test_reporting_viewer.py:52: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_reporting_selector_contract.py::test_consensus_children_have_same_fold_metadata_as_per_fold_execution
+FAILED tests/analytics/test_reporting_selector_contract.py::test_consensus_children_isolate_mutable_context_definitions
+FAILED tests/analytics/test_reporting_viewer.py::test_custom_artifact_layouts_text_escaping_and_full_csv_download
+3 failed, 188 passed in 3.56s

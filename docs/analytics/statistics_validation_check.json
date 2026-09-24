@@ -1,0 +1,410 @@
+{
+  "checked_at_utc": "2026-09-15T16:59:29.806299+00:00",
+  "scope": "Premier League 2024/25 matches and statistics only, replaying existing saved selection; shots kept separate",
+  "environment": {
+    "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0"
+  },
+  "pytest": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "result": "........................................................................ [ 28%]\n........................................................................ [ 56%]\n........................................................................ [ 84%]\n.........................................                                [100%]\n257 passed in 3.31s",
+    "total_passed": 257,
+    "new_statistics_cases": 137,
+    "failed": 0,
+    "source_before": {
+      "captured_at_utc": "2026-09-15T16:59:10.1531319Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+        "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+        "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+        "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf",
+        "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+        "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c"
+      },
+      "test_statistics_sha256": "08300ca384535b5c60f6e770d3f7322098cfe9915792b16efdd7779094ba03e6"
+    },
+    "source_after": {
+      "captured_at_utc": "2026-09-15T16:59:16.9362834Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+        "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+        "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+        "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf",
+        "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+        "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c"
+      },
+      "test_statistics_sha256": "08300ca384535b5c60f6e770d3f7322098cfe9915792b16efdd7779094ba03e6"
+    }
+  },
+  "initial_provenance_guard_failure": {
+    "error": "RuntimeError: Source changed across focused suite and real-data check; do not transfer a pass",
+    "initial_source_state": {
+      "captured_at_utc": "2026-09-15T16:51:26.8933191Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+        "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+        "src/xdiyo_analytics/data/statistics.py": "4fe815d138e19da42d3fe062eef322810f496261199ab4d769935e701746576f",
+        "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+        "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+        "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863"
+      },
+      "notebook_sha256": "1abb58b0e0d253ef45d8dcb20c0a20167ca68adf2d1b4386ab63e9b69967ff27",
+      "selection_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8"
+    },
+    "resolution": "Captured immediate before/after source fingerprints and reran the complete analytics suite. No pytest case failed; no implementation changes were made by the verification task.",
+    "reported_to_primary": true
+  },
+  "source_sha256_before_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  },
+  "source_sha256_after_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  },
+  "same_source_state_through_suite_and_real_check": true,
+  "selection_path": "docs/analytics/loader_demo_selection.json",
+  "selection_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+  "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\manifest.json",
+  "manifest_sha256": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+  "version": "6d950fa327de4fc29c796c7cca101606",
+  "scope_metadata": {
+    "league_id": 17,
+    "league_name": "Premier_League",
+    "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38
+    ],
+    "season_end": 2025,
+    "season_id": 61627,
+    "season_start": 2024
+  },
+  "matches_shape": [
+    380,
+    35
+  ],
+  "statistics_shape": [
+    98224,
+    18
+  ],
+  "report": {
+    "rows": 98224,
+    "matches_referenced": 380,
+    "team_id_column_present": true,
+    "match_sides_without_statistics": [],
+    "missing_team_id_rows": 0,
+    "missing_team_id_row_positions_first_10": [],
+    "missing_value_rows": 0,
+    "missing_value_row_positions_first_10": []
+  },
+  "periods": [
+    "1ST",
+    "2ND",
+    "ALL"
+  ],
+  "groups": [
+    "Attack",
+    "Defending",
+    "Duels",
+    "Goalkeeping",
+    "Match overview",
+    "Passes",
+    "Shots"
+  ],
+  "distinct_keys": 50,
+  "keys_in_multiple_groups": 4,
+  "period_group_rows": [
+    {
+      "period": "1ST",
+      "group_name": "Attack",
+      "rows": 3394
+    },
+    {
+      "period": "1ST",
+      "group_name": "Defending",
+      "rows": 3800
+    },
+    {
+      "period": "1ST",
+      "group_name": "Duels",
+      "rows": 3800
+    },
+    {
+      "period": "1ST",
+      "group_name": "Goalkeeping",
+      "rows": 1518
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "rows": 7642
+    },
+    {
+      "period": "1ST",
+      "group_name": "Passes",
+      "rows": 3800
+    },
+    {
+      "period": "1ST",
+      "group_name": "Shots",
+      "rows": 6466
+    },
+    {
+      "period": "2ND",
+      "group_name": "Attack",
+      "rows": 3394
+    },
+    {
+      "period": "2ND",
+      "group_name": "Defending",
+      "rows": 3800
+    },
+    {
+      "period": "2ND",
+      "group_name": "Duels",
+      "rows": 3800
+    },
+    {
+      "period": "2ND",
+      "group_name": "Goalkeeping",
+      "rows": 1518
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "rows": 7642
+    },
+    {
+      "period": "2ND",
+      "group_name": "Passes",
+      "rows": 3800
+    },
+    {
+      "period": "2ND",
+      "group_name": "Shots",
+      "rows": 6466
+    },
+    {
+      "period": "ALL",
+      "group_name": "Attack",
+      "rows": 4154
+    },
+    {
+      "period": "ALL",
+      "group_name": "Defending",
+      "rows": 4596
+    },
+    {
+      "period": "ALL",
+      "group_name": "Duels",
+      "rows": 3800
+    },
+    {
+      "period": "ALL",
+      "group_name": "Goalkeeping",
+      "rows": 3946
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "rows": 9862
+    },
+    {
+      "period": "ALL",
+      "group_name": "Passes",
+      "rows": 4560
+    },
+    {
+      "period": "ALL",
+      "group_name": "Shots",
+      "rows": 6466
+    }
+  ],
+  "totalShotsOnGoal_example": [
+    {
+      "event_id": 12436410,
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "side": "home",
+      "value": 5.0,
+      "display": "5"
+    },
+    {
+      "event_id": 12436410,
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "side": "away",
+      "value": 14.0,
+      "display": "14"
+    },
+    {
+      "event_id": 12436410,
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "side": "home",
+      "value": 5.0,
+      "display": "5"
+    },
+    {
+      "event_id": 12436410,
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "side": "away",
+      "value": 14.0,
+      "display": "14"
+    },
+    {
+      "event_id": 12436410,
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "side": "home",
+      "value": 4.0,
+      "display": "4"
+    },
+    {
+      "event_id": 12436410,
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "side": "away",
+      "value": 9.0,
+      "display": "9"
+    },
+    {
+      "event_id": 12436410,
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "side": "home",
+      "value": 4.0,
+      "display": "4"
+    },
+    {
+      "event_id": 12436410,
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "side": "away",
+      "value": 9.0,
+      "display": "9"
+    }
+  ],
+  "missing_value_rows_with_nonnull_display": 0,
+  "input_sha256_before": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d"
+  },
+  "input_sha256_after": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d"
+  },
+  "inputs_and_attrs_preserved": true,
+  "limits": [
+    "Structural validation is explicitly called; load_season_table does not invoke it for statistics",
+    "No measure-specific completeness, numeric-range, timing or provenance checks by validate_statistics",
+    "No provider-wide season-completeness, experiment selection, joins or feature claims"
+  ],
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "checkpoint": 6,
+    "kernel": "misc314_py314",
+    "execution_started_at_utc": "2026-09-15T17:08:35.101142+00:00",
+    "execution_finished_at_utc": "2026-09-15T17:08:39.417877+00:00",
+    "previous_cells": 79,
+    "new_cells": 23,
+    "new_code_cells": 11,
+    "total_cells": 102,
+    "new_code_execution_counts": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "error_outputs": 0,
+    "all_previous_cells_outputs_and_metadata_preserved": true,
+    "earlier_cells_executed": false,
+    "full_notebook_rerun": false,
+    "sha256_before": "1abb58b0e0d253ef45d8dcb20c0a20167ca68adf2d1b4386ab63e9b69967ff27",
+    "sha256_after": "40728be86097f470e19248a4cbecbbee4bcd6fbb520198feba9d38ff587db14a",
+    "warnings": [
+      "Nonfatal Windows/ZMQ Proactor event loop warning; a selector thread was registered and execution completed"
+    ],
+    "display_revision": "Expanded caught error messages and printed complete source hashes; reexecuted only Checkpoint 6"
+  },
+  "source_sha256_after_notebook": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "054ea336427856a9471b18af3f42aa0c867f7c407fa1821c2f58aae60bde95e1",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "cef53fb81a192c39d04a53f98cb64ae896927956fe6bbb820a76d4bdeaa8a9af",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  }
+}
