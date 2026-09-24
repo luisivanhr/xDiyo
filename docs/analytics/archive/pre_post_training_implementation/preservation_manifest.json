@@ -1,0 +1,11 @@
+{
+  "created_at_utc": "2026-09-18T09:34:51.625701+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_post_training_implementation/IMPLEMENTATION_PROGRESS.md": "a26d9352e7145165bdfe763982f6d647750ac9e6aa64bd3ebdb8c31d2c687d02",
+    "docs/analytics/archive/pre_post_training_implementation/football_analytics_working_notes.md": "665a4dbe656162d73349866472f96029db2c50511491d7ddcf7480ff5c3adbd6",
+    "docs/analytics/archive/pre_post_training_implementation/coaching_history.md": "906e9f5574d470b56d6d94dd11e23ca8478dbf814f3ae2a0de9f6bbce4299639",
+    "docs/analytics/archive/pre_post_training_implementation/src/README.md": "b9d82a620d60bcc63bc8110cb9bea07a8c6560eaea47a5d90ae1ea0466e11ffe"
+  },
+  "preserved_files": 4,
+  "note": "Continuity documents preserved before the authorized post-training reporting increment."
+}

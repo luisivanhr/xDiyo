@@ -1,0 +1,374 @@
+{
+  "status": "verified",
+  "verified_at_utc": "2026-09-17T00:06:43.374Z",
+  "scope": "Documentation-only math/source and Markdown review of the equation completion in league_warmup.md and ratings.md.",
+  "full_implementation_suite_rerun": false,
+  "library_source_edits": false,
+  "previous_implementation_evidence": {
+    "path": "docs/analytics/league_warmup_check.json",
+    "sha256": "7bb4b7293d5b9699c3b3af366b2bea5de2e3111ae031d9944f89f2e33d490f8b",
+    "status": "verified",
+    "numerical_source_snapshot_matches": true,
+    "package_registration_changed": true
+  },
+  "source_sha256": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/ratings/__init__.py": "bfee5d50227bd50697c02a9f554b5bc72fd53f07b695a99055b56c42b43b01e2",
+    "src/xdiyo_analytics/ratings/transitions.py": "394ed612eefd831799c01d3ba974fd9567d74ed4736154e382b68b633b041938",
+    "src/xdiyo_analytics/ratings/snapshots.py": "59b4af7a8604489bf766b9767981f6bc80afd011bf1bfba3c3b43bb657180d9f",
+    "src/xdiyo_analytics/ratings/replay.py": "22604dcd6e90499b12346cb723f55e1e1578b87c889155939a9d63f8d58962c2",
+    "src/xdiyo_analytics/ratings/glicko.py": "3a42b6248640e0406528c5637839ca27fbe07510814a37d675ff5e5489a936e7",
+    "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+    "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+    "src/xdiyo_analytics/features/__init__.py": "57efe7d7c379ce879a522a0f4725ab07cde35630e634e444bb8ffbabab38e9f0",
+    "src/xdiyo_analytics/features/warmup.py": "dc745a1dd4844484dce0c3833a33d707f9ca5ab09c58ab56b98de35384f06783",
+    "src/xdiyo_analytics/features/transitions.py": "0bb9614922fb0aa1c033d0cd4fceac20d6467d522792c33d1f2a3ef07a2ff625",
+    "src/xdiyo_analytics/features/ratings.py": "d4ff50611320eea61a669042aa46d7db1725b291fcf3ab499e0d39929ae556b5",
+    "src/xdiyo_analytics/features/league.py": "0e52e4aac0598f1fbb15b6f77ca291f7ad1dee354c76fe6d7336060950669e38",
+    "src/xdiyo_analytics/features/history.py": "31122595b7145adc4d89bf11226ae6d861203e3040e9eadc1055431e5bb8734d",
+    "src/xdiyo_analytics/features/expressions.py": "a6c6371d8bd836327e95cd8c1d275979ba8170c89f0ae4a8e68dcf1cf85238d2",
+    "src/xdiyo_analytics/features/evaluation.py": "3b7db6b169d3d0340caada8fe7a6e1a431468a06b9a89839bc7335639cf3cffa",
+    "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "utils/glicko_rating.py": "1da068e6008acd9b56e40fb6d30710bfc24c68eb86382a70624e8808f588318a",
+    "utils/team_seasons.py": "9d43ea87797d603ecd5d2897a3961cd13d70b94aa0369984f086f4d3d2b3a6a0"
+  },
+  "concurrent_package_registration": {
+    "path": "pyproject.toml",
+    "before_sha256": "8a14dd14a97645d74b7b556a73811b04cdcdcb822e80745f26789e4fe50b2a19",
+    "after_sha256": "b43e97a2d79dd2197cc2356ee5af7b65a232a2080078f84b72ce5116e06c7b96",
+    "change": "Concurrent primary-task labels package registration only; outside this documentation review and verified separately."
+  },
+  "source_review": [
+    {
+      "group": "Finite population and pooled mean/variance/std",
+      "guide": "league_warmup.md#loo-and-pooled-moments",
+      "source": "src/xdiyo_analytics/features/league.py:198-212",
+      "review": "Finite filtering precedes counting and reduction; minimum observations and n>ddof guard the formulas."
+    },
+    {
+      "group": "Z-score and warm-up fallback",
+      "guide": "league_warmup.md#cutoffs-and-z-score-references",
+      "source": "src/xdiyo_analytics/features/evaluation.py:218-252; src/xdiyo_analytics/features/warmup.py:200-223",
+      "review": "Reference minus eligible mean divided by positive spread; weight zero or missing mean prior uses ordinary ddof."
+    },
+    {
+      "group": "Initial team/mover/league mean and league variance",
+      "guide": "league_warmup.md#frozen-priors-and-missing-data",
+      "source": "src/xdiyo_analytics/features/warmup.py:167-196",
+      "review": "Team mean fallback and mover blending match source; finite league variance uses ddof zero and league centering."
+    },
+    {
+      "group": "Seeded EMA",
+      "guide": "league_warmup.md#ema-and-mixture-equations",
+      "source": "src/xdiyo_analytics/features/warmup.py:101-111",
+      "review": "Both moments follow common observation weights; missing values skip updates; alpha one replaces an unknown spread."
+    },
+    {
+      "group": "First/second moment mixture and sample conversion",
+      "guide": "league_warmup.md#ema-and-mixture-equations",
+      "source": "src/xdiyo_analytics/features/warmup.py:87-98,209-214",
+      "review": "Raw second moment identity expands to the implemented between-means term; blend uses directly computed ddof-zero moments."
+    },
+    {
+      "group": "All handoff equations",
+      "guide": "league_warmup.md#all-three-handoffs",
+      "source": "src/xdiyo_analytics/features/warmup.py:17-52",
+      "review": "Hard boundary, clipped linear fade and observation-count decay including documented numerical examples match source."
+    },
+    {
+      "group": "Public/internal Glicko coordinates",
+      "guide": "ratings.md#one-numerical-engine-explicit-scales",
+      "source": "src/xdiyo_analytics/ratings/glicko.py:30-35; utils/glicko_rating.py:SCALE_RATIO",
+      "review": "Rating affine shift/scale and deviation scale match source; positive affine transforms preserve mean/median cohort aggregation."
+    },
+    {
+      "group": "Rating cohort, location, uncertainty and volatility",
+      "guide": "league_warmup.md#glicko-policies-and-rating-only-cohorts",
+      "source": "src/xdiyo_analytics/ratings/transitions.py:51-70,99-145",
+      "review": "C is the selected top/bottom eligible cohort, frozen before the batch; shrinkage, prior-state/mover multipliers and unchanged sigma match source."
+    }
+  ],
+  "findings": [
+    {
+      "kind": "rendering_defect",
+      "status": "corrected",
+      "count": 3,
+      "detail": "Unescaped underscores in LaTeX texttt parameter names caused reproducible KaTeX parse errors.",
+      "original_errors": [
+        {
+          "file": "docs/analytics/league_warmup.md",
+          "line": 211,
+          "latex": "\\lambda=\\texttt{league_weight}",
+          "message": "KaTeX parse error: Expected 'EOF', got '_' at position 23: …=\\texttt{league_̲weight}"
+        },
+        {
+          "file": "docs/analytics/league_warmup.md",
+          "line": 360,
+          "latex": "c=\\texttt{phi_scale}",
+          "message": "KaTeX parse error: Expected 'EOF', got '_' at position 14: c=\\texttt{phi_̲scale}"
+        },
+        {
+          "file": "docs/analytics/league_warmup.md",
+          "line": 360,
+          "latex": "c_M=\\texttt{movement_phi_scale}",
+          "message": "KaTeX parse error: Expected 'EOF', got '_' at position 21: …texttt{movement_̲phi_scale}"
+        }
+      ]
+    },
+    {
+      "kind": "notation_defect",
+      "status": "corrected",
+      "detail": "The finite-observation index set now explicitly filters nonfinite values before its cardinality and sums are defined."
+    },
+    {
+      "kind": "boundary_clarification",
+      "status": "completed",
+      "detail": "Warm Z fallback/zero weight, finite prior population size, and selected rating-cohort/otherwise branches are explicit."
+    },
+    {
+      "kind": "coverage_table_format",
+      "status": "corrected",
+      "detail": "Removed an internal blank line so all 22 API entries are in one Markdown table."
+    }
+  ],
+  "mathematical_checks": {
+    "status": "passed",
+    "checked_at_utc": "2026-09-17T00:02:42.700662+00:00",
+    "scope": "Bounded symbolic and numeric equation checks, not a full implementation test run.",
+    "checks": [
+      {
+        "name": "symbolic_mixture_and_ema_identities",
+        "identities": 2
+      },
+      {
+        "name": "pooled_loo_table_and_sample_conversion",
+        "populations": 3
+      },
+      {
+        "name": "mixture_against_explicit_distribution_and_missing_endpoints",
+        "cases": 6
+      },
+      {
+        "name": "ema_against_explicit_distribution_and_missing_spread",
+        "cases": 4
+      },
+      {
+        "name": "handoff_table_and_zero_round_boundary",
+        "weights": 11
+      },
+      {
+        "name": "glicko_selected_cohort_and_affine_scale_equivalence",
+        "cases": 64
+      }
+    ]
+  },
+  "markdown_and_rendering": {
+    "katex_version": "0.16.45",
+    "math_expressions": 77,
+    "display_equations": 12,
+    "errors": 0,
+    "display_overflows": 0,
+    "visual_sections_reviewed": 7,
+    "table_column_counts_valid": true,
+    "api_coverage_rows": 22,
+    "equation_coverage_rows": 8,
+    "local_links_checked": 65,
+    "method": "Local KaTeX with protected LaTeX math regions and marked GFM, inspected in headless Chrome through Playwright at 1200px width; no network requests.",
+    "limits": "This checks the local review renderer. Other Markdown viewers must enable support for the chosen LaTeX delimiters.",
+    "screenshots_sha256": {
+      ".pytest_tmp/equation_documentation_review/render_after_1.png": "f798e11127bfda17ca2cbe3a519b52c402242b53e8ff3f62f070934583939675",
+      ".pytest_tmp/equation_documentation_review/render_after_2.png": "b992ed6aa37c054a0e2971616474649066cbc69f53fb1b6caec8960f3d3d4abe",
+      ".pytest_tmp/equation_documentation_review/render_after_3.png": "4b97a285c8146cf700b9cd6566716fe57de7dcc66ccbe836256cd6cb07e2d0b6",
+      ".pytest_tmp/equation_documentation_review/render_after_4.png": "cf80e121bd9f9a77b422a9e9402c7a7f97fc907de2d05959c3e922e046052f24",
+      ".pytest_tmp/equation_documentation_review/render_after_5.png": "8a13edd301522897e24a12410beb66ff61162570eeafb37368839fe1b24a1ca8",
+      ".pytest_tmp/equation_documentation_review/render_after_6.png": "91980f419444176fa98efbfc85ff95c6a72dc4c3871237307c2e44006d34370d",
+      ".pytest_tmp/equation_documentation_review/render_after_7.png": "001ea2736877eb2c6a6ae054d3ffdb9e4b36c1853066101f1ca2bb0fc290577a"
+    }
+  },
+  "executable_examples": {
+    "unchanged": true,
+    "previously_executed_league_reference_blocks": 18,
+    "rerun": false,
+    "code_sha256": {
+      "docs/analytics/league_warmup.md": [
+        "9bba0be375e84ca61c09150e9d5add645eb8c60c45a0a2491e7b1cdc7ee34eef",
+        "331b052b9b7f33e88ed28edf7c6ab44d0a0032795113947898bd85ab4a09eebd",
+        "59cb43d4b30d418e873df48d5ced7447e40a5346f9184b5fc934c2d313f6ea79",
+        "42b9036fcbfd77e05d8cc0ee5a803e420e42423832ee6807743d63db7b0af987",
+        "88b74d1cdab36a2f02120f5460ef4ac2a7264a125088d05babb7f3ad80233cc1",
+        "a6b133d06c7f098a4e0eac1511a1539b8ccdb4952a0faefd68c4336718829206"
+      ],
+      "docs/analytics/ratings.md": [
+        "061303ee96fa3c5cd9aeb48e67e027ea59d91232e1d6d989b905b22061a85609",
+        "7ad0db74c5c7931ac90caef065e3a934b7f8c1049e3389f8cbdccb25c2c249cd"
+      ],
+      "docs/analytics/league_warmup_reference.md": [
+        "5f82e67b793fa34173aa9f37c1e6ec0f46d667d9d74f07efe943447f2bbffd29",
+        "d81eeb35d1c6cd999081b4d858d44c9a0ed32c9dd21b7762174c26ca0489f254",
+        "3d4c4f56674d3c5cd253d5af3b50bac93307778272f6c5852221c25717ab5f13",
+        "90f1a99a3bb87a424103db72ee07ce269be2cd8f718e19dd4f69d39aa527d0d7",
+        "c2376d08850ca352d2e2c9eb62ad0d942172221b33ddfec3a900a4bf1485f553",
+        "02698598fb4f18c8bfc94cf83047943730a2da8a678a1e088d16f2618b04dbe8",
+        "e517f0e47f94609722f7d6d42b9be2e1180fa47ad89dec967482a402ef4478f2",
+        "5086c07c9eb894dd87b98d12825a538cdc12ed9e34258fcc6376a729e65e3f93",
+        "f7898ff7b2f82e7138309d1a9bb9c6fd080cf88f37bb85da13e5829e90dd41ad",
+        "65f765bbc7060cc3772c8e1feff2acb35039319127358b6138e50de789a98f57",
+        "c6f2efcc56b60b346fe1630f3c985bd09bad298c6a38bfc489ad10bb42123a81",
+        "f3d2e237453b5b8c1f543644c30c7b553f6fa6f8ade64d468b260b64be72bc43"
+      ]
+    }
+  },
+  "preservation": {
+    "source_files_unchanged": 23,
+    "protected_files_unchanged": 115,
+    "protected_sha256": {
+      "tests/analytics/conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "tests/analytics/test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "tests/analytics/test_features.py": "fc600267e09ed8ce25459086a06e09995924da3c7d4e201f388ff0b9938e89d7",
+      "tests/analytics/test_league.py": "edff77de97e34d845af3b62697136eaf69cf22ede0d91f84bb47bb397423c544",
+      "tests/analytics/test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+      "tests/analytics/test_multiseason.py": "833e3a2c5c4f1c7f1478b20dcdfad5066d0c7376531e9c6ced96b9ef9ad8c095",
+      "tests/analytics/test_ratings.py": "6abfbadc197c172c21909fe76bb56d2b6f81bcbb150713416234464cb6a0f6fc",
+      "tests/analytics/test_rating_transitions.py": "26e0feabfc0cba2f83bb62cfaee5481c356dd4c1b2aef18b8b4df03725c8d740",
+      "tests/analytics/test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a",
+      "tests/analytics/test_selection.py": "daaff8b42c79044f6048bd0dd50cc6f597b828cb97ed124b2051ea7483af4bd7",
+      "tests/analytics/test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+      "tests/analytics/test_team_history.py": "10311110ed13cd6c468db11bd638a12d9e4c5c3b76b122807fc8722f6c35c37d",
+      "tests/analytics/test_transition_context.py": "11f06f2505333cd326e94c0171a14d6e6b7ceaebe38b9214272b9f8e17cdf4af",
+      "tests/analytics/test_warmup.py": "59ab817297a72c8d8b227cf3a1bd45b0799f720c80c197b4a3328087a3c58ca3",
+      "tests/analytics/transition_samples.py": "96185cc4f05b3639af14639d7a3a47c87d9de2b84c032f2ffb0f2b2e45dbcc44",
+      "notebooks/01_loader_walkthrough.ipynb": "3c0876e37e1d87899f0053fe7f3fc043472ddee8c879034b16983789fb82768d",
+      "notebooks/02_feature_quickstart.ipynb": "8848556e9f366b31c1b40930608ab7bb09b67b529e19b29111a053bb2228ff78",
+      "notebooks/03_ratings_quickstart.ipynb": "737ceb45065d37568feb32aef24c5b54b6ae3f302c0198916c00bc2a143ee555",
+      "notebooks/04_league_warmup_quickstart.ipynb": "0e5700edb5bb3043e06a3fd21296987d50c0b82513383236ce49fe41cbc073b2",
+      "notebooks/serve_season_dtale.py": "5ec5de67e38c55c6f2da38d5c4c0c7934579925fd0ac0a893438daae381845cf",
+      "docs/analytics/archive/pre_equation_completion/IMPLEMENTATION_PROGRESS.md": "16e30f9171a828289a52884d8c4fbd7d9d3e47b754349722968ce0ed3ed65e53",
+      "docs/analytics/archive/pre_equation_completion/league_warmup.md": "5fbb8b2e7345e431d3e4901878be2a55c8b94cdc40ce0e0f80049cb930ada300",
+      "docs/analytics/archive/pre_equation_completion/ratings.md": "344fc4fc4dd6bb321e874cf3cbdff777ff93c7fe029e3080a29448ce8120e417",
+      "docs/analytics/archive/pre_features/coaching_history.md": "e3fe0f54c8f3c31e0dc629e2044c84ed6209a6c9e4fabbf9a32c0cbac7dccb08",
+      "docs/analytics/archive/pre_features/docs/analytics/team_history.md": "f789f2c78163546ec1518488157795e7748b1d3a8ddb586bea54f1b4f9975038",
+      "docs/analytics/archive/pre_features/football_analytics_working_notes.md": "8cf10045e9eeb1df83acbc52d6e3cd7c827297a17d5e998c23af437ecfc48880",
+      "docs/analytics/archive/pre_features/IMPLEMENTATION_PROGRESS.md": "3cc5345fe301d7691a00c04d6b2ab2bd509eb5aa920c56ea0837cb818825b802",
+      "docs/analytics/archive/pre_features/preservation_manifest.json": "d54b4c063749dbb176c3c09f50e13b8c9557f892f562613569bfa9ef5dd42491",
+      "docs/analytics/archive/pre_features/src/README.md": "d99188d3bdaa852e3090f423f3a07caf271945b1d0542ddb4a9990cf32ee5c52",
+      "docs/analytics/archive/pre_league_transitions_implementation/coaching_history.md": "5b47a6fd08d144ab51bcdf186bb8e063ec60d02a23ee792f2a649830b2486b42",
+      "docs/analytics/archive/pre_league_transitions_implementation/docs/analytics/features.md": "c97c0ffd552e11aeb4393c7229adf705371c672189740677c5d9f27b6694f988",
+      "docs/analytics/archive/pre_league_transitions_implementation/docs/analytics/league_warmup_documentation_checklist.md": "21a8bed1995aecbbe12d374ef69f1b2104f0a3f66ba9ca571c8667e436a3dd24",
+      "docs/analytics/archive/pre_league_transitions_implementation/docs/analytics/ratings.md": "d4b34a390f8d0b1da9910718290d4d8e74ddb3249922b981d11557d2d21c5e8a",
+      "docs/analytics/archive/pre_league_transitions_implementation/football_analytics_working_notes.md": "6092ba4f742717574bd7e8a2363804c332f319536fb45bc56c24f1bb6562e9eb",
+      "docs/analytics/archive/pre_league_transitions_implementation/IMPLEMENTATION_PROGRESS.md": "6f52bc419920b2eb98f56e8f899eaa1c74bf6fde01394454b0d0ec12dce0d4fc",
+      "docs/analytics/archive/pre_league_transitions_implementation/preservation_manifest.json": "8c70604ce5af0eba2b1fe202b055e4fdee731cd7d1cde0615cc1928c01abdc9a",
+      "docs/analytics/archive/pre_league_transitions_implementation/src/README.md": "18dfd7f27b2a214b0c8a4851a82d9c4f00803fd54f0b9df8444521a3ec796ab3",
+      "docs/analytics/archive/pre_league_transition_sync/football_analytics_working_notes.md": "ba0bc2d271f6b02f05948d6fc350cbd7cb2c92266153334c343ee7ee221f948d",
+      "docs/analytics/archive/pre_league_transition_sync/preservation_manifest.json": "b308ea91cc4f16769b79c2a722f46dba85ef43ee67dbb9f4dc7c07373bb51bf3",
+      "docs/analytics/archive/pre_league_warmup_refinement/football_analytics_working_notes.md": "960c3e56877fd57b38dda20fef81a9cb328a9cae5ef6d453b733a8989b4c3a01",
+      "docs/analytics/archive/pre_league_warmup_refinement/preservation_manifest.json": "8d97c7e19bb0a8f1c2653b6de91d592b3b44efcea2a0a0d152cf7f2c9093ce3b",
+      "docs/analytics/archive/pre_multiseason_experiment/coaching_history.md": "ca9a6277d47d3c2cfe3c821293c6b410f460e0af780cb9bf9dab3ed604996911",
+      "docs/analytics/archive/pre_multiseason_experiment/docs/analytics/season_inspection.md": "86a1118ac99cf67b0c4db6cac88586a7de7aaf51f057f1ba6fca6c5b11f370e0",
+      "docs/analytics/archive/pre_multiseason_experiment/docs/analytics/season_loading.md": "96d4468d27640173b432f762e84a58d0a9d95cf42f4616867f6ebc3b20b713b6",
+      "docs/analytics/archive/pre_multiseason_experiment/football_analytics_working_notes.md": "2edeabbee36633966ed1369e7fdb276eb0591f67648ba41026fb3dc6b1d990fa",
+      "docs/analytics/archive/pre_multiseason_experiment/IMPLEMENTATION_PROGRESS.md": "76ca14e6c7312b508c95c3863908241e7aa8ba5538590704b602fe97fa8e522d",
+      "docs/analytics/archive/pre_multiseason_experiment/notebooks/01_loader_walkthrough.ipynb": "50da3641fa0bec7a74b4ae19cc27ba25269d1b7029426e99c8677d33e6f41c94",
+      "docs/analytics/archive/pre_multiseason_experiment/preservation_manifest.json": "c9018c3fb8a7fa747015b0fb916162062fc997967c9443dc0e930faec31156d8",
+      "docs/analytics/archive/pre_multiseason_experiment/src/README.md": "470b36d51094aded4ad0f70fb0a9f64157ce6656cbaae352bac441ba3d023e40",
+      "docs/analytics/archive/pre_orchestration_sync/coaching_history.md": "576b440947e1f2ed7c01ce4309b86ecee803e3f2e4bec9cf82b9ae02bc62f870",
+      "docs/analytics/archive/pre_orchestration_sync/football_analytics_working_notes.md": "d5cf88deaa96aca19e476430fb784d68322e798beaee2a0e485cea9eae5e7c08",
+      "docs/analytics/archive/pre_orchestration_sync/IMPLEMENTATION_PROGRESS.md": "f0da81c95f4de679b2373a2276e7925bfd462a2e51f5fc86ad0804be67081011",
+      "docs/analytics/archive/pre_orchestration_sync/preservation_manifest.json": "c68ff94f3f993fde5384b4ee498408017a1de73328ecaea1f89121a2e17d4714",
+      "docs/analytics/archive/pre_orchestration_sync/src/README.md": "e0f994e4e8be36e2b552db93e8ebd81f5ff216e633da65852b13f2b225a38369",
+      "docs/analytics/archive/pre_ratings/after_engine_consolidation/IMPLEMENTATION_PROGRESS.md": "317f297beb6b8aa445f60c734c0c4b0772181888430836ab025da557ac75c9b7",
+      "docs/analytics/archive/pre_ratings/coaching_history.md": "92d00dec2cba60a47f5e3a0bf9b4a13a2d5bc9b18b3cd0a751f483c181d2de5e",
+      "docs/analytics/archive/pre_ratings/docs/analytics/features.md": "271374923561e98f9f1a7cd3a926685ee0fd528ac690470e4ff359a1bc189db7",
+      "docs/analytics/archive/pre_ratings/football_analytics_working_notes.md": "9388bc8865477217c42662a6fe529ccb463d46a761f651923833c285919e1056",
+      "docs/analytics/archive/pre_ratings/IMPLEMENTATION_PROGRESS.md": "04b8badcb1bb867f0a270bd8ec898fb5dd8c67b0576031df6296c75f8720bc68",
+      "docs/analytics/archive/pre_ratings/preservation_manifest.json": "bbeb47053aabe3d941621040a6d03ca4a8e64f655ca51f5e5b6c243009b275f6",
+      "docs/analytics/archive/pre_ratings/src/README.md": "9bdf6454c49f16a914c0d6c75e20651f09f8267f32b018187417ddfb52bea818",
+      "docs/analytics/archive/pre_scope_clarification/coaching_history.md": "750fcebf8c10833a1c585d10e1820932fb79f230e8fe4f1c530de25589598471",
+      "docs/analytics/archive/pre_scope_clarification/docs/analytics/season_inspection.md": "e51c9bde8d8ac036864840301656bbb9a783a4fc19a36ab38f5d899ca24648d4",
+      "docs/analytics/archive/pre_scope_clarification/docs/analytics/season_loading.md": "1c937c960ed011b02b61a582af86466781db36fd0914114b47ae8739fffab1aa",
+      "docs/analytics/archive/pre_scope_clarification/football_analytics_working_notes.md": "afe32b3388b9b1dae34f126190f5851a2912d1074314264c0f4b7bc344defbcf",
+      "docs/analytics/archive/pre_scope_clarification/IMPLEMENTATION_PROGRESS.md": "790ceac1239ddc14cb10201b6dbba7828aaaef16d0f0d16161d1db37335fad40",
+      "docs/analytics/archive/pre_scope_clarification/notebooks/01_loader_walkthrough.ipynb": "434973ed998b238f4024ababca4afc6f8953d138541acf8cb06845d3e59c7f7c",
+      "docs/analytics/archive/pre_scope_clarification/preservation_manifest.json": "4f0e8f650d8e9686260aebdfd3191b62ec1e80dcb72cef73fd84561c3dd4d709",
+      "docs/analytics/archive/pre_scope_clarification/src/README.md": "f99cc5ac37a09f32ed4dd4502810e471fdb6486542fe583c3faa9f587244852b",
+      "docs/analytics/archive/pre_scope_clarification/tests/analytics/test_multiseason.py": "d16d6d4b47e01a0b7a93e348062b4572bd10faf0bc7c4e755bd4bb0ee2447887",
+      "docs/analytics/archive/pre_simplification/01_loader_walkthrough_detailed.ipynb": "ea90a29bf1d13d1a098789920d053723fa3d880790c3be68fba6d881a49a429d",
+      "docs/analytics/archive/pre_simplification/coaching_history.md": "f9f696daa623f755016a2f898892b5c8f1b7c6103963b08c018d58fbc0662c4e",
+      "docs/analytics/archive/pre_simplification/docs/analytics/season_inspection.md": "20dcbc0a0c48525efcd7212fc7a2d6ae09a4c933f5329b21c93dd9b2006b7add",
+      "docs/analytics/archive/pre_simplification/docs/analytics/season_loading.md": "c5067f069cd14aa32a8139f74c17785fa853e328dee31295c19e0a94e9358739",
+      "docs/analytics/archive/pre_simplification/docs/analytics/statistics_validation.md": "f400c0c08207907e466169b7b0a37c9639b626e85c169758e374012acfb232f5",
+      "docs/analytics/archive/pre_simplification/IMPLEMENTATION_PROGRESS.md": "0e6763a086aabf7764e5097a3e027e226807a1e15efe5bae111f24933b9ff708",
+      "docs/analytics/archive/pre_simplification/notebook_source_displays.txt": "7accbce7a783bf17ddf969a58f6834afadfe0cd33f060cab5606cfaf49b41eb5",
+      "docs/analytics/archive/pre_simplification/preservation_manifest.json": "2494008f0e534809544a8fa1fec4a6c953e8d7ca2c50b80a0697a6919e51d78c",
+      "docs/analytics/archive/pre_simplification/src/README.md": "de9038ce46663f7c8198a97dc5c464444ace3f8d04aa7686a2322c09f36c2146",
+      "docs/analytics/archive/pre_simplification/tests/analytics/test_exports.py": "c968947488c1460c86d3d80f8ed0138f437f32144c234584dd888ce671d44455",
+      "docs/analytics/archive/pre_simplification/tests/analytics/test_loading.py": "9ac83ecb6f6ab40a57fd3e8e7f1a3847558dd3aa69860d0f91f34d2143bd03c2",
+      "docs/analytics/archive/pre_simplification/tests/analytics/test_season.py": "a09564acacfbbd9485cb989da1a5d37da16f6aee2a9fe05490b85e93a7a1d946",
+      "docs/analytics/archive/pre_simplification/tests/analytics/test_statistics.py": "08300ca384535b5c60f6e770d3f7322098cfe9915792b16efdd7779094ba03e6",
+      "docs/analytics/archive/pre_stat_selection/coaching_history.md": "9ad62da4d0e100a145b2bd1ced8ef689862922385de4191c587a3cee3e89b21a",
+      "docs/analytics/archive/pre_stat_selection/docs/analytics/season_loading.md": "3a4a30328a6b5dbdab4482a51800e1892585f7ac6fd815724b1b6004030a4c21",
+      "docs/analytics/archive/pre_stat_selection/football_analytics_working_notes.md": "d6f4255e91d18b7355be623b9623ead9a5b91d6fcc89ce8a705abdffad032139",
+      "docs/analytics/archive/pre_stat_selection/IMPLEMENTATION_PROGRESS.md": "ccbd40c83eb58b363af2b98c28d8445d08d57aa07e0a1b296abd2575d2f05375",
+      "docs/analytics/archive/pre_stat_selection/notebooks/01_loader_walkthrough.ipynb": "71311caefc833f9d70cd2706d356422351005f77eb0f6ae0ea383e2decf3577c",
+      "docs/analytics/archive/pre_stat_selection/preservation_manifest.json": "697198f6bbb9a4767272cb74fa5dca18584e9bdda3310951a21d3a26418af456",
+      "docs/analytics/archive/pre_stat_selection/src/README.md": "84ebd048214f7e46b94efb505c6a1b9f62d566b12aa043f41ae5f98e830d354f",
+      "docs/analytics/archive/pre_team_history/coaching_history.md": "1e783314f66f199853fc42f9937fe7df176bdc54a8eb928c27d79ff9d7c54e84",
+      "docs/analytics/archive/pre_team_history/docs/analytics/stat_selection.md": "691fca55db4a5ace31ddef961e952611a5d2394b9618fc8ea6e951d43faeb51c",
+      "docs/analytics/archive/pre_team_history/football_analytics_working_notes.md": "7474e6d71bfc9d9cc9ff73a38dd76e008d4afb6b3293bf36211d6290c05e47ed",
+      "docs/analytics/archive/pre_team_history/IMPLEMENTATION_PROGRESS.md": "6dc0ffd8850cc6f0b2fed6b2e3f3d93058476454f7409fb1c13aa984e802b0af",
+      "docs/analytics/archive/pre_team_history/notebooks/01_loader_walkthrough.ipynb": "79b6d43cdef2cab6e55666541675bb0aa247f88be619920213a2c99f37fddb10",
+      "docs/analytics/archive/pre_team_history/preservation_manifest.json": "a8a265e51911b8b0621e504a79e75ff822512316b1ed8d422cd05e1a1661bcf7",
+      "docs/analytics/archive/pre_team_history/src/README.md": "1568c3001afdcaa48fdfe356c2279a6f8fa905b6bccbf6f66bddf2c08cf5855b",
+      "docs/analytics/archive/pre_warmup_policy_clarification/football_analytics_working_notes.md": "dab240dfe09e5cde1c0e9bb768410fa492cab458cb6a4777c92beeaf7c4b6d1d",
+      "docs/analytics/archive/pre_warmup_policy_clarification/preservation_manifest.json": "12c69dbe6c903e5bb6263898a837abe5be5aaea9b0b27135adb965a488a42171",
+      "docs/analytics/dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+      "docs/analytics/environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+      "docs/analytics/features_check.json": "73b4e176902cf1cae18dd8c0c65173db382fd80e1864910a74f27e2f73bb4bf4",
+      "docs/analytics/glicko_engine_comparison.json": "31f42d7a0f24e9dc323d4379669c242db1330591798e285429cf5cbd984d951e",
+      "docs/analytics/league_warmup_check.json": "7bb4b7293d5b9699c3b3af366b2bea5de2e3111ae031d9944f89f2e33d490f8b",
+      "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+      "docs/analytics/loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+      "docs/analytics/multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+      "docs/analytics/multiseason_scope_check.json": "70e73e630692ecbb971f77724af244c3f384b57d28d94a603cf0252366603d3a",
+      "docs/analytics/ratings_check.json": "98844a3d09c07b25f5531b3490b9d8f459c96f4c0bb6659e7da352228af1cf93",
+      "docs/analytics/restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+      "docs/analytics/season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+      "docs/analytics/simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+      "docs/analytics/statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+      "docs/analytics/stat_selection_check.json": "36769610b13984adf703f278b7c82269c085074d854f43af6d8798f10f4587f8",
+      "docs/analytics/team_history_check.json": "a07a27dc5e705852717e7b4c4321f4fd390b19dc9597880e773db26c84ac8450"
+    },
+    "archived_documents_sha256": {
+      "docs/analytics/archive/pre_equation_review/league_warmup.md": "e40f78e56bc5a4ead696bf85b55b2f15919442fc043fffb2d4ae1e6b0b87dd29",
+      "docs/analytics/archive/pre_equation_review/ratings.md": "505915ed0752800a57c4924b34a4d8994bd9c102d624f4cca3553f17b4afcbd7",
+      "docs/analytics/archive/pre_equation_review/league_warmup_documentation_checklist.md": "319907f1695ca86c501e10a3bf513cecb141b9e11f9f2dc7d03ed7e2189d7bb1",
+      "docs/analytics/archive/pre_equation_review/IMPLEMENTATION_PROGRESS.md": "ee3a2efbf6c068981a365bdd36acc23d6b7f60d2a519efd2b4e491804e0cd184"
+    },
+    "notebooks_unchanged": true
+  },
+  "reviewed_document_sha256": {
+    "docs/analytics/league_warmup.md": "63e6f39ac9349296dbe5f9a7bb6a5eb92375ce1055628c96e8d7d93c76936abb",
+    "docs/analytics/ratings.md": "505915ed0752800a57c4924b34a4d8994bd9c102d624f4cca3553f17b4afcbd7",
+    "docs/analytics/league_warmup_documentation_checklist.md": "8efea774f3636a88a08b3301f2763fc5195807ce62000ef6d3898f160e300ad6",
+    "IMPLEMENTATION_PROGRESS.md": "36c2a2e7b56a528637509dabfd8fa9b68451038bfe29356013dc9bda0f56938b"
+  },
+  "callback": {
+    "actual_defect_callbacks": 1,
+    "success_callbacks": 0,
+    "target_thread_id": "01a0a37d-7dc6-7422-9402-227a13350f37"
+  },
+  "review_artifacts_sha256": {
+    ".pytest_tmp/equation_documentation_review/render_review.mjs": "e4efab6e614311dd43813ec7c154f56fbaae9878bcd83b1a16d2261f4782d786",
+    ".pytest_tmp/equation_documentation_review/finalize_review.mjs": "eb90fa0fc5fa3765e60ea8891174ca2ec47c79b0149f0347aff3f659c15dc183",
+    ".pytest_tmp/equation_documentation_review/check_math.py": "cd7356ed66f6796544d97f3055b7e2af8e2353544deaeb6cd1548b77e79b15c7",
+    ".pytest_tmp/equation_documentation_review/render_before.json": "8942f19f57c5520072d8a451f7cef4f6fa96984f2b742bd5b5a1cdd87c12bfff",
+    ".pytest_tmp/equation_documentation_review/render_after.json": "9478fff1abf2d5ada7e783447caae16e44c936f23ae44cae0c037a9b5d6a32ad",
+    ".pytest_tmp/equation_documentation_review/math_check.json": "82d772b78ca86e410344da858ba97259e96a4620d6359edce94b533afe40fbae",
+    ".pytest_tmp/equation_documentation_review/render_after.html": "23bf9fcc0ae8984116504e69bb0b5d877564e6057ae591d556812279e6ea443b",
+    ".pytest_tmp/equation_documentation_review/baseline.json": "ac792b5a330bcbff97ad0b9c7e673e1a2c697a996ef984bd29240ffa4a2b2ad4"
+  }
+}

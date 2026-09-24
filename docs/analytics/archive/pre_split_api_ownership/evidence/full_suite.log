@@ -1,0 +1,16 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 34%]
+........................................................................ [ 45%]
+........................................................................ [ 56%]
+........................................................................ [ 68%]
+........................................................................ [ 79%]
+........................................................................ [ 91%]
+........................................................                 [100%]
+============================== warnings summary ===============================
+tests/analytics/test_team_history.py::test_missing_scores_or_status_never_invents_result
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\src\xdiyo_analytics\histories\team.py:82: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+    history = pd.concat(rows, ignore_index=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+632 passed, 1 warning in 10.56s

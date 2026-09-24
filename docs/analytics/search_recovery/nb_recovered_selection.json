@@ -1,0 +1,97 @@
+{
+  "source_run_group": "933d5702-69f3-478c-9278-7a8ed7cdb281",
+  "completed_candidates": 90,
+  "outer_fold": 0,
+  "scope": "Inner cross-validation evidence, not outer-test performance",
+  "models_fitted_by_recovery": 0,
+  "winners": {
+    "mse": {
+      "run_id": "3af7fd75-ff68-416c-a198-83167f300b52",
+      "config": {
+        "model": {
+          "component": "training.NegativeBinomialRegressor",
+          "params": {
+            "dispersion": 0.001,
+            "max_iter": 500,
+            "prediction": "mode",
+            "penalty": "elasticnet",
+            "alpha": 0.01,
+            "l1_ratio": 1
+          }
+        },
+        "preprocessors": [
+          {
+            "component": "sklearn.impute.SimpleImputer",
+            "params": {
+              "strategy": "median"
+            }
+          },
+          {
+            "component": "sklearn.preprocessing.StandardScaler",
+            "params": {}
+          }
+        ],
+        "target_transformer": null,
+        "dispersion": 0.001,
+        "max_iter": 500,
+        "prediction": "mode",
+        "penalty": "elasticnet",
+        "alpha": 0.01,
+        "l1_ratio": 1,
+        "grid_parameters": {
+          "alpha": 0.01,
+          "dispersion": 0.001,
+          "l1_ratio": 1
+        }
+      },
+      "metrics": {
+        "mse": 11.472832936563506,
+        "mae": 2.6498389581291137
+      }
+    },
+    "mae": {
+      "run_id": "3af7fd75-ff68-416c-a198-83167f300b52",
+      "config": {
+        "model": {
+          "component": "training.NegativeBinomialRegressor",
+          "params": {
+            "dispersion": 0.001,
+            "max_iter": 500,
+            "prediction": "mode",
+            "penalty": "elasticnet",
+            "alpha": 0.01,
+            "l1_ratio": 1
+          }
+        },
+        "preprocessors": [
+          {
+            "component": "sklearn.impute.SimpleImputer",
+            "params": {
+              "strategy": "median"
+            }
+          },
+          {
+            "component": "sklearn.preprocessing.StandardScaler",
+            "params": {}
+          }
+        ],
+        "target_transformer": null,
+        "dispersion": 0.001,
+        "max_iter": 500,
+        "prediction": "mode",
+        "penalty": "elasticnet",
+        "alpha": 0.01,
+        "l1_ratio": 1,
+        "grid_parameters": {
+          "alpha": 0.01,
+          "dispersion": 0.001,
+          "l1_ratio": 1
+        }
+      },
+      "metrics": {
+        "mse": 11.472832936563506,
+        "mae": 2.6498389581291137
+      }
+    }
+  }
+}

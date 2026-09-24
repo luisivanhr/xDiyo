@@ -1,0 +1,10 @@
+{
+  "created_at_utc": "2026-09-18T15:42:00.838837+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_prediction_persistence_implementation/IMPLEMENTATION_PROGRESS.md": "9cc07ea721b4e1a3b99f7adfd98f94d5e3ebb0caaf797b6e66d08d7df9f92910",
+    "docs/analytics/archive/pre_prediction_persistence_implementation/football_analytics_working_notes.md": "b5ce9008ef0dd9fc1c88e9fd27ba44221a9c6713747b147f3a32c6134f44e774",
+    "docs/analytics/archive/pre_prediction_persistence_implementation/coaching_history.md": "4024221244fbbbe5301bb4db5a0a196acf63043d9ef1c10ef5553e10fd050657",
+    "docs/analytics/archive/pre_prediction_persistence_implementation/src/README.md": "fdbd34e2fdc2ee1ae70a7f64cc10a23d8e5c49403475409ed3e0b274f2ecd438"
+  },
+  "preserved_files": 4
+}

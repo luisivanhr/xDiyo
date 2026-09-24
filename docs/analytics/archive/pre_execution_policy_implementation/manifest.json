@@ -1,0 +1,10 @@
+{
+  "created_at_utc": "2026-09-18T16:11:32.080267+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_execution_policy_implementation/IMPLEMENTATION_PROGRESS.md": "25180079e79a4bc3a97707390ed73cf895839379666f4e98e80b50268a988959",
+    "docs/analytics/archive/pre_execution_policy_implementation/football_analytics_working_notes.md": "623ed0f384536515f6bd6be8d577cd996ab55e5203ffc5942091d4a55ebdbd3b",
+    "docs/analytics/archive/pre_execution_policy_implementation/coaching_history.md": "d1cb40778ae089d575e564e6936c768c83ab78103437513ce77c407c3ef52e89",
+    "docs/analytics/archive/pre_execution_policy_implementation/src/README.md": "e61d9998b8ae0f06e3306eb23d4506fe2ec17ed9a48bf18746bffe4123885ee7"
+  },
+  "preserved_files": 4
+}

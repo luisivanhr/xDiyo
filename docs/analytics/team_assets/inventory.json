@@ -1,0 +1,200 @@
+{
+  "exports": [
+    {
+      "publication": "Bundesliga_22_23.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_2_22_23.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Championship_22_23.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Eredivisie_22_23.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "La_Liga_22_23.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_2_22_23.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "Ligue_1_22_23.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_2_22_23.manifest.json",
+      "matches": 379,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Premier_League_22_23.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premiership_22_23.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Pro_League_22_23.manifest.json",
+      "matches": 328,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Serie_A_22_23.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_B_22_23.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Bundesliga_23_24.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_2_23_24.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Championship_23_24.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Eredivisie_23_24.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "La_Liga_23_24.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_2_23_24.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "Ligue_1_23_24.manifest.json",
+      "matches": 306,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_2_23_24.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Premier_League_23_24.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premiership_23_24.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Pro_League_23_24.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Serie_A_23_24.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_B_23_24.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Bundesliga_24_25.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_2_24_25.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Championship_24_25.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Eredivisie_24_25.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "La_Liga_24_25.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_2_24_25.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "Ligue_1_24_25.manifest.json",
+      "matches": 306,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_2_24_25.manifest.json",
+      "matches": 306,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Premier_League_24_25.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premiership_24_25.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Pro_League_24_25.manifest.json",
+      "matches": 311,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Serie_A_24_25.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_B_24_25.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    }
+  ],
+  "team_count": 289
+}

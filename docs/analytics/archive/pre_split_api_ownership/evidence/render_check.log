@@ -1,0 +1,31 @@
+{
+  "phase": "after",
+  "katex_version": "0.16.45",
+  "equations": [
+    {
+      "file": "docs/analytics/splits.md",
+      "count": 27,
+      "display": 6
+    },
+    {
+      "file": "docs/analytics/splits_reference.md",
+      "count": 0,
+      "display": 0
+    },
+    {
+      "file": "docs/analytics/splits_documentation_checklist.md",
+      "count": 0,
+      "display": 0
+    }
+  ],
+  "errors": [],
+  "cssFiles": [
+    "app-initial-ddb6c251267b.css"
+  ]
+}
+{
+  "rendered_math": 27,
+  "rendered_errors": 0,
+  "overflow": [],
+  "screenshots": 13
+}

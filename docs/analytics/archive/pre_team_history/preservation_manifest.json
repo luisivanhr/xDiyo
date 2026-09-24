@@ -1,0 +1,48 @@
+{
+  "archived_before_edits": true,
+  "originals": [
+    {
+      "source": "notebooks/01_loader_walkthrough.ipynb",
+      "archive": "docs/analytics/archive/pre_team_history/notebooks/01_loader_walkthrough.ipynb",
+      "sha256": "79b6d43cdef2cab6e55666541675bb0aa247f88be619920213a2c99f37fddb10"
+    },
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_team_history/src/README.md",
+      "sha256": "1568c3001afdcaa48fdfe356c2279a6f8fa905b6bccbf6f66bddf2c08cf5855b"
+    },
+    {
+      "source": "docs/analytics/stat_selection.md",
+      "archive": "docs/analytics/archive/pre_team_history/docs/analytics/stat_selection.md",
+      "sha256": "691fca55db4a5ace31ddef961e952611a5d2394b9618fc8ea6e951d43faeb51c"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_team_history/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "6dc0ffd8850cc6f0b2fed6b2e3f3d93058476454f7409fb1c13aa984e802b0af"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_team_history/coaching_history.md",
+      "sha256": "1e783314f66f199853fc42f9937fe7df176bdc54a8eb928c27d79ff9d7c54e84"
+    },
+    {
+      "source": "football_analytics_working_notes.md",
+      "archive": "docs/analytics/archive/pre_team_history/football_analytics_working_notes.md",
+      "sha256": "7474e6d71bfc9d9cc9ff73a38dd76e008d4afb6b3293bf36211d6290c05e47ed"
+    }
+  ],
+  "prior_json_sha256": {
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "multiseason_scope_check.json": "70e73e630692ecbb971f77724af244c3f384b57d28d94a603cf0252366603d3a",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "stat_selection_check.json": "36769610b13984adf703f278b7c82269c085074d854f43af6d8798f10f4587f8",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e"
+  }
+}

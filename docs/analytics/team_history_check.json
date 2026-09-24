@@ -1,0 +1,590 @@
+{
+  "checked_at_utc": "2026-09-16T04:16:43.707710+00:00",
+  "package_source_sha256": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/histories/team.py": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c",
+    "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf",
+    "src/xdiyo_analytics/histories/__init__.py": "73beff783cbab08105048cb42f4ed609a693f85f83a34ffb43ae260ab76e53bc",
+    "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36"
+  },
+  "tests": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "passed": 109,
+    "previous_cases_preserved": 83,
+    "new_history_cases": 26,
+    "focused_history_passed": 26,
+    "exit_code": 0,
+    "test_sha256": {
+      "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+      "test_selection.py": "daaff8b42c79044f6048bd0dd50cc6f597b828cb97ed124b2051ea7483af4bd7",
+      "test_multiseason.py": "833e3a2c5c4f1c7f1478b20dcdfad5066d0c7376531e9c6ced96b9ef9ad8c095",
+      "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "test_team_history.py": "10311110ed13cd6c468db11bd638a12d9e4c5c3b76b122807fc8722f6c35c37d",
+      "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+      "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a"
+    },
+    "source_stable_before_after": true,
+    "nonfatal_warnings": [
+      "Pandas FutureWarning for concatenating an all-NA score column in the missing-score case."
+    ]
+  },
+  "resolved_findings": [
+    {
+      "finding": "Out-of-range Arrow float Unix seconds raised OverflowError despite errors=coerce.",
+      "initial_team_source_sha256": "6f95bad212bcfa28377f8b84668a0c4225f5a9f7d7460e5d2f256e55b075d7a7",
+      "resolution": "Primary masked seconds outside pandas timestamp bounds and converted via an explicit numeric array.",
+      "regression_values": [
+        "1e30",
+        "-1e30",
+        "positive infinity",
+        "negative infinity"
+      ],
+      "status": "passed"
+    },
+    {
+      "finding": "Two invalid-team-ID tests required an overly specific exception message.",
+      "resolution": "They retain rejection checks without requiring wording from mixed signed/unsigned comparisons.",
+      "status": "passed"
+    }
+  ],
+  "real_history": {
+    "checked_at_utc": "2026-09-16T04:16:43.320199+00:00",
+    "history_shape": [
+      27952,
+      83
+    ],
+    "input_matches": 13976,
+    "input_selected_statistic_rows": 746880,
+    "input_pregame_rows": 27072,
+    "publication_count": 39,
+    "league_count": 13,
+    "seasons": [
+      "22_23",
+      "23_24",
+      "24_25"
+    ],
+    "context_rows_independently_checked": 27952,
+    "two_rows_per_partition_event_verified": true,
+    "utc_dtype": "datetime64[ns, UTC]",
+    "kickoff_min_utc": "2022-07-15 18:30:00+00:00",
+    "kickoff_max_utc": "2025-06-01 19:00:00+00:00",
+    "missing_kickoff_rows": 0,
+    "time_of_day_verified_against_unix_seconds": true,
+    "score_results": {
+      "W": 10283,
+      "L": 10283,
+      "D": 7386
+    },
+    "statistic_columns": 62,
+    "stat_column_labels": {
+      "team::ALL::Match overview::ballPossession::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "ballPossession",
+        "field": "value"
+      },
+      "opponent::ALL::Match overview::ballPossession::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "ballPossession",
+        "field": "value"
+      },
+      "team::ALL::Match overview::expectedGoals::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "expectedGoals",
+        "field": "value"
+      },
+      "opponent::ALL::Match overview::expectedGoals::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "expectedGoals",
+        "field": "value"
+      },
+      "team::ALL::Match overview::totalShotsOnGoal::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "totalShotsOnGoal",
+        "field": "value"
+      },
+      "opponent::ALL::Match overview::totalShotsOnGoal::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "totalShotsOnGoal",
+        "field": "value"
+      },
+      "team::ALL::Match overview::cornerKicks::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "cornerKicks",
+        "field": "value"
+      },
+      "opponent::ALL::Match overview::cornerKicks::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "cornerKicks",
+        "field": "value"
+      },
+      "team::ALL::Shots::totalShotsOnGoal::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsOnGoal",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::totalShotsOnGoal::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsOnGoal",
+        "field": "value"
+      },
+      "team::ALL::Shots::shotsOnGoal::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "shotsOnGoal",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::shotsOnGoal::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "shotsOnGoal",
+        "field": "value"
+      },
+      "team::ALL::Shots::expectedGoals::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "expectedGoals",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::expectedGoals::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "expectedGoals",
+        "field": "value"
+      },
+      "team::ALL::Shots::expectedGoalsOnTarget::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "expectedGoalsOnTarget",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::expectedGoalsOnTarget::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "expectedGoalsOnTarget",
+        "field": "value"
+      },
+      "team::ALL::Shots::shotsOffGoal::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "shotsOffGoal",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::shotsOffGoal::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "shotsOffGoal",
+        "field": "value"
+      },
+      "team::ALL::Shots::blockedScoringAttempt::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "blockedScoringAttempt",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::blockedScoringAttempt::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "blockedScoringAttempt",
+        "field": "value"
+      },
+      "team::ALL::Shots::totalShotsInsideBox::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsInsideBox",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::totalShotsInsideBox::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsInsideBox",
+        "field": "value"
+      },
+      "team::ALL::Shots::totalShotsOutsideBox::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsOutsideBox",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::totalShotsOutsideBox::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "totalShotsOutsideBox",
+        "field": "value"
+      },
+      "team::ALL::Attack::fouledFinalThird::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "fouledFinalThird",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::fouledFinalThird::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "fouledFinalThird",
+        "field": "value"
+      },
+      "team::ALL::Attack::offsides::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "offsides",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::offsides::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "offsides",
+        "field": "value"
+      },
+      "team::ALL::Passes::finalThirdEntries::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "finalThirdEntries",
+        "field": "value"
+      },
+      "opponent::ALL::Passes::finalThirdEntries::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "finalThirdEntries",
+        "field": "value"
+      },
+      "team::ALL::Passes::accurateCross::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "accurateCross",
+        "field": "value"
+      },
+      "opponent::ALL::Passes::accurateCross::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "accurateCross",
+        "field": "value"
+      },
+      "team::1ST::Match overview::goalkeeperSaves::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Match overview",
+        "key": "goalkeeperSaves",
+        "field": "value"
+      },
+      "opponent::1ST::Match overview::goalkeeperSaves::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Match overview",
+        "key": "goalkeeperSaves",
+        "field": "value"
+      },
+      "team::1ST::Match overview::totalTackle::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Match overview",
+        "key": "totalTackle",
+        "field": "value"
+      },
+      "opponent::1ST::Match overview::totalTackle::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Match overview",
+        "key": "totalTackle",
+        "field": "value"
+      },
+      "team::1ST::Defending::wonTacklePercent::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "wonTacklePercent",
+        "field": "value"
+      },
+      "opponent::1ST::Defending::wonTacklePercent::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "wonTacklePercent",
+        "field": "value"
+      },
+      "team::1ST::Defending::totalTackle::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "totalTackle",
+        "field": "value"
+      },
+      "opponent::1ST::Defending::totalTackle::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "totalTackle",
+        "field": "value"
+      },
+      "team::1ST::Defending::interceptionWon::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "interceptionWon",
+        "field": "value"
+      },
+      "opponent::1ST::Defending::interceptionWon::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "interceptionWon",
+        "field": "value"
+      },
+      "team::1ST::Defending::totalClearance::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "totalClearance",
+        "field": "value"
+      },
+      "opponent::1ST::Defending::totalClearance::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "totalClearance",
+        "field": "value"
+      },
+      "team::1ST::Goalkeeping::goalkeeperSaves::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Goalkeeping",
+        "key": "goalkeeperSaves",
+        "field": "value"
+      },
+      "opponent::1ST::Goalkeeping::goalkeeperSaves::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Goalkeeping",
+        "key": "goalkeeperSaves",
+        "field": "value"
+      },
+      "team::ALL::Match overview::bigChanceCreated::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "bigChanceCreated",
+        "field": "value"
+      },
+      "opponent::ALL::Match overview::bigChanceCreated::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Match overview",
+        "key": "bigChanceCreated",
+        "field": "value"
+      },
+      "team::ALL::Shots::hitWoodwork::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "hitWoodwork",
+        "field": "value"
+      },
+      "opponent::ALL::Shots::hitWoodwork::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Shots",
+        "key": "hitWoodwork",
+        "field": "value"
+      },
+      "team::ALL::Attack::bigChanceMissed::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "bigChanceMissed",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::bigChanceMissed::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "bigChanceMissed",
+        "field": "value"
+      },
+      "team::ALL::Attack::touchesInOppBox::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "touchesInOppBox",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::touchesInOppBox::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "touchesInOppBox",
+        "field": "value"
+      },
+      "team::ALL::Passes::finalThirdPhaseStatistic::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "finalThirdPhaseStatistic",
+        "field": "value"
+      },
+      "opponent::ALL::Passes::finalThirdPhaseStatistic::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Passes",
+        "key": "finalThirdPhaseStatistic",
+        "field": "value"
+      },
+      "team::ALL::Attack::bigChanceScored::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "bigChanceScored",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::bigChanceScored::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "bigChanceScored",
+        "field": "value"
+      },
+      "team::ALL::Attack::accurateThroughBall::value": {
+        "role": "team",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "accurateThroughBall",
+        "field": "value"
+      },
+      "opponent::ALL::Attack::accurateThroughBall::value": {
+        "role": "opponent",
+        "period": "ALL",
+        "group_name": "Attack",
+        "key": "accurateThroughBall",
+        "field": "value"
+      },
+      "team::1ST::Defending::ballRecovery::value": {
+        "role": "team",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "ballRecovery",
+        "field": "value"
+      },
+      "opponent::1ST::Defending::ballRecovery::value": {
+        "role": "opponent",
+        "period": "1ST",
+        "group_name": "Defending",
+        "key": "ballRecovery",
+        "field": "value"
+      }
+    },
+    "missing_team_position_rows": 880,
+    "representative_parquet_check": {
+      "season": "Premier_League_24_25",
+      "version": "6d950fa327de4fc29c796c7cca101606",
+      "history_rows": 760,
+      "statistic_cells_checked": 47120,
+      "missing_statistic_cells_checked": 1596,
+      "position_cells_checked": 1520,
+      "matches_table_exactly_matches_source": true,
+      "all_compared_values_match": true
+    },
+    "source_files_unchanged": 195,
+    "selection_records_unchanged": 39,
+    "source_population_evidence": "docs/analytics/multiseason_import_check.json",
+    "source_population_evidence_sha256": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72"
+  },
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "sha256": "3c0876e37e1d87899f0053fe7f3fc043472ddee8c879034b16983789fb82768d",
+    "archive": "docs/analytics/archive/pre_team_history/notebooks/01_loader_walkthrough.ipynb",
+    "archive_sha256": "79b6d43cdef2cab6e55666541675bb0aa247f88be619920213a2c99f37fddb10",
+    "cells": 12,
+    "code_cells": 9,
+    "kernel": "misc314_py314",
+    "fresh_kernel": true,
+    "executed_top_to_bottom": true,
+    "error_outputs": 0,
+    "started_at_utc": "2026-09-16T04:16:25.765933+00:00",
+    "finished_at_utc": "2026-09-16T04:16:43.708681+00:00",
+    "nonfatal_warnings": [
+      "Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning."
+    ]
+  },
+  "historical_json_sha256": {
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "multiseason_scope_check.json": "70e73e630692ecbb971f77724af244c3f384b57d28d94a603cf0252366603d3a",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "stat_selection_check.json": "36769610b13984adf703f278b7c82269c085074d854f43af6d8798f10f4587f8",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e"
+  },
+  "source_change_by_primary": {
+    "src/xdiyo_analytics/histories/team.py": {
+      "initial": "6f95bad212bcfa28377f8b84668a0c4225f5a9f7d7460e5d2f256e55b075d7a7",
+      "tested": "0f346230b8bd172d41a2ecf84f7eb394f839f49915ef84cafc30587181e2209c"
+    }
+  },
+  "final_audit": {
+    "checked_at_utc": "2026-09-16T04:24:19.721227+00:00",
+    "source_files_stable_from_final_tests": 8,
+    "existing_test_files_preserved": 7,
+    "prior_evidence_jsons_unchanged": 11,
+    "archived_originals": 6,
+    "archive_manifest": "docs/analytics/archive/pre_team_history/preservation_manifest.json",
+    "earlier_archives_checked": 4,
+    "notebook_cells": 12,
+    "executed_code_cells": 9,
+    "table_descriptions_preserved": 18,
+    "checked_guide_and_notebook_links": 26,
+    "source_exports_unchanged": 195,
+    "selection_records_unchanged": 39,
+    "library_source_edited_by_worker": false,
+    "files_deleted_by_worker": false,
+    "failure_callbacks_sent": 2,
+    "success_callbacks_sent": 0
+  }
+}

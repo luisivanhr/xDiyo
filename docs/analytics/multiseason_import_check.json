@@ -1,0 +1,872 @@
+{
+  "checked_at_utc": "2026-09-16T02:52:35.171071+00:00",
+  "data_root": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data",
+  "seasons": [
+    "22_23",
+    "23_24",
+    "24_25"
+  ],
+  "leagues": [
+    "Bundesliga",
+    "Bundesliga_2",
+    "Championship",
+    "Eredivisie",
+    "La_Liga",
+    "La_Liga_2",
+    "Ligue_1",
+    "Ligue_2",
+    "Premier_League",
+    "Premiership",
+    "Pro_League",
+    "Serie_A",
+    "Serie_B"
+  ],
+  "requested_tables": [
+    "matches",
+    "statistics",
+    "pregame"
+  ],
+  "verify_hashes_argument": false,
+  "publication_count": 39,
+  "league_count": 13,
+  "table_shapes": {
+    "matches": [
+      13976,
+      37
+    ],
+    "statistics": [
+      3303574,
+      20
+    ],
+    "pregame": [
+      27072,
+      10
+    ]
+  },
+  "missing_league_season_combinations": [],
+  "partitions": [
+    {
+      "league": "Bundesliga",
+      "season": "22_23",
+      "stem": "Bundesliga_22_23",
+      "version": "92e8c2827b2c43d996193846d001798e",
+      "rows": {
+        "matches": 306,
+        "statistics": 72678,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=35/season=42268/versions/92e8c2827b2c43d996193846d001798e/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_22_23.json",
+      "selection_record_sha256": "7e9dadca990c6a48e9b560c096820cead6e937d3cefa2452c9d019e5bd9f5d3e"
+    },
+    {
+      "league": "Bundesliga_2",
+      "season": "22_23",
+      "stem": "Bundesliga_2_22_23",
+      "version": "7dd035e04b4e41b08c75cb38bb8920ab",
+      "rows": {
+        "matches": 306,
+        "statistics": 66438,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=44/season=42269/versions/7dd035e04b4e41b08c75cb38bb8920ab/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_2_22_23.json",
+      "selection_record_sha256": "ea66ae388e0b8f2a19c400a2cc27cece6a5ac7e1f19ffc669affca03e39e70d2"
+    },
+    {
+      "league": "Championship",
+      "season": "22_23",
+      "stem": "Championship_22_23",
+      "version": "90be71f18d454eea99b6abc5db3331a4",
+      "rows": {
+        "matches": 552,
+        "statistics": 118572,
+        "pregame": 1080
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=18/season=42401/versions/90be71f18d454eea99b6abc5db3331a4/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Championship_22_23.json",
+      "selection_record_sha256": "46ab26508251a00a1d12d1a0067a16b1a9e5f1cc651a52aec4a6a267f3974721"
+    },
+    {
+      "league": "Eredivisie",
+      "season": "22_23",
+      "stem": "Eredivisie_22_23",
+      "version": "24081189269d4422836f95b4a546d33b",
+      "rows": {
+        "matches": 306,
+        "statistics": 66212,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=37/season=42256/versions/24081189269d4422836f95b4a546d33b/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Eredivisie_22_23.json",
+      "selection_record_sha256": "41304b352ca33580b3372d257b251b285810aa099eb59f6d9dcc265ffd9e5178"
+    },
+    {
+      "league": "La_Liga",
+      "season": "22_23",
+      "stem": "La_Liga_22_23",
+      "version": "71e672151ada4f45aabe8372b57a0f61",
+      "rows": {
+        "matches": 380,
+        "statistics": 90558,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=8/season=42409/versions/71e672151ada4f45aabe8372b57a0f61/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_22_23.json",
+      "selection_record_sha256": "a2008a3a62f7fad566f10442f917f58d76bcd954ac89d9ab3de557cbdeeca5a9"
+    },
+    {
+      "league": "La_Liga_2",
+      "season": "22_23",
+      "stem": "La_Liga_2_22_23",
+      "version": "fb1195a485fd49f5a3c5e5cfd49f913f",
+      "rows": {
+        "matches": 462,
+        "statistics": 99844,
+        "pregame": 902
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=54/season=42410/versions/fb1195a485fd49f5a3c5e5cfd49f913f/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_2_22_23.json",
+      "selection_record_sha256": "13ffe3738cdb64199d0ea7a1673600cbf14a0d90852d66f952a63d49b1956c06"
+    },
+    {
+      "league": "Ligue_1",
+      "season": "22_23",
+      "stem": "Ligue_1_22_23",
+      "version": "d3a3c63254614f6497f9d09868771a22",
+      "rows": {
+        "matches": 380,
+        "statistics": 90540,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=34/season=42273/versions/d3a3c63254614f6497f9d09868771a22/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_1_22_23.json",
+      "selection_record_sha256": "03367679c54dc2702de441ad006d623f2bff67d37d1585cbcd2018ed1535951b"
+    },
+    {
+      "league": "Ligue_2",
+      "season": "22_23",
+      "stem": "Ligue_2_22_23",
+      "version": "5fc0bff49753477abc01d9f96e45e0e1",
+      "rows": {
+        "matches": 379,
+        "statistics": 81964,
+        "pregame": 738
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=182/season=42272/versions/5fc0bff49753477abc01d9f96e45e0e1/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_2_22_23.json",
+      "selection_record_sha256": "535106e85eefb2f353e979c73a1fdd8d742773cf8f068f58872f5e855755e9f0"
+    },
+    {
+      "league": "Premier_League",
+      "season": "22_23",
+      "stem": "Premier_League_22_23",
+      "version": "932cb0f8d67044b4ab27e741fd720cd8",
+      "rows": {
+        "matches": 380,
+        "statistics": 90372,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=17/season=41886/versions/932cb0f8d67044b4ab27e741fd720cd8/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premier_League_22_23.json",
+      "selection_record_sha256": "c01c9cdd2fbb35b813e203c76211185724244804c27139573cb2a97d74b03de9"
+    },
+    {
+      "league": "Premiership",
+      "season": "22_23",
+      "stem": "Premiership_22_23",
+      "version": "c32012ea995e4829a25796c6f4f7696b",
+      "rows": {
+        "matches": 228,
+        "statistics": 49128,
+        "pregame": 432
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=36/season=41957/versions/c32012ea995e4829a25796c6f4f7696b/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premiership_22_23.json",
+      "selection_record_sha256": "4466c26da3389f047e2f491c2e64b10f9794f8379ee2255d0367ab370281d697"
+    },
+    {
+      "league": "Pro_League",
+      "season": "22_23",
+      "stem": "Pro_League_22_23",
+      "version": "94d3eaed43804392ae3cb43a9cfe8f6d",
+      "rows": {
+        "matches": 328,
+        "statistics": 71164,
+        "pregame": 630
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=38/season=42404/versions/94d3eaed43804392ae3cb43a9cfe8f6d/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Pro_League_22_23.json",
+      "selection_record_sha256": "2ca235143f3c4245e94125137ad327e0dc3f76a75f5a8bc01714bb01d4b3626f"
+    },
+    {
+      "league": "Serie_A",
+      "season": "22_23",
+      "stem": "Serie_A_22_23",
+      "version": "a38a835a929a4e50b52f1972f178d8ea",
+      "rows": {
+        "matches": 380,
+        "statistics": 90350,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=23/season=42415/versions/a38a835a929a4e50b52f1972f178d8ea/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_A_22_23.json",
+      "selection_record_sha256": "3faafc191a4d7304289a92f7fe3af7134c2f0516fbb8e43e0fc472c6dc29ec21"
+    },
+    {
+      "league": "Serie_B",
+      "season": "22_23",
+      "stem": "Serie_B_22_23",
+      "version": "4f66b646a26b4a52ac104e0309fe27f7",
+      "rows": {
+        "matches": 380,
+        "statistics": 82160,
+        "pregame": 666
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=53/season=44226/versions/4f66b646a26b4a52ac104e0309fe27f7/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_B_22_23.json",
+      "selection_record_sha256": "baddecb5ed4bb56b0bae7c49b732bfad9aaa7c602cbef76e40ab964f248e29de"
+    },
+    {
+      "league": "Bundesliga",
+      "season": "23_24",
+      "stem": "Bundesliga_23_24",
+      "version": "d36f36e73f1e4a8789f6fbd556ad52ef",
+      "rows": {
+        "matches": 306,
+        "statistics": 74850,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=35/season=52608/versions/d36f36e73f1e4a8789f6fbd556ad52ef/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_23_24.json",
+      "selection_record_sha256": "f1070847cbd34594e87f7dd644cb96d36e4bb5f6ceb3b1355acea3dcb4c676b9"
+    },
+    {
+      "league": "Bundesliga_2",
+      "season": "23_24",
+      "stem": "Bundesliga_2_23_24",
+      "version": "e6dc6659653c4e1a8f16cf090b6cc7fe",
+      "rows": {
+        "matches": 306,
+        "statistics": 68776,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=44/season=52607/versions/e6dc6659653c4e1a8f16cf090b6cc7fe/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_2_23_24.json",
+      "selection_record_sha256": "db55175159160e53ffdaadd96ad8726f2b3759a8c30050d94de071662c2aca49"
+    },
+    {
+      "league": "Championship",
+      "season": "23_24",
+      "stem": "Championship_23_24",
+      "version": "671aee06414c410cb50ccc7dc80e0c14",
+      "rows": {
+        "matches": 552,
+        "statistics": 133890,
+        "pregame": 1080
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=18/season=52367/versions/671aee06414c410cb50ccc7dc80e0c14/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Championship_23_24.json",
+      "selection_record_sha256": "dc8f55506d7593f9539e2bef30a1f356dc59da43f8e5935d8976ccf3cf111da6"
+    },
+    {
+      "league": "Eredivisie",
+      "season": "23_24",
+      "stem": "Eredivisie_23_24",
+      "version": "07cfbe105eff4076a7b704f30f96c897",
+      "rows": {
+        "matches": 306,
+        "statistics": 74776,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=37/season=52554/versions/07cfbe105eff4076a7b704f30f96c897/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Eredivisie_23_24.json",
+      "selection_record_sha256": "8d8cbc2245bb327d48327edf65c931417332d1064668325457dd7ce8954fdf5d"
+    },
+    {
+      "league": "La_Liga",
+      "season": "23_24",
+      "stem": "La_Liga_23_24",
+      "version": "b5a30fa4484b4148b61fc8211af629b1",
+      "rows": {
+        "matches": 380,
+        "statistics": 92992,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=8/season=52376/versions/b5a30fa4484b4148b61fc8211af629b1/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_23_24.json",
+      "selection_record_sha256": "884bc5cb5c3b05e1854801da4a70fd8f587bf3bec58b48eaad38f1aabbfc5abd"
+    },
+    {
+      "league": "La_Liga_2",
+      "season": "23_24",
+      "stem": "La_Liga_2_23_24",
+      "version": "00eddf73b4704cc8a3d9800d0c66446d",
+      "rows": {
+        "matches": 462,
+        "statistics": 102794,
+        "pregame": 902
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=54/season=52563/versions/00eddf73b4704cc8a3d9800d0c66446d/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_2_23_24.json",
+      "selection_record_sha256": "a2fb599cb0712632e3921835aaacac0be0ef06b51cdf219d85cc29bd1233d416"
+    },
+    {
+      "league": "Ligue_1",
+      "season": "23_24",
+      "stem": "Ligue_1_23_24",
+      "version": "552d5e0340264c6b969f9bbd6351bfe7",
+      "rows": {
+        "matches": 306,
+        "statistics": 74708,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=34/season=52571/versions/552d5e0340264c6b969f9bbd6351bfe7/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_1_23_24.json",
+      "selection_record_sha256": "fc9419ef782262f313d85a7c53882d8c7d93dcf1ab310a85ba9f737e652c68c7"
+    },
+    {
+      "league": "Ligue_2",
+      "season": "23_24",
+      "stem": "Ligue_2_23_24",
+      "version": "1caa97ac9f7d4c268fa5ae4f151ae773",
+      "rows": {
+        "matches": 380,
+        "statistics": 84178,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=182/season=52572/versions/1caa97ac9f7d4c268fa5ae4f151ae773/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_2_23_24.json",
+      "selection_record_sha256": "37cde7a82384efef33109a3d4fafdf20f4b1e2430a828c63ff70939eef714a59"
+    },
+    {
+      "league": "Premier_League",
+      "season": "23_24",
+      "stem": "Premier_League_23_24",
+      "version": "322efd13dad5421dbf7bca734fe8c8fa",
+      "rows": {
+        "matches": 380,
+        "statistics": 93086,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=17/season=52186/versions/322efd13dad5421dbf7bca734fe8c8fa/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premier_League_23_24.json",
+      "selection_record_sha256": "93891fe92e4540b3dffc61f4377e8233a786a2056493dc3df7bcaff903e2672d"
+    },
+    {
+      "league": "Premiership",
+      "season": "23_24",
+      "stem": "Premiership_23_24",
+      "version": "2097a664c085497c9db6dc07a752e092",
+      "rows": {
+        "matches": 228,
+        "statistics": 50746,
+        "pregame": 432
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=36/season=52588/versions/2097a664c085497c9db6dc07a752e092/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premiership_23_24.json",
+      "selection_record_sha256": "e2b17c60f1a742da6a8e3784aedef3e2340cbf328ef5bd9fc3ad79225611ea3b"
+    },
+    {
+      "league": "Pro_League",
+      "season": "23_24",
+      "stem": "Pro_League_23_24",
+      "version": "ed10c6a00c574792b6b11cf9d239b25e",
+      "rows": {
+        "matches": 240,
+        "statistics": 58490,
+        "pregame": 464
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=38/season=52383/versions/ed10c6a00c574792b6b11cf9d239b25e/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Pro_League_23_24.json",
+      "selection_record_sha256": "bbf94653a24f5bb21c64ab8c01f496d06dba24b5c2a03432243c701203e1a5d9"
+    },
+    {
+      "league": "Serie_A",
+      "season": "23_24",
+      "stem": "Serie_A_23_24",
+      "version": "5338921b40ed4a2893b5fdbe4801ea99",
+      "rows": {
+        "matches": 380,
+        "statistics": 92670,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=23/season=52760/versions/5338921b40ed4a2893b5fdbe4801ea99/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_A_23_24.json",
+      "selection_record_sha256": "592ef16aa5da5f414834b8feab588aa33ba8e5620f1f52904768204d27096531"
+    },
+    {
+      "league": "Serie_B",
+      "season": "23_24",
+      "stem": "Serie_B_23_24",
+      "version": "6f916b09806749d99ae37830bd69b1a3",
+      "rows": {
+        "matches": 380,
+        "statistics": 84058,
+        "pregame": 736
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=53/season=52947/versions/6f916b09806749d99ae37830bd69b1a3/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_B_23_24.json",
+      "selection_record_sha256": "c9dcecdda05a0ff37605b98fa37b0d91c132a8fe7bf872ef90ff3fa768105d68"
+    },
+    {
+      "league": "Bundesliga",
+      "season": "24_25",
+      "stem": "Bundesliga_24_25",
+      "version": "03410931228b49e4bb3d1756d39ed7b2",
+      "rows": {
+        "matches": 306,
+        "statistics": 78720,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=35/season=63516/versions/03410931228b49e4bb3d1756d39ed7b2/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_24_25.json",
+      "selection_record_sha256": "1843a7d98846e88c058c8fce32597537a9547e08334a85780843179ed89ff6f1"
+    },
+    {
+      "league": "Bundesliga_2",
+      "season": "24_25",
+      "stem": "Bundesliga_2_24_25",
+      "version": "1a91ba08f4154f3bbdb8535b9ff6e2ba",
+      "rows": {
+        "matches": 306,
+        "statistics": 72536,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=44/season=63514/versions/1a91ba08f4154f3bbdb8535b9ff6e2ba/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Bundesliga_2_24_25.json",
+      "selection_record_sha256": "6e04f17824398956e4251d074970c950d8accba1bcea92a34c68b6c60be66bb0"
+    },
+    {
+      "league": "Championship",
+      "season": "24_25",
+      "stem": "Championship_24_25",
+      "version": "82b75941dbdc4f82a5ca6a54b57e9770",
+      "rows": {
+        "matches": 552,
+        "statistics": 140604,
+        "pregame": 1078
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=18/season=61961/versions/82b75941dbdc4f82a5ca6a54b57e9770/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Championship_24_25.json",
+      "selection_record_sha256": "388162e4d2672785ae4dcc948c7813cf5d3d0149c25c658ffb8fd230525af1b9"
+    },
+    {
+      "league": "Eredivisie",
+      "season": "24_25",
+      "stem": "Eredivisie_24_25",
+      "version": "c2b3930f8cb94ecab2f3b11b730f9585",
+      "rows": {
+        "matches": 306,
+        "statistics": 78390,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=37/season=61666/versions/c2b3930f8cb94ecab2f3b11b730f9585/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Eredivisie_24_25.json",
+      "selection_record_sha256": "7316292d69d18076a3fe4531917353b5985fea7e9beed3c941d78ee57c141be5"
+    },
+    {
+      "league": "La_Liga",
+      "season": "24_25",
+      "stem": "La_Liga_24_25",
+      "version": "1d9447e91a8443cd9ea9a24a35ee7899",
+      "rows": {
+        "matches": 380,
+        "statistics": 97706,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=8/season=61643/versions/1d9447e91a8443cd9ea9a24a35ee7899/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_24_25.json",
+      "selection_record_sha256": "d1f580823a728f71a461c558c9f9b7a871a19387b51bd4253b923a32ceb29e05"
+    },
+    {
+      "league": "La_Liga_2",
+      "season": "24_25",
+      "stem": "La_Liga_2_24_25",
+      "version": "1702978de2694aaa8010c4f795708fa4",
+      "rows": {
+        "matches": 462,
+        "statistics": 108778,
+        "pregame": 902
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=54/season=62048/versions/1702978de2694aaa8010c4f795708fa4/manifest.json",
+      "selection_record": "experiment/initial_population/selections/La_Liga_2_24_25.json",
+      "selection_record_sha256": "8cfa757d2d0b8243b1e7793be4668064c5383871fe2e8eccfc5f56836c18be4d"
+    },
+    {
+      "league": "Ligue_1",
+      "season": "24_25",
+      "stem": "Ligue_1_24_25",
+      "version": "669a92d67f6141c29d3a52737660f4c1",
+      "rows": {
+        "matches": 306,
+        "statistics": 78816,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=34/season=61736/versions/669a92d67f6141c29d3a52737660f4c1/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_1_24_25.json",
+      "selection_record_sha256": "f525574c0c4477c4385bc042ee2c8d000adb032035e4be384087966ccfe54c7f"
+    },
+    {
+      "league": "Ligue_2",
+      "season": "24_25",
+      "stem": "Ligue_2_24_25",
+      "version": "30be528c2e854e0a96ff27a40dc5b92b",
+      "rows": {
+        "matches": 306,
+        "statistics": 72156,
+        "pregame": 594
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=182/season=61737/versions/30be528c2e854e0a96ff27a40dc5b92b/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Ligue_2_24_25.json",
+      "selection_record_sha256": "cd0b51260170f8b573f3a316c2a29681414d59e50999ae4167e8429a9c97cb8c"
+    },
+    {
+      "league": "Premier_League",
+      "season": "24_25",
+      "stem": "Premier_League_24_25",
+      "version": "6d950fa327de4fc29c796c7cca101606",
+      "rows": {
+        "matches": 380,
+        "statistics": 98224,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premier_League_24_25.json",
+      "selection_record_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8"
+    },
+    {
+      "league": "Premiership",
+      "season": "24_25",
+      "stem": "Premiership_24_25",
+      "version": "734cc6ad7e374cb0a7f48cd91d01e474",
+      "rows": {
+        "matches": 228,
+        "statistics": 53862,
+        "pregame": 432
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=36/season=62408/versions/734cc6ad7e374cb0a7f48cd91d01e474/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Premiership_24_25.json",
+      "selection_record_sha256": "6ab174d043e2bf246cc52ece67abbe7b2765d2c4b1b10c2c4cd5ba7a7fd2d6ec"
+    },
+    {
+      "league": "Pro_League",
+      "season": "24_25",
+      "stem": "Pro_League_24_25",
+      "version": "53d6cae0eef84c169ef7b2c32c2ef198",
+      "rows": {
+        "matches": 311,
+        "statistics": 79926,
+        "pregame": 590
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=38/season=61459/versions/53d6cae0eef84c169ef7b2c32c2ef198/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Pro_League_24_25.json",
+      "selection_record_sha256": "042fd9c4de55dbbfc4edf4b7ecd174d32aa0da89d4e2619edb756920f7243bf9"
+    },
+    {
+      "league": "Serie_A",
+      "season": "24_25",
+      "stem": "Serie_A_24_25",
+      "version": "0941bf90b223447db876000bc81bcb07",
+      "rows": {
+        "matches": 380,
+        "statistics": 97422,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=23/season=63515/versions/0941bf90b223447db876000bc81bcb07/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_A_24_25.json",
+      "selection_record_sha256": "78ec7230b279aae04675e7fb10e60a8bc72466b791b417a65ac5db31cd87f906"
+    },
+    {
+      "league": "Serie_B",
+      "season": "24_25",
+      "stem": "Serie_B_24_25",
+      "version": "186b8daf63a34461b3f9d6418b87eb4a",
+      "rows": {
+        "matches": 380,
+        "statistics": 90440,
+        "pregame": 740
+      },
+      "manifest_path": "data/xDiyo_data/_tables/competition=53/season=63812/versions/186b8daf63a34461b3f9d6418b87eb4a/manifest.json",
+      "selection_record": "experiment/initial_population/selections/Serie_B_24_25.json",
+      "selection_record_sha256": "02dd7395455bf57795f85b16283c6a0b266822f350efa346b3f9aba6e23704a8"
+    }
+  ],
+  "checks": {
+    "all_117_loaded_partitions_equal_direct_parquet": true,
+    "exact_values_types_row_order_and_nulls_preserved": true,
+    "optional_column_absence_remains_missing": true,
+    "origin_labels_arrow_strings": true,
+    "source_file_count_fingerprinted": 195,
+    "selected_source_bytes_unchanged": true,
+    "selected_table_hashes_match_manifest": true,
+    "selection_record_count": 39,
+    "source_code_stable": true
+  },
+  "source_file_sha256": {
+    "data/xDiyo_data/_tables/competition=35/season=42268/versions/92e8c2827b2c43d996193846d001798e/matches.parquet": "58f10018b94cd86ae0c9b053736599650b04466f1cd3798d7a86de83a7a74c6f",
+    "data/xDiyo_data/_tables/competition=35/season=42268/versions/92e8c2827b2c43d996193846d001798e/statistics.parquet": "df5af390bb7be163bb61f8a90cb3c042b0c3e2830f8ffa44aeef9051bff9ed0c",
+    "data/xDiyo_data/_tables/competition=35/season=42268/versions/92e8c2827b2c43d996193846d001798e/pregame.parquet": "0e95b4ffa5049e4a7d593cefa9a80b02a6b71a3e5a8746cdbdb2c67b5396225a",
+    "data/xDiyo_data/Bundesliga_22_23.manifest.json": "7ef063c3346f265ad9eff02388cc77ccb263e393c8667239729b48c7ea35ff42",
+    "data/xDiyo_data/_tables/competition=35/season=42268/versions/92e8c2827b2c43d996193846d001798e/manifest.json": "79efdb320c69c7d311458c969947e75af761c058848d6d2e98dd73018ceeb4cd",
+    "data/xDiyo_data/_tables/competition=35/season=52608/versions/d36f36e73f1e4a8789f6fbd556ad52ef/matches.parquet": "c7b5d4ebdd0239f672aa70664a0bc1b01a038370f78fe40f34b2892adf618613",
+    "data/xDiyo_data/_tables/competition=35/season=52608/versions/d36f36e73f1e4a8789f6fbd556ad52ef/statistics.parquet": "05827c1b1c1c3cffb1971cd17751a51d8a632e553845cf4cbeafea3ff38f477b",
+    "data/xDiyo_data/_tables/competition=35/season=52608/versions/d36f36e73f1e4a8789f6fbd556ad52ef/pregame.parquet": "77d556c6ddd3394a3d95b578eb61cfc13614953c9886bf50545010c1b4ac08bf",
+    "data/xDiyo_data/Bundesliga_23_24.manifest.json": "927c90d2ec5f32327b6e4fa8b18e2601c097a1dc2496a09a237ac913d2a33195",
+    "data/xDiyo_data/_tables/competition=35/season=52608/versions/d36f36e73f1e4a8789f6fbd556ad52ef/manifest.json": "5d06586918358d076f3775e55eaae0a10489f397a6efd63b14bbc2a9b329596e",
+    "data/xDiyo_data/_tables/competition=35/season=63516/versions/03410931228b49e4bb3d1756d39ed7b2/matches.parquet": "61839cec72b6d584a3192482af1185f1b493b8e2be9e10a7391f3d48d07b3d92",
+    "data/xDiyo_data/_tables/competition=35/season=63516/versions/03410931228b49e4bb3d1756d39ed7b2/statistics.parquet": "f3e17cfd33720397905380ffb0f14c15b71b173eea8fd51e4f5c0d7b7a7cfbd1",
+    "data/xDiyo_data/_tables/competition=35/season=63516/versions/03410931228b49e4bb3d1756d39ed7b2/pregame.parquet": "3233dae5a1aa21d1d441711a9c585ce7b75aaf8cc04ee06d6d315b73b3f7305f",
+    "data/xDiyo_data/Bundesliga_24_25.manifest.json": "8dc818e1eef6303afb3688afdcc27afa12bc3de93fdad58f160b48d601871d2e",
+    "data/xDiyo_data/_tables/competition=35/season=63516/versions/03410931228b49e4bb3d1756d39ed7b2/manifest.json": "79465c3a2cab8ea9b4d4e82f5deba4d82952c18ecb673d3a0dee15e4df354b71",
+    "data/xDiyo_data/_tables/competition=44/season=42269/versions/7dd035e04b4e41b08c75cb38bb8920ab/matches.parquet": "8b8404d9d2517b610c20c1c2fee728cf0c789edf01987fecaa39f07e230e0f12",
+    "data/xDiyo_data/_tables/competition=44/season=42269/versions/7dd035e04b4e41b08c75cb38bb8920ab/statistics.parquet": "f1366fb67aaf14ff6ccb51e84f1763a48824721b6825ffa190a41d0045074dd7",
+    "data/xDiyo_data/_tables/competition=44/season=42269/versions/7dd035e04b4e41b08c75cb38bb8920ab/pregame.parquet": "612a0e1279aea68ecd76c4e03d0c82878646a610815cac0c9e8bdd05a76dc03b",
+    "data/xDiyo_data/Bundesliga_2_22_23.manifest.json": "c29458eab023cc569684ca810f9a571e4f4444c47609c3381fda0feabbc9f9c2",
+    "data/xDiyo_data/_tables/competition=44/season=42269/versions/7dd035e04b4e41b08c75cb38bb8920ab/manifest.json": "1714eaacbc115926861de0f131a325300bc60617389f2cbb8b84782eade50792",
+    "data/xDiyo_data/_tables/competition=44/season=52607/versions/e6dc6659653c4e1a8f16cf090b6cc7fe/matches.parquet": "de46d2b10a7f0879d8d5006dc4cb69009b72a6e911314dc1639fc4bf78535625",
+    "data/xDiyo_data/_tables/competition=44/season=52607/versions/e6dc6659653c4e1a8f16cf090b6cc7fe/statistics.parquet": "c6e435cbe4f0283ba4ca9fe71956731f27588d3e22b9c120de142ff19e14bb77",
+    "data/xDiyo_data/_tables/competition=44/season=52607/versions/e6dc6659653c4e1a8f16cf090b6cc7fe/pregame.parquet": "52e04a8c25d412dbd4f19e8a66d21a4b4776cafacff060bd05fa81c905ca7709",
+    "data/xDiyo_data/Bundesliga_2_23_24.manifest.json": "abd9c0a511208c7f6463e8977d1db812ebc69f0bf068b5f8de4f4d12f773ca22",
+    "data/xDiyo_data/_tables/competition=44/season=52607/versions/e6dc6659653c4e1a8f16cf090b6cc7fe/manifest.json": "fb262b75d288337d714566fc3cde30e4adbf264d3619a7dd1141919fe188b267",
+    "data/xDiyo_data/_tables/competition=44/season=63514/versions/1a91ba08f4154f3bbdb8535b9ff6e2ba/matches.parquet": "e7798eb0adc929de2d7dc7e979cff9e17a65a9c59be849c7b501e4825f58f743",
+    "data/xDiyo_data/_tables/competition=44/season=63514/versions/1a91ba08f4154f3bbdb8535b9ff6e2ba/statistics.parquet": "d0c8776fbfb9fda777ad859e0f883b4a8a41fe93d430eb665b1c32f045925567",
+    "data/xDiyo_data/_tables/competition=44/season=63514/versions/1a91ba08f4154f3bbdb8535b9ff6e2ba/pregame.parquet": "0cf946f377d43aef70e301327439e83b79d2f73de9c07327ec30294c152e00ea",
+    "data/xDiyo_data/Bundesliga_2_24_25.manifest.json": "8d02e2ba14fd01bfe52a476e05424d2d9f78b86afd68dbf87c86ed1f71945e26",
+    "data/xDiyo_data/_tables/competition=44/season=63514/versions/1a91ba08f4154f3bbdb8535b9ff6e2ba/manifest.json": "180b09d7bf35657468ea5ead777ed7649e47b54401c4361c6e5d12d553295888",
+    "data/xDiyo_data/_tables/competition=18/season=42401/versions/90be71f18d454eea99b6abc5db3331a4/matches.parquet": "75fa611ed3945362dd1eb02b3720a4f5684a21654744214833fd902cdfc675e1",
+    "data/xDiyo_data/_tables/competition=18/season=42401/versions/90be71f18d454eea99b6abc5db3331a4/statistics.parquet": "9df115672034039aae0ebaad95c1737cb52005ab4c8ed20cafa9f8ddf66cdea4",
+    "data/xDiyo_data/_tables/competition=18/season=42401/versions/90be71f18d454eea99b6abc5db3331a4/pregame.parquet": "06b43a2e4301f3cbdbb2cc0600a54ff6eb6c1b1868de484fadac8cd3dba09b89",
+    "data/xDiyo_data/Championship_22_23.manifest.json": "325128593177ae5423d1e9900265926a1e85c2d45456edc090c66ffb1eb68b94",
+    "data/xDiyo_data/_tables/competition=18/season=42401/versions/90be71f18d454eea99b6abc5db3331a4/manifest.json": "f723d89631d216ceda36d5d1804ff3e21bbb711d6e29dd5805ad5fd8b6be0bfb",
+    "data/xDiyo_data/_tables/competition=18/season=52367/versions/671aee06414c410cb50ccc7dc80e0c14/matches.parquet": "53a9c90399bc1e485660c9a1ce1ae1b63d64a30c73c9b1f9faee78c7daff7631",
+    "data/xDiyo_data/_tables/competition=18/season=52367/versions/671aee06414c410cb50ccc7dc80e0c14/statistics.parquet": "37ee338ffac2ac7c4e01415ec96dbe55943e83a272b979f945837adb4101d57d",
+    "data/xDiyo_data/_tables/competition=18/season=52367/versions/671aee06414c410cb50ccc7dc80e0c14/pregame.parquet": "91cf5b88d4864502acb72f13030378b6e8c66d0f674b8fb799dc8c11cbe1915e",
+    "data/xDiyo_data/Championship_23_24.manifest.json": "8509dc6b205fc713f72c2f0d6e22e190747269acb160489168bd55ae246f1128",
+    "data/xDiyo_data/_tables/competition=18/season=52367/versions/671aee06414c410cb50ccc7dc80e0c14/manifest.json": "a96bf023d8d4efa8dd4f85b3afaae07c7f73c824cadde52cff527aca5a2e0bb0",
+    "data/xDiyo_data/_tables/competition=18/season=61961/versions/82b75941dbdc4f82a5ca6a54b57e9770/matches.parquet": "ab4afd1256729f40802e7e7ef68bfab308571fdfd40b6f9fe79eda6094b3799d",
+    "data/xDiyo_data/_tables/competition=18/season=61961/versions/82b75941dbdc4f82a5ca6a54b57e9770/statistics.parquet": "7d99dd7eddb439e6aa5ea0b8a3d1d114d215869b87a337749b0c31dd838f3f39",
+    "data/xDiyo_data/_tables/competition=18/season=61961/versions/82b75941dbdc4f82a5ca6a54b57e9770/pregame.parquet": "47bb6f24ea84da854007a983a1b011131a9995c1085aaca2fd4accfb90f8ed58",
+    "data/xDiyo_data/Championship_24_25.manifest.json": "b75851a2c8040a8c0a6ae7ab7eab492ba321da58fe4c860821c66ff6cbf119cb",
+    "data/xDiyo_data/_tables/competition=18/season=61961/versions/82b75941dbdc4f82a5ca6a54b57e9770/manifest.json": "033055917108a86e240a60cc169554c3717d4591fc24674e2131f1f86363c1fa",
+    "data/xDiyo_data/_tables/competition=37/season=42256/versions/24081189269d4422836f95b4a546d33b/matches.parquet": "77854e2c53545cad920019fd04bc4720f9fb215b046dc1e878b70845a13b9f7a",
+    "data/xDiyo_data/_tables/competition=37/season=42256/versions/24081189269d4422836f95b4a546d33b/statistics.parquet": "58ed7fbfe980e42d69199f12f38af22ef4dca5fe61ce1a41b63c26aec6290c9d",
+    "data/xDiyo_data/_tables/competition=37/season=42256/versions/24081189269d4422836f95b4a546d33b/pregame.parquet": "6b842f13091dc531593d7ec79a194a944c8eced935535f0c46a7050125f44fee",
+    "data/xDiyo_data/Eredivisie_22_23.manifest.json": "f4486771e09eaa38913f64660428ce25e5a3313656b4945b779ee697f02642f2",
+    "data/xDiyo_data/_tables/competition=37/season=42256/versions/24081189269d4422836f95b4a546d33b/manifest.json": "ca925e6a1c8a6b61a7b351b8873d60fad2bcd722398412ee6d324366efad081b",
+    "data/xDiyo_data/_tables/competition=37/season=52554/versions/07cfbe105eff4076a7b704f30f96c897/matches.parquet": "693dffac261674c431781d8878b018f7ad76372ef21769a32849459f685455bc",
+    "data/xDiyo_data/_tables/competition=37/season=52554/versions/07cfbe105eff4076a7b704f30f96c897/statistics.parquet": "7df30e8274233053bfc73fd192e31f513e9f77082e3d70188d11e752b459b8dc",
+    "data/xDiyo_data/_tables/competition=37/season=52554/versions/07cfbe105eff4076a7b704f30f96c897/pregame.parquet": "c426c9328d8923e6b4b9c078ee72fb252609ee01db2ed67e4e3fd67146c92624",
+    "data/xDiyo_data/Eredivisie_23_24.manifest.json": "37bb14c72bfc52f003102048e725af2668fa30b7e2ae1bb048372028e6a6c4c5",
+    "data/xDiyo_data/_tables/competition=37/season=52554/versions/07cfbe105eff4076a7b704f30f96c897/manifest.json": "eac444c707c5b5570e11d4799dc95174779f7d4e5581714da5380f83b99c1346",
+    "data/xDiyo_data/_tables/competition=37/season=61666/versions/c2b3930f8cb94ecab2f3b11b730f9585/matches.parquet": "cf250ca489b8fe41ddfd0c951ee30c78519db5a8b33ac34b9af3fe488e7396a3",
+    "data/xDiyo_data/_tables/competition=37/season=61666/versions/c2b3930f8cb94ecab2f3b11b730f9585/statistics.parquet": "f591493b527d52ae24c73d7967ea545cf448d27bafd7b9763901586a5cb72ee8",
+    "data/xDiyo_data/_tables/competition=37/season=61666/versions/c2b3930f8cb94ecab2f3b11b730f9585/pregame.parquet": "7b7c0d40539d825a664f39b30bc11f0266703344183e8121fa60e8bf87c167c2",
+    "data/xDiyo_data/Eredivisie_24_25.manifest.json": "37342372e7705e9feef0f82532edbafff7ae5268906d72a59504e37573bd8601",
+    "data/xDiyo_data/_tables/competition=37/season=61666/versions/c2b3930f8cb94ecab2f3b11b730f9585/manifest.json": "39bd19374733abfb9329a7ad1a0c35341668385e090a2627964310522fd6ad9b",
+    "data/xDiyo_data/_tables/competition=8/season=42409/versions/71e672151ada4f45aabe8372b57a0f61/matches.parquet": "f7f3bcd86bfef9a2cd4f17bf0c7e18cba4e9fe239e028e1b116b24ac6df99db0",
+    "data/xDiyo_data/_tables/competition=8/season=42409/versions/71e672151ada4f45aabe8372b57a0f61/statistics.parquet": "c254dc144fc400909a191f8f8bcc20bc5f90e550217311defb0896bc6b2560de",
+    "data/xDiyo_data/_tables/competition=8/season=42409/versions/71e672151ada4f45aabe8372b57a0f61/pregame.parquet": "3899a80c2d23272858eae68f53b4513f787920db6c6cf4c51077ae2f8793f694",
+    "data/xDiyo_data/La_Liga_22_23.manifest.json": "3ca3daf45d9d7e50c1949a6a1a2fc572f830ed42d923c9d19d838fd5c3f959d0",
+    "data/xDiyo_data/_tables/competition=8/season=42409/versions/71e672151ada4f45aabe8372b57a0f61/manifest.json": "0a13b998986a2b146f8ba4af587af5492de3613e3e677c697b35111f340827f9",
+    "data/xDiyo_data/_tables/competition=8/season=52376/versions/b5a30fa4484b4148b61fc8211af629b1/matches.parquet": "bc7d19c269fde2ac7d266c38939cabe5b6e648f591b5125f7b55564aafb77666",
+    "data/xDiyo_data/_tables/competition=8/season=52376/versions/b5a30fa4484b4148b61fc8211af629b1/statistics.parquet": "42872dec42207f89563c762f75463353818df8b1fdef08c9a96af8db6639982d",
+    "data/xDiyo_data/_tables/competition=8/season=52376/versions/b5a30fa4484b4148b61fc8211af629b1/pregame.parquet": "029239eb141c22cf91cac99d764fbe190dde4f40da1172cf19ec59bba8cd3cf6",
+    "data/xDiyo_data/La_Liga_23_24.manifest.json": "32014fa51e779b73000d9288a8d2e01fe33278f450025925a57f8dadd7a3c9ed",
+    "data/xDiyo_data/_tables/competition=8/season=52376/versions/b5a30fa4484b4148b61fc8211af629b1/manifest.json": "cbe3b5e3663d1df00464bbc38e4a45d50e4f1b79b8550b762338320249dd656a",
+    "data/xDiyo_data/_tables/competition=8/season=61643/versions/1d9447e91a8443cd9ea9a24a35ee7899/matches.parquet": "5a8c1108760560af5d9df190b1d023f9aee1e797d92fd8e2af5468f43442f654",
+    "data/xDiyo_data/_tables/competition=8/season=61643/versions/1d9447e91a8443cd9ea9a24a35ee7899/statistics.parquet": "2e287e502fda8496e0970a085e391073bde0380fb7204477a6cd4da487396a03",
+    "data/xDiyo_data/_tables/competition=8/season=61643/versions/1d9447e91a8443cd9ea9a24a35ee7899/pregame.parquet": "b5a83392f130062a05be8e9690029c24f2f99322e3b9e99ed0583197bf2b23e4",
+    "data/xDiyo_data/La_Liga_24_25.manifest.json": "ea214a232115ba6deeb04f629cda77a5be2af969ac8f046c070c10470f4b0c43",
+    "data/xDiyo_data/_tables/competition=8/season=61643/versions/1d9447e91a8443cd9ea9a24a35ee7899/manifest.json": "6320ed8517f5f67c8e610a03316de119d407b2f027c2cfa80699d86cb7ee2ab6",
+    "data/xDiyo_data/_tables/competition=54/season=42410/versions/fb1195a485fd49f5a3c5e5cfd49f913f/matches.parquet": "8a7b7ce7921dda9b66ee8920346090f3a1625d19a63faa7314eb8543618c3b4e",
+    "data/xDiyo_data/_tables/competition=54/season=42410/versions/fb1195a485fd49f5a3c5e5cfd49f913f/statistics.parquet": "983c0b33ad945e583c21ecdd7c583ddef6762c163b657366f4c3bb5aad83c387",
+    "data/xDiyo_data/_tables/competition=54/season=42410/versions/fb1195a485fd49f5a3c5e5cfd49f913f/pregame.parquet": "5a1ad6ca5650857f18420d4a3c3977ec48f38e1b4dd9545365c836028986eaea",
+    "data/xDiyo_data/La_Liga_2_22_23.manifest.json": "56a4eeb4e08e3289db1f1d43097f334f1721f44e76a4ac28757b81f9d77ac49b",
+    "data/xDiyo_data/_tables/competition=54/season=42410/versions/fb1195a485fd49f5a3c5e5cfd49f913f/manifest.json": "3cf8710abdeaa481fcb6240eae0116d025965d8157c03bc7a64e451347f4bb85",
+    "data/xDiyo_data/_tables/competition=54/season=52563/versions/00eddf73b4704cc8a3d9800d0c66446d/matches.parquet": "c1b20802fd37436cc5ac6356bcae60524d3b9f988f4f68646b1cc7e3f8a1a229",
+    "data/xDiyo_data/_tables/competition=54/season=52563/versions/00eddf73b4704cc8a3d9800d0c66446d/statistics.parquet": "9c57bcb7e7a1328c7cfcb8ee8cdf3e021bc580b87f7e5f763f98714991083c77",
+    "data/xDiyo_data/_tables/competition=54/season=52563/versions/00eddf73b4704cc8a3d9800d0c66446d/pregame.parquet": "56f29495de6e039fdd62c183421cfab24ea0f5de8e1846ad19f406cd8f4b8e61",
+    "data/xDiyo_data/La_Liga_2_23_24.manifest.json": "17160067ab605adafaa93281ca01288797cc1e0c61aa617866aaca57ed85b9cb",
+    "data/xDiyo_data/_tables/competition=54/season=52563/versions/00eddf73b4704cc8a3d9800d0c66446d/manifest.json": "5178c47a341afb52c6500a2f02db2e7930be4673feb9cbb313f736a2bee3a55d",
+    "data/xDiyo_data/_tables/competition=54/season=62048/versions/1702978de2694aaa8010c4f795708fa4/matches.parquet": "f379f4dba335dc8e826b56a284633a75ee9c1366ea779c4a3bc640cc752a7c19",
+    "data/xDiyo_data/_tables/competition=54/season=62048/versions/1702978de2694aaa8010c4f795708fa4/statistics.parquet": "c0ea00cdb94ddaf9583866cc5c9570f040d0f3b159736b4a3761043752b3b7e3",
+    "data/xDiyo_data/_tables/competition=54/season=62048/versions/1702978de2694aaa8010c4f795708fa4/pregame.parquet": "1f5cd7b7f6eb030c272d6fced12e9e1ed99655d164d1125ed76c7931b9733fea",
+    "data/xDiyo_data/La_Liga_2_24_25.manifest.json": "3732fac39356c6745edd0e45c998406845dba620d84ebe18ce85f1953a96e43f",
+    "data/xDiyo_data/_tables/competition=54/season=62048/versions/1702978de2694aaa8010c4f795708fa4/manifest.json": "0db46d8acca844f30b9b7c8ee8e8a69af55b28294227149a64e29383a91d609c",
+    "data/xDiyo_data/_tables/competition=34/season=42273/versions/d3a3c63254614f6497f9d09868771a22/matches.parquet": "6dfb1b0d0a6374b106f8c74691c59871a37278b718d165cab5c7297b5da453b3",
+    "data/xDiyo_data/_tables/competition=34/season=42273/versions/d3a3c63254614f6497f9d09868771a22/statistics.parquet": "04ee6c5e892670fd3c60a778b68f5ab4e689b527285cf31379bd4435e25d21a5",
+    "data/xDiyo_data/_tables/competition=34/season=42273/versions/d3a3c63254614f6497f9d09868771a22/pregame.parquet": "38b06b2d63ee5e74dd8f8b9bb6b437e357b7974eb80936443dd24f58e95e1fa5",
+    "data/xDiyo_data/Ligue_1_22_23.manifest.json": "c31b22a702f17f98a6d0a8af2958f04a3de2b10856c423dd9b1eeadf30971a1f",
+    "data/xDiyo_data/_tables/competition=34/season=42273/versions/d3a3c63254614f6497f9d09868771a22/manifest.json": "30a7dbe97f061591ca7ec6d66bd4ed11bc89ad1fc77a5c11ab05f247bc625c2e",
+    "data/xDiyo_data/_tables/competition=34/season=52571/versions/552d5e0340264c6b969f9bbd6351bfe7/matches.parquet": "c011befa7c2fe31f33d929a7b488307906006c305a41a7e0389ceb10878ca312",
+    "data/xDiyo_data/_tables/competition=34/season=52571/versions/552d5e0340264c6b969f9bbd6351bfe7/statistics.parquet": "968e6a1211d76404e450e9540e1c6187d913705c20ecf02550daac6e89338755",
+    "data/xDiyo_data/_tables/competition=34/season=52571/versions/552d5e0340264c6b969f9bbd6351bfe7/pregame.parquet": "35c18279067727732f36f29cf377531a3fe6dd2a442ffa72e7aebad0c56c704a",
+    "data/xDiyo_data/Ligue_1_23_24.manifest.json": "4990c074d915d295ef38b2dac6d8d300b9910cee1db04d31cb85b8311dddb36d",
+    "data/xDiyo_data/_tables/competition=34/season=52571/versions/552d5e0340264c6b969f9bbd6351bfe7/manifest.json": "164fa2921ab9427d4dc1708c2a0d7e513373d9e5a507295e4388aac7aeed0e28",
+    "data/xDiyo_data/_tables/competition=34/season=61736/versions/669a92d67f6141c29d3a52737660f4c1/matches.parquet": "76a3534ab2ef241d5a0298c374252cac454f9298522cd3fb7a6054dbcbf3485b",
+    "data/xDiyo_data/_tables/competition=34/season=61736/versions/669a92d67f6141c29d3a52737660f4c1/statistics.parquet": "4b5c96ef2d2ebbc212df647f2c93f7a6f801899d4208b19e9abc724701f26b17",
+    "data/xDiyo_data/_tables/competition=34/season=61736/versions/669a92d67f6141c29d3a52737660f4c1/pregame.parquet": "7a29dacb4598bd9add00814e02016f767e5c6e11225e05e54bdd13fa0232fa9a",
+    "data/xDiyo_data/Ligue_1_24_25.manifest.json": "f18d48e9525c175cb17c662a784a9929675f609ec8fad4abcbfc6ae7674e4cc7",
+    "data/xDiyo_data/_tables/competition=34/season=61736/versions/669a92d67f6141c29d3a52737660f4c1/manifest.json": "b21e5de1fb997067fd3f3add130a5a090f6a228a6ec4817f94736f8474f85bad",
+    "data/xDiyo_data/_tables/competition=182/season=42272/versions/5fc0bff49753477abc01d9f96e45e0e1/matches.parquet": "65dfc737ec3707a7a0bd4a8098cc1bd0dc09dd83ea0aa0ebba7f64925ab7a701",
+    "data/xDiyo_data/_tables/competition=182/season=42272/versions/5fc0bff49753477abc01d9f96e45e0e1/statistics.parquet": "5c58bddbd397de454f377074841a8c9431dd4a80a87bb7902ad28a4f0c93ba96",
+    "data/xDiyo_data/_tables/competition=182/season=42272/versions/5fc0bff49753477abc01d9f96e45e0e1/pregame.parquet": "0439fb94be63ac222e9172a710f2f9ba6664c80bddf5af11397e7a288439db29",
+    "data/xDiyo_data/Ligue_2_22_23.manifest.json": "b68635ae611735f6a45380b78465082e121227e96b72cf8c67b464ed81a340e6",
+    "data/xDiyo_data/_tables/competition=182/season=42272/versions/5fc0bff49753477abc01d9f96e45e0e1/manifest.json": "b9e1249bf8cbba848a0222b77179eb0a9b886b872ec8fbd94c192df86e12cad8",
+    "data/xDiyo_data/_tables/competition=182/season=52572/versions/1caa97ac9f7d4c268fa5ae4f151ae773/matches.parquet": "203b35824a9665a76ca80bd5babf1ef5f812dbab5df09691d58f88af6fabdda9",
+    "data/xDiyo_data/_tables/competition=182/season=52572/versions/1caa97ac9f7d4c268fa5ae4f151ae773/statistics.parquet": "c9ba7119fab7a98641dfd0263acc6dde73698ccbda12c15c25eca2c74368c67f",
+    "data/xDiyo_data/_tables/competition=182/season=52572/versions/1caa97ac9f7d4c268fa5ae4f151ae773/pregame.parquet": "d3c8fcd03742e7ab176f295d2474e15b84fc622e3a4e76d1b85c6f1a6f910449",
+    "data/xDiyo_data/Ligue_2_23_24.manifest.json": "f2380c5b3c9eb0dafa5ae2bd89a6a7521b3ed63fb3be3ec1d655735471a09eea",
+    "data/xDiyo_data/_tables/competition=182/season=52572/versions/1caa97ac9f7d4c268fa5ae4f151ae773/manifest.json": "116f5084759915661ac9b6c7ebfe1fac936bd7474a9d8d0e7641a9cb1b073ffb",
+    "data/xDiyo_data/_tables/competition=182/season=61737/versions/30be528c2e854e0a96ff27a40dc5b92b/matches.parquet": "ac4fb6913affd214df481667cff85eda420da1a1f777549b98ca9998ae56d453",
+    "data/xDiyo_data/_tables/competition=182/season=61737/versions/30be528c2e854e0a96ff27a40dc5b92b/statistics.parquet": "126ad23101a1e1341c56a69a40b6923981a3910d9c86a9a750abc0ac3a132d5d",
+    "data/xDiyo_data/_tables/competition=182/season=61737/versions/30be528c2e854e0a96ff27a40dc5b92b/pregame.parquet": "303c7306ea81c4d50fc5d661331786799df58d1c21dd6871699e8a567500520a",
+    "data/xDiyo_data/Ligue_2_24_25.manifest.json": "099f1959f92bf6c524315df7deecf0382aeed4e480b70d4a98a2aff99fd34a9f",
+    "data/xDiyo_data/_tables/competition=182/season=61737/versions/30be528c2e854e0a96ff27a40dc5b92b/manifest.json": "9b1be5c66bdfde1c14d3d9a55a28799d519f3871791b1df537e18d82b22f45bd",
+    "data/xDiyo_data/_tables/competition=36/season=41957/versions/c32012ea995e4829a25796c6f4f7696b/matches.parquet": "bed1786d05d3bd83c7f16750546d4252286e1bbe975b5e931614c7d13dbdc7e1",
+    "data/xDiyo_data/_tables/competition=36/season=41957/versions/c32012ea995e4829a25796c6f4f7696b/statistics.parquet": "42a60fa02771e9ed5a052134224ac81aadeaf57959cb1c8fa657dd55caace6cb",
+    "data/xDiyo_data/_tables/competition=36/season=41957/versions/c32012ea995e4829a25796c6f4f7696b/pregame.parquet": "fe5b3b7cfcbe1dba2fd6ba3f8135ccf174921b96770c6e3703fa9e7d50dcc181",
+    "data/xDiyo_data/Premiership_22_23.manifest.json": "4acb3e969354379a1612831f8f28810d3f5d72db99e906baf63b4b104b26f29e",
+    "data/xDiyo_data/_tables/competition=36/season=41957/versions/c32012ea995e4829a25796c6f4f7696b/manifest.json": "ccc356fb726a29292724bbc6ce1044c3adf01f9e467b527b7995ccbe31648399",
+    "data/xDiyo_data/_tables/competition=36/season=52588/versions/2097a664c085497c9db6dc07a752e092/matches.parquet": "ae94010360d72e3b55edbea93fdc095d551ffefb5dc09b66e4fc21e136eae864",
+    "data/xDiyo_data/_tables/competition=36/season=52588/versions/2097a664c085497c9db6dc07a752e092/statistics.parquet": "275c9a82c99f25749a38e311f3a69f7b01d3c5a137d70f6f0b77928bc4853793",
+    "data/xDiyo_data/_tables/competition=36/season=52588/versions/2097a664c085497c9db6dc07a752e092/pregame.parquet": "40a1b00db1de50b9cf96d9528968bd9c94cdb95337aca2cfcb6ceb2683372819",
+    "data/xDiyo_data/Premiership_23_24.manifest.json": "0ec9abd130120d30af27ecd32eece33f23abcd6e6f24fd7caaa600e320f07f30",
+    "data/xDiyo_data/_tables/competition=36/season=52588/versions/2097a664c085497c9db6dc07a752e092/manifest.json": "d51d5c22f58eea7fdf222d84d864290206752535421f8c6cd5b223a460aef47a",
+    "data/xDiyo_data/_tables/competition=36/season=62408/versions/734cc6ad7e374cb0a7f48cd91d01e474/matches.parquet": "6273f03cd28b5c4bd072f7c5e18fbeed7b68da51668f81d8fb89813111c7b814",
+    "data/xDiyo_data/_tables/competition=36/season=62408/versions/734cc6ad7e374cb0a7f48cd91d01e474/statistics.parquet": "2e06152174f13de3f71e057fc9efb1d2ea0fd9c8d86a1eb56b5ecee608c355f5",
+    "data/xDiyo_data/_tables/competition=36/season=62408/versions/734cc6ad7e374cb0a7f48cd91d01e474/pregame.parquet": "2cb646d803b4f4a3f59dbbf73df08e184da9f97da8d7127b1c57b67568c85df7",
+    "data/xDiyo_data/Premiership_24_25.manifest.json": "d562a9af941b6a4f986a9c50ca2e2a1fb253dfaf111ab263892aa2a5442c0952",
+    "data/xDiyo_data/_tables/competition=36/season=62408/versions/734cc6ad7e374cb0a7f48cd91d01e474/manifest.json": "9d79f3746a13002630c68ebb9b1618215e9ae947f4f995e73c0cd4fbf52d5950",
+    "data/xDiyo_data/_tables/competition=17/season=41886/versions/932cb0f8d67044b4ab27e741fd720cd8/matches.parquet": "2de5b5caaf7a2039fa7403b4bb3c8672d4ae966fdfe1ccf05bef78ae7964fa6a",
+    "data/xDiyo_data/_tables/competition=17/season=41886/versions/932cb0f8d67044b4ab27e741fd720cd8/statistics.parquet": "09078703f73363f40b610abf8d7791850ba01b850745df1f39ff2af69f8cf14c",
+    "data/xDiyo_data/_tables/competition=17/season=41886/versions/932cb0f8d67044b4ab27e741fd720cd8/pregame.parquet": "3d0edfe65ed4c8f65ba688f26523b4cf2815c59172a0fee354f49139d30d023a",
+    "data/xDiyo_data/Premier_League_22_23.manifest.json": "0d946fda44d13763ed943d77b1ef22429e3952aaa811ab8084d41ea719c4ab13",
+    "data/xDiyo_data/_tables/competition=17/season=41886/versions/932cb0f8d67044b4ab27e741fd720cd8/manifest.json": "8bf7e0393bf528019b60ea97811f75fbe5680ea897ef191d14481bf9df768c47",
+    "data/xDiyo_data/_tables/competition=17/season=52186/versions/322efd13dad5421dbf7bca734fe8c8fa/matches.parquet": "3d8a1ab19e0abb25baca18a87ce520c02bd0dfc4d4e0bf00e82aca67b40d4434",
+    "data/xDiyo_data/_tables/competition=17/season=52186/versions/322efd13dad5421dbf7bca734fe8c8fa/statistics.parquet": "d7512026220fa95ee39d167a631bb88298bb7f1232bb30a8c96949010bfe850d",
+    "data/xDiyo_data/_tables/competition=17/season=52186/versions/322efd13dad5421dbf7bca734fe8c8fa/pregame.parquet": "4b4f113db1424be2a960ec5c8aea5a7640c388ceabb34c17db82db3255ea4f27",
+    "data/xDiyo_data/Premier_League_23_24.manifest.json": "cc1b413abf832fa9b55a0b804fb298dce9acdf510a59712968e13eb868cf992f",
+    "data/xDiyo_data/_tables/competition=17/season=52186/versions/322efd13dad5421dbf7bca734fe8c8fa/manifest.json": "394e56dd7b582fa34428c8a46dddc2c57f2cf2ae445164a97c1da06c1170bf93",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3",
+    "data/xDiyo_data/Premier_League_24_25.manifest.json": "08b302fe765f48ca73a40ccceb6f789e6436aa52f656edc7e81f04dc5fb75faf",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=38/season=42404/versions/94d3eaed43804392ae3cb43a9cfe8f6d/matches.parquet": "fc2d5c51db2fe50d5ca167a5b9b3446cf3227b5df8895e782c36318cee47f399",
+    "data/xDiyo_data/_tables/competition=38/season=42404/versions/94d3eaed43804392ae3cb43a9cfe8f6d/statistics.parquet": "49e0e53d1dabc46ab09163ec9d1885b7ff13bcdaae61ee3003e58d6783df28a2",
+    "data/xDiyo_data/_tables/competition=38/season=42404/versions/94d3eaed43804392ae3cb43a9cfe8f6d/pregame.parquet": "e7cc1f92294cd20abf692ef88bc5f7d49296692b8b8e36f7874de71dd77c3a66",
+    "data/xDiyo_data/Pro_League_22_23.manifest.json": "cddf810cef30fe72354560efeee37cea73ddb0f766fa9bbc04955a81a6298fd7",
+    "data/xDiyo_data/_tables/competition=38/season=42404/versions/94d3eaed43804392ae3cb43a9cfe8f6d/manifest.json": "31d9e2e48f1ee4f28a5affe2b595b979808301b5eb68d0e9e3ee3cfdd145841c",
+    "data/xDiyo_data/_tables/competition=38/season=52383/versions/ed10c6a00c574792b6b11cf9d239b25e/matches.parquet": "4e77dd199100a9c5f20b5304981561dc6657ff0289ef922f42afcff05c33e010",
+    "data/xDiyo_data/_tables/competition=38/season=52383/versions/ed10c6a00c574792b6b11cf9d239b25e/statistics.parquet": "b7dcebc0883ad773ceac4785a0bf588aa0a4351dfbae62206c2faa502c77ba7d",
+    "data/xDiyo_data/_tables/competition=38/season=52383/versions/ed10c6a00c574792b6b11cf9d239b25e/pregame.parquet": "da0ce24bc84eea362a7ce747cbe03525a52095c1c076ace08ae47db27291b274",
+    "data/xDiyo_data/Pro_League_23_24.manifest.json": "556d27e076480121c75909ea7372c11486b43bdbbadd7139956436cc08520404",
+    "data/xDiyo_data/_tables/competition=38/season=52383/versions/ed10c6a00c574792b6b11cf9d239b25e/manifest.json": "18e33832b2ace15d0fb1f8c179635586ce11a4a45c923048cb91023342167d69",
+    "data/xDiyo_data/_tables/competition=38/season=61459/versions/53d6cae0eef84c169ef7b2c32c2ef198/matches.parquet": "771796b74cfc91f8a56baa64f105629a3c512bb99eedf5a35b28a3cbeec28519",
+    "data/xDiyo_data/_tables/competition=38/season=61459/versions/53d6cae0eef84c169ef7b2c32c2ef198/statistics.parquet": "05eee38a9996932c86b262eebc880f29bae073883f257845285ee17f5a68ba2d",
+    "data/xDiyo_data/_tables/competition=38/season=61459/versions/53d6cae0eef84c169ef7b2c32c2ef198/pregame.parquet": "b2d1874082b72c4040a6a3cd183f51ef565eb7d129618e4286b0242ae5b9fc25",
+    "data/xDiyo_data/Pro_League_24_25.manifest.json": "743ce2c16db5480231ed93946612321eb9597338894c5129c9f20768d1dea05f",
+    "data/xDiyo_data/_tables/competition=38/season=61459/versions/53d6cae0eef84c169ef7b2c32c2ef198/manifest.json": "bd10ed9d63537c4ebd5ed7629ddb173e21fa4d7353df58b036de9a6ac7474960",
+    "data/xDiyo_data/_tables/competition=23/season=42415/versions/a38a835a929a4e50b52f1972f178d8ea/matches.parquet": "1cf48295232cfdbbb93039d6aed078025e41fc494716e661617c3fd8ac63028b",
+    "data/xDiyo_data/_tables/competition=23/season=42415/versions/a38a835a929a4e50b52f1972f178d8ea/statistics.parquet": "7006ecbc6b847f5c504e5d6419a5ee89df0e3b44cf558d0604c1d63e49e65fc8",
+    "data/xDiyo_data/_tables/competition=23/season=42415/versions/a38a835a929a4e50b52f1972f178d8ea/pregame.parquet": "6051b3934b3d10c2b4dfef60c908a117d46a22be6995c5ca028e35d4f50dce80",
+    "data/xDiyo_data/Serie_A_22_23.manifest.json": "87cf74c4b9efc8d03315119c3f9a3d271d8ba3188738312f1519b0b35186f4eb",
+    "data/xDiyo_data/_tables/competition=23/season=42415/versions/a38a835a929a4e50b52f1972f178d8ea/manifest.json": "6d240ad7ef35367846e0caba58b2ff8e41b6315e51170fc851a2dcfd42893adf",
+    "data/xDiyo_data/_tables/competition=23/season=52760/versions/5338921b40ed4a2893b5fdbe4801ea99/matches.parquet": "80c1fe392cd3b9d7d1f5d5cbc3f3ec8604942785e5a9bc53275c420e6d0b988f",
+    "data/xDiyo_data/_tables/competition=23/season=52760/versions/5338921b40ed4a2893b5fdbe4801ea99/statistics.parquet": "06cd8e37602647e6dbfeae880fb95f39ce85113611389e5e221c5d951378d86e",
+    "data/xDiyo_data/_tables/competition=23/season=52760/versions/5338921b40ed4a2893b5fdbe4801ea99/pregame.parquet": "b0ca6a3a746a14baef1450287a9ec433b4be826cfea75952d7c5a820628d4d42",
+    "data/xDiyo_data/Serie_A_23_24.manifest.json": "ee44d6614db4f555c73459d97aed3469b6dc5f65e17e021ce9325e7f5cf2d6ff",
+    "data/xDiyo_data/_tables/competition=23/season=52760/versions/5338921b40ed4a2893b5fdbe4801ea99/manifest.json": "ca30d1d11ecf5a5cf51e994d3202b5abd9d51ed33d7b57b7f2c626d8cca4e740",
+    "data/xDiyo_data/_tables/competition=23/season=63515/versions/0941bf90b223447db876000bc81bcb07/matches.parquet": "4f4c3024503be4e93822c563338ff9abde1982190f7d1ec621e6aef3de2694f0",
+    "data/xDiyo_data/_tables/competition=23/season=63515/versions/0941bf90b223447db876000bc81bcb07/statistics.parquet": "46bcd32c2129d0e4d4bc66d347541fc0c747bd05b58c790f6c477e40944ae651",
+    "data/xDiyo_data/_tables/competition=23/season=63515/versions/0941bf90b223447db876000bc81bcb07/pregame.parquet": "f81001e5e75c7bac6a6a53cb19615d710544143a3f80145f830a04c33f53da7f",
+    "data/xDiyo_data/Serie_A_24_25.manifest.json": "ecaec83fc7dfac419a436c9e8b339d7e06806cb1f0b200a0aadc6478bcba6e25",
+    "data/xDiyo_data/_tables/competition=23/season=63515/versions/0941bf90b223447db876000bc81bcb07/manifest.json": "35d15a4bb78579373d15fd1cdb6e0accf3523bb67804dae063a11d9fd1359e3b",
+    "data/xDiyo_data/_tables/competition=53/season=44226/versions/4f66b646a26b4a52ac104e0309fe27f7/matches.parquet": "ad9a92ca33f9c480d598cc87eff18c6aee77ad943821700c454bbdefbba2ec7a",
+    "data/xDiyo_data/_tables/competition=53/season=44226/versions/4f66b646a26b4a52ac104e0309fe27f7/statistics.parquet": "d51897ea40ea0d51e2e9e9936c714a58f300007a119867d50b4f6db9c9251d7f",
+    "data/xDiyo_data/_tables/competition=53/season=44226/versions/4f66b646a26b4a52ac104e0309fe27f7/pregame.parquet": "766065021f529af3e60e59d42a89d8655c756ed6ec87b0b6885970fb3fda61cb",
+    "data/xDiyo_data/Serie_B_22_23.manifest.json": "0268b1cfd1ca2ae3bdc7e33b1e8930007e0b020bb147c85664fba6a5815c35a0",
+    "data/xDiyo_data/_tables/competition=53/season=44226/versions/4f66b646a26b4a52ac104e0309fe27f7/manifest.json": "2e9f34783ba7dac75a4028d71d0f2e9a4f5bf7dcbc243aa1fd38b346346bd658",
+    "data/xDiyo_data/_tables/competition=53/season=52947/versions/6f916b09806749d99ae37830bd69b1a3/matches.parquet": "6d07862a194ef59714c04a9e101300a75814a23cbfafbee9ebdb09bf4a3ea633",
+    "data/xDiyo_data/_tables/competition=53/season=52947/versions/6f916b09806749d99ae37830bd69b1a3/statistics.parquet": "c29f333269b5a8d59c7ea45bd28d6b9e1a2614ba7f805035c32427558893620f",
+    "data/xDiyo_data/_tables/competition=53/season=52947/versions/6f916b09806749d99ae37830bd69b1a3/pregame.parquet": "fe858a13549ff4875ae07b7eef721b57e5e6ed8c81e49d4de2bff3a7516786fc",
+    "data/xDiyo_data/Serie_B_23_24.manifest.json": "bb0b235ecd04dc811f7afaabb2da12e17d2551ccc2c56e8328543a98c7254ef7",
+    "data/xDiyo_data/_tables/competition=53/season=52947/versions/6f916b09806749d99ae37830bd69b1a3/manifest.json": "aa78ba0897db43a5a431759ec399c9d81350c155e044fd845d5fc40491b27001",
+    "data/xDiyo_data/_tables/competition=53/season=63812/versions/186b8daf63a34461b3f9d6418b87eb4a/matches.parquet": "6390058a01ed927d40865d0761c28529db96f1ca2190071764c4e930710474e8",
+    "data/xDiyo_data/_tables/competition=53/season=63812/versions/186b8daf63a34461b3f9d6418b87eb4a/statistics.parquet": "9e2309a2cf3afdfe818cbe0d0e91ca2a60ddb3967ad27c5de2e5d31dbdd85146",
+    "data/xDiyo_data/_tables/competition=53/season=63812/versions/186b8daf63a34461b3f9d6418b87eb4a/pregame.parquet": "99f5387c58414f0d0f0cc4a6aff800e901929dca93318024852cdc3718969b43",
+    "data/xDiyo_data/Serie_B_24_25.manifest.json": "4215cfc133e638009350b96720e2adfe63fd7c33abc0179e2238c1914b1b2f79",
+    "data/xDiyo_data/_tables/competition=53/season=63812/versions/186b8daf63a34461b3f9d6418b87eb4a/manifest.json": "fd6f1b3d59d049b938aed19ed61ce34c788652b52513cbfcfdfda18254f715f9"
+  },
+  "package_source_sha256": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "256df91f2ddd40375da6ac90cf065896b0ca581c085659ef6950afff2c67972d",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf"
+  },
+  "scope": "Actual collected cohorts; no independent provider-wide fixture completeness claim. Tables remain separate. No features, joins, fitting, full table copies, or D-Tale controls.",
+  "tests": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "passed": 57,
+    "previous_cases_preserved": 36,
+    "new_cases": 21,
+    "exit_code": 0,
+    "test_sha256": {
+      "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f",
+      "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a",
+      "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+      "test_multiseason.py": "d16d6d4b47e01a0b7a93e348062b4572bd10faf0bc7c4e755bd4bb0ee2447887"
+    },
+    "source_stable_before_after_tests_and_import": true
+  },
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "total_cells": 9,
+    "code_cells": 6,
+    "kernel": "misc314_py314",
+    "executed_top_to_bottom": true,
+    "error_outputs": 0,
+    "execution_started_at_utc": "2026-09-16T02:52:11.314997+00:00",
+    "execution_finished_at_utc": "2026-09-16T02:52:35.641375+00:00",
+    "archive": "docs/analytics/archive/pre_multiseason_experiment/notebooks/01_loader_walkthrough.ipynb",
+    "archive_sha256": "50da3641fa0bec7a74b4ae19cc27ba25269d1b7029426e99c8677d33e6f41c94",
+    "sha256": "434973ed998b238f4024ababca4afc6f8953d138541acf8cb06845d3e59c7f7c",
+    "nonfatal_warnings": [
+      "Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning."
+    ]
+  },
+  "historical_json_sha256": {
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7"
+  },
+  "final_audit": {
+    "checked_at_utc": "2026-09-16T03:00:37.471574+00:00",
+    "unchanged_package_source_files": 5,
+    "unchanged_selected_input_files": 195,
+    "unchanged_existing_test_files": 5,
+    "unchanged_historical_evidence_files": 8,
+    "archived_originals": 7,
+    "archive_manifest": "docs/analytics/archive/pre_multiseason_experiment/preservation_manifest.json",
+    "prior_archive_preserved": true,
+    "original_detailed_notebook_cells_preserved": 123,
+    "active_notebook_cells": 9,
+    "retained_table_descriptions": 18,
+    "checked_active_guide_links": 12,
+    "selection_records": 39,
+    "library_source_edited_by_worker": false,
+    "source_data_edited_by_worker": false,
+    "files_removed_by_worker": false,
+    "callbacks_sent": 0
+  }
+}

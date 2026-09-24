@@ -1,0 +1,157 @@
+............FF..................................................FF...... [ 86%]
+...........                                                              [100%]
+================================== FAILURES ===================================
+______ test_scope_positions_counts_and_chronology[score-per_fold-match] _______
+
+layout = 'match', mode = 'per_fold', partition = 'score'
+
+    @pytest.mark.parametrize('layout', ['match', 'team_match'])
+    @pytest.mark.parametrize('mode', ['per_fold', 'overall', 'timeline'])
+    @pytest.mark.parametrize('partition', ['train', 'test', 'score', 'all'])
+    def test_scope_positions_counts_and_chronology(layout, mode, partition):
+        data = sample(layout=layout, shuffle=True)
+        for frame in (data.X, data.y, data.metadata):
+            frame.index = pd.Index(101 + 7 * np.arange(len(frame)), name='external_index')
+        before = deepcopy(data)
+        splits = plan(data)
+        report = PreTrainingAnalysis({'inspect': Custom(mode, partition)}).run(data, split_plan=splits, fold_ids=[1, 0])
+        ids = [1, 0] if mode == 'per_fold' else [None]
+        assert [run.fold_id for run in report.studies] == ids
+        for run in report.studies:
+            if mode != 'per_fold' and partition == 'all':
+                expected = list(range(len(data.X)))
+            else:
+                selected = [run.fold_id] if mode == 'per_fold' else [1, 0]
+                positions = set()
+                for i in selected:
+                    fold = splits.folds[i]
+                    positions.update(list(fold.train) + list(fold.test) if partition == 'all' else getattr(fold, partition))
+                expected = sorted(positions)
+            if mode == 'timeline':
+                expected.sort(key=lambda i: data.metadata.iloc[i].kickoff_at)
+            assert run.row_positions.tolist() == expected
+            assert run.n_matches == len(set(data.metadata.iloc[expected].case))
+            assert run.layout == layout
+            for key, frame in [('X', data.X), ('y', data.y), ('metadata', data.metadata)]:
+                reference = frame.iloc[expected].copy()
+                reference.index = pd.Index(expected, name='row_position')
+>               pd.testing.assert_frame_equal(run.result.tables[key], reference)
+
+tests\analytics\test_reporting_scope.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+left = Index([], dtype='int64', name='row_position')
+right = Index([], dtype='object', name='row_position'), obj = 'DataFrame.index'
+
+    def _check_types(left, right, obj: str = "Index") -> None:
+        if not exact:
+            return
+    
+        assert_class_equal(left, right, exact=exact, obj=obj)
+>       assert_attr_equal("inferred_type", left, right, obj=obj)
+E       AssertionError: DataFrame.index are different
+E       
+E       Attribute "inferred_type" are different
+E       [left]:  integer
+E       [right]: empty
+
+..\.misc314\Lib\site-packages\pandas\_testing\asserters.py:236: AssertionError
+____ test_scope_positions_counts_and_chronology[score-per_fold-team_match] ____
+
+layout = 'team_match', mode = 'per_fold', partition = 'score'
+
+    @pytest.mark.parametrize('layout', ['match', 'team_match'])
+    @pytest.mark.parametrize('mode', ['per_fold', 'overall', 'timeline'])
+    @pytest.mark.parametrize('partition', ['train', 'test', 'score', 'all'])
+    def test_scope_positions_counts_and_chronology(layout, mode, partition):
+        data = sample(layout=layout, shuffle=True)
+        for frame in (data.X, data.y, data.metadata):
+            frame.index = pd.Index(101 + 7 * np.arange(len(frame)), name='external_index')
+        before = deepcopy(data)
+        splits = plan(data)
+        report = PreTrainingAnalysis({'inspect': Custom(mode, partition)}).run(data, split_plan=splits, fold_ids=[1, 0])
+        ids = [1, 0] if mode == 'per_fold' else [None]
+        assert [run.fold_id for run in report.studies] == ids
+        for run in report.studies:
+            if mode != 'per_fold' and partition == 'all':
+                expected = list(range(len(data.X)))
+            else:
+                selected = [run.fold_id] if mode == 'per_fold' else [1, 0]
+                positions = set()
+                for i in selected:
+                    fold = splits.folds[i]
+                    positions.update(list(fold.train) + list(fold.test) if partition == 'all' else getattr(fold, partition))
+                expected = sorted(positions)
+            if mode == 'timeline':
+                expected.sort(key=lambda i: data.metadata.iloc[i].kickoff_at)
+            assert run.row_positions.tolist() == expected
+            assert run.n_matches == len(set(data.metadata.iloc[expected].case))
+            assert run.layout == layout
+            for key, frame in [('X', data.X), ('y', data.y), ('metadata', data.metadata)]:
+                reference = frame.iloc[expected].copy()
+                reference.index = pd.Index(expected, name='row_position')
+>               pd.testing.assert_frame_equal(run.result.tables[key], reference)
+
+tests\analytics\test_reporting_scope.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+left = Index([], dtype='int64', name='row_position')
+right = Index([], dtype='object', name='row_position'), obj = 'DataFrame.index'
+
+    def _check_types(left, right, obj: str = "Index") -> None:
+        if not exact:
+            return
+    
+        assert_class_equal(left, right, exact=exact, obj=obj)
+>       assert_attr_equal("inferred_type", left, right, obj=obj)
+E       AssertionError: DataFrame.index are different
+E       
+E       Attribute "inferred_type" are different
+E       [left]:  integer
+E       [right]: empty
+
+..\.misc314\Lib\site-packages\pandas\_testing\asserters.py:236: AssertionError
+__________ test_distribution_rejects_invalid_configuration[kwargs6] ___________
+
+kwargs = {'bandwidth': -0.5}
+
+    @pytest.mark.parametrize('kwargs', [{'grid_size': 1}, {'grid_size': True}, {'grid_size': 2.5},
+                                      {'bins': [0, 1]}, {'bins': [0, 1, 1, 8]},
+                                      {'bins': [0, np.inf]}, {'bandwidth': -.5}, {'bandwidth': 0}])
+    def test_distribution_rejects_invalid_configuration(kwargs):
+>       with pytest.raises((ValueError, TypeError)):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (ValueError, TypeError)
+
+tests\analytics\test_reporting_statistics.py:55: Failed
+__________ test_distribution_rejects_invalid_configuration[kwargs7] ___________
+
+kwargs = {'bandwidth': 0}
+
+    @pytest.mark.parametrize('kwargs', [{'grid_size': 1}, {'grid_size': True}, {'grid_size': 2.5},
+                                      {'bins': [0, 1]}, {'bins': [0, 1, 1, 8]},
+                                      {'bins': [0, np.inf]}, {'bandwidth': -.5}, {'bandwidth': 0}])
+    def test_distribution_rejects_invalid_configuration(kwargs):
+>       with pytest.raises((ValueError, TypeError)):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (ValueError, TypeError)
+
+tests\analytics\test_reporting_statistics.py:55: Failed
+============================== warnings summary ===============================
+tests/analytics/test_reporting_statistics.py::test_distribution_rejects_invalid_configuration[kwargs6]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\scipy\stats\_kde.py:596: RuntimeWarning:
+  
+  invalid value encountered in log
+
+tests/analytics/test_reporting_statistics.py::test_distribution_rejects_invalid_configuration[kwargs7]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\scipy\stats\_kde.py:596: RuntimeWarning:
+  
+  divide by zero encountered in log
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_reporting_scope.py::test_scope_positions_counts_and_chronology[score-per_fold-match]
+FAILED tests/analytics/test_reporting_scope.py::test_scope_positions_counts_and_chronology[score-per_fold-team_match]
+FAILED tests/analytics/test_reporting_statistics.py::test_distribution_rejects_invalid_configuration[kwargs6]
+FAILED tests/analytics/test_reporting_statistics.py::test_distribution_rejects_invalid_configuration[kwargs7]
+4 failed, 79 passed, 2 warnings in 3.47s

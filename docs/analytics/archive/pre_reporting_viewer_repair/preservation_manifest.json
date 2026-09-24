@@ -1,0 +1,14 @@
+{
+  "created_at_utc": "2026-09-17T12:38:36.079350+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/browser_fixture.json": "7f96fb6892a942ff04d422485085d4dc757b27ce6ed811114b50ffb49ab3b202",
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/browser_followup.json": "48ab3115d15ea8d06491686172e17d06284b8d1a842fe7835bce4b85361db060",
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/build_browser_fixture.py": "de1607f85bbbbbfd67745fac8325fbf1af01074ea24e05a46fec297466a974ed",
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/check_browser.mjs": "d7135dc4a37c1b824c4ed44c0599c7ad93105207d3cc14a1657de97d95c80291",
+    "docs/analytics/archive/pre_reporting_viewer_repair/src/xdiyo_analytics/reporting/viewer.py": "2399834594ed37d90f3a9a6a5b0f9ebe7c905f9adda2e644fad088788fa4c4ab",
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/browser_report.html": "0928eba2299798be259cf785ec12582c7ba94086b4f472da36fd551a95365e7c",
+    "docs/analytics/archive/pre_reporting_viewer_repair/evidence/browser_iframe.html": "e54a8392706fdfe0ba7ed612fa3aa9308eccdb7c1b1173657568e4497a10149d"
+  },
+  "preserved_files": 7,
+  "note": "Preserved reporting source and evidence before the named authorized primary revision."
+}

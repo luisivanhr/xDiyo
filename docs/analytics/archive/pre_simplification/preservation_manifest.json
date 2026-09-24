@@ -1,0 +1,62 @@
+{
+  "originals": [
+    {
+      "source": "tests/analytics/test_exports.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_exports.py",
+      "sha256": "c968947488c1460c86d3d80f8ed0138f437f32144c234584dd888ce671d44455"
+    },
+    {
+      "source": "tests/analytics/test_loading.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_loading.py",
+      "sha256": "9ac83ecb6f6ab40a57fd3e8e7f1a3847558dd3aa69860d0f91f34d2143bd03c2"
+    },
+    {
+      "source": "tests/analytics/test_statistics.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_statistics.py",
+      "sha256": "08300ca384535b5c60f6e770d3f7322098cfe9915792b16efdd7779094ba03e6"
+    },
+    {
+      "source": "tests/analytics/test_season.py",
+      "archive": "docs/analytics/archive/pre_simplification/tests/analytics/test_season.py",
+      "sha256": "a09564acacfbbd9485cb989da1a5d37da16f6aee2a9fe05490b85e93a7a1d946"
+    },
+    {
+      "source": "src/README.md",
+      "archive": "docs/analytics/archive/pre_simplification/src/README.md",
+      "sha256": "de9038ce46663f7c8198a97dc5c464444ace3f8d04aa7686a2322c09f36c2146"
+    },
+    {
+      "source": "docs/analytics/season_loading.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/season_loading.md",
+      "sha256": "c5067f069cd14aa32a8139f74c17785fa853e328dee31295c19e0a94e9358739"
+    },
+    {
+      "source": "docs/analytics/season_inspection.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/season_inspection.md",
+      "sha256": "20dcbc0a0c48525efcd7212fc7a2d6ae09a4c933f5329b21c93dd9b2006b7add"
+    },
+    {
+      "source": "docs/analytics/statistics_validation.md",
+      "archive": "docs/analytics/archive/pre_simplification/docs/analytics/statistics_validation.md",
+      "sha256": "f400c0c08207907e466169b7b0a37c9639b626e85c169758e374012acfb232f5"
+    },
+    {
+      "source": "IMPLEMENTATION_PROGRESS.md",
+      "archive": "docs/analytics/archive/pre_simplification/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "0e6763a086aabf7764e5097a3e027e226807a1e15efe5bae111f24933b9ff708"
+    },
+    {
+      "source": "coaching_history.md",
+      "archive": "docs/analytics/archive/pre_simplification/coaching_history.md",
+      "sha256": "f9f696daa623f755016a2f898892b5c8f1b7c6103963b08c018d58fbc0662c4e"
+    }
+  ],
+  "detailed_notebook": {
+    "path": "docs/analytics/archive/pre_simplification/01_loader_walkthrough_detailed.ipynb",
+    "sha256": "ea90a29bf1d13d1a098789920d053723fa3d880790c3be68fba6d881a49a429d"
+  },
+  "source_displays": {
+    "path": "docs/analytics/archive/pre_simplification/notebook_source_displays.txt",
+    "sha256": "7accbce7a783bf17ddf969a58f6834afadfe0cd33f060cab5606cfaf49b41eb5"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "created_at_utc": "2026-09-17T11:00:49.903642+00:00",
+  "original_sha256": {
+    "docs/analytics/archive/pre_splits_implementation/IMPLEMENTATION_PROGRESS.md": "9b48af09561e6c940b5ad36b61d9262468900ef6f04170b17b7f1f72ae59808a",
+    "docs/analytics/archive/pre_splits_implementation/football_analytics_working_notes.md": "99de849640352210d0faaea71a44a357399230ff64ba196725b1033c4278c071",
+    "docs/analytics/archive/pre_splits_implementation/coaching_history.md": "2a4a0ab90328fb32023d24dfdde45aaaa32c81da336c941c7ce91791b0ccf297",
+    "docs/analytics/archive/pre_splits_implementation/src/README.md": "4aeebaf2aa41f47564ffbdafd78814f3adf7be928ecc3a266137d2c7ef208511",
+    "docs/analytics/archive/pre_splits_implementation/docs/analytics/datasets.md": "da414732fb665069aafbba8de4d589cc8f515d3025b76b28a569c372f1e3740f",
+    "docs/analytics/archive/pre_splits_implementation/docs/analytics/datasets_reference.md": "4cf75316e5838cfa46cc971702cbba498dff685006a7b2f296daf359efc2e471"
+  },
+  "verified_unchanged": true,
+  "current_document_sha256": {
+    "IMPLEMENTATION_PROGRESS.md": "a6a8465ace0e8482e55586df0e3d2c2ef5a9800b234c47e987dcb6b0b16ce802",
+    "football_analytics_working_notes.md": "34a96661a811a42af1a4739af6fe259213dd7b3c3b970e16821404dc18ed8d6d",
+    "coaching_history.md": "3ba7d446b0039762d5b300a4d4ca2d117755090c51906a78d53716d384507a36",
+    "src/README.md": "45b6c37e6de6914982971c7d3dc6b741be4498e18b89cefb86f422dcc317a54b",
+    "docs/analytics/datasets.md": "5182f85fbfc0b43bd68e8bef606f5d2e59132958cd68b5cea8cde3b3432df892",
+    "docs/analytics/datasets_reference.md": "a83caa556c7d037cddbcf34fd2f035ffcbdcba268c8b3cee2f1c67587e12b414",
+    "docs/analytics/splits.md": "6b7d09902aa7f1fa80a8f0abbf7bd1cc762935d34ed4bd765e96037e0432f59a",
+    "docs/analytics/splits_reference.md": "d2627b2d5264f41451ac605eac838f50677fe601a0b9f78ff6f2836df83b6f13",
+    "docs/analytics/splits_documentation_checklist.md": "da83b3d95baaf4a21cdd6313b2bf8b1bd918e7cfa54759703b883041abcec602"
+  },
+  "evidence": {
+    "path": "docs/analytics/splits_check.json",
+    "sha256": "23846f8389340051777695294b1ec444244142cbd01d38281527a90f625f275e"
+  },
+  "primary_archived_first": [
+    "IMPLEMENTATION_PROGRESS.md",
+    "football_analytics_working_notes.md"
+  ]
+}

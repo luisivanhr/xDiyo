@@ -1,0 +1,36 @@
+{
+  "checked_at_utc": "2026-09-17T12:24:26.320Z",
+  "mode": "saved_nbconvert_lab_export",
+  "checks": [
+    {
+      "name": "jupyter_lab_template_export",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "saved_native_srcdoc_iframe",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "three_named_studies",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "saved_fold_switch",
+      "passed": true,
+      "detail": {
+        "firstScope": "per_fold\npartition: train\nlayout: match\n198 rows\n198 matches\nfold 0",
+        "secondScope": "per_fold\npartition: train\nlayout: match\n400 rows\n400 matches\nfold 1"
+      }
+    },
+    {
+      "name": "saved_association_table_and_bars",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "page_errors": [],
+  "remote_requests": []
+}

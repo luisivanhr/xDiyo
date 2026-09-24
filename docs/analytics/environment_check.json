@@ -1,0 +1,52 @@
+{
+  "date": "2026-09-15",
+  "interpreter": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe",
+  "python_version": "3.14.0",
+  "kernel": "misc314_py314",
+  "key_versions": {
+    "pandas": "2.3.3",
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "pyarrow": "22.0.0",
+    "ipykernel": "7.1.0",
+    "nbformat": "5.10.4",
+    "dtale": "3.22.0"
+  },
+  "added_packages": {
+    "brotli": "1.2.0",
+    "dash": "4.4.1",
+    "dash-bootstrap-components": "2.0.4",
+    "dtale": "3.22.0",
+    "et-xmlfile": "2.0.0",
+    "flask": "3.1.3",
+    "flask-compress": "1.24",
+    "future": "1.0.0",
+    "importlib-metadata": "9.0.1",
+    "itsdangerous": "2.2.0",
+    "janus": "2.0.0",
+    "lz4": "4.4.5",
+    "missingno": "0.5.2",
+    "openpyxl": "3.1.5",
+    "pkginfo": "1.13",
+    "retrying": "1.4.2",
+    "squarify": "0.4.5",
+    "strsimpy": "0.2.1",
+    "werkzeug": "3.1.8",
+    "xlrd": "2.0.2",
+    "zipp": "4.1.0"
+  },
+  "existing_package_changes": {},
+  "dtale_smoke": {
+    "rows": 8,
+    "host": "127.0.0.1",
+    "http_status": 200,
+    "server_stopped": true,
+    "browser_controls_tested": false
+  },
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "fresh_kernel_execution": "passed",
+    "optional_dtale_cell_executed": false,
+    "warning": "Nonfatal Windows ZMQ Proactor add_reader fallback to selector thread"
+  }
+}

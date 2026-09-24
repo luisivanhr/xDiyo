@@ -1,0 +1,27 @@
+{
+  "wheel": ".pytest_tmp/splits_verification/wheel_output/xdiyo_collection-0.1.0-py3-none-any.whl",
+  "sha256": "bb27d16ef5c65da9350e8534f33e7ca71b33bbb98c033248e87a9117f402d51d",
+  "source_file_count": 77,
+  "required_members": [
+    "xdiyo_analytics/splits/__init__.py",
+    "xdiyo_analytics/splits/core.py",
+    "xdiyo_analytics/splits/temporal.py",
+    "xdiyo_analytics/splits/cpcv.py"
+  ],
+  "probe": {
+    "isolated_wheel_import": true,
+    "exports": [
+      "CPCV",
+      "Fold",
+      "GroupKFold",
+      "MatchKFold",
+      "SplitPlan",
+      "TemporalSplit",
+      "create_split_plan",
+      "reconstruct_paths"
+    ],
+    "all_families_and_paths": "passed",
+    "sklearn_imported": false
+  },
+  "no_installs": true
+}

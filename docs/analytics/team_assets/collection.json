@@ -1,0 +1,32 @@
+{
+  "teams": 289,
+  "badges": 286,
+  "source_commit": "1b8e57c3ea3658001cafba18c4a6db730b420ad6",
+  "unmatched": [
+    {
+      "team_id": "1665",
+      "name": "Chamois Niortais",
+      "countries": [
+        "france"
+      ],
+      "reason": "No unique reviewed name match"
+    },
+    {
+      "team_id": "24338",
+      "name": "Villarreal B U23",
+      "countries": [
+        "spain"
+      ],
+      "reason": "No unique reviewed name match"
+    },
+    {
+      "team_id": "113755",
+      "name": "SPAL",
+      "countries": [
+        "italy"
+      ],
+      "reason": "No unique reviewed name match"
+    }
+  ],
+  "errors": []
+}

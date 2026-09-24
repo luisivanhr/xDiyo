@@ -1,0 +1,385 @@
+{
+  "checked_at_utc": "2026-09-16T03:49:21.408543+00:00",
+  "package_source_sha256": {
+    "src/xdiyo_analytics/data/inspection.py": "ce80e30b42663dc763e944c3a6c5699c8ecec8b4af9ab5608fbdeb6167bc98e6",
+    "src/xdiyo_analytics/data/__init__.py": "84b67b20ca5b23467d8d4bf02d6eede6a5a1379bf60208c726d3e44938697b36",
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/selection.py": "386633052a3ecd6df68c85ba7f88c448b69392179d200528a47f544d2d3b3d16",
+    "src/xdiyo_analytics/data/_source.py": "66bb91adc2c4d1280ef2e47830eca98e652dbe85fde4691c8a27fac7f47a6dad",
+    "src/xdiyo_analytics/data/loading.py": "b77d29fbe2b09c4036475beb2138b779d8fcddb712e1c9222082c8497b784bbf"
+  },
+  "tests": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "passed": 83,
+    "previous_cases_preserved": 55,
+    "new_selection_cases": 28,
+    "exit_code": 0,
+    "test_sha256": {
+      "test_statistics.py": "45f46f80a8ce6a86c889d0914f6a4e16145a6359c98c2ea0c5f18f7b56b512fc",
+      "test_selection.py": "daaff8b42c79044f6048bd0dd50cc6f597b828cb97ed124b2051ea7483af4bd7",
+      "test_multiseason.py": "833e3a2c5c4f1c7f1478b20dcdfad5066d0c7376531e9c6ced96b9ef9ad8c095",
+      "conftest.py": "082368ddba2f2595f1ab3a62dfb38253ea11fc47dd817ad9ab1c2737ea786eb9",
+      "test_exports.py": "165e46a02cb779714ee594c6c904241b5e942cceb01ec29e11e3308beb1042d7",
+      "test_season.py": "8998cde3f8c8d266171fe4ec263a801c10c166a729b068c038a73dafd9f22a9a",
+      "test_loading.py": "caf2acd5d270f33202644d8b005b8a934f865ef13884daa7ca7ff12b7bf9048f"
+    },
+    "source_stable_before_after": true
+  },
+  "representative_season": {
+    "season": "Premier_League_24_25",
+    "version": "6d950fa327de4fc29c796c7cca101606",
+    "selection_record": "experiment/initial_population/selections/Premier_League_24_25.json",
+    "selection_record_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "input_shapes": {
+      "matches": [
+        380,
+        35
+      ],
+      "statistics": [
+        98224,
+        18
+      ],
+      "pregame": [
+        740,
+        8
+      ]
+    },
+    "supplied_periods": [
+      "1ST",
+      "2ND",
+      "ALL"
+    ],
+    "statistic_identities": 138,
+    "bundles": {
+      "all_all": "all statistics; period=all available periods",
+      "all_totals": "all statistics; period=ALL",
+      "all_first_half": "all statistics; period=1ST",
+      "all_second_half": "all statistics; period=2ND",
+      "attack_all": "attack statistics; period=all available periods",
+      "attack_totals": "attack statistics; period=ALL",
+      "attack_first_half": "attack statistics; period=1ST",
+      "attack_second_half": "attack statistics; period=2ND",
+      "defense_all": "defense statistics; period=all available periods",
+      "defense_totals": "defense statistics; period=ALL",
+      "defense_first_half": "defense statistics; period=1ST",
+      "defense_second_half": "defense statistics; period=2ND",
+      "all_stats": "all statistics; period=all available periods",
+      "all_totals_only": "all statistics; period=ALL",
+      "all_first_period_only": "all statistics; period=1ST",
+      "all_second_period_only": "all statistics; period=2ND",
+      "standings": "Pregame team positions, kept in a separate table."
+    },
+    "category_definitions": {
+      "attack": [
+        [
+          "Attack",
+          "accurateThroughBall"
+        ],
+        [
+          "Attack",
+          "bigChanceMissed"
+        ],
+        [
+          "Attack",
+          "bigChanceScored"
+        ],
+        [
+          "Attack",
+          "fouledFinalThird"
+        ],
+        [
+          "Attack",
+          "offsides"
+        ],
+        [
+          "Attack",
+          "touchesInOppBox"
+        ],
+        [
+          "Shots",
+          "blockedScoringAttempt"
+        ],
+        [
+          "Shots",
+          "expectedGoals"
+        ],
+        [
+          "Shots",
+          "expectedGoalsOnTarget"
+        ],
+        [
+          "Shots",
+          "hitWoodwork"
+        ],
+        [
+          "Shots",
+          "shotsOffGoal"
+        ],
+        [
+          "Shots",
+          "shotsOnGoal"
+        ],
+        [
+          "Shots",
+          "totalShotsInsideBox"
+        ],
+        [
+          "Shots",
+          "totalShotsOnGoal"
+        ],
+        [
+          "Shots",
+          "totalShotsOutsideBox"
+        ],
+        [
+          "Match overview",
+          "bigChanceCreated"
+        ],
+        [
+          "Match overview",
+          "cornerKicks"
+        ],
+        [
+          "Match overview",
+          "expectedGoals"
+        ],
+        [
+          "Match overview",
+          "totalShotsOnGoal"
+        ],
+        [
+          "Passes",
+          "accurateCross"
+        ],
+        [
+          "Passes",
+          "finalThirdEntries"
+        ],
+        [
+          "Passes",
+          "finalThirdPhaseStatistic"
+        ]
+      ],
+      "defense": [
+        [
+          "Defending",
+          "ballRecovery"
+        ],
+        [
+          "Defending",
+          "errorsLeadToGoal"
+        ],
+        [
+          "Defending",
+          "errorsLeadToShot"
+        ],
+        [
+          "Defending",
+          "interceptionWon"
+        ],
+        [
+          "Defending",
+          "totalClearance"
+        ],
+        [
+          "Defending",
+          "totalTackle"
+        ],
+        [
+          "Defending",
+          "wonTacklePercent"
+        ],
+        [
+          "Goalkeeping",
+          "diveSaves"
+        ],
+        [
+          "Goalkeeping",
+          "goalkeeperSaves"
+        ],
+        [
+          "Goalkeeping",
+          "goalsPrevented"
+        ],
+        [
+          "Goalkeeping",
+          "highClaims"
+        ],
+        [
+          "Goalkeeping",
+          "penaltySaves"
+        ],
+        [
+          "Goalkeeping",
+          "punches"
+        ],
+        [
+          "Match overview",
+          "goalkeeperSaves"
+        ],
+        [
+          "Match overview",
+          "totalTackle"
+        ]
+      ]
+    },
+    "bundle_row_counts": {
+      "all_all": 98224,
+      "all_totals": 37384,
+      "all_first_half": 30420,
+      "all_second_half": 30420,
+      "attack_all": 44738,
+      "attack_totals": 15926,
+      "attack_first_half": 14406,
+      "attack_second_half": 14406,
+      "defense_all": 21452,
+      "defense_totals": 9300,
+      "defense_first_half": 6076,
+      "defense_second_half": 6076
+    },
+    "example_bundles": [
+      "attack_totals",
+      "defense_first_half",
+      "standings"
+    ],
+    "example_extra_statistic": [
+      "ALL",
+      "Match overview",
+      "ballPossession"
+    ],
+    "example_shapes": {
+      "matches": [
+        380,
+        35
+      ],
+      "statistics": [
+        22762,
+        18
+      ],
+      "pregame": [
+        740,
+        5
+      ]
+    },
+    "example_statistic_identities": 31,
+    "example_rows_by_period": {
+      "1ST": 6076,
+      "ALL": 16686
+    },
+    "standings_columns": [
+      "event_id",
+      "side",
+      "position",
+      "team_id",
+      "observed_at"
+    ],
+    "independent_expected_row_checks": 12,
+    "union_exact_values_nulls_order_dtypes_verified": true,
+    "all_stats_exact_identity_verified": true,
+    "standings_verified_without_source_key": true,
+    "input_tables_and_provenance_unchanged": true
+  },
+  "experiment_population": {
+    "publications": 39,
+    "leagues": 13,
+    "seasons": [
+      "22_23",
+      "23_24",
+      "24_25"
+    ],
+    "source_file_count": 195,
+    "source_fingerprints_unchanged": true,
+    "selection_records_unchanged": 39,
+    "discovery_membership_unchanged": true,
+    "source_evidence": "docs/analytics/multiseason_import_check.json",
+    "source_evidence_sha256": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72"
+  },
+  "notebook": {
+    "status": "executed",
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "sha256": "79b6d43cdef2cab6e55666541675bb0aa247f88be619920213a2c99f37fddb10",
+    "archive": "docs/analytics/archive/pre_stat_selection/notebooks/01_loader_walkthrough.ipynb",
+    "archive_sha256": "71311caefc833f9d70cd2706d356422351005f77eb0f6ae0ea383e2decf3577c",
+    "cells": 11,
+    "code_cells": 8,
+    "kernel": "misc314_py314",
+    "fresh_kernel": true,
+    "executed_top_to_bottom": true,
+    "error_outputs": 0,
+    "started_at_utc": "2026-09-16T03:51:15.968747+00:00",
+    "finished_at_utc": "2026-09-16T03:51:34.446727+00:00",
+    "nonfatal_warnings": [
+      "Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning."
+    ],
+    "selection": {
+      "population_publications": 39,
+      "input_shapes": {
+        "matches": [
+          13976,
+          37
+        ],
+        "statistics": [
+          3303574,
+          20
+        ],
+        "pregame": [
+          27072,
+          10
+        ]
+      },
+      "selected_shapes": {
+        "matches": [
+          13976,
+          37
+        ],
+        "statistics": [
+          746880,
+          20
+        ],
+        "pregame": [
+          27072,
+          7
+        ]
+      },
+      "selected_statistic_identities": 31,
+      "selected_rows_by_period": {
+        "1ST": 214190,
+        "ALL": 532690
+      },
+      "selected_values_order_and_dtypes_match_input": true,
+      "population_and_records_unchanged": true
+    }
+  },
+  "historical_json_sha256": {
+    "multiseason_scope_check.json": "70e73e630692ecbb971f77724af244c3f384b57d28d94a603cf0252366603d3a",
+    "simplified_loading_check.json": "10d9c1d7955f597f770c16bde261ef7861dce10698a84e8c243362a35e7d0eb7",
+    "multiseason_import_check.json": "5e294df55f5afe22154215931864d46e982579f29f9b3991a44defcfbb4a5d72",
+    "dtale_season_session.json": "42dd2c5768c11a9dae8ffe4d9441fa8a0db727de103ab4e80327394daa131f58",
+    "season_loading_check.json": "179aacacd536c31b59a5bb013b0069e874b721bdf9ab8b78d1071c751eebeb10",
+    "statistics_validation_check.json": "3831204bd92e51be12fb300437dd018f5625642788cde55ea5a6eafa32df8bfb",
+    "loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "restart_inspection.json": "cef7a319213fa92eee33c04dc5d3d8b6323a61eb68abc98ac79004e1974542c7",
+    "loader_validation_check.json": "f9c753081227f32b5cb64da6384cb5dc74c7f4bb57b8790594de1fa1428a0d78",
+    "environment_check.json": "557fbe4478316878f3956711475e4c1c70ea5d3bd969fc614264694434c8299e"
+  },
+  "final_audit": {
+    "checked_at_utc": "2026-09-16T03:59:21.562628+00:00",
+    "source_files_unchanged": 6,
+    "existing_test_files_unchanged": 6,
+    "prior_evidence_jsons_unchanged": 10,
+    "archived_originals": 6,
+    "archive_manifest": "docs/analytics/archive/pre_stat_selection/preservation_manifest.json",
+    "earlier_archives_checked": 3,
+    "active_notebook_cells": 11,
+    "executed_code_cells": 8,
+    "documented_category_pairs_match_public_definitions": 37,
+    "table_descriptions_retained": 18,
+    "checked_guide_and_notebook_links": 20,
+    "population_publications_unchanged": 39,
+    "selection_records_unchanged": 39,
+    "collected_source_files_unchanged": 195,
+    "library_source_edited_by_worker": false,
+    "files_deleted_by_worker": false,
+    "callbacks_sent": 0
+  }
+}

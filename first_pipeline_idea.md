@@ -14,7 +14,7 @@ The ID-based derivation/join core exists in [team_seasons.py](C:/Users/luisi/Doc
 
 | Stage | Intended work/output |
 | --- | --- |
-| 1. Load | Historical matches, required statistics and saved season-entry context; retain IDs, season/round, source versions and timing. |
+| 1. Load | Historical matches, required statistics and saved season-entry context; retain IDs, season/round, source versions and timing. Resolve and verify versions internally from user-selected seasons/tables; save/reuse season-selection records automatically when a record path is supplied. Keep shots separate from other model inputs. |
 | 2. Build histories and ratings | One chronological history per team; update both teams' win/draw/loss Glicko from the same preceding states when a completed result becomes available. |
 | 3. Construct features | Build the lag/rolling features below and attach each team's eligible rating state to its upcoming home/away role. |
 | 4. Prepare targets/options and folds | Keep total-corner targets, configurable bet-option definitions and realized option outcomes separate from predictors. Select temporal folds and the prediction cutoffs. |

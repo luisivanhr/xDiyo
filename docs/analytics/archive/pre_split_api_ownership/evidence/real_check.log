@@ -1,0 +1,12 @@
+{
+  "status": "verified",
+  "checked_at_utc": "2026-09-17T10:22:16.220106+00:00",
+  "publications": 4,
+  "matches": 1372,
+  "history_rows": 2744,
+  "membership_positions_checked": 192240,
+  "reconstructed_prediction_cells": 41160,
+  "inputs_unchanged": true,
+  "timing_note": "Explicit availability is a synthetic kickoff-plus-three-hours scenario, not observed completion/publication evidence. Two-day prediction lead is a sensitivity scenario. CPCV predictions are numeric alignment sentinels, not fitted forecasts.",
+  "reference": "Independent Python match dictionaries, ordered block membership, pairwise interval overlap and contiguous-run embargo checks."
+}

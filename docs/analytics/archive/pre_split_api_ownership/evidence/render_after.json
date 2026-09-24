@@ -1,0 +1,365 @@
+{
+  "checked_at_utc": "2026-09-17T10:41:15.110Z",
+  "katex_version": "0.16.45",
+  "documents": [
+    {
+      "file": "docs/analytics/splits.md",
+      "sha256": "81795ed9f0c5f530b77bb70fc6457178530d9218a9ee1344a0c5319fec708b91",
+      "equation_count": 27,
+      "display_count": 6,
+      "equations": [
+        {
+          "id": "eq-0-0",
+          "latex": "T_f",
+          "display": false,
+          "line": 99
+        },
+        {
+          "id": "eq-0-1",
+          "latex": "H_f",
+          "display": false,
+          "line": 99
+        },
+        {
+          "id": "eq-0-2",
+          "latex": "S_f",
+          "display": false,
+          "line": 99
+        },
+        {
+          "id": "eq-0-3",
+          "latex": "\nT_f\\cap H_f=\\varnothing,\\qquad S_f\\subseteq H_f,\\qquad\n(H_f\\setminus S_f)\\cap T_f=\\varnothing.\n",
+          "display": true,
+          "line": 102
+        },
+        {
+          "id": "eq-0-4",
+          "latex": "m",
+          "display": false,
+          "line": 130
+        },
+        {
+          "id": "eq-0-5",
+          "latex": "t_m",
+          "display": false,
+          "line": 130
+        },
+        {
+          "id": "eq-0-6",
+          "latex": "c_m",
+          "display": false,
+          "line": 130
+        },
+        {
+          "id": "eq-0-7",
+          "latex": "a_m",
+          "display": false,
+          "line": 131
+        },
+        {
+          "id": "eq-0-8",
+          "latex": "\\mathcal H_f",
+          "display": false,
+          "line": 133
+        },
+        {
+          "id": "eq-0-9",
+          "latex": "\\mathcal C_f",
+          "display": false,
+          "line": 133
+        },
+        {
+          "id": "eq-0-10",
+          "latex": "\\delta",
+          "display": false,
+          "line": 134
+        },
+        {
+          "id": "eq-0-11",
+          "latex": "O_m",
+          "display": false,
+          "line": 134
+        },
+        {
+          "id": "eq-0-12",
+          "latex": "\nu_f=\\min_{m\\in\\mathcal H_f}c_m,\\qquad b_f=u_f-\\delta,\n",
+          "display": true,
+          "line": 136
+        },
+        {
+          "id": "eq-0-13",
+          "latex": "\n\\mathcal T_f=\n\\{m\\in\\mathcal C_f:t_m<b_f,\\ a_m\\le b_f,\\ O_m=1\\}.\n",
+          "display": true,
+          "line": 139
+        },
+        {
+          "id": "eq-0-14",
+          "latex": "N",
+          "display": false,
+          "line": 227
+        },
+        {
+          "id": "eq-0-15",
+          "latex": "k",
+          "display": false,
+          "line": 227
+        },
+        {
+          "id": "eq-0-16",
+          "latex": "\nF=\\binom{N}{k},\\qquad\n\\phi=\\frac{k}{N}\\binom{N}{k}=\\binom{N-1}{k-1}.\n",
+          "display": true,
+          "line": 230
+        },
+        {
+          "id": "eq-0-17",
+          "latex": "\\phi",
+          "display": false,
+          "line": 235
+        },
+        {
+          "id": "eq-0-18",
+          "latex": "N=6",
+          "display": false,
+          "line": 237
+        },
+        {
+          "id": "eq-0-19",
+          "latex": "k=2",
+          "display": false,
+          "line": 237
+        },
+        {
+          "id": "eq-0-20",
+          "latex": "I_i=[s_i,e_i]",
+          "display": false,
+          "line": 240
+        },
+        {
+          "id": "eq-0-21",
+          "latex": "\nI_i\\cap I_j\\ne\\varnothing\n\\quad\\Longleftrightarrow\\quad s_i\\le e_j\\ \\text{and}\\ s_j\\le e_i.\n",
+          "display": true,
+          "line": 243
+        },
+        {
+          "id": "eq-0-22",
+          "latex": "R",
+          "display": false,
+          "line": 249
+        },
+        {
+          "id": "eq-0-23",
+          "latex": "E_R",
+          "display": false,
+          "line": 249
+        },
+        {
+          "id": "eq-0-24",
+          "latex": "\\eta",
+          "display": false,
+          "line": 250
+        },
+        {
+          "id": "eq-0-25",
+          "latex": "i",
+          "display": false,
+          "line": 250
+        },
+        {
+          "id": "eq-0-26",
+          "latex": "\nE_R<t_i\\le E_R+\\eta\n\\quad\\text{for at least one held-out run }R.\n",
+          "display": true,
+          "line": 253
+        }
+      ]
+    },
+    {
+      "file": "docs/analytics/splits_reference.md",
+      "sha256": "c7e560060ee0d7921b827de8a041b7d9edecf74eef6fdd49fde9be020baa87f8",
+      "equation_count": 0,
+      "display_count": 0,
+      "equations": []
+    },
+    {
+      "file": "docs/analytics/splits_documentation_checklist.md",
+      "sha256": "aac3523332e3c3cc760449cd47f9d06eef8293741db92dee4754a995bb87fc35",
+      "equation_count": 0,
+      "display_count": 0,
+      "equations": []
+    }
+  ],
+  "errors": [],
+  "layout": [
+    {
+      "id": "eq-0-3",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    },
+    {
+      "id": "eq-0-12",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    },
+    {
+      "id": "eq-0-13",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    },
+    {
+      "id": "eq-0-16",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    },
+    {
+      "id": "eq-0-21",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    },
+    {
+      "id": "eq-0-26",
+      "width": 1000,
+      "content_width": 1000,
+      "overflow": false
+    }
+  ],
+  "rendered_math_count": 27,
+  "rendered_error_count": 0,
+  "table_rows": [
+    {
+      "headers": [
+        "Member",
+        "Meaning"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Parameter",
+        "Default, meaning and restrictions"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Key",
+        "Value"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Parameter",
+        "Contract"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Parameter",
+        "Contract"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Key",
+        "Value"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "Helper",
+        "Responsibility"
+      ],
+      "rows": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "headers": [
+        "API",
+        "Signature, settings and schema",
+        "Practical use or equations"
+      ],
+      "rows": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ]
+    }
+  ]
+}

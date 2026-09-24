@@ -1,0 +1,580 @@
+{
+  "date": "2026-09-16",
+  "purpose": "Loader compatibility check, not experiment population selection",
+  "publications": 52,
+  "rows": 18726,
+  "checks": [
+    {
+      "season": "Bundesliga_21_22",
+      "rows": 305,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 305,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "a86461013c500a201947a3bc5a9db24ddf82f1945c0f3bcc7bb01142046fdc6d"
+    },
+    {
+      "season": "Bundesliga_22_23",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "79efdb320c69c7d311458c969947e75af761c058848d6d2e98dd73018ceeb4cd"
+    },
+    {
+      "season": "Bundesliga_23_24",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "5d06586918358d076f3775e55eaae0a10489f397a6efd63b14bbc2a9b329596e"
+    },
+    {
+      "season": "Bundesliga_24_25",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "79465c3a2cab8ea9b4d4e82f5deba4d82952c18ecb673d3a0dee15e4df354b71"
+    },
+    {
+      "season": "Bundesliga_2_21_22",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "cc35f0319a347dae5950fb031ddcc107823187900fc266b413cee7705ae41965"
+    },
+    {
+      "season": "Bundesliga_2_22_23",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "1714eaacbc115926861de0f131a325300bc60617389f2cbb8b84782eade50792"
+    },
+    {
+      "season": "Bundesliga_2_23_24",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "fb262b75d288337d714566fc3cde30e4adbf264d3619a7dd1141919fe188b267"
+    },
+    {
+      "season": "Bundesliga_2_24_25",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "180b09d7bf35657468ea5ead777ed7649e47b54401c4361c6e5d12d553295888"
+    },
+    {
+      "season": "Championship_21_22",
+      "rows": 552,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 552,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "3a7d6ac1db4308e1fc2e1bfc099f4c2acedf7c77c8fe76356a4b3a02ef611b45"
+    },
+    {
+      "season": "Championship_22_23",
+      "rows": 552,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 552,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "f723d89631d216ceda36d5d1804ff3e21bbb711d6e29dd5805ad5fd8b6be0bfb"
+    },
+    {
+      "season": "Championship_23_24",
+      "rows": 552,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 552,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "a96bf023d8d4efa8dd4f85b3afaae07c7f73c824cadde52cff527aca5a2e0bb0"
+    },
+    {
+      "season": "Championship_24_25",
+      "rows": 552,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 552,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "033055917108a86e240a60cc169554c3717d4591fc24674e2131f1f86363c1fa"
+    },
+    {
+      "season": "Eredivisie_21_22",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "1a23236b1607f400bc103eed1e1b6da29672a08d1f82229af9a31be05b673bc7"
+    },
+    {
+      "season": "Eredivisie_22_23",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "ca925e6a1c8a6b61a7b351b8873d60fad2bcd722398412ee6d324366efad081b"
+    },
+    {
+      "season": "Eredivisie_23_24",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "eac444c707c5b5570e11d4799dc95174779f7d4e5581714da5380f83b99c1346"
+    },
+    {
+      "season": "Eredivisie_24_25",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "39bd19374733abfb9329a7ad1a0c35341668385e090a2627964310522fd6ad9b"
+    },
+    {
+      "season": "La_Liga_21_22",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "61f835a55827eb8a04a7cdcfebcd4a5ea0a0c47912b0375b43e4c22e2b6c9ba9"
+    },
+    {
+      "season": "La_Liga_22_23",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "0a13b998986a2b146f8ba4af587af5492de3613e3e677c697b35111f340827f9"
+    },
+    {
+      "season": "La_Liga_23_24",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "cbe3b5e3663d1df00464bbc38e4a45d50e4f1b79b8550b762338320249dd656a"
+    },
+    {
+      "season": "La_Liga_24_25",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "6320ed8517f5f67c8e610a03316de119d407b2f027c2cfa80699d86cb7ee2ab6"
+    },
+    {
+      "season": "La_Liga_2_21_22",
+      "rows": 462,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 462,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "43ef986dd1106b197fb248e7b5a1a4553a7ae35203e8b65a4c192f3d7e106c0f"
+    },
+    {
+      "season": "La_Liga_2_22_23",
+      "rows": 462,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 462,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "3cf8710abdeaa481fcb6240eae0116d025965d8157c03bc7a64e451347f4bb85"
+    },
+    {
+      "season": "La_Liga_2_23_24",
+      "rows": 462,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 462,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "5178c47a341afb52c6500a2f02db2e7930be4673feb9cbb313f736a2bee3a55d"
+    },
+    {
+      "season": "La_Liga_2_24_25",
+      "rows": 462,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 462,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "0db46d8acca844f30b9b7c8ee8e8a69af55b28294227149a64e29383a91d609c"
+    },
+    {
+      "season": "Ligue_1_21_22",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "729e4fa44a0207ea8d271c780d12a5a4460888aaf61001146093e8191ffee517"
+    },
+    {
+      "season": "Ligue_1_22_23",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "30a7dbe97f061591ca7ec6d66bd4ed11bc89ad1fc77a5c11ab05f247bc625c2e"
+    },
+    {
+      "season": "Ligue_1_23_24",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "164fa2921ab9427d4dc1708c2a0d7e513373d9e5a507295e4388aac7aeed0e28"
+    },
+    {
+      "season": "Ligue_1_24_25",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "b21e5de1fb997067fd3f3add130a5a090f6a228a6ec4817f94736f8474f85bad"
+    },
+    {
+      "season": "Ligue_2_21_22",
+      "rows": 379,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 379,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "d54ace54c3d927c392929ff094f88b0b90d8076e20494a83aa2fbef896d7a165"
+    },
+    {
+      "season": "Ligue_2_22_23",
+      "rows": 379,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 379,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "b9e1249bf8cbba848a0222b77179eb0a9b886b872ec8fbd94c192df86e12cad8"
+    },
+    {
+      "season": "Ligue_2_23_24",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "116f5084759915661ac9b6c7ebfe1fac936bd7474a9d8d0e7641a9cb1b073ffb"
+    },
+    {
+      "season": "Ligue_2_24_25",
+      "rows": 306,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 306,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "9b1be5c66bdfde1c14d3d9a55a28799d519f3871791b1df537e18d82b22f45bd"
+    },
+    {
+      "season": "Premier_League_21_22",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "863e72373602067622c335b9d3e7d2e90227e847840f27c8b397d8d3548d36ab"
+    },
+    {
+      "season": "Premier_League_22_23",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "8bf7e0393bf528019b60ea97811f75fbe5680ea897ef191d14481bf9df768c47"
+    },
+    {
+      "season": "Premier_League_23_24",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "394e56dd7b582fa34428c8a46dddc2c57f2cf2ae445164a97c1da06c1170bf93"
+    },
+    {
+      "season": "Premier_League_24_25",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f"
+    },
+    {
+      "season": "Premiership_21_22",
+      "rows": 228,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 228,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "48db5d5d33d800daaa3f0c7d1a3ccc1daea76df80e8a18efae2d7f8e45018f8f"
+    },
+    {
+      "season": "Premiership_22_23",
+      "rows": 228,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 228,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "ccc356fb726a29292724bbc6ce1044c3adf01f9e467b527b7995ccbe31648399"
+    },
+    {
+      "season": "Premiership_23_24",
+      "rows": 228,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 228,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "d51d5c22f58eea7fdf222d84d864290206752535421f8c6cd5b223a460aef47a"
+    },
+    {
+      "season": "Premiership_24_25",
+      "rows": 228,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 228,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "9d79f3746a13002630c68ebb9b1618215e9ae947f4f995e73c0cd4fbf52d5950"
+    },
+    {
+      "season": "Pro_League_21_22",
+      "rows": 312,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 312,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "b1e79838d095d01c8b31e9fcd0b4c468bbbe1b8fa1030dc7d5ce06367c2b1330"
+    },
+    {
+      "season": "Pro_League_22_23",
+      "rows": 328,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 328,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "31d9e2e48f1ee4f28a5affe2b595b979808301b5eb68d0e9e3ee3cfdd145841c"
+    },
+    {
+      "season": "Pro_League_23_24",
+      "rows": 240,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 240,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "18e33832b2ace15d0fb1f8c179635586ce11a4a45c923048cb91023342167d69"
+    },
+    {
+      "season": "Pro_League_24_25",
+      "rows": 311,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 311,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "bd10ed9d63537c4ebd5ed7629ddb173e21fa4d7353df58b036de9a6ac7474960"
+    },
+    {
+      "season": "Serie_A_21_22",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "1327866f1f5f6456c12c8f8682113b5d532d9020b4270d133c47bf45bebbe9b3"
+    },
+    {
+      "season": "Serie_A_22_23",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "6d240ad7ef35367846e0caba58b2ff8e41b6315e51170fc851a2dcfd42893adf"
+    },
+    {
+      "season": "Serie_A_23_24",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "ca30d1d11ecf5a5cf51e994d3202b5abd9d51ed33d7b57b7f2c626d8cca4e740"
+    },
+    {
+      "season": "Serie_A_24_25",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "35d15a4bb78579373d15fd1cdb6e0accf3523bb67804dae063a11d9fd1359e3b"
+    },
+    {
+      "season": "Serie_B_21_22",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "3d2d32fe935074072cd4c27702c6d4e192e7ef030791e564fd497799632c46a1"
+    },
+    {
+      "season": "Serie_B_22_23",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "2e9f34783ba7dac75a4028d71d0f2e9a4f5bf7dcbc243aa1fd38b346346bd658"
+    },
+    {
+      "season": "Serie_B_23_24",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "aa78ba0897db43a5a431759ec399c9d81350c155e044fd845d5fc40491b27001"
+    },
+    {
+      "season": "Serie_B_24_25",
+      "rows": 380,
+      "validation": {
+        "status": "structure_valid",
+        "rows": 380,
+        "missing_kickoff_event_ids": [],
+        "invalid_kickoff_event_ids": []
+      },
+      "manifest_sha256": "fd6f1b3d59d049b938aed19ed61ce34c788652b52513cbfcfdfda18254f715f9"
+    }
+  ]
+}

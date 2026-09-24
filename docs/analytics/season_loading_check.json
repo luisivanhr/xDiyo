@@ -1,0 +1,315 @@
+{
+  "checked_at_utc": "2026-09-16T00:57:57.838999+00:00",
+  "scope": "One saved Premier League 2024/25 bundle containing matches, statistics and pregame; shots unrequested",
+  "environment": {
+    "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0"
+  },
+  "batch_baseline": {
+    "captured_at_utc": "2026-09-16T00:50:07.9496343Z",
+    "source_sha256": {
+      "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+      "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+      "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+      "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+      "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+      "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e",
+      "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+      "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+    },
+    "notebook_sha256": "40728be86097f470e19248a4cbecbbee4bcd6fbb520198feba9d38ff587db14a",
+    "selection_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8"
+  },
+  "pytest": {
+    "command": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest tests/analytics -q -p no:cacheprovider",
+    "result": "........................................................................ [ 23%]\n........................................................................ [ 46%]\n........................................................................ [ 69%]\n........................................................................ [ 92%]\n.......................                                                  [100%]\n311 passed in 4.61s",
+    "total_passed": 311,
+    "new_season_cases": 54,
+    "failed": 0,
+    "source_before": {
+      "captured_at_utc": "2026-09-16T00:55:43.3799180Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+        "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+        "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+        "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf",
+        "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+        "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+        "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e"
+      },
+      "test_season_sha256": "a09564acacfbbd9485cb989da1a5d37da16f6aee2a9fe05490b85e93a7a1d946"
+    },
+    "source_after": {
+      "captured_at_utc": "2026-09-16T00:55:50.3496008Z",
+      "source_sha256": {
+        "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+        "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+        "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+        "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+        "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf",
+        "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+        "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+        "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e"
+      },
+      "test_season_sha256": "a09564acacfbbd9485cb989da1a5d37da16f6aee2a9fe05490b85e93a7a1d946"
+    }
+  },
+  "source_sha256_before_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  },
+  "source_sha256_after_real_check": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  },
+  "same_source_state_through_suite_and_real_check": true,
+  "selection_path": "docs/analytics/loader_demo_selection.json",
+  "selection_sha256": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+  "requested_tables": [
+    "matches",
+    "statistics",
+    "pregame"
+  ],
+  "shapes": {
+    "matches": [
+      380,
+      35
+    ],
+    "statistics": [
+      98224,
+      18
+    ],
+    "pregame": [
+      740,
+      8
+    ]
+  },
+  "validation": {
+    "matches": {
+      "status": "structure_valid",
+      "rows": 380,
+      "missing_kickoff_event_ids": [],
+      "invalid_kickoff_event_ids": []
+    },
+    "statistics": {
+      "status": "structure_valid",
+      "rows": 98224,
+      "matches_referenced": 380,
+      "team_id_column_present": true,
+      "missing_team_id_row_positions": [],
+      "missing_value_row_positions": [],
+      "match_sides_without_statistics": []
+    },
+    "pregame": {
+      "status": "not_implemented",
+      "table": "pregame"
+    }
+  },
+  "source": {
+    "season_stem": "Premier_League_24_25",
+    "loaded_tables": [
+      "matches",
+      "statistics",
+      "pregame"
+    ],
+    "version": "6d950fa327de4fc29c796c7cca101606",
+    "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=61627\\versions\\6d950fa327de4fc29c796c7cca101606\\manifest.json",
+    "publication_sha256": "08b302fe765f48ca73a40ccceb6f789e6436aa52f656edc7e81f04dc5fb75faf",
+    "manifest_sha256": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f"
+  },
+  "pregame_summary": {
+    "rows": 740,
+    "matches_with_rows": 370,
+    "missing_position_rows": 0,
+    "match_sides_without_pregame_rows": [
+      [
+        12436870,
+        "away"
+      ],
+      [
+        12436870,
+        "home"
+      ],
+      [
+        12436871,
+        "away"
+      ],
+      [
+        12436871,
+        "home"
+      ],
+      [
+        12436872,
+        "away"
+      ],
+      [
+        12436872,
+        "home"
+      ],
+      [
+        12436873,
+        "away"
+      ],
+      [
+        12436873,
+        "home"
+      ],
+      [
+        12436874,
+        "away"
+      ],
+      [
+        12436874,
+        "home"
+      ],
+      [
+        12436875,
+        "away"
+      ],
+      [
+        12436875,
+        "home"
+      ],
+      [
+        12436877,
+        "away"
+      ],
+      [
+        12436877,
+        "home"
+      ],
+      [
+        12436879,
+        "away"
+      ],
+      [
+        12436879,
+        "home"
+      ],
+      [
+        12436880,
+        "away"
+      ],
+      [
+        12436880,
+        "home"
+      ],
+      [
+        12436881,
+        "away"
+      ],
+      [
+        12436881,
+        "home"
+      ]
+    ],
+    "note": "Descriptive inspection of this selected export; load_season does not perform pregame domain validation"
+  },
+  "shots_unrequested_property_is_none": true,
+  "frame_metadata": {
+    "matches": {
+      "source_table": "matches",
+      "version": "6d950fa327de4fc29c796c7cca101606",
+      "validation_status": "structure_valid"
+    },
+    "statistics": {
+      "source_table": "statistics",
+      "version": "6d950fa327de4fc29c796c7cca101606",
+      "validation_status": "structure_valid"
+    },
+    "pregame": {
+      "source_table": "pregame",
+      "version": "6d950fa327de4fc29c796c7cca101606",
+      "validation_status": "not_implemented"
+    }
+  },
+  "input_sha256_before": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3"
+  },
+  "input_sha256_after": {
+    "docs/analytics/loader_demo_selection.json": "98401abe90354a785730bf9d8a59c7e64c16349f8268f41ffb03c5512d128bd8",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/manifest.json": "1bae8a6113bd9399a89af5bf589bc1b744b6b7ea7de1c1a4863395b7d69c224f",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/matches.parquet": "419a521083156f532fcd7abc5d0e4e5814fd0ae220da7a557149af79292b888e",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/statistics.parquet": "02d4ab79b6dc871bed9d1c3118874f77c8281a7586a8fb51630fccc1d8bd032d",
+    "data/xDiyo_data/_tables/competition=17/season=61627/versions/6d950fa327de4fc29c796c7cca101606/pregame.parquet": "2457c4e06db072377f23005bf17a742c0824f301ca6bd89404a81c9c6e4da8d3"
+  },
+  "limits": [
+    "Statistics domain validation is automatic through load_season, remains explicit with load_season_table",
+    "Pregame and shots receive file integrity verification only; no implemented domain validator",
+    "Frozen SeasonData fields hold mutable frames/dictionaries; reports are snapshots",
+    "No joins, feature construction, timing availability or experiment/fixture completeness claims"
+  ],
+  "source_sha256_after_notebook": {
+    "src/xdiyo_analytics/__init__.py": "ceccbab62f16fb72fe0f385a8467e1e42cfb4f14edc06d85b2cee01f97de737c",
+    "src/xdiyo_analytics/data/__init__.py": "577a8b37cadebfa41c53d953ecc7cb8d65a6da6d14e614651c5694ebbb67700e",
+    "src/xdiyo_analytics/data/exports.py": "2af2207b8272c8d270f1ba1096704e4299a3d3a89bdab9fe2608616338c8562b",
+    "src/xdiyo_analytics/data/inspection.py": "332fc2ce25066af7f1040228c3e69a3926c8223b43522688fe5eb0154a4f1863",
+    "src/xdiyo_analytics/data/loading.py": "6db4b88170229571cc4b76cfa2d1b130de665674069cfe29ee5c9f7517e11da1",
+    "src/xdiyo_analytics/data/matches.py": "5acfa69e76afc8dc6009bcf3a847c880fcb94cb4f3d8ad080b84500522dff86e",
+    "src/xdiyo_analytics/data/season.py": "39beaa1364b3a52b529ebaccfb4e0064db3a448fc7a66768f2716ec1814c9ca4",
+    "src/xdiyo_analytics/data/statistics.py": "4a13fda9ff4ee840af7c32afcade033ec48d6e15dcfb7af759893fc8b51180bf"
+  },
+  "notebook": {
+    "path": "notebooks/01_loader_walkthrough.ipynb",
+    "checkpoint": 7,
+    "kernel": "misc314_py314",
+    "execution_started_at_utc": "2026-09-16T01:01:22.383442+00:00",
+    "execution_finished_at_utc": "2026-09-16T01:01:25.773822+00:00",
+    "previous_cells": 102,
+    "new_cells": 21,
+    "new_code_cells": 10,
+    "total_cells": 123,
+    "execution_counts": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "error_outputs": 0,
+    "all_previous_cells_outputs_and_metadata_preserved": true,
+    "earlier_cells_executed": false,
+    "full_notebook_rerun": false,
+    "historical_source_displays_preserved": true,
+    "sha256_before": "40728be86097f470e19248a4cbecbbee4bcd6fbb520198feba9d38ff587db14a",
+    "sha256_after": "ea90a29bf1d13d1a098789920d053723fa3d880790c3be68fba6d881a49a429d",
+    "warnings": [
+      "Nonfatal Windows/ZMQ Proactor event loop warning; selector thread registered and execution completed"
+    ]
+  },
+  "final_audit": {
+    "checked_at_utc": "2026-09-16T01:07:51.499349+00:00",
+    "source_files_unchanged": 8,
+    "selected_input_files_unchanged": 5,
+    "test_source_unchanged": true,
+    "prior_notebook_cells_outputs_metadata_preserved": true,
+    "notebook_structure_valid": true,
+    "guide_relative_links_checked": 14,
+    "library_implementation_edited_by_verifier": false,
+    "callbacks_sent": 0
+  }
+}
