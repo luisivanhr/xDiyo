@@ -2,7 +2,7 @@
 
 ## GitHub publication scope — 25 September 2026
 
-The installable package now declares the analytics modules and UI. Collection modules and the collection CLI remain local for this publication. The GitHub dataset includes top-level season Parquet files and manifests, while `_collection/` and `_tables/` stay local; the analytics loader needs the full relational export. Historical entries below describe the local combined environment at the time they were written.
+The installable package declares the analytics modules and UI. Collection modules and the collection CLI remain local for this publication. The GitHub dataset includes top-level season Parquet files, manifests, and relational `_tables/` versions. The `_collection/` directory stays local. Historical entries below describe the local combined environment at the time they were written.
 
 ## Optional classifier correlation selection — 23 September 2026
 

@@ -2,7 +2,7 @@
 
 This directory contains Sofascore season exports. Recent seasons run first, followed by earlier years. The original CSVs remain available in Git history.
 
-The GitHub copy contains the top-level Parquet files and their manifests. `_collection/` and `_tables/` stay local. Top-level Parquet files can be read directly; manifest links to relational tables and the analytics loader require the full local export.
+The GitHub copy contains the top-level Parquet files, their manifests, and the relational `_tables/` versions. The `_collection/` directory stays local because it contains personal information.
 
 Each finished season has the original filename stem with `.parquet`, for example `Premier_League_24_25.parquet`. It has one match per row, typed scalar match columns and typed nested lists for statistics, shots (including nullable xG), heatmaps, lineups, player statistics, injury availability, incidents and supplied goal sequences. Commentary is disabled. A same-stem `.manifest.json` contains completeness checks, source inventory provenance and availability counts. Detailed relational Parquet tables and observation provenance are in `_tables/` and linked from each season manifest and Parquet metadata.
 
