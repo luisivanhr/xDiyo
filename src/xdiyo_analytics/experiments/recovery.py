@@ -136,7 +136,22 @@ def unpack(value):
     if tag == "dict":
         return {unpack(key): unpack(item) for key, item in value["items"]}
     if tag == "array":
-        return np.array(unpack(value["values"]), dtype=value["dtype"]).reshape(value["shape"])
+        values = unpack(value["values"])
+        if np.dtype(value["dtype"]).kind == "O":
+            # tolist() preserves array rank, but each object cell may itself be
+            # a sequence. Follow only the recorded shape, never infer cell axes.
+            result = np.empty(value["shape"], dtype=object)
+            def assign(items, index):
+                if len(index) == result.ndim:
+                    result[index] = items
+                    return
+                if not isinstance(items, list) or len(items) != result.shape[len(index)]:
+                    raise ValueError("Object array values do not match the recorded shape.")
+                for position, item in enumerate(items):
+                    assign(item, (*index, position))
+            assign(values, ())
+            return result
+        return np.array(values, dtype=value["dtype"]).reshape(value["shape"])
     if tag == "rangeindex":
         return pd.RangeIndex(value["start"], value["stop"], value["step"], name=unpack(value["name"]))
     if tag == "multiindex":

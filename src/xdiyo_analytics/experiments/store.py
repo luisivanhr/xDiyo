@@ -1,7 +1,7 @@
 """Small local experiment/run store; JSON metadata and Parquet predictions."""
 
 from dataclasses import is_dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -30,8 +30,24 @@ def _plain_metadata(value):
 
 
 def _table_document(table):
-    """Keep ordinary table JSON while preserving unsupported MultiIndex columns."""
-    if isinstance(table.columns, pd.MultiIndex):
+    """Keep ordinary table JSON only when its field names can preserve the axes."""
+    columns, index = table.columns, table.index
+    # Table JSON uses columns/index names as record keys. Duplicate or typed
+    # labels can silently collapse, change type, or make pandas' reader fail.
+    plain_columns = type(columns) is pd.Index or (isinstance(columns, pd.RangeIndex) and not len(columns))
+    # Native datetime indexes have a table schema. Object dates lose their type,
+    # and pandas cannot read its table JSON for durations, including empty axes.
+    plain_index = (not isinstance(index, pd.TimedeltaIndex)
+                   and all(pd.api.types.is_scalar(label)
+                           and (isinstance(index, pd.DatetimeIndex) or not isinstance(label, (date, timedelta)))
+                           for label in index))
+    plain_axes = (plain_columns and columns.name is None and columns.is_unique
+                  and all(isinstance(label, str) for label in columns)
+                  and not isinstance(index, pd.MultiIndex) and index.is_unique
+                  and plain_index
+                  and (index.name is None or (isinstance(index.name, str) and index.name != "index"))
+                  and (index.name if index.name is not None else "index") not in columns)
+    if not plain_axes:
         from .recovery import pack
         return {"encoding": _ARTIFACT_ENCODING, "value": pack(table)}
     return json.loads(table.to_json(orient="table", date_format="iso"))
@@ -220,6 +236,14 @@ class ExperimentStore:
                 from .recovery import pack
                 diagnostic["fold_metadata"] = pack(fold.fold_metadata)
                 diagnostic["fold_metadata_encoding"] = _ARTIFACT_ENCODING
+            try:
+                # Keep the historical summary shape and null handling whenever
+                # the existing JSON conversion accepts it.
+                _json(fold.training_summary, missing=True)
+            except (TypeError, ValueError):
+                from .recovery import pack
+                diagnostic["summary"] = pack(fold.training_summary)
+                diagnostic["summary_encoding"] = _ARTIFACT_ENCODING
             diagnostics.append(diagnostic)
         _write(stage / "training.json", diagnostics)
         record["artifacts"]["training"] = "training.json"

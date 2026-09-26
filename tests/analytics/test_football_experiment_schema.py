@@ -215,3 +215,84 @@ def test_datetime_and_timestamp_keep_existing_timestamp_encoding(value):
 def test_legacy_date_only_timestamp_remains_readable():
     restored=unpack({'@':'timestamp','value':'2024-02-29'})
     assert isinstance(restored,pd.Timestamp) and restored==pd.Timestamp('2024-02-29')
+
+
+
+def object_array_payload():
+    matches=np.empty(2,dtype=object)
+    matches[0]=(17,101);matches[1]=(18,102)
+    nested=np.empty(3,dtype=object)
+    nested[0]=['goals',[1,2]]
+    nested[1]={'match':(17,101),'values':np.array([3,5],dtype='int16')}
+    nested[2]=np.array([[7,9]],dtype='float32')
+    matrix=np.empty((2,2),dtype=object)
+    matrix[0,0]=(1,2);matrix[0,1]=[3,4]
+    matrix[1,0]=();matrix[1,1]=[]
+    payload={'matches':matches,'nested':nested,'matrix':matrix,
+             'empty_rows':np.empty((0,3),dtype=object),
+             'empty_middle':np.empty((2,0,3),dtype=object)}
+    for name,cell in [('tuple',(17,101)),('list',[1,[2,3]]),
+                      ('dict',{'match':(17,101)}),('array',matches)]:
+        scalar=np.empty((),dtype=object);scalar[()]=cell
+        payload['scalar_'+name]=scalar
+    return payload
+
+
+def assert_recovered_array_cells(actual,expected):
+    assert type(actual) is type(expected)
+    if isinstance(expected,np.ndarray):
+        assert actual.shape==expected.shape and actual.dtype==expected.dtype
+        if expected.dtype==object:
+            for index in np.ndindex(expected.shape):
+                assert_recovered_array_cells(actual[index],expected[index])
+        else:
+            np.testing.assert_array_equal(actual,expected)
+    elif isinstance(expected,dict):
+        assert actual.keys()==expected.keys()
+        for key in expected:assert_recovered_array_cells(actual[key],expected[key])
+    elif isinstance(expected,(tuple,list)):
+        assert len(actual)==len(expected)
+        for a,b in zip(actual,expected):assert_recovered_array_cells(a,b)
+    else:
+        assert actual==expected
+
+
+@pytest.mark.parametrize('name',list(object_array_payload()))
+def test_object_arrays_keep_cell_types_and_recorded_rank(tmp_path,name):
+    expected=object_array_payload()[name]
+    path=tmp_path/'objects.json';dump_bundle(path,expected)
+    restored=load_bundle(path)
+    assert_recovered_array_cells(restored,expected)
+    assert json.loads(path.read_text())['payload']['shape']==list(expected.shape)
+
+
+def test_archived_tuple_object_array_uses_existing_nested_values_format():
+    archived={'@':'array','dtype':'object','shape':[2],
+              'values':[{'@':'tuple','values':[17,101]},{'@':'tuple','values':[18,102]}]}
+    expected=object_array_payload()['matches']
+    assert pack(expected)==archived
+    assert_recovered_array_cells(unpack(archived),expected)
+
+
+@pytest.mark.parametrize('values',[[1],[1,2,3]])
+def test_object_array_rejects_inconsistent_recorded_shape(values):
+    with pytest.raises(ValueError,match='recorded shape'):
+        unpack({'@':'array','dtype':'object','shape':[2],'values':values})
+
+
+@pytest.mark.parametrize('value',[np.array([[1,2],[3,4]],dtype='float32'),
+                                 np.array(7,dtype='int16'),np.empty((0,2),dtype='uint64')])
+def test_nonobject_array_decoding_keeps_dtype_shape_and_values(value):
+    assert_recovered_array_cells(unpack(pack(value)),value)
+
+
+def test_object_arrays_survive_saved_football_experiment_outputs(tmp_path):
+    from football_experiment_samples import prepared,ridge
+    from xdiyo_analytics.experiments import FootballExperiment
+    preparation=prepared(holdout=True)
+    expected=object_array_payload()
+    preparation.outputs['object_arrays']=expected
+    experiment=FootballExperiment('Object array output fidelity',output_dir=tmp_path)
+    result=experiment.run(preparation,model=ridge())
+    loaded=experiment.load(result.record['run_id'])
+    assert_recovered_array_cells(loaded.prepared.outputs['object_arrays'],expected)

@@ -284,18 +284,22 @@ scaling and missing-value rules remain in the post-training reference.
 Every successful save writes `training.json` as a list of per-fold records,
 including when predictions are disabled: development/fit/validation positions,
 selected columns, fold metadata, summary and long-form history. Ordinary histories
-retain pandas JSON table format; histories with MultiIndex columns use
-`{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame.
+retain pandas JSON table format; histories with unsupported axes use
+`{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame,
+following the same rules as report tables in the post-training reference.
 JSON-native fold metadata stays unchanged. Other fold metadata uses a data-only
 representation in `fold_metadata`, with sibling
 `fold_metadata_encoding: "xdiyo.data-only.v1"`; this preserves integer block keys,
-arrays, timestamps and durations. `ExperimentStore.load_run` and
+arrays, timestamps and durations. Historically serializable summaries retain their
+JSON representation. Other supported data-only summaries use a packed `summary`
+with sibling `summary_encoding: "xdiyo.data-only.v1"`, preserving values such as
+integer-keyed mappings and durations. `ExperimentStore.load_run` and
 `FootballExperiment.load` automatically read both original and tagged forms,
 including runs without `recovery.json`.
 
 Missing legacy fit membership falls back to development rows. Nonfinite numbers
-in ordinary diagnostics serialize as null; tagged fold metadata retains its
-explicit missing-value representation. Summaries and optional Parquet/HTML retain
+in ordinary diagnostics serialize as null; tagged fold metadata and summaries
+retain their explicit missing-value representation. Optional Parquet/HTML retains
 prior behavior. Models and resumable checkpoints are not serialized. Private
 `_start` validates role/group and trial linkage before staging; configuration
 `_json` validation remains strict. `_write` and `_publish` retain exclusive writes
