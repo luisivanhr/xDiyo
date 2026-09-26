@@ -46,6 +46,7 @@ class RefitPolicy:
     CV requires an explicit candidate, because its outer folds can select different
     configurations. Fitted feature selection is rerun on refit fitting rows.
     validation/control default to None, independently of evaluation controls.
+    FootballExperiment records the resolved refit settings in config['refit'].
     """
     train_positions: object
     candidate: object = None
@@ -311,9 +312,22 @@ class FootballExperiment:
                                          fold_ids=post_analysis.fold_ids)
         post_report = numerical.run(training)
         refit = None
+        settings["refit"] = None
         if refit_policy is not None:
             policy = refit_policy
             refit_candidate = policy.candidate or chosen
+            if isinstance(refit_candidate, Candidate):
+                # Describe the resolved deployment candidate before checkpoint
+                # wrapping, using policy controls rather than evaluation controls.
+                settings["refit"] = {
+                    "candidate": {"name": refit_candidate.name, "config": deepcopy(refit_candidate.config)},
+                    "policy": signature(type(policy)),
+                    "train_positions": np.asarray(policy.train_positions).tolist(),
+                    "validation": signature(policy.validation), "control": signature(policy.control),
+                    "fitting": signature({field: getattr(refit_candidate, field) for field in
+                                          ("model_factory", "feature_columns", "target_columns",
+                                           "features_from", "pre_analysis")}),
+                }
             if checkpoint_policy is not None and refit_candidate is not None:
                 refit_candidate = replace(refit_candidate, model_factory=checkpoint_policy.wrap(
                     refit_candidate.model_factory, self.store.path / "checkpoints", f"{group}:refit"))

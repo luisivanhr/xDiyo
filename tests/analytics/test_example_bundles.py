@@ -6,7 +6,8 @@ from pathlib import Path, PureWindowsPath
 import pandas as pd
 
 from xdiyo_analytics.data.loading import SeasonData
-from xdiyo_analytics.ui import prepare_recipe, read_recipe
+from xdiyo_analytics.experiments import FootballExperiment
+from xdiyo_analytics.ui import prepare_recipe, read_recipe, run_recipe
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -64,7 +65,7 @@ def test_example_publication_inputs_resolve_inside_published_tables():
     assert {season for _, season in selected} == set(recipe["data"]["seasons"])
 
 
-def test_bundled_recipe_prepares_fresh_inputs_without_prior_runs(monkeypatch):
+def test_bundled_recipe_runs_fresh_inputs_without_prior_runs(monkeypatch, tmp_path):
     recipe = read_recipe(BUNDLES / "corners_lasso.json")
     definitions = {tuple(node["params"][key] for key in ("period", "group", "key"))
                    for node in _nodes(recipe)
@@ -98,3 +99,23 @@ def test_bundled_recipe_prepares_fresh_inputs_without_prior_runs(monkeypatch):
     assert len(fold.test) == len(fold.score) == 8
     assert set(prepared.dataset.metadata.iloc[fold.test].source_season) == {"24_25"}
     assert prepared.dataset.X.shape[1] > len(recipe["features"])
+
+    # Run the bundled configuration on the small synthetic population, retaining
+    # its model and reporters. All generated outputs stay in pytest scratch.
+    recipe["output_dir"] = str(tmp_path / "runs")
+    result = run_recipe(recipe, prepared=prepared)
+    assert result.prepared is prepared
+    assert result.record["status"] == "complete"
+    assert len(result.training.folds) == 1
+    assert len(result.training.prediction_frame()) == 8
+    distribution = next(study for study in result.pre_report.studies if study.name == "Distribution")
+    assert set(distribution.result.tables["summary"].feature) == set(prepared.dataset.X.columns)
+    assert (Path(result.path) / "run.json").is_file()
+    selector = next(study for study in result.training.fitted_report.studies if study.name == "Selector")
+    assert selector.result.selection.columns
+    assert set(selector.result.selection.columns) <= set(prepared.dataset.X.columns)
+    assert result.training.prediction_frame()["corners"].nunique() > 1
+    restored = FootballExperiment(recipe["name"], output_dir=recipe["output_dir"]).load(result.record["run_id"])
+    assert restored.reused
+    assert restored.training.folds[0].model is None
+    pd.testing.assert_frame_equal(restored.training.prediction_frame(), result.training.prediction_frame())
