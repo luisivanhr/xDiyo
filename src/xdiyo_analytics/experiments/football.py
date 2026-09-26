@@ -262,7 +262,10 @@ class FootballExperiment:
                 if np.isin(outer.test, development).any() or not np.isin(outer.train, development).all():
                     raise ValueError("Outer test must be outside selection development; outer train must be inside it.")
             source = model_selection.candidates
-            model_selection = replace(model_selection, candidates=list(source() if callable(source) else source))
+            # Nested selection calls a source once per outer fold. Preserve that
+            # callable, but snapshot one-shot iterables for recovery identity.
+            if not nested or not callable(source):
+                model_selection = replace(model_selection, candidates=list(source() if callable(source) else source))
         pre_analysis = pre_analysis or PreTrainingAnalysis()
         post_analysis = post_analysis or PostTrainingAnalysis()
         settings = {"experiment": self.config, "preparation": prepared.config, "run": dict(config or {})}
@@ -326,9 +329,17 @@ class FootballExperiment:
                                            "validation", "control")}) for candidate in candidates]
         settings["definitions"] = signature(dataset.definitions)
         result = ExperimentResult(prepared, training, pre_report, post_report, selection, refit, {"name": display_name})
+        selected_trial_id = None
+        if selection is not None and not nested:
+            saved_id = selection.winner.saved_run_id
+            # Rescoring may recover a trial from an earlier execution group. Its
+            # provenance stays in summary.winners; direct links are group-local.
+            if any(record["run_id"] == saved_id and record["status"] == "complete"
+                   for record in self.store.read_runs(role="trial", run_group=group)):
+                selected_trial_id = saved_id
         record = self.store.save_run(training, post_report, name=display_name, config=settings,
                                      save_html=True, run_group=group,
-                                     selected_trial_id=selection.winner.saved_run_id if selection is not None and not nested else None,
+                                     selected_trial_id=selected_trial_id,
                                      recovery_key=key, recovery={"kind": "football_experiment", "prepared": prepared,
                                                                "pre_report": pre_report, "selection": summary, "refit": refit},
                                      display_report=result.report)

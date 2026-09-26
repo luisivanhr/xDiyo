@@ -76,6 +76,28 @@ def test_ties_singletons_and_large_weights():
     assert partial.score.to_dict() == {'a': .75, 'b': .75, 'c': 0.}
 
 
+@pytest.mark.parametrize('scale', [1e-300, 5e307, 8e307])
+@pytest.mark.parametrize('scaling', ['percentile', 'fixed'])
+def test_unequal_weights_are_normalized_and_scale_invariant(scale, scaling):
+    records = [record('a', 0., 0.), record('b', 5., .5), record('c', 10., 1.)]
+    weights = {'mse': 2 * scale, 'accuracy': scale, 'ignored': 0.}
+    original = weights.copy()
+    # Both large weights are finite, even when their unscaled sum would overflow.
+    with np.errstate(over='raise', invalid='raise'):
+        ranked = rank_runs(records, weights, scaling=scaling,
+                           reference_scales={'mse': (0., 10.), 'accuracy': (0., 1.)})
+    normalized = ranked.attrs['weights']
+    assert sum(normalized.values()) == pytest.approx(1.)
+    assert normalized == pytest.approx({'mse': 2/3, 'accuracy': 1/3})
+    ranked = ranked.set_index('name').loc[['a', 'b', 'c']]
+    np.testing.assert_allclose(ranked['contribution::mse'], [2/3, 1/3, 0.])
+    np.testing.assert_allclose(ranked['contribution::accuracy'], [0., 1/6, 1/3])
+    np.testing.assert_allclose(ranked.score, [2/3, .5, 1/3])
+    assert ranked['rank'].tolist() == [1., 2., 3.]
+    assert 'raw::ignored' not in ranked
+    assert weights == original
+
+
 @pytest.mark.parametrize('field,value', [('sample_hash', 'b'*64), ('parameters', '{"choice": 2}'),
                                        ('target', 'other'), ('output', 'another'), ('partition', 'test'),
                                        ('layout', 'team_match'), ('scope_label', 'prediction pooling: occurrences'),
