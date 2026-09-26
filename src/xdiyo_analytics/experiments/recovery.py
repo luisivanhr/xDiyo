@@ -67,7 +67,9 @@ def pack(value):
         return value
     if isinstance(value, float):
         return value if np.isfinite(value) else {"@": "float", "value": str(value)}
-    if isinstance(value, (pd.Timestamp, datetime, date)):
+    if isinstance(value, date) and not isinstance(value, datetime):
+        return {"@": "date", "value": value.isoformat()}
+    if isinstance(value, (pd.Timestamp, datetime)):
         return {"@": "timestamp", "value": value.isoformat()}
     if isinstance(value, (pd.Timedelta,)):
         return {"@": "timedelta", "value": value.value}
@@ -120,7 +122,10 @@ def unpack(value):
         return pd.NaT
     if tag == "float":
         return float(value["value"])
+    if tag == "date":
+        return date.fromisoformat(value["value"])
     if tag == "timestamp":
+        # Legacy date-only timestamp records retain their original decoding.
         return pd.Timestamp(value["value"])
     if tag == "timedelta":
         return pd.Timedelta(value["value"], unit="ns")

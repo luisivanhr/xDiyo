@@ -1,3 +1,4 @@
+from datetime import date, datetime, timezone
 import inspect
 import json
 import numpy as np
@@ -145,3 +146,72 @@ def test_encoding_string_dtype_without_explicit_missing_sentinel_defaults_to_na(
             raise AttributeError('Legacy dtype exposes only its default missing sentinel')
     assert _pack_dtype(LegacyStringDtype(storage='python'))=={
         'kind':'string','storage':'python','na_value':{'@':'NA'}}
+
+
+@pytest.mark.parametrize('value',[date.min,date(2024,2,29),date.max])
+def test_plain_date_uses_distinct_data_only_tag(value):
+    encoded=pack(value)
+    assert encoded=={'@':'date','value':value.isoformat()}
+    restored=unpack(json.loads(json.dumps(encoded)))
+    assert type(restored) is date and restored==value
+
+
+def date_container_payload():
+    value=date(2024,2,29)
+    series=pd.Series([value,None,date(2025,1,3)],dtype=object,name=value)
+    series.attrs={'source':{'as_of':value},value:'date key'}
+    index=pd.Index([value,None,date(2025,1,3)],dtype=object,name=value)
+    frame=series.to_frame()
+    frame.index=index
+    frame.attrs={'window':(value,date(2025,1,3))}
+    return {'scalar':value,'series':series,'frame':frame,'index':index}
+
+
+def assert_date_container_payload(actual,expected):
+    assert type(actual['scalar']) is date and actual['scalar']==expected['scalar']
+    pd.testing.assert_series_equal(actual['series'],expected['series'])
+    pd.testing.assert_frame_equal(actual['frame'],expected['frame'])
+    pd.testing.assert_index_equal(actual['index'],expected['index'])
+    for values in (actual['series'],actual['frame'].iloc[:,0],actual['frame'].index,actual['index']):
+        assert [type(item) for item in values]==[date,type(None),date]
+    assert type(actual['series'].name) is date
+    assert type(actual['index'].name) is date
+    assert type(actual['frame'].columns[0]) is date
+    assert actual['series'].attrs==expected['series'].attrs
+    assert type(actual['series'].attrs['source']['as_of']) is date
+    assert type(next(key for key in actual['series'].attrs if key!='source')) is date
+    assert actual['frame'].attrs==expected['frame'].attrs
+    assert all(type(item) is date for item in actual['frame'].attrs['window'])
+
+
+def test_plain_dates_survive_object_containers_axes_and_attrs(tmp_path):
+    expected=date_container_payload()
+    path=tmp_path/'dates.json';dump_bundle(path,expected)
+    assert_date_container_payload(load_bundle(path),expected)
+
+
+def test_plain_dates_survive_saved_football_experiment_outputs(tmp_path):
+    from football_experiment_samples import prepared,ridge
+    from xdiyo_analytics.experiments import FootballExperiment
+    preparation=prepared(holdout=True)
+    expected=date_container_payload()
+    preparation.outputs['dates']=expected
+    experiment=FootballExperiment('Date output fidelity',output_dir=tmp_path)
+    result=experiment.run(preparation,model=ridge())
+    loaded=experiment.load(result.record['run_id'])
+    assert_date_container_payload(loaded.prepared.outputs['dates'],expected)
+
+
+@pytest.mark.parametrize('value',[datetime(2025,1,2,3,4,5),
+                                  datetime(2025,1,2,3,4,5,tzinfo=timezone.utc),
+                                  pd.Timestamp('2025-01-02 03:04:05.123456789',tz='Asia/Tokyo')])
+def test_datetime_and_timestamp_keep_existing_timestamp_encoding(value):
+    encoded=pack(value)
+    assert encoded=={'@':'timestamp','value':value.isoformat()}
+    restored=unpack(encoded)
+    assert isinstance(restored,pd.Timestamp) and restored==pd.Timestamp(value)
+
+
+def test_legacy_date_only_timestamp_remains_readable():
+    restored=unpack({'@':'timestamp','value':'2024-02-29'})
+    assert isinstance(restored,pd.Timestamp) and restored==pd.Timestamp('2024-02-29')
