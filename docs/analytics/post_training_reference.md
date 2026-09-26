@@ -287,6 +287,12 @@ unsupported objects and nonfinite configuration numbers raise. Dataclasses retai
 their qualified type and fields. Dictionary order does not affect SHA-256 hashing;
 list order does. Custom models/functions are not introspected or pickled.
 
+NumPy datetime64/timedelta64 configuration scalars use a `__numpy_temporal__`
+mapping with `dtype` and integer `ticks`. Temporal arrays use
+`__numpy_temporal_array__` with `dtype`, `shape` and nested integer `ticks`.
+These descriptors retain units, multipliers, array shape and the `NaT` sentinel
+when hashing; ordinary NumPy numeric scalar/list conversion remains unchanged.
+
 Each call creates a new UUID run_id even for identical config_hash. The store
 records creation time, status and config. Successful records additionally retain
 layout, target perspective, identity columns, numerical metrics and artifact paths.
@@ -298,10 +304,35 @@ from saved tables/metrics to avoid recursively recording a leaderboard as result
 | --- | --- |
 | `experiment.json` | Schema 1, experiment UUID and exact display name. |
 | `runs/<run_id>/run.json` | Run/config IDs, config, UTC creation time, status, metric records and artifact mapping. Failure records additionally include explicit error text. |
-| `tables.json` | Study/name/fold metadata with pandas table-oriented JSON documents. Pandas JSON float formatting can round table values; metric records retain ordinary JSON scalar values. |
+| `tables.json` | Study/name/fold metadata. Ordinary tables use pandas table-oriented JSON, whose float formatting can round values. Tables whose axes, dtypes or values are not safely represented there use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame representation for typed labels and values. Metric records retain ordinary JSON scalar values. |
 | `fold-<id>/output-<number>.parquet` | Indexed prediction DataFrames; output names are mapped to safe numbered filenames. MultiIndex class columns are retained. |
 | `fold-<id>/targets.parquet`, `metadata.parquet` | Indexed held-out targets and metadata. The run record also retains train/test/score positions and selected columns. |
 | `report.html` | Optional standalone report, rendered without recomputing studies or predictions. |
+
+Tagged tables include MultiIndex, tuple-valued or duplicate columns, non-string
+column labels, named column axes, and index layouts with duplicate labels or
+conflicting field names. Temporal indexes and columns, dtypes that table JSON
+would change, and supported typed cells such as tuples, dates and NumPy temporal
+scalars also use this wrapper, including nested values. `ExperimentStore.load_run`
+and `FootballExperiment.load` recognize both table forms, including runs without
+`recovery.json`. Existing artifacts remain readable without rewriting them.
+Unsigned and narrow integer row indexes also use typed storage when table JSON
+would alter their dtype or values. Complex-valued table data, including columns,
+row indexes and categories, are unsupported and raise before a completed run is
+published.
+
+In data-only payloads, NumPy date and duration scalars use a `numpy_temporal` tag
+with their dtype (including unit and multiplier) and signed integer value; `NaT`
+retains its sentinel. Temporal arrays retain the existing array tag, dtype and
+shape, with integer counts as values. Older payloads remain readable.
+
+DatetimeIndex and TimedeltaIndex payloads additionally record `freq`: either null
+or a mapping with an allowlisted offset `name`, `n`, `normalize` and packed `kwds`.
+This retains offset parameters, including custom business calendars, alongside
+index values, dtype and timezone. Explicit null or absent legacy frequency stays
+unset; the loader does not infer a frequency. User-defined offset subclasses are
+unsupported, and decoding uses fixed constructors rather than imports named by
+the payload.
 
 `save_predictions=False` skips all fold Parquet artifacts; `save_html=False`
 skips HTML. Models and training feature matrices are not saved. `save_failure`

@@ -222,7 +222,9 @@ predictions occurred in this evaluation. Those finite-sample observations do not
 impose a noncrossing guarantee on later predictions. Aggregate coverage was close
 to its nominal 80%; the per-league table remains useful for inspecting variation.
 
-The saved numerical evidence is in the
+The following historical numerical evidence remains in local, ignored experiment
+outputs and is not distributed with the example inputs. Running the notebook from
+the published season tables creates new results. The original evidence is in the
 [run summary](../../experiments/total_corners_xgboost_quantiles/total-corners-xgboost-quantiles-broad-features--cf41ff29/quantile_summaries/ca3aef95-a50b-4cf7-9070-63925d29dca2/summary.json),
 [pinball table](../../experiments/total_corners_xgboost_quantiles/total-corners-xgboost-quantiles-broad-features--cf41ff29/quantile_summaries/ca3aef95-a50b-4cf7-9070-63925d29dca2/pinball_metrics.csv)
 and [interval diagnostics](../../experiments/total_corners_xgboost_quantiles/total-corners-xgboost-quantiles-broad-features--cf41ff29/quantile_summaries/ca3aef95-a50b-4cf7-9070-63925d29dca2/interval_diagnostics.csv).
