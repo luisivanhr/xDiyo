@@ -7,6 +7,7 @@ from football_experiment_samples import prepared,post,ridge
 from model_selection_samples import sample,plan,FixedAdapter
 from split_samples import rows_for
 from test_model_selection_nested import outer_plan,inner_plan
+from test_football_experiment_search import CountingFactory
 from xdiyo_analytics.analysis import PreTrainingAnalysis
 from xdiyo_analytics.experiments import FootballExperiment,PreparedExperiment,RefitPolicy
 from xdiyo_analytics.experiments.recovery import signature
@@ -67,6 +68,35 @@ def test_nested_refit_requires_explicit_candidate_and_accepts_one():
     with pytest.raises(ValueError,match='explicit Candidate'):RefitPolicy(rows).run(data,None)
     result=RefitPolicy(rows,candidate=ridge()).run(data,None)
     assert result.model is not None and result.fit_positions.tolist()==rows.tolist()
+
+
+@pytest.mark.parametrize('refit_candidate',[None,'not a Candidate'])
+def test_nested_missing_refit_candidate_fails_before_sources_fits_and_publication(tmp_path,monkeypatch,refit_candidate):
+    data=sample()
+    preparation=PreparedExperiment(data,outer_plan(data))
+    fits=[];preparations=[]
+    class Source:
+        def __init__(self):self.calls=0
+        def cache_key(self):return {'candidate':'counted Ridge'}
+        def __call__(self):
+            self.calls+=1
+            return [Candidate('Ridge',CountingFactory(.1,fits),config={'alpha':.1})]
+    source=Source()
+    original=PreTrainingAnalysis.run
+    def counted_preanalysis(self,*args,**kwargs):
+        preparations.append(1)
+        return original(self,*args,**kwargs)
+    monkeypatch.setattr(PreTrainingAnalysis,'run',counted_preanalysis)
+    experiment=FootballExperiment('Invalid nested refit',output_dir=tmp_path)
+    with pytest.raises(ValueError,match='explicit Candidate'):
+        experiment.run(preparation,model_selection=ModelSelection(source,metrics='mse'),
+                       inner_plan_factory=inner_plan,
+                       refit_policy=RefitPolicy(np.arange(len(data.X)),candidate=refit_candidate))
+    observed={'source_calls':source.calls,'fits':len(fits),'preanalysis_calls':len(preparations),
+              'records':len(experiment.store.read_runs()),
+              'run_groups':len(list((experiment.store.path/'run-groups').iterdir())),
+              'run_artifacts':len(list((experiment.store.path/'runs').iterdir()))}
+    assert observed==dict.fromkeys(observed,0)
 
 
 @pytest.mark.parametrize('described',[False,True])
