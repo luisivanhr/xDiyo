@@ -13,6 +13,7 @@ import pytest
 from football_experiment_samples import prepared, ridge
 from model_selection_samples import FixedAdapter, sample
 from test_football_experiment_search import CountingFactory
+from test_post_training_experiments import computed_run
 from xdiyo_analytics.analysis import PostTrainingAnalysis
 from xdiyo_analytics.experiments import FootballExperiment, PreparedExperiment
 from xdiyo_analytics.experiments.store import configuration_hash
@@ -132,6 +133,20 @@ def axis_table(problem, empty=False):
     elif problem == 'nanosecond_datetime_index':
         table.index = pd.DatetimeIndex([pd.Timestamp('2024-01-01T00:00:00.000000001'),
                                         pd.Timestamp('2024-01-01T00:00:00.000000002')])
+    elif problem in ('uint64_index', 'int16_index', 'float32_index'):
+        dtype = problem.removesuffix('_index')
+        table.index = pd.Index([2**63 + 1, 2**63 + 2] if dtype == 'uint64' else [1, 2], dtype=dtype)
+    elif problem == 'categorical_index':
+        table.index = pd.CategoricalIndex(['home', 'away'], categories=['home', 'draw', 'away'], ordered=True)
+    elif problem == 'stepped_range_index':
+        table.index = pd.RangeIndex(3, 7, 2)
+    elif problem == 'nondefault_string_index':
+        storage = 'python' if pd.api.types.pandas_dtype('string').storage == 'pyarrow' else 'pyarrow'
+        table.index = pd.Index(['home', 'away'], dtype=pd.StringDtype(storage=storage))
+    elif problem == 'object_integer_index':
+        table.index = pd.Index([1, 2], dtype=object)
+    elif problem == 'float_precision_index':
+        table.index = pd.Index([1.00000000001, 1.00000000002])
     elif problem == 'multiindex':
         table.index = pd.MultiIndex.from_tuples([('match', 5), ('match', 8)], names=['event', 'event'])
     else:
@@ -150,6 +165,17 @@ class AxisTableReporter(PredictionReporter):
             'axes': axis_table(self.problem, self.empty)})
 
 
+class AxisHistoryAdapter(FixedAdapter):
+    def __init__(self, problem, empty):
+        super().__init__()
+        self.problem, self.empty = problem, empty
+
+    def fit(self, context):
+        super().fit(context)
+        self.training_history_ = axis_table(self.problem, self.empty)
+        return self
+
+
 @pytest.mark.parametrize(('problem', 'empty'), [
     (problem, empty)
     for problem in ('tuple_columns', 'duplicate_columns', 'integer_columns', 'mixed_columns', 'named_columns',
@@ -158,24 +184,46 @@ class AxisTableReporter(PredictionReporter):
 ] + [(problem, False) for problem in (
     'column_index_collision', 'unnamed_index_collision', 'reserved_index_name',
     'integer_index_name', 'duplicate_index', 'tuple_index', 'date_index', 'timedelta_index',
-    'numpy_datetime_index', 'numpy_timedelta_index', 'nanosecond_datetime_index', 'multiindex')])
+    'numpy_datetime_index', 'numpy_timedelta_index', 'nanosecond_datetime_index', 'multiindex',
+    'uint64_index', 'int16_index', 'float32_index', 'categorical_index',
+    'nondefault_string_index', 'object_integer_index', 'float_precision_index')])
 def test_report_axes_round_trip_through_experiment_and_numerical_artifacts(tmp_path, problem, empty):
     experiment = FootballExperiment('Table axes', output_dir=tmp_path)
     report = PostTrainingAnalysis({'axes': AxisTableReporter(
         type='overall', partition='score', problem=problem, empty=empty)})
-    result = experiment.run(prepared(holdout=True), model=ridge(), post_analysis=report)
+    model = Candidate('Axis history', partial(AxisHistoryAdapter, problem, empty),
+                      config={'problem': problem, 'empty': empty})
+    result = experiment.run(prepared(holdout=True), model=model, post_analysis=report)
     raw = json.loads((result.path / 'tables.json').read_text(encoding='utf-8'))
     by_name = {item['name']: item['table'] for item in raw}
     assert by_name['ordinary']['data'] == [{'index': 0, 'count': 2}]
     record = experiment.store.save_run(result.training, result.post_report, name='Numerical axes', config={})
     expected = axis_table(problem, empty)
-    for loaded in (experiment.load(result.record['run_id']).post_report,
-                   experiment.store.load_run(record['run_id'])['report']):
-        actual = loaded.studies[0].result.tables['axes']
-        pd.testing.assert_frame_equal(actual, expected)
+    modern, numerical = experiment.load(result.record['run_id']), experiment.store.load_run(record['run_id'])
+    for actual in (modern.post_report.studies[0].result.tables['axes'], modern.training.folds[0].training_history,
+                   numerical['report'].studies[0].result.tables['axes'], numerical['training'].folds[0].training_history):
+        pd.testing.assert_frame_equal(actual, expected, check_exact=True)
         assert [type(label) for label in actual.columns] == [type(label) for label in expected.columns]
         assert [type(label) for label in actual.index] == [type(label) for label in expected.index]
+        assert pack(actual.index) == pack(expected.index)
     assert by_name['axes']['encoding'] == 'xdiyo.data-only.v1'
+
+
+@pytest.mark.parametrize('index', [pd.RangeIndex(3, 7, 2), pd.RangeIndex(3, 1, -1),
+                                  pd.period_range('2024-01', periods=2, freq='M')])
+def test_working_range_and_period_index_numerical_formats_remain_plain(tmp_path, index):
+    experiment = FootballExperiment('Working index schemas', output_dir=tmp_path)
+    training, report = computed_run()
+    expected = pd.DataFrame({'value': [.25, .75]}, index=index)
+    training.folds[0].training_history = expected
+    report.studies[0].result.tables['index_schema'] = expected
+    record = experiment.store.save_run(training, report, name='Numerical schemas', config={})
+    folder = experiment.store.path / 'runs' / record['run_id']
+    raw = json.loads((folder / 'training.json').read_text())
+    assert 'encoding' not in raw[0]['history'] and 'data' in raw[0]['history']
+    loaded = experiment.store.load_run(record['run_id'])
+    pd.testing.assert_frame_equal(loaded['training'].folds[0].training_history, expected)
+    pd.testing.assert_frame_equal(loaded['report'].studies[0].result.tables['index_schema'], expected)
 
 
 def cell_table(kind, empty=False):
@@ -228,6 +276,8 @@ def cell_table(kind, empty=False):
         values = pd.Series([pd.Timestamp('2024-01-01T00:00:00.000000001Z'), pd.NaT])
     elif kind == 'datetime_unit':
         values = pd.Series([pd.Timestamp('2024-01-01'), pd.NaT], dtype='datetime64[us]')
+    elif kind in ('complex64', 'complex128'):
+        values = pd.Series([1 + 2j, 3 - 4j], dtype=kind)
     else:
         raise AssertionError(kind)
     table = values.to_frame('value')
@@ -287,12 +337,14 @@ def test_typed_report_cells_and_history_survive_both_public_loaders(tmp_path, ki
         pd.testing.assert_frame_equal(actual, expected, check_exact=True)
         # pandas equality treats tuple/list cells as equivalent; the data-only
         # representation also checks the actual nested container/scalar types.
-        assert pack(actual) == pack(expected)
+        assert pack(actual.reset_index(drop=True)) == pack(expected.reset_index(drop=True))
     raw = json.loads((result.path / 'tables.json').read_text())
     tables = {item['name']: item['table'] for item in raw}
     # Object string categories are already the inferred ordinary dtype on
     # pandas 2, whereas pandas 3 needs the tag to retain them as object.
-    if kind != 'object_category':
+    if kind == 'object_category' and 'encoding' not in tables['cells']:
+        assert 'schema' in tables['cells'] and 'data' in tables['cells']
+    else:
         assert tables['cells']['encoding'] == 'xdiyo.data-only.v1'
     assert 'encoding' not in tables['ordinary']
     assert tables['ordinary']['data'][0]['value'] == .1234567891
@@ -301,6 +353,165 @@ def test_typed_report_cells_and_history_survive_both_public_loaders(tmp_path, ki
     original = ordinary_cell_table()
     original.loc[0, 'value'] = .1234567891
     pd.testing.assert_frame_equal(numerical['report'].studies[0].result.tables['ordinary'], original, check_exact=True)
+
+
+def complex_artifact_table(dtype, artifact, empty):
+    values = pd.Series([1 + 2j, 3 - 4j], dtype=dtype)
+    if artifact == 'index':
+        table = pd.DataFrame({'value': [1, 2]}, index=pd.Index(values, dtype=values.dtype))
+    elif artifact == 'category':
+        table = pd.DataFrame({'value': pd.Categorical(values, categories=values)})
+    else:
+        table = values.to_frame('value')
+    return table.iloc[:0] if empty else table
+
+
+@dataclass(kw_only=True)
+class ComplexTableReporter(PredictionReporter):
+    dtype: str
+    artifact: str
+    empty: bool
+
+    def run(self, context):
+        return StudyResult('Unsupported complex', tables={
+            'complex': complex_artifact_table(self.dtype, self.artifact, self.empty)})
+
+
+@pytest.mark.parametrize('dtype', ['complex64', 'complex128'])
+@pytest.mark.parametrize('empty', [False, True])
+@pytest.mark.parametrize('artifact', ['report', 'history', 'index', 'category'])
+def test_complex_tables_fail_before_publication_or_recovery(tmp_path, monkeypatch, dtype, empty, artifact):
+    experiment = FootballExperiment('Unsupported complex artifacts', output_dir=tmp_path)
+    training, report = computed_run()
+    table = complex_artifact_table(dtype, artifact, empty)
+    if artifact == 'history':
+        training.folds[0].training_history = table
+    else:
+        report.studies[0].result.tables['complex'] = table
+    with pytest.raises(TypeError, match='Unsupported complex table dtype'):
+        experiment.store.save_run(training, report, name='Numerical complex', config={})
+    assert experiment.store.read_runs() == []
+
+    def unexpected_recovery(*args, **kwargs):
+        raise AssertionError('Unsupported table reached recovery bundle writing')
+
+    monkeypatch.setattr('xdiyo_analytics.experiments.recovery.dump_bundle', unexpected_recovery)
+    model = (Candidate('Complex history', partial(CellHistoryAdapter, dtype, empty))
+             if artifact == 'history' else ridge())
+    post = (PostTrainingAnalysis({'complex': ComplexTableReporter(
+        type='overall', partition='score', dtype=dtype, artifact=artifact, empty=empty)})
+        if artifact != 'history' else None)
+    with pytest.raises(TypeError, match='Unsupported complex table dtype'):
+        experiment.run(prepared(holdout=True), model=model, post_analysis=post)
+    assert experiment.store.read_runs() == []
+
+
+@pytest.mark.parametrize('value', [np.datetime64(1, 'ns'), np.datetime64(1, 'D'), np.datetime64(1, '2h'),
+    np.timedelta64(1, 'ns'), np.timedelta64(1, 'D'), np.timedelta64(1, '2h'),
+    np.datetime64('NaT'), np.datetime64('NaT', 'ns'), np.timedelta64('NaT'), np.timedelta64('NaT', 'h')])
+def test_numpy_temporal_configuration_hash_preserves_scalar_kind_unit_and_nat(value):
+    current = configuration_hash({'value': value})
+    assert current == configuration_hash({'value': np.array(value, dtype=value.dtype)[()]})
+    assert current != configuration_hash({'value': int(value.astype('int64'))})
+    assert current != configuration_hash({'value': None})
+    other_dtype = np.dtype('timedelta64[ns]' if value.dtype.kind == 'M' else 'datetime64[ns]')
+    assert current != configuration_hash({'value': np.asarray(value.astype('int64')).astype(other_dtype)[()]})
+    different_unit = np.dtype('datetime64[ms]' if value.dtype.kind == 'M' else 'timedelta64[ms]')
+    assert current != configuration_hash({'value': np.asarray(value.astype('int64')).astype(different_unit)[()]})
+
+
+@pytest.mark.parametrize('dtype', ['datetime64[ns]', 'datetime64[D]', 'timedelta64[ns]', 'timedelta64[2h]'])
+@pytest.mark.parametrize('shape', [(), (2,), (1, 2), (0, 2)])
+def test_numpy_temporal_configuration_arrays_retain_dtype_shape_and_nat(dtype, shape):
+    counts = np.arange(int(np.prod(shape)), dtype='int64').reshape(shape)
+    if counts.size:
+        counts.flat[-1] = np.iinfo('int64').min
+    values = counts.astype(dtype)
+    digest = configuration_hash({'values': values})
+    assert digest == configuration_hash({'values': values.copy()})
+    assert digest != configuration_hash({'values': counts})
+    other_shape = (0, 3) if not counts.size else ((1,) if shape == () else (counts.size, 1))
+    assert digest != configuration_hash({'values': values.reshape(other_shape)})
+    other_dtype = 'timedelta64[ms]' if values.dtype.kind == 'M' else 'datetime64[ms]'
+    assert digest != configuration_hash({'values': counts.astype(other_dtype)})
+    if shape == ():
+        assert digest != configuration_hash({'values': values[()]})
+
+
+@pytest.mark.parametrize('value', [np.array('NaT', dtype='datetime64'), np.array(['NaT'], dtype='timedelta64'),
+                                  np.empty((0, 2), dtype='datetime64')])
+def test_unitless_temporal_configuration_arrays_keep_nat_and_empty_shape(value):
+    digest = configuration_hash({'value': value})
+    assert digest == configuration_hash({'value': value.copy()})
+    assert digest != configuration_hash({'value': value.tolist()})
+    assert digest != configuration_hash({'value': value.astype('int64')})
+
+
+def test_temporal_config_descriptors_persist_through_experiment_and_numerical_store(tmp_path):
+    preparation = prepared(holdout=True)
+    preparation.config = {'cutoff': np.datetime64(3, 'D'), 'windows': np.array([1, 2], dtype='timedelta64[2h]')}
+    model = ridge()
+    model.config.update(delay=np.timedelta64(5, 'ms'), missing=np.datetime64('NaT'))
+    run_config = {'epoch': np.asarray(np.datetime64('NaT', 'ns')), 'nested': [np.timedelta64(2, 'h')]}
+    experiment = FootballExperiment('Temporal configuration', output_dir=tmp_path)
+    result = experiment.run(preparation, model=model, config=run_config)
+    config = result.record['config']
+    assert config['preparation']['cutoff'] == {'__numpy_temporal__': {'dtype': 'datetime64[D]', 'ticks': 3}}
+    assert config['preparation']['windows'] == {'__numpy_temporal_array__': {
+        'dtype': 'timedelta64[2h]', 'shape': [2], 'ticks': [1, 2]}}
+    assert config['model']['delay'] == {'__numpy_temporal__': {'dtype': 'timedelta64[ms]', 'ticks': 5}}
+    assert config['model']['missing'] == {'__numpy_temporal__': {
+        'dtype': 'datetime64', 'ticks': np.iinfo('int64').min}}
+    assert config['run']['epoch'] == {'__numpy_temporal_array__': {
+        'dtype': 'datetime64[ns]', 'shape': [], 'ticks': np.iinfo('int64').min}}
+    assert config['run']['nested'][0] == {'__numpy_temporal__': {'dtype': 'timedelta64[h]', 'ticks': 2}}
+    loaded = experiment.load(result.record['run_id'])
+    assert loaded.record['config'] == config
+    assert pack(loaded.prepared.config) == pack(preparation.config)
+    original_config = {'preparation': preparation.config, 'model': model.config, 'run': run_config}
+    record = experiment.store.save_run(result.training, result.post_report, name='Numerical temporal config',
+                                       config=original_config)
+    assert experiment.store.load_run(record['run_id'])['record']['config'] == {
+        key: config[key] for key in original_config}
+    assert record['config_hash'] == configuration_hash(original_config)
+    assert record['config_hash'] == configuration_hash(record['config'])
+
+
+def temporal_summary(kind):
+    values = {
+        'coarse': np.timedelta64(2, 'D'),
+        'nanoseconds': np.datetime64('2024-01-01T00:00:00.000000001', 'ns'),
+        'nested': [np.timedelta64('NaT', 'h'), {'cutoff': np.datetime64(3, 'D')}],
+        'array': np.array([[1, np.iinfo('int64').min]], dtype='int64').astype('timedelta64[2h]'),
+        'object_array': np.array([np.datetime64('NaT', 'ns')], dtype=object),
+    }
+    return {'n_iter': 3, 'value': values[kind],
+            'literal': {'__numpy_temporal__': {'dtype': 'user data', 'ticks': 7}}}
+
+
+class TemporalSummaryAdapter(FixedAdapter):
+    def __init__(self, kind):
+        super().__init__()
+        self.kind = kind
+
+    def fit(self, context):
+        super().fit(context)
+        self.training_summary_ = temporal_summary(self.kind)
+        return self
+
+
+@pytest.mark.parametrize('kind', ['coarse', 'nanoseconds', 'nested', 'array', 'object_array'])
+def test_temporal_summaries_keep_data_only_types_separate_from_config_descriptors(tmp_path, kind):
+    experiment = FootballExperiment('Temporal summary types', output_dir=tmp_path)
+    result = experiment.run(prepared(holdout=True), model=Candidate(
+        'Temporal summary', partial(TemporalSummaryAdapter, kind), config={'kind': kind}))
+    record = experiment.store.save_run(result.training, result.post_report, name='Numerical summary types', config={})
+    raw = json.loads((experiment.store.path / 'runs' / record['run_id'] / 'training.json').read_text())
+    assert raw[0]['summary_encoding'] == 'xdiyo.data-only.v1'
+    modern, numerical = experiment.load(result.record['run_id']), experiment.store.load_run(record['run_id'])
+    for summary in (modern.training.folds[0].training_summary, numerical['training'].folds[0].training_summary):
+        assert pack(summary) == pack(temporal_summary(kind))
+        assert summary['literal'] == {'__numpy_temporal__': {'dtype': 'user data', 'ticks': 7}}
 
 
 def rich_summary(kind):

@@ -49,6 +49,8 @@ def _plain_table_cell(value):
 def _plain_table_column(values):
     """Whether table JSON retains a column's supported dtype and cell types."""
     dtype = values.dtype
+    if dtype.kind == "c":
+        raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
     # Duration JSON cannot be read; datetime JSON loses units/sub-ms precision.
     if dtype.kind in "mM":
         return False
@@ -76,15 +78,21 @@ def _plain_table_column(values):
 
 def _table_document(table):
     """Keep ordinary table JSON when it can preserve the axes and typed cells."""
+    for dtype in table.dtypes:
+        if dtype.kind == "c":
+            raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
     columns, index = table.columns, table.index
     # Table JSON uses columns/index names as record keys. Duplicate or typed
     # labels can silently collapse, change type, or make pandas' reader fail.
     plain_columns = type(columns) is pd.Index or (isinstance(columns, pd.RangeIndex) and not len(columns))
-    # Date/time JSON loses types, units or sub-ms precision; pandas cannot read
-    # its table JSON for durations, including empty axes.
-    plain_index = (not isinstance(index, (pd.TimedeltaIndex, pd.DatetimeIndex))
+    # Reuse column dtype checks for index fields. Keep pandas' working period
+    # schema (Period scalars are outside the recovery codec) and RangeIndex.
+    # Float labels need exact identity, unlike rounded numerical table values.
+    plain_index = ((type(index) is pd.Index or isinstance(index, (pd.RangeIndex, pd.PeriodIndex)))
+                   and (isinstance(index, pd.PeriodIndex) or _plain_table_column(pd.Series(index, dtype=index.dtype)))
                    and all(pd.api.types.is_scalar(label)
-                           and not isinstance(label, (date, timedelta, np.datetime64, np.timedelta64))
+                           and not isinstance(label, (date, timedelta, np.datetime64, np.timedelta64,
+                                                      float, np.floating))
                            for label in index))
     plain_axes = (plain_columns and columns.name is None and columns.is_unique
                   and all(isinstance(label, str) for label in columns)
@@ -98,14 +106,23 @@ def _table_document(table):
     return json.loads(table.to_json(orient="table", date_format="iso"))
 
 
-def _json(value, *, missing=False):
+def _json(value, *, missing=False, temporal_descriptors=True):
     """Canonical supported configuration values; never unstable object reprs."""
     if value is None or value is pd.NA or value is pd.NaT:
         return None
+    if isinstance(value, (np.datetime64, np.timedelta64)):
+        if not temporal_descriptors:
+            raise TypeError("NumPy temporal summaries require data-only encoding.")
+        return {"__numpy_temporal__": {"dtype": str(value.dtype), "ticks": int(value.astype("int64"))}}
     if isinstance(value, np.generic):
-        return _json(value.item(), missing=missing)
+        return _json(value.item(), missing=missing, temporal_descriptors=temporal_descriptors)
     if isinstance(value, np.ndarray):
-        return _json(value.tolist(), missing=missing)
+        if value.dtype.kind in "mM":
+            if not temporal_descriptors:
+                raise TypeError("NumPy temporal summaries require data-only encoding.")
+            return {"__numpy_temporal_array__": {"dtype": str(value.dtype), "shape": list(value.shape),
+                                                 "ticks": value.astype("int64").tolist()}}
+        return _json(value.tolist(), missing=missing, temporal_descriptors=temporal_descriptors)
     if isinstance(value, (str, bool, int)):
         return value
     if isinstance(value, float):
@@ -120,13 +137,14 @@ def _json(value, *, missing=False):
         return str(value)
     if is_dataclass(value) and not isinstance(value, type):
         return {"__type__": f"{type(value).__module__}.{type(value).__qualname__}",
-                "fields": {key: _json(getattr(value, key), missing=missing) for key in value.__dataclass_fields__}}
+                "fields": {key: _json(getattr(value, key), missing=missing, temporal_descriptors=temporal_descriptors)
+                           for key in value.__dataclass_fields__}}
     if isinstance(value, dict):
         if any(not isinstance(key, str) for key in value):
             raise TypeError("Configuration dictionary keys must be strings.")
-        return {key: _json(item, missing=missing) for key, item in value.items()}
+        return {key: _json(item, missing=missing, temporal_descriptors=temporal_descriptors) for key, item in value.items()}
     if isinstance(value, (tuple, list)):
-        return [_json(item, missing=missing) for item in value]
+        return [_json(item, missing=missing, temporal_descriptors=temporal_descriptors) for item in value]
     raise TypeError(f"Cannot record {type(value).__name__}; provide a descriptive configuration mapping.")
 
 
@@ -284,7 +302,7 @@ class ExperimentStore:
             try:
                 # Keep the historical summary shape and null handling whenever
                 # the existing JSON conversion accepts it.
-                _json(fold.training_summary, missing=True)
+                _json(fold.training_summary, missing=True, temporal_descriptors=False)
             except (TypeError, ValueError):
                 from .recovery import pack
                 diagnostic["summary"] = pack(fold.training_summary)
