@@ -95,6 +95,16 @@ def catalog_for_ui():
     return catalog
 
 
+def _recipe_split_plan(dataset, splitter, options, cutoff_hours):
+    from ..splits import create_split_plan, TemporalSplit
+    options = dict(options)
+    if isinstance(splitter, TemporalSplit) and cutoff_hours is not None and 'cutoffs' not in options:
+        # Assembly and search subsets can pivot or drop history rows. Use their
+        # aligned timestamps; explicit cutoffs (including None) take precedence.
+        options['cutoffs'] = dataset.metadata.kickoff_at - pd.Timedelta(hours=float(cutoff_hours))
+    return create_split_plan(dataset, splitter, **options)
+
+
 def prepare_recipe(recipe, *, catalog=None, prediction=False):
     from ..data import load_seasons, select_stats
     from ..histories import build_team_history
@@ -102,7 +112,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False):
     from ..ratings import build_ratings
     from ..labels import create_labels
     from ..datasets import assemble_dataset
-    from ..splits import create_split_plan, SplitPlan
+    from ..splits import SplitPlan
     from ..experiments.football import PreparedExperiment
     from ..reporting import TeamCatalog
     recipe = validate_recipe(recipe)
@@ -145,7 +155,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False):
     if prediction:
         return data, dataset, context
     splitter = catalog.build(recipe['split'])
-    plan = splitter if isinstance(splitter, SplitPlan) else create_split_plan(dataset, splitter, **catalog.build(recipe.get('split_options', {}), context))
+    plan = (splitter if isinstance(splitter, SplitPlan) else
+            _recipe_split_plan(dataset, splitter, catalog.build(recipe.get('split_options', {}), context), hours))
     if recipe.get('fold_ids') is not None:
         ids = recipe['fold_ids']
         plan = SplitPlan([plan.folds[int(i)] for i in ids], plan.n_rows, plan.row_order,
@@ -212,10 +223,10 @@ class InnerPlan:
     spec: dict
     options: dict
     catalog: object
+    cutoff_hours: object = None
 
     def __call__(self, dataset):
-        from ..splits import create_split_plan
-        return create_split_plan(dataset, self.catalog.build(self.spec), **self.catalog.build(self.options))
+        return _recipe_split_plan(dataset, self.catalog.build(self.spec), self.catalog.build(self.options), self.cutoff_hours)
 
 
 def _grid_candidates(recipe, search, catalog, context):
@@ -301,7 +312,7 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
         candidates = (catalog.build(search['candidate_source'], context) if search.get('candidate_source') is not None
                       else _grid_candidates(recipe, search, catalog, context))
         options['model_selection'] = ModelSelection(candidates, **catalog.build(search.get('options', {}), context))
-        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog)
+        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog, recipe.get('cutoff_hours'))
         if search.get('nested', False):
             options['inner_plan_factory'] = inner
         else:

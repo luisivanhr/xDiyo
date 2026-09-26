@@ -1,0 +1,1002 @@
+{
+  "version": 1,
+  "name": "Example corners Lasso",
+  "output_dir": "experiments/example_bundles",
+  "config": {
+    "example": "corners_lasso",
+    "source_recipe_sha256": "f39afea22727d81fa21d9e1647bd66a04e51a93cc0a86eb01993a4c6b7db2dc6"
+  },
+  "team_badges": null,
+  "data": {
+    "data_root": "data/xDiyo_data",
+    "seasons": [
+      "20_21",
+      "21_22",
+      "22_23",
+      "23_24",
+      "24_25"
+    ],
+    "leagues": null,
+    "tables": [
+      "matches",
+      "statistics",
+      "pregame"
+    ],
+    "include_awarded": false,
+    "verify_hashes": true
+  },
+  "stat_selection": null,
+  "history": {},
+  "feature_options": {},
+  "cutoff_hours": null,
+  "ratings": {},
+  "features": {
+    "rolling_mean_corners_for_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.ForAgainst",
+          "params": {
+            "source": {
+              "component": "features.Stat",
+              "params": {
+                "period": "ALL",
+                "group": "Match overview",
+                "key": "cornerKicks"
+              }
+            }
+          }
+        },
+        "window": 10
+      }
+    },
+    "is_home": {
+      "component": "features.IsHome",
+      "params": {}
+    },
+    "rolling_mean_touches_in_opp_box_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Attack",
+            "key": "touchesInOppBox"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_errors_lead_to_shot_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "errorsLeadToShot"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_interception_won_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "interceptionWon"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_total_clearance_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalClearance"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_total_tackle_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalTackle"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_goal_kicks_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalKicks"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_goals_prevented_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalsPrevented"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_ball_possession_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "ballPossession"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_accurate_cross_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accurateCross"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_accurate_passes_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accuratePasses"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_final_third_entries_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "finalThirdEntries"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_passes_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "passes"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_shots_on_goal_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Shots",
+            "key": "shotsOnGoal"
+          }
+        },
+        "window": 10
+      }
+    },
+    "rolling_mean_corners_against_window_10": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "window": 10
+      }
+    },
+    "historical_corners_lag_1": {
+      "component": "features.Lag",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "periods": 1
+      }
+    },
+    "historical_corners_lag_2": {
+      "component": "features.Lag",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "periods": 2
+      }
+    },
+    "historical_corners_lag_3": {
+      "component": "features.Lag",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "periods": 3
+      }
+    },
+    "historical_corners_lag_4": {
+      "component": "features.Lag",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "periods": 4
+      }
+    },
+    "historical_corners_lag_5": {
+      "component": "features.Lag",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "periods": 5
+      }
+    },
+    "rolling_std_corners_against_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.ForAgainst",
+          "params": {
+            "source": {
+              "component": "features.Stat",
+              "params": {
+                "period": "ALL",
+                "group": "Match overview",
+                "key": "cornerKicks"
+              }
+            },
+            "side": "against"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "item_1": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.ForAgainst",
+          "params": {
+            "source": {
+              "component": "features.Stat",
+              "params": {
+                "period": "ALL",
+                "group": "Match overview",
+                "key": "cornerKicks"
+              }
+            }
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_z_corners_against_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.ForAgainst",
+          "params": {
+            "source": {
+              "component": "features.Stat",
+              "params": {
+                "period": "ALL",
+                "group": "Match overview",
+                "key": "cornerKicks"
+              }
+            },
+            "side": "against"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "item_2": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.ForAgainst",
+          "params": {
+            "source": {
+              "component": "features.Stat",
+              "params": {
+                "period": "ALL",
+                "group": "Match overview",
+                "key": "cornerKicks"
+              }
+            }
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_touches_in_opp_box_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Attack",
+            "key": "touchesInOppBox"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_errors_lead_to_shot_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "errorsLeadToShot"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_interception_won_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "interceptionWon"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_total_clearance_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalClearance"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_total_tackle_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalTackle"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_goal_kicks_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalKicks"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_goals_prevented_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalsPrevented"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_ball_possession_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "ballPossession"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_accurate_cross_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accurateCross"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_accurate_passes_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accuratePasses"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_final_third_entries_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "finalThirdEntries"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_passes_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "passes"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_std_shots_on_goal_window_10": {
+      "component": "features.RollingStd",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Shots",
+            "key": "shotsOnGoal"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_touches_in_opp_box_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Attack",
+            "key": "touchesInOppBox"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_errors_lead_to_shot_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "errorsLeadToShot"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_interception_won_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "interceptionWon"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_total_clearance_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalClearance"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_total_tackle_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Defending",
+            "key": "totalTackle"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_goal_kicks_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalKicks"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_goals_prevented_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Goalkeeping",
+            "key": "goalsPrevented"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_ball_possession_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "ballPossession"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_accurate_cross_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accurateCross"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_accurate_passes_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "accuratePasses"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_final_third_entries_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "finalThirdEntries"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_passes_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Passes",
+            "key": "passes"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "rolling_zscore_shots_on_goal_window_10": {
+      "component": "features.RollingZScore",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Shots",
+            "key": "shotsOnGoal"
+          }
+        },
+        "window": 10,
+        "min_periods": 2
+      }
+    },
+    "LOO_mean_corners": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.LeaveOneOut",
+          "params": {
+            "source": {
+              "component": "features.League",
+              "params": {
+                "source": {
+                  "component": "features.Stat",
+                  "params": {
+                    "period": "ALL",
+                    "group": "Match overview",
+                    "key": "cornerKicks"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "window": 10
+      }
+    },
+    "Glicko_wins": {
+      "component": "features.MatchResultGlicko",
+      "params": {
+        "engine": {
+          "component": "ratings.Glicko2",
+          "params": {
+            "initial_rating": 1500,
+            "initial_rd": 350,
+            "initial_sigma": 0.06,
+            "tau": 1,
+            "tolerance": 1e-06
+          }
+        },
+        "scope": [
+          "competition_id"
+        ]
+      }
+    }
+  },
+  "labels": {
+    "corners": {
+      "component": "labels.MatchTotal",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        }
+      }
+    }
+  },
+  "target": "corners",
+  "assembly": {
+    "layout": "match",
+    "drop_missing_targets": true
+  },
+  "split": {
+    "component": "splits.TemporalSplit",
+    "params": {
+      "train_size": 4,
+      "test_size": 1,
+      "window": "expanding",
+      "unit": "seasons",
+      "calendar_by": [],
+      "block_by": [
+        "source_season"
+      ],
+      "gap": 0,
+      "allow_partial_test": false
+    }
+  },
+  "split_options": {},
+  "fold_ids": null,
+  "pre_reporters": {
+    "Distribution": {
+      "component": "reporting.FeatureDistributionReporter",
+      "params": {
+        "type": "per_fold",
+        "partition": "train",
+        "features": []
+      }
+    }
+  },
+  "fitted_reporters": {
+    "Correlation": {
+      "component": "reporting.CorrelationAnalysis",
+      "params": {
+        "type": "overall",
+        "partition": "train",
+        "targets": [
+          "corners"
+        ],
+        "percentile_ranks": false
+      }
+    },
+    "Selector": {
+      "component": "reporting.TopKCorrelationSelector",
+      "params": {
+        "type": "per_fold",
+        "partition": "train",
+        "k": 0.8,
+        "method": "pearson",
+        "source": "Correlation",
+        "targets": [
+          "corners"
+        ]
+      }
+    }
+  },
+  "analysis_options": {
+    "pre": {},
+    "fitted": {},
+    "post": {}
+  },
+  "model": {
+    "component": "sklearn.linear_model.Lasso",
+    "params": {
+      "alpha": 0.1,
+      "max_iter": 5000,
+      "fit_intercept": false
+    }
+  },
+  "preprocessors": [
+    {
+      "component": "sklearn.impute.SimpleImputer",
+      "params": {
+        "strategy": "median"
+      }
+    },
+    {
+      "component": "sklearn.preprocessing.StandardScaler",
+      "params": {}
+    }
+  ],
+  "adapter": null,
+  "prediction_methods": [
+    "predict"
+  ],
+  "candidate": {},
+  "search": null,
+  "execution": {
+    "component": "training.ExecutionPolicy",
+    "params": {
+      "n_jobs": 1
+    }
+  },
+  "refit": null,
+  "checkpoint": null,
+  "post_reporters": {
+    "performance": {
+      "component": "reporting.PerformanceReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "metrics": [
+          "mse",
+          "mae"
+        ]
+      }
+    },
+    "matches": {
+      "component": "reporting.MatchResultReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "catalog": {
+          "ref": "team_catalog"
+        },
+        "show_badges": true,
+        "tolerance": 2,
+        "comparison": "auto"
+      }
+    },
+    "training curves": {
+      "component": "reporting.LearningCurveReporter",
+      "params": {
+        "type": "overall",
+        "partition": "model"
+      }
+    },
+    "coefficients": {
+      "component": "reporting.CoefficientReporter",
+      "params": {
+        "type": "per_fold",
+        "partition": "model",
+        "tolerance": 0.0001
+      }
+    }
+  },
+  "run": {
+    "reuse": true
+  },
+  "prediction": {
+    "model_path": "",
+    "rounds": null,
+    "statuses": [
+      "notstarted"
+    ],
+    "as_of": null
+  }
+}
