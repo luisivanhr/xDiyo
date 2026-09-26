@@ -57,6 +57,11 @@ def load_legacy(folder, record):
             metadata = decoded(metadata, info["fold_metadata_encoding"])
             if not isinstance(metadata, dict):
                 raise ValueError("Encoded fold metadata must contain a mapping.")
+        summary = info.get("summary", {})
+        if "summary_encoding" in info:
+            summary = decoded(summary, info["summary_encoding"])
+            if not isinstance(summary, dict):
+                raise ValueError("Encoded training summary must contain a mapping.")
         folds.append(FoldResult(
             item["fold_id"], None, np.asarray(item["train_positions"], dtype=int),
             np.asarray(item["test_positions"], dtype=int), np.asarray(item["score_positions"], dtype=int),
@@ -66,7 +71,7 @@ def load_legacy(folder, record):
             metadata, fit_positions=np.asarray(info.get("fit_positions", item["train_positions"]), dtype=int),
             validation_positions=np.asarray(info.get("validation_positions", []), dtype=int),
             training_history=frame(info["history"]) if "history" in info else pd.DataFrame(),
-            training_summary=info.get("summary", {})))
+            training_summary=summary))
     # Old records did not always retain match_columns; do not guess them from IDs.
     training = TrainingResult(folds, record.get("layout", "unknown"), tuple(record.get("identity_columns", [])),
                               tuple(record.get("match_columns", [])), record.get("target_perspective", "unknown")) if folds else None
