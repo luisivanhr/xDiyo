@@ -17,7 +17,7 @@ import pandas as pd
 
 def _pack_dtype(dtype):
     if isinstance(dtype, pd.StringDtype):
-        return {"kind": "string", "storage": dtype.storage, "na_value": pack(dtype.na_value)}
+        return {"kind": "string", "storage": dtype.storage, "na_value": pack(getattr(dtype, "na_value", pd.NA))}
     if isinstance(dtype, pd.CategoricalDtype):
         return {"kind": "categorical", "categories": pack(dtype.categories), "ordered": dtype.ordered}
     return str(dtype)
@@ -29,8 +29,12 @@ def _unpack_dtype(dtype):
         return dtype
     if dtype["kind"] == "string":
         na_value = unpack(dtype["na_value"])
-        # pandas 2.x does not accept na_value; its StringDtype uses pd.NA.
         if na_value is pd.NA:
+            return pd.StringDtype(storage=dtype["storage"])
+        # pandas 2.x cannot represent pandas 3's NaN string sentinel. Preserve
+        # storage, values and the null mask while adapting missing values to pd.NA.
+        if (isinstance(na_value, float) and np.isnan(na_value) and
+                "na_value" not in inspect.signature(pd.StringDtype).parameters):
             return pd.StringDtype(storage=dtype["storage"])
         return pd.StringDtype(storage=dtype["storage"], na_value=na_value)
     if dtype["kind"] == "categorical":

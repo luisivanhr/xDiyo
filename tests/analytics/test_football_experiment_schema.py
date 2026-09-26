@@ -1,9 +1,10 @@
+import inspect
 import json
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pytest
-from xdiyo_analytics.experiments.recovery import dump_bundle,load_bundle,pack,unpack
+from xdiyo_analytics.experiments.recovery import dump_bundle,load_bundle,pack,unpack,_pack_dtype
 
 @pytest.mark.parametrize('dtype,values',[
     ('Int64',[2**53+1,None,-3]),('UInt64',[2**63+9,None,7]),
@@ -72,3 +73,75 @@ def test_previous_tuple_multiindex_and_dtype_string_bundles_remain_readable(tmp_
     pd.testing.assert_series_equal(series,pd.Series(['home',None],dtype='string',name='label'))
     assert categories.cat.categories.tolist()==['away','draw','home'] and categories.cat.ordered
     pd.testing.assert_index_equal(multi,pd.MultiIndex.from_tuples([('outcome',0),('outcome',1)],names=['target','class']))
+
+
+@pytest.mark.parametrize('storage',['python','pyarrow'])
+@pytest.mark.parametrize('sentinel',['NA','nan'])
+def test_string_sentinel_values_mask_and_storage_roundtrip(tmp_path,storage,sentinel):
+    if storage=='pyarrow':pytest.importorskip('pyarrow')
+    supports_nan='na_value' in inspect.signature(pd.StringDtype).parameters
+    if sentinel=='nan' and not supports_nan:
+        pytest.skip('This pandas version cannot represent the NaN string sentinel.')
+    dtype=(pd.StringDtype(storage=storage,na_value=np.nan) if sentinel=='nan' else
+           pd.StringDtype(storage=storage))
+    series=pd.Series(['home',None,'away'],dtype=dtype,name='label')
+    payload={'series':series,'frame':series.to_frame(),'index':pd.Index(series.array,name='class')}
+    path=tmp_path/'string-sentinel.json';dump_bundle(path,payload)
+    restored=load_bundle(path)
+    pd.testing.assert_series_equal(restored['series'],series)
+    pd.testing.assert_frame_equal(restored['frame'],payload['frame'])
+    pd.testing.assert_index_equal(restored['index'],payload['index'])
+    for actual in (restored['series'],restored['frame']['label'],restored['index']):
+        assert actual.dtype.storage==storage
+        np.testing.assert_array_equal(pd.isna(actual),[False,True,False])
+        if sentinel=='NA':assert actual.dtype.na_value is pd.NA
+        else:assert np.isnan(actual.dtype.na_value)
+
+
+def archived_string_series(storage,sentinel='nan'):
+    dtype=(f'string[{storage}]' if sentinel=='legacy' else
+           {'kind':'string','storage':storage,'na_value':{'@':'NA'} if sentinel=='NA' else
+            {'@':'float','value':'nan'}})
+    return {'@':'series','index':{'@':'rangeindex','start':0,'stop':3,'step':1,'name':None},
+            'name':'label','values':['home',{'@':'float','value':'nan'},'away'],'dtype':dtype}
+
+
+@pytest.mark.parametrize('storage',['python','pyarrow'])
+@pytest.mark.parametrize('sentinel',['nan','NA','legacy'])
+def test_archived_string_descriptors_load_across_supported_pandas(tmp_path,storage,sentinel):
+    if storage=='pyarrow':pytest.importorskip('pyarrow')
+    path=tmp_path/'archived-string.json'
+    path.write_text(json.dumps({'schema':1,'payload':archived_string_series(storage,sentinel)}))
+    restored=load_bundle(path)
+    assert restored.name=='label' and restored.dtype.storage==storage
+    assert restored.dropna().tolist()==['home','away']
+    np.testing.assert_array_equal(restored.isna(),[False,True,False])
+    if sentinel=='nan' and 'na_value' in inspect.signature(pd.StringDtype).parameters:
+        assert np.isnan(restored.iloc[1]) and np.isnan(restored.dtype.na_value)
+    else:
+        assert restored.iloc[1] is pd.NA and restored.dtype.na_value is pd.NA
+
+
+@pytest.mark.parametrize('storage',['python','pyarrow'])
+def test_nan_string_descriptor_adapts_to_pandas2_constructor(monkeypatch,storage):
+    if storage=='pyarrow':pytest.importorskip('pyarrow')
+    original=pd.StringDtype
+    class Pandas2StringDtype(original):
+        def __init__(self,storage=None):
+            super().__init__(storage=storage)
+    with monkeypatch.context() as patch:
+        patch.setattr(pd,'StringDtype',Pandas2StringDtype)
+        restored=unpack(archived_string_series(storage))
+    assert restored.dtype.storage==storage and restored.dtype.na_value is pd.NA
+    assert restored.iloc[1] is pd.NA
+    assert restored.dropna().tolist()==['home','away']
+    np.testing.assert_array_equal(restored.isna(),[False,True,False])
+
+
+def test_encoding_string_dtype_without_explicit_missing_sentinel_defaults_to_na():
+    class LegacyStringDtype(pd.StringDtype):
+        @property
+        def na_value(self):
+            raise AttributeError('Legacy dtype exposes only its default missing sentinel')
+    assert _pack_dtype(LegacyStringDtype(storage='python'))=={
+        'kind':'string','storage':'python','na_value':{'@':'NA'}}

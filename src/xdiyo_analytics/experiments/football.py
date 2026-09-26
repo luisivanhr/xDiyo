@@ -251,6 +251,8 @@ class FootballExperiment:
         if model is not None and any(value is not None for value in (selection_plan, development_positions, inner_plan_factory)):
             raise ValueError("Selection scopes require model_selection.")
         nested = inner_plan_factory is not None
+        if nested and refit_policy is not None and not isinstance(refit_policy.candidate, Candidate):
+            raise ValueError("Refitting needs an explicit Candidate after nested selection.")
         if model_selection is not None:
             model_selection.validate_evidence()
             if nested and (selection_plan is not None or development_positions is not None):
