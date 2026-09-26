@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import inspect
 import json
 import numpy as np
@@ -424,3 +424,142 @@ def test_numpy_temporal_values_survive_saved_football_experiment_outputs(tmp_pat
     result=experiment.run(preparation,model=ridge())
     loaded=experiment.load(result.record['run_id'])
     assert_numpy_temporal_container_payload(loaded.prepared.outputs['numpy_temporal'],expected)
+
+
+
+def temporal_frequency_indexes():
+    from dateutil.relativedelta import MO
+    offsets={
+        'daily':pd.offsets.Day(), 'hourly':pd.offsets.Hour(2),
+        'month_end':pd.offsets.MonthEnd(), 'month_begin':pd.offsets.MonthBegin(2),
+        'business_day':pd.offsets.BusinessDay(),
+        'business_day_offset':pd.offsets.BusinessDay(offset=timedelta(minutes=30)),
+        'business_day_nanosecond':pd.offsets.BusinessDay(offset=pd.Timedelta('30min1ns')),
+        'business_month':pd.offsets.BusinessMonthEnd(),
+        'negative_normalized':pd.offsets.BusinessDay(-2,normalize=True),
+        'week':pd.offsets.Week(weekday=2),
+        'quarter':pd.offsets.QuarterBegin(startingMonth=2),
+        'year':pd.offsets.YearEnd(month=6),
+        'semi_month':pd.offsets.SemiMonthEnd(day_of_month=10),
+        'fiscal_year':pd.offsets.FY5253(weekday=5,startingMonth=8,variation='last'),
+        'relative_weekday':pd.DateOffset(days=2,weekday=MO(2)),
+        'business_hour':pd.offsets.BusinessHour(start=['09:30','13:00'],end=['12:00','16:30']),
+        'custom_business_day':pd.offsets.CustomBusinessDay(weekmask='Mon Tue Thu Fri',holidays=['2024-01-04']),
+        'custom_calendar':pd.offsets.CustomBusinessDay(calendar=np.busdaycalendar(
+            weekmask='Tue Thu',holidays=['2024-01-04','2025-01-02'])),
+        'custom_business_month':pd.offsets.CustomBusinessMonthBegin(
+            weekmask='Tue Wed Thu',holidays=['2024-02-01']),
+        'custom_business_hour':pd.offsets.CustomBusinessHour(weekmask='Mon Tue Thu Fri',
+            holidays=['2024-01-04'],start='10:30',end='15:30'),
+    }
+    result={name:pd.date_range('2024-01-03',periods=4,freq=offset,name='date')
+            for name,offset in offsets.items()}
+    result.update({
+        'dst_daily':pd.date_range('2024-03-08',periods=5,freq='D',tz='America/New_York',name='date'),
+        'dst_hourly':pd.date_range('2024-11-03',periods=5,freq='h',tz='America/New_York',name='date'),
+        'duration_daily':pd.timedelta_range('-1D',periods=4,freq='D',name='elapsed'),
+        'duration_hourly':pd.timedelta_range('-1h',periods=4,freq='2h',name='elapsed'),
+        'duration_negative':pd.timedelta_range('1h',periods=4,freq='-3ns',name='elapsed'),
+        'regular_no_frequency':pd.DatetimeIndex(['2024-01-01','2024-01-02','2024-01-03'],freq=None),
+        'irregular_no_frequency':pd.DatetimeIndex(['2024-01-01','2024-01-02','2024-01-05'],freq=None),
+        'duration_regular_no_frequency':pd.TimedeltaIndex(['1h','2h','3h'],freq=None),
+        'duration_irregular_no_frequency':pd.TimedeltaIndex(['1h','2h','5h'],freq=None),
+    })
+    return result
+
+
+def assert_temporal_index_frequency(actual,expected):
+    pd.testing.assert_index_equal(actual,expected,exact=True)
+    assert type(actual.freq) is type(expected.freq)
+    assert actual.freq==expected.freq
+    if expected.freq is not None:
+        assert actual.freq.n==expected.freq.n and actual.freq.normalize==expected.freq.normalize
+        if 'calendar' in expected.freq.kwds:
+            np.testing.assert_array_equal(actual.freq.calendar.weekmask,expected.freq.calendar.weekmask)
+            np.testing.assert_array_equal(actual.freq.calendar.holidays,expected.freq.calendar.holidays)
+        for key in ('offset','start','end','weekday'):
+            if key in expected.freq.kwds:
+                assert actual.freq.kwds[key]==expected.freq.kwds[key]
+
+
+@pytest.mark.parametrize('name',list(temporal_frequency_indexes()))
+def test_temporal_index_frequency_keeps_offset_parameters_and_none(name):
+    index=temporal_frequency_indexes()[name]
+    for expected in (index,index[:1],index[:0]):
+        encoded=pack(expected)
+        assert 'freq' in encoded
+        if expected.freq is None:assert encoded['freq'] is None
+        actual=unpack(json.loads(json.dumps(encoded,allow_nan=False)))
+        assert_temporal_index_frequency(actual,expected)
+
+
+@pytest.mark.parametrize('kind',['daily','duration_hourly'])
+def test_legacy_temporal_index_does_not_infer_absent_frequency(kind):
+    expected=temporal_frequency_indexes()[kind]
+    archived=pack(expected)
+    del archived['freq']
+    actual=unpack(archived)
+    pd.testing.assert_index_equal(actual,expected)
+    assert actual.freq is None
+
+
+def test_frequency_descriptors_reject_unknown_constructors_and_non_temporal_indexes():
+    encoded=pack(pd.date_range('2024-01-01',periods=2,freq='D'))
+    encoded['freq']['name']='__import__'
+    with pytest.raises(ValueError,match='Unsupported recovery frequency'):unpack(encoded)
+    encoded=pack(pd.Index([1,2]))
+    encoded['freq']=None
+    with pytest.raises(ValueError,match='datetime or timedelta index'):unpack(encoded)
+    encoded=pack(pd.timedelta_range('0h',periods=2,freq='h'))
+    encoded['freq']=pack(pd.date_range('2024-01-01',periods=2,freq=pd.offsets.MonthEnd()))['freq']
+    with pytest.raises(ValueError,match='fixed offset'):unpack(encoded)
+    class CustomDay(pd.offsets.Day):
+        def __reduce__(self):
+            raise AssertionError('Recovery must not pickle frequency objects')
+    index=pd.date_range('2024-01-01',periods=2,freq=CustomDay())
+    with pytest.raises(TypeError,match='data-only pandas offsets'):pack(index)
+
+
+def frequency_container_payload():
+    dates=temporal_frequency_indexes()['custom_calendar']
+    durations=pd.timedelta_range('0h',periods=4,freq='2h',name='elapsed')
+    frame=pd.DataFrame(np.arange(16).reshape(4,4),index=dates,columns=durations)
+    frame.attrs={'calendar':dates}
+    series=pd.Series(range(4),index=durations,name='value')
+    levels=pd.MultiIndex(levels=[dates,durations],codes=[[0,1],[0,1]],names=['date','elapsed'])
+    level_frame=pd.DataFrame([[1,2]],columns=levels)
+    return {'dates':dates,'durations':durations,'frame':frame,'series':series,
+            'levels':levels,'level_frame':level_frame}
+
+
+def assert_frequency_container_payload(actual,expected):
+    for key in ('dates','durations'):assert_temporal_index_frequency(actual[key],expected[key])
+    pd.testing.assert_frame_equal(actual['frame'],expected['frame'])
+    pd.testing.assert_series_equal(actual['series'],expected['series'])
+    pd.testing.assert_frame_equal(actual['level_frame'],expected['level_frame'])
+    assert_temporal_index_frequency(actual['frame'].index,expected['frame'].index)
+    assert_temporal_index_frequency(actual['frame'].columns,expected['frame'].columns)
+    assert_temporal_index_frequency(actual['series'].index,expected['series'].index)
+    assert_temporal_index_frequency(actual['frame'].attrs['calendar'],expected['dates'])
+    for restored,original in [(actual['levels'],expected['levels']),
+                              (actual['level_frame'].columns,expected['level_frame'].columns)]:
+        pd.testing.assert_index_equal(restored,original)
+        for a,b in zip(restored.levels,original.levels):assert_temporal_index_frequency(a,b)
+
+
+def test_temporal_frequency_survives_frames_series_columns_levels_and_bundle(tmp_path):
+    expected=frequency_container_payload()
+    path=tmp_path/'frequencies.json';dump_bundle(path,expected)
+    assert_frequency_container_payload(load_bundle(path),expected)
+
+
+def test_temporal_frequency_survives_saved_football_experiment_outputs(tmp_path):
+    from football_experiment_samples import prepared,ridge
+    from xdiyo_analytics.experiments import FootballExperiment
+    preparation=prepared(holdout=True)
+    expected=frequency_container_payload()
+    preparation.outputs['frequencies']=expected
+    experiment=FootballExperiment('Frequency output fidelity',output_dir=tmp_path)
+    result=experiment.run(preparation,model=ridge())
+    loaded=experiment.load(result.record['run_id'])
+    assert_frequency_container_payload(loaded.prepared.outputs['frequencies'],expected)

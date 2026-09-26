@@ -1,7 +1,7 @@
 """Data-only recovery bundles and automatic execution identities (no model pickle)."""
 
 from dataclasses import fields, is_dataclass
-from datetime import datetime, date
+from datetime import datetime, date, time, timedelta
 from functools import partial
 import hashlib
 import importlib
@@ -13,6 +13,61 @@ import types
 
 import numpy as np
 import pandas as pd
+from dateutil.relativedelta import weekday as relative_weekday
+
+
+# Fixed public constructors only: frequency metadata cannot name imports or
+# arbitrary user-defined offset classes.
+_FREQUENCY_OFFSETS = {name: getattr(pd.offsets, name) for name in (
+    "DateOffset", "Day", "Hour", "Minute", "Second", "Milli", "Micro", "Nano",
+    "BusinessDay", "BusinessHour", "CustomBusinessDay", "CustomBusinessHour",
+    "MonthBegin", "MonthEnd", "BusinessMonthBegin", "BusinessMonthEnd",
+    "CustomBusinessMonthBegin", "CustomBusinessMonthEnd", "SemiMonthBegin", "SemiMonthEnd",
+    "QuarterBegin", "QuarterEnd", "BQuarterBegin", "BQuarterEnd", "YearBegin", "YearEnd",
+    "BYearBegin", "BYearEnd", "Week", "WeekOfMonth", "LastWeekOfMonth", "Easter", "FY5253", "FY5253Quarter",
+)}
+
+
+def _pack_frequency(frequency):
+    if frequency is None:
+        return None
+    name = type(frequency).__name__
+    if _FREQUENCY_OFFSETS.get(name) is not type(frequency):
+        raise TypeError(f"Recovery cannot encode {name} frequency; use data-only pandas offsets.")
+    parameters = frequency.kwds.copy()
+    if type(parameters.get("weekday")) is relative_weekday:
+        weekday = parameters["weekday"]
+        parameters["weekday"] = {"weekday": weekday.weekday, "n": weekday.n}
+    if type(parameters.get("offset")) is timedelta:
+        offset = parameters["offset"]
+        parameters["offset"] = {"days": offset.days, "seconds": offset.seconds, "microseconds": offset.microseconds}
+    for key in ("start", "end"):
+        if key in parameters:
+            parameters[key] = [item.isoformat() for item in parameters[key]]
+    if "calendar" in parameters:
+        calendar = parameters["calendar"]
+        # A supplied calendar can differ from the offset's exposed weekmask.
+        parameters["calendar"] = {"weekmask": calendar.weekmask.tolist(), "holidays": calendar.holidays}
+    return {"name": name, "n": frequency.n, "normalize": frequency.normalize, "kwds": pack(parameters)}
+
+
+def _unpack_frequency(value):
+    if value is None:
+        return None
+    constructor = _FREQUENCY_OFFSETS.get(value["name"])
+    if constructor is None:
+        raise ValueError(f"Unsupported recovery frequency {value['name']!r}.")
+    parameters = unpack(value["kwds"])
+    if isinstance(parameters.get("weekday"), dict):
+        parameters["weekday"] = relative_weekday(**parameters["weekday"])
+    if isinstance(parameters.get("offset"), dict):
+        parameters["offset"] = timedelta(**parameters["offset"])
+    for key in ("start", "end"):
+        if key in parameters:
+            parameters[key] = tuple(time.fromisoformat(item) for item in parameters[key])
+    if "calendar" in parameters:
+        parameters["calendar"] = np.busdaycalendar(**parameters["calendar"])
+    return constructor(n=value["n"], normalize=value["normalize"], **parameters)
 
 
 def _pack_dtype(dtype):
@@ -84,7 +139,10 @@ def pack(value):
         return {"@": "rangeindex", "start": value.start, "stop": value.stop,
                 "step": value.step, "name": pack(value.name)}
     if isinstance(value, pd.Index):
-        return {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
+        result = {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
+        if isinstance(value, (pd.DatetimeIndex, pd.TimedeltaIndex)):
+            result["freq"] = _pack_frequency(value.freq)
+        return result
     if isinstance(value, pd.DataFrame):
         # Validate attrs before pandas can deepcopy them while slicing columns.
         # The frame owns this metadata; inherited column attrs would duplicate it.
@@ -180,7 +238,18 @@ def unpack(value):
         # Legacy tuple-based indexes cannot recover metadata never stored.
         return pd.MultiIndex.from_tuples(unpack(value["values"]), names=unpack(value["names"]))
     if tag == "index":
-        return pd.Index(unpack(value["values"]), dtype=_unpack_dtype(value["dtype"]), name=unpack(value["name"]), tupleize_cols=False)
+        index = pd.Index(unpack(value["values"]), dtype=_unpack_dtype(value["dtype"]), name=unpack(value["name"]), tupleize_cols=False)
+        if "freq" in value:
+            if not isinstance(index, (pd.DatetimeIndex, pd.TimedeltaIndex)):
+                raise ValueError("Frequency metadata requires a datetime or timedelta index.")
+            frequency = _unpack_frequency(value["freq"])
+            if isinstance(index, pd.TimedeltaIndex) and frequency is not None and not isinstance(frequency, (pd.offsets.Tick, pd.offsets.Day)):
+                raise ValueError("Timedelta index frequency must be a fixed offset.")
+            # Restore recorded metadata without inferring/regenerating values.
+            # pandas public freq validation rejects some of its own generated
+            # business-offset ranges and singleton calendar offsets.
+            index._data._freq = frequency
+        return index
     if tag == "series":
         dtype = (pd.CategoricalDtype(unpack(value["categories"]), value["ordered"])
                  if "categories" in value else _unpack_dtype(value["dtype"]))

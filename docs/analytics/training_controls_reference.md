@@ -287,14 +287,18 @@ selected columns, fold metadata, summary and long-form history. Ordinary histori
 retain pandas JSON table format; histories with unsupported axes, dtypes or
 cell values use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a
 data-only frame, following the same rules as report tables in the post-training
-reference.
+reference. Typed histories retain temporal index frequency parameters; absent
+legacy frequency stays unset. Complex-valued history data, including columns,
+row indexes and categories, are unsupported and raise before completed publication.
 JSON-native fold metadata stays unchanged. Other fold metadata uses a data-only
 representation in `fold_metadata`, with sibling
 `fold_metadata_encoding: "xdiyo.data-only.v1"`; this preserves integer block keys,
-arrays, timestamps and durations. Historically serializable summaries retain their
-JSON representation. Other supported data-only summaries use a packed `summary`
-with sibling `summary_encoding: "xdiyo.data-only.v1"`, preserving values such as
-integer-keyed mappings and durations. `ExperimentStore.load_run` and
+arrays, timestamps and durations. Ordinary summaries retain their JSON
+representation. Summaries containing NumPy temporal scalars or arrays, or other
+supported values requiring typed storage, use a packed `summary` with sibling
+`summary_encoding: "xdiyo.data-only.v1"`, preserving values such as integer-keyed
+mappings and durations. Configuration descriptors are not used for these typed
+summary values. `ExperimentStore.load_run` and
 `FootballExperiment.load` automatically read both original and tagged forms,
 including runs without `recovery.json`.
 
