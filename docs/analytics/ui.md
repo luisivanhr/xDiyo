@@ -180,12 +180,15 @@ The prediction recipe prepares the full history, retains missing future targets,
 
 **Export Python** and **Export notebook** generate inspectable code using `prepare_recipe` and `run_recipe`. Exporting does not run the code. The notebook separates preparation, a small feature preview, and execution. Paths resolved by the local builder are exported as absolute paths; update them when sharing with a colleague on another machine.
 
-The exported recipe remains usable without the UI:
+The [bundled example recipe](../../examples/bundles/README.md) is usable without
+the UI. Run this from the repository root; it prepares the published data and
+fits the configured fixed Lasso experiment, writing new results under the ignored
+`experiments/example_bundles/` directory:
 
 ```python
 from xdiyo_analytics.ui import read_recipe, prepare_recipe, run_recipe
 
-recipe = read_recipe("experiments/_recipes/Corners_experiment.json")
+recipe = read_recipe("examples/bundles/corners_lasso.json")
 prepared = prepare_recipe(recipe)
 result = run_recipe(recipe, prepared=prepared)
 result.show()

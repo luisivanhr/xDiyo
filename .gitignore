@@ -18,9 +18,14 @@ data/xDiyo_data_legacy/*.parquet
 data/xDiyo_data_legacy/*.manifest.json
 data/xDiyo_data_legacy/_tables/
 data/xDiyo_data_legacy/_migration/
-experiments/
-experiment/
-corners-experiment--99c5f900/
+# Generated runs are local; the src/xdiyo_analytics/experiments package is source.
+/experiments/
+/experiment/
+/corners-experiment--99c5f900/
+# Only reviewed reusable example inputs belong here, never generated runs.
+/examples/bundles/*
+!/examples/bundles/README.md
+!/examples/bundles/corners_lasso.json
 notebooks/outputs/
 docs/analytics/dtale_season_session.json
 docs/analytics/dtale_season.*.log
