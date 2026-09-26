@@ -878,7 +878,7 @@
       "params": {
         "type": "per_fold",
         "partition": "train",
-        "features": []
+        "features": null
       }
     }
   },
@@ -886,7 +886,7 @@
     "Correlation": {
       "component": "reporting.CorrelationAnalysis",
       "params": {
-        "type": "overall",
+        "type": "per_fold",
         "partition": "train",
         "targets": [
           "corners"

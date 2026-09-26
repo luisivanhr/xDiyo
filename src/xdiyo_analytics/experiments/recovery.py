@@ -38,11 +38,20 @@ def _unpack_dtype(dtype):
     raise ValueError(f"Unknown recovery dtype {dtype['kind']!r}.")
 
 
+def _pack_series(value, *, include_attrs=True):
+    result = {"@": "series", "index": pack(value.index), "name": pack(value.name),
+              "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype)}
+    if include_attrs:
+        result["attrs"] = pack(value.attrs)
+    return result
+
+
 def pack(value):
     """Encode library results, frames and figures without executable deserialization.
 
     Fitted adapters are deliberately omitted. Predictions, selections, report
     artifacts, history and configuration remain usable after a process restart.
+    Frame/Series attrs use the same data-only encoding, including nested metadata.
     """
     if value is pd.NA:
         return {"@": "NA"}
@@ -69,11 +78,14 @@ def pack(value):
     if isinstance(value, pd.Index):
         return {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
     if isinstance(value, pd.DataFrame):
+        # Validate attrs before pandas can deepcopy them while slicing columns.
+        # The frame owns this metadata; inherited column attrs would duplicate it.
+        attrs = pack(value.attrs)
         return {"@": "frame", "index": pack(value.index), "columns": pack(value.columns),
-                "series": [pack(value.iloc[:, i].reset_index(drop=True)) for i in range(len(value.columns))]}
+                "series": [_pack_series(value.iloc[:, i].reset_index(drop=True), include_attrs=False)
+                           for i in range(len(value.columns))], "attrs": attrs}
     if isinstance(value, pd.Series):
-        return {"@": "series", "index": pack(value.index), "name": pack(value.name),
-                "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype)}
+        return _pack_series(value)
     if isinstance(value, np.ndarray):
         return {"@": "array", "values": pack(value.tolist()), "dtype": str(value.dtype), "shape": list(value.shape)}
     if isinstance(value, tuple):
@@ -129,11 +141,15 @@ def unpack(value):
     if tag == "series":
         dtype = (pd.CategoricalDtype(unpack(value["categories"]), value["ordered"])
                  if "categories" in value else _unpack_dtype(value["dtype"]))
-        return pd.Series(unpack(value["values"]), index=unpack(value["index"]), dtype=dtype, name=unpack(value["name"]))
+        series = pd.Series(unpack(value["values"]), index=unpack(value["index"]), dtype=dtype, name=unpack(value["name"]))
+        series.attrs = unpack(value["attrs"]) if "attrs" in value else {}
+        return series
     if tag == "frame":
         series = [unpack(item) for item in value["series"]]
         frame = pd.concat(series, axis=1) if series else pd.DataFrame(index=range(len(unpack(value["index"]))))
         frame.index, frame.columns = unpack(value["index"]), unpack(value["columns"])
+        # Schema-1 bundles written before attrs support remain readable.
+        frame.attrs = unpack(value["attrs"]) if "attrs" in value else {}
         return frame
     if tag == "plotly":
         import plotly.io as pio
