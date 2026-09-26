@@ -296,3 +296,131 @@ def test_object_arrays_survive_saved_football_experiment_outputs(tmp_path):
     result=experiment.run(preparation,model=ridge())
     loaded=experiment.load(result.record['run_id'])
     assert_recovered_array_cells(loaded.prepared.outputs['object_arrays'],expected)
+
+
+
+NUMPY_TEMPORAL_UNITS=['Y','M','W','D','h','m','s','ms','us','ns','ps','fs','as','3ns','2D']
+
+
+def assert_numpy_temporal_scalar(actual,expected):
+    assert type(actual) is type(expected)
+    assert actual.dtype==expected.dtype
+    assert int(actual.astype('int64'))==int(expected.astype('int64'))
+
+
+@pytest.mark.parametrize('kind',['datetime64','timedelta64'])
+@pytest.mark.parametrize('unit',NUMPY_TEMPORAL_UNITS)
+def test_numpy_temporal_scalars_preserve_exact_ticks_unit_and_nat(kind,unit):
+    dtype=np.dtype(f'{kind}[{unit}]')
+    for count in [-123456789,7,np.iinfo('int64').max,np.iinfo('int64').min]:
+        expected=np.array(count,dtype='int64').astype(dtype)[()]
+        encoded=pack(expected)
+        assert encoded=={'@':'numpy_temporal','dtype':str(dtype),'value':count}
+        restored=unpack(json.loads(json.dumps(encoded,allow_nan=False)))
+        assert_numpy_temporal_scalar(restored,expected)
+
+
+@pytest.mark.parametrize('value',[np.datetime64('NaT'),np.timedelta64('NaT'),
+                                  np.datetime64('12000-01-02','D'),
+                                  np.datetime64('-12000-01-02','D')])
+def test_numpy_temporal_unitless_nat_and_far_dates(value):
+    assert_numpy_temporal_scalar(unpack(pack(value)),value)
+
+
+@pytest.mark.parametrize('dtype',['int64','object','float64'])
+def test_numpy_temporal_scalar_rejects_non_temporal_dtype(dtype):
+    with pytest.raises(ValueError,match='temporal scalar'):
+        unpack({'@':'numpy_temporal','dtype':dtype,'value':7})
+
+
+@pytest.mark.parametrize('value',[[7],7.0,True,None])
+def test_numpy_temporal_scalar_rejects_non_integer_tick_payload(value):
+    with pytest.raises(ValueError,match='integer tick count'):
+        unpack({'@':'numpy_temporal','dtype':'datetime64[ns]','value':value})
+
+
+@pytest.mark.parametrize('dtype',['datetime64','timedelta64','datetime64[Y]',
+    'datetime64[3ns]','timedelta64[2D]','timedelta64[us]',
+    '>M8[3ns]','>m8[2D]'])
+@pytest.mark.parametrize('shape',[(),(2,2),(0,2),(2,0,3)])
+def test_numpy_temporal_arrays_preserve_ticks_dtype_shape_and_byte_order(tmp_path,dtype,shape):
+    size=int(np.prod(shape))
+    counts=np.resize(np.array([-13,7,np.iinfo('int64').min,np.iinfo('int64').max],dtype='int64'),size)
+    # Unitless datetime64 has only the public NaT value.
+    if dtype=='datetime64':counts[:]=np.iinfo('int64').min
+    expected=counts.reshape(shape).astype(dtype)
+    path=tmp_path/'temporal-array.json';dump_bundle(path,expected)
+    encoded=json.loads(path.read_text())['payload']
+    assert set(encoded)=={'@','values','dtype','shape'}
+    assert encoded['values']==expected.astype('int64').tolist()
+    restored=load_bundle(path)
+    assert restored.dtype==expected.dtype and restored.shape==expected.shape
+    assert restored.dtype.str==expected.dtype.str
+    np.testing.assert_array_equal(restored.astype('int64'),expected.astype('int64'))
+
+
+@pytest.mark.parametrize('dtype,values,expected',[
+    ('datetime64[D]',[{'@':'date','value':'2024-02-29'},None],['2024-02-29','NaT']),
+    ('datetime64[us]',[{'@':'timestamp','value':'2024-02-29T12:34:56.123456'},None],
+                     ['2024-02-29T12:34:56.123456','NaT']),
+    ('datetime64[ns]',[7,None],[7,np.iinfo('int64').min]),
+    ('timedelta64[ns]',[-13,None],[-13,np.iinfo('int64').min]),
+    ('datetime64',[None,None],['NaT','NaT']),
+])
+def test_legacy_temporal_array_payloads_remain_readable(dtype,values,expected):
+    restored=unpack({'@':'array','dtype':dtype,'shape':[2],'values':values})
+    expected=np.array(expected,dtype=dtype)
+    assert restored.dtype==expected.dtype
+    np.testing.assert_array_equal(restored.astype('int64'),expected.astype('int64'))
+
+
+def numpy_temporal_container_payload():
+    values=[np.datetime64('2025-01-01T00:00:00.000000001'),np.timedelta64(-7,'D'),
+            np.array(13,dtype='int64').astype('datetime64[3ns]')[()],
+            np.array(-5,dtype='int64').astype('timedelta64[2D]')[()],
+            np.datetime64('NaT','us'),np.timedelta64('NaT')]
+    objects=np.empty((2,3),dtype=object)
+    for index,value in zip(np.ndindex(objects.shape),values):objects[index]=value
+    series=pd.Series(values,dtype=object,name='temporal')
+    series.attrs={'window':tuple(values),'nested':{'duration':values[1]}}
+    frame=series.to_frame()
+    frame.attrs={'reference':values[0],'array':np.array([-3,7],dtype='timedelta64[D]')}
+    return {'values':values,'objects':objects,'series':series,'frame':frame}
+
+
+def assert_numpy_temporal_container_payload(actual,expected):
+    for a,b in zip(actual['values'],expected['values']):assert_numpy_temporal_scalar(a,b)
+    for name in ['series','frame']:
+        restored=actual[name] if name=='series' else actual[name]['temporal']
+        original=expected[name] if name=='series' else expected[name]['temporal']
+        assert restored.dtype==object
+        for a,b in zip(restored,original):assert_numpy_temporal_scalar(a,b)
+    assert actual['objects'].shape==expected['objects'].shape
+    assert actual['objects'].dtype==object
+    for index in np.ndindex(expected['objects'].shape):
+        assert_numpy_temporal_scalar(actual['objects'][index],expected['objects'][index])
+    for a,b in zip(actual['series'].attrs['window'],expected['series'].attrs['window']):
+        assert_numpy_temporal_scalar(a,b)
+    assert_numpy_temporal_scalar(actual['series'].attrs['nested']['duration'],expected['values'][1])
+    assert_numpy_temporal_scalar(actual['frame'].attrs['reference'],expected['values'][0])
+    array=actual['frame'].attrs['array']
+    assert array.dtype==expected['frame'].attrs['array'].dtype
+    np.testing.assert_array_equal(array,expected['frame'].attrs['array'])
+
+
+def test_numpy_temporal_scalars_survive_object_containers_and_attrs(tmp_path):
+    expected=numpy_temporal_container_payload()
+    path=tmp_path/'temporal-containers.json';dump_bundle(path,expected)
+    assert_numpy_temporal_container_payload(load_bundle(path),expected)
+
+
+def test_numpy_temporal_values_survive_saved_football_experiment_outputs(tmp_path):
+    from football_experiment_samples import prepared,ridge
+    from xdiyo_analytics.experiments import FootballExperiment
+    preparation=prepared(holdout=True)
+    expected=numpy_temporal_container_payload()
+    preparation.outputs['numpy_temporal']=expected
+    experiment=FootballExperiment('NumPy temporal output fidelity',output_dir=tmp_path)
+    result=experiment.run(preparation,model=ridge())
+    loaded=experiment.load(result.record['run_id'])
+    assert_numpy_temporal_container_payload(loaded.prepared.outputs['numpy_temporal'],expected)

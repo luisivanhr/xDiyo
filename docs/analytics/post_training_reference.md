@@ -298,16 +298,23 @@ from saved tables/metrics to avoid recursively recording a leaderboard as result
 | --- | --- |
 | `experiment.json` | Schema 1, experiment UUID and exact display name. |
 | `runs/<run_id>/run.json` | Run/config IDs, config, UTC creation time, status, metric records and artifact mapping. Failure records additionally include explicit error text. |
-| `tables.json` | Study/name/fold metadata. Ordinary tables use pandas table-oriented JSON, whose float formatting can round values. Tables whose axes are not safely represented there use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame representation that preserves labels, axes and dtypes. Metric records retain ordinary JSON scalar values. |
+| `tables.json` | Study/name/fold metadata. Ordinary tables use pandas table-oriented JSON, whose float formatting can round values. Tables whose axes, dtypes or values are not safely represented there use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame representation for typed labels and values. Metric records retain ordinary JSON scalar values. |
 | `fold-<id>/output-<number>.parquet` | Indexed prediction DataFrames; output names are mapped to safe numbered filenames. MultiIndex class columns are retained. |
 | `fold-<id>/targets.parquet`, `metadata.parquet` | Indexed held-out targets and metadata. The run record also retains train/test/score positions and selected columns. |
 | `report.html` | Optional standalone report, rendered without recomputing studies or predictions. |
 
 Tagged tables include MultiIndex, tuple-valued or duplicate columns, non-string
 column labels, named column axes, and index layouts with duplicate labels or
-conflicting field names. `ExperimentStore.load_run` and `FootballExperiment.load`
-recognize both table forms, including runs without `recovery.json`. Existing
-artifacts remain readable without rewriting them.
+conflicting field names. Temporal indexes and columns, dtypes that table JSON
+would change, and supported typed cells such as tuples, dates and NumPy temporal
+scalars also use this wrapper, including nested values. `ExperimentStore.load_run`
+and `FootballExperiment.load` recognize both table forms, including runs without
+`recovery.json`. Existing artifacts remain readable without rewriting them.
+
+In data-only payloads, NumPy date and duration scalars use a `numpy_temporal` tag
+with their dtype (including unit and multiplier) and signed integer value; `NaT`
+retains its sentinel. Temporal arrays retain the existing array tag, dtype and
+shape, with integer counts as values. Older payloads remain readable.
 
 `save_predictions=False` skips all fold Parquet artifacts; `save_html=False`
 skips HTML. Models and training feature matrices are not saved. `save_failure`

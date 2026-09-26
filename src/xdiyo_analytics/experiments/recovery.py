@@ -61,6 +61,8 @@ def pack(value):
         return {"@": "NA"}
     if value is pd.NaT:
         return {"@": "NaT"}
+    if isinstance(value, (np.datetime64, np.timedelta64)):
+        return {"@": "numpy_temporal", "dtype": str(value.dtype), "value": int(value.astype("int64"))}
     if isinstance(value, np.generic):
         return pack(value.item())
     if value is None or isinstance(value, (str, bool, int)):
@@ -93,7 +95,10 @@ def pack(value):
     if isinstance(value, pd.Series):
         return _pack_series(value)
     if isinstance(value, np.ndarray):
-        return {"@": "array", "values": pack(value.tolist()), "dtype": str(value.dtype), "shape": list(value.shape)}
+        # Temporal tolist() can discard units or produce unsupported Python
+        # timedeltas. Integer conversion preserves ticks, NaT and byte order.
+        values = value.astype("int64").tolist() if value.dtype.kind in "mM" else value.tolist()
+        return {"@": "array", "values": pack(values), "dtype": str(value.dtype), "shape": list(value.shape)}
     if isinstance(value, tuple):
         return {"@": "tuple", "values": [pack(item) for item in value]}
     if isinstance(value, list):
@@ -122,6 +127,13 @@ def unpack(value):
         return pd.NaT
     if tag == "float":
         return float(value["value"])
+    if tag == "numpy_temporal":
+        dtype = np.dtype(value["dtype"])
+        if dtype.kind not in "mM":
+            raise ValueError("NumPy temporal scalar requires a datetime64 or timedelta64 dtype.")
+        if type(value["value"]) is not int:
+            raise ValueError("NumPy temporal scalar requires an integer tick count.")
+        return np.asarray(value["value"], dtype="int64").astype(dtype)[()]
     if tag == "date":
         return date.fromisoformat(value["value"])
     if tag == "timestamp":
@@ -151,7 +163,14 @@ def unpack(value):
                     assign(item, (*index, position))
             assign(values, ())
             return result
-        return np.array(values, dtype=value["dtype"]).reshape(value["shape"])
+        dtype = np.dtype(value["dtype"])
+        if dtype.kind in "mM":
+            counts = np.asarray(values)
+            if counts.dtype.kind in "iu":
+                # astype also supports unitless temporal NaT; direct integer
+                # construction of a unitless datetime64 is rejected by NumPy.
+                return counts.astype(dtype).reshape(value["shape"])
+        return np.array(values, dtype=dtype).reshape(value["shape"])
     if tag == "rangeindex":
         return pd.RangeIndex(value["start"], value["stop"], value["step"], name=unpack(value["name"]))
     if tag == "multiindex":
