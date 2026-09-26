@@ -2,7 +2,9 @@
 
 from dataclasses import dataclass
 from datetime import date
+from functools import partial
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -122,6 +124,14 @@ def axis_table(problem, empty=False):
         table.index = pd.Index([date(2024, 1, 1), date(2024, 1, 2)], dtype=object)
     elif problem == 'timedelta_index':
         table.index = pd.to_timedelta([1, 2], unit='h')
+    elif problem == 'numpy_datetime_index':
+        table.index = pd.Index([np.datetime64('2024-01-01T00:00:00.000000001', 'ns'),
+                                np.datetime64('2024-01-01T00:00:00.000000002', 'ns')], dtype=object)
+    elif problem == 'numpy_timedelta_index':
+        table.index = pd.Index([np.timedelta64(1, 'ns'), np.timedelta64(2, 'ns')], dtype=object)
+    elif problem == 'nanosecond_datetime_index':
+        table.index = pd.DatetimeIndex([pd.Timestamp('2024-01-01T00:00:00.000000001'),
+                                        pd.Timestamp('2024-01-01T00:00:00.000000002')])
     elif problem == 'multiindex':
         table.index = pd.MultiIndex.from_tuples([('match', 5), ('match', 8)], names=['event', 'event'])
     else:
@@ -147,7 +157,8 @@ class AxisTableReporter(PredictionReporter):
     for empty in (False, True)
 ] + [(problem, False) for problem in (
     'column_index_collision', 'unnamed_index_collision', 'reserved_index_name',
-    'integer_index_name', 'duplicate_index', 'tuple_index', 'date_index', 'timedelta_index', 'multiindex')])
+    'integer_index_name', 'duplicate_index', 'tuple_index', 'date_index', 'timedelta_index',
+    'numpy_datetime_index', 'numpy_timedelta_index', 'nanosecond_datetime_index', 'multiindex')])
 def test_report_axes_round_trip_through_experiment_and_numerical_artifacts(tmp_path, problem, empty):
     experiment = FootballExperiment('Table axes', output_dir=tmp_path)
     report = PostTrainingAnalysis({'axes': AxisTableReporter(
@@ -165,6 +176,131 @@ def test_report_axes_round_trip_through_experiment_and_numerical_artifacts(tmp_p
         assert [type(label) for label in actual.columns] == [type(label) for label in expected.columns]
         assert [type(label) for label in actual.index] == [type(label) for label in expected.index]
     assert by_name['axes']['encoding'] == 'xdiyo.data-only.v1'
+
+
+def cell_table(kind, empty=False):
+    if kind == 'duration':
+        values = pd.Series([pd.Timedelta('1h'), pd.NaT], dtype='timedelta64[ns]')
+    elif kind == 'tuple':
+        values = pd.Series([(1, 2), (3, 4)], dtype=object)
+    elif kind == 'date':
+        values = pd.Series([date(2024, 1, 1), None], dtype=object)
+    elif kind == 'numpy_datetime':
+        values = pd.Series([np.datetime64('2024-01-01T00:00:00.000000001', 'ns'),
+                            np.datetime64('NaT', 'D')], dtype=object)
+    elif kind == 'numpy_timedelta':
+        values = pd.Series([np.timedelta64(1, 'ns'), np.timedelta64('NaT', 'h')], dtype=object)
+    elif kind == 'nested':
+        values = pd.Series([{'attempts': [(1, date(2024, 1, 1))]},
+                            {2: {'elapsed': pd.Timedelta('1s'), 'path': Path('result.json')}}], dtype=object)
+    elif kind == 'array':
+        values = pd.Series([np.array([1, 3], dtype='int16'), np.array([], dtype='int16')], dtype=object)
+    elif kind == 'object_nulls':
+        values = pd.Series([None, pd.NA, pd.NaT, np.nan], dtype=object)
+    elif kind == 'object_none':
+        values = pd.Series([True, None], dtype=object)
+    elif kind == 'object_integer':
+        values = pd.Series([1, 2], dtype=object)
+    elif kind == 'object_boolean':
+        values = pd.Series([True, False], dtype=object)
+    elif kind in ('infinite_float', 'infinite_nullable_float'):
+        values = pd.Series([np.inf, -np.inf], dtype='Float64' if kind == 'infinite_nullable_float' else 'float64')
+    elif kind == 'tuple_category':
+        values = pd.Series(pd.Categorical([(1, 2), None], categories=[(1, 2), (3, 4)], ordered=True))
+    elif kind == 'date_category':
+        values = pd.Series(pd.Categorical([date(2024, 1, 1), None],
+                           categories=[date(2024, 1, 1), date(2024, 1, 2)], ordered=True))
+    elif kind in ('nullable_category', 'object_category', 'string_category'):
+        categories = (pd.Index([1, 2], dtype='Int64') if kind == 'nullable_category' else
+                      pd.Index(['home', 'away'], dtype='object' if kind == 'object_category' else 'string'))
+        values = pd.Series(pd.Categorical([categories[0], None], categories=categories, ordered=True))
+    elif kind in ('nondefault_string', 'nondefault_nullable_string'):
+        storage = 'python' if pd.api.types.pandas_dtype('string').storage == 'pyarrow' else 'pyarrow'
+        values = pd.Series(['home', pd.NA if kind == 'nondefault_nullable_string' else 'away'],
+                           dtype=pd.StringDtype(storage=storage))
+    elif kind == 'float32':
+        values = pd.Series([.25, .75], dtype='float32')
+    elif kind == 'int16':
+        values = pd.Series([1, 3], dtype='int16')
+    elif kind == 'uint64':
+        values = pd.Series([1, 2**63 + 1], dtype='uint64')
+    elif kind == 'nanosecond_timestamp':
+        values = pd.Series([pd.Timestamp('2024-01-01T00:00:00.000000001Z'), pd.NaT])
+    elif kind == 'datetime_unit':
+        values = pd.Series([pd.Timestamp('2024-01-01'), pd.NaT], dtype='datetime64[us]')
+    else:
+        raise AssertionError(kind)
+    table = values.to_frame('value')
+    return table.iloc[:0] if empty else table
+
+
+def ordinary_cell_table():
+    return pd.DataFrame({
+        'count': [1, 2], 'value': [.123456789123, np.nan], 'label': ['home', 'away'],
+        'nullable_count': pd.Series([1, pd.NA], dtype='Int64'),
+        'nullable_value': pd.Series([.25, pd.NA], dtype='Float64'),
+        'nullable_flag': pd.Series([True, pd.NA], dtype='boolean'),
+        'nullable_label': pd.Series(['home', pd.NA], dtype='string'),
+        'category': pd.Categorical(['home', None], categories=['home', 'draw'], ordered=True),
+        'mixed': pd.Series([1, 'home'], dtype=object),
+        'json': pd.Series([{'attempts': [1, None, np.int64(3)]}, ['home', .25]], dtype=object)})
+
+
+@dataclass(kw_only=True)
+class CellTableReporter(PredictionReporter):
+    kind: str
+    empty: bool = False
+
+    def run(self, context):
+        return StudyResult('Cell tables', tables={
+            'ordinary': ordinary_cell_table(), 'cells': cell_table(self.kind, self.empty)})
+
+
+class CellHistoryAdapter(FixedAdapter):
+    def __init__(self, kind, empty):
+        super().__init__()
+        self.kind, self.empty = kind, empty
+
+    def fit(self, context):
+        super().fit(context)
+        self.training_history_ = cell_table(self.kind, self.empty)
+        return self
+
+
+@pytest.mark.parametrize(('kind', 'empty'), [(kind, False) for kind in (
+    'duration', 'tuple', 'date', 'numpy_datetime', 'numpy_timedelta', 'nested', 'array', 'object_nulls',
+    'object_none', 'object_integer', 'object_boolean', 'infinite_float', 'infinite_nullable_float',
+    'tuple_category', 'date_category',
+    'nullable_category', 'object_category', 'string_category', 'nondefault_string', 'nondefault_nullable_string',
+    'float32', 'int16', 'uint64', 'nanosecond_timestamp', 'datetime_unit')]
+    + [('duration', True)])
+def test_typed_report_cells_and_history_survive_both_public_loaders(tmp_path, kind, empty):
+    experiment = FootballExperiment('Cell artifacts', output_dir=tmp_path)
+    model = Candidate('History', partial(CellHistoryAdapter, kind, empty), config={'kind': kind, 'empty': empty})
+    report = PostTrainingAnalysis({'cells': CellTableReporter(type='overall', partition='score', kind=kind, empty=empty)})
+    result = experiment.run(prepared(holdout=True), model=model, post_analysis=report)
+    record = experiment.store.save_run(result.training, result.post_report, name='Numerical cells', config={})
+    modern, numerical = experiment.load(result.record['run_id']), experiment.store.load_run(record['run_id'])
+    expected = cell_table(kind, empty)
+    for actual in (modern.post_report.studies[0].result.tables['cells'], modern.training.folds[0].training_history,
+                   numerical['report'].studies[0].result.tables['cells'], numerical['training'].folds[0].training_history):
+        pd.testing.assert_frame_equal(actual, expected, check_exact=True)
+        # pandas equality treats tuple/list cells as equivalent; the data-only
+        # representation also checks the actual nested container/scalar types.
+        assert pack(actual) == pack(expected)
+    raw = json.loads((result.path / 'tables.json').read_text())
+    tables = {item['name']: item['table'] for item in raw}
+    # Object string categories are already the inferred ordinary dtype on
+    # pandas 2, whereas pandas 3 needs the tag to retain them as object.
+    if kind != 'object_category':
+        assert tables['cells']['encoding'] == 'xdiyo.data-only.v1'
+    assert 'encoding' not in tables['ordinary']
+    assert tables['ordinary']['data'][0]['value'] == .1234567891
+    assert tables['ordinary']['data'][1]['value'] is None
+    assert tables['ordinary']['data'][0]['json'] == {'attempts': [1, None, 3]}
+    original = ordinary_cell_table()
+    original.loc[0, 'value'] = .1234567891
+    pd.testing.assert_frame_equal(numerical['report'].studies[0].result.tables['ordinary'], original, check_exact=True)
 
 
 def rich_summary(kind):

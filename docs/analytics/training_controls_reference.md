@@ -284,9 +284,10 @@ scaling and missing-value rules remain in the post-training reference.
 Every successful save writes `training.json` as a list of per-fold records,
 including when predictions are disabled: development/fit/validation positions,
 selected columns, fold metadata, summary and long-form history. Ordinary histories
-retain pandas JSON table format; histories with unsupported axes use
-`{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame,
-following the same rules as report tables in the post-training reference.
+retain pandas JSON table format; histories with unsupported axes, dtypes or
+cell values use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a
+data-only frame, following the same rules as report tables in the post-training
+reference.
 JSON-native fold metadata stays unchanged. Other fold metadata uses a data-only
 representation in `fold_metadata`, with sibling
 `fold_metadata_encoding: "xdiyo.data-only.v1"`; this preserves integer block keys,

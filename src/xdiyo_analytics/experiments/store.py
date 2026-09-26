@@ -29,17 +29,62 @@ def _plain_metadata(value):
     return False
 
 
+def _plain_table_cell(value):
+    """JSON-native cells, allowing the existing NumPy scalar normalization."""
+    if isinstance(value, (np.datetime64, np.timedelta64)):
+        return False
+    if isinstance(value, np.generic):
+        value = value.item()
+    if value is None or isinstance(value, (str, bool, int)):
+        return True
+    if isinstance(value, float):
+        return np.isfinite(value)
+    if isinstance(value, list):
+        return all(_plain_table_cell(item) for item in value)
+    if isinstance(value, dict):
+        return all(isinstance(key, str) and _plain_table_cell(item) for key, item in value.items())
+    return False
+
+
+def _plain_table_column(values):
+    """Whether table JSON retains a column's supported dtype and cell types."""
+    dtype = values.dtype
+    # Duration JSON cannot be read; datetime JSON loses units/sub-ms precision.
+    if dtype.kind in "mM":
+        return False
+    if isinstance(dtype, pd.CategoricalDtype):
+        categories = dtype.categories
+        # The enum retains values/order, but not the category-index dtype/name.
+        return (_plain_table_column(pd.Series(categories))
+                and categories.identical(pd.Index(categories.tolist(), tupleize_cols=False)))
+    if isinstance(dtype, pd.StringDtype):
+        # The table schema stores the dtype name, but omits string storage.
+        return dtype == pd.api.types.pandas_dtype(str(dtype))
+    if dtype.kind == "O":
+        # Top-level nulls normalize to NaN, and homogeneous scalar columns may
+        # be inferred as numeric/string/bool. Nested JSON nulls remain literal.
+        return (all(value is not None and _plain_table_cell(value) for value in values)
+                and pd.Series(values.tolist(), dtype=None).dtype == dtype)
+    if dtype.kind == "f" and np.isinf(values).any():
+        return False
+    if isinstance(dtype, np.dtype) and dtype.kind in "biuf":
+        # Unlike nullable extension dtypes, NumPy widths/signs are not in the
+        # table schema. Preserve ordinary bool/int64/float64 JSON and rounding.
+        return dtype in (np.dtype("bool"), np.dtype("int64"), np.dtype("float64"))
+    return True
+
+
 def _table_document(table):
-    """Keep ordinary table JSON only when its field names can preserve the axes."""
+    """Keep ordinary table JSON when it can preserve the axes and typed cells."""
     columns, index = table.columns, table.index
     # Table JSON uses columns/index names as record keys. Duplicate or typed
     # labels can silently collapse, change type, or make pandas' reader fail.
     plain_columns = type(columns) is pd.Index or (isinstance(columns, pd.RangeIndex) and not len(columns))
-    # Native datetime indexes have a table schema. Object dates lose their type,
-    # and pandas cannot read its table JSON for durations, including empty axes.
-    plain_index = (not isinstance(index, pd.TimedeltaIndex)
+    # Date/time JSON loses types, units or sub-ms precision; pandas cannot read
+    # its table JSON for durations, including empty axes.
+    plain_index = (not isinstance(index, (pd.TimedeltaIndex, pd.DatetimeIndex))
                    and all(pd.api.types.is_scalar(label)
-                           and (isinstance(index, pd.DatetimeIndex) or not isinstance(label, (date, timedelta)))
+                           and not isinstance(label, (date, timedelta, np.datetime64, np.timedelta64))
                            for label in index))
     plain_axes = (plain_columns and columns.name is None and columns.is_unique
                   and all(isinstance(label, str) for label in columns)
@@ -47,7 +92,7 @@ def _table_document(table):
                   and plain_index
                   and (index.name is None or (isinstance(index.name, str) and index.name != "index"))
                   and (index.name if index.name is not None else "index") not in columns)
-    if not plain_axes:
+    if not plain_axes or not all(_plain_table_column(table.iloc[:, i]) for i in range(len(columns))):
         from .recovery import pack
         return {"encoding": _ARTIFACT_ENCODING, "value": pack(table)}
     return json.loads(table.to_json(orient="table", date_format="iso"))
