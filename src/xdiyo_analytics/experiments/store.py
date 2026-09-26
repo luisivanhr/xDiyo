@@ -13,6 +13,30 @@ import numpy as np
 import pandas as pd
 
 
+_ARTIFACT_ENCODING = "xdiyo.data-only.v1"
+
+
+def _plain_metadata(value):
+    """Whether JSON preserves this runtime metadata without erasing its types."""
+    if value is None or type(value) in (str, bool, int):
+        return True
+    if type(value) is float:
+        return np.isfinite(value)
+    if type(value) is list:
+        return all(_plain_metadata(item) for item in value)
+    if type(value) is dict:
+        return all(isinstance(key, str) and _plain_metadata(item) for key, item in value.items())
+    return False
+
+
+def _table_document(table):
+    """Keep ordinary table JSON while preserving unsupported MultiIndex columns."""
+    if isinstance(table.columns, pd.MultiIndex):
+        from .recovery import pack
+        return {"encoding": _ARTIFACT_ENCODING, "value": pack(table)}
+    return json.loads(table.to_json(orient="table", date_format="iso"))
+
+
 def _json(value, *, missing=False):
     """Canonical supported configuration values; never unstable object reprs."""
     if value is None or value is pd.NA or value is pd.NaT:
@@ -175,7 +199,7 @@ class ExperimentStore:
                 continue  # Do not recursively treat an earlier leaderboard as this run's metrics.
             for table_name, table in study.result.tables.items():
                 tables.append(dict(study=study.name, fold_id=study.fold_id, name=table_name,
-                                   table=json.loads(table.to_json(orient="table", date_format="iso"))))
+                                   table=_table_document(table)))
             if "metrics" in study.result.tables:
                 for metric in study.result.tables["metrics"].to_dict("records"):
                     record["metrics"].append(dict(metric, study=study.name, type=study.type,
@@ -187,12 +211,16 @@ class ExperimentStore:
         for fold in training.folds:
             fit = fold.fit_positions if fold.fit_positions is not None else fold.train_positions
             validation = fold.validation_positions if fold.validation_positions is not None else []
-            diagnostics.append(dict(fold_id=fold.fold_id, train_positions=list(fold.train_positions),
-                                    fit_positions=list(fit), validation_positions=list(validation),
-                                    feature_columns=list(fold.feature_columns), target_columns=list(fold.target_columns),
-                                    fold_metadata=fold.fold_metadata,
-                                    summary=fold.training_summary,
-                                    history=json.loads(fold.training_history.to_json(orient="table", date_format="iso"))))
+            diagnostic = dict(fold_id=fold.fold_id, train_positions=list(fold.train_positions),
+                              fit_positions=list(fit), validation_positions=list(validation),
+                              feature_columns=list(fold.feature_columns), target_columns=list(fold.target_columns),
+                              fold_metadata=fold.fold_metadata, summary=fold.training_summary,
+                              history=_table_document(fold.training_history))
+            if not _plain_metadata(fold.fold_metadata):
+                from .recovery import pack
+                diagnostic["fold_metadata"] = pack(fold.fold_metadata)
+                diagnostic["fold_metadata_encoding"] = _ARTIFACT_ENCODING
+            diagnostics.append(diagnostic)
         _write(stage / "training.json", diagnostics)
         record["artifacts"]["training"] = "training.json"
         if save_predictions:
