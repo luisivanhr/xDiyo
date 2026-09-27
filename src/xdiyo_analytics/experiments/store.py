@@ -49,6 +49,8 @@ def _plain_table_cell(value):
 def _plain_table_column(values):
     """Whether table JSON retains a column's supported dtype and cell types."""
     dtype = values.dtype
+    if isinstance(dtype, pd.SparseDtype):
+        raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
     if dtype.kind == "c":
         raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
     # Duration JSON cannot be read; datetime JSON loses units/sub-ms precision.
@@ -78,6 +80,9 @@ def _plain_table_column(values):
 
 def _table_document(table):
     """Keep ordinary table JSON when it can preserve the axes and typed cells."""
+    for dtype in (*table.dtypes, table.index.dtype, table.columns.dtype):
+        if isinstance(dtype, pd.SparseDtype):
+            raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
     for dtype in table.dtypes:
         if dtype.kind == "c":
             raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
@@ -86,7 +91,7 @@ def _table_document(table):
     # labels can silently collapse, change type, or make pandas' reader fail.
     plain_columns = type(columns) is pd.Index or (isinstance(columns, pd.RangeIndex) and not len(columns))
     # Reuse column dtype checks for index fields. Keep pandas' working period
-    # schema (Period scalars are outside the recovery codec) and RangeIndex.
+    # schema and RangeIndex for compatibility with existing numerical artifacts.
     # Float labels need exact identity, unlike rounded numerical table values.
     plain_index = ((type(index) is pd.Index or isinstance(index, (pd.RangeIndex, pd.PeriodIndex)))
                    and (isinstance(index, pd.PeriodIndex) or _plain_table_column(pd.Series(index, dtype=index.dtype)))

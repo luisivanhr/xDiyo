@@ -207,7 +207,10 @@ def test_plain_dates_survive_saved_football_experiment_outputs(tmp_path):
                                   pd.Timestamp('2025-01-02 03:04:05.123456789',tz='Asia/Tokyo')])
 def test_datetime_and_timestamp_keep_existing_timestamp_encoding(value):
     encoded=pack(value)
-    assert encoded=={'@':'timestamp','value':value.isoformat()}
+    expected={'@':'timestamp','value':value.isoformat()}
+    if isinstance(value,pd.Timestamp):
+        expected['tz']='Asia/Tokyo'
+    assert encoded==expected
     restored=unpack(encoded)
     assert isinstance(restored,pd.Timestamp) and restored==pd.Timestamp(value)
 
