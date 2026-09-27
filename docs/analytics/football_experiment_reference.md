@@ -96,8 +96,9 @@ the factory's metaclass, matching normal Python lookup. Ordinary instance method
 are not called on classes.
 Observer state is excluded. Unchanged notebook code locations are normalized; changed constants
 remain relevant. Mapping insertion order is ignored, including nested configuration,
-custom cache keys and retained frame metadata. Sequence and table-axis order remain
-part of identity. Prepared outputs are stored but are not identity inputs.
+custom cache keys and retained frame metadata. List and tuple containers have
+distinct signatures, including nested configuration and custom keys. Sequence
+and table-axis order remain part of identity. Prepared outputs are stored but are not identity inputs.
 Global reads in nested factory functions, classes and comprehensions are included.
 Function-attached attributes also contribute, unless a callable `cache_key` on
 the function supplies their configuration. That key excludes diagnostic state,
@@ -170,6 +171,7 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 | --- | --- |
 | `recovery.pack`, `unpack` | Tagged frames/Series/indexes/arrays, timestamps, nullable values, tuples/dicts, Plotly and library dataclasses; omit FoldResult/FittedModel.model; reject arbitrary objects |
 | `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel, categorical, Period and Interval metadata; accept previous dtype strings |
+| `_reject_numpy_dtype`, `_reject_numpy_value` | Reject masked arrays and extended-precision NumPy types before conversion, including empty and nested structured dtypes |
 | `_pack_array_dtype`, `_unpack_array_dtype` | Reconstruct structured NumPy layouts and nested fields without storing padding bytes or object pointers |
 | `dump_bundle`, `load_bundle` | Exclusive schema-1 JSON writer/reader; no executable model pickle |
 | `signature`, nested `semantic_code` | Executable configuration identity with normalized source locations, explicit custom keys and bounded recursion |
@@ -196,7 +198,11 @@ Plain NumPy arrays retain data-only dtype metadata too, including object and
 temporal arrays with byte order, units and multipliers. Legacy dtype-string
 array records remain readable. Plain Python bytes, NumPy byte scalars and byte arrays also retain their types
 and contents. Overlapping field layouts and opaque void fields are rejected
-before publication.
+before publication. NumPy masked arrays (including the masked scalar sentinel)
+and extended-precision longdouble/clongdouble values or dtypes are unsupported
+and raise TypeError before publication. This includes empty arrays and nested
+structured fields. Choose a missing-value policy and convert to ordinary arrays
+or supported numerical dtypes explicitly before saving.
 Previous tuple tags remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when

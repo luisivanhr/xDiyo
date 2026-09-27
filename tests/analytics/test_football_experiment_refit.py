@@ -131,7 +131,8 @@ def test_nested_refit_candidates_have_distinct_reloadable_provenance(tmp_path,de
         assert description['policy']==signature(type(policy))
         fitting=dict(description['fitting']['mapping'])
         assert fitting['model_factory']==signature(candidate.model_factory)
-        assert fitting['feature_columns']==['signal'] and fitting['target_columns']==['target']
+        assert fitting['feature_columns']==signature(candidate.feature_columns)
+        assert fitting['target_columns']==signature(candidate.target_columns)
         assert fitting['pre_analysis'] is None and fitting['features_from'] is None
         loaded=experiment.load(result.record['run_id'])
         assert loaded.refit.model is None
