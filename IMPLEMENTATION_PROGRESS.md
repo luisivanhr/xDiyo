@@ -2,18 +2,25 @@
 
 ## Experiment review fixes — 27 September 2026
 
-Configuration serialization now distinguishes typed values from literal descriptor
+Configuration serialization distinguishes typed values from literal descriptor
 mappings and normalizes stored configuration once. Plain NumPy arrays retain
-data-only dtype metadata. Function factories include attached state or an explicit
-cache key in recovery identity. Custom artifact renderers can be supplied during
-publication and reload, remain available on returned results for display, and
-participate in final-result identity without entering saved recovery bundles.
+data-only dtype metadata. Report tables and training histories retain their
+attributes even in numerical-only records; empty attributes preserve the older
+table-JSON format. Unsupported attribute values fail before publication.
 
-The full suite passed **2,694 tests**, with three environment-related skips and
-eight existing warnings. An isolated pandas 2.2.3 run passed **768 tests**, with
+Function factories include attached state or an explicit cache key in recovery
+identity. Explicit static/class cache keys also apply to source-backed classes,
+with normal Python binding for inherited factory and metaclass methods. Custom
+artifact renderers can be supplied during publication and reload, remain available
+on returned results for display, and participate in final-result identity without
+entering saved recovery bundles.
+
+The full suite passed **2,721 tests**, with three environment-related skips and
+eight existing warnings. An isolated pandas 2.2.3 run passed **795 tests**, with
 two expected pandas 3 string-sentinel skips. Regression coverage includes actual
-changed-state refits, descriptor collisions, array metadata round-trips and
-custom rendering across publication, display, reuse and reload.
+changed-state refits, inherited class-key binding, descriptor collisions, array
+and table metadata round-trips, and custom rendering across publication, display,
+reuse and reload.
 
 ## GitHub publication scope — 25 September 2026
 

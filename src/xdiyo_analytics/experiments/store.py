@@ -107,7 +107,8 @@ def _table_document(table):
                   and plain_index
                   and (index.name is None or (isinstance(index.name, str) and index.name != "index"))
                   and (index.name if index.name is not None else "index") not in columns)
-    if not plain_axes or not all(_plain_table_column(table.iloc[:, i]) for i in range(len(columns))):
+    # pandas table JSON omits attrs even when every axis and cell is ordinary.
+    if table.attrs or not plain_axes or not all(_plain_table_column(table.iloc[:, i]) for i in range(len(columns))):
         from .recovery import pack
         return {"encoding": _ARTIFACT_ENCODING, "value": pack(table)}
     return json.loads(table.to_json(orient="table", date_format="iso"))
