@@ -292,6 +292,11 @@ mapping with `dtype` and integer `ticks`. Temporal arrays use
 `__numpy_temporal_array__` with `dtype`, `shape` and nested integer `ticks`.
 These descriptors retain units, multipliers, array shape and the `NaT` sentinel
 when hashing; ordinary NumPy numeric scalar/list conversion remains unchanged.
+Native Python timedelta configuration values use a `__native_timedelta__`
+mapping with normalized integer `days`, `seconds` and `microseconds`.
+Equivalent durations have the same configuration hash, including values outside
+pandas' nanosecond range. Stored configurations retain this descriptive mapping;
+training summaries and other typed artifacts reload as native timedelta values.
 
 Each call creates a new UUID run_id even for identical config_hash. The store
 records creation time, status and config. Successful records additionally retain

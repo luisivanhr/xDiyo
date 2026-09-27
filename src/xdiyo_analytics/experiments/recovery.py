@@ -173,8 +173,18 @@ def pack(value):
         return {"@": "numpy_temporal", "dtype": str(value.dtype), "value": int(value.astype("int64"))}
     if isinstance(value, np.void) and value.dtype.fields is not None:
         return {"@": "numpy_record", "array": pack(np.asarray(value))}
+    if isinstance(value, np.bytes_):
+        if type(value) is not np.bytes_:
+            raise TypeError("Recovery cannot encode NumPy byte scalar subclasses; convert to np.bytes_ first.")
+        # Scalar .item() strips trailing NULs. The dtype records their width;
+        # S0 scalars expose one sentinel byte that is not part of their value.
+        return {"@": "numpy_bytes", "value": value.tobytes()[:value.dtype.itemsize].hex()}
     if isinstance(value, np.generic):
         return pack(value.item())
+    if isinstance(value, bytes):
+        if type(value) is not bytes:
+            raise TypeError("Recovery cannot encode bytes subclasses; convert to bytes first.")
+        return {"@": "bytes", "value": value.hex()}
     if value is None or isinstance(value, (str, bool, int)):
         return value
     if isinstance(value, float):
@@ -240,6 +250,11 @@ def pack(value):
             dtype = _pack_array_dtype(value.dtype)
             return {"@": "structured_array", "dtype": dtype, "shape": list(value.shape),
                     "fields": [[name, pack(value[name])] for name in value.dtype.names]}
+        if value.dtype.kind == "S":
+            # Copy only logical fixed-width cells, including trailing NULs.
+            # A structured field view can have gaps containing record padding.
+            return {"@": "byte_array", "dtype": _pack_array_dtype(value.dtype),
+                    "shape": list(value.shape), "value": value.tobytes(order="C").hex()}
         # Temporal tolist() can discard units or produce unsupported Python
         # timedeltas. Integer conversion preserves ticks, NaT and byte order.
         values = value.astype("int64").tolist() if value.dtype.kind in "mM" else value.tolist()
@@ -272,6 +287,10 @@ def unpack(value):
         return pd.NaT
     if tag == "float":
         return float(value["value"])
+    if tag == "bytes":
+        return bytes.fromhex(value["value"])
+    if tag == "numpy_bytes":
+        return np.bytes_(bytes.fromhex(value["value"]))
     if tag == "numpy_temporal":
         dtype = np.dtype(value["dtype"])
         if dtype.kind not in "mM":
@@ -313,6 +332,22 @@ def unpack(value):
         return tuple(unpack(item) for item in value["values"])
     if tag == "dict":
         return {unpack(key): unpack(item) for key, item in value["items"]}
+    if tag == "byte_array":
+        dtype, shape = _unpack_array_dtype(value["dtype"]), value["shape"]
+        if dtype.kind != "S":
+            raise ValueError("Byte array requires a fixed-width byte-string dtype.")
+        if not isinstance(shape, list) or any(type(size) is not int or size < 0 for size in shape):
+            raise ValueError("Byte array requires a nonnegative integer shape.")
+        size = 1
+        for dimension in shape:
+            size *= dimension
+        data = bytes.fromhex(value["value"])
+        if len(data) != size * dtype.itemsize:
+            raise ValueError("Byte array payload does not match its recorded dtype and shape.")
+        # np.ndarray retains S0; np.empty/frombuffer promote it or reject it.
+        if dtype.itemsize == 0:
+            return np.ndarray(shape, dtype=dtype)
+        return np.frombuffer(data, dtype=dtype).copy().reshape(shape)
     if tag == "numpy_record":
         array = unpack(value["array"])
         if not isinstance(array, np.ndarray) or array.shape != () or array.dtype.fields is None:
