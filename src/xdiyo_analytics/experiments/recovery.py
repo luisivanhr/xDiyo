@@ -258,7 +258,8 @@ def pack(value):
         # Temporal tolist() can discard units or produce unsupported Python
         # timedeltas. Integer conversion preserves ticks, NaT and byte order.
         values = value.astype("int64").tolist() if value.dtype.kind in "mM" else value.tolist()
-        return {"@": "array", "values": pack(values), "dtype": str(value.dtype), "shape": list(value.shape)}
+        dtype = _pack_array_dtype(value.dtype) if value.dtype.metadata is not None else str(value.dtype)
+        return {"@": "array", "values": pack(values), "dtype": dtype, "shape": list(value.shape)}
     if isinstance(value, tuple):
         return {"@": "tuple", "values": [pack(item) for item in value]}
     if isinstance(value, list):
@@ -368,10 +369,13 @@ def unpack(value):
         return result
     if tag == "array":
         values = unpack(value["values"])
-        if np.dtype(value["dtype"]).kind == "O":
+        # Legacy plain arrays store a dtype string; metadata-bearing arrays use
+        # the same data-only dtype descriptor as structured and byte arrays.
+        dtype = np.dtype(value["dtype"]) if isinstance(value["dtype"], str) else _unpack_array_dtype(value["dtype"])
+        if dtype.kind == "O":
             # tolist() preserves array rank, but each object cell may itself be
             # a sequence. Follow only the recorded shape, never infer cell axes.
-            result = np.empty(value["shape"], dtype=object)
+            result = np.empty(value["shape"], dtype=dtype)
             def assign(items, index):
                 if len(index) == result.ndim:
                     result[index] = items
@@ -382,7 +386,6 @@ def unpack(value):
                     assign(item, (*index, position))
             assign(values, ())
             return result
-        dtype = np.dtype(value["dtype"])
         if dtype.kind in "mM":
             counts = np.asarray(values)
             if counts.dtype.kind in "iu":
@@ -491,7 +494,8 @@ def signature(value, _active=None):
     Custom callable objects may implement cache_key(). Source-less Python classes
     include bases, methods, properties and class state; a static/classmethod
     cache_key() can describe otherwise opaque class state. Factory code, defaults,
-    closure values and referenced scalar globals are included. External resources
+    closure values, referenced globals and attached state are included. A function
+    cache_key() replaces its attached state only. External resources
     or mutable services still need a revision in Candidate.config/cache_key().
     Observers are deliberately excluded by the caller: they do not define fits.
     """
@@ -528,11 +532,17 @@ def signature(value, _active=None):
                                 co_consts=tuple(semantic_code(item) if isinstance(item, types.CodeType) else item
                                                 for item in code.co_consts))
         code = semantic_code(value.__code__)
-        return {"function": value.__qualname__, "code": hashlib.sha256(marshal.dumps(code)).hexdigest(),
-                "defaults": sub(value.__defaults__), "kwdefaults": sub(value.__kwdefaults__),
-                "closure": [sub(cell.cell_contents) for cell in (value.__closure__ or ())],
-                "globals": {name: sub(value.__globals__[name]) for name in sorted(global_names)
-                            if name in value.__globals__ and name != value.__name__}}
+        result = {"function": value.__qualname__, "code": hashlib.sha256(marshal.dumps(code)).hexdigest(),
+                  "defaults": sub(value.__defaults__), "kwdefaults": sub(value.__kwdefaults__),
+                  "closure": [sub(cell.cell_contents) for cell in (value.__closure__ or ())],
+                  "globals": {name: sub(value.__globals__[name]) for name in sorted(global_names)
+                              if name in value.__globals__}}
+        # A function factory can carry configuration just like a callable object.
+        # Explicit keys replace attached state, while code and dependencies stay
+        # relevant. The active-object guard bounds self references and aliases.
+        key = getattr(value, "cache_key", None)
+        result["key" if callable(key) else "state"] = sub(key() if callable(key) else vars(value))
+        return result
     if inspect.isclass(value) or inspect.isbuiltin(value):
         module = sys.modules.get(value.__module__)
         path = getattr(module, "__file__", None)

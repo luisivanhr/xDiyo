@@ -108,6 +108,12 @@ counters outside that key. `PreparedExperiment.outputs` is retained data, not an
 identity input: put a relevant external revision in `config` when it changes
 without changing model inputs.
 
+For custom artifact kinds, pass `renderers={"kind": callback}` to `run`. Each
+callback receives an `Artifact` and returns trusted HTML. The returned result
+uses these callbacks for display; provide them again to `load(run_id,
+renderers=...)` after restarting. Only artifact data is saved in recovery bundles.
+Renderer changes participate in final-result reuse identity.
+
 Use `reuse=False` for a new execution group even when everything matches.
 Names alone never identify reusable work. Only one writer may use an experiment
 or checkpoint namespace at a time.

@@ -1,5 +1,20 @@
 # Football analytics implementation progress
 
+## Experiment review fixes — 27 September 2026
+
+Configuration serialization now distinguishes typed values from literal descriptor
+mappings and normalizes stored configuration once. Plain NumPy arrays retain
+data-only dtype metadata. Function factories include attached state or an explicit
+cache key in recovery identity. Custom artifact renderers can be supplied during
+publication and reload, remain available on returned results for display, and
+participate in final-result identity without entering saved recovery bundles.
+
+The full suite passed **2,694 tests**, with three environment-related skips and
+eight existing warnings. An isolated pandas 2.2.3 run passed **768 tests**, with
+two expected pandas 3 string-sentinel skips. Regression coverage includes actual
+changed-state refits, descriptor collisions, array metadata round-trips and
+custom rendering across publication, display, reuse and reload.
+
 ## GitHub publication scope — 25 September 2026
 
 The installable package declares the analytics modules and UI. Collection modules and the collection CLI remain local for this publication. The GitHub dataset includes top-level season Parquet files, manifests, and relational `_tables/` versions. The `_collection/` directory stays local. Historical entries below describe the local combined environment at the time they were written.

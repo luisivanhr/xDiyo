@@ -64,6 +64,7 @@ and `predict` raises until a separate explicit restoration/refit supplies one.
 | run `name=None` | Explicit final display name; otherwise generated |
 | `name_fields=None` | Config field paths to append to candidate name; defaults to first six scalar/None entries |
 | run `config=None` | Run configuration included alongside experiment/prepared config |
+| `renderers=None` | Custom artifact kind to HTML callback mapping; retained on the returned result for display |
 | `reuse=True` | Restore exact complete final or reuse completed search trials; false allocates new execution group |
 
 Generated names start with candidate.name and append `key=value` parts separated
@@ -72,7 +73,7 @@ explicit paths such as `model.alpha` follow nested dictionaries. An absent path
 raises KeyError. A nested result defaults to `Tuned per fold`. Configuration
 details in leaderboards are escaped HTML, so names and values remain text.
 
-`load(run_id)` finds an exact completed record and never calls preparation,
+`load(run_id, renderers=None)` finds an exact completed record and never calls preparation,
 fitting or prediction. It rejects failed/unknown records and modern internal
 trial bundles that are not FootballExperiment final results. `leaderboard(weights,
 **kwargs)` forwards selectors, scaling, reference_scales, directions,
@@ -83,7 +84,7 @@ post-training reference for metric comparison groups and normalization.
 
 The identity includes X/y/metadata and order, definitions, folds, configuration,
 candidate factory/defaults/closures/globals, reports, refit/checkpoint policies,
-name/name_fields, local analytics source, Python/NumPy/pandas and identified
+name/name_fields, HTML renderers, local analytics source, Python/NumPy/pandas and identified
 framework versions. It does not infer hidden service/file changes. Custom opaque
 objects implement cache_key() with stable configuration data. Classes defined
 without a source file also include base classes, methods, properties and class
@@ -93,6 +94,9 @@ remain relevant. Mapping insertion order is ignored, including nested configurat
 custom cache keys and retained frame metadata. Sequence and table-axis order remain
 part of identity. Prepared outputs are stored but are not identity inputs.
 Global reads in nested factory functions, classes and comprehensions are included.
+Function-attached attributes also contribute, unless a callable `cache_key` on
+the function supplies their configuration. That key excludes diagnostic state,
+while function code, defaults, closures and referenced globals still contribute.
 Named metrics contribute their currently registered function, input kind and
 direction when requested by metric configurations, performance reports, model
 selection or an explicit partial-fit loss configuration. Unrelated registry
@@ -107,10 +111,22 @@ matching execution group or creates one. `find_completed` uses recovery_key,
 role (default final), and optional run_group; only complete records with recovery
 artifacts qualify. `load_run` returns record/training/report/extra; native models
 are not deserialized. `save_run` adds optional recovery, recovery_key and
-display_report arguments. The combined display is saved as HTML while numerical
+display_report and renderers arguments. The combined display is saved as HTML while numerical
 metrics come from the supplied final report. Existing save_predictions/save_html,
 role/run_group/selected_trial_id behavior remains in force. One final publication
 per group; serialize calls. Incomplete .pending directories are not published.
+
+Custom renderers receive an Artifact and return trusted HTML. `run(renderers=...)`
+uses them for publication and subsequent result display. Supply them again to
+`load(run_id, renderers=...)` or to an individual display call; callbacks are never
+saved in recovery bundles. Loading the data needs no callback. Renderer identity
+affects final-result reuse. Rendering failures leave the final unpublished.
+
+Configuration hashes accept original inputs. Literal mappings containing reserved
+typed-value keys are escaped under `__literal_config__`, including that escape
+key itself, so a descriptor-shaped dictionary differs from its typed value.
+Stored configuration is normalized once; passing an encoded descriptor back as
+new input deliberately treats it as a literal mapping.
 
 `ModelSelection.run(..., resume=False, checkpoint_policy=None,
 recovery_namespace=None)` requires an ExperimentStore when recovery/checkpoints
@@ -171,7 +187,9 @@ Structured NumPy arrays and record scalars retain named fields, nested/subarray
 dtypes, byte order, field offsets, alignment and data-only dtype metadata. Values
 are stored field by field; fixed-width byte fields retain all bytes and their
 declared widths, including embedded/trailing NUL bytes and non-UTF-8 values.
-Plain Python bytes, NumPy byte scalars and byte arrays also retain their types
+Plain NumPy arrays retain data-only dtype metadata too, including object and
+temporal arrays with byte order, units and multipliers. Legacy dtype-string
+array records remain readable. Plain Python bytes, NumPy byte scalars and byte arrays also retain their types
 and contents. Overlapping field layouts and opaque void fields are rejected
 before publication.
 Previous tuple tags remain readable, but omitted old metadata cannot
@@ -210,11 +228,11 @@ FootballExperiment.prepare(self)
 ```
 
 ```text
-FootballExperiment.run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None, development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None, refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True)
+FootballExperiment.run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None, development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None, refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True, execution=None, renderers=None)
 ```
 
 ```text
-FootballExperiment.load(self, run_id)
+FootballExperiment.load(self, run_id, *, renderers=None)
 ```
 
 ```text
@@ -258,7 +276,7 @@ ExperimentStore.load_run(self, run_id)
 ```
 
 ```text
-ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None, _finalize_report=None)
+ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, renderers=None, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None, _finalize_report=None)
 ```
 
 ```text
