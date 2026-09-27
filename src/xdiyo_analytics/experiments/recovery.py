@@ -70,6 +70,49 @@ def _unpack_frequency(value):
     return constructor(n=value["n"], normalize=value["normalize"], **parameters)
 
 
+def _pack_array_dtype(dtype):
+    """Describe structured layouts without serializing padding or object pointers."""
+    if dtype.fields is not None:
+        fields, spans = [], []
+        for name in dtype.names:
+            field, offset, *title = dtype.fields[name]
+            if field.itemsize and any(offset < end and offset + field.itemsize > start for start, end in spans):
+                raise TypeError("Recovery cannot encode overlapping structured array fields.")
+            if field.itemsize:
+                spans.append((offset, offset + field.itemsize))
+            fields.append({"name": name, "dtype": _pack_array_dtype(field), "offset": offset,
+                           "title": pack(title[0]) if title else None})
+        result = {"kind": "structured", "fields": fields, "itemsize": dtype.itemsize,
+                  "aligned": dtype.isalignedstruct}
+    elif dtype.subdtype is not None:
+        base, shape = dtype.subdtype
+        result = {"kind": "subarray", "base": _pack_array_dtype(base), "shape": list(shape)}
+    else:
+        if dtype.kind == "V":
+            raise TypeError("Recovery cannot encode opaque void fields in structured arrays.")
+        result = {"kind": "plain", "value": dtype.str}
+    if dtype.metadata is not None:
+        result["metadata"] = pack(dict(dtype.metadata))
+    return result
+
+
+def _unpack_array_dtype(value):
+    if value["kind"] == "structured":
+        fields = value["fields"]
+        dtype = np.dtype({"names": [field["name"] for field in fields],
+                          "formats": [_unpack_array_dtype(field["dtype"]) for field in fields],
+                          "offsets": [field["offset"] for field in fields],
+                          "titles": [unpack(field["title"]) if field["title"] is not None else None for field in fields],
+                          "itemsize": value["itemsize"]}, align=value["aligned"])
+    elif value["kind"] == "subarray":
+        dtype = np.dtype((_unpack_array_dtype(value["base"]), tuple(value["shape"])))
+    elif value["kind"] == "plain":
+        dtype = np.dtype(value["value"])
+    else:
+        raise ValueError(f"Unknown array dtype kind {value['kind']!r}.")
+    return np.dtype(dtype, metadata=unpack(value["metadata"])) if "metadata" in value else dtype
+
+
 def _pack_dtype(dtype):
     if isinstance(dtype, pd.SparseDtype):
         raise TypeError(f"Unsupported sparse recovery dtype {dtype}; convert to dense data before saving.")
@@ -128,6 +171,8 @@ def pack(value):
         return {"@": "NaT"}
     if isinstance(value, (np.datetime64, np.timedelta64)):
         return {"@": "numpy_temporal", "dtype": str(value.dtype), "value": int(value.astype("int64"))}
+    if isinstance(value, np.void) and value.dtype.fields is not None:
+        return {"@": "numpy_record", "array": pack(np.asarray(value))}
     if isinstance(value, np.generic):
         return pack(value.item())
     if value is None or isinstance(value, (str, bool, int)):
@@ -155,6 +200,11 @@ def pack(value):
         return result
     if isinstance(value, (pd.Timedelta,)):
         return {"@": "timedelta", "value": value.value}
+    if type(value) is timedelta:
+        # Native durations have a wider range than pandas nanoseconds. Keep
+        # their normalized integer components and scalar type without narrowing.
+        return {"@": "native_timedelta", "days": value.days,
+                "seconds": value.seconds, "microseconds": value.microseconds}
     if isinstance(value, Path):
         return {"@": "path", "value": str(value)}
     if isinstance(value, pd.MultiIndex):
@@ -186,6 +236,10 @@ def pack(value):
     if isinstance(value, pd.Series):
         return _pack_series(value)
     if isinstance(value, np.ndarray):
+        if value.dtype.fields is not None:
+            dtype = _pack_array_dtype(value.dtype)
+            return {"@": "structured_array", "dtype": dtype, "shape": list(value.shape),
+                    "fields": [[name, pack(value[name])] for name in value.dtype.names]}
         # Temporal tolist() can discard units or produce unsupported Python
         # timedeltas. Integer conversion preserves ticks, NaT and byte order.
         values = value.astype("int64").tolist() if value.dtype.kind in "mM" else value.tolist()
@@ -245,12 +299,38 @@ def unpack(value):
         return timestamp
     if tag == "timedelta":
         return pd.Timedelta(value["value"], unit="ns")
+    if tag == "native_timedelta":
+        components = {name: value[name] for name in ("days", "seconds", "microseconds")}
+        if (any(type(item) is not int for item in components.values())
+                or not -999999999 <= components["days"] <= 999999999
+                or not 0 <= components["seconds"] < 86400
+                or not 0 <= components["microseconds"] < 1000000):
+            raise ValueError("Native timedelta requires normalized integer days, seconds and microseconds.")
+        return timedelta(**components)
     if tag == "path":
         return Path(value["value"])
     if tag == "tuple":
         return tuple(unpack(item) for item in value["values"])
     if tag == "dict":
         return {unpack(key): unpack(item) for key, item in value["items"]}
+    if tag == "numpy_record":
+        array = unpack(value["array"])
+        if not isinstance(array, np.ndarray) or array.shape != () or array.dtype.fields is None:
+            raise ValueError("NumPy record requires a scalar structured array.")
+        return array[()]
+    if tag == "structured_array":
+        dtype = _unpack_array_dtype(value["dtype"])
+        if dtype.fields is None:
+            raise ValueError("Structured array requires a structured dtype.")
+        if [name for name, _ in value["fields"]] != list(dtype.names):
+            raise ValueError("Structured array fields do not match the recorded dtype.")
+        result = np.zeros(value["shape"], dtype=dtype)
+        for name, encoded in value["fields"]:
+            field = unpack(encoded)
+            if not isinstance(field, np.ndarray) or field.shape != result[name].shape or field.dtype != result[name].dtype:
+                raise ValueError("Structured array field does not match its recorded dtype and shape.")
+            result[name] = field
+        return result
     if tag == "array":
         values = unpack(value["values"])
         if np.dtype(value["dtype"]).kind == "O":

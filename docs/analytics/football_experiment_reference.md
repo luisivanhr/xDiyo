@@ -149,6 +149,7 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 | --- | --- |
 | `recovery.pack`, `unpack` | Tagged frames/Series/indexes/arrays, timestamps, nullable values, tuples/dicts, Plotly and library dataclasses; omit FoldResult/FittedModel.model; reject arbitrary objects |
 | `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel, categorical, Period and Interval metadata; accept previous dtype strings |
+| `_pack_array_dtype`, `_unpack_array_dtype` | Reconstruct structured NumPy layouts and nested fields without storing padding bytes or object pointers |
 | `dump_bundle`, `load_bundle` | Exclusive schema-1 JSON writer/reader; no executable model pickle |
 | `signature`, nested `semantic_code` | Executable configuration identity with normalized source locations, explicit custom keys and bounded recursion |
 | `execution_key` | Combines input signatures, runtime versions and every local analytics Python source file |
@@ -164,8 +165,13 @@ new bundles. Period scalars, PeriodIndex axes and period-valued columns retain e
 ordinals and frequency, including empty indexes and NaT values. Interval scalars,
 IntervalIndex axes and interval-valued or categorical columns retain endpoints,
 closure, subtype and missing values, including empty indexes and temporal endpoint
-metadata. Previous tuple tags
-remain readable, but omitted old metadata cannot
+metadata. Native Python timedelta values retain their exact days, seconds and
+microseconds, including values outside pandas' nanosecond duration range.
+Structured NumPy arrays and record scalars retain named fields, nested/subarray
+dtypes, byte order, field offsets, alignment and data-only dtype metadata. Values
+are stored field by field; overlapping field layouts and opaque void fields are
+rejected before publication.
+Previous tuple tags remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when
 that artifact was actually saved. Original unknown match_columns stay empty.
