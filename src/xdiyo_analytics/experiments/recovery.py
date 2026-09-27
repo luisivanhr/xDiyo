@@ -73,6 +73,8 @@ def _unpack_frequency(value):
 def _pack_dtype(dtype):
     if isinstance(dtype, pd.SparseDtype):
         raise TypeError(f"Unsupported sparse recovery dtype {dtype}; convert to dense data before saving.")
+    if isinstance(dtype, pd.IntervalDtype):
+        return {"kind": "interval", "subtype": _pack_dtype(dtype.subtype), "closed": dtype.closed}
     if isinstance(dtype, pd.PeriodDtype):
         return {"kind": "period", "freq": _pack_frequency(dtype.freq)}
     if isinstance(dtype, pd.StringDtype):
@@ -86,6 +88,8 @@ def _unpack_dtype(dtype):
     # Older bundles describe all dtypes by string and remain readable.
     if isinstance(dtype, str):
         return dtype
+    if dtype["kind"] == "interval":
+        return pd.IntervalDtype(subtype=_unpack_dtype(dtype["subtype"]), closed=dtype["closed"])
     if dtype["kind"] == "period":
         return pd.PeriodDtype(freq=_unpack_frequency(dtype["freq"]))
     if dtype["kind"] == "string":
@@ -130,6 +134,8 @@ def pack(value):
         return value
     if isinstance(value, float):
         return value if np.isfinite(value) else {"@": "float", "value": str(value)}
+    if isinstance(value, pd.Interval):
+        return {"@": "interval", "left": pack(value.left), "right": pack(value.right), "closed": value.closed}
     if isinstance(value, pd.Period):
         return {"@": "period", "ordinal": value.ordinal, "freq": _pack_frequency(value.freq)}
     if isinstance(value, date) and not isinstance(value, datetime):
@@ -160,6 +166,11 @@ def pack(value):
     if isinstance(value, pd.PeriodIndex):
         return {"@": "periodindex", "ordinals": value.asi8.tolist(),
                 "freq": _pack_frequency(value.freq), "name": pack(value.name)}
+    if isinstance(value, pd.IntervalIndex):
+        # Keep typed endpoints (including temporal frequency metadata), instead
+        # of inferring their dtype from scalar intervals or an empty value list.
+        return {"@": "intervalindex", "left": pack(value.left), "right": pack(value.right),
+                "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
     if isinstance(value, pd.Index):
         result = {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
         if isinstance(value, (pd.DatetimeIndex, pd.TimedeltaIndex)):
@@ -214,6 +225,8 @@ def unpack(value):
         if type(value["value"]) is not int:
             raise ValueError("NumPy temporal scalar requires an integer tick count.")
         return np.asarray(value["value"], dtype="int64").astype(dtype)[()]
+    if tag == "interval":
+        return pd.Interval(unpack(value["left"]), unpack(value["right"]), closed=value["closed"])
     if tag == "period":
         if type(value["ordinal"]) is not int:
             raise ValueError("Period requires an integer ordinal.")
@@ -269,6 +282,12 @@ def unpack(value):
         dtype = pd.PeriodDtype(freq=_unpack_frequency(value["freq"]))
         array = pd.arrays.PeriodArray(np.asarray(ordinals, dtype="int64"), dtype=dtype)
         return pd.PeriodIndex(array, name=unpack(value["name"]))
+    if tag == "intervalindex":
+        dtype = _unpack_dtype(value["dtype"])
+        if not isinstance(dtype, pd.IntervalDtype):
+            raise ValueError("Interval index requires an interval dtype.")
+        return pd.IntervalIndex.from_arrays(unpack(value["left"]), unpack(value["right"]),
+                                            closed=dtype.closed, dtype=dtype, name=unpack(value["name"]))
     if tag == "rangeindex":
         return pd.RangeIndex(value["start"], value["stop"], value["step"], name=unpack(value["name"]))
     if tag == "multiindex":
@@ -379,17 +398,25 @@ def signature(value, _active=None):
     if inspect.ismethod(value):
         return {"method": sub(value.__func__), "self": sub(value.__self__)}
     if inspect.isfunction(value):
+        import dis
         import marshal
+        global_names = set()
         def semantic_code(code):
             # Notebook execution counters/filenames and moved source lines are
             # not parameter changes. Preserve bytecode/constants, not locations.
+            # Nested classes/functions/comprehensions share the same globals.
+            # Attribute accesses and class assignments also populate co_names,
+            # but do not read same-named objects from that global namespace.
+            global_names.update(instruction.argval for instruction in dis.get_instructions(code)
+                                if instruction.opname in {"LOAD_GLOBAL", "LOAD_NAME", "LOAD_FROM_DICT_OR_GLOBALS"})
             return code.replace(co_filename="", co_firstlineno=1, co_linetable=b"",
                                 co_consts=tuple(semantic_code(item) if isinstance(item, types.CodeType) else item
                                                 for item in code.co_consts))
-        return {"function": value.__qualname__, "code": hashlib.sha256(marshal.dumps(semantic_code(value.__code__))).hexdigest(),
+        code = semantic_code(value.__code__)
+        return {"function": value.__qualname__, "code": hashlib.sha256(marshal.dumps(code)).hexdigest(),
                 "defaults": sub(value.__defaults__), "kwdefaults": sub(value.__kwdefaults__),
                 "closure": [sub(cell.cell_contents) for cell in (value.__closure__ or ())],
-                "globals": {name: sub(value.__globals__[name]) for name in value.__code__.co_names
+                "globals": {name: sub(value.__globals__[name]) for name in sorted(global_names)
                             if name in value.__globals__ and name != value.__name__}}
     if inspect.isclass(value) or inspect.isbuiltin(value):
         module = sys.modules.get(value.__module__)
@@ -427,8 +454,15 @@ def signature(value, _active=None):
     if callable(getattr(value, "cache_key", None)):
         return {"custom": sub(type(value)), "key": sub(value.cache_key())}
     if is_dataclass(value):
-        return {"type": sub(type(value)), "fields": {f.name: sub(getattr(value, f.name)) for f in fields(value)
-                if f.init and f.name not in {"observer"}}}
+        declared = [f for f in fields(value) if f.init and f.name not in {"observer"}]
+        result = {"type": sub(type(value)), "fields": {f.name: sub(getattr(value, f.name)) for f in declared}}
+        # Consumers declare fields whose named runtime definitions affect execution.
+        # Keep the requested configuration as well as its resolved implementation.
+        resolved = {f.name: sub(f.metadata["recovery_resolver"](getattr(value, f.name)))
+                    for f in declared if "recovery_resolver" in f.metadata}
+        if resolved:
+            result["resolved"] = resolved
+        return result
     if callable(getattr(value, "get_params", None)):
         return {"type": sub(type(value)), "parameters": sub(value.get_params(deep=False))}
     try:
