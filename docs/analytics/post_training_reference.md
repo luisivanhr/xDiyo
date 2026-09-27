@@ -19,7 +19,7 @@ PostTrainingAnalysis(reporters=<new dict>, title='Post-training analysis')
 | `title` | Display title of the returned shared report. |
 | `training` | Existing `TrainingResult`; may be None for experiment-only studies. The caller owns its data/provenance consistency. |
 | `fold_ids` | None selects all fitted folds in stored order. Otherwise distinct existing fitted IDs in the requested order; IDs are retained. Prediction studies require a nonempty selection. |
-| `experiment` | Optional `ExperimentStore` supplied to experiment reporters. No implicit save or model reload. |
+| `experiment` | Optional `ExperimentStore` supplied directly to analysis. `FootballExperiment.run` instead supplies a read-only record snapshot including the pending final: `read_runs(role=..., run_group=...)`, `path`, copied `manifest`; no mutation or artifact loading. Its data-only reporter outputs publish with the run and HTML; explicit load restores them without recomputation, while reuse refreshes them in memory. |
 
 Prediction reporters expose `type`, `partition`, `supported_types`, optional
 `pooling` and `run(context) -> StudyResult`. They may subclass `PredictionReporter`

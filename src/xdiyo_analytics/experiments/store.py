@@ -250,14 +250,17 @@ class ExperimentStore:
 
     def save_run(self, training, report, *, name, config, save_predictions=True, save_html=False,
                  role="final", run_group=None, selected_trial_id=None, recovery=None, recovery_key=None,
-                 display_report=None):
+                 display_report=None, _finalize_report=None):
         """Persist computed numerical studies and optional predictions/HTML.
 
         A successful run is published only after its artifacts are written.
         Incomplete .pending directories are ignored by read_runs. Metrics retain
         study/fold/target/output/settings, evaluated-sample fingerprint and scope.
         Tables are stored as JSON table documents; predictions/y/metadata are
-        Parquet with original indexes. No reporter or model is rerun to save.
+        Parquet with original indexes. No model is rerun to save. The private
+        FootballExperiment finalizer adds experiment-report snapshots after the
+        numerical record is assembled, before HTML/recovery and publication.
+        Other callers save their already computed report without running reporters.
         Publication retries brief Windows access/sharing failures up to six
         attempts (1.55 seconds backoff); persistent errors propagate and leave
         artifacts in the unpublished .pending directory.
@@ -329,6 +332,8 @@ class ExperimentStore:
                                   test_positions=fold.test_positions.tolist(), feature_columns=list(fold.feature_columns),
                                   target_columns=list(fold.target_columns)))
             record["artifacts"]["folds"] = saved
+        if _finalize_report is not None:
+            display_report = _finalize_report(_json(record, missing=True))
         if save_html:
             (display_report if display_report is not None else report).to_html(stage / "report.html")
             record["artifacts"]["report"] = "report.html"

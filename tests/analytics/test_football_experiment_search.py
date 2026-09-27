@@ -214,3 +214,71 @@ def test_stateful_nested_source_recovery_identity_matches_the_fitted_candidates(
     for old,new in zip(first.training.folds,second.training.folds):
         pd.testing.assert_frame_equal(old.predictions['predict'],new.predictions['predict'])
         assert new.model is not None  # Outer evaluation still fits afresh.
+
+
+class ReorderedCountingFactory(CountingFactory):
+    def __init__(self, alpha, events, gate=None, *, reverse=False):
+        super().__init__(alpha, events, gate)
+        self.reverse = reverse
+
+    def cache_key(self):
+        key = {'alpha': self.alpha, 'adapter': 'counting Ridge',
+               'settings': {'solver': 'auto', 'positive': False}}
+        return _reorder_mappings(key) if self.reverse else key
+
+
+def _reorder_mappings(value):
+    if isinstance(value, dict):
+        return {key: _reorder_mappings(item) for key, item in reversed(list(value.items()))}
+    return value
+
+
+@pytest.mark.parametrize('interrupted', [False, True])
+def test_reordered_configuration_recovers_final_and_completed_search_trials(tmp_path, interrupted):
+    events = []
+    gate = tmp_path / 'continue.flag' if interrupted else None
+    settings = {'seed': 7, 'labels': {'target': 'goals', 'layout': 'match'}}
+
+    def declaration(reverse):
+        config = _reorder_mappings(settings) if reverse else deepcopy(settings)
+        preparation = prepared(holdout=True)
+        preparation.config = deepcopy(config)
+        preparation.dataset.X.attrs = deepcopy(config)
+        candidates = [Candidate(name, ReorderedCountingFactory(alpha, events, candidate_gate, reverse=reverse),
+                                config={'alpha': alpha, **config} if not reverse else {**config, 'alpha': alpha})
+                      for name, alpha, candidate_gate in [('first', .01, None), ('second', 1., gate)]]
+        experiment = FootballExperiment('Mapping order recovery', output_dir=tmp_path, config=config)
+        return experiment, preparation, ModelSelection(candidates, metrics='mse'), config
+
+    experiment, preparation, search, config = declaration(False)
+    def run(experiment, preparation, search, config):
+        return experiment.run(preparation, model_selection=search, selection_plan=plan(preparation.dataset),
+                              post_analysis=post(), config=config)
+
+    if interrupted:
+        with pytest.raises(RuntimeError, match='injected process interruption'):
+            run(experiment, preparation, search, config)
+        completed = next(record for record in experiment.store.read_runs(role='trial')
+                         if record['status'] == 'complete')
+        assert len(events) == 3
+        gate.write_text('resume')
+    else:
+        first = run(experiment, preparation, search, config)
+        assert len(events) == 5
+
+    experiment, preparation, search, config = declaration(True)
+    result = run(experiment, preparation, search, config)
+    if interrupted:
+        assert not result.reused and len(events) == 6
+        assert result.selection.trials[0].saved_run_id == completed['run_id']
+        assert all(fold.model is None for fold in result.selection.trials[0].training.folds)
+        assert result.record['run_group'] == completed['run_group']
+    else:
+        assert result.reused and result.record['run_id'] == first.record['run_id']
+        assert len(events) == 5
+    assert len(experiment.store.read_runs(role='final')) == 1
+    before = len(events)
+    experiment, preparation, search, config = declaration(False)
+    cached = run(experiment, preparation, search, config)
+    assert cached.reused and cached.record['run_id'] == result.record['run_id']
+    assert len(events) == before

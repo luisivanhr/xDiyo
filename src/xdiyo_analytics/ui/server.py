@@ -275,7 +275,7 @@ class BuilderState:
             recipe = self.recipe_paths(request['recipe'])
             store = ExperimentStore(recipe['output_dir'], recipe['name'])
             return {'runs': [{'id': r['run_id'], 'name': r['name'], 'status': r['status']}
-                             for r in store.read_runs()]}
+                             for r in store.read_runs(role='final') if r['status'] == 'complete']}
         if route == 'load_run':
             from ..experiments.football import FootballExperiment
             recipe = self.recipe_paths(request['recipe'])

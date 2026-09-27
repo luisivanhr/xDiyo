@@ -87,7 +87,9 @@ name/name_fields, local analytics source, Python/NumPy/pandas and identified
 framework versions. It does not infer hidden service/file changes. Custom opaque
 objects implement cache_key() with stable configuration data. Observer state is
 excluded. Unchanged notebook code locations are normalized; changed constants
-remain relevant. Prepared outputs are stored but are not identity inputs.
+remain relevant. Mapping insertion order is ignored, including nested configuration,
+custom cache keys and retained frame metadata. Sequence and table-axis order remain
+part of identity. Prepared outputs are stored but are not identity inputs.
 
 `ExperimentStore.open_run(name, recovery_key, reuse=True)` reopens the newest
 matching execution group or creates one. `find_completed` uses recovery_key,
@@ -140,13 +142,16 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 | `signature`, nested `semantic_code` | Executable configuration identity with normalized source locations, explicit custom keys and bounded recursion |
 | `execution_key` | Combines input signatures, runtime versions and every local analytics Python source file |
 | `_display_name`, `_summary` | Generated final names and serializable selection evidence |
-| `FootballExperiment._experiment_reports` | Refresh experiment reporters after save and on reuse |
+| `FootballExperiment._experiment_reports` | Save experiment-report snapshots before publication; replace those studies in memory on reuse |
+| `_ExperimentRecords` | Read-only sorted record snapshot including the pending final; `read_runs(role=..., run_group=...)`, `path`, copied `manifest`; no mutation or artifact-loading methods |
 | `_CheckpointAdapter` | Fresh fit proxy, contained latest pointer, offered-checkpoint publication and passthrough prediction |
 | `legacy.load_legacy`, internal `path`/`frame` | Read actual saved tables/diagnostics/parquet with path containment; absent scope is not guessed |
 | `StoredHTMLReport.to_html` | Preserve exact saved legacy HTML when it exists |
 
 MultiIndex levels/codes/names/sortorder and nullable class dtypes are retained by
-new bundles. Previous tuple tags remain readable, but omitted old metadata cannot
+new bundles. Period scalars, PeriodIndex axes and period-valued columns retain exact
+ordinals and frequency, including empty indexes and NaT values. Previous tuple tags
+remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when
 that artifact was actually saved. Original unknown match_columns stay empty.
@@ -230,7 +235,7 @@ ExperimentStore.load_run(self, run_id)
 ```
 
 ```text
-ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None)
+ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None, _finalize_report=None)
 ```
 
 ```text
