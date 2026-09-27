@@ -1,5 +1,36 @@
 # Football analytics implementation progress
 
+## Experiment review fixes — 28 September 2026
+
+Configuration serialization distinguishes typed values from literal descriptor
+mappings and normalizes stored configuration once. Plain NumPy arrays retain
+data-only dtype metadata. Report tables and training histories retain their
+attributes even in numerical-only records; empty attributes preserve the older
+table-JSON format. Unsupported attribute values fail before publication.
+
+Function factories include attached state or an explicit cache key in recovery
+identity. Explicit static/class cache keys also apply to source-backed classes,
+with normal Python binding for inherited factory and metaclass methods. Custom
+artifact renderers can be supplied during publication and reload, remain available
+on returned results for display, and participate in final-result identity without
+entering saved recovery bundles.
+
+Execution signatures distinguish list and tuple values, including nested candidate
+configuration, callable state and custom cache keys. Unsupported NumPy masked
+arrays and extended-precision longdouble/clongdouble values fail with explicit
+conversion errors before publication, including empty arrays and structured fields.
+Pandas dtypes are checked before value conversion to avoid affecting subsequent
+ordinary floating-point operations on Windows. Existing recovery readers are unchanged.
+
+The full suite passed **2,824 tests**, with three environment-related skips and
+eight existing warnings. An isolated pandas 2.2.3 run passed **898 tests**, with
+two expected pandas 3 string-sentinel skips. Regression coverage includes actual
+changed-state refits, inherited class-key binding, descriptor collisions, array
+and table metadata round-trips, and custom rendering across publication, display,
+reuse and reload. New regressions verify actual list/tuple-driven refits, precise
+unsupported-value rejection, and ordinary model publication and reload after a
+rejected categorical value in the same process.
+
 ## GitHub publication scope — 25 September 2026
 
 The installable package declares the analytics modules and UI. Collection modules and the collection CLI remain local for this publication. The GitHub dataset includes top-level season Parquet files, manifests, and relational `_tables/` versions. The `_collection/` directory stays local. Historical entries below describe the local combined environment at the time they were written.

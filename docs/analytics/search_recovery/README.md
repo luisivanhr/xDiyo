@@ -1,5 +1,10 @@
 # Recovered Negative Binomial search — September 19, 2026
 
+This is a historical local-run reproduction. Its script requires the original
+`experiments/corners_nb_first_grid_search--8767f003` prediction store, which stays
+local and is excluded from the published example bundles. A fresh checkout can
+run the [current examples](../../../examples/bundles/README.md) without this store.
+
 All **90 completed candidates** from run group
 `933d5702-69f3-478c-9278-7a8ed7cdb281` were recovered from stored prediction bundles.
 No model was fitted or asked to predict during recovery. Original artifacts were

@@ -64,6 +64,7 @@ and `predict` raises until a separate explicit restoration/refit supplies one.
 | run `name=None` | Explicit final display name; otherwise generated |
 | `name_fields=None` | Config field paths to append to candidate name; defaults to first six scalar/None entries |
 | run `config=None` | Run configuration included alongside experiment/prepared config |
+| `renderers=None` | Custom artifact kind to HTML callback mapping; retained on the returned result for display |
 | `reuse=True` | Restore exact complete final or reuse completed search trials; false allocates new execution group |
 
 Generated names start with candidate.name and append `key=value` parts separated
@@ -72,7 +73,7 @@ explicit paths such as `model.alpha` follow nested dictionaries. An absent path
 raises KeyError. A nested result defaults to `Tuned per fold`. Configuration
 details in leaderboards are escaped HTML, so names and values remain text.
 
-`load(run_id)` finds an exact completed record and never calls preparation,
+`load(run_id, renderers=None)` finds an exact completed record and never calls preparation,
 fitting or prediction. It rejects failed/unknown records and modern internal
 trial bundles that are not FootballExperiment final results. `leaderboard(weights,
 **kwargs)` forwards selectors, scaling, reference_scales, directions,
@@ -83,21 +84,55 @@ post-training reference for metric comparison groups and normalization.
 
 The identity includes X/y/metadata and order, definitions, folds, configuration,
 candidate factory/defaults/closures/globals, reports, refit/checkpoint policies,
-name/name_fields, local analytics source, Python/NumPy/pandas and identified
+name/name_fields, HTML renderers, local analytics source, Python/NumPy/pandas and identified
 framework versions. It does not infer hidden service/file changes. Custom opaque
-objects implement cache_key() with stable configuration data. Observer state is
-excluded. Unchanged notebook code locations are normalized; changed constants
-remain relevant. Prepared outputs are stored but are not identity inputs.
+objects implement cache_key() with stable configuration data. Classes defined
+without a source file also include base classes, methods, properties and class
+configuration in identity. A static/classmethod `cache_key()` describes runtime
+class configuration whether or not the class has a source file; source-file
+identity still contributes when available. Class methods inherited from a factory
+base bind to the actual factory subclass; metaclass-defined class methods bind to
+the factory's metaclass, matching normal Python lookup. Ordinary instance methods
+are not called on classes.
+Observer state is excluded. Unchanged notebook code locations are normalized; changed constants
+remain relevant. Mapping insertion order is ignored, including nested configuration,
+custom cache keys and retained frame metadata. List and tuple containers have
+distinct signatures, including nested configuration and custom keys. Sequence
+and table-axis order remain part of identity. Prepared outputs are stored but are not identity inputs.
+Global reads in nested factory functions, classes and comprehensions are included.
+Function-attached attributes also contribute, unless a callable `cache_key` on
+the function supplies their configuration. That key excludes diagnostic state,
+while function code, defaults, closures and referenced globals still contribute.
+Named metrics contribute their currently registered function, input kind and
+direction when requested by metric configurations, performance reports, model
+selection or an explicit partial-fit loss configuration. Unrelated registry
+entries do not affect identity. Ordinary selection metrics are recomputed from
+compatible saved candidate predictions; changing them can select a new winner
+without refitting those candidates. Retained custom evidence reporters contribute
+their metric definitions to the candidate identity because those studies are
+loaded with the saved trial.
 
 `ExperimentStore.open_run(name, recovery_key, reuse=True)` reopens the newest
 matching execution group or creates one. `find_completed` uses recovery_key,
 role (default final), and optional run_group; only complete records with recovery
 artifacts qualify. `load_run` returns record/training/report/extra; native models
 are not deserialized. `save_run` adds optional recovery, recovery_key and
-display_report arguments. The combined display is saved as HTML while numerical
+display_report and renderers arguments. The combined display is saved as HTML while numerical
 metrics come from the supplied final report. Existing save_predictions/save_html,
 role/run_group/selected_trial_id behavior remains in force. One final publication
 per group; serialize calls. Incomplete .pending directories are not published.
+
+Custom renderers receive an Artifact and return trusted HTML. `run(renderers=...)`
+uses them for publication and subsequent result display. Supply them again to
+`load(run_id, renderers=...)` or to an individual display call; callbacks are never
+saved in recovery bundles. Loading the data needs no callback. Renderer identity
+affects final-result reuse. Rendering failures leave the final unpublished.
+
+Configuration hashes accept original inputs. Literal mappings containing reserved
+typed-value keys are escaped under `__literal_config__`, including that escape
+key itself, so a descriptor-shaped dictionary differs from its typed value.
+Stored configuration is normalized once; passing an encoded descriptor back as
+new input deliberately treats it as a literal mapping.
 
 `ModelSelection.run(..., resume=False, checkpoint_policy=None,
 recovery_namespace=None)` requires an ExperimentStore when recovery/checkpoints
@@ -135,18 +170,40 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 | Helper/module | Purpose and limits |
 | --- | --- |
 | `recovery.pack`, `unpack` | Tagged frames/Series/indexes/arrays, timestamps, nullable values, tuples/dicts, Plotly and library dataclasses; omit FoldResult/FittedModel.model; reject arbitrary objects |
-| `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel and categorical metadata; accept previous dtype strings |
+| `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel, categorical, Period and Interval metadata; accept previous dtype strings |
+| `_reject_numpy_dtype`, `_reject_numpy_value` | Reject masked arrays and extended-precision NumPy types before conversion, including empty and nested structured dtypes |
+| `_pack_array_dtype`, `_unpack_array_dtype` | Reconstruct structured NumPy layouts and nested fields without storing padding bytes or object pointers |
 | `dump_bundle`, `load_bundle` | Exclusive schema-1 JSON writer/reader; no executable model pickle |
 | `signature`, nested `semantic_code` | Executable configuration identity with normalized source locations, explicit custom keys and bounded recursion |
 | `execution_key` | Combines input signatures, runtime versions and every local analytics Python source file |
 | `_display_name`, `_summary` | Generated final names and serializable selection evidence |
-| `FootballExperiment._experiment_reports` | Refresh experiment reporters after save and on reuse |
+| `FootballExperiment._experiment_reports` | Save experiment-report snapshots before publication; replace those studies in memory on reuse |
+| `_ExperimentRecords` | Read-only sorted record snapshot including the pending final; `read_runs(role=..., run_group=...)`, `path`, copied `manifest`; no mutation or artifact-loading methods |
 | `_CheckpointAdapter` | Fresh fit proxy, contained latest pointer, offered-checkpoint publication and passthrough prediction |
 | `legacy.load_legacy`, internal `path`/`frame` | Read actual saved tables/diagnostics/parquet with path containment; absent scope is not guessed |
 | `StoredHTMLReport.to_html` | Preserve exact saved legacy HTML when it exists |
 
 MultiIndex levels/codes/names/sortorder and nullable class dtypes are retained by
-new bundles. Previous tuple tags remain readable, but omitted old metadata cannot
+new bundles. Period scalars, PeriodIndex axes and period-valued columns retain exact
+ordinals and frequency, including empty indexes and NaT values. Interval scalars,
+IntervalIndex axes and interval-valued or categorical columns retain endpoints,
+closure, subtype and missing values, including empty indexes and temporal endpoint
+metadata. Native Python timedelta values retain their exact days, seconds and
+microseconds, including values outside pandas' nanosecond duration range.
+Structured NumPy arrays and record scalars retain named fields, nested/subarray
+dtypes, byte order, field offsets, alignment and data-only dtype metadata. Values
+are stored field by field; fixed-width byte fields retain all bytes and their
+declared widths, including embedded/trailing NUL bytes and non-UTF-8 values.
+Plain NumPy arrays retain data-only dtype metadata too, including object and
+temporal arrays with byte order, units and multipliers. Legacy dtype-string
+array records remain readable. Plain Python bytes, NumPy byte scalars and byte arrays also retain their types
+and contents. Overlapping field layouts and opaque void fields are rejected
+before publication. NumPy masked arrays (including the masked scalar sentinel)
+and extended-precision longdouble/clongdouble values or dtypes are unsupported
+and raise TypeError before publication. This includes empty arrays and nested
+structured fields. Choose a missing-value policy and convert to ordinary arrays
+or supported numerical dtypes explicitly before saving.
+Previous tuple tags remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when
 that artifact was actually saved. Original unknown match_columns stay empty.
@@ -182,11 +239,11 @@ FootballExperiment.prepare(self)
 ```
 
 ```text
-FootballExperiment.run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None, development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None, refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True)
+FootballExperiment.run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None, development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None, refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True, execution=None, renderers=None)
 ```
 
 ```text
-FootballExperiment.load(self, run_id)
+FootballExperiment.load(self, run_id, *, renderers=None)
 ```
 
 ```text
@@ -230,7 +287,7 @@ ExperimentStore.load_run(self, run_id)
 ```
 
 ```text
-ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None)
+ExperimentStore.save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, renderers=None, role='final', run_group=None, selected_trial_id=None, recovery=None, recovery_key=None, display_report=None, _finalize_report=None)
 ```
 
 ```text

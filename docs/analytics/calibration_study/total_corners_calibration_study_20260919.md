@@ -1,5 +1,9 @@
 # Total-corners prediction spread study
 
+The companion script reproduces a historical local run and requires its original
+saved predictions. That store remains excluded from publication; it is not an
+input to the [current runnable examples](../../../examples/bundles/README.md).
+
 ## Finding
 
 The saved run reproducing the reporter screenshot is the Lasso run `bd20f431-2828-4e43-b0b4-026eeda650aa`, created 2026-09-19 10:29 UTC, under `experiments/corners_lasso_first_grid_search--fcd9789c`. Its report contains the exact `post/Residuals` view with `overall`, `partition: score`, `layout: match`, `9,204 rows`, `9,204 matches`, and `prediction pooling: last`. The stored fold artifacts contain two folds with 4,604 and 4,600 eligible match rows.

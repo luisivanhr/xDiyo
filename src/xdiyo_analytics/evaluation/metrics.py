@@ -22,6 +22,13 @@ class MetricDefinition:
     direction: str | None
 
 
+def _resolved_metric_definitions(requests):
+    """Resolve only requested registry entries for execution identities."""
+    requests = [requests] if isinstance(requests, (str, Metric)) else requests
+    names = [item if isinstance(item, str) else item.name for item in requests]
+    return {name: METRICS.get(name) for name in names}
+
+
 @dataclass(frozen=True)
 class Metric:
     """One metric request. name identifies a registered calculation.
@@ -31,7 +38,7 @@ class Metric:
     predict_proba according to kind. parameters are passed to the calculation.
     direction optionally supplies an explicit optimization preference.
     """
-    name: str
+    name: str = field(metadata={"recovery_resolver": _resolved_metric_definitions})
     target: str | None = None
     output: str | None = None
     parameters: dict = field(default_factory=dict)

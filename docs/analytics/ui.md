@@ -162,7 +162,7 @@ One fold is one execution job. CPU is the initial device default. An explicit CU
 
 The report viewer opens inside the UI and retains its existing study navigation, collapse controls, and fold selection. Changing report filters does not refit a model. The default `MatchResultReporter` uses the automatically prepared `team_catalog`, built from source match names; absent names retain the reporter's ID-based fallback. Override that catalog to supply other display names or optional local badges. `input.TeamCatalog` reads an existing catalog JSON file, resolving badge paths relative to that file.
 
-The experiment name and output folder define the experiment store. Earlier final runs in that same store contribute to the leaderboard; internal search trials remain separate. Generated run names include scalar model settings to help distinguish configurations; custom run names remain available. Saved-run listing can reopen a report without preparing data or fitting a model.
+The experiment name and output folder define the experiment store. Earlier final runs in that same store contribute to the leaderboard; internal search trials remain separate. Generated run names include scalar model settings to help distinguish configurations; custom run names remain available. The saved-run list shows completed final runs, including older saved results, and reopens reports without preparing data or fitting a model.
 
 Reuse is enabled by default. The engine identifies a completed compatible run from its data and configuration; completed search trials can also be recovered. Recovered experiment results are data-only and do not secretly deserialize an executable fitted model. To retain a model for prediction, save a live fitted fold model or the optional final refitted model. A multi-fold run requires choosing a fold when saving one fold model.
 
@@ -180,12 +180,15 @@ The prediction recipe prepares the full history, retains missing future targets,
 
 **Export Python** and **Export notebook** generate inspectable code using `prepare_recipe` and `run_recipe`. Exporting does not run the code. The notebook separates preparation, a small feature preview, and execution. Paths resolved by the local builder are exported as absolute paths; update them when sharing with a colleague on another machine.
 
-The exported recipe remains usable without the UI:
+The [bundled example recipe](../../examples/bundles/README.md) is usable without
+the UI. Run this from the repository root; it prepares the published data and
+fits the configured fixed Lasso experiment, writing new results under the ignored
+`experiments/example_bundles/` directory:
 
 ```python
 from xdiyo_analytics.ui import read_recipe, prepare_recipe, run_recipe
 
-recipe = read_recipe("experiments/_recipes/Corners_experiment.json")
+recipe = read_recipe("examples/bundles/corners_lasso.json")
 prepared = prepare_recipe(recipe)
 result = run_recipe(recipe, prepared=prepared)
 result.show()

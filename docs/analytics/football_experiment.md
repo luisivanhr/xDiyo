@@ -108,6 +108,12 @@ counters outside that key. `PreparedExperiment.outputs` is retained data, not an
 identity input: put a relevant external revision in `config` when it changes
 without changing model inputs.
 
+For custom artifact kinds, pass `renderers={"kind": callback}` to `run`. Each
+callback receives an `Artifact` and returns trusted HTML. The returned result
+uses these callbacks for display; provide them again to `load(run_id,
+renderers=...)` after restarting. Only artifact data is saved in recovery bundles.
+Renderer changes participate in final-result reuse identity.
+
 Use `reuse=False` for a new execution group even when everything matches.
 Names alone never identify reusable work. Only one writer may use an experiment
 or checkpoint namespace at a time.
@@ -207,8 +213,13 @@ their own searches/evaluations if not already completed.
 The combined report orders descriptive pre-training studies, internal candidate
 comparison, and final post-training studies. Only final post-training numerical
 metrics enter the final run record. Default leaderboards hide trials and show
-expandable configuration details. Experiment reporters refresh after publication
-and on reuse; an explicitly loaded result retains its saved report snapshot.
+expandable configuration details. Before publication, experiment reporters receive
+a read-only snapshot of saved records plus the current final. Its `read_runs`
+method supports `role` and `run_group` filters; `path` and copied `manifest` are
+available for inspection, but the current final's artifacts are not yet loadable.
+The report snapshot and HTML publish together with the final run. Reporter failure
+leaves that final unpublished. Reuse refreshes experiment studies in memory without
+duplicates or rewriting the saved snapshot; explicit load performs no reporting.
 
 For nested CV, pass `inner_plan_factory` instead of `selection_plan`. It receives
 each outer training population with local positions. It returns inner splits in
