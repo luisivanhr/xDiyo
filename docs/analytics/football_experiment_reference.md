@@ -169,8 +169,11 @@ metadata. Native Python timedelta values retain their exact days, seconds and
 microseconds, including values outside pandas' nanosecond duration range.
 Structured NumPy arrays and record scalars retain named fields, nested/subarray
 dtypes, byte order, field offsets, alignment and data-only dtype metadata. Values
-are stored field by field; overlapping field layouts and opaque void fields are
-rejected before publication.
+are stored field by field; fixed-width byte fields retain all bytes and their
+declared widths, including embedded/trailing NUL bytes and non-UTF-8 values.
+Plain Python bytes, NumPy byte scalars and byte arrays also retain their types
+and contents. Overlapping field layouts and opaque void fields are rejected
+before publication.
 Previous tuple tags remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when

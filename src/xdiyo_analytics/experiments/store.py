@@ -119,6 +119,11 @@ def _json(value, *, missing=False, temporal_descriptors=True):
         if not temporal_descriptors:
             raise TypeError("NumPy temporal summaries require data-only encoding.")
         return {"__numpy_temporal__": {"dtype": str(value.dtype), "ticks": int(value.astype("int64"))}}
+    if type(value) is timedelta:
+        if not temporal_descriptors:
+            raise TypeError("Native timedelta summaries require data-only encoding.")
+        return {"__native_timedelta__": {"days": value.days, "seconds": value.seconds,
+                                         "microseconds": value.microseconds}}
     if isinstance(value, np.generic):
         return _json(value.item(), missing=missing, temporal_descriptors=temporal_descriptors)
     if isinstance(value, np.ndarray):
