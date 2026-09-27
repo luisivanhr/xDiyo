@@ -19,7 +19,7 @@ class StoredHTMLReport(AnalysisReport):
 
     def to_html(self, path=None, *, renderers=None):
         if path is not None:
-            Path(path).write_text(self.document, encoding="utf-8")
+            Path(path).write_text(self.document, encoding="utf-8", newline="")
         return self.document
 
 
@@ -86,5 +86,5 @@ def load_legacy(folder, record):
                for (name, fold), tables in grouped.items()]
     report = AnalysisReport(studies, record["name"])
     if "report" in artifacts:
-        report = StoredHTMLReport(studies, record["name"], path(artifacts["report"]).read_text(encoding="utf-8"))
+        report = StoredHTMLReport(studies, record["name"], path(artifacts["report"]).read_bytes().decode("utf-8"))
     return dict(training=training, report=report, extra={"kind": "legacy"})

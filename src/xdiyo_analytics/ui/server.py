@@ -22,12 +22,16 @@ def render_result_report(result, recipe):
     """Refresh local badge presentation without fitting or changing saved results."""
     from dataclasses import replace
     from ..reporting import TeamCatalog
+    from ..experiments.legacy import StoredHTMLReport
 
+    report = result.report
+    if isinstance(report, StoredHTMLReport):
+        # Legacy HTML is the retained document, not a regenerable report view.
+        return report.to_html()
     path = Path(recipe.get('team_badges') or
                 Path(__file__).resolve().parents[3] / 'docs/analytics/team_assets/catalog.json')
     badges = TeamCatalog.from_json(path) if path.is_file() else TeamCatalog({})
     specs = recipe.get('post_reporters', {})
-    report = result.report
     refreshed = []
     for study in report.studies:
         name = study.name.removeprefix('post/')

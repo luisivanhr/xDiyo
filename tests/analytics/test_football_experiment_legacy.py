@@ -27,7 +27,12 @@ def test_legacy_load_retains_only_actual_artifacts_without_inventing_scopes(tmp_
     assert result.post_report.studies
     assert all(study.partition=='saved' and len(study.row_positions)==0 and study.n_matches==0 for study in result.post_report.studies)
     assert all('not retained' in study.result.notes[0] for study in result.post_report.studies)
-    if save_html:assert result.to_html()==(folder/'report.html').read_text(encoding='utf-8')
+    if save_html:
+        expected=(folder/'report.html').read_bytes()
+        assert result.to_html().encode('utf-8')==expected
+        destination=tmp_path/'exported-legacy.html'
+        result.to_html(destination)
+        assert destination.read_bytes()==expected
     assert store.find_completed('unknown') is None
 
 @pytest.mark.parametrize('modern',[False,True])
@@ -46,3 +51,22 @@ def test_loading_unknown_failed_and_selection_trial_records_is_explicit(tmp_path
     with pytest.raises(KeyError,match='Unknown'):experiment.load('unknown')
     failed=experiment.store.save_failure(name='failed',config={},error='expected')
     with pytest.raises(ValueError,match='not complete'):experiment.load(failed['run_id'])
+
+
+def test_retained_html_keeps_unicode_and_mixed_newlines_without_badge_refresh(tmp_path):
+    from xdiyo_analytics.ui.server import render_result_report
+    preparation=prepared(holdout=True)
+    training=TrainingRunner(ridge().model_factory).run(preparation.dataset,preparation.split_plan)
+    report=post().run(training)
+    experiment=FootballExperiment('Exact legacy HTML',output_dir=tmp_path)
+    record=experiment.store.save_run(training,report,name='Legacy',config={},save_html=True)
+    saved=experiment.store.path/'runs'/record['run_id']/'report.html'
+    document='<!doctype html>\r\n<title>R\u00e9sum\u00e9 \u2013 \u65e5\u672c</title>\n<p>Retained report</p>\r\n'.encode('utf-8')
+    saved.write_bytes(document)
+    malformed_badges=tmp_path/'invalid-catalog.json'
+    malformed_badges.write_text('not a catalog',encoding='utf-8')
+    result=experiment.load(record['run_id'])
+    assert render_result_report(result,{'team_badges':str(malformed_badges)}).encode('utf-8')==document
+    destination=tmp_path/'copy.html'
+    result.to_html(destination)
+    assert destination.read_bytes()==document and saved.read_bytes()==document

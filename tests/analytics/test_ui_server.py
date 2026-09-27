@@ -99,7 +99,8 @@ def test_preview_preserves_large_ids_and_missing_values():
     json.dumps(result, allow_nan=False)
 
 
-def test_saved_run_picker_offers_only_loadable_finals_including_legacy(builder):
+@pytest.mark.parametrize('save_html', [False, True])
+def test_saved_run_picker_offers_only_loadable_finals_including_legacy(builder, save_html):
     from dataclasses import replace
     from football_experiment_samples import prepared, ridge, post
     from model_selection_samples import plan
@@ -117,7 +118,7 @@ def test_saved_run_picker_offers_only_loadable_finals_including_legacy(builder):
     result = experiment.run(preparation, model_selection=ModelSelection([ridge(.1), replace(ridge(1.), name='Ridge 1')], metrics='mse'),
                             selection_plan=plan(preparation.dataset), post_analysis=analysis)
     store = experiment.store
-    legacy = store.save_run(result.training, result.post_report, name='Legacy final', config={})
+    legacy = store.save_run(result.training, result.post_report, name='Legacy final', config={}, save_html=save_html)
     manifest = store.path / 'runs' / legacy['run_id'] / 'run.json'
     record = json.loads(manifest.read_text(encoding='utf-8'))
     record.pop('role')
@@ -137,3 +138,6 @@ def test_saved_run_picker_offers_only_loadable_finals_including_legacy(builder):
         assert 'Errors' in response['html']
         if item['id'] == result.record['run_id']:
             assert 'Experiment leaderboard' in response['html']
+        elif save_html:
+            document = store.path / 'runs' / legacy['run_id'] / 'report.html'
+            assert response['html'].encode('utf-8') == document.read_bytes()

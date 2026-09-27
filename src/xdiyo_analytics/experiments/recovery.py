@@ -71,6 +71,8 @@ def _unpack_frequency(value):
 
 
 def _pack_dtype(dtype):
+    if isinstance(dtype, pd.SparseDtype):
+        raise TypeError(f"Unsupported sparse recovery dtype {dtype}; convert to dense data before saving.")
     if isinstance(dtype, pd.PeriodDtype):
         return {"kind": "period", "freq": _pack_frequency(dtype.freq)}
     if isinstance(dtype, pd.StringDtype):
@@ -133,7 +135,18 @@ def pack(value):
     if isinstance(value, date) and not isinstance(value, datetime):
         return {"@": "date", "value": value.isoformat()}
     if isinstance(value, (pd.Timestamp, datetime)):
-        return {"@": "timestamp", "value": value.isoformat()}
+        from pandas._libs.tslibs.timezones import get_timezone
+        result = {"@": "timestamp", "value": value.isoformat()}
+        # pandas' data-only zone descriptor covers zoneinfo, pytz and dateutil.
+        # Fixed offsets remain represented by ISO text; named zones need their
+        # rules too, otherwise later calendar arithmetic loses DST transitions.
+        # pandas 2 returns ZoneInfo itself; its public key names the zone.
+        zone = getattr(value.tzinfo, "key", None)
+        if zone is None and value.tzinfo is not None:
+            zone = get_timezone(value.tzinfo)
+        if isinstance(zone, str):
+            result["tz"] = zone
+        return result
     if isinstance(value, (pd.Timedelta,)):
         return {"@": "timedelta", "value": value.value}
     if isinstance(value, Path):
@@ -208,8 +221,15 @@ def unpack(value):
     if tag == "date":
         return date.fromisoformat(value["value"])
     if tag == "timestamp":
-        # Legacy date-only timestamp records retain their original decoding.
-        return pd.Timestamp(value["value"])
+        # Legacy date-only and offset-only timestamp records keep their decoding.
+        timestamp = pd.Timestamp(value["value"])
+        if "tz" in value:
+            if not isinstance(value["tz"], str) or timestamp.tzinfo is None:
+                raise ValueError("Named timestamp timezone requires an aware value and a string zone.")
+            # Convert the recorded instant, so repeated fall-back wall times
+            # retain the correct offset and fold without localization guesses.
+            timestamp = timestamp.tz_convert(value["tz"])
+        return timestamp
     if tag == "timedelta":
         return pd.Timedelta(value["value"], unit="ns")
     if tag == "path":
@@ -334,7 +354,9 @@ def _canonical_signature_data(value):
 def signature(value, _active=None):
     """Describe executable configuration without constructing a model.
 
-    Custom callable objects may implement cache_key(). Factory code, defaults,
+    Custom callable objects may implement cache_key(). Source-less Python classes
+    include bases, methods, properties and class state; a static/classmethod
+    cache_key() can describe otherwise opaque class state. Factory code, defaults,
     closure values and referenced scalar globals are included. External resources
     or mutable services still need a revision in Candidate.config/cache_key().
     Observers are deliberately excluded by the caller: they do not define fits.
@@ -375,10 +397,32 @@ def signature(value, _active=None):
         digest = hashlib.sha256(Path(path).read_bytes()).hexdigest() if path and Path(path).is_file() else None
         result = {"type": f"{value.__module__}.{value.__qualname__}", "source": digest,
                   "version": str(getattr(sys.modules.get(value.__module__.split(".")[0]), "__version__", ""))}
-        if inspect.isclass(value) and digest is None:
-            result["members"] = {name: sub(item.__func__ if isinstance(item, (staticmethod, classmethod)) else item)
-                                 for name, item in vars(value).items()
-                                 if inspect.isfunction(item) or isinstance(item, (staticmethod, classmethod))}
+        if inspect.isclass(value) and digest is None and value.__module__ != "builtins":
+            # Notebook classes have no module file to cover their declaration.
+            # Inspect the namespace directly, without invoking properties or
+            # descriptors, and retain binding semantics as well as method code.
+            result["bases"] = [sub(base) for base in value.__bases__]
+            key_method = inspect.getattr_static(value, "cache_key", None)
+            custom_state = isinstance(key_method, (staticmethod, classmethod))
+            if custom_state:
+                result["class_key"] = sub(value.cache_key())
+            members, state = {}, {}
+            ignored = {"__module__", "__qualname__", "__dict__", "__weakref__", "__doc__", "__firstlineno__",
+                       "__annotations__", "__dataclass_fields__", "__dataclass_params__"}
+            for name, item in vars(value).items():
+                if name in ignored:
+                    continue
+                if isinstance(item, types.MemberDescriptorType) and item.__objclass__ is value:
+                    continue  # Generated slot descriptor; __slots__ retains the declaration.
+                if isinstance(item, (staticmethod, classmethod)):
+                    members[name] = {type(item).__name__: sub(item.__func__)}
+                elif isinstance(item, property):
+                    members[name] = {"property": [sub(item.fget), sub(item.fset), sub(item.fdel)]}
+                elif inspect.isfunction(item):
+                    members[name] = sub(item)
+                elif not custom_state:
+                    state[name] = sub(item)
+            result["members"], result["state"] = members, state
         return result
     if callable(getattr(value, "cache_key", None)):
         return {"custom": sub(type(value)), "key": sub(value.cache_key())}

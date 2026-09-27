@@ -85,8 +85,10 @@ The identity includes X/y/metadata and order, definitions, folds, configuration,
 candidate factory/defaults/closures/globals, reports, refit/checkpoint policies,
 name/name_fields, local analytics source, Python/NumPy/pandas and identified
 framework versions. It does not infer hidden service/file changes. Custom opaque
-objects implement cache_key() with stable configuration data. Observer state is
-excluded. Unchanged notebook code locations are normalized; changed constants
+objects implement cache_key() with stable configuration data. Classes defined
+without a source file also include base classes, methods, properties and class
+configuration in identity; a static/classmethod cache_key() can describe opaque
+class configuration. Observer state is excluded. Unchanged notebook code locations are normalized; changed constants
 remain relevant. Mapping insertion order is ignored, including nested configuration,
 custom cache keys and retained frame metadata. Sequence and table-axis order remain
 part of identity. Prepared outputs are stored but are not identity inputs.

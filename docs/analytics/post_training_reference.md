@@ -319,12 +319,18 @@ and `FootballExperiment.load` recognize both table forms, including runs without
 Unsigned and narrow integer row indexes also use typed storage when table JSON
 would alter their dtype or values. Complex-valued table data, including columns,
 row indexes and categories, are unsupported and raise before a completed run is
-published.
+published. Sparse dtypes in report tables, training histories, axes and retained
+data-only outputs are also unsupported. Convert sparse Series/DataFrame values with
+`sparse.to_dense()` and use dense index labels before saving. Unsupported sparse
+artifacts raise before a completed final is published.
 
 In data-only payloads, NumPy date and duration scalars use a `numpy_temporal` tag
 with their dtype (including unit and multiplier) and signed integer value; `NaT`
 retains its sentinel. Temporal arrays retain the existing array tag, dtype and
 shape, with integer counts as values. Older payloads remain readable.
+Timestamp scalars retain their ISO instant plus a named timezone descriptor when
+available, so later calendar arithmetic observes the original daylight-saving
+rules. Offset-only and naive timestamp payloads keep their previous decoding.
 
 DatetimeIndex and TimedeltaIndex payloads additionally record `freq`: either null
 or a mapping with an allowlisted offset `name`, `n`, `normalize` and packed `kwds`.
