@@ -153,3 +153,62 @@ def test_notebook_class_generated_metadata_does_not_hide_declared_state(kind):
     assert execution_key(adapter(2,'cell1'))!=execution_key(adapter(3,'cell1'))
     if kind=='slots':
         assert execution_key(adapter(2,'cell1'))!=execution_key(adapter(2,'cell1',('fitted','extra')))
+
+def test_local_model_class_global_change_refits_and_preserves_unchanged_reuse(tmp_path,monkeypatch):
+    from football_experiment_samples import prepared,post
+    from xdiyo_analytics.experiments import FootballExperiment
+    from xdiyo_analytics.experiments import football
+    from xdiyo_analytics.selection import Candidate
+    source=('def factory():\n'
+            '    class Adapter:\n'
+            '        def fit(self,context): self.columns = context.y.columns\n'
+            '        def predict(self,context):\n'
+            '            return {"predict": pd.DataFrame(SCALE,index=context.X.index,columns=self.columns)}\n'
+            '    return Adapter()\n')
+    factory=function(source,pd=pd,SCALE=1)
+    calls=[]
+    fit=football._fit_candidate
+    def count_fit(*args,**kwargs):
+        calls.append(True)
+        return fit(*args,**kwargs)
+    monkeypatch.setattr(football,'_fit_candidate',count_fit)
+    experiment=FootballExperiment('Nested notebook globals',output_dir=tmp_path)
+    data=prepared(holdout=True)
+    first=experiment.run(data,model=Candidate('Local model',factory),post_analysis=post())
+    unchanged=function(source,'cell99',30,SCALE=1,pd=pd,UNUSED='new unrelated value')
+    restored=experiment.run(data,model=Candidate('Local model',unchanged),post_analysis=post())
+    assert restored.reused and restored.record['run_id']==first.record['run_id'] and len(calls)==1
+    factory.__globals__['SCALE']=2
+    changed=experiment.run(data,model=Candidate('Local model',factory),post_analysis=post())
+    assert not changed.reused and changed.record['run_id']!=first.record['run_id'] and len(calls)==2
+    assert (first.training.folds[0].predictions['predict']==1).all().all()
+    assert (changed.training.folds[0].predictions['predict']==2).all().all()
+
+@pytest.mark.parametrize('body',[
+    '    def inner(): return SCALE + OFFSET\n    return inner\n',
+    '    return (SCALE * item + OFFSET for item in [1,2])\n',
+    '    def inner(): return [SCALE * item + OFFSET for item in [1,2]]\n    return inner\n',
+])
+def test_nested_function_and_comprehension_globals_are_stable_and_complete(body):
+    source='def factory():\n'+body
+    one=function(source,SCALE=2,OFFSET=1,UNUSED=3)
+    two=function(source,'cell99',30,UNUSED=4,OFFSET=1,SCALE=2)
+    assert execution_key(one)==execution_key(two)
+    assert execution_key(one)!=execution_key(function(source,SCALE=3,OFFSET=1,UNUSED=3))
+    assert execution_key(one)!=execution_key(function(source,SCALE=2,OFFSET=2,UNUSED=3))
+    assert list(signature(one)['globals'])==['OFFSET','SCALE']
+
+def test_globals_referenced_only_by_nested_code_keep_cycles_bounded():
+    source=('def factory():\n    def inner(): return OTHER()\n    return inner\n'
+            'def other():\n    def inner(): return factory()\n    return inner\n'
+            'OTHER = other\n')
+    assert execution_key(function(source))==execution_key(function(source,'cell99',30))
+
+def test_nested_class_attributes_do_not_capture_unread_same_named_globals():
+    source=('def factory():\n    class Adapter:\n        fitted = False\n'
+            '        def fit(self): self.fitted = True\n'
+            '        def predict(self): return self.fitted\n    return Adapter()\n')
+    one=function(source,fitted=object(),fit=object(),predict=object())
+    two=function(source,'cell99',30,predict=object(),fit=object(),fitted=object())
+    assert execution_key(one)==execution_key(two)
+    assert list(signature(one)['globals'])==['__name__']

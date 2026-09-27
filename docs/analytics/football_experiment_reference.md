@@ -92,6 +92,15 @@ class configuration. Observer state is excluded. Unchanged notebook code locatio
 remain relevant. Mapping insertion order is ignored, including nested configuration,
 custom cache keys and retained frame metadata. Sequence and table-axis order remain
 part of identity. Prepared outputs are stored but are not identity inputs.
+Global reads in nested factory functions, classes and comprehensions are included.
+Named metrics contribute their currently registered function, input kind and
+direction when requested by metric configurations, performance reports, model
+selection or an explicit partial-fit loss configuration. Unrelated registry
+entries do not affect identity. Ordinary selection metrics are recomputed from
+compatible saved candidate predictions; changing them can select a new winner
+without refitting those candidates. Retained custom evidence reporters contribute
+their metric definitions to the candidate identity because those studies are
+loaded with the saved trial.
 
 `ExperimentStore.open_run(name, recovery_key, reuse=True)` reopens the newest
 matching execution group or creates one. `find_completed` uses recovery_key,
@@ -139,7 +148,7 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 | Helper/module | Purpose and limits |
 | --- | --- |
 | `recovery.pack`, `unpack` | Tagged frames/Series/indexes/arrays, timestamps, nullable values, tuples/dicts, Plotly and library dataclasses; omit FoldResult/FittedModel.model; reject arbitrary objects |
-| `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel and categorical metadata; accept previous dtype strings |
+| `_pack_dtype`, `_unpack_dtype` | StringDtype storage/missing sentinel, categorical, Period and Interval metadata; accept previous dtype strings |
 | `dump_bundle`, `load_bundle` | Exclusive schema-1 JSON writer/reader; no executable model pickle |
 | `signature`, nested `semantic_code` | Executable configuration identity with normalized source locations, explicit custom keys and bounded recursion |
 | `execution_key` | Combines input signatures, runtime versions and every local analytics Python source file |
@@ -152,7 +161,10 @@ The wrapper forwards prediction and model diagnostics to its adapter.
 
 MultiIndex levels/codes/names/sortorder and nullable class dtypes are retained by
 new bundles. Period scalars, PeriodIndex axes and period-valued columns retain exact
-ordinals and frequency, including empty indexes and NaT values. Previous tuple tags
+ordinals and frequency, including empty indexes and NaT values. Interval scalars,
+IntervalIndex axes and interval-valued or categorical columns retain endpoints,
+closure, subtype and missing values, including empty indexes and temporal endpoint
+metadata. Previous tuple tags
 remain readable, but omitted old metadata cannot
 be recovered. A legacy result has prepared=None, possible training=None, saved
 tables with partition='saved'/empty row positions, and original HTML only when

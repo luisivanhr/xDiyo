@@ -1,12 +1,12 @@
 """Prediction diagnostics sharing the existing study/artifact viewer."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import ClassVar
 
 import numpy as np
 import pandas as pd
 
-from ..evaluation.metrics import Metric, evaluate_metrics, metric_inputs, _probabilities
+from ..evaluation.metrics import Metric, evaluate_metrics, metric_inputs, _probabilities, _resolved_metric_definitions
 from .contracts import Artifact, StudyResult
 from .studies import _columns, _numeric, _plotting, _scipy, _style
 
@@ -27,7 +27,7 @@ class PerformanceReporter(PredictionReporter):
     metrics is a sequence of Metric requests or registered names. Numerical
     results are reusable through evaluate_metrics without rendering any report.
     """
-    metrics: object
+    metrics: object = field(metadata={"recovery_resolver": _resolved_metric_definitions})
 
     def run(self, context):
         table = evaluate_metrics(context.y, context.predictions, self.metrics, metadata=context.metadata)
