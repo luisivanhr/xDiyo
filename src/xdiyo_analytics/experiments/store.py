@@ -14,6 +14,8 @@ import pandas as pd
 
 
 _ARTIFACT_ENCODING = "xdiyo.data-only.v1"
+_CONFIG_TAGS = {"__native_timedelta__", "__numpy_temporal__", "__numpy_temporal_array__",
+                "__datetime__", "__type__", "__literal_config__"}
 
 
 def _plain_metadata(value):
@@ -111,8 +113,14 @@ def _table_document(table):
     return json.loads(table.to_json(orient="table", date_format="iso"))
 
 
-def _json(value, *, missing=False, temporal_descriptors=True):
-    """Canonical supported configuration values; never unstable object reprs."""
+def _json(value, *, missing=False, temporal_descriptors=True, escape_literals=True):
+    """Normalize raw configuration once, distinguishing typed values from literals.
+
+    Artifact writers disable literal escaping: configs there are already encoded,
+    while ordinary diagnostic mappings retain their historical JSON shape.
+    """
+    sub = lambda item: _json(item, missing=missing, temporal_descriptors=temporal_descriptors,
+                             escape_literals=escape_literals)
     if value is None or value is pd.NA or value is pd.NaT:
         return None
     if isinstance(value, (np.datetime64, np.timedelta64)):
@@ -125,14 +133,14 @@ def _json(value, *, missing=False, temporal_descriptors=True):
         return {"__native_timedelta__": {"days": value.days, "seconds": value.seconds,
                                          "microseconds": value.microseconds}}
     if isinstance(value, np.generic):
-        return _json(value.item(), missing=missing, temporal_descriptors=temporal_descriptors)
+        return sub(value.item())
     if isinstance(value, np.ndarray):
         if value.dtype.kind in "mM":
             if not temporal_descriptors:
                 raise TypeError("NumPy temporal summaries require data-only encoding.")
             return {"__numpy_temporal_array__": {"dtype": str(value.dtype), "shape": list(value.shape),
                                                  "ticks": value.astype("int64").tolist()}}
-        return _json(value.tolist(), missing=missing, temporal_descriptors=temporal_descriptors)
+        return sub(value.tolist())
     if isinstance(value, (str, bool, int)):
         return value
     if isinstance(value, float):
@@ -147,26 +155,32 @@ def _json(value, *, missing=False, temporal_descriptors=True):
         return str(value)
     if is_dataclass(value) and not isinstance(value, type):
         return {"__type__": f"{type(value).__module__}.{type(value).__qualname__}",
-                "fields": {key: _json(getattr(value, key), missing=missing, temporal_descriptors=temporal_descriptors)
-                           for key in value.__dataclass_fields__}}
+                "fields": {key: sub(getattr(value, key)) for key in value.__dataclass_fields__}}
     if isinstance(value, dict):
         if any(not isinstance(key, str) for key in value):
             raise TypeError("Configuration dictionary keys must be strings.")
-        return {key: _json(item, missing=missing, temporal_descriptors=temporal_descriptors) for key, item in value.items()}
+        encoded = {key: sub(item) for key, item in value.items()}
+        if escape_literals and temporal_descriptors and _CONFIG_TAGS.intersection(value):
+            return {"__literal_config__": encoded}
+        return encoded
     if isinstance(value, (tuple, list)):
-        return [_json(item, missing=missing, temporal_descriptors=temporal_descriptors) for item in value]
+        return [sub(item) for item in value]
     raise TypeError(f"Cannot record {type(value).__name__}; provide a descriptive configuration mapping.")
 
 
 def configuration_hash(config):
-    """Automatic stable digest of explicit JSON-compatible configuration values."""
+    """Digest original configuration inputs, including typed-value provenance.
+
+    A stored descriptor mapping is a literal mapping if supplied as a new input;
+    it cannot transparently stand in for its original typed value.
+    """
     payload = json.dumps(_json(config), sort_keys=True, separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def _write(path, value):
     with path.open("x", encoding="utf-8") as stream:
-        json.dump(_json(value, missing=True), stream, ensure_ascii=False, indent=2, allow_nan=False)
+        json.dump(_json(value, missing=True, escape_literals=False), stream, ensure_ascii=False, indent=2, allow_nan=False)
 
 
 def _publish(stage, destination):
@@ -258,7 +272,7 @@ class ExperimentStore:
         stage.mkdir()
         return stage, record
 
-    def save_run(self, training, report, *, name, config, save_predictions=True, save_html=False,
+    def save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, renderers=None,
                  role="final", run_group=None, selected_trial_id=None, recovery=None, recovery_key=None,
                  display_report=None, _finalize_report=None):
         """Persist computed numerical studies and optional predictions/HTML.
@@ -271,6 +285,7 @@ class ExperimentStore:
         FootballExperiment finalizer adds experiment-report snapshots after the
         numerical record is assembled, before HTML/recovery and publication.
         Other callers save their already computed report without running reporters.
+        renderers supplies custom artifact HTML callbacks when save_html is true.
         Publication retries brief Windows access/sharing failures up to six
         attempts (1.55 seconds backoff); persistent errors propagate and leave
         artifacts in the unpublished .pending directory.
@@ -343,9 +358,10 @@ class ExperimentStore:
                                   target_columns=list(fold.target_columns)))
             record["artifacts"]["folds"] = saved
         if _finalize_report is not None:
-            display_report = _finalize_report(_json(record, missing=True))
+            display_report = _finalize_report(_json(record, missing=True, escape_literals=False))
         if save_html:
-            (display_report if display_report is not None else report).to_html(stage / "report.html")
+            options = {} if renderers is None else {"renderers": renderers}
+            (display_report if display_report is not None else report).to_html(stage / "report.html", **options)
             record["artifacts"]["report"] = "report.html"
         if recovery is not None:
             from .recovery import dump_bundle
@@ -354,7 +370,7 @@ class ExperimentStore:
             record["recovery_key"] = recovery_key
         _write(stage / "run.json", record)
         _publish(stage, self.path / "runs" / record["run_id"])
-        return _json(record, missing=True)
+        return _json(record, missing=True, escape_literals=False)
 
     def open_run(self, name, recovery_key, *, reuse=True):
         """Reopen a matching execution group, or allocate a new one.

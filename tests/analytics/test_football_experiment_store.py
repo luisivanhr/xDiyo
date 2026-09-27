@@ -474,7 +474,9 @@ def test_temporal_config_descriptors_persist_through_experiment_and_numerical_st
     assert experiment.store.load_run(record['run_id'])['record']['config'] == {
         key: config[key] for key in original_config}
     assert record['config_hash'] == configuration_hash(original_config)
-    assert record['config_hash'] == configuration_hash(record['config'])
+    # An encoded descriptor is a literal mapping when supplied as new input.
+    assert record['config_hash'] != configuration_hash(record['config'])
+    assert record['config_hash'] == configuration_hash(dict(reversed(list(original_config.items()))))
 
 
 def temporal_summary(kind):

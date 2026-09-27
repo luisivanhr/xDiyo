@@ -99,6 +99,7 @@ class ExperimentResult:
     record: dict = field(default_factory=dict)
     path: object = None
     reused: bool = False
+    _renderers: dict = field(default_factory=dict, init=False, repr=False, compare=False)
 
     @property
     def dataset(self):
@@ -129,16 +130,19 @@ class ExperimentResult:
         return AnalysisReport(studies, self.record.get("name", "Football experiment"))
 
     def show(self, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.show(**kwargs)
 
     def to_html(self, path=None, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.to_html(path, **kwargs)
 
     def to_notebook(self, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.to_notebook(**kwargs)
 
     def _repr_html_(self):
-        return self.report._repr_html_()
+        return self.to_notebook()._repr_html_()
 
 
 def _display_name(candidate, fields=None):
@@ -235,18 +239,21 @@ class FootballExperiment:
             raise TypeError("Preparation must return PreparedExperiment.")
         return result
 
-    def load(self, run_id):
-        """Reopen saved predictions, reports and inputs without any computation."""
+    def load(self, run_id, *, renderers=None):
+        """Reopen saved data; supply custom renderers again for later display."""
         loaded = self.store.load_run(run_id)
         extra = loaded["extra"]
         if extra.get("kind") == "legacy":
-            return ExperimentResult(None, loaded["training"], AnalysisReport(), loaded["report"],
-                                    record=loaded["record"], path=self.store.path / "runs" / run_id, reused=True)
-        if extra.get("kind") != "football_experiment":
+            result = ExperimentResult(None, loaded["training"], AnalysisReport(), loaded["report"],
+                                      record=loaded["record"], path=self.store.path / "runs" / run_id, reused=True)
+        elif extra.get("kind") == "football_experiment":
+            result = ExperimentResult(extra["prepared"], loaded["training"], extra["pre_report"], loaded["report"],
+                                      extra["selection"], extra["refit"], loaded["record"],
+                                      self.store.path / "runs" / run_id, True)
+        else:
             raise ValueError("This record is not a FootballExperiment final result.")
-        return ExperimentResult(extra["prepared"], loaded["training"], extra["pre_report"], loaded["report"],
-                                extra["selection"], extra["refit"], loaded["record"],
-                                self.store.path / "runs" / run_id, True)
+        result._renderers = dict(renderers or {})
+        return result
 
     def leaderboard(self, weights, **kwargs):
         """Read current final runs from this experiment, including earlier sessions."""
@@ -256,7 +263,8 @@ class FootballExperiment:
 
     def run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None,
             development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None,
-            refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True, execution=None):
+            refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True, execution=None,
+            renderers=None):
         """Execute fixed fitting, holdout search, or optional nested selection.
 
         model is a Candidate. Alternatively model_selection is ModelSelection:
@@ -271,6 +279,8 @@ class FootballExperiment:
         current final before publication. Its artifacts are not yet loadable.
         Their data-only outputs are saved with the result. Reuse refreshes those
         studies in memory without retraining or rewriting the saved snapshot.
+        renderers maps custom artifact kinds to HTML callbacks, also used by the
+        returned result. Callbacks affect reuse identity but are never serialized.
         """
         prepared = self.prepare() if prepared is None else prepared
         if not isinstance(prepared, PreparedExperiment):
@@ -304,6 +314,7 @@ class FootballExperiment:
                 model_selection = replace(model_selection, candidates=list(source() if callable(source) else source))
         pre_analysis = pre_analysis or PreTrainingAnalysis()
         post_analysis = post_analysis or PostTrainingAnalysis()
+        renderers = dict(renderers or {})
         settings = {"experiment": self.config, "preparation": prepared.config, "run": dict(config or {})}
         if execution is not None:
             from ..training.execution import ExecutionPolicy
@@ -312,11 +323,11 @@ class FootballExperiment:
             settings["execution"] = execution
         key = execution_key(prepared.dataset, prepared.split_plan, settings, model, model_selection,
                             selection_plan, development_positions, inner_plan_factory, pre_analysis,
-                            post_analysis, refit_policy, checkpoint_policy, name, name_fields)
+                            post_analysis, refit_policy, checkpoint_policy, name, name_fields, renderers)
         if reuse:
             record = self.store.find_completed(key)
             if record is not None:
-                result = self.load(record["run_id"])
+                result = self.load(record["run_id"], renderers=renderers)
                 self._experiment_reports(result, post_analysis)
                 return result
         group = self.store.open_run(name or "Football run", key, reuse=reuse)
@@ -378,6 +389,7 @@ class FootballExperiment:
                                            "validation", "control")}) for candidate in candidates]
         settings["definitions"] = signature(dataset.definitions)
         result = ExperimentResult(prepared, training, pre_report, post_report, selection, refit, {"name": display_name})
+        result._renderers = renderers
         selected_trial_id = None
         if selection is not None and not nested:
             saved_id = selection.winner.saved_run_id
@@ -391,7 +403,7 @@ class FootballExperiment:
             return result.report
 
         record = self.store.save_run(training, post_report, name=display_name, config=settings,
-                                     save_html=True, run_group=group,
+                                     save_html=True, renderers=renderers, run_group=group,
                                      selected_trial_id=selected_trial_id,
                                      recovery_key=key, recovery={"kind": "football_experiment", "prepared": prepared,
                                                                "pre_report": pre_report, "selection": summary, "refit": refit},

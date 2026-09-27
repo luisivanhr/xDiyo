@@ -15,8 +15,9 @@ def test_notebook_locations_do_not_change_nested_code_identity():
     assert execution_key(one)==execution_key(two)
     assert execution_key(one)!=execution_key(function(source.replace('x+alpha','x+alpha+1')))
 
-@pytest.mark.parametrize('factor',['default','keyword_default','closure','global','partial'])
-def test_factory_configuration_changes_invalidate_identity(factor):
+@pytest.mark.parametrize('factor',['default','keyword_default','closure','global','partial','code'])
+@pytest.mark.parametrize('explicit_key',[False,True])
+def test_factory_configuration_changes_invalidate_identity(factor,explicit_key):
     if factor=='default':
         one=function('def factory(alpha=.1): return alpha');two=function('def factory(alpha=.2): return alpha')
     elif factor=='keyword_default':
@@ -26,8 +27,14 @@ def test_factory_configuration_changes_invalidate_identity(factor):
         one,two=make(.1),make(.2)
     elif factor=='global':
         one=function('def factory(): return ALPHA',ALPHA=.1);two=function('def factory(): return ALPHA',ALPHA=.2)
+    elif factor=='code':
+        one=function('def factory(): return 1');two=function('def factory(): return 2')
     else:
         base=function('def factory(alpha): return alpha');one,two=partial(base,.1),partial(base,.2)
+    if explicit_key:
+        for factory in (one,two):
+            target=factory.func if isinstance(factory,partial) else factory
+            target.cache_key=lambda:{'revision':1}
     assert execution_key(one)!=execution_key(two)
 
 def test_custom_opaque_callable_declares_configuration_without_being_called():
@@ -212,3 +219,102 @@ def test_nested_class_attributes_do_not_capture_unread_same_named_globals():
     two=function(source,'cell99',30,predict=object(),fit=object(),fitted=object())
     assert execution_key(one)==execution_key(two)
     assert list(signature(one)['globals'])==['__name__']
+
+
+def _attributed_factory():
+    from model_selection_samples import FixedAdapter
+    owner=_attributed_factory
+    if hasattr(owner,'calls'):
+        owner.calls+=1
+    return FixedAdapter(owner.scale)
+
+
+@pytest.mark.parametrize('origin',['sourceful','notebook'])
+@pytest.mark.parametrize('explicit_key',[False,True])
+def test_function_factory_state_controls_actual_reuse_and_predictions(tmp_path,monkeypatch,origin,explicit_key):
+    from football_experiment_samples import prepared
+    from xdiyo_analytics.experiments import FootballExperiment,football
+    from xdiyo_analytics.selection import Candidate
+    source=('def factory():\n    from model_selection_samples import FixedAdapter\n'
+            '    if hasattr(factory,"calls"): factory.calls+=1\n'
+            '    return FixedAdapter(factory.scale)\n')
+    factory=_attributed_factory if origin=='sourceful' else function(source)
+    monkeypatch.setattr(factory,'scale',1,raising=False)
+    if explicit_key:
+        monkeypatch.setattr(factory,'calls',0,raising=False)
+        monkeypatch.setattr(factory,'diagnostics',object(),raising=False)
+        monkeypatch.setattr(factory,'cache_key',lambda:{'scale':factory.scale},raising=False)
+    fits=[]
+    fit=football._fit_candidate
+    def count_fit(*args,**kwargs):
+        fits.append(True)
+        return fit(*args,**kwargs)
+    monkeypatch.setattr(football,'_fit_candidate',count_fit)
+    experiment=FootballExperiment('Function state '+origin,output_dir=tmp_path)
+    data=prepared(holdout=True)
+    candidate=Candidate('Attributed function',factory)
+    first=experiment.run(data,model=candidate)
+    if explicit_key:
+        assert factory.calls==1
+        factory.calls+=100
+        factory.diagnostics=object()
+    unchanged=experiment.run(data,model=candidate)
+    assert unchanged.reused and unchanged.record['run_id']==first.record['run_id'] and len(fits)==1
+    factory.scale=2
+    changed=experiment.run(data,model=candidate)
+    assert not changed.reused and changed.record['run_id']!=first.record['run_id'] and len(fits)==2
+    assert (first.training.folds[0].predictions['predict']==1).all().all()
+    assert (changed.training.folds[0].predictions['predict']==2).all().all()
+    assert experiment.run(data,model=candidate).reused and len(fits)==2
+
+
+@pytest.mark.parametrize('key_kind',['function','partial','callable'])
+def test_function_keys_bound_aliases_and_self_references_without_diagnostic_state(key_kind):
+    def make(filename,padding=0):
+        factory=function('def factory(): return factory.scale + ALIAS.scale + OWNERS["current"].scale',filename,padding,OWNERS={})
+        factory.__globals__['ALIAS']=factory
+        factory.__globals__['OWNERS']['current']=factory
+        factory.scale=2
+        factory.calls=0
+        factory.diagnostics=object()
+        def key(owner):return {'scale':owner.scale}
+        class Key:
+            def __call__(self):return key(factory)
+        factory.cache_key=(lambda:key(factory)) if key_kind=='function' else partial(key,factory) if key_kind=='partial' else Key()
+        return factory
+    one,two=make('cell1'),make('cell99',30)
+    assert execution_key(one)==execution_key(two)
+    one.calls=200
+    one.diagnostics=object()
+    assert execution_key(one)==execution_key(two)
+    one.scale=3
+    assert execution_key(one)!=execution_key(two)
+
+
+def test_function_attributes_and_recursive_state_are_stable_and_complete():
+    def make(filename):
+        factory=function('def factory(): return ALIAS.scale',filename)
+        factory.__globals__['ALIAS']=factory
+        factory.scale=2
+        factory.self=factory
+        factory.options={'owner':factory,'nested':{'alpha':1}}
+        factory.options['cycle']=factory.options
+        factory.transform=function('def factory(value): return value + 1',filename)
+        return factory
+    one,two=make('cell1'),make('cell99')
+    assert execution_key(one)==execution_key(two)
+    one.options['nested']['alpha']=2
+    assert execution_key(one)!=execution_key(two)
+    one.options['nested']['alpha']=1
+    one.transform=function('def factory(value): return value + 2')
+    assert execution_key(one)!=execution_key(two)
+
+
+def test_same_named_global_rebound_to_another_object_remains_a_dependency():
+    factory=function('def factory(): return factory.scale')
+    other=function('def factory(): return 0')
+    other.scale=1
+    factory.__globals__['factory']=other
+    before=execution_key(factory)
+    other.scale=2
+    assert execution_key(factory)!=before
