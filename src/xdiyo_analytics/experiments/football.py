@@ -176,6 +176,37 @@ def _summary(selection):
     return SelectionSummary(comparison_for_display(selection.comparison, configs), deepcopy(winners))
 
 
+class _ExperimentRecords:
+    """Read-only reporting snapshot, optionally including an unpublished final.
+
+    Exposes record inspection only: the provisional run has no loadable artifacts.
+    Copies isolate reporters from each other and from the record being published.
+    """
+    def __init__(self, store, pending=None):
+        self._path = store.path
+        self._manifest = deepcopy(store.manifest)
+        records = store.read_runs()
+        if pending is not None:
+            records = [record for record in records if record["run_id"] != pending["run_id"]]
+            records.append(pending)
+        self._records = deepcopy(sorted(records, key=lambda item: (item["created_at"], item["run_id"])))
+
+    @property
+    def path(self):
+        return self._path
+
+    @property
+    def manifest(self):
+        return deepcopy(self._manifest)
+
+    def read_runs(self, *, role=None, run_group=None):
+        if role not in {None, "final", "trial"}:
+            raise ValueError("role must be final, trial or None.")
+        return deepcopy([record for record in self._records
+                         if (role is None or record.get("role", "final") == role)
+                         and (run_group is None or record.get("run_group", record["run_id"]) == run_group)])
+
+
 class FootballExperiment:
     """One named experiment folder, containing independently named final runs.
 
@@ -236,8 +267,10 @@ class FootballExperiment:
 
         pre_analysis is descriptive. Learned preparation belongs to Candidate's
         pre_analysis/features_from and runs within the actual fitting populations.
-        Post-analysis experiment reporters run after publication so the current
-        final result is visible. They refresh on reuse without retraining.
+        Experiment reporters inspect a read-only record snapshot including the
+        current final before publication. Its artifacts are not yet loadable.
+        Their data-only outputs are saved with the result. Reuse refreshes those
+        studies in memory without retraining or rewriting the saved snapshot.
         """
         prepared = self.prepare() if prepared is None else prepared
         if not isinstance(prepared, PreparedExperiment):
@@ -353,18 +386,23 @@ class FootballExperiment:
             if any(record["run_id"] == saved_id and record["status"] == "complete"
                    for record in self.store.read_runs(role="trial", run_group=group)):
                 selected_trial_id = saved_id
+        def finalize_report(record):
+            self._experiment_reports(result, post_analysis, experiment=_ExperimentRecords(self.store, record))
+            return result.report
+
         record = self.store.save_run(training, post_report, name=display_name, config=settings,
                                      save_html=True, run_group=group,
                                      selected_trial_id=selected_trial_id,
                                      recovery_key=key, recovery={"kind": "football_experiment", "prepared": prepared,
                                                                "pre_report": pre_report, "selection": summary, "refit": refit},
-                                     display_report=result.report)
+                                     display_report=result.report, _finalize_report=finalize_report)
         result.record, result.path = record, self.store.path / "runs" / record["run_id"]
-        self._experiment_reports(result, post_analysis)
         return result
 
-    def _experiment_reports(self, result, post_analysis):
+    def _experiment_reports(self, result, post_analysis, *, experiment=None):
         reporters = {key: reporter for key, reporter in post_analysis.reporters.items() if reporter.partition == "experiment"}
         if reporters:
-            report = PostTrainingAnalysis(reporters, post_analysis.title).run(result.training, experiment=self.store)
-            result.post_report.studies.extend(report.studies)
+            report = PostTrainingAnalysis(reporters, post_analysis.title).run(
+                result.training, experiment=experiment if experiment is not None else _ExperimentRecords(self.store))
+            result.post_report.studies[:] = [study for study in result.post_report.studies
+                                            if study.partition != "experiment"] + report.studies

@@ -71,6 +71,8 @@ def _unpack_frequency(value):
 
 
 def _pack_dtype(dtype):
+    if isinstance(dtype, pd.PeriodDtype):
+        return {"kind": "period", "freq": _pack_frequency(dtype.freq)}
     if isinstance(dtype, pd.StringDtype):
         return {"kind": "string", "storage": dtype.storage, "na_value": pack(getattr(dtype, "na_value", pd.NA))}
     if isinstance(dtype, pd.CategoricalDtype):
@@ -82,6 +84,8 @@ def _unpack_dtype(dtype):
     # Older bundles describe all dtypes by string and remain readable.
     if isinstance(dtype, str):
         return dtype
+    if dtype["kind"] == "period":
+        return pd.PeriodDtype(freq=_unpack_frequency(dtype["freq"]))
     if dtype["kind"] == "string":
         na_value = unpack(dtype["na_value"])
         if na_value is pd.NA:
@@ -124,6 +128,8 @@ def pack(value):
         return value
     if isinstance(value, float):
         return value if np.isfinite(value) else {"@": "float", "value": str(value)}
+    if isinstance(value, pd.Period):
+        return {"@": "period", "ordinal": value.ordinal, "freq": _pack_frequency(value.freq)}
     if isinstance(value, date) and not isinstance(value, datetime):
         return {"@": "date", "value": value.isoformat()}
     if isinstance(value, (pd.Timestamp, datetime)):
@@ -138,6 +144,9 @@ def pack(value):
     if isinstance(value, pd.RangeIndex):
         return {"@": "rangeindex", "start": value.start, "stop": value.stop,
                 "step": value.step, "name": pack(value.name)}
+    if isinstance(value, pd.PeriodIndex):
+        return {"@": "periodindex", "ordinals": value.asi8.tolist(),
+                "freq": _pack_frequency(value.freq), "name": pack(value.name)}
     if isinstance(value, pd.Index):
         result = {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
         if isinstance(value, (pd.DatetimeIndex, pd.TimedeltaIndex)):
@@ -192,6 +201,10 @@ def unpack(value):
         if type(value["value"]) is not int:
             raise ValueError("NumPy temporal scalar requires an integer tick count.")
         return np.asarray(value["value"], dtype="int64").astype(dtype)[()]
+    if tag == "period":
+        if type(value["ordinal"]) is not int:
+            raise ValueError("Period requires an integer ordinal.")
+        return pd.Period(ordinal=value["ordinal"], freq=_unpack_frequency(value["freq"]))
     if tag == "date":
         return date.fromisoformat(value["value"])
     if tag == "timestamp":
@@ -229,6 +242,13 @@ def unpack(value):
                 # construction of a unitless datetime64 is rejected by NumPy.
                 return counts.astype(dtype).reshape(value["shape"])
         return np.array(values, dtype=dtype).reshape(value["shape"])
+    if tag == "periodindex":
+        ordinals = value["ordinals"]
+        if not isinstance(ordinals, list) or any(type(item) is not int for item in ordinals):
+            raise ValueError("Period index requires a list of integer ordinals.")
+        dtype = pd.PeriodDtype(freq=_unpack_frequency(value["freq"]))
+        array = pd.arrays.PeriodArray(np.asarray(ordinals, dtype="int64"), dtype=dtype)
+        return pd.PeriodIndex(array, name=unpack(value["name"]))
     if tag == "rangeindex":
         return pd.RangeIndex(value["start"], value["stop"], value["step"], name=unpack(value["name"]))
     if tag == "multiindex":
@@ -290,6 +310,27 @@ def load_bundle(path):
     return unpack(value["payload"])
 
 
+def _signature_entry_key(entry):
+    # Encoded keys can coincide (for example distinct NaN keys). Values break
+    # those ties without relying on Python's ordering of heterogeneous keys.
+    return tuple(json.dumps(item, sort_keys=True, separators=(",", ":"), allow_nan=False)
+                 for item in entry)
+
+
+def _canonical_signature_data(value):
+    # Only mutate this fresh pack() result. Recovery payloads retain mapping
+    # insertion order, while identities ignore it even inside frame metadata.
+    if isinstance(value, list):
+        for item in value:
+            _canonical_signature_data(item)
+    elif isinstance(value, dict):
+        for item in value.values():
+            _canonical_signature_data(item)
+        if value.get("@") == "dict":
+            value["items"].sort(key=_signature_entry_key)
+    return value
+
+
 def signature(value, _active=None):
     """Describe executable configuration without constructing a model.
 
@@ -304,7 +345,9 @@ def signature(value, _active=None):
     active = active | {id(value)}
     sub = lambda item: signature(item, active)
     if isinstance(value, dict):
-        return {"mapping": [[sub(k), sub(v)] for k, v in value.items()]}
+        items = [[sub(k), sub(v)] for k, v in value.items()]
+        items.sort(key=_signature_entry_key)
+        return {"mapping": items}
     if isinstance(value, (list, tuple)):
         return [sub(v) for v in value]
     if isinstance(value, types.ModuleType):
@@ -345,7 +388,7 @@ def signature(value, _active=None):
     if callable(getattr(value, "get_params", None)):
         return {"type": sub(type(value)), "parameters": sub(value.get_params(deep=False))}
     try:
-        return pack(value)
+        return _canonical_signature_data(pack(value))
     except TypeError as error:
         raise TypeError(f"Cannot identify {type(value).__name__} for recovery; implement cache_key() returning configuration data.") from error
 
