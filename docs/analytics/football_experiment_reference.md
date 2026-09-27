@@ -88,8 +88,13 @@ name/name_fields, HTML renderers, local analytics source, Python/NumPy/pandas an
 framework versions. It does not infer hidden service/file changes. Custom opaque
 objects implement cache_key() with stable configuration data. Classes defined
 without a source file also include base classes, methods, properties and class
-configuration in identity; a static/classmethod cache_key() can describe opaque
-class configuration. Observer state is excluded. Unchanged notebook code locations are normalized; changed constants
+configuration in identity. A static/classmethod `cache_key()` describes runtime
+class configuration whether or not the class has a source file; source-file
+identity still contributes when available. Class methods inherited from a factory
+base bind to the actual factory subclass; metaclass-defined class methods bind to
+the factory's metaclass, matching normal Python lookup. Ordinary instance methods
+are not called on classes.
+Observer state is excluded. Unchanged notebook code locations are normalized; changed constants
 remain relevant. Mapping insertion order is ignored, including nested configuration,
 custom cache keys and retained frame metadata. Sequence and table-axis order remain
 part of identity. Prepared outputs are stored but are not identity inputs.

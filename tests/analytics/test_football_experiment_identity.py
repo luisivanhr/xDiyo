@@ -318,3 +318,145 @@ def test_same_named_global_rebound_to_another_object_remains_a_dependency():
     before=execution_key(factory)
     other.scale=2
     assert execution_key(factory)!=before
+
+
+
+def _source_backed_class_factory(binding, inherited=False):
+    from model_selection_samples import FixedAdapter
+    owner = {}
+
+    class Factory:
+        scale = 1
+        calls = 0
+        diagnostics = object()
+
+        def __new__(cls):
+            cls.calls += 1
+            return FixedAdapter(cls.scale)
+
+    if binding == 'staticmethod':
+        Factory.cache_key = staticmethod(lambda: {'scale': owner['factory'].scale})
+    else:
+        Factory.cache_key = classmethod(lambda cls: {'scale': cls.scale})
+    factory = Factory
+    if inherited:
+        class InheritedFactory(Factory):
+            scale = 1
+        Factory.scale = -1
+        factory = InheritedFactory
+    owner['factory'] = factory
+    return factory
+
+
+@pytest.mark.parametrize('binding', ['staticmethod', 'classmethod'])
+@pytest.mark.parametrize('inherited', [False, True])
+def test_source_backed_class_key_controls_actual_reuse_and_predictions(tmp_path, monkeypatch, binding, inherited):
+    from football_experiment_samples import prepared
+    from xdiyo_analytics.experiments import FootballExperiment, football
+    from xdiyo_analytics.selection import Candidate
+    factory = _source_backed_class_factory(binding, inherited)
+    fits = []
+    fit = football._fit_candidate
+
+    def count_fit(*args, **kwargs):
+        fits.append(True)
+        return fit(*args, **kwargs)
+
+    monkeypatch.setattr(football, '_fit_candidate', count_fit)
+    experiment = FootballExperiment('Source-backed class key', output_dir=tmp_path)
+    data = prepared(holdout=True)
+    candidate = Candidate('Keyed class', factory)
+    first = experiment.run(data, model=candidate)
+    assert factory.calls == 1
+    factory.calls += 100
+    factory.diagnostics = object()
+    unchanged = experiment.run(data, model=candidate)
+    assert unchanged.reused and unchanged.record['run_id'] == first.record['run_id']
+    assert len(fits) == 1 and factory.calls == 101
+    factory.scale = 2
+    changed = experiment.run(data, model=candidate)
+    assert not changed.reused and changed.record['run_id'] != first.record['run_id']
+    assert len(fits) == 2 and factory.calls == 102
+    assert (first.training.folds[0].predictions['predict'] == 1).all().all()
+    assert (changed.training.folds[0].predictions['predict'] == 2).all().all()
+    assert experiment.run(data, model=candidate).reused and len(fits) == 2
+
+
+@pytest.mark.parametrize('binding', ['staticmethod', 'classmethod'])
+def test_source_backed_class_key_preserves_source_identity_and_bounds_cycles(tmp_path, monkeypatch, binding):
+    import sys
+    factory = _source_backed_class_factory(binding, inherited=True)
+    module = types.ModuleType('keyed_source_probe')
+    source = tmp_path / 'factory.py'
+    source.write_text('class Factory: pass\n', encoding='utf-8')
+    module.__file__ = str(source)
+    monkeypatch.setitem(sys.modules, module.__name__, module)
+    monkeypatch.setattr(factory, '__module__', module.__name__)
+    key = {'owner': factory, 'scale': 1}
+    key['cycle'] = key
+    if binding == 'staticmethod':
+        factory.cache_key = staticmethod(lambda: key)
+    else:
+        factory.cache_key = classmethod(lambda cls: {**key, 'actual_class': cls})
+    before = signature(factory)
+    assert before['source'] and 'class_key' in before
+    factory.calls = 200
+    factory.diagnostics = object()
+    assert signature(factory) == before
+    key['scale'] = 2
+    assert signature(factory) != before
+    key['scale'] = 1
+    source.write_text('class Factory: changed = True\n', encoding='utf-8')
+    assert signature(factory) != before
+
+
+@pytest.mark.parametrize('binding', ['instance', 'property', 'descriptor'])
+def test_source_backed_class_identity_does_not_invoke_non_class_key_descriptors(binding):
+    def unexpected(*args):
+        raise AssertionError('must not invoke an instance method or descriptor')
+
+    class Descriptor:
+        __get__ = unexpected
+
+    class Factory:
+        pass
+
+    Factory.cache_key = unexpected if binding == 'instance' else property(unexpected) if binding == 'property' else Descriptor()
+    description = signature(Factory)
+    assert description['source'] and 'class_key' not in description
+
+
+
+@pytest.mark.parametrize('binding', ['staticmethod', 'classmethod'])
+@pytest.mark.parametrize('inherited', [False, True])
+def test_source_backed_metaclass_keys_keep_python_binding_without_attribute_hooks(monkeypatch, binding, inherited):
+    class Meta(type):
+        scale = 1
+
+    if binding == 'staticmethod':
+        Meta.cache_key = staticmethod(lambda: {'scale': metaclass.scale})
+    else:
+        Meta.cache_key = classmethod(lambda cls: {'owner': cls.__name__, 'scale': cls.scale})
+    metaclass = Meta
+    if inherited:
+        class ChildMeta(Meta):
+            scale = 2
+        metaclass = ChildMeta
+
+    class Factory(metaclass=metaclass):
+        scale = 0
+
+    expected = Factory.cache_key()
+    before = signature(Factory)
+    assert before['class_key'] == signature(expected)
+
+    def guarded_getattribute(cls, name):
+        if name == 'cache_key':
+            raise AssertionError('signature must inspect known descriptors without invoking lookup hooks')
+        return type.__getattribute__(cls, name)
+
+    monkeypatch.setattr(metaclass, '__getattribute__', guarded_getattribute)
+    assert signature(Factory) == before
+    metaclass.scale = 3
+    assert signature(Factory) != before
+    assert signature(Factory)['class_key'] == signature({**expected, 'scale': 3})

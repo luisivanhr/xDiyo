@@ -309,7 +309,7 @@ from saved tables/metrics to avoid recursively recording a leaderboard as result
 | --- | --- |
 | `experiment.json` | Schema 1, experiment UUID and exact display name. |
 | `runs/<run_id>/run.json` | Run/config IDs, config, UTC creation time, status, metric records and artifact mapping. Failure records additionally include explicit error text. |
-| `tables.json` | Study/name/fold metadata. Ordinary tables use pandas table-oriented JSON, whose float formatting can round values. Tables whose axes, dtypes or values are not safely represented there use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame representation for typed labels and values. Metric records retain ordinary JSON scalar values. |
+| `tables.json` | Study/name/fold metadata. Ordinary tables use pandas table-oriented JSON, whose float formatting can round values. Tables with nonempty attributes or whose axes, dtypes or values are not safely represented there use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a data-only frame representation for typed labels and values. Metric records retain ordinary JSON scalar values. |
 | `fold-<id>/output-<number>.parquet` | Indexed prediction DataFrames; output names are mapped to safe numbered filenames. MultiIndex class columns are retained. |
 | `fold-<id>/targets.parquet`, `metadata.parquet` | Indexed held-out targets and metadata. The run record also retains train/test/score positions and selected columns. |
 | `report.html` | Optional standalone report, rendered without recomputing studies or predictions. |
@@ -318,7 +318,11 @@ Tagged tables include MultiIndex, tuple-valued or duplicate columns, non-string
 column labels, named column axes, and index layouts with duplicate labels or
 conflicting field names. Temporal indexes and columns, dtypes that table JSON
 would change, and supported typed cells such as tuples, dates and NumPy temporal
-scalars also use this wrapper, including nested values. `ExperimentStore.load_run`
+scalars also use this wrapper, including nested values. Report tables and training
+histories with nonempty `DataFrame.attrs` also use it, preserving supported nested
+metadata even without a full recovery bundle. Unsupported attribute values fail
+before publication. Empty attributes keep the ordinary table-JSON path when its
+other checks pass. `ExperimentStore.load_run`
 and `FootballExperiment.load` recognize both table forms, including runs without
 `recovery.json`. Existing artifacts remain readable without rewriting them.
 Unsigned and narrow integer row indexes also use typed storage when table JSON

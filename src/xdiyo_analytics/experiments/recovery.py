@@ -549,15 +549,25 @@ def signature(value, _active=None):
         digest = hashlib.sha256(Path(path).read_bytes()).hexdigest() if path and Path(path).is_file() else None
         result = {"type": f"{value.__module__}.{value.__qualname__}", "source": digest,
                   "version": str(getattr(sys.modules.get(value.__module__.split(".")[0]), "__version__", ""))}
+        key_method = inspect.getattr_static(value, "cache_key", None) if inspect.isclass(value) else None
+        custom_state = isinstance(key_method, (staticmethod, classmethod))
+        if custom_state:
+            # Source files cover declarations, not a class key's runtime values.
+            # Bind inherited classmethods to the actual class without evaluating
+            # unrelated descriptors or metaclass attribute hooks.
+            key_owner = value
+            if isinstance(key_method, classmethod):
+                class_mro = type.__getattribute__(value, "__mro__")
+                if not any(type.__getattribute__(base, "__dict__").get("cache_key") is key_method
+                           for base in class_mro):
+                    key_owner = type(value)  # A key declared on the metaclass binds there.
+            result["class_key"] = sub(key_method.__func__(key_owner) if isinstance(key_method, classmethod)
+                                      else key_method.__func__())
         if inspect.isclass(value) and digest is None and value.__module__ != "builtins":
             # Notebook classes have no module file to cover their declaration.
             # Inspect the namespace directly, without invoking properties or
             # descriptors, and retain binding semantics as well as method code.
             result["bases"] = [sub(base) for base in value.__bases__]
-            key_method = inspect.getattr_static(value, "cache_key", None)
-            custom_state = isinstance(key_method, (staticmethod, classmethod))
-            if custom_state:
-                result["class_key"] = sub(value.cache_key())
             members, state = {}, {}
             ignored = {"__module__", "__qualname__", "__dict__", "__weakref__", "__doc__", "__firstlineno__",
                        "__annotations__", "__dataclass_fields__", "__dataclass_params__"}
