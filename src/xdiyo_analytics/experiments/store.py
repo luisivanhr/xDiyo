@@ -50,7 +50,9 @@ def _plain_table_cell(value):
 
 def _plain_table_column(values):
     """Whether table JSON retains a column's supported dtype and cell types."""
+    from .recovery import _reject_numpy_dtype
     dtype = values.dtype
+    _reject_numpy_dtype(dtype)
     if isinstance(dtype, pd.SparseDtype):
         raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
     if dtype.kind == "c":
@@ -82,7 +84,9 @@ def _plain_table_column(values):
 
 def _table_document(table):
     """Keep ordinary table JSON when it can preserve the axes and typed cells."""
+    from .recovery import _reject_numpy_dtype
     for dtype in (*table.dtypes, table.index.dtype, table.columns.dtype):
+        _reject_numpy_dtype(dtype)
         if isinstance(dtype, pd.SparseDtype):
             raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
     for dtype in table.dtypes:
@@ -122,6 +126,9 @@ def _json(value, *, missing=False, temporal_descriptors=True, escape_literals=Tr
     """
     sub = lambda item: _json(item, missing=missing, temporal_descriptors=temporal_descriptors,
                              escape_literals=escape_literals)
+    if isinstance(value, (np.generic, np.ndarray)):
+        from .recovery import _reject_numpy_value
+        _reject_numpy_value(value)
     if value is None or value is pd.NA or value is pd.NaT:
         return None
     if isinstance(value, (np.datetime64, np.timedelta64)):

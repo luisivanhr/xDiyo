@@ -331,7 +331,13 @@ row indexes and categories, are unsupported and raise before a completed run is
 published. Sparse dtypes in report tables, training histories, axes and retained
 data-only outputs are also unsupported. Convert sparse Series/DataFrame values with
 `sparse.to_dense()` and use dense index labels before saving. Unsupported sparse
-artifacts raise before a completed final is published.
+artifacts raise before a completed final is published. NumPy masked arrays and
+the masked scalar sentinel are also rejected, so masks are never silently
+discarded. Resolve masked values explicitly before supplying ordinary arrays.
+Extended-precision NumPy longdouble/clongdouble scalars and dtypes are rejected
+in configurations and saved data, including empty arrays and nested structured
+fields; convert explicitly to a supported dtype when appropriate. Detection uses
+the NumPy type even on platforms where longdouble displays as float64.
 
 In data-only payloads, NumPy date and duration scalars use a `numpy_temporal` tag
 with their dtype (including unit and multiplier) and signed integer value; `NaT`

@@ -70,6 +70,26 @@ def _unpack_frequency(value):
     return constructor(n=value["n"], normalize=value["normalize"], **parameters)
 
 
+def _reject_numpy_dtype(dtype):
+    """Reject unsupported precision even when arrays have no scalar values."""
+    if not isinstance(dtype, np.dtype):
+        return
+    if dtype.fields is not None:
+        for name in dtype.names:
+            _reject_numpy_dtype(dtype.fields[name][0])
+    elif dtype.subdtype is not None:
+        _reject_numpy_dtype(dtype.subdtype[0])
+    elif dtype.type in (np.longdouble, np.clongdouble):
+        raise TypeError(f"Unsupported NumPy {dtype.type.__name__}; explicitly convert to a supported representation before saving.")
+
+
+def _reject_numpy_value(value):
+    if isinstance(value, np.ma.MaskedArray):
+        raise TypeError("Unsupported NumPy MaskedArray; explicitly resolve the mask and convert to an ordinary ndarray before saving.")
+    if isinstance(value, (np.generic, np.ndarray)):
+        _reject_numpy_dtype(value.dtype)
+
+
 def _pack_array_dtype(dtype):
     """Describe structured layouts without serializing padding or object pointers."""
     if dtype.fields is not None:
@@ -114,6 +134,7 @@ def _unpack_array_dtype(value):
 
 
 def _pack_dtype(dtype):
+    _reject_numpy_dtype(dtype)
     if isinstance(dtype, pd.SparseDtype):
         raise TypeError(f"Unsupported sparse recovery dtype {dtype}; convert to dense data before saving.")
     if isinstance(dtype, pd.IntervalDtype):
@@ -151,8 +172,9 @@ def _unpack_dtype(dtype):
 
 
 def _pack_series(value, *, include_attrs=True):
+    dtype = _pack_dtype(value.dtype)
     result = {"@": "series", "index": pack(value.index), "name": pack(value.name),
-              "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype)}
+              "values": pack(value.tolist()), "dtype": dtype}
     if include_attrs:
         result["attrs"] = pack(value.attrs)
     return result
@@ -165,6 +187,7 @@ def pack(value):
     artifacts, history and configuration remain usable after a process restart.
     Frame/Series attrs use the same data-only encoding, including nested metadata.
     """
+    _reject_numpy_value(value)
     if value is pd.NA:
         return {"@": "NA"}
     if value is pd.NaT:
@@ -232,7 +255,8 @@ def pack(value):
         return {"@": "intervalindex", "left": pack(value.left), "right": pack(value.right),
                 "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
     if isinstance(value, pd.Index):
-        result = {"@": "index", "values": pack(value.tolist()), "dtype": _pack_dtype(value.dtype), "name": pack(value.name)}
+        dtype = _pack_dtype(value.dtype)
+        result = {"@": "index", "values": pack(value.tolist()), "dtype": dtype, "name": pack(value.name)}
         if isinstance(value, (pd.DatetimeIndex, pd.TimedeltaIndex)):
             result["freq"] = _pack_frequency(value.freq)
         return result
@@ -509,7 +533,7 @@ def signature(value, _active=None):
         items.sort(key=_signature_entry_key)
         return {"mapping": items}
     if isinstance(value, (list, tuple)):
-        return [sub(v) for v in value]
+        return {"sequence": "tuple" if isinstance(value, tuple) else "list", "items": [sub(v) for v in value]}
     if isinstance(value, types.ModuleType):
         return {"module": value.__name__, "version": str(getattr(value, "__version__", ""))}
     if isinstance(value, partial):
@@ -600,6 +624,7 @@ def signature(value, _active=None):
         return result
     if callable(getattr(value, "get_params", None)):
         return {"type": sub(type(value)), "parameters": sub(value.get_params(deep=False))}
+    _reject_numpy_value(value)
     try:
         return _canonical_signature_data(pack(value))
     except TypeError as error:
