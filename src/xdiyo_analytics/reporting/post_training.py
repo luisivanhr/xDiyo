@@ -228,9 +228,12 @@ class PredictionTimelineReporter(PredictionReporter):
     targets: object = None
     output: str = "predict"
     group_by: object = None
+    max_points: int | None = None
 
     def run(self, context):
         go = _plotting()
+        if self.max_points is not None and (isinstance(self.max_points, (bool, np.bool_)) or not isinstance(self.max_points, (int, np.integer)) or self.max_points < 1):
+            raise ValueError("max_points must be None or a positive integer.")
         result = StudyResult("Prediction timelines")
         group_columns = [] if self.group_by is None else ([self.group_by] if isinstance(self.group_by, str) else list(self.group_by))
         times = pd.to_datetime(context.metadata["kickoff_at"], utc=True, errors="raise")
@@ -249,8 +252,9 @@ class PredictionTimelineReporter(PredictionReporter):
             figure = go.Figure()
             groups = ["fold_id", *group_columns]
             for identity, values in frame.groupby(groups, sort=False, dropna=False):
+                plotted = values if self.max_points is None else values.head(self.max_points)
                 for column in ("observed", "predicted", "residual"):
-                    figure.add_trace(go.Scatter(x=values.kickoff_at, y=values[column], mode="lines+markers",
+                    figure.add_trace(go.Scatter(x=plotted.kickoff_at, y=plotted[column], mode="lines+markers",
                                                 connectgaps=False, name=f"{identity}: {column}"))
             result.artifacts.append(Artifact("plotly", _style(figure, str(target), "Kickoff (UTC)", "Value"), str(target)))
         return result

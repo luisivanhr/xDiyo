@@ -51,6 +51,186 @@
       ],
       "accepts_extra": false
     },
+    "features.Heatmap": {
+      "id": "features.Heatmap",
+      "title": "Heatmap",
+      "category": "feature",
+      "description": "Observed team heatmap source; wrap in Lag/RollingMean/EMA for prediction.",
+      "fields": [
+        {
+          "name": "grid_size",
+          "title": "Grid size",
+          "required": false,
+          "kind": "number",
+          "default": 10,
+          "help": "Number of cells along each coordinate axis. 10 creates 100 features per perspective. Squares are in exported 0–100 coordinates, not physical metres.",
+          "step": 1,
+          "primary": true,
+          "min": 2
+        },
+        {
+          "name": "method",
+          "title": "Method",
+          "required": false,
+          "kind": "select",
+          "default": "grid",
+          "help": "Pool points directly, or smooth a fine histogram before pooling. Both return the same shaped feature grid.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "grid",
+              "label": "Grid pooling"
+            },
+            {
+              "value": "gaussian",
+              "label": "Gaussian-smoothed grid"
+            }
+          ]
+        },
+        {
+          "name": "normalization",
+          "title": "Normalization",
+          "required": false,
+          "kind": "select",
+          "default": "mass",
+          "help": "Mass sums to 1 per observed match. Density integrates to 1 over the 0–100 coordinate plane. Count preserves point totals; export sampling intensity can vary.",
+          "primary": true,
+          "choices": [
+            "mass",
+            "density",
+            "count"
+          ]
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "text",
+          "default": "for",
+          "choices": [
+            "for",
+            "against",
+            "both"
+          ],
+          "help": "For uses this team’s values; against uses its opponent’s values; both creates separate outputs.",
+          "primary": true
+        },
+        {
+          "name": "sigma",
+          "title": "Sigma",
+          "required": false,
+          "kind": "number",
+          "default": 2.6,
+          "help": "Gaussian width in fine-grid cells. The reference plot uses 2.6 with resolution 100. Reflected boundaries retain total mass.",
+          "step": "any",
+          "primary": true,
+          "min": 0.01,
+          "visible_when": {
+            "method": [
+              "gaussian"
+            ]
+          }
+        },
+        {
+          "name": "resolution",
+          "title": "Resolution",
+          "required": false,
+          "kind": "number",
+          "default": 100,
+          "help": "Fine histogram cells per axis before smoothing. Must be a multiple of Grid size. 100 matches the reference plot.",
+          "step": 1,
+          "primary": true,
+          "min": 2,
+          "visible_when": {
+            "method": [
+              "gaussian"
+            ]
+          }
+        },
+        {
+          "name": "kinds",
+          "title": "Kinds",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Disabled includes all point kinds. Choose Player to exclude goalkeeper points, or include both.",
+          "primary": true,
+          "choices": [
+            "player",
+            "goalkeeper"
+          ]
+        },
+        {
+          "name": "use_weights",
+          "title": "Use weights",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Disabled counts each exported point once. Enabled uses its supplied weight, with missing weights equal to 1.",
+          "primary": true
+        },
+        {
+          "name": "orientation",
+          "title": "Orientation",
+          "required": false,
+          "kind": "select",
+          "default": "home",
+          "help": "Shared pitch rotates final Away grids 180 degrees. Historical opponent points are first rotated into the focal team’s frame; history is averaged before final venue alignment. Both coordinate axes reverse.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "home",
+              "label": "Shared pitch — Home goal left"
+            },
+            {
+              "value": "team",
+              "label": "Team-relative — own goal left"
+            }
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.RegionMass": {
+      "id": "features.RegionMass",
+      "title": "RegionMass",
+      "category": "feature",
+      "description": "Integrate spatial cells over the focal team's own or opponent half.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Choose the observed statistic or expression consumed by this calculation.",
+          "components": [
+            "features.Heatmap",
+            "features.Lag",
+            "features.RollingMean",
+            "features.EMA"
+          ],
+          "initial_component": "features.RollingMean",
+          "primary": true
+        },
+        {
+          "name": "region",
+          "title": "Region",
+          "required": false,
+          "kind": "select",
+          "default": "own_half",
+          "help": "Integrate the grid over the focal team’s own or opponent half. A cell crossing halfway contributes proportionally. Density is multiplied by area; mass sums proportions; count sums points.",
+          "choices": [
+            "own_half",
+            "opponent_half"
+          ],
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.ForAgainst": {
       "id": "features.ForAgainst",
       "title": "ForAgainst",
@@ -67,7 +247,8 @@
           ],
           "help": "Choose the observed statistic or expression consumed by this calculation.",
           "components": [
-            "features.Stat"
+            "features.Stat",
+            "features.Heatmap"
           ],
           "initial_component": "features.Stat",
           "primary": true
@@ -176,6 +357,31 @@
           "help": "How many eligible observations to lag. 1 means the most recent completed match.",
           "step": 1,
           "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -215,6 +421,31 @@
           "default": 1,
           "help": "Minimum observed values needed for a result. 1 allows a partial window early in the season.",
           "step": 1,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
           "primary": true
         }
       ],
@@ -266,6 +497,31 @@
           "help": "Variance denominator is n − ddof. 1 estimates sample spread; 0 computes population spread.",
           "step": 1,
           "primary": false
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -328,6 +584,31 @@
           ],
           "help": "Historical value compared with the rolling baseline. Disabled uses the latest eligible observation, included in that window.",
           "primary": false
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -367,6 +648,31 @@
           "default": 1,
           "help": "Minimum observed values needed for a result. 1 allows a partial window early in the season.",
           "step": 1,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
           "primary": true
         }
       ],
@@ -756,7 +1062,9 @@
           "components": [
             "features.RollingMean",
             "features.RollingStd",
-            "features.RollingZScore"
+            "features.RollingZScore",
+            "features.MatchResultGlicko",
+            "features.StatGlicko"
           ],
           "initial_component": "features.RollingMean",
           "primary": true
@@ -777,6 +1085,127 @@
           ],
           "initial_component": "features.SeededEMA",
           "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.Constant": {
+      "id": "features.Constant",
+      "title": "Constant",
+      "category": "feature",
+      "description": "A finite numeric constant, broadcast to every input row.",
+      "fields": [
+        {
+          "name": "value",
+          "title": "Value",
+          "required": true,
+          "kind": "number",
+          "help": "Finite numeric value repeated for every row. Example: 1 as an explicit offset in a denominator.",
+          "step": "any",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.Sum": {
+      "id": "features.Sum",
+      "title": "Sum",
+      "category": "feature",
+      "description": "Add two single-output expressions or finite numeric constants.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.",
+          "primary": true
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.Difference": {
+      "id": "features.Difference",
+      "title": "Difference",
+      "category": "feature",
+      "description": "Subtract right from left; e.g. recent average minus long-run average.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.",
+          "primary": true
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.Ratio": {
+      "id": "features.Ratio",
+      "title": "Ratio",
+      "category": "feature",
+      "description": "Divide two single-output expressions; zero denominators default to missing.",
+      "fields": [
+        {
+          "name": "numerator",
+          "title": "Numerator",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Single-output feature above the fraction bar. Example: recent rolling average.",
+          "primary": true
+        },
+        {
+          "name": "denominator",
+          "title": "Denominator",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Single-output feature below the fraction bar. Example: long-run rolling average. Zero gives a missing ratio by default.",
+          "primary": true
+        },
+        {
+          "name": "zero_value",
+          "title": "Zero value",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional finite replacement when the denominator is exactly zero and both inputs are known. Disabled leaves the ratio missing; missing inputs always stay missing.",
+          "primary": false,
+          "step": "any"
         }
       ],
       "accepts_extra": false
@@ -1612,6 +2041,62 @@
       ],
       "accepts_extra": false
     },
+    "training.ProbabilityCalibrator": {
+      "id": "training.ProbabilityCalibrator",
+      "title": "ProbabilityCalibrator",
+      "category": "training",
+      "description": "Calibrate complete class distributions using disjoint held-out predictions.",
+      "fields": [
+        {
+          "name": "method",
+          "title": "Method",
+          "required": false,
+          "kind": "select",
+          "default": "temperature",
+          "help": "Temperature adjusts overall confidence with one parameter per target. Sigmoid fits a logistic mapping per class; isotonic fits a more flexible monotone mapping. All return a normalized class distribution.",
+          "primary": true,
+          "choices": [
+            "temperature",
+            "sigmoid",
+            "isotonic"
+          ]
+        },
+        {
+          "name": "fraction",
+          "title": "Fraction",
+          "required": false,
+          "kind": "number",
+          "default": 0.2,
+          "help": "Fraction of latest training kickoff batches reserved only for calibration. 0.2 means 20%; whole matches and equal kickoff times stay together. Early stopping is reserved from the remaining rows.",
+          "step": "any",
+          "primary": true,
+          "min": 0.001,
+          "max": 0.999
+        },
+        {
+          "name": "time_column",
+          "title": "Time column",
+          "required": false,
+          "kind": "select",
+          "default": "kickoff_at",
+          "help": "Timestamp used to choose the chronological calibration tail.",
+          "primary": true,
+          "choices": [
+            "kickoff_at"
+          ]
+        },
+        {
+          "name": "update_predict",
+          "title": "Update predict",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Use the most probable calibrated class for point predictions. Disable to preserve the original point predictions. Both raw and calibrated probability distributions remain available.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "training.TrainingControl": {
       "id": "training.TrainingControl",
       "title": "TrainingControl",
@@ -2416,6 +2901,357 @@
           ],
           "initial_component": "features.SeededEMA",
           "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.BetOffer": {
+      "id": "evaluation.BetOffer",
+      "title": "BetOffer",
+      "category": "evaluation",
+      "description": "An offered BetOption with optional decimal odds and a fixed unit stake.",
+      "fields": [
+        {
+          "name": "option",
+          "title": "Option",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "label"
+          ],
+          "help": "Select a BetOption using the same label source as your model target. Exact-count probabilities are summed across qualifying counts; no interpolation at half lines.",
+          "primary": true,
+          "components": [
+            "labels.BetOption"
+          ],
+          "initial_component": "labels.BetOption"
+        },
+        {
+          "name": "odds",
+          "title": "Odds",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional decimal quote for this option, e.g. 1.85. Leave disabled to use the reporter fallback or show probability-only decisions.",
+          "initial": 1.85,
+          "step": "any",
+          "primary": true,
+          "min": 1.000001
+        },
+        {
+          "name": "stake",
+          "title": "Stake",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Fixed stake per selected bet, in your chosen currency or units. Default 1. No bankroll or dynamic staking simulation.",
+          "step": "any",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.TightestLine": {
+      "id": "evaluation.TightestLine",
+      "title": "TightestLine",
+      "category": "evaluation",
+      "description": "Tightest O/U line within a fixed probability loss of the safest same-side offer.",
+      "fields": [
+        {
+          "name": "min_probability",
+          "title": "Min probability",
+          "required": false,
+          "kind": "number",
+          "default": 0.9,
+          "help": "Minimum chance of winning, from 0 to 1. Example: 0.90 requires at least 90%. Push probability is separate.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "name": "max_probability_loss",
+          "title": "Max probability loss",
+          "required": false,
+          "kind": "number",
+          "default": 0.03,
+          "help": "Maximum absolute probability sacrificed from the safest offered line on the same side. Example: 0.03 permits three percentage points. The reference stays fixed.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "name": "min_ev",
+          "title": "Min ev",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Minimum expected net profit per stake unit: p(win) × (odds − 1) − p(loss). Requires odds. Zero accepts nonnegative expected profit.",
+          "primary": true,
+          "step": "any",
+          "initial": 0.0
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.HighestExpectedProfit": {
+      "id": "evaluation.HighestExpectedProfit",
+      "title": "HighestExpectedProfit",
+      "category": "evaluation",
+      "description": "Choose the qualifying option with greatest expected net profit per unit.",
+      "fields": [
+        {
+          "name": "min_probability",
+          "title": "Min probability",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Minimum chance of winning, from 0 to 1. Example: 0.90 requires at least 90%. Push probability is separate.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "name": "min_ev",
+          "title": "Min ev",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Minimum expected net profit per stake unit: p(win) × (odds − 1) − p(loss). Requires odds. Zero accepts nonnegative expected profit.",
+          "step": "any",
+          "primary": true,
+          "initial": 0.0
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.HeatmapReporter": {
+      "id": "reporting.HeatmapReporter",
+      "title": "HeatmapReporter",
+      "category": "pre_reporter",
+      "description": "Select one fixture and show its prepared home/away spatial features.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "train",
+            "test",
+            "score",
+            "all"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "maps",
+          "title": "Maps",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Discover spatial outputs, including Heatmap and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.",
+          "discovery": "heatmaps",
+          "primary": true
+        },
+        {
+          "name": "teams",
+          "title": "Teams",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Optional team subset for the displayed timeline.",
+          "discovery": "teams",
+          "primary": false
+        },
+        {
+          "name": "catalog",
+          "title": "Catalog",
+          "required": false,
+          "kind": "reference",
+          "default": null,
+          "help": "Catalog for HeatmapReporter. Optional; leave disabled to use the standard behavior.",
+          "initial": {
+            "ref": "team_catalog"
+          },
+          "hidden": true,
+          "primary": false
+        },
+        {
+          "name": "show_badges",
+          "title": "Show badges",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Embed the team’s local badge beside its name. Missing badges fall back to the team name.",
+          "primary": true
+        },
+        {
+          "name": "max_fixtures",
+          "title": "Max fixtures",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional cap on fixtures retained in this report scope. Useful for small offline exports. Disabled retains every selected fixture.",
+          "min": 1,
+          "step": 1,
+          "primary": false
+        },
+        {
+          "name": "cache_size",
+          "title": "Cache size",
+          "required": false,
+          "kind": "number",
+          "default": 8,
+          "help": "Maximum recently viewed fixture/feature pairs kept by the live browser. 8 is the default; this does not cap the experiment population.",
+          "step": 1,
+          "min": 1,
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.ClassWeightReporter": {
+      "id": "reporting.ClassWeightReporter",
+      "title": "ClassWeightReporter",
+      "category": "pre_reporter",
+      "description": "Describe class balance and optionally supply weights to training.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": false,
+          "kind": "text",
+          "default": "per_fold",
+          "choices": [
+            "per_fold",
+            "overall"
+          ],
+          "help": "Per fold computes a separate set of weights for each fitting population. Overall summarizes pooled rows; it can supply training weights only when those rows exactly match a single fit.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": false,
+          "kind": "text",
+          "default": "train",
+          "choices": [
+            "train",
+            "test",
+            "score",
+            "all"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "balanced",
+          "help": "Balanced gives each observed fitting class equal total weight. Adjustable balancing controls how strongly rare classes are emphasized. No balancing uses one for every row.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "none",
+              "label": "No balancing"
+            },
+            {
+              "value": "balanced",
+              "label": "Balanced"
+            },
+            {
+              "value": "power",
+              "label": "Adjustable balancing"
+            },
+            {
+              "value": "custom",
+              "label": "Custom class weights"
+            },
+            {
+              "value": "callable",
+              "label": "Registered calculation"
+            }
+          ]
+        },
+        {
+          "name": "power",
+          "title": "Power",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "0 means no balancing; 0.5 partially balances; 1 fully balances. Larger values put still more weight on rare classes. Weights are normalized to mean one.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "visible_when": {
+            "mode": [
+              "power"
+            ]
+          }
+        },
+        {
+          "name": "class_weights",
+          "title": "Class weights",
+          "required": false,
+          "kind": "map",
+          "default": null,
+          "help": "Discover feature columns first to list label classes, then assign a nonnegative weight to every fitting class. Keys are original labels, such as 5 corners, not encoded class positions. Extra classes absent from a fold are ignored; missing weights raise an error.",
+          "primary": true,
+          "key_discovery": "weight_classes",
+          "item": {
+            "kind": "number",
+            "default": 1,
+            "min": 0,
+            "step": "any"
+          },
+          "initial": {},
+          "visible_when": {
+            "mode": [
+              "custom"
+            ]
+          }
+        },
+        {
+          "name": "calculator",
+          "title": "Calculator",
+          "required": false,
+          "kind": "callable",
+          "default": null,
+          "help": "Choose a registered callback that receives fitting X, y and metadata and returns a weight Series indexed by those exact rows. Validation and evaluation rows are excluded.",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "callable"
+            ]
+          }
+        },
+        {
+          "name": "target",
+          "title": "Target",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Original class label to balance. Leave disabled when the dataset has one target. Training with these weights requires that same single target.",
+          "discovery": "targets",
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -3288,7 +4124,7 @@
             "mean"
           ],
           "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
-          "primary": false
+          "primary": true
         },
         {
           "name": "targets",
@@ -3311,7 +4147,7 @@
             "predict",
             "predict_proba"
           ],
-          "primary": false
+          "primary": true
         },
         {
           "name": "group_by",
@@ -3330,6 +4166,18 @@
             "source_season"
           ],
           "primary": true
+        },
+        {
+          "name": "max_points",
+          "title": "Max points",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Maximum observations plotted per series. The full timeline table is retained for download.",
+          "initial": 1,
+          "step": 1,
+          "primary": true,
+          "min": 1
         }
       ],
       "accepts_extra": false
@@ -3496,9 +4344,10 @@
         {
           "name": "bets",
           "title": "Bets",
-          "required": true,
+          "required": false,
           "kind": "map",
-          "help": "Add named betting options with decimal odds, stakes and explicit placement decisions.",
+          "default": null,
+          "help": "Manual decisions are optional. Prefer Prepared decisions from to reuse the probability-based outcome reporter.",
           "item": {
             "kind": "component",
             "components": [
@@ -3506,7 +4355,12 @@
             ],
             "initial_component": "evaluation.BetSpec"
           },
-          "primary": false
+          "primary": false,
+          "visible_when": {
+            "source": [
+              null
+            ]
+          }
         },
         {
           "name": "labels",
@@ -3538,6 +4392,259 @@
           "kind": "text",
           "default": "kickoff_at",
           "help": "Time column for BetPerformanceReporter. Default: kickoff_at.",
+          "primary": false
+        },
+        {
+          "name": "source",
+          "title": "Prepared decisions from",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "categories": [
+            "feature"
+          ],
+          "help": "Reuse an earlier Bet Outcome Reporter, with the same scope, rows and pooling. Its exact decisions and settlements feed profit accounting; no second selection step.",
+          "primary": true,
+          "discovery": "bet_outcomes"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.BetOutcomeReporter": {
+      "id": "reporting.BetOutcomeReporter",
+      "title": "BetOutcomeReporter",
+      "category": "post_reporter",
+      "description": "Choose bets from saved probabilities; settle and display with team badges.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": false,
+          "kind": "text",
+          "default": "score",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "pooling",
+          "title": "Pooling",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "choices": [
+            null,
+            "occurrences",
+            "first",
+            "last",
+            "mean"
+          ],
+          "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
+          "primary": false
+        },
+        {
+          "name": "offers",
+          "title": "Offers",
+          "required": true,
+          "kind": "map",
+          "help": "Add the available lines/options for this predicted label. Give each a display name (for example Under 7.5). Quotes are optional unless your policy uses expected profit.",
+          "primary": true,
+          "item": {
+            "kind": "component",
+            "components": [
+              "evaluation.BetOffer"
+            ],
+            "initial_component": "evaluation.BetOffer"
+          }
+        },
+        {
+          "name": "policy",
+          "title": "Policy",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "evaluation"
+          ],
+          "help": "Choose how one offer is selected for each match (or each team row). No qualifying offer produces No bet. Outcomes never influence selection.",
+          "components": [
+            "evaluation.TightestLine",
+            "evaluation.HighestExpectedProfit"
+          ],
+          "initial_component": "evaluation.TightestLine",
+          "primary": true
+        },
+        {
+          "name": "target",
+          "title": "Target",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Observed label to analyze. Disabled uses all available labels.",
+          "discovery": "targets",
+          "primary": false
+        },
+        {
+          "name": "output",
+          "title": "Output",
+          "required": false,
+          "kind": "select",
+          "default": "auto",
+          "help": "Automatic uses upstream class probabilities (calibrated if enabled), otherwise the Negative Binomial count distribution. Raw probabilities are only available when calibration retained them.",
+          "choices": [
+            "auto",
+            "predict_proba",
+            "predict_proba_raw",
+            "count_distribution"
+          ],
+          "primary": true
+        },
+        {
+          "name": "labels",
+          "title": "Labels",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Observed outcomes used to settle the selected betting options.",
+          "primary": false,
+          "hidden": true
+        },
+        {
+          "name": "history",
+          "title": "History",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Team-match history providing observed outcomes and past information. The experiment supplies this automatically.",
+          "primary": false,
+          "hidden": true
+        },
+        {
+          "name": "default_odds",
+          "title": "Default odds",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional explicit fixed-odds scenario for offers without quotes, e.g. 1.1. Disabled leaves odds and profit unavailable. Decimal odds must exceed 1.",
+          "primary": true,
+          "step": "any",
+          "initial": 1.1,
+          "min": 1.000001
+        },
+        {
+          "name": "catalog",
+          "title": "Catalog",
+          "required": false,
+          "kind": "reference",
+          "default": null,
+          "help": "Catalog for BetOutcomeReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "hidden": true,
+          "initial": {
+            "ref": "team_catalog"
+          }
+        },
+        {
+          "name": "show_badges",
+          "title": "Show badges",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Embed available local team badges in the saved match report, with team names as fallback.",
+          "primary": true
+        },
+        {
+          "name": "page_size",
+          "title": "Page size",
+          "required": false,
+          "kind": "number",
+          "default": 25,
+          "help": "Number of fixtures shown on one page of the match-results table.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "league",
+          "title": "League",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Initially filter displayed fixtures to this league. Disabled shows all available leagues.",
+          "discovery": "leagues",
+          "primary": false
+        },
+        {
+          "name": "season",
+          "title": "Season",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Initially filter displayed fixtures to this season. Disabled shows all available seasons.",
+          "discovery": "seasons",
+          "primary": false
+        },
+        {
+          "name": "team",
+          "title": "Team",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Initially show fixtures involving this team, home or away. Disabled includes every team.",
+          "discovery": "teams",
+          "primary": false
+        },
+        {
+          "name": "round",
+          "title": "Round",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Initially filter displayed fixtures to this round. Disabled includes every round.",
+          "discovery": "rounds",
+          "primary": false
+        },
+        {
+          "name": "league_column",
+          "title": "League column",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Metadata column containing the league identifier used by the report filter.",
+          "choices": [
+            "source_league",
+            "source_season",
+            "competition_id",
+            "season_id"
+          ],
+          "primary": false
+        },
+        {
+          "name": "season_column",
+          "title": "Season column",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Metadata column containing the season identifier used by the report filter.",
+          "choices": [
+            "source_league",
+            "source_season",
+            "competition_id",
+            "season_id"
+          ],
           "primary": false
         }
       ],
@@ -3757,6 +4864,201 @@
           "default": true,
           "help": "Summarize how often each feature has a nonzero coefficient across fitted models.",
           "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.CountClassificationReporter": {
+      "id": "reporting.CountClassificationReporter",
+      "title": "CountClassificationReporter",
+      "category": "post_reporter",
+      "description": "Exact-count classification diagnostics, including unsupported classes.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "pooling",
+          "title": "Pooling",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "choices": [
+            null,
+            "occurrences",
+            "first",
+            "last",
+            "mean"
+          ],
+          "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
+          "primary": true
+        },
+        {
+          "name": "targets",
+          "title": "Targets",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Disabled includes all labels supplied to this analysis. When enabled, select at least one checkbox; an empty selection does not mean all.",
+          "discovery": "targets",
+          "primary": true
+        },
+        {
+          "name": "output",
+          "title": "Output",
+          "required": false,
+          "kind": "text",
+          "default": "predict",
+          "help": "Prediction output to analyze: point/class predictions or class probabilities.",
+          "choices": [
+            "predict",
+            "predict_proba"
+          ],
+          "primary": true
+        },
+        {
+          "name": "probability_output",
+          "title": "Probability output",
+          "required": false,
+          "kind": "select",
+          "default": "predict_proba",
+          "help": "Use upstream probabilities; calibrated output uses predict_proba when calibration was enabled.",
+          "primary": true,
+          "choices": [
+            "predict_proba",
+            "predict_proba_raw"
+          ]
+        },
+        {
+          "name": "tolerance",
+          "title": "Tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 2.0,
+          "help": "Inclusive error band in count units. For corners, 2 counts a prediction within two corners as within tolerance.",
+          "step": "any",
+          "min": 0,
+          "primary": true
+        },
+        {
+          "name": "epsilon",
+          "title": "Epsilon",
+          "required": false,
+          "kind": "number",
+          "default": 1e-12,
+          "help": "Floor used only for finite clipped log loss. Exact zero probability is still reported separately; this does not calibrate probabilities.",
+          "step": "any",
+          "primary": true,
+          "min": 1e-300,
+          "max": 0.999999
+        },
+        {
+          "name": "group_by",
+          "title": "Group by",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Rows with the same selected metadata identifiers stay together.",
+          "choices": [
+            "team_id",
+            "opponent_id",
+            "competition_id",
+            "season_id",
+            "round",
+            "source_league",
+            "source_season"
+          ],
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.FeatureImportanceReporter": {
+      "id": "reporting.FeatureImportanceReporter",
+      "title": "FeatureImportanceReporter",
+      "category": "post_reporter",
+      "description": "Native fitted-model feature importance, mapped to retained feature names.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": false,
+          "kind": "text",
+          "default": "model",
+          "choices": [
+            "model"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "top_k",
+          "title": "Top k",
+          "required": false,
+          "kind": "number",
+          "default": 30,
+          "help": "Maximum features shown in the importance plot per fitted model. The retained importance table stays complete.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "importance_type",
+          "title": "Importance type",
+          "required": false,
+          "kind": "select",
+          "default": "gain",
+          "help": "XGBoost native importance. Gain measures average split improvement; weight counts splits; cover measures observations affected.",
+          "primary": true,
+          "choices": [
+            "gain",
+            "weight",
+            "cover",
+            "total_gain",
+            "total_cover"
+          ]
+        },
+        {
+          "name": "include_zeros",
+          "title": "Include zeros",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Include coefficients eliminated by regularization. Disabled focuses on surviving features.",
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -9011,7 +10313,7 @@
           "required": false,
           "kind": "number",
           "default": 1.0,
-          "help": "NB2 variance = mean + dispersion × mean². Positive and fixed during fitting; tune it in Model selection. For mean 10, dispersion 0.2 gives variance 30. This is not a regularization penalty.",
+          "help": "NB2 variance = mean + dispersion × mean². Fixed value when Learn dispersion is off; starting value when on. For mean 10, dispersion 0.2 gives variance 30. This is separate from regularization strength.",
           "step": "any",
           "primary": true,
           "min": 1e-12
@@ -9127,6 +10429,15 @@
               "label": "Mode (most probable count)"
             }
           ]
+        },
+        {
+          "name": "learn_dispersion",
+          "title": "Learn dispersion",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Estimate one dispersion per fitted model from its training rows, jointly with the mean coefficients. Disabled keeps Dispersion fixed. Betting probabilities and mode predictions use the fitted value. Learned values are numerically bounded to 0.000001–1000000; a boundary flag is retained.",
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -9444,6 +10755,752 @@
       ],
       "accepts_extra": false
     },
+    "experiments.ArtifactExport": {
+      "id": "experiments.ArtifactExport",
+      "title": "ArtifactExport",
+      "category": "export",
+      "description": "Export retained results without fitting. Each invocation gets a new folder.",
+      "fields": [
+        {
+          "name": "report_tables",
+          "title": "Report tables",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Export every retained study table to CSV with its name, fold and partition in a manifest.",
+          "primary": true
+        },
+        {
+          "name": "predictions",
+          "title": "Predictions",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Export observed labels, match metadata and all prediction outputs for each evaluated fold.",
+          "primary": true
+        },
+        {
+          "name": "save_models",
+          "title": "Save models",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Save a separately loadable prediction model for each evaluated fold, including fitted preprocessing.",
+          "primary": true
+        },
+        {
+          "name": "verify_reload",
+          "title": "Verify reload",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Reload each exported model and check its test predictions against the retained values. This predicts again without fitting.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Column": {
+      "id": "prepared.Column",
+      "title": "Column",
+      "category": "derived_feature",
+      "description": "An existing prepared column, used by combine_features after assembly.",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "required": true,
+          "kind": "select",
+          "help": "Choose an already assembled predictor column. Click Discover assembled columns first; this works even while a derived expression is unfinished. Labels are not available as operands.",
+          "primary": true,
+          "discovery": "assembled_features"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Constant": {
+      "id": "prepared.Constant",
+      "title": "Constant",
+      "category": "derived_feature",
+      "description": "A finite numeric constant, broadcast to every input row.",
+      "fields": [
+        {
+          "name": "value",
+          "title": "Value",
+          "required": true,
+          "kind": "number",
+          "help": "Value for Constant. Optional; leave disabled to use the standard behavior.",
+          "step": "any",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Sum": {
+      "id": "prepared.Sum",
+      "title": "Sum",
+      "category": "derived_feature",
+      "description": "Add two single-output expressions or finite numeric constants.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Difference": {
+      "id": "prepared.Difference",
+      "title": "Difference",
+      "category": "derived_feature",
+      "description": "Subtract right from left; e.g. recent average minus long-run average.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Ratio": {
+      "id": "prepared.Ratio",
+      "title": "Ratio",
+      "category": "derived_feature",
+      "description": "Divide two single-output expressions; zero denominators default to missing.",
+      "fields": [
+        {
+          "name": "numerator",
+          "title": "Numerator",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        },
+        {
+          "name": "denominator",
+          "title": "Denominator",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        },
+        {
+          "name": "zero_value",
+          "title": "Zero value",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional finite replacement when the denominator is exactly zero and both inputs are known. Disabled leaves the ratio missing; missing inputs always stay missing.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.RestDays": {
+      "id": "features.RestDays",
+      "title": "RestDays",
+      "category": "feature",
+      "description": "Days since the latest eligible finished kickoff in the current scope.",
+      "fields": [],
+      "accepts_extra": false
+    },
+    "context.CalendarFeature": {
+      "id": "context.CalendarFeature",
+      "title": "CalendarFeature",
+      "category": "context_feature",
+      "description": "UTC fixture calendar: month_sin, month_cos, weekday, or numeric round.",
+      "fields": [
+        {
+          "name": "kind",
+          "title": "Kind",
+          "required": false,
+          "kind": "select",
+          "default": "month_sin",
+          "help": "UTC fixture context. Month uses sin/cos(2π × month / 12); weekday is Monday=0; round is numeric.",
+          "primary": true,
+          "choices": [
+            "month_sin",
+            "month_cos",
+            "weekday",
+            "round"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "preparation.FeatureBankPreset": {
+      "id": "preparation.FeatureBankPreset",
+      "title": "FeatureBankPreset",
+      "category": "preparation",
+      "description": "Broad football bank with stable names, formulas and insertion order.",
+      "fields": [
+        {
+          "name": "stats",
+          "title": "Stats",
+          "required": false,
+          "kind": "stat_pairs",
+          "default": [
+            [
+              "Match overview",
+              "cornerKicks"
+            ],
+            [
+              "Match overview",
+              "ballPossession"
+            ],
+            [
+              "Match overview",
+              "totalShotsOnGoal"
+            ],
+            [
+              "Match overview",
+              "expectedGoals"
+            ],
+            [
+              "Match overview",
+              "bigChanceCreated"
+            ],
+            [
+              "Match overview",
+              "goalkeeperSaves"
+            ],
+            [
+              "Match overview",
+              "totalTackle"
+            ],
+            [
+              "Shots",
+              "shotsOnGoal"
+            ],
+            [
+              "Shots",
+              "shotsOffGoal"
+            ],
+            [
+              "Shots",
+              "blockedScoringAttempt"
+            ],
+            [
+              "Shots",
+              "totalShotsInsideBox"
+            ],
+            [
+              "Shots",
+              "totalShotsOutsideBox"
+            ],
+            [
+              "Attack",
+              "touchesInOppBox"
+            ],
+            [
+              "Attack",
+              "bigChanceMissed"
+            ],
+            [
+              "Attack",
+              "offsides"
+            ],
+            [
+              "Passes",
+              "accurateCross"
+            ],
+            [
+              "Passes",
+              "finalThirdEntries"
+            ],
+            [
+              "Passes",
+              "finalThirdPhaseStatistic"
+            ],
+            [
+              "Defending",
+              "ballRecovery"
+            ],
+            [
+              "Defending",
+              "interceptionWon"
+            ],
+            [
+              "Defending",
+              "totalClearance"
+            ],
+            [
+              "Defending",
+              "errorsLeadToShot"
+            ]
+          ],
+          "help": "Statistic shortlist. The bank only includes identities observed in the configured development population. Periods are selected separately.",
+          "primary": true
+        },
+        {
+          "name": "half_keys",
+          "title": "Half keys",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "cornerKicks",
+            "ballPossession",
+            "totalShotsOnGoal",
+            "shotsOnGoal",
+            "shotsOffGoal",
+            "touchesInOppBox"
+          ],
+          "help": "Select statistic keys for half-period or warmed copies. Disabled warm keys includes all eligible rolling statistics.",
+          "primary": false,
+          "discovery": "stat_keys"
+        },
+        {
+          "name": "windows",
+          "title": "Windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            3,
+            5,
+            10,
+            20
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "lags",
+          "title": "Lags",
+          "required": false,
+          "kind": "list",
+          "default": [
+            1,
+            2,
+            3
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "spans",
+          "title": "Spans",
+          "required": false,
+          "kind": "list",
+          "default": [
+            5,
+            10
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "periods",
+          "title": "Periods",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "ALL",
+            "1ST",
+            "2ND"
+          ],
+          "help": "Full match and/or first and second half. Half-period features use their separate operator windows.",
+          "primary": true,
+          "choices": [
+            "ALL",
+            "1ST",
+            "2ND"
+          ]
+        },
+        {
+          "name": "std_windows",
+          "title": "Std windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            5,
+            10
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "z_windows",
+          "title": "Z windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            5
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "half_lags",
+          "title": "Half lags",
+          "required": false,
+          "kind": "list",
+          "default": [
+            1
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "half_windows",
+          "title": "Half windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            5,
+            10
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "league_windows",
+          "title": "League windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            3,
+            5
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "include_ratings",
+          "title": "Include ratings",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include ratings in the generated bank. Existing named features remain additional.",
+          "primary": true
+        },
+        {
+          "name": "include_loo",
+          "title": "Include loo",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include loo in the generated bank. Existing named features remain additional.",
+          "primary": true
+        },
+        {
+          "name": "loo_windows",
+          "title": "Loo windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            3,
+            5
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "loo_reducers",
+          "title": "Loo reducers",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "mean"
+          ],
+          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1.",
+          "primary": false,
+          "choices": [
+            "mean",
+            "std",
+            "z"
+          ]
+        },
+        {
+          "name": "include_h2h",
+          "title": "Include h2h",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include h2h in the generated bank. Existing named features remain additional.",
+          "primary": true
+        },
+        {
+          "name": "h2h_windows",
+          "title": "H2h windows",
+          "required": false,
+          "kind": "list",
+          "default": [
+            3,
+            5
+          ],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "h2h_reducers",
+          "title": "H2h reducers",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "mean"
+          ],
+          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1.",
+          "primary": false,
+          "choices": [
+            "mean",
+            "std",
+            "z"
+          ]
+        },
+        {
+          "name": "warm_policy",
+          "title": "Warm policy",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Add warmed copies while retaining every ordinary feature. Disabled omits these additional columns.",
+          "primary": true,
+          "components": [
+            "features.SeededEMA"
+          ],
+          "initial_component": "features.SeededEMA"
+        },
+        {
+          "name": "warm_stat_keys",
+          "title": "Warm stat keys",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Select statistic keys for half-period or warmed copies. Disabled warm keys includes all eligible rolling statistics.",
+          "primary": false,
+          "discovery": "stat_keys"
+        },
+        {
+          "name": "rating_warm_policy",
+          "title": "Rating warm policy",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Add warmed copies while retaining every ordinary feature. Disabled omits these additional columns.",
+          "primary": true,
+          "components": [
+            "ratings.GlickoTransition"
+          ],
+          "initial_component": "ratings.GlickoTransition"
+        },
+        {
+          "name": "include_rest",
+          "title": "Include rest",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include rest in the generated bank. Existing named features remain additional.",
+          "primary": true
+        },
+        {
+          "name": "include_calendar",
+          "title": "Include calendar",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include calendar in the generated bank. Existing named features remain additional.",
+          "primary": true
+        },
+        {
+          "name": "include_combinations",
+          "title": "Include combinations",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include combinations in the generated bank. Existing named features remain additional.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "preparation.IdentityFeatureSpec": {
+      "id": "preparation.IdentityFeatureSpec",
+      "title": "IdentityFeatureSpec",
+      "category": "preparation",
+      "description": "Freeze a vocabulary from shared outer-training rows, then add indicators.",
+      "fields": [
+        {
+          "name": "columns",
+          "title": "Columns",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "source_league"
+          ],
+          "help": "Metadata identities to encode. Use source_league for notebook parity; team IDs are an optional extension.",
+          "primary": true,
+          "choices": [
+            "source_league",
+            "home_id",
+            "away_id",
+            "team_id",
+            "opponent_id"
+          ]
+        },
+        {
+          "name": "prefixes",
+          "title": "Prefixes",
+          "required": false,
+          "kind": "map",
+          "default": null,
+          "help": "Optional output prefixes, e.g. source_league → league. Categories are fitted only from common training rows.",
+          "primary": true,
+          "key_discovery": "identity_columns",
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "alphabetical",
+          "title": "Alphabetical",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Alphabetical for IdentityFeatureSpec. Default: True.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "preparation.NumericFeatures": {
+      "id": "preparation.NumericFeatures",
+      "title": "NumericFeatures",
+      "category": "preparation",
+      "description": "Optional numeric conversion after feature assembly; no fitted statistics.",
+      "fields": [
+        {
+          "name": "dtype",
+          "title": "Dtype",
+          "required": false,
+          "kind": "select",
+          "default": "float32",
+          "help": "Numeric precision of model inputs. No scaling or imputation is applied.",
+          "primary": true,
+          "choices": [
+            "float32",
+            "float64"
+          ]
+        },
+        {
+          "name": "infinities_to_missing",
+          "title": "Infinities to missing",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Infinities to missing for NumericFeatures. Default: True.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
     "input.Table": {
       "id": "input.Table",
       "title": "Table",
@@ -9726,6 +11783,15 @@
           "default": null,
           "help": "Prepared metadata column containing observation weights passed to the boosting fit.",
           "primary": false
+        },
+        {
+          "name": "exact_counts",
+          "title": "Exact counts",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "For exact-count classifiers: require finite nonnegative integer labels. XGBoost uses multiclass probabilities and discovers its classes from fitting rows only.",
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -9780,7 +11846,8 @@
             "matches",
             "statistics",
             "pregame",
-            "shots"
+            "shots",
+            "heatmap_points"
           ],
           "primary": true
         },
@@ -10275,6 +12342,29 @@
           "default": null,
           "help": "Optional registered callback supplying likelihood and parameter counts for AIC/BIC. Leave disabled to use adapter-provided statistics.",
           "primary": false
+        },
+        {
+          "name": "calibration",
+          "title": "Calibration",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional probability calibration fitted on a separate chronological tail of each training fold. These rows are excluded from model/scaler fitting, feature selection and early stopping. Test outcomes are never used. Requires a classifier with class probabilities.",
+          "components": [
+            "training.ProbabilityCalibrator"
+          ],
+          "initial_component": "training.ProbabilityCalibrator",
+          "primary": true
+        },
+        {
+          "name": "weights_from",
+          "title": "Weights from",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Use observation weights from a named Class Weight Reporter in Fitted preparation. Weights are recalculated on each fit’s training rows, including inner search and final refit.",
+          "discovery": "weight_reporters",
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -10450,8 +12540,17 @@
           "required": false,
           "kind": "boolean",
           "default": true,
-          "help": "Load a matching completed run rather than fitting it again.",
+          "help": "Reuse a matching completed fit and its saved models. Post-training reporters are refreshed without fitting again. Disable to deliberately train a fresh run.",
           "primary": true
+        },
+        {
+          "name": "save_models",
+          "title": "Save models",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Save fitted fold models, final refits and their fitted scalers for automatic restoration. Enabled by default. Load only trusted experiment folders.",
+          "primary": false
         }
       ],
       "accepts_extra": false

@@ -12,7 +12,7 @@ from .teams import team_key
 def render_match_results(artifact):
     """Embed already-computed rows and names; no filesystem/network/model access."""
     rows = []
-    numeric = {"result", "prediction", "error"}
+    numeric = {"result", "prediction", "error", "probability", "odds", "profit"}
     for record in artifact.data.to_dict("records"):
         row = {}
         for key, value in record.items():
@@ -39,6 +39,7 @@ MATCH_CSS = r"""
 .match-table th{padding:12px}.match-table td{min-width:85px}.match-table .team-cell{min-width:160px;white-space:normal;font-weight:600}.team-inline{display:flex;align-items:center;gap:9px}.team-inline img{width:28px;height:28px;object-fit:contain;flex-shrink:0}
 .match-table .fixture-heading td{background:#243245;color:var(--muted);font-size:12px;padding:9px 12px;white-space:normal}.match-table td.good{background:#3bb99918}.match-table td.bad{background:#ed79751a}.match-table td.neutral{color:var(--muted)}
 .match-table tr.result-good{box-shadow:inset 3px 0 #58c7b2}.match-table tr.result-bad{box-shadow:inset 3px 0 #ed7975}.match-table tr.result-neutral{box-shadow:inset 3px 0 #9eb0c5}.match-table .prob-cell{white-space:normal;min-width:150px;font-size:12px}.match-table .subhead th{font-size:12px;top:45px;background:#1d2a39}
+.match-table tr.result-good td{background:#3bb99918}.match-table tr.result-bad td{background:#ed79751a}.bet-alternatives{font-size:12px;white-space:normal;min-width:220px}.bet-alternatives p{margin:8px 0}
 """
 
 
@@ -61,7 +62,7 @@ document.querySelectorAll('.match-results').forEach(root=>{
   const controls=text('div','','match-controls');app.appendChild(controls);
   controls.appendChild(addButton('Reset filters',()=>{fields.forEach(key=>filters[key]=null);page=0;refresh();}));
   const sortLabel=text('label','Sort '),sortSelect=document.createElement('select');sortSelect.setAttribute('aria-label','Sort fixtures');
-  const sorts=spec.layout==='team_match'?['original','home','away','home_result','home_prediction','away_result','away_prediction']:['original','home','away','result','prediction'];
+  const sorts=spec.bets?['original','home','away','result','probability',...(spec.profit?['profit']:[])]:spec.layout==='team_match'?['original','home','away','home_result','home_prediction','away_result','away_prediction']:['original','home','away','result','prediction'];
   if(spec.numeric)sorts.push(...(spec.layout==='team_match'?['home_error','away_error']:['error']));
   sorts.forEach(key=>{const option=text('option',key==='original'?'Original order':key.replaceAll('_',' '));option.value=key;sortSelect.appendChild(option);});
   sortSelect.addEventListener('change',()=>{sort=sortSelect.value;page=0;refresh();});sortLabel.appendChild(sortSelect);controls.appendChild(sortLabel);
@@ -74,7 +75,7 @@ document.querySelectorAll('.match-results').forEach(root=>{
     const link=document.createElement('a');link.href=url;link.download='filtered-match-results.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }));
   const count=text('p','','match-count');count.setAttribute('aria-live','polite');app.appendChild(count);
-  const legend=text('p',spec.numeric?`Green: |prediction − result| ≤ ${spec.tolerance}. Red: outside tolerance. Neutral: unavailable, push or void.`:
+  const legend=text('p',spec.bets?'Green: winning bet. Red: losing bet. Neutral: push, void, unavailable or no bet.':spec.numeric?`Green: |prediction − result| ≤ ${spec.tolerance}. Red: outside tolerance. Neutral: unavailable, push or void.`:
     'Green: correct. Red: incorrect. Neutral: unavailable, no decision, push or void.','legend');app.appendChild(legend);
   const scroll=text('div','','table-scroll'),table=text('table','','match-table');scroll.appendChild(table);app.appendChild(scroll);
   const pager=text('div','','match-pager'),previous=addButton('Previous',()=>{page--;draw();}),next=addButton('Next',()=>{page++;draw();}),pageLabel=text('span','');
@@ -86,6 +87,12 @@ document.querySelectorAll('.match-results').forEach(root=>{
     inline.appendChild(text('span',entry.name));cell.appendChild(inline);return cell;
   }
   function outcomeCells(tr,row){const state=mood(row);
+    if(spec.bets){
+      const cell=text('td',''),details=text('details','','bet-alternatives');details.append(text('summary',row?.bet||'No bet'));
+      if(row?.alternatives)JSON.parse(row.alternatives).forEach(a=>details.append(text('p',`${a.description} (${a.bet}): ${a.p_win===null?'unavailable':(a.p_win*100).toFixed(1)+'% win'} · ${a.reason}${a.expected_profit===null?'':` · EV ${format(a.expected_profit)}`}`)));
+      cell.append(details);tr.append(cell,text('td',row?.probability==null?'—':(row.probability*100).toFixed(1)+'%',state),text('td',format(row?.result),state));
+      if(spec.odds)tr.append(text('td',format(row?.odds),state));if(spec.profit)tr.append(text('td',format(row?.profit),state));return;
+    }
     const observed=row&&['push','void','missing'].includes(row.settlement)?row.settlement:format(row?.result);
     tr.append(text('td',observed,state),text('td',format(row?.prediction),state));
     if(spec.numeric)tr.appendChild(text('td',format(row?.error),state));
@@ -118,7 +125,7 @@ document.querySelectorAll('.match-results').forEach(root=>{
     const pages=Math.max(1,Math.ceil(visibleFixtures.length/spec.page_size));page=Math.max(0,Math.min(page,pages-1));
     count.textContent=`${visibleFixtures.length.toLocaleString()} fixture occurrences · ${visibleRows.length.toLocaleString()} observations · ${spec.rows.length.toLocaleString()} observations in full scope`;
     table.replaceChildren();const head=document.createElement('thead'),top=document.createElement('tr'),body=document.createElement('tbody');
-    const metrics=['Result','Prediction',...(spec.numeric?['Error']:[]),...(spec.probabilities?['Probabilities']:[])];
+    const metrics=spec.bets?['Selected bet','Probability','Actual result',...(spec.odds?['Odds']:[]),...(spec.profit?['Net profit']:[])]:['Result','Prediction',...(spec.numeric?['Error']:[]),...(spec.probabilities?['Probabilities']:[])];
     if(spec.layout==='team_match'){
       ['Home','Away'].forEach(name=>{const cell=text('th',name);cell.rowSpan=2;top.appendChild(cell);});
       ['Home label','Away label'].forEach(name=>{const cell=text('th',name);cell.colSpan=metrics.length;top.appendChild(cell);});head.appendChild(top);

@@ -25,6 +25,7 @@ class EstimatorAdapter:
 
     estimator: object
     prediction_methods: tuple[str, ...] = ("predict",)
+    supports_sample_weight = True
 
     def configure_device(self, device):
         if device not in {"cpu", "auto"}:
@@ -47,7 +48,8 @@ class EstimatorAdapter:
         self.target_columns_ = tuple(context.y.columns)
         self.feature_columns_ = tuple(context.X.columns)
         y = context.y.iloc[:, 0] if len(self.target_columns_) == 1 else context.y
-        self.estimator.fit(context.X, y)
+        from ..weighting import estimator_weight_kwargs
+        self.estimator.fit(context.X, y, **estimator_weight_kwargs(self.estimator, context))
         from .inspection import estimator_history
         self.training_history_, self.training_summary_ = estimator_history(self.estimator, context.fold_id)
 
@@ -96,4 +98,20 @@ class EstimatorAdapter:
                                                         names=["target", "class"])
                     frames.append(pd.DataFrame(array, index=context.X.index, columns=columns))
                 result[method] = pd.concat(frames, axis=1)
+        # Retain a native count distribution for downstream O/U decisions. A
+        # mode prediction is never mistaken for its conditional mean.
+        from .counts import NegativeBinomialRegressor
+        estimator = self.estimator
+        inputs = context.X
+        if hasattr(estimator, 'steps') and isinstance(estimator.steps[-1][1], NegativeBinomialRegressor):
+            if len(estimator.steps) > 1:
+                inputs = estimator[:-1].transform(inputs)
+            estimator = estimator.steps[-1][1]
+        if isinstance(estimator, NegativeBinomialRegressor):
+            mean = estimator.predict_mean(inputs)
+            columns = pd.MultiIndex.from_product([self.target_columns_, ['mean', 'dispersion']],
+                                                names=['target', 'parameter'])
+            result['count_distribution'] = pd.DataFrame(
+                np.column_stack([mean, np.full(len(mean), estimator.dispersion_)]),
+                index=context.X.index, columns=columns)
         return result

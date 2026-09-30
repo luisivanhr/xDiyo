@@ -106,6 +106,9 @@ def _validate_preparation(candidate):
             raise ValueError("features_from must name a candidate preparation study.")
         if candidate.feature_columns is not None:
             raise ValueError("Choose feature_columns or features_from, not both.")
+    if candidate.weights_from is not None:
+        if candidate.pre_analysis is None or candidate.weights_from not in candidate.pre_analysis.reporters:
+            raise ValueError("weights_from must name a candidate preparation study.")
 
 
 class _FreshModels:
@@ -139,12 +142,12 @@ class _FreshModels:
 def _fit_candidate(dataset, plan, candidate, guard, execution=None):
     _validate_preparation(candidate)
     runner = TrainingRunner(guard.factory(candidate), candidate.feature_columns, candidate.target_columns,
-                            candidate.control, candidate.validation, candidate.observer, execution)
+                            candidate.control, candidate.validation, candidate.observer, execution, candidate.calibration)
     report = None
     if candidate.pre_analysis is not None:
         report = deepcopy(candidate.pre_analysis).run(dataset, split_plan=runner.selection_plan(dataset, plan))
-    training = runner.run(dataset, plan, analysis_report=report if candidate.features_from is not None else None,
-                          features_from=candidate.features_from)
+    training = runner.run(dataset, plan, analysis_report=report if candidate.features_from is not None or candidate.weights_from is not None else None,
+                          features_from=candidate.features_from, weights_from=candidate.weights_from)
     # Keep every fitted study, including descriptive ones that are not consumed
     # as a selector. Isolate them from the selected StudyRun kept by each fit.
     training.fitted_report = deepcopy(report)
@@ -156,13 +159,18 @@ def _original_positions(training, positions):
     if training.fitted_report is not None:
         for study in training.fitted_report.studies:
             study.row_positions = positions[study.row_positions].copy()
+            if study.result.weights is not None:
+                values = study.result.weights.values
+                values.index = pd.Index(positions[values.index.to_numpy(dtype=int)], name="row_position")
             if study.scope is not None and "row_position" in study.scope:
                 study.scope["row_position"] = positions[study.scope.row_position.to_numpy(dtype=int)]
     for fold in training.folds:
-        for name in ("train_positions", "test_positions", "score_positions", "fit_positions", "validation_positions"):
+        for name in ("train_positions", "test_positions", "score_positions", "fit_positions", "validation_positions", "calibration_positions"):
             values = getattr(fold, name)
             if values is not None:
                 setattr(fold, name, positions[values].copy())
+        if fold.model is not None and hasattr(fold.model, "calibration_positions_"):
+            fold.model.calibration_positions_ = fold.calibration_positions.copy()
         for frame in [fold.y_true, fold.metadata, *fold.predictions.values()]:
             frame.index = pd.Index(positions[frame.index.to_numpy(dtype=int)], name="row_position")
         if fold.selection is not None:

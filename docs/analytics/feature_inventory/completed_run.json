@@ -1,0 +1,6468 @@
+{
+  "provenance": {
+    "run_id": "ca713acf-d775-4d77-8a17-87afc61d8a39",
+    "created_at": "2026-09-23T15:18:46.538219+00:00",
+    "name": "XGB count 28: max_depth=5, min_child_weight=20, n_estimators=500, balance_power=1.0 \u00b7 model=XGBClassifier \u00b7 balance_power=1.0 \u00b7 target=exact total corners \u00b7 validation=None",
+    "source": "experiments\\total_corners_xgboost_classifier\\total-corners-xgboost-classifier-all-features--dc32754e\\runs\\ca713acf-d775-4d77-8a17-87afc61d8a39",
+    "rows": 23486,
+    "fit_rows": 18886,
+    "score_rows": 4600,
+    "prepared_columns": 2681,
+    "selected_columns": 2145,
+    "selection": {
+      "proportion": 0.8,
+      "correlation": "spearman"
+    },
+    "historical_expressions": 1003
+  },
+  "prepared": {
+    "total_columns": 2681,
+    "ordered_columns_sha256": "a2387f089300aeff1f7670962f56ca23fa934c99c4eef8fdb69c67b030dec1f9",
+    "stage_counts": {
+      "direct": 2016,
+      "sum": 280,
+      "difference": 280,
+      "trend": 88,
+      "calendar": 4,
+      "league": 13
+    },
+    "groups": [
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "2",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "3",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "20",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "ema",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "ema",
+        "window": "10",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "1ST",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "2ND",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "standings",
+        "operation": "normalized_position",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "20",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 20,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "rest_days",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "standings",
+        "operation": "normalized_position",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "standings",
+        "operation": "normalized_position",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 44,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "rest_days",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "rest_days",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "trend",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean_difference",
+        "window": "3-20",
+        "period": "ALL",
+        "count": 88,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "calendar",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "month_sin",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "calendar",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "month_cos",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "calendar",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "weekday",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "calendar",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "round",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "league",
+        "variant": "baseline",
+        "family": "identity",
+        "operation": "one_hot_league",
+        "window": null,
+        "period": null,
+        "count": 13,
+        "statistics": [
+          "Bundesliga",
+          "Bundesliga_2",
+          "Championship",
+          "Eredivisie",
+          "La_Liga",
+          "La_Liga_2",
+          "Ligue_1",
+          "Ligue_2",
+          "Premier_League",
+          "Premiership",
+          "Pro_League",
+          "Serie_A",
+          "Serie_B"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      }
+    ],
+    "unclassified_columns": 0
+  },
+  "selected": {
+    "total_columns": 2145,
+    "ordered_columns_sha256": "68252ae0ccb385f94b5e2a63eb30d1fd7bde62ed15bea172da3cec0de7e39021",
+    "stage_counts": {
+      "direct": 1603,
+      "difference": 232,
+      "sum": 265,
+      "trend": 31,
+      "league": 13,
+      "calendar": 1
+    },
+    "groups": [
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 32,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 29,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 75,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "3",
+        "period": "ALL",
+        "count": 76,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 75,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 36,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 40,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 77,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 35,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "trend",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean_difference",
+        "window": "3-20",
+        "period": "ALL",
+        "count": 31,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 41,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 41,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 40,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "20",
+        "period": "ALL",
+        "count": 74,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "20",
+        "period": "ALL",
+        "count": 76,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 77,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 76,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "ema",
+        "window": "10",
+        "period": "ALL",
+        "count": 76,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "league",
+        "variant": "baseline",
+        "family": "identity",
+        "operation": "one_hot_league",
+        "window": null,
+        "period": null,
+        "count": 13,
+        "statistics": [
+          "Bundesliga",
+          "Bundesliga_2",
+          "Championship",
+          "Eredivisie",
+          "La_Liga",
+          "La_Liga_2",
+          "Ligue_1",
+          "Ligue_2",
+          "Premier_League",
+          "Premiership",
+          "Pro_League",
+          "Serie_A",
+          "Serie_B"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 77,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 70,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 71,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "ALL",
+        "count": 64,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "ema",
+        "window": "5",
+        "period": "ALL",
+        "count": 76,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 35,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 69,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/touchesInOppBox",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "2",
+        "period": "ALL",
+        "count": 68,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "league",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "league",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 70,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 36,
+        "statistics": [
+          "Attack/bigChanceMissed",
+          "Attack/offsides",
+          "Attack/touchesInOppBox",
+          "Defending/ballRecovery",
+          "Defending/errorsLeadToShot",
+          "Defending/interceptionWon",
+          "Defending/totalClearance",
+          "Match overview/ballPossession",
+          "Match overview/bigChanceCreated",
+          "Match overview/cornerKicks",
+          "Match overview/expectedGoals",
+          "Match overview/goalkeeperSaves",
+          "Match overview/totalShotsOnGoal",
+          "Match overview/totalTackle",
+          "Passes/accurateCross",
+          "Passes/finalThirdEntries",
+          "Passes/finalThirdPhaseStatistic",
+          "Shots/blockedScoringAttempt",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal",
+          "Shots/totalShotsInsideBox",
+          "Shots/totalShotsOutsideBox"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "3",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "1ST",
+        "count": 18,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 3,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "lag",
+        "window": "1",
+        "period": "2ND",
+        "count": 16,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 4,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 3,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 9,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "2ND",
+        "count": 9,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 4,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "calendar",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "weekday",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "result_glicko",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 10,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "10",
+        "period": "1ST",
+        "count": 9,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/cornerKicks",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "rating",
+        "operation": "corners_glicko",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": [
+          "rating",
+          "rd"
+        ]
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "standings",
+        "operation": "normalized_position",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 7,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "statistic",
+        "operation": "mean",
+        "window": "5",
+        "period": "2ND",
+        "count": 7,
+        "statistics": [
+          "Match overview/ballPossession",
+          "Match overview/totalShotsOnGoal",
+          "Shots/shotsOffGoal",
+          "Shots/shotsOnGoal"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "standings",
+        "operation": "normalized_position",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "sum",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "rest_days",
+        "window": null,
+        "period": null,
+        "count": 1,
+        "statistics": [],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "std",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "z",
+        "window": "3",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "warmed",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "H2H",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "z",
+        "window": "10",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "difference",
+        "variant": "baseline",
+        "family": "loo",
+        "operation": "mean",
+        "window": "5",
+        "period": "ALL",
+        "count": 1,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [],
+        "roles": [],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "warmed",
+        "family": "H2H",
+        "operation": "z",
+        "window": "5",
+        "period": "ALL",
+        "count": 2,
+        "statistics": [
+          "Match overview/cornerKicks"
+        ],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [
+          "against",
+          "for"
+        ],
+        "fields": []
+      },
+      {
+        "stage": "direct",
+        "variant": "baseline",
+        "family": "context",
+        "operation": "rest_days",
+        "window": null,
+        "period": null,
+        "count": 2,
+        "statistics": [],
+        "venues": [
+          "away",
+          "home"
+        ],
+        "roles": [],
+        "fields": []
+      }
+    ],
+    "unclassified_columns": 0
+  }
+}

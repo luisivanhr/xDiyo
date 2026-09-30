@@ -70,7 +70,7 @@ def estimator_history(estimator, fold_id):
                 rows.append(dict(fold_id=fold_id, attempt=0, step=step, metric=f"{partition}.{name}", value=float(value), learning_rate=None))
     summary = {"history_source": "native_estimator" if rows else "unavailable",
                "termination_reason": "estimator_managed"}
-    for attribute in ("n_iter_", "best_iteration_", "converged_", "dispersion_", "prediction_"):
+    for attribute in ("n_iter_", "best_iteration_", "converged_", "dispersion_", "dispersion_estimated_", "dispersion_at_boundary_", "prediction_"):
         if hasattr(estimator, attribute):
             value = np.asarray(getattr(estimator, attribute))
             summary[attribute.rstrip("_")] = value.item() if value.ndim == 0 else value.tolist()

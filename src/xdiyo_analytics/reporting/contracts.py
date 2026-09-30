@@ -45,6 +45,7 @@ class StudyResult:
     tables: dict[str, pd.DataFrame] = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
     selection: object = None
+    weights: object = None
 
 
 @dataclass
@@ -132,6 +133,7 @@ class PostTrainingContext:
     definitions: dict = field(default_factory=dict)
     experiment: object = None
     fold_results: dict = field(default_factory=dict)
+    previous_results: dict = field(default_factory=dict)
 
     @property
     def row_positions(self):
@@ -162,36 +164,54 @@ class AnalysisReport:
                 result.setdefault(study.name, {})[study.fold_id] = study.result.selection
         return result
 
-    def to_html(self, path=None, *, renderers=None):
+    def to_html(self, path=None, *, renderers=None, spatial_transport=None, spatial_limit=None):
         """Return a standalone HTML document and optionally write it locally."""
         from .viewer import render_report
-        return render_report(self, path=path, renderers=renderers)
+        if spatial_limit is not None and (isinstance(spatial_limit, bool) or not isinstance(spatial_limit, int) or spatial_limit < 1):
+            raise ValueError('spatial_limit must be a positive integer.')
+        return render_report(self, path=path, renderers=renderers,
+                             spatial_transport=spatial_transport, spatial_limit=spatial_limit)
+
+    def live(self):
+        """Serve computed spatial values on demand; close the returned handle when done."""
+        from .spatial_live import live_report
+        return live_report(self)
+
+    def close_live(self):
+        from .spatial_live import close_report
+        close_report(self)
 
     def _notebook_html(self, *, height=800, renderers=None):
         return self.to_notebook(height=height, renderers=renderers)._repr_html_()
 
-    def to_notebook(self, *, height=800, renderers=None):
+    def to_notebook(self, *, height=800, renderers=None, live=None):
         """Return an IPython IFrame display object containing the interactive report.
 
-        The self-contained iframe isolates report styles/scripts from notebook
-        cells; no server or external file is needed. Use in a trusted notebook
-        frontend that allows HTML/JavaScript. Saved/untrusted or restrictive
-        viewers may suppress interactive output; standalone to_html still works.
-        This embeds computed results and never reruns the analysis.
+        Spatial reports use a token-protected loopback server by default, fetching
+        only the selected fixture's stored values. close_live releases it. This
+        expects a local notebook/browser; live=False embeds all data for remote
+        or offline notebooks. Ordinary reports remain self-contained. Use a
+        trusted frontend allowing JavaScript. No analysis or fitting is rerun.
         """
         from html import escape
         from IPython.display import IFrame
         if isinstance(height, bool) or not isinstance(height, (int, np.integer)) or height < 1:
             raise ValueError("Notebook report height must be a positive integer in pixels.")
+        if live is None:
+            live = any(a.kind == 'spatial' for s in self.studies for a in s.result.artifacts)
+        if live:
+            if renderers:
+                raise ValueError('Custom notebook renderers currently require live=False.')
+            return IFrame(self.live().url, width='100%', height=int(height))
         document = escape(self.to_html(renderers=renderers), quote=True)
         return IFrame("about:blank", width="100%", height=int(height),
                       extras=[f'title="{escape(self.title, quote=True)}"',
                               'style="border:0;border-radius:12px"', f'srcdoc="{document}"'])
 
-    def show(self, *, height=800, renderers=None):
+    def show(self, *, height=800, renderers=None, live=None):
         """Display inline in Jupyter/IPython; returns None to avoid duplicate output."""
         from IPython.display import display
-        display(self.to_notebook(height=height, renderers=renderers))
+        display(self.to_notebook(height=height, renderers=renderers, live=live))
 
     def _repr_html_(self):
         """Automatic rich display when the report is the notebook cell's last value."""

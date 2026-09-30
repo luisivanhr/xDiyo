@@ -1,6 +1,6 @@
 """Evaluate feature expressions using shared history eligibility and alignment."""
 
-from numbers import Integral
+from numbers import Integral, Real
 
 from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
@@ -11,11 +11,14 @@ from .ratings import MatchResultGlicko, Rating, StatGlicko
 from .league import League, LeaveOneOut, LeaguePopulation, reduce_league
 from .warmup import WarmStart, SeededEMA, evaluate_warm_start
 from .transitions import TransitionContext
+from .composition import Constant, ARITHMETIC, operands, constant_frame, arithmetic_frame
+from .contextual import RestDays, CalendarFeature, evaluate_context_features
+from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
 
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
                       cutoffs=None, available_at=None, team_counts=None, ratings=None,
-                      team_seasons=None, season_starts=None, keyed=False):
+                      team_seasons=None, season_starts=None, keyed=False, heatmaps=None):
     """Evaluate a mapping of output names to expressions; preserve row/index order.
 
     Stat references observed values and needs a historical operator at the root;
@@ -23,6 +26,15 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     Default Stat perspective is 'for'. None periods and 'both' perspectives
     expand into separate columns suffixed with the source identity. One-column
     expressions use exactly the requested output name.
+
+    Heatmap reads exported points supplied through heatmaps=. Lag, rolling
+    operators and EMA process its cells using the same temporal eligibility as
+    statistics. Raw current-match Heatmap values cannot be prediction features.
+    Their venue='same' restricts eligible history to the target venue before the
+    match window; venue='all' keeps both. Spatial history is reduced in focal-team
+    coordinates, then home-oriented final Away grids rotate by 180 degrees.
+    RegionMass integrates source cells in the focal frame. Spatial descriptors
+    in result.attrs['spatial_features'] travel through dataset assembly.
 
     Rolling windows count eligible matches, including matches with missing
     measures. Reductions use available finite values within that window; Lag
@@ -86,13 +98,16 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                             season_starts=season_starts, population=population)
         return transitions
 
-    def history_rows(scope):
-        if scope not in histories:
-            histories[scope] = eligible_history_rows(
-                history, group_by=group_by, head_to_head=scope,
+    def history_rows(scope, venue='all'):
+        if venue not in ('all', 'same'):
+            raise ValueError('Historical venue must be all or same.')
+        key = (scope, venue)
+        if key not in histories:
+            histories[key] = eligible_history_rows(
+                history, group_by=(*group_by, 'side') if venue == 'same' else group_by, head_to_head=scope,
                 cutoffs=cutoffs, available_at=available_at,
             )
-        return histories[scope]
+        return histories[key]
 
     def positive(value, label):
         if isinstance(value, bool) or not isinstance(value, Integral) or value < 1:
@@ -105,10 +120,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return choices[side]
 
     def known_reference(node):
-        while isinstance(node, (H2H, WarmStart)):
+        while isinstance(node, (H2H, WarmStart, RegionMass)):
             node = node.source
-        if isinstance(node, (Stat, ForAgainst, League, LeaveOneOut)):
+        if isinstance(node, (Stat, Heatmap, ForAgainst, League, LeaveOneOut)):
             raise ValueError("Z-score reference must be historical or known context.")
+        if isinstance(node, ARITHMETIC):
+            for child in operands(node):
+                known_reference(child)
 
     def stat_values(node, side):
         metadata = history.attrs.get("stat_columns", {})
@@ -127,7 +145,26 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         cache_key = (node, h2h, rating_policy)
         if cache_key in cache:
             return cache[cache_key]
-        if isinstance(node, WarmStart):
+        if isinstance(node, RestDays):
+            kicks = history.kickoff_at
+            values = [np.nan if len(rows) == 0 else
+                      (kicks.iloc[i] - kicks.iloc[rows[-1]]).total_seconds() / 86400
+                      for i, rows in enumerate(history_rows(h2h))]
+            result = (pd.DataFrame({'rest_days': values}, index=history.index), h2h)
+        elif isinstance(node, CalendarFeature):
+            result = (evaluate_context_features(history, {'calendar': node}), h2h)
+        elif isinstance(node, Constant):
+            result = (constant_frame(node.value, history.index), h2h)
+        elif isinstance(node, Real):
+            result = (constant_frame(node, history.index), h2h)
+        elif isinstance(node, ARITHMETIC):
+            left, right = operands(node)
+            a, a_scope = evaluate(left, h2h)
+            b, b_scope = evaluate(right, h2h)
+            if a_scope != b_scope:
+                raise ValueError("Arithmetic operands must use the same H2H scope; wrap the combined expression in H2H.")
+            result = (arithmetic_frame(node, a, b), a_scope)
+        elif isinstance(node, WarmStart):
             if node.policy is None:
                 result = evaluate(node.source, h2h)
             elif isinstance(node.policy, SeededEMA):
@@ -139,12 +176,21 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 raise TypeError("WarmStart needs SeededEMA for rolling features or a transition adapter for a rating producer. Apply saved-rating transitions when building the run.")
         elif isinstance(node, H2H):
             result = evaluate(node.source, True)
+        elif isinstance(node, Heatmap):
+            result = (heatmap_values(history, heatmaps, node), h2h)
+        elif isinstance(node, RegionMass):
+            source, scope = evaluate(node.source, h2h)
+            result = (region_values(source, node.region), scope)
         elif isinstance(node, Stat):
             result = (stat_values(node, "for"), h2h)
         elif isinstance(node, ForAgainst):
-            if not isinstance(node.source, Stat):
-                raise TypeError("ForAgainst takes a Stat reference.")
-            result = (stat_values(node.source, node.side), h2h)
+            if isinstance(node.source, Heatmap):
+                from dataclasses import replace
+                result = evaluate(replace(node.source, side=node.side), h2h)
+            elif isinstance(node.source, Stat):
+                result = (stat_values(node.source, node.side), h2h)
+            else:
+                raise TypeError("ForAgainst takes a Stat or Heatmap reference.")
         elif isinstance(node, (Rating, MatchResultGlicko, StatGlicko)):
             if h2h:
                 raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")
@@ -192,7 +238,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 output[f"{role}_standing"] = values
             result = (pd.DataFrame(output, index=history.index), h2h)
         elif isinstance(node, (Lag, RollingMean, RollingStd, RollingZScore, EMA)):
+            if node.venue not in ('all', 'same'):
+                raise ValueError('Historical venue must be all or same.')
             if isinstance(node.source, (League, LeaveOneOut)):
+                if node.venue != 'all':
+                    raise ValueError('Same venue is a team-history option, not a league-population option.')
                 if h2h:
                     raise ValueError("H2H cannot change a league population.")
                 if population is None:
@@ -203,7 +253,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 cache[cache_key] = result
                 return result
             source, scope = evaluate(node.source, h2h)
-            candidates = history_rows(scope)
+            candidates = history_rows(scope, node.venue)
             if isinstance(node, Lag):
                 positive(node.periods, "periods")
             else:
@@ -258,25 +308,36 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                             if std > 0 and np.isfinite(value):
                                 output[row, col] = (value - observed.mean()) / std
             result = (pd.DataFrame(output, index=history.index, columns=source.columns), scope)
+            if source.attrs.get('spatial_features'):
+                from copy import deepcopy
+                specs = deepcopy(source.attrs['spatial_features'])
+                for spec in specs.values():
+                    spec['operators'].append(dict(operator=type(node).__name__, venue=node.venue,
+                                                  window=getattr(node, 'window', None),
+                                                  periods=getattr(node, 'periods', None), span=getattr(node, 'span', None)))
+                result[0].attrs['spatial_features'] = specs
         else:
             raise TypeError(f"Unsupported feature expression: {type(node).__name__}")
         cache[cache_key] = result
         return result
 
-    outputs = []
+    def prediction_safe(node):
+        if isinstance(node, (H2H, WarmStart, RegionMass)):
+            return prediction_safe(node.source)
+        if isinstance(node, ARITHMETIC):
+            return all(prediction_safe(child) for child in operands(node))
+        return not isinstance(node, (Stat, Heatmap, ForAgainst, League, LeaveOneOut))
+
+    outputs, spatial_metadata = [], {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
-        root = node
-        while isinstance(root, (H2H, WarmStart)):
-            root = root.source
-        if isinstance(root, (Stat, ForAgainst, League, LeaveOneOut)):
-            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction.")
+        if not prediction_safe(node):
+            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to Heatmap sources.")
         frame, _ = evaluate(node)
         names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
-        frame = frame.copy(deep=False)
-        frame.columns = names
-        frame.attrs = {}
+        frame, metadata = finalize_spatial(frame, history, names, name)
+        spatial_metadata.update(metadata)
         outputs.append(frame)
     result = pd.concat(outputs, axis=1)
     if not result.columns.is_unique:
@@ -285,6 +346,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "features": {name: repr(node) for name, node in features.items()},
         "group_by": group_by,
         "availability": "earlier_finished_kickoff_proxy" if available_at is None else "explicit",
+        "spatial_features": spatial_metadata,
     }
     if keyed:
         keys = [name for name in ("source_league", "source_season", "competition_id", "season_id", "event_id") if name in history]

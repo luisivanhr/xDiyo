@@ -32,7 +32,7 @@ def test_capable_native_adapter_resumes_optimizer_rng_preprocessing_and_cursor(t
     assert resumed.training.folds[0].training_summary['steps']==6
     count=len(events)
     cached=experiment.run(preparation,model=model,checkpoint_policy=CheckpointPolicy(),post_analysis=post())
-    assert cached.reused and cached.training.folds[0].model is None and len(events)==count
+    assert cached.reused and cached.training.folds[0].model is not None and len(events)==count
 
 @pytest.mark.parametrize('unsupported',['skip','raise'])
 def test_ordinary_estimator_checkpoint_support_is_explicit(tmp_path,unsupported):

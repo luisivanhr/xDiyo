@@ -49,6 +49,7 @@ class NormalizedStanding(Expr):
 class Lag(Expr):
     source: Expr
     periods: int = 1
+    venue: str = "all"
 
 
 @dataclass(frozen=True)
@@ -56,6 +57,7 @@ class RollingMean(Expr):
     source: Expr
     window: int = 5
     min_periods: int = 1
+    venue: str = "all"
 
 
 @dataclass(frozen=True)
@@ -64,6 +66,7 @@ class RollingStd(Expr):
     window: int = 5
     min_periods: int = 1
     ddof: int = 1
+    venue: str = "all"
 
 
 @dataclass(frozen=True)
@@ -75,6 +78,7 @@ class RollingZScore(Expr):
     min_periods: int = 1
     ddof: int = 1
     reference: Expr | None = None
+    venue: str = "all"
 
 
 @dataclass(frozen=True)
@@ -88,3 +92,4 @@ class EMA(Expr):
     source: Expr
     span: float = 5
     min_periods: int = 1
+    venue: str = "all"

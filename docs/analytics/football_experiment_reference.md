@@ -43,8 +43,8 @@ requires an explicit Candidate. `validation=None` and `control=None` deliberatel
 start a new refit decision. A candidate's consumed feature selector is recomputed
 on actual fitting rows before `refit_model`; preprocessing is fresh. The candidate
 observer and selected target columns carry through. Refitting does not change
-stored evaluation predictions. Restored FittedModel metadata has no live model
-and `predict` raises until a separate explicit restoration/refit supplies one.
+stored evaluation predictions. Saved FittedModel state is restored by default;
+`load_models=False` returns numerical-only metadata with no live model.
 
 ## FootballExperiment options
 
@@ -65,6 +65,8 @@ and `predict` raises until a separate explicit restoration/refit supplies one.
 | `name_fields=None` | Config field paths to append to candidate name; defaults to first six scalar/None entries |
 | run `config=None` | Run configuration included alongside experiment/prepared config |
 | `reuse=True` | Restore exact complete final or reuse completed search trials; false allocates new execution group |
+| `save_models=True` | Save fitted evaluation fold models and final refit, including fitted preprocessing |
+| `model_serializer=None` | Joblib by default; custom serializer follows the save_model/load_model contract |
 
 Generated names start with candidate.name and append `key=value` parts separated
 by a middle dot. Top-level `grid_parameters` overlay candidate config for naming;
@@ -72,7 +74,7 @@ explicit paths such as `model.alpha` follow nested dictionaries. An absent path
 raises KeyError. A nested result defaults to `Tuned per fold`. Configuration
 details in leaderboards are escaped HTML, so names and values remain text.
 
-`load(run_id)` finds an exact completed record and never calls preparation,
+`load(run_id, load_models=True, model_serializer=None)` finds an exact completed record and never calls preparation,
 fitting or prediction. It rejects failed/unknown records and modern internal
 trial bundles that are not FootballExperiment final results. `leaderboard(weights,
 **kwargs)` forwards selectors, scaling, reference_scales, directions,
@@ -82,19 +84,25 @@ post-training reference for metric comparison groups and normalization.
 ## Completed-run and completed-trial recovery
 
 The identity includes X/y/metadata and order, definitions, folds, configuration,
-candidate factory/defaults/closures/globals, reports, refit/checkpoint policies,
-name/name_fields, local analytics source, Python/NumPy/pandas and identified
+candidate factory/defaults/closures/globals, pre-training reports, refit/checkpoint policies,
+name/name_fields, numerical analytics source, Python/NumPy/pandas and identified
 framework versions. It does not infer hidden service/file changes. Custom opaque
 objects implement cache_key() with stable configuration data. Observer state is
 excluded. Unchanged notebook code locations are normalized; changed constants
 remain relevant. Prepared outputs are stored but are not identity inputs.
 
+Post-training analysis and presentation-only source are excluded. Reuse reruns the
+requested post-analysis, then `refresh_report` publishes a new analysis snapshot
+and updates the existing run's metrics and manifest. Training/model artifacts and
+run ID remain unchanged. Pre-training analysis and selection evidence still count.
+
 `ExperimentStore.open_run(name, recovery_key, reuse=True)` reopens the newest
 matching execution group or creates one. `find_completed` uses recovery_key,
 role (default final), and optional run_group; only complete records with recovery
-artifacts qualify. `load_run` returns record/training/report/extra; native models
-are not deserialized. `save_run` adds optional recovery, recovery_key and
-display_report arguments. The combined display is saved as HTML while numerical
+artifacts qualify. `load_run` returns record/training/report/extra; it is data-only
+unless `load_models=True`. `save_run` adds optional recovery, recovery_key,
+save_models, model_serializer and display_report arguments. FootballExperiment
+enables model saving/loading by default. The combined display is saved as HTML while numerical
 metrics come from the supplied final report. Existing save_predictions/save_html,
 role/run_group/selected_trial_id behavior remains in force. One final publication
 per group; serialize calls. Incomplete .pending directories are not published.

@@ -43,6 +43,7 @@ class FitContext(PredictionContext):
     y: pd.DataFrame = field(default_factory=pd.DataFrame)
     validation: object = None
     observer: object = None
+    sample_weight: object = None
 
 
 class ModelAdapter(Protocol):
@@ -87,6 +88,7 @@ class FoldResult:
     validation_positions: object = None
     training_history: pd.DataFrame = field(default_factory=pd.DataFrame)
     training_summary: dict = field(default_factory=dict)
+    calibration_positions: object = None
 
 
 @dataclass

@@ -1,0 +1,416 @@
+{
+  "version": 1,
+  "name": "Total corners XGBoost classifier all features",
+  "output_dir": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\experiments\\total_corners_xgboost_classifier",
+  "config": {},
+  "team_badges": null,
+  "data": {
+    "data_root": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data",
+    "seasons": [
+      "20_21",
+      "21_22",
+      "22_23",
+      "23_24",
+      "24_25"
+    ],
+    "leagues": null,
+    "tables": [
+      "matches",
+      "statistics",
+      "pregame"
+    ],
+    "include_awarded": false
+  },
+  "stat_selection": null,
+  "history": {},
+  "feature_options": {},
+  "cutoff_hours": null,
+  "feature_preset": {
+    "component": "preparation.FeatureBankPreset",
+    "params": {
+      "windows": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "lags": [
+        1,
+        2,
+        3
+      ],
+      "spans": [
+        5,
+        10
+      ],
+      "periods": [
+        "ALL",
+        "1ST",
+        "2ND"
+      ],
+      "include_ratings": true,
+      "include_loo": true,
+      "loo_windows": [
+        3,
+        5,
+        10
+      ],
+      "loo_reducers": [
+        "mean",
+        "std",
+        "z"
+      ],
+      "include_h2h": true,
+      "h2h_windows": [
+        3,
+        5,
+        10
+      ],
+      "h2h_reducers": [
+        "mean",
+        "std",
+        "z"
+      ],
+      "warm_policy": {
+        "component": "features.SeededEMA",
+        "params": {
+          "alpha": 0.5,
+          "handoff": {
+            "component": "features.Hard",
+            "params": {
+              "rounds": 1
+            }
+          },
+          "league_weight": 0.5
+        }
+      },
+      "warm_stat_keys": null,
+      "rating_warm_policy": {
+        "component": "ratings.GlickoTransition",
+        "params": {
+          "phi_scale": 1.1,
+          "movement_phi_scale": 1.0,
+          "shrinkage": 0.5,
+          "top": 3,
+          "bottom": 3,
+          "rank_by": "standings",
+          "aggregate": "mean"
+        }
+      },
+      "include_rest": true,
+      "include_calendar": true,
+      "include_combinations": true
+    }
+  },
+  "preset_seasons": [
+    "20_21",
+    "21_22",
+    "22_23",
+    "23_24"
+  ],
+  "derived_features": {},
+  "context_features": {},
+  "identity_features": {
+    "component": "preparation.IdentityFeatureSpec",
+    "params": {
+      "columns": [
+        "source_league"
+      ],
+      "prefixes": {
+        "source_league": "league"
+      },
+      "alphabetical": true
+    }
+  },
+  "numeric_features": {
+    "component": "preparation.NumericFeatures",
+    "params": {
+      "dtype": "float32",
+      "infinities_to_missing": true
+    }
+  },
+  "ratings": {},
+  "features": {},
+  "labels": {
+    "total_corners": {
+      "component": "labels.MatchTotal",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        }
+      }
+    }
+  },
+  "target": "total_corners",
+  "assembly": {
+    "layout": "match",
+    "drop_missing_targets": true
+  },
+  "split": {
+    "component": "splits.TemporalSplit",
+    "params": {
+      "train_size": 4,
+      "test_size": 1,
+      "unit": "seasons",
+      "calendar_by": [],
+      "block_by": [
+        "source_season"
+      ],
+      "window": "expanding",
+      "gap": 0,
+      "score_start": 0,
+      "allow_partial_test": false
+    }
+  },
+  "split_options": {},
+  "fold_ids": null,
+  "pre_reporters": {
+    "Training rank correlations": {
+      "component": "reporting.CorrelationAnalysis",
+      "params": {
+        "type": "overall",
+        "partition": "train",
+        "methods": [
+          "spearman"
+        ],
+        "percentile_ranks": true
+      }
+    }
+  },
+  "fitted_reporters": {
+    "weights": {
+      "component": "reporting.ClassWeightReporter",
+      "params": {
+        "type": "per_fold",
+        "partition": "train",
+        "mode": "power",
+        "power": 0.0,
+        "target": "total_corners"
+      }
+    }
+  },
+  "analysis_options": {},
+  "model": {
+    "component": "xgboost.XGBClassifier",
+    "params": {
+      "n_estimators": 400,
+      "learning_rate": 0.04,
+      "max_depth": 3,
+      "min_child_weight": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.65,
+      "reg_alpha": 0.2,
+      "reg_lambda": 10.0,
+      "max_bin": 128,
+      "early_stopping_rounds": null,
+      "random_state": 42,
+      "objective": "multi:softprob",
+      "eval_metric": "mlogloss",
+      "tree_method": "hist"
+    }
+  },
+  "preprocessors": [],
+  "adapter": {
+    "component": "training.BoostingAdapter",
+    "params": {
+      "estimator": {
+        "ref": "estimator"
+      },
+      "prediction_methods": [
+        "predict",
+        "predict_proba"
+      ],
+      "exact_counts": true,
+      "fit_kwargs": {
+        "verbose": false
+      }
+    }
+  },
+  "target_transformer": null,
+  "prediction_methods": [
+    "predict",
+    "predict_proba"
+  ],
+  "candidate": {
+    "weights_from": "weights",
+    "features_from": null,
+    "validation": null,
+    "control": null,
+    "calibration": null
+  },
+  "search": {
+    "grid": {
+      "max_depth": [
+        2,
+        3
+      ],
+      "min_child_weight": [
+        20,
+        30,
+        60
+      ],
+      "n_estimators": [
+        100,
+        150,
+        200
+      ],
+      "fitted_reporters.weights.params.power": [
+        0.0,
+        0.05,
+        0.1
+      ]
+    },
+    "options": {
+      "metrics": [
+        "mae",
+        "mse",
+        "accuracy"
+      ],
+      "decision": {
+        "component": "selection.MetricSelection",
+        "params": {
+          "metric": "mae"
+        }
+      }
+    },
+    "split": {
+      "component": "splits.TemporalSplit",
+      "params": {
+        "train_size": 1,
+        "test_size": 1,
+        "unit": "seasons",
+        "calendar_by": [],
+        "block_by": [
+          "source_season"
+        ],
+        "window": "expanding",
+        "gap": 0
+      }
+    },
+    "nested": false
+  },
+  "execution": {
+    "component": "training.ExecutionPolicy",
+    "params": {
+      "n_jobs": 1,
+      "device": "cpu",
+      "inner_threads": 4
+    }
+  },
+  "refit": null,
+  "checkpoint": null,
+  "post_reporters": {
+    "Errors and classification": {
+      "component": "reporting.PerformanceReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "metrics": [
+          "mae",
+          "mse",
+          "accuracy",
+          {
+            "component": "evaluation.Metric",
+            "params": {
+              "name": "f1_score",
+              "parameters": {
+                "average": "macro",
+                "zero_division": 0
+              },
+              "key": "macro_f1"
+            }
+          }
+        ]
+      }
+    },
+    "Match predictions": {
+      "component": "reporting.MatchResultReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "comparison": "numeric",
+        "tolerance": 2.0,
+        "league_column": "source_league",
+        "season_column": "source_season",
+        "catalog": {
+          "ref": "team_catalog"
+        },
+        "show_badges": false
+      }
+    },
+    "Label and prediction counts": {
+      "component": "reporting.PredictionDistributionReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "mode": "frequency"
+      }
+    },
+    "Experiment leaderboard": {
+      "component": "reporting.ExperimentLeaderboardReporter",
+      "params": {
+        "type": "overall",
+        "weights": {
+          "mae": 1.0
+        }
+      }
+    },
+    "Count support and league diagnostics": {
+      "component": "reporting.CountClassificationReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "pooling": "last",
+        "tolerance": 2.0,
+        "epsilon": 1e-12,
+        "group_by": [
+          "source_league"
+        ]
+      }
+    },
+    "Native feature importance": {
+      "component": "reporting.FeatureImportanceReporter",
+      "params": {
+        "type": "overall",
+        "partition": "model",
+        "top_k": 30,
+        "importance_type": "gain",
+        "include_zeros": true
+      }
+    },
+    "Prediction timeline": {
+      "component": "reporting.PredictionTimelineReporter",
+      "params": {
+        "type": "timeline",
+        "partition": "score",
+        "pooling": "last",
+        "max_points": 300
+      }
+    }
+  },
+  "run": {
+    "reuse": true
+  },
+  "artifact_export": {
+    "component": "experiments.ArtifactExport",
+    "params": {
+      "report_tables": true,
+      "predictions": true,
+      "save_models": true,
+      "verify_reload": true
+    }
+  },
+  "prediction": {
+    "model_path": "",
+    "rounds": null,
+    "statuses": [
+      "notstarted"
+    ],
+    "as_of": null
+  }
+}

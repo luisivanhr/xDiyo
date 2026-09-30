@@ -4,6 +4,11 @@
 
 ## Features and populations
 
+Paired sums/differences, short-minus-long trends and existing league indicators
+now use the [public composition helpers](feature_composition.md). Their names,
+formulas and ordering are preserved; ratios and team identity indicators remain
+optional Python building blocks rather than automatic additions to this study.
+
 The notebook imports the **same preparation function** as notebook 19 and preserves its feature settings: windows 3/5/10/20, lags 1/2/3, EMA spans 5/10, all three periods and ratings enabled. The user's expanded selection is all available leagues for `20_21`, `21_22`, `22_23`, `23_24`, `24_25`; notebook 19's own three-season selection is unchanged. This includes the existing team, opponent, league, leave-one-out, head-to-head, rating, rest, calendar and match-combination features. Optional fitted feature selection is disabled by default. The generated manifest records the actual available columns; exports lacking a statistic cannot produce that statistic's features.
 
 The latest loaded season, ordered by its earliest kickoff, is held out; all preceding loaded seasons form development data. With the five selected seasons, `20_21` through `23_24` form outer training and `24_25` is held out. Statistic discovery uses **all four development seasons**, so a statistic introduced in the third or fourth season is eligible while a holdout-only field is not. The default expanding inner split produces three folds, evaluating `21_22`, `22_23` and `23_24` after fitting their preceding seasons. A custom `INNER_SPLITTER` is respected; only its folds contained wholly within outer training are retained. Both splitters pool leagues by `source_season`, rather than provider-specific season IDs. Historical feature construction and cutoff behavior are unchanged. Changing `SEASONS` updates the outer span automatically.

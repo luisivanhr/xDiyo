@@ -18,6 +18,8 @@ from xdiyo_analytics.features import (
     Stat, ForAgainst, Lag, RollingMean, RollingStd, RollingZScore, EMA, H2H,
     League, LeaveOneOut, NormalizedStanding, MatchResultGlicko, StatGlicko,
     WarmStart, evaluate_features, eligible_history_rows,
+    FeatureBankPreset, RestDays, evaluate_context_features,
+    Column, Sum, Difference, combine_features, IdentityIndicators,
 )
 from xdiyo_analytics.labels import MatchTotal, create_labels
 from xdiyo_analytics.datasets import assemble_dataset
@@ -34,21 +36,8 @@ from xdiyo_analytics.training import ExecutionPolicy, ValidationTail, save_model
 from xdiyo_analytics.ui.adapters import BoostingAdapter
 
 
-STAT_CHOICES = (
-    ('Match overview', 'cornerKicks'), ('Match overview', 'ballPossession'),
-    ('Match overview', 'totalShotsOnGoal'), ('Match overview', 'expectedGoals'),
-    ('Match overview', 'bigChanceCreated'), ('Match overview', 'goalkeeperSaves'),
-    ('Match overview', 'totalTackle'), ('Shots', 'shotsOnGoal'),
-    ('Shots', 'shotsOffGoal'), ('Shots', 'blockedScoringAttempt'),
-    ('Shots', 'totalShotsInsideBox'), ('Shots', 'totalShotsOutsideBox'),
-    ('Attack', 'touchesInOppBox'), ('Attack', 'bigChanceMissed'),
-    ('Attack', 'offsides'), ('Passes', 'accurateCross'),
-    ('Passes', 'finalThirdEntries'), ('Passes', 'finalThirdPhaseStatistic'),
-    ('Defending', 'ballRecovery'), ('Defending', 'interceptionWon'),
-    ('Defending', 'totalClearance'), ('Defending', 'errorsLeadToShot'),
-)
-HALF_KEYS = ('cornerKicks', 'ballPossession', 'totalShotsOnGoal',
-             'shotsOnGoal', 'shotsOffGoal', 'touchesInOppBox')
+from xdiyo_analytics.features.presets import STAT_CHOICES, HALF_KEYS
+
 DEFAULT_MODEL_OPTIONS = dict(
     n_estimators=800, learning_rate=0.035, max_depth=3, min_child_weight=20,
     subsample=0.8, colsample_bytree=0.65, reg_alpha=0.2, reg_lambda=10.,
@@ -62,83 +51,9 @@ def build_feature_definitions(stat_identities, *, windows=(3, 5, 10, 20),
                               include_loo=True, loo_windows=(3, 5), loo_reducers=('mean',),
                               include_h2h=True, h2h_windows=(3, 5), h2h_reducers=('mean',),
                               warm_policy=None, warm_stat_keys=None, rating_warm_policy=None):
-    """Broad, explicit AST feature bank, restricted to available identities.
-
-    Full-match statistics receive every rolling mean, two std windows, two EMA
-    spans, three lags and one z-score. Half statistics receive lag1 and means5/10.
-    Missing individual match observations remain missing; no raw target features.
-    """
-    available = set(map(tuple, stat_identities))
-    definitions = {}
-    for group, key in STAT_CHOICES:
-        for period in periods:
-            if (period, group, key) not in available or (period != 'ALL' and key not in HALF_KEYS):
-                continue
-            for side in ('for', 'against'):
-                prefix = f'{period}_{group}_{key}_{side}'
-                source = ForAgainst(Stat(period, group, key), side=side)
-                for lag in lags if period == 'ALL' else (1,):
-                    definitions[f'{prefix}_lag{lag}'] = Lag(source, periods=lag)
-                for window in windows if period == 'ALL' else (5, 10):
-                    definitions[f'{prefix}_mean{window}'] = RollingMean(source, window=window)
-                if period == 'ALL':
-                    for window in (5, 10):
-                        definitions[f'{prefix}_std{window}'] = RollingStd(source, window=window, ddof=1)
-                    definitions[f'{prefix}_z5'] = RollingZScore(source, window=5, ddof=1)
-                    for span in spans:
-                        definitions[f'{prefix}_ema{span}'] = EMA(source, span=span)
-    corners = Stat('ALL', 'Match overview', 'cornerKicks')
-    if include_h2h:
-        for side in ('for', 'against'):
-            source = ForAgainst(corners, side=side)
-            for window in h2h_windows:
-                for reducer in h2h_reducers:
-                    definitions[f'h2h_corners_{side}_{reducer}{window}'] = _reducer(
-                        reducer, H2H(source), window)
-    population = League(corners, unit='team', schedule='completed_rounds', window_unit='rounds')
-    for window in (3, 5):
-        definitions[f'league_corners_mean{window}'] = RollingMean(population, window=window)
-        definitions[f'league_corners_std{window}'] = RollingStd(population, window=window, ddof=1)
-    if include_loo:
-        for window in loo_windows:
-            for reducer in loo_reducers:
-                definitions[f'loo_corners_{reducer}{window}'] = _reducer(
-                    reducer, LeaveOneOut(population), window,
-                    reference=Lag(ForAgainst(corners, side='for')))
-    definitions['standing'] = NormalizedStanding(side='for', missing_value=0.)
-    if include_ratings:
-        definitions['result_glicko'] = MatchResultGlicko(side='for', fields=('rating', 'rd'))
-        definitions['corners_glicko'] = StatGlicko(corners, side='for', fields=('rating', 'rd'))
-    # Additional columns retain all unwarmed definitions for direct comparison.
-    if warm_policy is not None:
-        for name, operator in list(definitions.items()):
-            if not isinstance(operator, (RollingMean, RollingStd, RollingZScore)):
-                continue
-            source = operator.source
-            h2h = isinstance(source, H2H)
-            if h2h:
-                source = source.source
-            raw = source
-            while isinstance(raw, (ForAgainst, League, LeaveOneOut)):
-                raw = raw.source
-            if warm_stat_keys is not None and raw.key not in warm_stat_keys:
-                continue
-            wrapped = WarmStart(replace(operator, source=source), warm_policy)
-            definitions[f'warm::{name}'] = H2H(wrapped) if h2h else wrapped
-    if include_ratings and rating_warm_policy is not None:
-        for name in ('result_glicko', 'corners_glicko'):
-            definitions[f'warm::{name}'] = WarmStart(definitions[name], rating_warm_policy)
-    return definitions
-
-
-def _reducer(name, source, window, reference=None):
-    if name == 'mean':
-        return RollingMean(source, window=window)
-    if name == 'std':
-        return RollingStd(source, window=window, ddof=1)
-    if name == 'z':
-        return RollingZScore(source, window=window, ddof=1, reference=reference)
-    raise ValueError('Population reducers must be mean, std or z.')
+    """Compatibility entry point for the public ordered feature-bank preset."""
+    return FeatureBankPreset(**{key: value for key, value in locals().items()
+                               if key != "stat_identities"}).build(stat_identities)
 
 
 @dataclass
@@ -210,33 +125,16 @@ def prepare(data_root, *, seasons=('22_23', '23_24', '24_25'), leagues=None,
         block.attrs = {}
     values = pd.concat(blocks, axis=1)
     values.attrs = attributes
-    # Rest is based on the same eligible finished-match history as all operators.
-    eligible = eligible_history_rows(history, cutoffs=cutoff)
-    kicks = history.kickoff_at
-    rest = [np.nan if len(rows) == 0 else (kicks.iloc[i] - kicks.iloc[rows[-1]]).total_seconds() / 86400
-            for i, rows in enumerate(eligible)]
-    values['rest_days'] = rest
+    values['rest_days'] = evaluate_features(history, {'rest_days': RestDays()},
+                                           cutoffs=cutoff, keyed=True)['rest_days']
     labels = create_labels(history, {'total_corners': MatchTotal(Stat('ALL', 'Match overview', 'cornerKicks'))})
     dataset = assemble_dataset(values, labels['total_corners'], layout='match', drop_missing_targets=True)
-    extras = {}
-    # Same-match combinations of historical values are known at prediction time.
-    for name in values.columns:
-        if any(token in name for token in ('_mean5', '_mean10', 'standing', 'glicko', 'rest_days')):
-            home, away = dataset.X[f'home::{name}'], dataset.X[f'away::{name}']
-            extras[f'sum::{name}'] = home + away
-            extras[f'difference::{name}'] = home - away
-    for side in ('home', 'away'):
-        for group, key in STAT_CHOICES:
-            for role in ('for', 'against'):
-                stem = f'{side}::ALL_{group}_{key}_{role}_mean'
-                if stem + '3' in dataset.X and stem + '20' in dataset.X:
-                    extras[f'trend::{stem}3_vs_20'] = dataset.X[stem + '3'] - dataset.X[stem + '20']
+    preset = FeatureBankPreset()
+    combinations = preset.postassembly_definitions(values.columns, dataset.X.columns)
+    dataset.X = combine_features(dataset.X, combinations)
+    extras = evaluate_context_features(dataset.metadata, preset.calendar_definitions())
     kickoff = dataset.metadata.kickoff_at
-    extras['calendar::month_sin'] = np.sin(2 * np.pi * kickoff.dt.month / 12)
-    extras['calendar::month_cos'] = np.cos(2 * np.pi * kickoff.dt.month / 12)
-    extras['calendar::weekday'] = kickoff.dt.dayofweek.astype(float)
-    extras['calendar::round'] = pd.to_numeric(dataset.metadata['round'], errors='coerce')
-    dataset.X = pd.concat([dataset.X, pd.DataFrame(extras, index=dataset.X.index)], axis=1).astype('float32')
+    dataset.X = pd.concat([dataset.X, extras], axis=1).astype('float32')
     dataset.X = dataset.X.replace([np.inf, -np.inf], np.nan)
     split_cutoff = None if cutoff_hours is None else kickoff - pd.Timedelta(hours=cutoff_hours)
     plan = create_split_plan(dataset, TemporalSplit(train_size=len(training_seasons), test_size=1, unit='seasons',
@@ -247,8 +145,16 @@ def prepare(data_root, *, seasons=('22_23', '23_24', '24_25'), leagues=None,
         raise ValueError('The chronological split must evaluate the latest loaded season.')
     # League indicators are fitted from training identities only.
     train = plan.folds[0].train
-    for league in sorted(dataset.metadata.iloc[train].source_league.unique()):
-        dataset.X[f'league::{league}'] = dataset.metadata.source_league.eq(league).astype('float32')
+    identities = IdentityIndicators(columns=('source_league',), prefixes={'source_league': 'league'})
+    # Preserve the previous notebook's alphabetic league-column order.
+    identities.fit(dataset.metadata.iloc[train].sort_values('source_league', kind='stable'))
+    indicators = identities.transform(dataset.metadata).astype('float32')
+    dataset.X = pd.concat([dataset.X, indicators], axis=1)
+    derived_definitions = {key: repr(value) for key, value in combinations.items()}
+    identity_definitions = {'columns': identities.columns, 'prefixes': identities.prefixes,
+                            'categories': {key: list(value) for key, value in identities.categories_.items()}}
+    dataset.definitions['derived_features'] = derived_definitions
+    dataset.definitions['identity_indicators'] = identity_definitions
     manifest = pd.DataFrame({'feature': dataset.X.columns,
         'training_nonmissing_fraction': dataset.X.iloc[train].notna().mean().to_numpy(),
         'training_unique_values': dataset.X.iloc[train].nunique().to_numpy()})
@@ -267,6 +173,7 @@ def prepare(data_root, *, seasons=('22_23', '23_24', '24_25'), leagues=None,
             team_seasons=team_seasons.to_dict('records') if isinstance(team_seasons, pd.DataFrame) else team_seasons,
             season_starts=season_starts.to_dict('records') if isinstance(season_starts, pd.DataFrame) else season_starts),
         'feature_definitions': {key: repr(value) for key, value in definitions.items()},
+        'derived_definitions': derived_definitions, 'identity_indicators': identity_definitions,
         'derived': 'home-away sums/differences, short-long trends, rest, calendar, train-league indicators',
     })
     print(f'Prepared {len(dataset.X):,} matches and {dataset.X.shape[1]:,} features in {time.perf_counter()-started:.1f}s.', flush=True)

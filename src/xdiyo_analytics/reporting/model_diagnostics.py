@@ -178,3 +178,83 @@ class CoefficientReporter:
             result.artifacts.append(Artifact("table", frequency, "Feature survival across inspected folds"))
         result.artifacts.append(Artifact("table", intercepts, "Intercepts"))
         return result
+
+
+@dataclass(kw_only=True)
+class FeatureImportanceReporter:
+    """Native fitted-model feature importance, mapped to retained feature names."""
+
+    type: str
+    partition: str = "model"
+    top_k: int | None = 30
+    importance_type: str = "gain"
+    include_zeros: bool = False
+    supported_types: ClassVar[tuple] = ("per_fold", "overall")
+
+    def run(self, context):
+        if context.partition != "model":
+            raise ValueError("Feature importance uses partition='model'.")
+        if self.top_k is not None and (isinstance(self.top_k, (bool, np.bool_)) or not isinstance(self.top_k, (int, np.integer)) or self.top_k < 1):
+            raise ValueError("top_k must be None or a positive integer.")
+        if not isinstance(self.importance_type, str) or not self.importance_type:
+            raise ValueError("importance_type must be a nonempty string.")
+        if not isinstance(self.include_zeros, (bool, np.bool_)):
+            raise ValueError("include_zeros must be boolean.")
+        rows = []
+        result = StudyResult("Native feature importance", notes=["Importance is native model gain; it is descriptive and is not feature selection."])
+        for fold_id, model in context.models.items():
+            inspected = model
+            native = getattr(inspected, "_native", None)
+            while not callable(native) and getattr(inspected, "estimator", None) is not None:
+                inspected = inspected.estimator
+                native = getattr(inspected, "_native", None)
+            if not callable(native) or not hasattr(native(), "get_booster"):
+                result.notes.append(f"Fold {fold_id}: native booster importance is unavailable.")
+                continue
+            fold = context.fold_results.get(fold_id)
+            names = tuple(getattr(fold, "feature_columns", ())) if fold is not None else tuple(getattr(model, "feature_columns_", ()))
+            booster = native().get_booster()
+            scores = booster.get_score(importance_type=self.importance_type)
+            width = int(booster.num_features()) if callable(getattr(booster, "num_features", None)) else max((int(key[1:]) for key in scores if key.startswith("f") and key[1:].isdigit()), default=-1) + 1
+            native_names = tuple(getattr(booster, "feature_names", ()) or ())
+            native_names_meaningful = len(native_names) == width if native_names else False
+            native_names_meaningful = native_names_meaningful and not all(name == f"f{i}" for i, name in enumerate(native_names))
+            transformed_names = ()
+            preprocessing = getattr(inspected, "preprocessing_", None)
+            if preprocessing is not None and callable(getattr(preprocessing, "get_feature_names_out", None)):
+                try:
+                    transformed_names = tuple(preprocessing.get_feature_names_out())
+                except (TypeError, ValueError):
+                    transformed_names = ()
+            def feature_name(index):
+                if index < len(transformed_names) and len(transformed_names) == width:
+                    return transformed_names[index]
+                if index < len(names) and len(names) == width and preprocessing is None:
+                    return names[index]
+                if native_names_meaningful and index < len(native_names):
+                    return native_names[index]
+                return f"f{index}"
+
+            for key, gain in scores.items():
+                feature = feature_name(int(key[1:])) if key.startswith("f") and key[1:].isdigit() else key
+                rows.append(dict(fold_id=fold_id, feature=feature, importance=float(gain), importance_type=self.importance_type))
+            if self.include_zeros:
+                present = {row["feature"] for row in rows if row["fold_id"] == fold_id}
+                for index in range(width):
+                    feature = feature_name(index)
+                    if feature not in present:
+                        rows.append(dict(fold_id=fold_id, feature=feature, importance=0.0, importance_type=self.importance_type))
+        table = pd.DataFrame(rows, columns=["fold_id", "feature", "importance", "importance_type"])
+        table = table.sort_values(["fold_id", "importance"], ascending=[True, False], kind="stable") if len(table) else table
+        result.tables["importance"] = table
+        top = table.groupby("fold_id", sort=False, group_keys=False).head(self.top_k) if self.top_k is not None else table
+        result.tables["top_k"] = top.reset_index(drop=True)
+        result.artifacts.append(Artifact("table", table, "Native feature importance"))
+        go = _plotting()
+        if len(top):
+            figure = go.Figure()
+            for fold_id, values in top.groupby("fold_id", sort=False):
+                values = values.sort_values("importance", kind="stable")
+                figure.add_trace(go.Bar(x=values.importance, y=values.feature.astype(str), orientation="h", name=f"Fold {fold_id}"))
+            result.artifacts.append(Artifact("plotly", _style(figure, "Native feature importance", self.importance_type, "Feature"), "Top native feature importance"))
+        return result

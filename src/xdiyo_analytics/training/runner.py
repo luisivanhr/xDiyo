@@ -40,7 +40,7 @@ def _frame(frame, rows):
     return result
 
 
-def split_training_rows(dataset, train_positions, validation=None):
+def split_training_rows(dataset, train_positions, validation=None, calibration=None):
     """Return fitting/validation positions within an explicit training population.
 
     validation is None, original dataset positions, or an object such as
@@ -48,6 +48,12 @@ def split_training_rows(dataset, train_positions, validation=None):
     intact in both populations. This does not modify outer test/score membership.
     """
     train = _positions(train_positions, len(dataset.X), "train")
+    if calibration is not None:
+        from .calibration import ProbabilityCalibrator
+        if not isinstance(calibration, ProbabilityCalibrator):
+            raise TypeError("calibration must be ProbabilityCalibrator or None.")
+        reserved = calibration.select(dataset, train)
+        train = train[~np.isin(train, reserved)]
     chosen = validation.select(dataset, train.copy()) if hasattr(validation, "select") else validation
     valid = _positions([] if chosen is None else chosen, len(dataset.X), "validation", allow_empty=True)
     if not np.isin(valid, train).all():
@@ -63,8 +69,9 @@ def split_training_rows(dataset, train_positions, validation=None):
 
 
 def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fold_metadata,
-               validation=None, control=None, observer=None, execution=None, execution_info=None):
-    fit, valid = split_training_rows(dataset, train, validation)
+               validation=None, control=None, observer=None, execution=None, execution_info=None, calibration=None,
+               weighting=None, observation_weights=None):
+    fit, valid = split_training_rows(dataset, train, validation, calibration)
     if dataset.y[targets].iloc[train].isna().any().any():
         raise ValueError("Training targets contain missing values; prepare eligible training matches upstream.")
     common = dict(layout=dataset.layout, match_columns=tuple(dataset.match_columns), fold_id=fold_id)
@@ -75,9 +82,17 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
                           y=_frame(dataset.y[targets], rows))
 
     training = context(fit)
+    if weighting is not None and observation_weights is not None:
+        raise ValueError("Choose weighting or observation_weights, not both.")
+    if weighting is not None:
+        observation_weights = weighting.compute(training)
+    if observation_weights is not None:
+        training.sample_weight = observation_weights.aligned(training.X.index, targets)
     training.validation = context(valid) if len(valid) else None
     training.observer = observer
     model = model_factory()
+    if training.sample_weight is not None and not getattr(model, "supports_sample_weight", False):
+        raise TypeError("This adapter must declare supports_sample_weight and consume FitContext.sample_weight.")
     if not callable(getattr(model, "fit", None)) or not callable(getattr(model, "predict", None)):
         raise TypeError("model_factory must return a fresh ModelAdapter with fit/predict methods.")
     from .execution import configure_model
@@ -98,11 +113,26 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
             model.fit_controlled(training, control)
         else:
             model.fit(training)
+    if observation_weights is not None:
+        model.training_summary_ = {**getattr(model, "training_summary_", {}),
+                                   "class_balance": observation_weights.classes.to_dict("records"),
+                                   "weight_mean": float(training.sample_weight.mean())}
+    if calibration is not None:
+        from .calibration import CalibratedAdapter
+        reserved = calibration.select(dataset, train)
+        prediction = PredictionContext(X=_frame(dataset.X[features], reserved), metadata=_frame(dataset.metadata, reserved),
+                                       **common, fold_metadata=deepcopy(fold_metadata), definitions=deepcopy(dataset.definitions))
+        outputs = model.predict(prediction)
+        if "predict_proba" not in outputs:
+            raise ValueError("Probability calibration requires predict_proba; enable class probabilities on the adapter.")
+        calibrator = deepcopy(calibration).fit(outputs["predict_proba"], _frame(dataset.y[targets], reserved))
+        model = CalibratedAdapter(model, calibrator, reserved.copy())
     return model, fit, valid
 
 
 def fit_predict(dataset, fold, model_factory, *, fold_id=0,
-                feature_columns=None, target_columns=None, validation=None, control=None, observer=None, execution=None):
+                feature_columns=None, target_columns=None, validation=None, control=None, observer=None, execution=None, calibration=None,
+                weighting=None, observation_weights=None):
     """Fit one fresh adapter and predict every test row of one supplied Fold.
 
     This is the reusable candidate-evaluation building block. The factory takes
@@ -146,7 +176,8 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
         model, fit, valid = _fit_model(dataset, train, model_factory, features, targets,
                                       fold_id=fold_id, fold_metadata=fold.metadata,
                                       validation=validation, control=control, observer=observer,
-                                      execution=execution, execution_info=execution_info)
+                                      execution=execution, execution_info=execution_info, calibration=calibration,
+                                      weighting=weighting, observation_weights=observation_weights)
         outputs = model.predict(prediction)
     except Exception as error:
         error.add_note(f"Training/prediction failed in fold {fold_id}.")
@@ -160,6 +191,8 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
         if not values.index.equals(index) or not values.columns.is_unique or not len(values.columns):
             raise ValueError("Prediction outputs need the exact test row index/order and distinct nonempty columns.")
     summary = deepcopy(getattr(model, "training_summary_", {}))
+    summary.update(training_target_modes={name: dataset.y[name].iloc[fit].mode().iloc[0]
+                                          for name in targets}, training_target_mode_rows=len(fit))
     if execution_info:
         summary["execution"] = execution_info
     return FoldResult(
@@ -168,7 +201,7 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
         _frame(dataset.y[targets], test), _frame(dataset.metadata, test), deepcopy(fold.metadata),
         fit_positions=fit, validation_positions=valid,
         training_history=getattr(model, "training_history_", pd.DataFrame()).copy(deep=True),
-        training_summary=summary)
+        training_summary=summary, calibration_positions=getattr(model, "calibration_positions_", np.array([], dtype=int)))
 
 
 @dataclass
@@ -196,6 +229,8 @@ class TrainingRunner:
     validation: object = None
     observer: object = None
     execution: object = None
+    calibration: object = None
+    weighting: object = None
 
     def _validation_for(self, fold_id):
         if isinstance(self.validation, dict):
@@ -212,11 +247,11 @@ class TrainingRunner:
         """
         folds = []
         for i, fold in enumerate(split_plan.folds):
-            fit, _ = split_training_rows(dataset, fold.train, self._validation_for(i))
+            fit, _ = split_training_rows(dataset, fold.train, self._validation_for(i), self.calibration)
             folds.append(Fold(fit, fold.test.copy(), fold.score.copy(), deepcopy(fold.metadata)))
         return SplitPlan(folds, split_plan.n_rows, split_plan.row_order.copy(), deepcopy(split_plan.paths))
 
-    def run(self, dataset, split_plan, *, fold_ids=None, analysis_report=None, features_from=None):
+    def run(self, dataset, split_plan, *, fold_ids=None, analysis_report=None, features_from=None, weights_from=None):
         if not isinstance(dataset, ModelDataset) or not isinstance(split_plan, SplitPlan):
             raise TypeError("TrainingRunner consumes ModelDataset and SplitPlan.")
         if split_plan.n_rows != len(dataset.X):
@@ -228,8 +263,10 @@ class TrainingRunner:
             raise ValueError("fold_ids must contain distinct valid zero-based fold numbers.")
         if features_from is not None and (analysis_report is None or self.feature_columns is not None):
             raise ValueError("features_from needs analysis_report and cannot be combined with feature_columns.")
-        if analysis_report is not None and features_from is None:
-            raise ValueError("Choose features_from explicitly when supplying an analysis_report.")
+        if weights_from is not None and (analysis_report is None or self.weighting is not None):
+            raise ValueError("weights_from needs analysis_report and cannot be combined with weighting.")
+        if analysis_report is not None and features_from is None and weights_from is None:
+            raise ValueError("Choose features_from or weights_from explicitly when supplying an analysis_report.")
         models, estimators, target_states = [], [], []
         original_factory = self.model_factory
 
@@ -268,18 +305,25 @@ class TrainingRunner:
                 if len(candidates) != 1 or candidates[0].result.selection is None:
                     raise ValueError("features_from needs one selector result for this fold or overall scope.")
                 selection = candidates[0]
-                fitting_rows, _ = split_training_rows(dataset, fold.train, validation)
+                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration)
                 if selection.layout != dataset.layout or not np.isin(selection.row_positions, fitting_rows).all():
                     raise ValueError("Consumed feature selection must use only this fold's fitting training rows and layout; use selection_plan when reserving validation.")
                 features = selection.result.selection.columns
-            jobs.append((fold_id, fold, features, validation, selection))
+            weights = None
+            if weights_from is not None:
+                from ..weighting import report_weights
+                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration)
+                weights = report_weights(analysis_report, weights_from, fold_id, fitting_rows, dataset.layout)
+            jobs.append((fold_id, fold, features, validation, selection, weights))
         targets, control, execution = self.target_columns, self.control, self.execution
+        calibration, weighting = self.calibration, self.weighting
 
         def fit_one(job, observer):
-            fold_id, fold, features, validation, selection = job
+            fold_id, fold, features, validation, selection, weights = job
             result = fit_predict(dataset, fold, fresh_model, fold_id=fold_id,
                                  feature_columns=features, target_columns=targets,
-                                 validation=validation, control=control, observer=observer, execution=execution)
+                                 validation=validation, control=control, observer=observer, execution=execution,
+                                 calibration=calibration, weighting=weighting, observation_weights=weights)
             result.selection = deepcopy(selection)
             return result
 

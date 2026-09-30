@@ -58,6 +58,7 @@ it does not compute the opponent's attack or swap team sides.
 | attack | Shots | `blockedScoringAttempt`, `expectedGoals`, `expectedGoalsOnTarget`, `hitWoodwork`, `shotsOffGoal`, `shotsOnGoal`, `totalShotsInsideBox`, `totalShotsOnGoal`, `totalShotsOutsideBox` |
 | attack | Match overview | `bigChanceCreated`, `cornerKicks`, `expectedGoals`, `totalShotsOnGoal` |
 | attack | Passes | `accurateCross`, `finalThirdEntries`, `finalThirdPhaseStatistic` |
+| defense | Duels | `duelWonPercent`, `groundDuelsPercentage`, `aerialDuelsPercentage` |
 | defense | Defending | `ballRecovery`, `errorsLeadToGoal`, `errorsLeadToShot`, `interceptionWon`, `totalClearance`, `totalTackle`, `wonTacklePercent` |
 | defense | Goalkeeping | `diveSaves`, `goalkeeperSaves`, `goalsPrevented`, `highClaims`, `penaltySaves`, `punches` |
 | defense | Match overview | `goalkeeperSaves`, `totalTackle` |

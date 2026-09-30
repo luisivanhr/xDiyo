@@ -180,8 +180,11 @@ pd.testing.assert_frame_equal(native_loaded.predict(prediction_data)["predict"],
 ```
 
 A prediction model artifact is separate from a numerical experiment result and
-from an interrupted-training checkpoint. FootballExperiment.load/reuse still
-returns model=None and never loads joblib implicitly. Its `CheckpointPolicy`
+from an interrupted-training checkpoint. FootballExperiment now saves fitted fold
+and final-refit models alongside numerical artifacts and restores them by default.
+Use `load(run_id, load_models=False)` for data-only inspection, or `save_models=False`
+to omit model persistence. Older runs retain model=None if no model was saved.
+Only load model artifacts from a trusted producer. Its `CheckpointPolicy`
 requires an adapter that retains optimizer/RNG/cursor/history state; saving a
 fitted prediction model does not establish mid-fit resumability.
 

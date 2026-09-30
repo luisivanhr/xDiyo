@@ -48,9 +48,13 @@ def test_refit_relearns_selector_and_scaler_on_its_own_fitting_rows_and_restores
     np.testing.assert_allclose(refit.model.estimator.named_steps['standardscaler'].mean_,
         data.X[['wave']].iloc[refit.fit_positions].mean())
     loaded=experiment.load(result.record['run_id'])
-    assert loaded.refit.model is None and loaded.refit.feature_columns==('wave',)
+    assert loaded.refit.model is not None and loaded.refit.feature_columns==('wave',)
     np.testing.assert_array_equal(loaded.refit.validation_positions,valid)
-    with pytest.raises(RuntimeError,match='no live fitted model'):loaded.refit.predict(data)
+    pd.testing.assert_frame_equal(loaded.refit.predict(data)['predict'],refit.predict(data)['predict'])
+    np.testing.assert_array_equal(loaded.refit.model.estimator.named_steps['standardscaler'].mean_,
+                                  refit.model.estimator.named_steps['standardscaler'].mean_)
+    data_only=experiment.load(result.record['run_id'],load_models=False)
+    with pytest.raises(RuntimeError,match='no live fitted model'):data_only.refit.predict(data)
 
 def test_refit_controls_default_independently_of_candidate_evaluation_validation():
     preparation=prepared(holdout=True);data=preparation.dataset

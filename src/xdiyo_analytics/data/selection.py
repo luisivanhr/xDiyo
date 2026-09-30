@@ -25,6 +25,9 @@ STAT_CATEGORIES = {
         )),
     ),
     "defense": (
+        *(("Duels", key) for key in (
+            "duelWonPercent", "groundDuelsPercentage", "aerialDuelsPercentage",
+        )),
         *(("Defending", key) for key in (
             "ballRecovery", "errorsLeadToGoal", "errorsLeadToShot",
             "interceptionWon", "totalClearance", "totalTackle", "wonTacklePercent",

@@ -19,7 +19,7 @@ def stage_schema(*, refresh=False):
     functions = [
         ('data', load_seasons, set()), ('stat_selection', select_stats, {'data'}),
         ('history', build_team_history, {'data'}),
-        ('feature_options', evaluate_features, {'history', 'features', 'keyed'}),
+        ('feature_options', evaluate_features, {'history', 'features', 'keyed', 'heatmaps'}),
         ('rating_options', build_ratings, {'history'}),
         ('assembly', assemble_dataset, {'features', 'label'}),
         ('candidate', Candidate, {'model_factory', 'pre_analysis'}),
@@ -27,7 +27,7 @@ def stage_schema(*, refresh=False):
         ('refit', RefitPolicy, set()),
         ('run', FootballExperiment.run, {'self', 'prepared', 'model', 'model_selection', 'selection_plan',
                                        'development_positions', 'inner_plan_factory', 'pre_analysis', 'post_analysis',
-                                       'refit_policy', 'checkpoint_policy', 'execution'}),
+                                       'refit_policy', 'checkpoint_policy', 'execution', 'model_serializer'}),
         ('prediction', select_prediction_fixtures, {'data'}),
         ('model_loading', load_model, set()),
     ]
@@ -41,7 +41,7 @@ def stage_schema(*, refresh=False):
         if item['name'] == 'layout':
             item['choices'] = ['match', 'team_match']
     for item in schema['candidate']['fields']:
-        if item['name'] in ('control', 'validation', 'observer', 'complexity', 'fit_statistics'):
+        if item['name'] in ('control', 'validation', 'calibration', 'observer', 'complexity', 'fit_statistics'):
             item['kind'] = 'component'
     schema['split_options'] = {'fields': [dict(name=name, title=name.replace('_', ' ').capitalize(),
                                               kind='value', default=None, required=False)

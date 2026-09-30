@@ -1,5 +1,10 @@
 # Inspect data and compose feature selections before training
 
+[HeatmapReporter](heatmaps.md#fixture-level-pre-training-reporter) lets you select
+a fixture and inspect its exact Home/Away spatial features, names and badges.
+It discovers grids and regional summaries from feature metadata. Local notebook
+and builder views fetch selected values on demand; standalone exports embed them.
+
 `PreTrainingAnalysis` runs the studies you name against explicit row scopes.
 Its `AnalysisReport` contains reusable numerical tables, selected feature names
 and an interactive offline viewer. Running or displaying a report does not fit

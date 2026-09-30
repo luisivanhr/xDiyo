@@ -50,7 +50,8 @@ class Catalog:
     def cache_key(self):
         # Recovery's signature walker hashes callable code and package versions.
         # Display text is irrelevant to numerical identity, constructors are not.
-        return {key: item['constructor'] for key, item in sorted(self.entries.items())}
+        return {key: item['constructor'] for key, item in sorted(self.entries.items())
+                if item['category'] != 'post_reporter'}
 
     def encode(self, value):
         import numpy as np
@@ -171,21 +172,21 @@ class Catalog:
 def default_catalog():
     catalog = Catalog()
     groups = {
-        'features': ('feature', 'Stat ForAgainst H2H IsHome NormalizedStanding Lag RollingMean RollingStd RollingZScore EMA Rating MatchResultGlicko StatGlicko League LeaveOneOut WarmStart'),
+        'features': ('feature', 'Stat Heatmap RegionMass ForAgainst H2H IsHome NormalizedStanding Lag RollingMean RollingStd RollingZScore EMA Rating MatchResultGlicko StatGlicko League LeaveOneOut WarmStart Constant Sum Difference Ratio'),
         'labels': ('label', 'TeamValue MatchTotal Outcome Above BetOption'),
         'ratings': ('rating', 'Glicko2 GlickoTransition'),
         'splits': ('split', 'TemporalSplit MatchKFold GroupKFold CPCV Fold SplitPlan'),
-        'training': ('training', 'TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
+        'training': ('training', 'ProbabilityCalibrator TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
         'selection': ('selection', 'MetricSelection WeightedSelection ParsimonySelection FitStatistics'),
-        'evaluation': ('evaluation', 'Metric BetSpec'),
-        'reporting': ('reporter', 'FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter MatchResultReporter TeamCatalog'),
+        'evaluation': ('evaluation', 'Metric BetSpec BetOffer TightestLine HighestExpectedProfit'),
+        'reporting': ('reporter', 'HeatmapReporter ClassWeightReporter FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter BetOutcomeReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter CountClassificationReporter FeatureImportanceReporter MatchResultReporter TeamCatalog'),
     }
     for module, (category, names) in groups.items():
         namespace = import_module('xdiyo_analytics.' + module)
         for name in names.split():
             cat = category
             if module == 'reporting':
-                cat = 'pre_reporter' if name in ('FeatureDistributionReporter', 'CorrelationAnalysis', 'FeatureTimeline', 'TopKCorrelationSelector') else 'post_reporter'
+                cat = 'pre_reporter' if name in ('HeatmapReporter', 'ClassWeightReporter', 'FeatureDistributionReporter', 'CorrelationAnalysis', 'FeatureTimeline', 'TopKCorrelationSelector') else 'post_reporter'
                 if name == 'TeamCatalog':
                     cat = 'display'
             catalog.register(f'{module}.{name}', getattr(namespace, name), category=cat)
@@ -252,10 +253,11 @@ def _decorate(catalog):
             item['overrides']['partition'] = {'choices': ['train', 'test', 'score', 'all'] if item['category'] == 'pre_reporter' else ['test', 'score', 'model', 'experiment']}
         if 'type' in names and hasattr(item['constructor'], 'supported_types'):
             item['overrides']['type'] = {'choices': list(item['constructor'].supported_types)}
-        for name in ('source', 'reference', 'engine', 'handoff', 'policy', 'early_stopping', 'scheduler', 'estimator', 'preprocessor', 'option'):
+        for name in ('source', 'reference', 'left', 'right', 'numerator', 'denominator', 'engine', 'handoff', 'policy', 'early_stopping', 'scheduler', 'estimator', 'preprocessor', 'option'):
             if name in names and key != 'reporting.TopKCorrelationSelector':
                 item['overrides'][name] = {'kind': 'component'}
-                categories = {'source': ['feature'], 'reference': ['feature'], 'engine': ['rating'],
+                categories = {'source': ['feature'], 'reference': ['feature'],
+                              'left': ['feature'], 'right': ['feature'], 'numerator': ['feature'], 'denominator': ['feature'], 'engine': ['rating'],
                               'handoff': ['warmup'], 'policy': ['warmup', 'rating'],
                               'early_stopping': ['training'], 'scheduler': ['training'],
                               'preprocessor': ['preprocessor'], 'option': ['label']}.get(name)

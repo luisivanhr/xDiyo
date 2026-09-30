@@ -35,6 +35,8 @@ class Candidate:
     observer: object = None
     complexity: object = None
     fit_statistics: object = None
+    calibration: object = None
+    weights_from: str | None = None
 
     def __post_init__(self):
         if not isinstance(self.name, str) or not self.name.strip() or not callable(self.model_factory):
@@ -44,6 +46,8 @@ class Candidate:
         configuration_hash(self.config)
         if self.features_from is not None and self.pre_analysis is None:
             raise ValueError("features_from requires candidate pre_analysis.")
+        if self.weights_from is not None and self.pre_analysis is None:
+            raise ValueError("weights_from requires candidate pre_analysis.")
 
 
 @dataclass

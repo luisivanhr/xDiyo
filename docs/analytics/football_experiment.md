@@ -77,13 +77,18 @@ its train-scoped `pre_analysis` and `features_from` fields.
 
 ## 2. Run a fixed configuration, reuse it, then reopen it
 
+For classifier probabilities, `Candidate(calibration=ProbabilityCalibrator(...))`
+reserves a separate chronological training slice and saves the fitted calibration
+state with each model. It is optional and also applies to model selection and
+deployment refits. See [calibration and exact bet probabilities](probability_calibration.md).
+
 ```python
 fixed = experiment.run(model=candidate(.1), pre_analysis=before, post_analysis=after,
                        name_fields=["alpha"])
 same = experiment.run(model=candidate(.1), pre_analysis=before, post_analysis=after,
                       name_fields=["alpha"])
 assert same.reused and same.record["run_id"] == fixed.record["run_id"]
-assert same.training.folds[0].model is None
+assert same.training.folds[0].model is not None
 
 reopened = FootballExperiment("Synthetic workflow", output_dir=output).load(fixed.record["run_id"])
 assert reopened.reused
@@ -95,12 +100,17 @@ print(fixed.record["name"], fixed.record["run_id"])
 `run()` calls preparation each time to discover the current inputs. Exact reuse
 skips model fitting and prediction. `load(run_id)` reads saved inputs and results
 directly and skips preparation as well. Restored results contain predictions,
-labels, row identities, report artifacts and history; fitted model objects are
-`None`. Rendering a result never fits or predicts.
+labels, row identities, report artifacts, history and saved fitted models/scalers.
+`load(run_id, load_models=False)` provides data-only inspection. Rendering a result
+never fits or predicts. Older runs cannot restore models they never saved.
 
 The automatic identity includes the prepared data and row order, definitions,
-folds, candidate factories and configuration, analysis/refit/checkpoint settings,
-local library source and runtime versions. Factory code, defaults, closures and
+folds, candidate factories and configuration, pre-analysis/refit/checkpoint settings,
+numerical library source and runtime versions. Post-training reporters and their
+view options are excluded, including their copy in a UI preparation recipe.
+Presentation-only source files are excluded; pre-training selectors, metric helpers
+and any reporters explicitly consumed as selection evidence remain relevant.
+Factory code, defaults, closures and
 referenced globals are included. Moving unchanged code to another notebook cell
 does not invalidate it. Declare external files/services or opaque callable
 objects through configuration or `cache_key()` returning data. Keep diagnostic
@@ -111,6 +121,32 @@ without changing model inputs.
 Use `reuse=False` for a new execution group even when everything matches.
 Names alone never identify reusable work. Only one writer may use an experiment
 or checkpoint namespace at a time.
+
+### Change post-training reports without another fit
+
+Keep **Execution & refit → Run settings → Reuse** enabled in the builder, change
+the post-training reporters or their selected test folds, and run again. Python
+calls use the same `experiment.run(..., post_analysis=new_analysis)` interface.
+The same fitted run and prediction artifacts are reused; all requested post-training
+studies are recomputed, saved and shown. The leaderboard keeps one entry whose
+metrics reflect the latest analysis. Earlier analysis snapshots remain on disk.
+
+**Run & results → Saved runs → List saved runs → Open report** opens the latest
+saved report without loading source data or evaluating a new reporter configuration.
+To apply changed reporter settings, use Run experiment with Reuse enabled.
+
+`save_models=True` saves every final evaluation fold model and any deployment refit,
+including fitted input and target scalers. Trusted local model artifacts are restored
+automatically on reuse/load, so coefficient inspection and future predictions retain
+the fitted state. Set `save_models=False` for numerical-only storage. An importable
+adapter uses joblib by default; custom frameworks can pass `model_serializer` with
+the existing save/load contract. Such artifacts must come from a trusted producer.
+Custom serializers must also be passed to `load(..., model_serializer=...)`.
+
+This change introduces a new fitting identity. Old saved runs remain explicitly
+loadable, but do not automatically match the new key; missing historical model
+state cannot be reconstructed from predictions. Completed internal search-trial
+recovery remains numerical-only.
 
 ## 3. Add a search and inspect its final evaluation
 
@@ -207,8 +243,9 @@ their own searches/evaluations if not already completed.
 The combined report orders descriptive pre-training studies, internal candidate
 comparison, and final post-training studies. Only final post-training numerical
 metrics enter the final run record. Default leaderboards hide trials and show
-expandable configuration details. Experiment reporters refresh after publication
-and on reuse; an explicitly loaded result retains its saved report snapshot.
+expandable configuration details. All requested post-training reporters refresh on
+reuse. Experiment reporters run after publication; an explicitly loaded result
+retains its latest saved report snapshot.
 
 For nested CV, pass `inner_plan_factory` instead of `selection_plan`. It receives
 each outer training population with local positions. It returns inner splits in
@@ -230,9 +267,8 @@ Refit validation/control default to `None` independently of evaluation controls.
 Train-scoped feature selection and preprocessing are learned again on actual
 refit fitting rows, excluding any new validation subset. After nested selection,
 supply `RefitPolicy(..., candidate=...)` because there is no single overall winner.
-Reloading numerical results restores refit metadata with `model=None`; calling
-that metadata object's `predict()` raises a clear error. This workflow does not
-schedule future retraining.
+Reloading restores the saved refit model by default. A numerical-only load restores
+refit metadata with `model=None`. This workflow does not schedule future retraining.
 
 ## 5. Native checkpoints for a capable adapter
 
@@ -313,8 +349,8 @@ Legacy runs expose only actual saved tables, optional prediction files and
 optional original HTML. They cannot reconstruct absent input datasets, original
 report scopes, missing match-key definitions or fitted models. A legacy report
 with no saved predictions has `training=None`. Numerical bundle recovery is
-data-only and does not unpickle models. It is distinct from explicit model
-serialization added in a separate increment.
+data-only. FootballExperiment additionally restores separately saved model artifacts
+unless `load_models=False`.
 
 New bundles retain nullable labels/IDs, StringDtype storage and MultiIndex
 levels/codes. Old tuple-based bundles remain readable; metadata omitted when

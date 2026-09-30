@@ -1,5 +1,13 @@
 # Evaluate named football features
 
+See [heatmap features and fixture views](heatmaps.md) for spatial grid pooling,
+Gaussian smoothing, shared pitch orientation and `RegionMass` summaries.
+`Lag`, `RollingMean`, `RollingStd`, `RollingZScore` and `EMA` accept
+`venue="all"` or `venue="same"` for both ordinary and spatial team histories.
+
+See [arithmetic composition and fitted identity indicators](feature_composition.md)
+for reusable sums, differences, ratios and categorical team/league columns.
+
 Build observed rows with `build_team_history`, then pass named expressions to
 `evaluate_features`. By default the result has the same row order and index as
 the history. Set `keyed=True` to retain the values/order with match/team/side

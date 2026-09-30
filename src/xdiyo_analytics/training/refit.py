@@ -33,6 +33,7 @@ class FittedModel:
     target_perspective: str
     definitions: dict
     execution: dict = field(default_factory=dict)
+    calibration_positions: object = None
 
     def save(self, path, *, serializer=None):
         """Save this fitted model for future prediction; see save_model()."""
@@ -44,6 +45,11 @@ class FittedModel:
             raise RuntimeError("This recovered result has no live fitted model. Restore it with its native adapter or perform an explicit refit.")
         if dataset.layout != self.layout or tuple(dataset.match_columns) != self.match_columns:
             raise ValueError("Prediction dataset must match the fitted layout/match identities.")
+        if self.definitions.get("identity_features") is not None:
+            from dataclasses import replace
+            from ..features.preparation import add_identity_features
+            dataset = replace(dataset, X=dataset.X.copy(), definitions=deepcopy(dataset.definitions))
+            dataset = add_identity_features(dataset, self.definitions["identity_features"])
         rows = _positions(np.arange(len(dataset.X)) if positions is None else positions,
                           len(dataset.X), "prediction")
         context = PredictionContext(_frame(dataset.X[list(self.feature_columns)], rows),
@@ -81,13 +87,15 @@ class FittedModel:
             fit_positions=self.fit_positions.copy() if same_dataset else np.array([], dtype=int),
             validation_positions=self.validation_positions.copy() if same_dataset else np.array([], dtype=int),
             training_history=getattr(self.model, "training_history_", pd.DataFrame()).copy(),
-            training_summary=deepcopy(getattr(self.model, "training_summary_", {})))
+            training_summary=deepcopy(getattr(self.model, "training_summary_", {})),
+            calibration_positions=self.calibration_positions if same_dataset else np.array([], dtype=int))
         return TrainingResult([fold], self.layout, self.identity_columns, self.match_columns,
                               self.target_perspective, deepcopy(self.definitions))
 
 
 def refit_model(dataset, model_factory, *, train_positions, feature_columns=None,
-                target_columns=None, validation=None, control=None, observer=None, execution=None):
+                target_columns=None, validation=None, control=None, observer=None, execution=None, calibration=None,
+                weighting=None, observation_weights=None):
     """Fit a fresh selected configuration on explicitly supplied development rows.
 
     No automatic winner selection, held-out evaluation or retraining schedule.
@@ -108,7 +116,8 @@ def refit_model(dataset, model_factory, *, train_positions, feature_columns=None
     execution_info = {}
     model, fit, valid = _fit_model(dataset, train, model_factory, features, targets, fold_id=0,
                                   fold_metadata={"stage": "final_refit"}, validation=validation,
-                                  control=control, observer=observer, execution=execution, execution_info=execution_info)
+                                  control=control, observer=observer, execution=execution, execution_info=execution_info,
+                                  calibration=calibration, weighting=weighting, observation_weights=observation_weights)
     return FittedModel(model, train, fit, valid, tuple(features), tuple(targets), dataset.layout,
                        tuple(dataset.identity_columns), tuple(dataset.match_columns), dataset.target_perspective,
-                       deepcopy(dataset.definitions), execution_info)
+                       deepcopy(dataset.definitions), execution_info, getattr(model, "calibration_positions_", np.array([], dtype=int)))
