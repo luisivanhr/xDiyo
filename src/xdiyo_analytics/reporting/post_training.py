@@ -1,6 +1,7 @@
 """Prediction diagnostics sharing the existing study/artifact viewer."""
 
 from dataclasses import dataclass, field
+from numbers import Real
 from typing import ClassVar
 
 import numpy as np
@@ -102,7 +103,6 @@ class PredictionDistributionReporter(PredictionReporter):
         if isinstance(self.grid_size, bool) or not isinstance(self.grid_size, (int, np.integer)) or self.grid_size < 2:
             raise ValueError("grid_size must be an integer >= 2.")
         if self.mode == "kde":
-            from numbers import Real
             valid = (self.bandwidth in {"scott", "silverman"} if isinstance(self.bandwidth, str) else
                      isinstance(self.bandwidth, Real) and not isinstance(self.bandwidth, (bool, np.bool_))
                      and np.isfinite(self.bandwidth) and self.bandwidth > 0)
@@ -119,13 +119,17 @@ class PredictionDistributionReporter(PredictionReporter):
                 y, p = context.y[target], context.predictions[self.output][target]
                 mask = y.notna() & p.notna()
                 labels = pd.Index(pd.unique(pd.concat([y[mask], p[mask]], ignore_index=True)))
+                if all(isinstance(label, Real) and not isinstance(label, (bool, np.bool_)) for label in labels):
+                    labels = labels.sort_values()
+                axis_labels = [str(label) for label in labels]
                 for name, values in (("Observed", y[mask]), ("Predicted", p[mask])):
                     freq = values.value_counts(normalize=True).reindex(labels, fill_value=0)
-                    figure.add_trace(go.Bar(x=[str(label) for label in labels], y=freq, name=name))
+                    figure.add_trace(go.Bar(x=axis_labels, y=freq, name=name))
                     records.extend(dict(distribution=name, x=label, value=value) for label, value in freq.items())
                     summaries.append(dict(target=target, distribution=name, n=int(mask.sum()),
                                           n_missing=int((~mask).sum()), status="ok" if mask.any() else "empty"))
                 figure.update_layout(barmode="group")
+                figure.update_xaxes(type="category", categoryorder="array", categoryarray=axis_labels)
             else:
                 pairs, mask = _pairs(context, target, self.output)
                 combined = pairs[["observed", "predicted"]].to_numpy().ravel()

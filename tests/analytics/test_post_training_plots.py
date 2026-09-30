@@ -65,6 +65,26 @@ def test_ecdf_and_categorical_frequency_use_same_paired_population():
     assert table.loc['Predicted'].to_dict() == {'a': 1/3, 'b': 1/3, 'c': 1/3}
 
 
+@pytest.mark.parametrize('truth,predicted,expected', [
+    ([9, 10, 8, 9], [12, 7, 10, 9], [7, 8, 9, 10, 12]),
+    ([2.5, -1., 10., np.nan], [0., 2.5, 12., 99.], [-1., 0., 2.5, 10., 12.]),
+    (['z', 'a', 'z'], ['b', 'a', 'z'], ['z', 'a', 'b']),
+])
+def test_frequency_axis_order_and_counts(truth, predicted, expected):
+    result = PredictionDistributionReporter(type='overall', partition='test', mode='frequency').run(
+        numeric_context(truth, predicted))
+    figure = result.artifacts[0].data
+    assert list(figure.layout.xaxis.categoryarray) == [str(value) for value in expected]
+    assert figure.layout.xaxis.categoryorder == 'array'
+    assert figure.layout.xaxis.type == 'category'
+    mask = pd.Series(truth).notna() & pd.Series(predicted).notna()
+    for trace, values in zip(figure.data, (truth, predicted)):
+        assert list(trace.x) == [str(value) for value in expected]
+        counts = pd.Series(values)[mask].value_counts(normalize=True)
+        np.testing.assert_allclose(trace.y, [counts.get(value, 0.) for value in expected])
+    assert result.tables['distribution::count'].x.tolist() == expected * 2
+
+
 @pytest.mark.parametrize('strategy', ['uniform', 'quantile'])
 def test_calibration_bins_reversed_class_order(strategy):
     prediction = pd.DataFrame([[0., 1.], [.25, .75], [.5, .5], [1., 0.], [np.nan, np.nan]],
