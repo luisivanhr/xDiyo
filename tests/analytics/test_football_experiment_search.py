@@ -78,7 +78,7 @@ def test_nested_orchestration_has_separate_winners_only_outer_predictions_and_re
     loaded=experiment.load(result.record['run_id'])
     assert set(loaded.selection.winners)=={'0','1'}
     for stored,original in zip(loaded.training.folds,preparation.split_plan.folds):
-        assert stored.model is None
+        assert stored.model is not None
         np.testing.assert_array_equal(stored.test_positions,original.test)
         np.testing.assert_array_equal(stored.score_positions,original.score)
         assert set(stored.metadata.case)==set(data.metadata.iloc[original.test].case)

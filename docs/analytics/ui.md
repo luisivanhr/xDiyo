@@ -1,6 +1,31 @@
 # Football experiment builder
 
+For spatial predictors and fixture pitch views, see [heatmap features](heatmaps.md#experiment-builder).
+Choose Heatmap inside a historical feature and select all-venue or same-venue
+history. This selector appears only for heatmap-based sources; ordinary statistics do not show it. RegionMass can summarize either half. Add Heatmap Reporter under
+Pre-training analysis; spatial feature choices appear after preparation.
+Choose a fold, fixture and feature to view both teams with names and local badges.
+The viewer fetches those retained values on demand without recalculating features.
+
 The local experiment builder configures the same `FootballExperiment` pipeline used in Python. Its forms produce a portable recipe; the server compiles that recipe into the existing loaders, feature expressions, labels, splits, reporters, adapters, and selection rules. It does not implement a separate training pipeline.
+
+## Probability-driven bets
+
+In **Post-training analysis**, add **Bet Outcome Reporter**, configure offered
+BetOptions and choose **Tightest Line** or **Highest Expected Profit**. Upstream
+probabilities are selected automatically. Add **Bet Performance Reporter** afterward
+and select the outcome reporter under **Prepared decisions from** to reuse its
+ledger. See [the controls, formulas and examples](bet_outcomes.md).
+
+## Extension compatibility requirement
+
+Every incremental public pipeline capability must also work through the builder:
+register its constructor, maintain the structured inventory (types, choices,
+descriptions and conditional settings), support recipe construction and exported
+Python/notebooks, and verify the rendered controls and a representative pipeline
+flow. UI users should not supply Python objects or manually specify value types.
+Keep computational semantics shared with the Python API; do not create a second
+UI-only implementation. Document any unsupported adapter/output combination.
 
 ## Open the builder
 
@@ -41,6 +66,37 @@ The environment needs the analytics reporting/training dependencies. LightGBM an
 
 ## Forms and defaults
 
+### Calibrate classifier probabilities
+
+**Model & training → Candidate, feature selection and training controls → Calibration**
+enables the optional ProbabilityCalibrator. Select temperature, sigmoid or isotonic
+and the chronological training fraction to reserve (default 20%). The builder
+requests classifier probabilities automatically. Calibration rows are separate
+from model/scaler/feature-selector fitting, early stopping and outer test rows.
+The fitted calibrator is saved with the model; downstream probability reporters
+use calibrated probabilities. See [the guide and exact bet-boundary equations](probability_calibration.md).
+
+### Reuse fitted runs and change post-training reports
+
+In **Execution & refit → Run settings**, leave **Reuse** enabled. Post-training
+reporter choices, metric/view settings and selected reporting folds can then change
+without fitting or predicting again. Click **Run experiment** to regenerate the
+requested reports from the retained predictions and restored models. Pre-training
+analysis/feature selection changes still invalidate the fitting identity.
+
+**Save models** defaults to enabled and retains each final evaluation fold model,
+its fitted scalers, and any final deployment refit. Custom serialization backends
+can be supplied through the Python API. Only load trusted experiment artifacts.
+
+In **Run & results → Saved runs**, **List saved runs → Open report** opens the
+latest saved report without preparing source data or applying newly edited reporter
+settings. Regenerated reports update the same run/leaderboard entry.
+
+Older runs remain explicitly loadable but cannot restore models they never saved;
+the new fit identity does not automatically match their old cache keys. These are
+backend changes: save your recipe, restart the notebook kernel/server and relaunch
+the builder to use them.
+
 Built-in forms use a persistent, packaged inventory of parameter-specific controls, defaults, and help. Required and common settings appear directly; **Additional settings** exposes less common arguments. Optional fields with a `None` default have an enable checkbox; disabling one omits that override.
 
 **None is an explicit value**, not a universal instruction to use the default. Its meaning belongs to the selected parameter: for example, an absent cutoff retains the documented retrospective timing assumption, while a missing search configuration disables model selection. For a parameter whose default is not `None`, omitting it and setting it to `None` can behave differently.
@@ -69,7 +125,7 @@ The **Scale the target** option defaults to disabled. Choose Standard, Min–Max
 
 For count targets such as total corners, the model selector also includes
 `training.NegativeBinomialRegressor`. It uses an NB2 distribution with a log link,
-fixed configurable dispersion, optional L1/L2/Elastic Net penalties, and a mean/mode prediction choice. The mode is zero when dispersion is at least one (including the default). Keep target
+fixed or learnable dispersion, optional L1/L2/Elastic Net penalties, and a mean/mode prediction choice. Enable **Learn dispersion** to estimate one value per fit from training rows; **Dispersion** then supplies its starting value. The mode is zero when fitted dispersion is at least one. Keep target
 scaling disabled for this model; input preprocessing remains available. Its
 coefficient report uses log-mean units. See [negative binomial regression](negative_binomial.md)
 for equations, assumptions and parameters.
@@ -180,12 +236,15 @@ The prediction recipe prepares the full history, retains missing future targets,
 
 **Export Python** and **Export notebook** generate inspectable code using `prepare_recipe` and `run_recipe`. Exporting does not run the code. The notebook separates preparation, a small feature preview, and execution. Paths resolved by the local builder are exported as absolute paths; update them when sharing with a colleague on another machine.
 
-The exported recipe remains usable without the UI:
+The [bundled example recipe](../../examples/bundles/README.md) is usable without
+the UI. Run this from the repository root; it prepares the published data and
+fits the configured fixed Lasso experiment, writing new results under the ignored
+`experiments/example_bundles/` directory:
 
 ```python
 from xdiyo_analytics.ui import read_recipe, prepare_recipe, run_recipe
 
-recipe = read_recipe("experiments/_recipes/Corners_experiment.json")
+recipe = read_recipe("examples/bundles/corners_lasso.json")
 prepared = prepare_recipe(recipe)
 result = run_recipe(recipe, prepared=prepared)
 result.show()
@@ -200,3 +259,67 @@ result.show()
 - Closing a browser tab does not cancel a running fit. Closing the server stops queued tasks, but a fit already running in its worker may finish; the current UI does not expose forceful training cancellation.
 
 See [UI verification](ui_verification.md) for the recorded verification scope and current evidence.
+
+## Classifier balancing
+
+Use **Pre-training analysis → Fitted preparation → Class Weight Reporter**, then
+select its name in **Model & training → Weights from**. Modes include balanced,
+adjustable power, custom class weights and a registered calculation. Computation
+uses each actual fitting population; adding a descriptive report alone does not
+change training. See [class weighting](class_weighting.md) for UI steps, equations,
+custom callbacks and fit/validation/calibration boundaries.
+# Notebook feature-bank parity (28 September 2026)
+
+Import [the current notebook recipe](feature_inventory/current_notebook_ui_recipe.json)
+using **Import recipe**. The [settings guide](feature_inventory/current_notebook_ui_settings.md)
+describes its 54-candidate search; the [hierarchical inventory](feature_inventory/README.md)
+separately documents the latest completed winner's selected features.
+
+Under **Features & ratings**:
+
+- **Feature bank preset** generates the reusable family of lags, rolling moments,
+  EMA, halves, league/LOO/H2H, standings and rating features. Choose statistics,
+  windows and optional warm policies. Named features remain an additional option.
+- **Preset discovery** defaults to rows shared by the selected outer training
+  folds. Explicit discovery seasons are available. Only statistic availability
+  is discovered here; no model is fitted. Disjoint training populations require
+  an explicit development scope for preset discovery.
+- **Derived match features** uses Column, Sum, Difference and Ratio after
+  home/away assembly. Click **Discover assembled columns** even while an expression
+  is unfinished. Nest expressions to combine more than two operands. A derived
+  expression reads the assembled inputs, not another derived name.
+- **Fixture context** adds UTC month sine/cosine, weekday or round. **RestDays**
+  uses the last eligible historical fixture, with the same timing rules as other
+  historical features.
+- **Identity indicators** fits a fixed category vocabulary using the common outer
+  training rows, saved with the model. Unknown future categories map to zeros.
+  This is an explicit fixed schema; it is not a per-inner-fold fitted encoder.
+  Disable it when outer training sets have no intersection. The notebook uses
+  league indicators only, with `source_league` prefix `league`.
+- **Numeric feature format** controls float32/float64 and replacement of infinity
+  with missing values. It performs no scaling. Identity indicators are float32.
+- A **WarmStart** source can be a direct match-result or statistic Glicko feature;
+  the editor pairs it with GlickoTransition automatically.
+
+**Model selection → Parameter grid** now lists scalar parameters of selected
+fitted reporters and preprocessing components as well as the estimator. For
+example, select `count_weights · Power` to tune balancing together with tree depth.
+Those reporters still fit independently on each candidate's actual training rows.
+
+New post-report choices include **CountClassificationReporter** (tolerance,
+class support, clipped log loss, fitting-only majority baseline and optional
+per-league summaries), **FeatureImportanceReporter** (native XGBoost gain with
+top-k plotting), and **PredictionTimelineReporter → Max points** (plot-only cap;
+the full table stays available). A historical run without retained fitting-label
+mode metadata reports its baseline as unavailable. These controls do not refit
+models when only post-report settings change.
+
+**Execution & refit → Export tables and fitted models** optionally creates a new
+`exports/<id>` directory in the completed run. Its manifest maps study/fold/table
+names to CSV files. Models are saved separately per evaluated fold; optional
+reload verification compares their predictions with retained predictions.
+This also works after result reuse. It does not reproduce legacy notebook-specific
+filenames or retrain a model. Restart the notebook kernel and relaunch the builder
+to load the new Python catalog and modules.
+
+See [count-diagnostic definitions and equations](count_classification_diagnostics.md).

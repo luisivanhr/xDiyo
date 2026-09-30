@@ -15,7 +15,7 @@ The same estimator works inside a sklearn Pipeline; imputation/scaling of **X** 
 
 ## Model and parameters
 
-The initial implementation is a statsmodels NB2 generalized linear model with a log link:
+The model uses an NB2 distribution with a log link:
 
 \[
 \eta_i=\beta_0+x_i^\top\beta,
@@ -24,7 +24,7 @@ The initial implementation is a statsmodels NB2 generalized linear model with a 
 \qquad \operatorname{Var}(Y_i\mid x_i)=\mu_i+\kappa\mu_i^2.
 \]
 
-Here \(\kappa>0\) is `dispersion`, a **fixed, user-selected** value during each fit. It is not estimated automatically and is separate from the regularization strength `alpha`. You can compare dispersion values through the existing training-only model-selection grid. As dispersion tends to zero, the variance relation approaches Poisson's.
+Here \(\kappa>0\) is dispersion. It is **fixed by default**, or **estimated jointly with the coefficients** when `learn_dispersion=True`. It is separate from the regularization strength `alpha`. You can compare fixed values through the training-only model-selection grid. As dispersion tends to zero, the variance relation approaches Poisson's.
 
 For nonnegative integer \(y\), the NB2 mass function is
 
@@ -35,11 +35,12 @@ P(Y=y\mid\mu,\kappa)=
 \left(\frac{\kappa\mu}{1+\kappa\mu}\right)^y.
 \]
 
-The coefficients are fitted at the specified dispersion, with optional L1, L2 or Elastic Net regularization described below. This implementation does not add exposure/offset inputs, zero inflation, automatic dispersion estimation or full predictive-distribution outputs. The existing adapter exposes `predict` using the selected mean/mode output. Betting probabilities or predictive intervals are not inferred automatically from that output.
+The coefficients support optional L1, L2 or Elastic Net regularization described below. Exposure/offset inputs and zero inflation are not implemented. The adapter retains `predict` using the selected mean/mode output and `count_distribution` containing the fitted mean and dispersion. [BetOutcomeReporter](bet_outcomes.md) uses those parameters for exact tail probabilities, including when point predictions use the mode.
 
 | Parameter | Default | Meaning |
 |---|---:|---|
-| `dispersion` | 1.0 | Positive NB2 dispersion \(\kappa\). |
+| `dispersion` | 1.0 | Fixed positive NB2 dispersion, or starting value when learning it. |
+| `learn_dispersion` | False | Jointly estimate one dispersion per fitted model from its training rows. |
 | `prediction` | `"mean"` | Return the expected count or the most probable count (`"mode"`). |
 | `penalty` | `"none"` | `"none"`, `"l1"`, `"l2"` or `"elasticnet"`. |
 | `alpha` | 0.1 | Nonnegative penalty strength, ignored with `penalty="none"`. |
@@ -49,6 +50,57 @@ The coefficients are fitted at the specified dispersion, with optional L1, L2 or
 | `tol` | 1e-8 | Solver convergence tolerance. |
 
 The fitted estimator exposes `coef_`, `intercept_`, `dispersion_`, `prediction_`, `n_iter_`, `converged_`, `n_features_in_` and, for named DataFrames, `feature_names_in_`. A nonconverged fit emits sklearn's `ConvergenceWarning`; inspect the inputs or increase the iteration budget rather than assuming convergence. Its ordinary sklearn score is R²; choose an explicit metric such as MSE/MAE in model selection when that is the intended comparison. Save/load through the existing model helpers retains input preprocessing and the fitted output choice.
+
+## Learn dispersion
+
+In **Model & training → Estimator → Negative Binomial regression**, enable
+**Learn dispersion**. Leave it disabled to preserve fixed-dispersion behavior.
+The **Dispersion** field becomes the starting value. Save the recipe and restart
+the notebook kernel/relaunch the builder after updating the library.
+
+```python
+model = NegativeBinomialRegressor(
+    learn_dispersion=True, dispersion=0.5,
+    penalty="l2", alpha=0.1, max_iter=500,
+)
+model.fit(X_train, y_train)
+print(model.dispersion_)  # fitted value; model.dispersion remains 0.5
+```
+
+The joint fitting objective is
+
+\[
+\min_{\beta_0,\beta,\,\kappa>0}
+-\frac1n\sum_{i=1}^{n}\log P(Y_i=y_i\mid\mu_i,\kappa)
++\alpha\left[\rho\sum_j|\beta_j|+
+\frac{1-\rho}{2}\sum_j\beta_j^2\right].
+\]
+
+Neither the intercept nor dispersion is penalized. With no penalty or zero
+strength, this is maximum likelihood. Each fit learns a **single shared dispersion**,
+not a feature-dependent dispersion for each match. Inner folds, outer folds and
+final refits learn their own values using only the rows passed to their fit.
+Held-out outcomes never enter this estimate.
+
+The joint solver uses L-BFGS-B in coefficients and log dispersion. L1 terms use
+nonnegative positive/negative slope parts, preserving exact zeros instead of
+approximating the absolute-value penalty. For numerical stability, learned
+dispersion is bounded to \([10^{-6},10^6]\); starting values outside this interval
+are clipped. These numerical bounds do not restrict fixed-dispersion fits.
+The lower boundary approximates a Poisson fit and can occur for data with little
+extra count variability. Boundary estimates and convergence remain inspectable.
+
+`dispersion_estimated_` records whether learning was enabled, and
+`dispersion_at_boundary_` records a numerical-boundary solution. The training
+summary retains both flags and `dispersion_`. Mean/mode predictions, retained
+distributions and saved-model betting probabilities all use the fitted value.
+Constructor parameters remain unchanged, preserving sklearn cloning and grids.
+
+When learning dispersion, search regularization parameters rather than treating
+different dispersion starting values as different fixed assumptions. Estimated
+dispersion describes conditional outcome uncertainty; learning it does not force
+the point predictions to have the same spread as observed counts. Joint optimization
+can cost more than a fixed-dispersion fit and can converge to a local solution.
 
 ## Mean or mode predictions
 
@@ -87,7 +139,7 @@ Let \(\ell_i(\beta_0,\beta;\kappa)\) be observation \(i\)'s NB2 log likelihood. 
 
 The intercept \(\beta_0\) is **not penalized**. For `l1`, \(\rho=1\); for `l2`, \(\rho=0\); for `elasticnet`, \(\rho=\texttt{l1\_ratio}\). L1 can set slopes exactly to zero; L2 shrinks slopes without selecting exact zeros in general. `dispersion` controls the conditional variance and likelihood, whereas `alpha` controls coefficient shrinkage: these parameters serve different purposes and can be searched independently.
 
-L1 and mixed Elastic Net use statsmodels' regularized GLM coordinate solver. Pure L2, including Elastic Net with zero L1 share, uses scipy BFGS on the same average negative log likelihood plus quadratic penalty, with the analytic gradient. The unpenalized path retains the original GLM solver. `max_iter` and `tol` apply to the selected solver. Regularized fits are not followed by an unpenalized refit on selected features. For the native L1/mixed solver, `n_iter_` is `None` because its result does not expose an iteration count; no count is fabricated.
+With fixed dispersion, L1 and mixed Elastic Net use statsmodels' regularized GLM coordinate solver. Pure L2, including Elastic Net with zero L1 share, uses scipy BFGS on the same average negative log likelihood plus quadratic penalty, with the analytic gradient. The unpenalized fixed path retains the original GLM solver. Learned dispersion uses the joint solver described above for all penalties. `max_iter` and `tol` apply to the selected solver. Regularized fits are not followed by an unpenalized refit on selected features. For the native fixed-dispersion L1/mixed solver, `n_iter_` is `None` because its result does not expose an iteration count; no count is fabricated.
 
 Example for a future fit:
 
@@ -117,6 +169,14 @@ If inputs were standardized, that unit refers to a fitted input standard deviati
 
 ## Dependencies and verification
 
+The learned-dispersion extension passed **321 tests, with 3 optional Array API
+environment skips**, across the learned/fixed NB, mode, penalties, betting and UI
+suites. Numerical checks compare against independent statsmodels discrete NB2
+MLE and likelihood/subgradient calculations. They also verify unchanged fits when
+outer test outcomes change, sklearn cloning/search/checks, saved-model parity and
+native betting parameters. The browser's Learn dispersion checkbox produced a
+valid synthetic run and retained the fitted value, without console errors.
+
 The training extra declares sklearn 1.6 or newer and statsmodels 0.14.5 or newer, within the package's upper bounds. Current verification uses sklearn 1.9.0 and statsmodels 0.14.5; the minimum-version boundary was not independently installed/tested in this session.
 
 Focused tests compare coefficients and predictions with independently constructed statsmodels GLMs for multiple dispersion/intercept settings, check cloning/parameter search and input validation, and exercise an actual synthetic UI recipe, coefficient report and saved-model prediction. Public sklearn estimator checks are maintained alongside these mathematical checks. No production football run or notebook is retrained by this verification.
@@ -124,6 +184,9 @@ Focused tests compare coefficients and predictions with independently constructe
 On 19 September 2026, the new estimator plus affected target-scaling and model-diagnostic suites passed **100 tests in 4.48 seconds**, with one standard sklearn array-API skip because `SCIPY_ARRAY_API` was unset. A separate public `check_estimator` call reported **51 passed / 1 skipped**, without expected-failure overrides. One upstream sklearn/pytest generator-parametrization deprecation warning remains; it is unrelated to model numerics. Numerical checks also confirm that the wrapper preserves native solver nonconvergence status and reports it explicitly.
 
 Reference: [statsmodels NB2 family documentation](https://www.statsmodels.org/stable/generated/statsmodels.genmod.families.family.NegativeBinomial.html).
+
+Independent learned-dispersion likelihood reference:
+[statsmodels discrete NB2 model](https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.NegativeBinomial.html).
 
 Browser verification also selected the model from the Estimator dropdown, changed dispersion to 0.2, explicitly removed a previously enabled target scaler through Use raw count labels, and completed a synthetic 16-training/7-test match run. Saved predictions were finite expected corner counts (6.479–8.141), with the selected dispersion and raw-target setting retained in the run configuration. The browser console had no errors or warnings.
 

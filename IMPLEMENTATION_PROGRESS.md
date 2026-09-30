@@ -1,5 +1,252 @@
 # Football analytics implementation progress
 
+## Heatmap-only venue selector — 30 September 2026
+
+UI inventory limits venue selection to sources containing Heatmap, including
+nested wrappers. Source switching redraws controls and clears the venue override
+for nonspatial sources. Python API behavior is unchanged. Browser checks passed
+for ordinary statistics, heatmaps, nested RegionMass and switching back to Stat.
+
+
+## Heatmap preview history correction — 29 September 2026
+
+The preview had filtered to 24 Chelsea/Manchester City fixtures before feature
+evaluation, leaving some opponents without prior matches. For Sunderland versus
+Chelsea, Sunderland had zero eligible sample-history matches while the full season
+supplied five. Regenerated the preview by evaluating the full 380-match season
+first, then selecting display rows. All 24 fixtures now have both panels available
+across all six spatial views. Removed match IDs from fixture selector labels while
+retaining internal identities. Documented the evaluation-before-display-filter rule.
+
+Verification: 62 spatial tests passed. Live and offline browser checks passed,
+including switching fixtures, both rendered panels, badges and desktop/mobile
+screenshots; no browser errors. The defect was in preview preparation, not retrieval.
+
+## Fixture heatmaps, venue history and regional summaries — 29 September 2026
+
+Replaced team-aggregated heatmap views with fold/fixture/feature selection and two
+exact prepared Home/Away panels, names and badges. Spatial metadata supports
+grid, region and scalar discovery through evaluation and dataset assembly.
+Added RegionMass for own/opponent half, documented fractional cell integration,
+missingness and mass/count/density units. Future difference/presence/CNN operators
+remain proposals. Existing historical operators now accept all/same venue.
+
+Applied the user-confirmed 180-degree convention: historical observations are
+reduced in the focal frame before final away-row rotation into a shared pitch.
+Against maps rotate into the focal frame first. Home/team orientation is explicit.
+All controls and discovery are available in the builder inventory.
+
+Builder and local notebook spatial reports fetch selected numerical pairs on
+demand. Two reusable plots and a bounded recent-pair cache replace all-match plot
+creation; hidden views release plots/cache. Offline HTML embeds included values;
+automatic saved previews cap at 100 fixtures per scope while full recovery data
+is retained. A local report service has explicit close methods and token checks.
+
+Verification: 366 affected tests passed, including orientation, venue/cutoff,
+regional equations, metadata, missing maps, lazy transport, recovery and reuse
+without refitting. Browser checks passed in the builder's sandboxed iframe and
+local notebook service, with responsive desktop/mobile inspection and no browser
+errors. Updated the bounded real-data preview and full API/UI documentation.
+
+## Heatmap orientation documentation — 29 September 2026
+
+Historical entry, superseded by the implemented fixture redesign above.
+
+Recorded the user-observed goalkeeper-left convention and its evidence boundary.
+Documented that for/against maps retain each represented team's own coordinate
+frame, Home/Away does not flip it, and a shared-pitch overlay requires explicit
+reorientation. Updated the working notes and heatmap guide; numerical behavior
+is unchanged.
+
+## Heatmap features and pre-training views — 29 September 2026
+
+Implemented Heatmap grid pooling and Gaussian smoothing, with count/mass/density
+normalization, point-kind/weight choices and missing-map preservation. Lag,
+rolling and EMA operators reuse existing past-only eligibility and stable-ID
+joins. HeatmapReporter displays actual historical feature grids with team names,
+Home/Away roles, local badges, shared scales and downloadable cells/coverage.
+Against maps identify historical opponents faced by the focal team.
+
+Added maintained UI inventory controls, map discovery, automatic heatmap table
+loading and badge-catalog wiring. Documented formulas, API, UI and limitations
+in `docs/analytics/heatmaps.md`. A bounded 24-fixture real-data preview is saved
+as `docs/analytics/heatmap_preview.html`; no predictive model was fitted.
+
+Verification: 191 affected tests pass (31 new heatmap cases), plus desktop/mobile
+browser checks for conditional Gaussian controls, map discovery, badge display,
+team selection and offline rendering. The three reporter tests were rerun after
+the title-wrap presentation adjustment. No source exports were modified.
+
+## Defense includes duels — 29 September 2026
+
+Added Duels/duelWonPercent, Duels/groundDuelsPercentage and
+Duels/aerialDuelsPercentage to the shared defense category. All, totals and
+both half-period defense bundles inherit the same membership through select_stats,
+including builder recipes. Updated the statistic-selection documentation.
+
+## Hierarchical feature inventory and notebook/UI parity — 28 September 2026
+
+Created grouped Markdown/JSON inventories under `docs/analytics/feature_inventory`.
+The latest completed run `ca713acf-d775-4d77-8a17-87afc61d8a39` fitted 2,145 of
+2,681 prepared columns, selected by Spearman at 0.8. The saved notebook's current
+configuration uses the same ordered prepared schema but disables selection and
+has a different 54-candidate grid. These are reported separately; original saved
+models, predictions and notebook outputs were not changed.
+
+Promoted the feature generator to `FeatureBankPreset`; notebook helpers delegate
+to the same API. Added public RestDays/calendar context and hierarchical inventory
+helpers. Builder controls now support the preset, development-only availability
+discovery, post-assembly arithmetic, frozen training-category identity indicators,
+numeric dtype/infinity policy, direct rating warm-start pairing, and fitted-reporter
+parameters in grids. First-use derived-column discovery handles unfinished expressions.
+
+Added CountClassificationReporter, native FeatureImportanceReporter, timeline plot
+limits, optional exact-count boosting validation, and ArtifactExport for CSV/model
+exports with optional prediction reload checks. Post-export settings do not alter
+fit identity. Training-majority diagnostics use actual fit rows after calibration
+and validation reservation, and remain unavailable for older runs missing metadata.
+
+An importable recipe and settings guide reproduce the current notebook controls.
+Focused checks establish exact helper/UI feature values, order, dtype, label,
+metadata and split parity on synthetic data; saved-model prediction preserves
+the frozen schema for unseen leagues and future fixtures. Rendered Chromium UI
+checks cover preset fields, warm ratings, derived-column discovery, reporter
+choices, class-weight power grids and exports, with no page errors. No real-data
+grid search or production model refit was run.
+
+Verification: 183 affected tests passed (including 19 new preparation/export/
+exact-count cases); separate focused feature and reporter suites also passed.
+A final 27-test preparation/reporting run includes a complete synthetic XGBoost
+experiment with all new reporters and exports, model reload equality, leaderboard
+integration, and reporter changes with fitting explicitly forbidden.
+
+## Fit-local classifier weighting — 28 September 2026
+
+Added `ClassWeightReporter`, reusable `ClassWeightPolicy`, and explicit
+`Candidate.weights_from`. None/balanced/power/custom/registered-callable modes
+produce mean-one observation weights on each actual fit's rows after calibration
+and validation reservation. Inner search and final refit recompute independently;
+retained fitted reports include identity-aligned weights and class summaries.
+Sklearn pipelines, boosted classifiers and incremental classifiers route weights
+with explicit unsupported/double-weighting errors. The builder exposes conditional
+controls and discovered class/reporter choices; recipes and saved-run identity
+retain settings. Documentation: `docs/analytics/class_weighting.md`.
+
+Verification: 33 focused weighting tests and the additional affected regression
+suite passed (227 tests total in that run). Rendered builder checks exercised
+conditional modes, discovered custom class choices, source selection, recipe
+export and a synthetic classifier fit with retained probabilities. Also fixed a
+fold-worker closure capturing the parent-only observer; real parallel folds pass.
+
+
+## Optional learned Negative Binomial dispersion — 28 September 2026
+
+Added `learn_dispersion=False` to NegativeBinomialRegressor and the builder's model
+controls. Opting in jointly fits the mean coefficients and one log dispersion on
+training rows; the existing dispersion parameter becomes its starting value.
+Supports none/L1/L2/Elastic Net with no penalty on intercept or dispersion. Fixed
+fits retain the original solver paths. Fitted values and estimated/boundary flags
+are retained in model summaries, persistence and native betting distributions.
+
+Documented joint likelihood, numerical dispersion bounds, mode/mean behavior,
+starting values, training-only scope and UI instructions. Verification: **321
+passed, 3 skipped** across affected suites, including independent statsmodels NB2
+MLE and likelihood-gradient tests, sklearn common checks, grid/clone/reset,
+penalties, UI recipes, held-out target perturbation and saved-model parity.
+Skips need the optional SciPy Array API environment. A rendered Playwright check
+verified the checkbox, saved recipe and learned native distribution on synthetic
+data, without browser errors. No production experiment was retrained.
+
+## Probability-driven bet outcomes and UI integration — 28 September 2026
+
+Added `BetOffer`, `TightestLine`, `HighestExpectedProfit`, `prepare_bets` and
+`BetOutcomeReporter`. Exact discrete masses and native NB tails feed selection;
+outcomes are consulted only afterward for settlement. Classifier recipes retain
+probabilities automatically. EstimatorAdapter retains NB mean/dispersion even for
+mode predictions. Class-level CalibrationReporter is unchanged.
+
+The builder exposes offers, policy-specific thresholds and upstream output choices.
+An earlier BetOutcomeReporter can supply BetPerformanceReporter's exact ledger at
+matching scope/partition/pooling. The shared fixture viewer supplies names/badges,
+filters, win/loss shading, optional odds/profit and expandable alternative decisions.
+Documented the explicit requirement that future pipeline upgrades include UI support.
+
+Verification: 336 distinct passing tests across affected suites and focused cases;
+one environment-dependent sklearn contract test skipped. Playwright synthetic UI
+flow passed policy switching, option creation, source selection, classifier execution,
+saved-run/model reuse after a threshold change, report filters, embedded badges and
+expandable alternatives at desktop/compact widths, with no browser runtime errors.
+NB mean pooling mixes original fold probabilities, respecting score-row membership,
+instead of evaluating a distribution with averaged parameters.
+
+## Optional probability calibration and discrete bet probabilities — 28 September 2026
+
+`ProbabilityCalibrator` supports temperature, sigmoid and isotonic transformations
+of class-probability DataFrames, with reusable fit/transform for caller-supplied
+held-out/OOF predictions. Candidate/TrainingRunner/refit integration reserves a
+dedicated chronological calibration tail before fitting or early-stopping validation;
+consumed feature selection excludes those rows. Each inner/outer/refit fit gets
+fresh calibration state. CalibratedAdapter retains raw and calibrated distributions
+and optionally updates point labels by calibrated argmax. Fitted persistence includes
+the calibrator; fold/refit calibration positions and summaries retain provenance.
+The UI discovers the optional candidate calibration component and its fields.
+
+`bet_probabilities` sums complete discrete distributions according to BetOption;
+Under 7.5 includes exactly 0–7 and Over 7.5 exactly 8+. Integer equality follows
+push/loss configuration. `negative_binomial_bet_probabilities` uses full NB2 CDF,
+SF and PMF with a Poisson limit, without support truncation or midpoint interpolation.
+The first calibrator covers class probabilities, not parametric NB recalibration.
+The proposed bet-selection policies and BetOutcomeReporter remain a later step.
+
+The [guide](docs/analytics/probability_calibration.md) documents all APIs, UI controls,
+held-out scopes, persistence, limitations and LaTeX equations. **329 tests passed in
+31.16 seconds**, including 66 new calibration/probability cases. They verify numerical
+references, disjoint populations, test-label isolation, nested position mapping,
+fitted persistence, UI enablement/reuse and exact discrete/NB boundaries. No real-data
+grid or GPU run was performed.
+
+## Report-independent reuse and restored fitted models — 28 September 2026
+
+Post-training reporters and their UI recipe view options no longer identify a fit.
+Matching runs restore models/scalers and rerun post-analysis without fitting or
+predicting. Refreshed reports/metrics publish under the same run ID and leaderboard
+entry, preserving original training/prediction artifacts and earlier report snapshots.
+Pre-training analysis, feature selection and selection evidence remain in fit identity.
+Presentation-only source modules no longer invalidate numerical fits.
+
+Final evaluation fold models and deployment refits are now saved by default using
+the existing model persistence contract. Python supports custom serializers and
+data-only opt-outs. Old numerical-only runs remain readable but cannot recover model
+state never retained. New identity rules do not automatically match legacy keys.
+UI inventory explains Reuse and Save models; saved reports are accessible through
+Run & results. **183 affected experiment/recovery/persistence/UI/scaling tests
+passed in 42.63 seconds**; nine strengthened regression cases also passed separately.
+Checks prohibit fitting/prediction during report refresh, compare restored fold/refit
+predictions and scalers, verify coefficient reports/local adapter restoration,
+pre-analysis invalidation, post-recipe reuse, and failed-render manifest preservation.
+No full real-data grid or CUDA run was performed.
+
+BetOutcomeReporter design: Home, Away, Selected bet, Probability/score, Actual
+result, optional Odds and Net profit; team badges; green win/red loss rows and
+neutral push/void/unresolved rows. This reporter remains planned, not implemented
+by the reuse/model-persistence change.
+
+## Public arithmetic and identity feature helpers — 27 September 2026
+
+The notebook helper now uses library Column/Sum/Difference/combine_features for
+its existing paired summaries and trends, and fits IdentityIndicators on outer
+training metadata for league columns. Existing names/order/formulas are preserved;
+no team dummy columns or ratios were added to the experiment automatically.
+Dataset definitions and run configuration retain derived expressions and fitted
+category schemas. Notebook files, user configuration and outputs were untouched.
+
+The affected feature/identity, notebook, keyed-history and warm-up suites passed
+**103 tests in 9.24 seconds**. A separate synthetic notebook Run All passed in
+**6.47 seconds**, with independent parity against the previous direct pandas
+formulas before float32 conversion, plus reports and model reload. Library docs
+include LaTeX equations, temporal vs assembled-column boundaries, ratio missing
+semantics and explicit train-only indicator fitting. No full real grid was run.
+
 ## GitHub publication scope — 25 September 2026
 
 The installable package declares the analytics modules and UI. Collection modules and the collection CLI remain local for this publication. The GitHub dataset includes top-level season Parquet files, manifests, and relational `_tables/` versions. The `_collection/` directory stays local. Historical entries below describe the local combined environment at the time they were written.

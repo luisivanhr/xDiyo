@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .match_view import MATCH_CSS, MATCH_JS, render_match_results
+from .spatial_view import CSS as SPATIAL_CSS, JS as SPATIAL_JS, render_spatial
 
 
 def _e(value):
@@ -78,6 +79,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere}.notes{font-size:13px}footer{col
 
 JS = r"""
 function visiblePlots(){
+  document.querySelectorAll('.spatial-view').forEach(el=>{if(!el.closest('details:not([open]), [hidden]')&&el.getClientRects().length)initializeSpatial(el);else if(el.spatialDispose)el.spatialDispose();});
   document.querySelectorAll('.plot[data-spec]').forEach(el=>{
     if(el.closest('details:not([open]), [hidden]'))return;
     if(!el.getClientRects().length)return;
@@ -134,7 +136,7 @@ requestAnimationFrame(visiblePlots);
 """
 
 
-def render_report(report, *, path=None, renderers=None):
+def render_report(report, *, path=None, renderers=None, spatial_transport=None, spatial_limit=None):
     """Render already calculated results without executing reporter code.
 
     Plotly's JS is embedded once when required; the document needs no server or
@@ -151,6 +153,9 @@ def render_report(report, *, path=None, renderers=None):
 
     def artifact_html(artifact):
         nonlocal has_plots, plot_number
+        if artifact.kind == 'spatial':
+            has_plots = True
+            return render_spatial(artifact.data, transport=spatial_transport, limit=spatial_limit)
         if artifact.kind in renderers:
             return str(renderers[artifact.kind](artifact))
         if artifact.kind == "text":
@@ -224,7 +229,7 @@ def render_report(report, *, path=None, renderers=None):
     empty = '<div class="empty">No reporters selected. Add studies when you need them.</div>' if not groups else ''
     html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}</style>{plotly_script}</head><body>
+<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}{SPATIAL_CSS}</style>{plotly_script}</head><body>
 <aside><div class="eyebrow">xDiyo analytics</div><div class="brand">Study explorer</div>
 <label for="study-search" class="muted">Find a study</label><input id="study-search" type="search" placeholder="Filter studies…">
 <nav aria-label="Study navigation">{''.join(navigation)}</nav></aside>
@@ -232,7 +237,7 @@ def render_report(report, *, path=None, renderers=None):
 <p class="muted">{len(groups)} selected studies · {len(report.studies)} computed views · explicit row scopes</p>
 <div class="toolbar"><button type="button" data-expand="true">Expand studies</button><button type="button" data-expand="false">Collapse studies</button></div></header>
 {empty}{''.join(sections)}<footer>Computed once. Fold and entity selection changes the view without recalculating studies. Figure toolbar exports SVG; data panels download CSV.</footer></main>
-<script>{JS}{MATCH_JS}</script></body></html>'''
+<script>{SPATIAL_JS}{JS}{MATCH_JS}</script></body></html>'''
     if path is not None:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)

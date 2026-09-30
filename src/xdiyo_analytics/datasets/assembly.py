@@ -185,9 +185,15 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
         match_index = pd.MultiIndex.from_frame(meta[list(match_keys)])
         keep = ~match_index.isin(match_index[missing_y.to_numpy()])
         X, y, meta = [frame.loc[keep].reset_index(drop=True) for frame in (X, y, meta)]
+    spatial = {}
+    for name, spec in features.attrs.get('spatial_features', {}).items():
+        for side in (('home', 'away') if layout == 'match' else (None,)):
+            prefix = f'{side}::' if side else ''
+            spatial[prefix+name] = {**deepcopy(spec), 'columns':[prefix+c for c in spec['columns']],
+                                  'fixture_side':side, 'family':name}
     return ModelDataset(
         X=X, y=y, metadata=meta, layout=layout, identity_columns=identities,
         match_columns=match_keys, target_perspective=label.perspective,
         definitions={"features": deepcopy(features.attrs.get("features", {})),
-                     "label": deepcopy(label.definition)},
+                     "label": deepcopy(label.definition), "spatial_features":spatial},
     )

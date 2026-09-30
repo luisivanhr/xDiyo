@@ -32,6 +32,7 @@ class PartialFitBackend:
     preprocessor: object = None
     partial_fit_kwargs: object = None
     prediction_methods: tuple = ("predict",)
+    supports_sample_weight = True
 
     def _transform(self, X, *, fit=False, y=None):
         if self.preprocessor is None:
@@ -62,6 +63,11 @@ class PartialFitBackend:
         self.validation_ = (None if context.validation is None else
                             replace(context.validation, X=self._transform(context.validation.X)))
         self.kwargs_ = dict(self.partial_fit_kwargs or {})
+        if context.sample_weight is not None:
+            from ..weighting import estimator_weight_kwargs
+            if "sample_weight" in self.kwargs_:
+                raise ValueError("Choose common class weights or partial_fit sample_weight, not both.")
+            self.kwargs_.update(estimator_weight_kwargs(self.estimator, context, method="partial_fit", pipeline=False))
         if is_classifier(self.estimator):
             self.kwargs_.setdefault("classes", np.unique(context.y.iloc[:, 0].to_numpy()))
         self.request_ = Metric(self.loss) if isinstance(self.loss, str) else self.loss

@@ -10,13 +10,15 @@ from sklearn.utils.validation import check_is_fitted, validate_data
 
 
 class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
-    """NB2 GLM with a log link and fixed, tunable dispersion.
+    """NB2 regression with a log link and fixed or learned dispersion.
 
     By default predicts the conditional mean, exp(intercept + X @ coef), in
     count units. prediction='mode' returns the distribution's modal count;
     predict_mean always returns the mean and fitted coefficients remain log means.
     The conditional variance is mean + dispersion * mean**2. Dispersion is
-    supplied by the caller, not estimated automatically. Dense finite inputs
+    fixed by default. learn_dispersion=True jointly estimates it and the mean
+    coefficients on training rows; dispersion then supplies its initial value.
+    One dispersion is learned per fit, not one per observation. Dense finite inputs
     and one nonnegative numeric target are supported; keep labels unscaled.
     Optional L1/L2/Elastic Net penalties shrink slopes, never the intercept.
     alpha is penalty strength; dispersion controls the NB2 variance separately.
@@ -25,7 +27,7 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
     requires_untransformed_target = True
 
     def __init__(self, *, dispersion=1.0, fit_intercept=True, max_iter=100, tol=1e-8,
-                 penalty='none', alpha=0.1, l1_ratio=0.5, prediction='mean'):
+                 penalty='none', alpha=0.1, l1_ratio=0.5, prediction='mean', learn_dispersion=False):
         self.dispersion = dispersion
         self.fit_intercept = fit_intercept
         self.max_iter = max_iter
@@ -34,6 +36,7 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
         self.alpha = alpha
         self.l1_ratio = l1_ratio
         self.prediction = prediction
+        self.learn_dispersion = learn_dispersion
 
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
@@ -43,7 +46,7 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
         return tags
 
     def fit(self, X, y):
-        """Fit an ordinary or penalized NB2 likelihood with fixed dispersion."""
+        """Fit the NB2 likelihood; optionally estimate its dispersion jointly."""
         from statsmodels.genmod.generalized_linear_model import GLM
         from statsmodels.genmod.families import NegativeBinomial
 
@@ -55,6 +58,8 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
             raise ValueError('max_iter must be a positive integer.')
         if not isinstance(self.fit_intercept, (bool, np.bool_)):
             raise ValueError('fit_intercept must be a boolean.')
+        if not isinstance(self.learn_dispersion, (bool, np.bool_)):
+            raise ValueError('learn_dispersion must be a boolean.')
         if self.penalty not in ('none', 'l1', 'l2', 'elasticnet'):
             raise ValueError('penalty must be none, l1, l2 or elasticnet.')
         if self.prediction not in ('mean', 'mode'):
@@ -72,18 +77,25 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
         if not np.any(y > 0):
             raise ValueError('An all-zero target has no finite log-link intercept estimate.')
         design = np.column_stack((np.ones(len(X)), X)) if self.fit_intercept else X
-        model = GLM(y, design, family=NegativeBinomial(alpha=self.dispersion))
-        if self.penalty == 'none' or self.alpha == 0:
-            result = model.fit(maxiter=self.max_iter, tol=self.tol)
-            params = np.asarray(result.params)
-            iterations, converged = int(result.fit_history['iteration']), bool(result.converged)
+        fitted_dispersion = float(self.dispersion)
+        if self.learn_dispersion:
+            params, fitted_dispersion, iterations, converged = self._fit_joint(design, y)
         else:
-            params, iterations, converged = self._fit_penalized(model, design.shape[1])
+            model = GLM(y, design, family=NegativeBinomial(alpha=self.dispersion))
+            if self.penalty == 'none' or self.alpha == 0:
+                result = model.fit(maxiter=self.max_iter, tol=self.tol)
+                params = np.asarray(result.params)
+                iterations, converged = int(result.fit_history['iteration']), bool(result.converged)
+            else:
+                params, iterations, converged = self._fit_penalized(model, design.shape[1])
         if not np.isfinite(params).all():
             raise ValueError('Negative Binomial fitting produced non-finite coefficients.')
         self.coef_ = params[1:].copy() if self.fit_intercept else params.copy()
         self.intercept_ = float(params[0]) if self.fit_intercept else 0.0
-        self.dispersion_ = float(self.dispersion)
+        self.dispersion_ = fitted_dispersion
+        self.dispersion_estimated_ = bool(self.learn_dispersion)
+        self.dispersion_at_boundary_ = bool(self.learn_dispersion and
+            (fitted_dispersion <= 1e-6*(1+1e-5) or fitted_dispersion >= 1e6/(1+1e-5)))
         self.n_iter_ = iterations
         self.converged_ = converged
         self.coefficient_units_ = 'log_mean'
@@ -92,6 +104,58 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
             warnings.warn('Negative Binomial regression did not converge; increase max_iter or inspect the predictors.',
                           ConvergenceWarning, stacklevel=2)
         return self
+
+    def _fit_joint(self, design, y):
+        """Joint likelihood in beta/log-dispersion; penalize only the slopes.
+
+        Positive/negative slope parts implement exact L1 (not a smoothed proxy).
+        Log dispersion is bounded to [log(1e-6), log(1e6)] for numerical stability;
+        the lower endpoint approximates Poisson and is recorded in fitted state.
+        """
+        from scipy.optimize import minimize
+        from scipy.special import gammaln, digamma, expit
+
+        width, offset = design.shape[1], int(self.fit_intercept)
+        strength = self.alpha if self.penalty != 'none' else 0.0
+        ratio = {'l1':1.0, 'l2':0.0, 'none':0.0}.get(self.penalty, self.l1_ratio)
+        split = strength > 0 and ratio > 0
+        slopes = width-offset
+        start = np.zeros(width + (slopes if split else 0) + 1)
+        if self.fit_intercept:
+            start[0] = np.log(y.mean())
+        bounds = [(None, None)]*offset + ([(0, None)]*(2*slopes) if split else [(None, None)]*slopes)
+        bounds.append((np.log(1e-6), np.log(1e6)))
+        start[-1] = np.clip(np.log(self.dispersion), *bounds[-1])
+        def unpack(theta):
+            beta = theta[:width].copy()
+            if split:
+                beta[offset:] -= theta[width:-1]
+            return beta
+
+        def objective(theta):
+            beta = unpack(theta)
+            eta = design @ beta
+            log_a = theta[-1]
+            r = np.exp(-log_a)
+            log_denom = np.logaddexp(0, eta + log_a)
+            ll = gammaln(y+r)-gammaln(r)-gammaln(y+1) + y*(eta+log_a) - (y+r)*log_denom
+            score_eta = y-(y+r)*expit(eta+log_a)
+            score_log_a = r*(digamma(r)-digamma(y+r)+log_denom) + score_eta
+            value = -ll.mean() + strength*(1-ratio)*np.dot(beta[offset:], beta[offset:])/2
+            gradient = -(design.T @ score_eta)/len(y)
+            gradient[offset:] += strength*(1-ratio)*beta[offset:]
+            if split:
+                value += strength*ratio*(theta[offset:width].sum()+theta[width:-1].sum())
+                gradient = np.r_[gradient[:offset], gradient[offset:]+strength*ratio,
+                                 -gradient[offset:]+strength*ratio]
+            return value, np.r_[gradient, -score_log_a.mean()]
+
+        result = minimize(objective, start, jac=True, method='L-BFGS-B', bounds=bounds,
+                          options={'maxiter':self.max_iter, 'gtol':self.tol,
+                                   'ftol':min(self.tol, 1e-6)**2, 'maxls':50})
+        if not np.isfinite(result.fun) or not np.isfinite(result.x).all():
+            raise ValueError('Joint Negative Binomial fitting produced a non-finite solution.')
+        return unpack(result.x), float(np.exp(result.x[-1])), int(result.nit), bool(result.success)
 
     def _fit_penalized(self, model, width):
         """Minimize average negative log likelihood plus a slope-only penalty."""

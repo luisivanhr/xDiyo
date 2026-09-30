@@ -1,6 +1,111 @@
 # Football analytics working notes
 
+**Terminology:** Use **Rolling mean** throughout the UI, reports and documentation
+for both ordinary statistics and heatmaps. The shared Python API is `RollingMean`.
+
+**Preview history correction, 29 September 2026:** Always compute historical
+features before restricting fixtures for display. The initial 24-fixture preview
+accidentally excluded opponents' earlier matches; it now uses the full season for
+history and filters only the rendered rows. All 24 fixtures have both panels across
+the six displayed spatial features. Match IDs are hidden from selector labels.
+
+**Fixture heatmap redesign, 29 September 2026:** The user externally checked the
+source convention and requested a full 180-degree rotation into a shared pitch.
+Home's goal is left and Away's goal right. Historical against maps first rotate
+into the focal team's frame; historical computations happen there, then final
+away-row grids rotate both axes. `orientation="team"` retains the focal frame.
+This supersedes the earlier unrotated implementation. No half-period direction
+is inferred. See `docs/analytics/heatmaps.md` for the four-way orientation table.
+
+Historical operators now select all or same venue. RegionMass integrates own or
+opponent half, with fractional odd-grid boundary cells and preserved missingness.
+The reporter discovers grid/region/scalar outputs through metadata, then displays
+the exact two prepared feature rows for a selected fixture, names and badges.
+Live builder and local notebook reports retrieve a selected pair on demand with
+a bounded cache and reusable plots. Saved HTML previews cap spatial fixtures at
+100 per scope; full retained numerical artifacts remain recoverable. Explicit
+offline exports may include every retained fixture. ConcentrationDiff,
+WeightedPresence and CNN embeddings remain future operators. Verification:
+366 affected tests and browser checks passed, including restoration without fit.
+
+**Heatmaps implemented, 29 September 2026:** Spatial features support direct grid
+pooling or the referenced 100-cell Gaussian smoothing approach (sigma 2.6,
+reflected boundaries), optionally pooled into a coarser output grid. Historical
+operators remain responsible for eligibility; missing maps stay missing.
+The initial pre-training HeatmapReporter used actual feature grids and displayed
+team names, Home/Away roles and embedded badges. Its team grouping and unrotated
+coordinates are superseded by the fixture redesign above. Against still means
+opponents historically faced by that team. No half-period split is inferred. UI controls,
+data loading and map discovery are connected. Formulas and complete usage are
+documented in `docs/analytics/heatmaps.md`.
+
+**29 September 2026:** By user choice, the defense statistic category includes
+duels won, ground duels won and aerial duels won percentages (Duels group).
+All defense period bundles use this shared membership.
+
 ## Purpose and sources
+
+**Notebook 20 → UI parity audit (28 September 2026):** Current notebook settings
+were checked against the actual helpers and builder by the notebook agent.
+The section-by-section configuration and source-backed gap checklist are saved
+in `docs/analytics/xgboost_classifier_ui_mapping.md`.
+Implementation follow-up: these items are now implemented in the public library
+and builder. No production experiment was fitted during this work:
+
+- [x] Expose the notebook feature bank as a maintained preset with its statistic
+  availability rules, original feature order and warm/unwarmed variants.
+- [x] Add post-assembly feature composition controls for home/away sums,
+  differences and short-versus-long trends; public arithmetic APIs already exist.
+- [x] Promote eligible-history rest days and calendar fields into reusable
+  features and expose them through the catalog.
+- [x] Connect train-fitted league identity indicators to preparation and UI;
+  the public IdentityIndicators API exists. Notebook 20 currently has no team dummies.
+- [x] Extend UI grid search beyond estimator parameters to fitted reporter
+  parameters, particularly ClassWeightReporter.power.
+- [x] Broaden WarmStart editor source/policy choices for direct Glicko transition
+  wrappers; separate named transitioned rating streams provide a numerical workaround.
+- [x] Expose notebook-only diagnostics as reusable studies where missing:
+  gain importance, per-league summaries, majority baseline comparison and the
+  additional probability/within-tolerance summaries and exports.
+
+Current configuration: all available leagues, 20_21 through 24_25, final season
+holdout, three expanding chronological inner folds, 54 grid candidates, selector
+disabled, no scaler/calibration/early stopping/final refit, CPU with four estimator
+threads, numeric match-report tolerance 2. Displayed notebook results predate the
+current feature bank and must not be presented as results from this configuration.
+
+
+**Classifier balancing (28 September 2026):** Optional `ClassWeightReporter` in
+fitted preparation plus `Candidate.weights_from` supplies per-fit normalized
+observation weights. Frequencies exclude early-stopping, calibration and test
+rows, including inner CV and final refit. Overall reports are descriptive unless
+their row population exactly matches the fit. Classifier adapters route weights;
+native class balancing cannot silently multiply them. Conditional UI modes and
+custom callback registration are documented in `docs/analytics/class_weighting.md`.
+
+
+**Learned Negative Binomial dispersion (28 September 2026):** `learn_dispersion`
+is an opt-in estimator/UI boolean. Fixed behavior remains the default. Joint
+training likelihood learns coefficients and one log dispersion, with slope-only
+L1/L2/Elastic Net penalties. `dispersion` supplies the starting value;
+`dispersion_` supplies all subsequent mean/mode distributions and betting tails.
+Training summaries record estimated/boundary flags. See `docs/analytics/negative_binomial.md`.
+
+**UI compatibility requirement (28 September 2026):** every incremental pipeline
+addition must be usable from the experiment builder as well as Python. Keep the
+structured inventory, explanatory/conditional controls, recipe export and runtime
+construction aligned. Verify a representative UI flow. BetOutcomeReporter now
+consumes retained calibrated/raw class probabilities or NB mean/dispersion, applies
+TightestLine/HighestExpectedProfit, and shares its ledger with BetPerformanceReporter.
+CalibrationReporter remains class-level. See `docs/analytics/bet_outcomes.md`.
+
+**Probability calibration (28 September 2026):** an optional candidate-level
+ProbabilityCalibrator reserves a dedicated chronological slice within each training
+fold. Base fitting, feature selection/scaling, early stopping, calibration and outer
+test populations remain distinct. Temperature/sigmoid/isotonic produce reusable class
+probabilities and are saved with the fitted model. Bet-probability helpers sum exact
+count classes: Under 7.5 is at most 7; Over 7.5 is at least 8, with no interpolation.
+See the [implementation guide and equations](docs/analytics/probability_calibration.md).
 
 **UI usability revision (19 September 2026):** the [recorded requirements](docs/analytics/ui_redesign_requirements.md)
 now drive a persistent presentation inventory rather than asking users to select

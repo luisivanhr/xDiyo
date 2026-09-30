@@ -32,8 +32,8 @@ def test_fixed_experiment_parallel_recovery_policy_identity_and_explicit_refit(t
     assert saved == [os.getpid()]
     cached = experiment.run(preparation, model=model, execution=policy, post_analysis=post(),
         refit_policy=RefitPolicy(train_positions=np.arange(len(preparation.dataset.X))))
-    assert cached.reused and cached.refit.model is None and cached.refit.execution == result.refit.execution
-    assert all(f.model is None for f in cached.training.folds)
+    assert cached.reused and cached.refit.model is not None and cached.refit.execution == result.refit.execution
+    assert all(f.model is not None for f in cached.training.folds)
     for first, second in zip(result.training.folds, cached.training.folds):
         assert first.training_summary['execution'] == second.training_summary['execution']
         pd.testing.assert_frame_equal(first.predictions['predict'], second.predictions['predict'])

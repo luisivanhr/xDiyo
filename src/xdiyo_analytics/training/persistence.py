@@ -19,14 +19,26 @@ class JoblibSerializer:
 
     Joblib/pickle artifacts can execute Python when loaded: load only trusted
     model artifacts you created or obtained from a trusted producer, in a compatible
-    Python/library environment. No model artifact is loaded by experiment recovery.
-    Custom adapter classes/callables must remain importable when using joblib.
+    Python/library environment. FootballExperiment restores its saved local models
+    by default; load_models=False requests data-only experiment recovery.
+    Importable classes use ordinary joblib; notebook/local classes use its bundled
+    cloudpickle fallback. Restore either in a compatible Python/library environment.
     """
     format_id: str = "xdiyo.joblib.v1"
 
     def save(self, adapter, directory):
         import joblib
-        joblib.dump(adapter, Path(directory) / "adapter.joblib")
+        import pickle
+        path = Path(directory) / "adapter.joblib"
+        try:
+            joblib.dump(adapter, path)
+        except (pickle.PicklingError, AttributeError):
+            # Notebook/local adapter classes are valid pipeline inputs. Joblib's
+            # bundled cloudpickle preserves their code as well as fitted state;
+            # joblib.load reads this standard pickle stream too.
+            from joblib.externals import cloudpickle
+            with path.open("wb") as stream:
+                cloudpickle.dump(adapter, stream)
 
     def load(self, directory):
         import joblib
@@ -53,7 +65,7 @@ def _fitted_model(value, fold_id):
                        np.asarray(fold.validation_positions if fold.validation_positions is not None else [], dtype=int).copy(),
                        tuple(fold.feature_columns), tuple(fold.target_columns), value.layout,
                        tuple(value.identity_columns), tuple(value.match_columns), value.target_perspective, value.definitions,
-                       dict(fold.training_summary.get("execution", {})))
+                       dict(fold.training_summary.get("execution", {})), fold.calibration_positions)
 
 
 def save_model(model, path, *, fold_id=None, serializer=None):
@@ -74,6 +86,7 @@ def save_model(model, path, *, fold_id=None, serializer=None):
     from ..experiments.store import _publish
     from .estimators import EstimatorAdapter
     from .targets import TargetTransformAdapter
+    from .calibration import CalibratedAdapter
     fitted = _fitted_model(model, fold_id)
     if fitted.model is None:
         raise ValueError("Recovered predictions contain no fitted model to save.")
@@ -84,7 +97,7 @@ def save_model(model, path, *, fold_id=None, serializer=None):
     if isinstance(adapter, _CheckpointAdapter):
         adapter = adapter.estimator
     if serializer is None:
-        if not isinstance(adapter, (EstimatorAdapter, TargetTransformAdapter)):
+        if not isinstance(adapter, (EstimatorAdapter, TargetTransformAdapter, CalibratedAdapter)):
             raise TypeError("Supply a native serializer for this custom model adapter.")
         serializer = JoblibSerializer()
     format_id = getattr(serializer, "format_id", None)

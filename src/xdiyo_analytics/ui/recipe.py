@@ -24,6 +24,8 @@ def default_recipe(data_root='data/xDiyo_data'):
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
         'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
+        'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
+        'identity_features': None, 'numeric_features': None,
         'ratings': {}, 'features': {'corners_mean': node('features.RollingMean', source=stat, window=5),
                                     'is_home': node('features.IsHome')},
         'labels': {'corners': node('labels.MatchTotal', source=deepcopy(stat))}, 'target': 'corners',
@@ -37,7 +39,7 @@ def default_recipe(data_root='data/xDiyo_data'):
         'search': None, 'execution': node('training.ExecutionPolicy'), 'refit': None, 'checkpoint': None,
         'post_reporters': {'performance': node('reporting.PerformanceReporter', type='overall', partition='score', metrics=['mse', 'mae']),
                            'matches': node('reporting.MatchResultReporter', type='overall', partition='score', catalog={'ref': 'team_catalog'}, show_badges=True)},
-        'run': {'reuse': True},
+        'run': {'reuse': True}, 'artifact_export': None,
         'prediction': {'model_path': '', 'rounds': None, 'statuses': ['notstarted'], 'as_of': None},
     }
 
@@ -56,11 +58,13 @@ def validate_recipe(recipe):
         raise ValueError(f'Unknown recipe sections: {sorted(unknown)}')
     recipe = deepcopy(recipe)
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
-    for reporter in recipe.get('post_reporters', {}).values():
-        if isinstance(reporter, dict) and reporter.get('component') == 'reporting.MatchResultReporter':
+    for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:
+        if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter'):
             params = reporter.setdefault('params', {})
             params.setdefault('show_badges', True)
             params.setdefault('catalog', {'ref': 'team_catalog'})
+            if reporter['component'] == 'reporting.BetOutcomeReporter' and params.get('labels') is None:
+                params.setdefault('history', {'ref':'history'})
     return recipe
 
 
@@ -85,6 +89,19 @@ def catalog_for_ui():
     from ..ratings import RatingRun
     from ..training import JoblibSerializer
     from .adapters import BoostingAdapter
+    from ..features.presets import FeatureBankPreset
+    from ..features.contextual import RestDays, CalendarFeature
+    from ..features.preparation import IdentityFeatureSpec, NumericFeatures
+    from ..features.composition import Column, Constant, Sum, Difference, Ratio
+    from ..experiments.exports import ArtifactExport
+    catalog.register('experiments.ArtifactExport', ArtifactExport, category='export')
+    for name, constructor in [('Column', Column), ('Constant', Constant), ('Sum', Sum), ('Difference', Difference), ('Ratio', Ratio)]:
+        catalog.register('prepared.' + name, constructor, category='derived_feature')
+    catalog.register('features.RestDays', RestDays, category='feature')
+    catalog.register('context.CalendarFeature', CalendarFeature, category='context_feature')
+    catalog.register('preparation.FeatureBankPreset', FeatureBankPreset, category='preparation')
+    catalog.register('preparation.IdentityFeatureSpec', IdentityFeatureSpec, category='preparation')
+    catalog.register('preparation.NumericFeatures', NumericFeatures, category='preparation')
     catalog.register('input.Table', _context_file, category='input')
     catalog.register('input.TeamCatalog', TeamCatalog.from_json, category='input')
     catalog.register('input.RatingRun', RatingRun.load, category='input')
@@ -95,19 +112,41 @@ def catalog_for_ui():
     return catalog
 
 
-def prepare_recipe(recipe, *, catalog=None, prediction=False):
+def _recipe_split_plan(dataset, splitter, options, cutoff_hours):
+    from ..splits import create_split_plan, TemporalSplit
+    options = dict(options)
+    if isinstance(splitter, TemporalSplit) and cutoff_hours is not None and 'cutoffs' not in options:
+        # Assembly and search subsets can pivot or drop history rows. Use their
+        # aligned timestamps; explicit cutoffs (including None) take precedence.
+        options['cutoffs'] = dataset.metadata.kickoff_at - pd.Timedelta(hours=float(cutoff_hours))
+    return create_split_plan(dataset, splitter, **options)
+
+
+def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=None):
     from ..data import load_seasons, select_stats
     from ..histories import build_team_history
     from ..features import evaluate_features
     from ..ratings import build_ratings
     from ..labels import create_labels
     from ..datasets import assemble_dataset
-    from ..splits import create_split_plan, SplitPlan
+    from ..splits import SplitPlan
+    from ..features.composition import combine_features
+    from ..features.preparation import common_training_rows, add_identity_features
     from ..experiments.football import PreparedExperiment
     from ..reporting import TeamCatalog
     recipe = validate_recipe(recipe)
     catalog = catalog or catalog_for_ui()
-    data = load_seasons(**catalog.build(recipe['data']))
+    data_options = catalog.build(recipe['data'])
+    def needs_heatmaps(value):
+        if isinstance(value, dict):
+            return value.get('component') == 'features.Heatmap' or any(needs_heatmaps(v) for v in value.values())
+        return isinstance(value, list) and any(needs_heatmaps(v) for v in value)
+    if needs_heatmaps(recipe.get('features', {})) and data_options.get('tables') is not None:
+        tables = data_options['tables']
+        tables = [tables] if isinstance(tables, str) else tables
+        data_options['tables'] = list(dict.fromkeys([*tables, 'heatmap_points']))
+    data = load_seasons(**data_options)
+    heatmaps = data.tables.get('heatmap_points')
     if recipe.get('stat_selection') is not None:
         data = select_stats(data, **catalog.build(recipe['stat_selection']))
     history = build_team_history(data, **catalog.build(recipe.get('history', {})))
@@ -123,6 +162,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False):
                                     for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
+    if heatmaps is not None:
+        options.setdefault('heatmaps', heatmaps)
     hours = recipe.get('cutoff_hours')
     if hours is not None:
         if options.get('cutoffs') is not None:
@@ -135,21 +176,80 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False):
     if options.get('keyed') is False:
         raise ValueError('Assembly needs keyed features; leave keyed=True.')
     options['keyed'] = True
-    features = evaluate_features(history, catalog.build(recipe['features']), **options)
     labels = create_labels(history, catalog.build(recipe['labels']))
     assembly = catalog.build(recipe['assembly'])
     if prediction:
         assembly['drop_missing_targets'] = False
+    def make_plan(frame):
+        splitter = catalog.build(recipe['split'])
+        plan = (splitter if isinstance(splitter, SplitPlan) else
+                _recipe_split_plan(frame, splitter, catalog.build(recipe.get('split_options', {}), {**context, 'dataset': frame}), hours))
+        if recipe.get('fold_ids') is not None:
+            plan = SplitPlan([plan.folds[int(i)] for i in recipe['fold_ids']], plan.n_rows, plan.row_order, paths=None)
+        return plan
+    definitions = catalog.build(recipe['features'])
+    preset = catalog.build(recipe.get('feature_preset'))
+    identities = None
+    if preset is not None:
+        from ..features import IsHome
+        from ..features.contextual import RestDays
+        saved = (preparation_state or {}).get('feature_preset')
+        if prediction and saved is not None:
+            identities = saved['stat_identities']
+        else:
+            stats = data.statistics
+            seasons = recipe.get('preset_seasons')
+            if seasons is not None:
+                if not seasons:
+                    raise ValueError('Choose at least one preset discovery season, or disable the override.')
+                stats = stats.loc[stats.source_season.isin(seasons)]
+            else:
+                probe = assemble_dataset(evaluate_features(history, {'probe': IsHome()}, **options), labels[recipe['target']], **assembly)
+                rows = common_training_rows(make_plan(probe))
+                match_ids = probe.metadata.iloc[rows].event_id
+                stats = stats.loc[stats.event_id.isin(match_ids)]
+            group = 'group_name' if 'group_name' in stats else 'group'
+            identities = list(stats[['period', group, 'key']].drop_duplicates().itertuples(index=False, name=None))
+        bank = preset.build(identities)
+        if preset.include_rest:
+            bank['rest_days'] = RestDays()
+        overlap = set(bank).intersection(definitions)
+        if overlap:
+            raise ValueError(f'Explicit feature names duplicate the preset: {sorted(overlap)}')
+        definitions = {**bank, **definitions}
+    features = evaluate_features(history, definitions, **options)
     dataset = assemble_dataset(features, labels[recipe['target']], **assembly)
+    if preset is not None:
+        dataset.definitions['feature_preset'] = {'stat_identities': identities, 'configuration': recipe['feature_preset']}
+        if preset.include_combinations:
+            dataset.X = combine_features(dataset.X, preset.postassembly_definitions(features.columns, dataset.X.columns))
+    if recipe.get('derived_features'):
+        dataset.X = combine_features(dataset.X, catalog.build(recipe['derived_features']))
+    calendar = preset.calendar_definitions() if preset is not None and preset.include_calendar else {}
+    calendar.update(catalog.build(recipe.get('context_features', {})))
+    if calendar:
+        from ..features.contextual import evaluate_context_features
+        extra = evaluate_context_features(dataset.metadata, calendar)
+        if set(extra).intersection(dataset.X):
+            raise ValueError('Context features must have distinct names from existing inputs.')
+        dataset.X = pd.concat([dataset.X, extra], axis=1)
+    numeric = catalog.build(recipe.get('numeric_features'))
+    if numeric is not None:
+        dataset.X = numeric.transform(dataset.X)
+        dataset.definitions['numeric_features'] = recipe['numeric_features']
+    identity_spec = catalog.build(recipe.get('identity_features'))
+    if identity_spec is not None:
+        state = (preparation_state or {}).get('identity_features') if prediction else None
+        if state is None:
+            if prediction:
+                raise ValueError('Future identity features need the fitted model vocabulary; use predict_recipe or pass preparation_state.')
+            rows = common_training_rows(make_plan(dataset))
+            state = identity_spec.fit(dataset.metadata.iloc[rows])
+        dataset = add_identity_features(dataset, state)
     context.update(features=features, labels=labels, dataset=dataset)
     if prediction:
         return data, dataset, context
-    splitter = catalog.build(recipe['split'])
-    plan = splitter if isinstance(splitter, SplitPlan) else create_split_plan(dataset, splitter, **catalog.build(recipe.get('split_options', {}), context))
-    if recipe.get('fold_ids') is not None:
-        ids = recipe['fold_ids']
-        plan = SplitPlan([plan.folds[int(i)] for i in ids], plan.n_rows, plan.row_order,
-                         paths=None)  # a subset is not a complete CPCV path assembly
+    plan = make_plan(dataset)
     return PreparedExperiment(dataset, plan, {'history': history, 'matches': data.matches, 'features': features,
                                             'labels': labels, 'ratings': ratings, 'team_catalog': team_catalog},
                               config={'recipe': recipe})
@@ -167,6 +267,7 @@ class ModelFactory:
                 "preprocessors": self.recipe.get("preprocessors", []),
                 "adapter": self.recipe.get("adapter"),
                 "target_transformer": self.recipe.get("target_transformer"),
+                "calibration": self.recipe.get("candidate", {}).get("calibration"),
                 "prediction_methods": self.recipe.get("prediction_methods", ["predict"])}
 
     def __call__(self):
@@ -178,14 +279,20 @@ class ModelFactory:
         if steps:
             estimator = Pipeline([*steps, ('model', estimator)])
         adapter = self.recipe.get('adapter')
+        methods = list(self.recipe.get('prediction_methods', ['predict']))
+        calibration = self.recipe.get('candidate', {}).get('calibration')
+        if (calibration is not None or callable(getattr(estimator, 'predict_proba', None))) and 'predict_proba' not in methods:
+            methods.append('predict_proba')
         if adapter is not None:
             built = self.catalog.build(adapter, {'estimator': estimator, 'native_estimator': native_estimator,
                                                  'preprocessor': Pipeline(steps) if steps else None})
         elif self.recipe['model']['component'].startswith(('lightgbm.', 'xgboost.')):
             from .adapters import BoostingAdapter
-            built = BoostingAdapter(estimator, tuple(self.recipe.get('prediction_methods', ['predict'])))
+            built = BoostingAdapter(estimator, tuple(methods))
         else:
-            built = EstimatorAdapter(estimator, tuple(self.recipe.get('prediction_methods', ['predict'])))
+            built = EstimatorAdapter(estimator, tuple(methods))
+        if 'predict_proba' in methods and adapter is not None and hasattr(built, 'prediction_methods'):
+            built.prediction_methods = tuple(dict.fromkeys((*built.prediction_methods, 'predict_proba')))
         target_transformer = self.recipe.get('target_transformer')
         if target_transformer is not None:
             built = TargetTransformAdapter(built, self.catalog.build(target_transformer))
@@ -212,10 +319,10 @@ class InnerPlan:
     spec: dict
     options: dict
     catalog: object
+    cutoff_hours: object = None
 
     def __call__(self, dataset):
-        from ..splits import create_split_plan
-        return create_split_plan(dataset, self.catalog.build(self.spec), **self.catalog.build(self.options))
+        return _recipe_split_plan(dataset, self.catalog.build(self.spec), self.catalog.build(self.options), self.cutoff_hours)
 
 
 def _grid_candidates(recipe, search, catalog, context):
@@ -301,7 +408,7 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
         candidates = (catalog.build(search['candidate_source'], context) if search.get('candidate_source') is not None
                       else _grid_candidates(recipe, search, catalog, context))
         options['model_selection'] = ModelSelection(candidates, **catalog.build(search.get('options', {}), context))
-        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog)
+        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog, recipe.get('cutoff_hours'))
         if search.get('nested', False):
             options['inner_plan_factory'] = inner
         else:
@@ -313,20 +420,23 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
             options['development_positions'] = rows
             options['selection_plan'] = SplitPlan([Fold(rows[f.train], rows[f.test], rows[f.score], f.metadata)
                                                   for f in local.folds], len(prepared.dataset.X), np.arange(len(prepared.dataset.X)))
-    return experiment.run(prepared, **options)
+    result = experiment.run(prepared, **options)
+    if recipe.get('artifact_export') is not None:
+        result.export_path = catalog.build(recipe['artifact_export']).run(result)
+    return result
 
 
 def predict_recipe(recipe, *, catalog=None):
     from ..data import select_prediction_fixtures
     from ..training import load_model
     catalog = catalog or catalog_for_ui()
-    data, dataset, _ = prepare_recipe(recipe, catalog=catalog, prediction=True)
     options = catalog.build(recipe.get('prediction', {}))
     path = options.pop('model_path')
     serializer = options.pop('serializer', None)
+    fitted = load_model(path, serializer=serializer)
+    data, dataset, _ = prepare_recipe(recipe, catalog=catalog, prediction=True, preparation_state=fitted.definitions)
     fixtures = select_prediction_fixtures(data, **options)
     aligned = fixtures.align(dataset)
-    fitted = load_model(path, serializer=serializer)
     return aligned, fitted.predict(aligned)
 
 

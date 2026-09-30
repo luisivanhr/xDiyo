@@ -131,6 +131,12 @@ class PostTrainingAnalysis:
                     deepcopy(training.definitions) if training is not None else {}, experiment,
                     {fold.fold_id: fold for fold in folds})
                 scope = y.index.to_frame(index=False)
+                context.previous_results = {
+                    study.name: study.result for study in report.studies
+                    if study.type == mode and study.partition == partition and study.fold_id == fold_id
+                    and study.scope is not None and study.scope.equals(scope)
+                    and study.scope_label == f"prediction pooling: {pooling or 'occurrences'}"
+                }
                 positions, count = context.row_positions.copy(), context.n_matches
                 try:
                     result = reporter.run(context)

@@ -18,7 +18,7 @@ from .recipe import (catalog_for_ui, default_recipe, export_notebook, export_pyt
 from .schema import stage_schema
 
 
-def render_result_report(result, recipe):
+def render_result_report(result, recipe, *, spatial_transport=None):
     """Refresh local badge presentation without fitting or changing saved results."""
     from dataclasses import replace
     from ..reporting import TeamCatalog
@@ -42,7 +42,7 @@ def render_result_report(result, recipe):
                 artifact = replace(artifact, options={**artifact.options, 'teams': teams})
             artifacts.append(artifact)
         refreshed.append(replace(study, result=replace(study.result, artifacts=artifacts)))
-    return replace(report, studies=refreshed).to_html()
+    return replace(report, studies=refreshed).to_html(spatial_transport=spatial_transport)
 
 
 def _frame(frame, limit=40):
@@ -71,8 +71,10 @@ def _frame(frame, limit=40):
 def _preparation_preview(prepared):
     """Actual assembled columns for inspection and reporter selection."""
     return {'features': _frame(prepared.dataset.X), 'labels': _frame(prepared.dataset.y),
+            'spatial_features': sorted({s.get('family', name) for name,s in prepared.dataset.definitions.get('spatial_features', {}).items()}),
             'metadata': _frame(prepared.dataset.metadata),
             'classes': json.loads(prepared.dataset.y.stack().drop_duplicates().head(100).to_json(orient='values')),
+            'weight_classes': json.loads(prepared.dataset.y.stack().drop_duplicates().to_json(orient='values')),
             'folds': [{'fold': i, 'train': len(f.train), 'test': len(f.test), 'score': len(f.score),
                        'description': _fold_description(prepared.dataset.metadata, f)}
                       for i, f in enumerate(prepared.split_plan.folds)]}
@@ -114,6 +116,9 @@ class BuilderState:
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='football-ui')
         self.recipes = self.workspace / 'experiments' / '_recipes'
         self.discovery_cache = {}
+        self.base_url = ''
+        from ..reporting.spatial_live import SpatialStore
+        self.spatial = SpatialStore()
 
     def resolve(self, path):
         path = Path(path)
@@ -269,7 +274,9 @@ class BuilderState:
             return {k: v for k, v in job.items() if k not in ('object', 'recipe', 'future', 'html')}
         if route == 'report':
             job = self.jobs[request['id']]
-            return {'html': render_result_report(job['object'], job['recipe'])}
+            return {'html': render_result_report(job['object'], job['recipe'], spatial_transport=self.spatial_transport())}
+        if route == 'spatial':
+            return self.spatial.fetch(request)
         if route == 'runs':
             from ..experiments import ExperimentStore
             recipe = self.recipe_paths(request['recipe'])
@@ -281,7 +288,7 @@ class BuilderState:
             recipe = self.recipe_paths(request['recipe'])
             experiment = FootballExperiment(recipe['name'], output_dir=recipe['output_dir'])
             result = experiment.load(request['id'])
-            return {'html': render_result_report(result, recipe)}
+            return {'html': render_result_report(result, recipe, spatial_transport=self.spatial_transport())}
         if route == 'save_model':
             from ..training import save_model
             result = self.jobs[request['id']]['object']
@@ -292,6 +299,9 @@ class BuilderState:
             save_model(model, path, fold_id=request.get('fold_id'))
             return {'path': str(path)}
         raise ValueError(f'Unknown action: {route}')
+
+    def spatial_transport(self):
+        return {'register':self.spatial.register, 'url':self.base_url+'/api/spatial', 'token':self.token}
 
 
 @dataclass
@@ -313,6 +323,8 @@ class BuilderHandle:
         self.server.shutdown()
         self.server.server_close()
         self.state.executor.shutdown(wait=False, cancel_futures=True)
+        self.state.spatial.data.clear()
+        self.state.spatial.ids.clear()
 
 
 def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None):
@@ -329,6 +341,8 @@ def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None):
             self.send_header('Content-Length', str(len(data)))
             self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')
+            if urlparse(self.path).path == '/api/spatial' and self.headers.get('Origin') == 'null':
+                self.send_header('Access-Control-Allow-Origin', 'null')
             self.end_headers()
             self.wfile.write(data)
 
@@ -337,13 +351,26 @@ def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None):
             if name == 'report.css':
                 from ..reporting.viewer import CSS
                 return self.respond(CSS.encode(), content_type='text/css')
-            if name not in ('index.html', 'app.js', 'forms.js', 'feature-bundles.js', 'style.css'):
+            if name not in ('index.html', 'app.js', 'forms.js', 'feature-bundles.js', 'grid-fields.js', 'style.css'):
                 return self.respond({'error': 'Not found'}, 404)
             self.respond((assets / name).read_bytes(), content_type=mimetypes.guess_type(name)[0] or 'text/plain')
 
+        def do_OPTIONS(self):
+            host = f'127.0.0.1:{self.server.server_port}'
+            if self.headers.get('Host') != host or self.headers.get('Origin') != 'null' or urlparse(self.path).path != '/api/spatial':
+                return self.respond({'error':'Access denied'},403)
+            self.send_response(204)
+            self.send_header('Access-Control-Allow-Origin','null')
+            self.send_header('Access-Control-Allow-Methods','POST')
+            self.send_header('Access-Control-Allow-Headers','Content-Type, X-Builder-Token')
+            self.end_headers()
+
         def do_POST(self):
             host = f'127.0.0.1:{self.server.server_port}'
-            if self.headers.get('Host') != host or self.headers.get('Origin', 'http://' + host) != 'http://' + host:
+            # Only the read-only spatial endpoint accepts the report iframe's
+            # opaque origin; the builder token remains mandatory for every POST.
+            spatial_frame = urlparse(self.path).path == '/api/spatial' and self.headers.get('Origin') == 'null'
+            if self.headers.get('Host') != host or (self.headers.get('Origin', 'http://' + host) != 'http://' + host and not spatial_frame):
                 return self.respond({'error': 'Use this local builder URL.'}, 403)
             if not secrets.compare_digest(self.headers.get('X-Builder-Token', ''), state.token):
                 return self.respond({'error': 'Open the URL returned by launch_ui().' }, 403)
@@ -357,6 +384,7 @@ def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None):
             except Exception as exc:
                 self.respond({'error': f'{type(exc).__name__}: {exc}'}, 400)
     server = ThreadingHTTPServer(('127.0.0.1', port), Handler)
+    state.base_url = f'http://127.0.0.1:{server.server_port}'
     thread = threading.Thread(target=server.serve_forever, daemon=True, name='football-builder')
     handle = BuilderHandle(server, thread, state)
     thread.start()

@@ -138,7 +138,7 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
         windows = p.rows(league, operator.window, exclude)
         all_rows = p.rows(replace(league, window_unit="matches"), 2 ** 31 - 1, exclude)
     else:
-        all_rows = candidates(scope)
+        all_rows = candidates(scope, operator.venue)
         windows = [rows[-operator.window:] for rows in all_rows]
     reference = None
     if isinstance(operator, RollingZScore) and operator.reference is not None:
@@ -160,6 +160,8 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
         if isinstance(policy.handoff, (Hard, LinearFade)) and policy.handoff.weight(rounds, 0) == 0:
             continue
         extras = tuple(x for x in group_by if x not in {"team_id", "competition_id", "season_id"})
+        if operator.venue == 'same' and 'side' not in extras:
+            extras += ('side',)
         if h2h and "opponent_id" not in extras:
             extras += ("opponent_id",)
         extra_values = tuple(history[x].iloc[row] for x in extras) if league is None else ()

@@ -41,6 +41,51 @@ def _probability_rows(frame, target, index):
     return rows
 
 
+def fixture_rows(context, display):
+    """Shared fixture identities, team names and offline badges for result tables."""
+    meta = context.metadata
+    league_col = display.league_column or ("source_league" if "source_league" in meta else "competition_id")
+    season_col = display.season_column or ("source_season" if "source_season" in meta else "season_id")
+    for field, column in (("league", league_col), ("season", season_col), ("round", "round")):
+        if (getattr(display, field) is not None or field in {"league", "season"}) and column not in meta:
+            raise KeyError(f"Match-result {field} metadata is unavailable: {column}")
+    catalog = display.catalog if isinstance(display.catalog, TeamCatalog) else TeamCatalog(display.catalog or {})
+    teams, notes = {}, []
+    base = []
+    # Column-oriented records retain large integer IDs without iterrows coercion.
+    for (fold_id, row_position), record in zip(meta.index, meta.to_dict("records")):
+        side = record.get("side") if context.layout == "team_match" else None
+        if context.layout == "team_match":
+            if side not in {"home", "away"}:
+                raise ValueError("Team-match results need a home/away side.")
+            home = record["team_id"] if side == "home" else record["opponent_id"]
+            away = record["opponent_id"] if side == "home" else record["team_id"]
+        else:
+            home, away = record["home_id"], record["away_id"]
+        for role, key in (("home", home), ("away", away)):
+            if team_key(key) not in teams:
+                name, badge, note = catalog.display(key, badges=display.show_badges)
+                if not catalog.entries.get(team_key(key), {}).get("name"):
+                    fallback = record.get(f"{role}_name")
+                    if context.layout == "team_match":
+                        fallback = record.get("team_name" if side == role else "opponent_name", fallback)
+                    if fallback is not None and pd.notna(fallback):
+                        name = str(fallback)
+                    else:
+                        notes.append(f"No display name for team {key}; supply it in TeamCatalog.")
+                teams[team_key(key)] = dict(name=name, badge=badge)
+                if note:
+                    notes.append(note)
+        identity = {key: record[key] for key in context.match_columns}
+        fixture = json.dumps([str(fold_id), *[str(v) for v in identity.values()]], ensure_ascii=False)
+        base.append(dict(**identity, fixture=fixture, fold_id=fold_id, row_position=row_position,
+                         league=_plain(record.get(league_col)), season=_plain(record.get(season_col)),
+                         round=_plain(record.get("round")), stage=_plain(record.get("stage")),
+                         home_id=home, away_id=away, home=teams[team_key(home)]["name"],
+                         away=teams[team_key(away)]["name"], side=side))
+    return base, teams, notes
+
+
 @dataclass(kw_only=True)
 class MatchResultReporter(PredictionReporter):
     """Compact fixtures with interactive filters and independently colored labels.
@@ -111,45 +156,7 @@ class MatchResultReporter(PredictionReporter):
         is_probability = isinstance(prediction_frame.columns, pd.MultiIndex)
         if not is_probability and (self.decision is not None or self.threshold is not None):
             raise ValueError("Decision settings require selecting a probability output.")
-        league_col = self.league_column or ("source_league" if "source_league" in meta else "competition_id")
-        season_col = self.season_column or ("source_season" if "source_season" in meta else "season_id")
-        for field, column in (("league", league_col), ("season", season_col), ("round", "round")):
-            if (getattr(self, field) is not None or field in {"league", "season"}) and column not in meta:
-                raise KeyError(f"Match-result {field} metadata is unavailable: {column}")
-        catalog = self.catalog if isinstance(self.catalog, TeamCatalog) else TeamCatalog(self.catalog or {})
-        teams, notes = {}, []
-        base = []
-        # Column-oriented records retain large integer IDs without iterrows coercion.
-        for (fold_id, row_position), record in zip(meta.index, meta.to_dict("records")):
-            side = record.get("side") if context.layout == "team_match" else None
-            if context.layout == "team_match":
-                if side not in {"home", "away"}:
-                    raise ValueError("Team-match results need a home/away side.")
-                home = record["team_id"] if side == "home" else record["opponent_id"]
-                away = record["opponent_id"] if side == "home" else record["team_id"]
-            else:
-                home, away = record["home_id"], record["away_id"]
-            for role, key in (("home", home), ("away", away)):
-                if team_key(key) not in teams:
-                    name, badge, note = catalog.display(key, badges=self.show_badges)
-                    if not catalog.entries.get(team_key(key), {}).get("name"):
-                        fallback = record.get(f"{role}_name")
-                        if context.layout == "team_match":
-                            fallback = record.get("team_name" if side == role else "opponent_name", fallback)
-                        if fallback is not None and pd.notna(fallback):
-                            name = str(fallback)
-                        else:
-                            notes.append(f"No display name for team {key}; supply it in TeamCatalog.")
-                    teams[team_key(key)] = dict(name=name, badge=badge)
-                    if note:
-                        notes.append(note)
-            identity = {key: record[key] for key in context.match_columns}
-            fixture = json.dumps([str(fold_id), *[str(v) for v in identity.values()]], ensure_ascii=False)
-            base.append(dict(**identity, fixture=fixture, fold_id=fold_id, row_position=row_position,
-                             league=_plain(record.get(league_col)), season=_plain(record.get(season_col)),
-                             round=_plain(record.get("round")), stage=_plain(record.get("stage")),
-                             home_id=home, away_id=away, home=teams[team_key(home)]["name"],
-                             away=teams[team_key(away)]["name"], side=side))
+        base, teams, notes = fixture_rows(context, self)
         result = StudyResult("Match results", notes=list(dict.fromkeys(notes)))
         result.notes.append("Filters change the visible fixtures only. Data tables retain the full reporter population; the panel exports filtered rows.")
         result.notes.append("Numeric error = prediction − result. Missing values and push/void settlements are neutral.")

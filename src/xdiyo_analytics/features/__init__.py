@@ -10,8 +10,14 @@ from .ratings import Rating, MatchResultGlicko, StatGlicko
 from .league import League, LeaveOneOut, LeaguePopulation
 from .warmup import WarmStart, SeededEMA, Hard, LinearFade, ObservationCount, blend_moments
 from .transitions import build_team_seasons, TransitionContext
+from .composition import Column, Constant, Sum, Difference, Ratio, combine_features, IdentityIndicators
+from .contextual import RestDays, CalendarFeature, evaluate_context_features
+from .presets import FeatureBankPreset
+from .preparation import NumericFeatures, IdentityFeatureSpec
+from .spatial import Heatmap, RegionMass, heatmap_grid
 
 __all__ = [
+    "RegionMass",
     "Stat", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",
     "RollingMean", "RollingStd", "RollingZScore", "EMA", "evaluate_features",
     "eligible_history_rows", "league_season_team_counts",
@@ -19,4 +25,8 @@ __all__ = [
     "League", "LeaveOneOut", "LeaguePopulation", "WarmStart", "SeededEMA",
     "Hard", "LinearFade", "ObservationCount", "blend_moments",
     "build_team_seasons", "TransitionContext",
+    "Column", "Constant", "Sum", "Difference", "Ratio", "combine_features", "IdentityIndicators",
+    "RestDays", "CalendarFeature", "evaluate_context_features", "FeatureBankPreset",
+    "NumericFeatures", "IdentityFeatureSpec",
+    "Heatmap", "heatmap_grid",
 ]

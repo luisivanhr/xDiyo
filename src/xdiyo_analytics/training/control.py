@@ -136,10 +136,12 @@ def run_iterations(backend_factory, context, control):
             raise TypeError("Checkpoint restoration requires backend snapshot()/restore().")
         if control.scheduler and not all(callable(getattr(backend, method, None)) for method in ("get_learning_rate", "set_learning_rate")):
             raise TypeError("Learning-rate scheduling requires backend get/set_learning_rate().")
+        if context.sample_weight is not None and not getattr(backend, "supports_sample_weight", False):
+            raise TypeError("Weighted iterative fitting requires a backend declaring supports_sample_weight.")
         def copy_inputs(inputs):
             return replace(inputs, X=inputs.X.copy(deep=True), y=inputs.y.copy(deep=True),
                            metadata=inputs.metadata.copy(deep=True), definitions=deepcopy(inputs.definitions),
-                           fold_metadata=deepcopy(inputs.fold_metadata),
+                           fold_metadata=deepcopy(inputs.fold_metadata), sample_weight=deepcopy(inputs.sample_weight),
                            validation=copy_inputs(inputs.validation) if inputs.validation is not None else None)
         backend.initialize(copy_inputs(context))
         best, best_step, checkpoint = np.inf, None, None
@@ -211,6 +213,8 @@ class IterativeAdapter:
     bounded loop. Custom neural/graph backends can use the same protocol without
     adopting sklearn. This is an opt-in capability, never applied to plain fit().
     """
+    supports_sample_weight = True
+
     def __init__(self, backend_factory):
         self.backend_factory = backend_factory
 

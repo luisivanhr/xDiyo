@@ -15,6 +15,11 @@ from .schema import stage_schema
 
 
 HELP = {
+    'left': 'First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.',
+    'right': 'Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.',
+    'numerator': 'Single-output feature above the fraction bar. Example: recent rolling average.',
+    'denominator': 'Single-output feature below the fraction bar. Example: long-run rolling average. Zero gives a missing ratio by default.',
+    'zero_value': 'Optional finite replacement when the denominator is exactly zero and both inputs are known. Disabled leaves the ratio missing; missing inputs always stay missing.',
     'team_seasons': 'Optional table keyed by competition_id, season_id and team_id, with movement and optional previous-league/season IDs. Disabled recognizes retained teams from loaded history; a new appearance alone does not establish promotion or relegation.',
     'season_starts': 'Optional UTC season-entry boundaries used to freeze transition priors. Disabled uses the earliest prediction cutoff per league-season (first kickoff when no cutoff is supplied). Explicit boundaries cannot follow that first cutoff.',
     'transition_context': 'Optional shared transition inputs for warm-up. This reuses history and membership information across rating streams; it does not choose which stream is warmed.',
@@ -171,7 +176,9 @@ HELP = {
     'scheduler': 'Optionally reduce learning rate when progress stalls.',
     'every': 'Save an adapter checkpoint after this many training steps.',
     'unsupported': 'Skip checkpointing or raise when the selected adapter cannot save resumable state.',
-    'reuse': 'Load a matching completed run rather than fitting it again.',
+    'reuse': 'Reuse a matching completed fit and its saved models. Post-training reporters are refreshed without fitting again. Disable to deliberately train a fresh run.',
+    'calibration': 'Optional probability calibration fitted on a separate chronological tail of each training fold. These rows are excluded from model/scaler fitting, feature selection and early stopping. Test outcomes are never used. Requires a classifier with class probabilities.',
+    'save_models': 'Save fitted fold models, final refits and their fitted scalers for automatic restoration. Enabled by default. Load only trusted experiment folders.',
     'name': 'Human-readable name used in the recipe and report.',
     'data_root': 'Folder containing published season manifests and tables. Example: data/xDiyo_data.',
     'seasons': 'Select the seasons available in this data folder.',
@@ -245,6 +252,7 @@ def build():
                 f.update(title='Labels',help='Optional observed-label histograms and KDE curves, using the same fold and rows as the feature plots. Disabled omits labels. Enable and select at least one label, such as total corners. Label plots are identified separately.')
             if name in ('target',): f.update(kind='select', discovery='targets')
             if name == 'features_from': f.update(kind='select', discovery='selectors')
+            if name == 'weights_from': f.update(kind='select', discovery='weight_reporters', help='Use observation weights from a named Class Weight Reporter in Fitted preparation. Weights are recalculated on each fit’s training rows, including inner search and final refit.')
             if name in ('scope', 'group_by', 'round_keys', 'calendar_by', 'block_by'):
                 f.update(kind='multiselect', choices=['team_id','opponent_id','competition_id','season_id','round','source_league','source_season'])
             if name in ('metrics',) and key != 'reporting.LearningCurveReporter': f.update(kind='metrics')
@@ -260,8 +268,8 @@ def build():
             if name == 'prediction_methods': f.update(kind='multiselect', choices=['predict','predict_proba'])
             if name == 'engine': f.update(kind='component', categories=['rating'], components=['ratings.Glicko2'], initial_component='ratings.Glicko2')
             if name in ('stat',): f.update(kind='component', components=['features.Stat'], initial_component='features.Stat')
-            if name in ('early_stopping','scheduler','control','validation','transition','handoff','policy'):
-                ids={'early_stopping':['training.EarlyStopping'],'scheduler':['training.ReduceOnPlateau'],'control':['training.TrainingControl'],'validation':['training.ValidationTail'],'transition':['ratings.GlickoTransition'],'handoff':['features.Hard','features.LinearFade','features.ObservationCount'],'policy':['features.SeededEMA']}
+            if name in ('calibration','early_stopping','scheduler','control','validation','transition','handoff','policy'):
+                ids={'calibration':['training.ProbabilityCalibrator'],'early_stopping':['training.EarlyStopping'],'scheduler':['training.ReduceOnPlateau'],'control':['training.TrainingControl'],'validation':['training.ValidationTail'],'transition':['ratings.GlickoTransition'],'handoff':['features.Hard','features.LinearFade','features.ObservationCount'],'policy':['features.SeededEMA']}
                 f.update(kind='component',components=ids[name],initial_component=ids[name][0])
             if name in ('seed','random_state','max_iter','n_jobs','max_depth','max_leaf_nodes','n_estimators','max_bin','early_stopping_rounds','min_child_weight','reg_alpha','reg_lambda','learning_rate','subsample','colsample_bytree','quantile','max_points','score_rounds','step','line','threshold','odds','stake','k','fold_k'):
                 f['kind']='number'
@@ -284,9 +292,9 @@ def build():
             if name == 'comparison': f['choices']=['auto','numeric','categorical']
             if name == 'entity': f['choices']=['team','league']
             if name == 'device': f['choices']=['cpu','auto','cuda','cuda:0']
-            if name == 'partition' and key in ('reporting.LearningCurveReporter','reporting.CoefficientReporter'): f['choices']=['model']
+            if name == 'partition' and key in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.FeatureImportanceReporter'): f['choices']=['model']
             if name == 'partition' and key == 'reporting.ExperimentLeaderboardReporter': f['choices']=['experiment']
-            if name == 'catalog' and key == 'reporting.MatchResultReporter': f.update(kind='reference',initial={'ref':'team_catalog'},hidden=True)
+            if name == 'catalog' and key in ('reporting.MatchResultReporter', 'reporting.HeatmapReporter'): f.update(kind='reference',initial={'ref':'team_catalog'},hidden=True)
             if name == 'show_badges' and key == 'reporting.MatchResultReporter': f['default'] = True
             if name in ('cutoffs','available_at','information_start'): f.update(kind='component',components=['input.Table'],initial_component='input.Table')
             if name == 'estimator': f.update(kind='reference',initial={'ref':'estimator'})
@@ -297,8 +305,31 @@ def build():
             if name == 'source' and key in ('labels.TeamValue','labels.MatchTotal','labels.Outcome','features.ForAgainst','features.StatGlicko'):
                 f.update(kind='component',components=['features.Stat'],initial_component='features.Stat')
             if name == 'source' and key == 'features.LeaveOneOut':f.update(components=['features.League'],initial_component='features.League')
+            if name == 'source' and key == 'features.ForAgainst': f['components'] = ['features.Stat', 'features.Heatmap']
+            if name == 'venue' and key.startswith('features.'):
+                f.update(visible_when_contains={'source':['features.Heatmap']}, clear_when_hidden=True)
+                f.update(kind='select', choices=[{'value':'all','label':'All venues'}, {'value':'same','label':'Same venue as target fixture'}], primary=True, help='All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.')
+            if key == 'features.RegionMass':
+                if name == 'region': f.update(kind='select', choices=['own_half','opponent_half'], primary=True, help='Integrate the grid over the focal team’s own or opponent half. A cell crossing halfway contributes proportionally. Density is multiplied by area; mass sums proportions; count sums points.')
+                if name == 'source': f.update(kind='component', components=['features.Heatmap','features.Lag','features.RollingMean','features.EMA'], initial_component='features.RollingMean')
+            if key == 'features.Heatmap':
+                f['primary'] = True
+                if name == 'grid_size': f.update(kind='number', min=2, step=1, help='Number of cells along each coordinate axis. 10 creates 100 features per perspective. Squares are in exported 0–100 coordinates, not physical metres.')
+                if name == 'method': f.update(kind='select', choices=[{'value':'grid','label':'Grid pooling'}, {'value':'gaussian','label':'Gaussian-smoothed grid'}], help='Pool points directly, or smooth a fine histogram before pooling. Both return the same shaped feature grid.')
+                if name == 'normalization': f.update(kind='select', choices=['mass','density','count'], help='Mass sums to 1 per observed match. Density integrates to 1 over the 0–100 coordinate plane. Count preserves point totals; export sampling intensity can vary.')
+                if name == 'sigma': f.update(kind='number', min=0.01, step='any', visible_when={'method':['gaussian']}, help='Gaussian width in fine-grid cells. The reference plot uses 2.6 with resolution 100. Reflected boundaries retain total mass.')
+                if name == 'resolution': f.update(kind='number', min=2, step=1, visible_when={'method':['gaussian']}, help='Fine histogram cells per axis before smoothing. Must be a multiple of Grid size. 100 matches the reference plot.')
+                if name == 'kinds': f.update(kind='multiselect', choices=['player','goalkeeper'], help='Disabled includes all point kinds. Choose Player to exclude goalkeeper points, or include both.')
+                if name == 'use_weights': f.update(help='Disabled counts each exported point once. Enabled uses its supplied weight, with missing weights equal to 1.')
+                if name == 'orientation': f.update(kind='select', choices=[{'value':'home','label':'Shared pitch — Home goal left'}, {'value':'team','label':'Team-relative — own goal left'}], help='Shared pitch rotates final Away grids 180 degrees. Historical opponent points are first rotated into the focal team’s frame; history is averaged before final venue alignment. Both coordinate axes reverse.')
+            if key == 'reporting.HeatmapReporter':
+                if name == 'maps': f.update(kind='multiselect', discovery='heatmaps', primary=True, help='Discover spatial outputs, including Heatmap and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.')
+                if name == 'max_fixtures': f.update(kind='number', min=1, step=1, help='Optional cap on fixtures retained in this report scope. Useful for small offline exports. Disabled retains every selected fixture.')
+                if name == 'cache_size': f.update(kind='number', min=1, step=1, help='Maximum recently viewed fixture/feature pairs kept by the live browser. 8 is the default; this does not cap the experiment population.')
+                if name == 'type': f['choices'] = ['overall','per_fold']
+                if name == 'show_badges': f['help'] = 'Embed the team’s local badge beside its name. Missing badges fall back to the team name.'
             if name == 'source' and key == 'features.League':f.update(components=['features.Stat','features.ForAgainst'],initial_component='features.Stat')
-            if name == 'source' and key == 'features.WarmStart':f.update(components=['features.RollingMean','features.RollingStd','features.RollingZScore'],initial_component='features.RollingMean')
+            if name == 'source' and key == 'features.WarmStart':f.update(components=['features.RollingMean','features.RollingStd','features.RollingZScore','features.MatchResultGlicko','features.StatGlicko'],initial_component='features.RollingMean')
             if key == 'splits.TemporalSplit' and name == 'window':
                 f['help']='Expanding retains all eligible earlier training blocks; sliding retains a fixed train_size window as the test window moves forward.'
             if key == 'splits.TemporalSplit' and name == 'unit':
@@ -329,7 +360,7 @@ def build():
             if f['name']==name:f.update(kw)
     patch('data','seasons',kind='multiselect',discovery='seasons')
     patch('data','leagues',kind='multiselect',discovery='leagues',nullable=False,all_when_null=True,help='All available leagues are selected by default. Untick any league to exclude it.')
-    patch('data','tables',kind='multiselect',choices=['matches','statistics','pregame','shots'])
+    patch('data','tables',kind='multiselect',choices=['matches','statistics','pregame','shots','heatmap_points'])
     patch('history','stat_fields',kind='multiselect',choices=['value','total'])
     patch('stat_selection','bundles',kind='multiselect',discovery='bundles')
     patch('stat_selection','stats',kind='list',item={'kind':'component','components':['features.Stat'],'initial_component':'features.Stat'})
@@ -384,11 +415,11 @@ def build():
             if name=='league_weight':f['help']='Blend a moving team’s previous mean toward its destination league prior. 0 keeps its old mean; 1 uses the league prior.'
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
-            f['primary'] = f['name'] in primary
+            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
             if f['name']=='type' and c['category'] in ('pre_reporter','post_reporter'):
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']
-            if f['name']=='partition' and c['category']=='post_reporter' and c['id'] not in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.ExperimentLeaderboardReporter'):f['choices']=['score','test']
+            if f['name']=='partition' and c['category']=='post_reporter' and c['id'] not in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.FeatureImportanceReporter','reporting.ExperimentLeaderboardReporter'):f['choices']=['score','test']
             if f['name']=='score_rounds':f.update(kind='range',initial=[None,None])
             if f['name']=='name' and c['id']=='features.Rating':f.update(kind='select',discovery='ratings',help='Choose one of the named rating streams configured below.')
         if c['id']=='features.Stat':
@@ -399,7 +430,99 @@ def build():
     for key,s in stages.items():
         for f in s['fields']:
             f['primary']=f['name'] in {'seasons','leagues','tables','include_awarded','stat_fields','bundles','stats','layout','drop_missing_targets','name','features_from','control','validation','stat','engine','scope','higher_is_better','transition','metrics','decision','reuse','statuses','rounds','as_of'}
+    # Post-assembly operands and configurable notebook feature bank.
+    for key, c in components.items():
+        for f in c['fields']:
+            name = f['name']
+            if key.startswith('prepared.'):
+                f['primary'] = True
+                if name == 'name':
+                    f.update(kind='select', discovery='assembled_features', help='Choose an already assembled predictor column. Click Discover assembled columns first; this works even while a derived expression is unfinished. Labels are not available as operands.')
+                elif name in ('left','right','numerator','denominator'):
+                    f.update(kind='component', categories=['derived_feature'], initial_component='prepared.Column', help='Choose an assembled column, constant or nested arithmetic expression.')
+            if key == 'context.CalendarFeature' and name == 'kind':
+                f.update(kind='select', choices=['month_sin','month_cos','weekday','round'], primary=True,
+                         help='UTC fixture context. Month uses sin/cos(2π × month / 12); weekday is Monday=0; round is numeric.')
+            if key == 'preparation.NumericFeatures' and name == 'dtype':
+                f.update(kind='select', choices=['float32','float64'], primary=True, help='Numeric precision of model inputs. No scaling or imputation is applied.')
+            if key == 'preparation.IdentityFeatureSpec':
+                f['primary'] = True
+                if name == 'columns': f.update(kind='multiselect', choices=['source_league','home_id','away_id','team_id','opponent_id'], help='Metadata identities to encode. Use source_league for notebook parity; team IDs are an optional extension.')
+                if name == 'prefixes': f.update(kind='map', key_discovery='identity_columns', item={'kind':'text'}, help='Optional output prefixes, e.g. source_league → league. Categories are fitted only from common training rows.')
+            if key == 'preparation.FeatureBankPreset':
+                f['primary'] = name in ('stats','periods','windows','lags','spans','include_loo','include_h2h','include_ratings','warm_policy','rating_warm_policy','include_combinations','include_rest','include_calendar')
+                if name == 'stats': f.update(kind='stat_pairs', help='Statistic shortlist. The bank only includes identities observed in the configured development population. Periods are selected separately.')
+                elif name in ('half_keys','warm_stat_keys'): f.update(kind='multiselect', discovery='stat_keys', help='Select statistic keys for half-period or warmed copies. Disabled warm keys includes all eligible rolling statistics.')
+                elif name == 'periods': f.update(kind='multiselect', choices=['ALL','1ST','2ND'], help='Full match and/or first and second half. Half-period features use their separate operator windows.')
+                elif name.endswith('windows') or name.endswith('lags') or name in ('lags','spans'):
+                    f.update(kind='list', item={'kind':'number','default':5,'min':1,'step':1}, help='One positive integer per window, lag or EMA span. Each value produces a separate feature.')
+                elif name.endswith('reducers'): f.update(kind='multiselect', choices=['mean','std','z'], help='Population or H2H calculations to include; standard deviation and Z-score use ddof=1.')
+                elif name in ('warm_policy','rating_warm_policy'):
+                    component = 'features.SeededEMA' if name == 'warm_policy' else 'ratings.GlickoTransition'
+                    f.update(kind='component', components=[component], initial_component=component, help='Add warmed copies while retaining every ordinary feature. Disabled omits these additional columns.')
+                elif name.startswith('include_'): f.update(help='Include '+name.removeprefix('include_').replace('_',' ')+' in the generated bank. Existing named features remain additional.')
     # Shared, maintained scaler controls for predictor and target transforms.
+    for f in stages['candidate']['fields']:
+        if f['name'] == 'weights_from':
+            f['primary'] = True
+    for key in ('reporting.CountClassificationReporter', 'reporting.FeatureImportanceReporter', 'reporting.PredictionTimelineReporter'):
+        for f in components[key]['fields']:
+            f['primary'] = True
+            if f['name'] == 'importance_type':
+                f.update(kind='select', choices=['gain','weight','cover','total_gain','total_cover'], help='XGBoost native importance. Gain measures average split improvement; weight counts splits; cover measures observations affected.')
+            elif f['name'] == 'top_k':
+                f.update(kind='number', min=1, step=1, help='Maximum features shown in the importance plot per fitted model. The retained importance table stays complete.')
+            elif f['name'] == 'max_points':
+                f.update(kind='number', min=1, step=1, help='Maximum observations plotted per series. The full timeline table is retained for download.')
+            elif f['name'] == 'epsilon':
+                f.update(kind='number', min=1e-300, max=0.999999, step='any', help='Floor used only for finite clipped log loss. Exact zero probability is still reported separately; this does not calibrate probabilities.')
+            elif f['name'] == 'tolerance':
+                f.update(kind='number', min=0, step='any', help='Inclusive error band in count units. For corners, 2 counts a prediction within two corners as within tolerance.')
+            elif f['name'] == 'probability_output':
+                f.update(kind='select', choices=['predict_proba','predict_proba_raw'], help='Use upstream probabilities; calibrated output uses predict_proba when calibration was enabled.')
+    for f in components['experiments.ArtifactExport']['fields']:
+        f['primary'] = True
+        f['help'] = {
+            'report_tables': 'Export every retained study table to CSV with its name, fold and partition in a manifest.',
+            'predictions': 'Export observed labels, match metadata and all prediction outputs for each evaluated fold.',
+            'save_models': 'Save a separately loadable prediction model for each evaluated fold, including fitted preprocessing.',
+            'verify_reload': 'Reload each exported model and check its test predictions against the retained values. This predicts again without fitting.'
+        }[f['name']]
+    for f in components['training.BoostingAdapter']['fields']:
+        if f['name'] == 'exact_counts':
+            f.update(primary=True, help='For exact-count classifiers: require finite nonnegative integer labels. XGBoost uses multiclass probabilities and discovers its classes from fitting rows only.')
+    for f in components['reporting.ClassWeightReporter']['fields']:
+        name = f['name']
+        f['primary'] = True
+        if name == 'mode':
+            f.update(kind='select', choices=[{'value':'none','label':'No balancing'}, {'value':'balanced','label':'Balanced'}, {'value':'power','label':'Adjustable balancing'}, {'value':'custom','label':'Custom class weights'}, {'value':'callable','label':'Registered calculation'}],
+                     help='Balanced gives each observed fitting class equal total weight. Adjustable balancing controls how strongly rare classes are emphasized. No balancing uses one for every row.')
+        elif name == 'power':
+            f.update(kind='number', min=0, step='any', visible_when={'mode':['power']}, help='0 means no balancing; 0.5 partially balances; 1 fully balances. Larger values put still more weight on rare classes. Weights are normalized to mean one.')
+        elif name == 'class_weights':
+            f.update(kind='map', key_discovery='weight_classes', item={'kind':'number','default':1,'min':0,'step':'any'}, initial={}, visible_when={'mode':['custom']},
+                     help='Discover feature columns first to list label classes, then assign a nonnegative weight to every fitting class. Keys are original labels, such as 5 corners, not encoded class positions. Extra classes absent from a fold are ignored; missing weights raise an error.')
+        elif name == 'calculator':
+            f.update(kind='callable', visible_when={'mode':['callable']}, help='Choose a registered callback that receives fitting X, y and metadata and returns a weight Series indexed by those exact rows. Validation and evaluation rows are excluded.')
+        elif name == 'type':
+            f.update(choices=['per_fold','overall'], help='Per fold computes a separate set of weights for each fitting population. Overall summarizes pooled rows; it can supply training weights only when those rows exactly match a single fit.')
+        elif name == 'target':
+            f['help'] = 'Original class label to balance. Leave disabled when the dataset has one target. Training with these weights requires that same single target.'
+    for f in stages['candidate']['fields']:
+        if f['name'] == 'calibration':
+            f['primary'] = True
+    for f in components['training.ProbabilityCalibrator']['fields']:
+        f['primary'] = True
+        if f['name'] == 'method':
+            f.update(kind='select', choices=['temperature','sigmoid','isotonic'],
+                     help='Temperature adjusts overall confidence with one parameter per target. Sigmoid fits a logistic mapping per class; isotonic fits a more flexible monotone mapping. All return a normalized class distribution.')
+        elif f['name'] == 'fraction':
+            f.update(kind='number', min=0.001, max=0.999, step='any',
+                     help='Fraction of latest training kickoff batches reserved only for calibration. 0.2 means 20%; whole matches and equal kickoff times stay together. Early stopping is reserved from the remaining rows.')
+        elif f['name'] == 'time_column':
+            f.update(kind='select', choices=['kickoff_at'], help='Timestamp used to choose the chronological calibration tail.')
+        elif f['name'] == 'update_predict':
+            f.update(help='Use the most probable calibrated class for point predictions. Disable to preserve the original point predictions. Both raw and calibrated probability distributions remain available.')
     for c in components.values():
         if c['category'] not in ('preprocessor', 'target_transformer'):
             continue
@@ -484,12 +607,20 @@ def build():
             c['fields'].append(dict(name='max_bin',title='Maximum bins',kind='number',required=False,default=255,min=2,step=1,help='Maximum histogram bins per feature. Larger values allow finer splits at higher memory cost.'))
             if c['id'].endswith('Regressor'):
                 c['fields'].append(dict(name='alpha',title='Quantile / Huber alpha',kind='number',required=False,default=0.9,visible_when={'objective':['quantile','huber']},help='Quantile level (0.5 is the median), or the Huber-loss alpha when that objective is selected.'))
+    for key in ('features.Sum', 'features.Difference', 'features.Ratio', 'features.Constant'):
+        for f in components[key]['fields']:
+            f['primary'] = f['required']
+            if f['name'] == 'zero_value':
+                f.update(kind='number', step='any')
+            if key == 'features.Constant':
+                f['help'] = 'Finite numeric value repeated for every row. Example: 1 as an explicit offset in a denominator.'
     count_model = components.get('training.NegativeBinomialRegressor')
     if count_model:
         for f in count_model['fields']:
             name = f['name']
             f['help'] = {
-                'dispersion': 'NB2 variance = mean + dispersion × mean². Positive and fixed during fitting; tune it in Model selection. For mean 10, dispersion 0.2 gives variance 30. This is not a regularization penalty.',
+                'dispersion': 'NB2 variance = mean + dispersion × mean². Fixed value when Learn dispersion is off; starting value when on. For mean 10, dispersion 0.2 gives variance 30. This is separate from regularization strength.',
+                'learn_dispersion': 'Estimate one dispersion per fitted model from its training rows, jointly with the mean coefficients. Disabled keeps Dispersion fixed. Betting probabilities and mode predictions use the fitted value. Learned values are numerically bounded to 0.000001–1000000; a boundary flag is retained.',
                 'fit_intercept': 'Learn the baseline log mean. Usually enabled; disabling assumes an expected count of 1 when all transformed inputs are zero.',
                 'max_iter': 'Maximum iterations used to fit coefficients. Increase if fitting reports that convergence was not reached.',
                 'tol': 'Tolerance for convergence of the fitting algorithm. Smaller values require a more precise fit.',
@@ -498,7 +629,9 @@ def build():
                 'l1_ratio': 'Elastic Net mixture: 0 is pure Ridge, 1 is pure Lasso, and 0.5 mixes both equally. Used only with Elastic Net.',
                 'prediction': 'Mean returns the expected count. Mode returns the most probable integer count (upper mode for ties). With dispersion 1 or greater, the mode is always zero. This changes the prediction summary, not the fitting objective, and does not guarantee wider predictions.',
             }[name]
-            f['primary'] = name in ('dispersion', 'fit_intercept', 'penalty', 'alpha', 'l1_ratio', 'prediction')
+            f['primary'] = name in ('dispersion', 'learn_dispersion', 'fit_intercept', 'penalty', 'alpha', 'l1_ratio', 'prediction')
+            if name == 'learn_dispersion':
+                f.update(kind='boolean',title='Learn dispersion')
             if name == 'prediction':
                 f.update(title='Predict using', kind='select', choices=[dict(value='mean', label='Mean (expected count)'), dict(value='mode', label='Mode (most probable count)')])
             if name == 'penalty':
@@ -513,6 +646,38 @@ def build():
                 f.update(kind='number', min=1, step=1)
     for f in stages['split_options']['fields']:
         if f['name']=='groups':f.update(kind='select',choices=['competition_id','season_id','source_league','source_season'])
+    # Betting uses the same discoverable inventory as every other pipeline step.
+    bet_help = {
+        'offers':'Add the available lines/options for this predicted label. Give each a display name (for example Under 7.5). Quotes are optional unless your policy uses expected profit.',
+        'policy':'Choose how one offer is selected for each match (or each team row). No qualifying offer produces No bet. Outcomes never influence selection.',
+        'output':'Automatic uses upstream class probabilities (calibrated if enabled), otherwise the Negative Binomial count distribution. Raw probabilities are only available when calibration retained them.',
+        'source':'Reuse an earlier Bet Outcome Reporter, with the same scope, rows and pooling. Its exact decisions and settlements feed profit accounting; no second selection step.',
+        'default_odds':'Optional explicit fixed-odds scenario for offers without quotes, e.g. 1.1. Disabled leaves odds and profit unavailable. Decimal odds must exceed 1.',
+        'min_probability':'Minimum chance of winning, from 0 to 1. Example: 0.90 requires at least 90%. Push probability is separate.',
+        'max_probability_loss':'Maximum absolute probability sacrificed from the safest offered line on the same side. Example: 0.03 permits three percentage points. The reference stays fixed.',
+        'min_ev':'Minimum expected net profit per stake unit: p(win) × (odds − 1) − p(loss). Requires odds. Zero accepts nonnegative expected profit.',
+        'odds':'Optional decimal quote for this option, e.g. 1.85. Leave disabled to use the reporter fallback or show probability-only decisions.',
+        'stake':'Fixed stake per selected bet, in your chosen currency or units. Default 1. No bankroll or dynamic staking simulation.',
+        'option':'Select a BetOption using the same label source as your model target. Exact-count probabilities are summed across qualifying counts; no interpolation at half lines.',
+    }
+    for key in ('reporting.BetOutcomeReporter','reporting.BetPerformanceReporter','evaluation.BetOffer','evaluation.TightestLine','evaluation.HighestExpectedProfit'):
+        for f in components[key]['fields']:
+            name=f['name']
+            if name in bet_help:f.update(help=bet_help[name],primary=True)
+            if name in ('history','labels'):f.update(hidden=True)
+            if name=='catalog':f.update(hidden=True,kind='reference',initial={'ref':'team_catalog'})
+            if name=='offers':f.update(kind='map',item={'kind':'component','components':['evaluation.BetOffer'],'initial_component':'evaluation.BetOffer'})
+            if name=='policy':f.update(kind='component',categories=['evaluation'],components=['evaluation.TightestLine','evaluation.HighestExpectedProfit'],initial_component='evaluation.TightestLine')
+            if name=='option':f.update(kind='component',categories=['label'],components=['labels.BetOption'],initial_component='labels.BetOption')
+            if name=='source':f.update(kind='select',discovery='bet_outcomes',title='Prepared decisions from')
+            if name=='output':f.update(kind='select',choices=['auto','predict_proba','predict_proba_raw','count_distribution'])
+            if name=='bets':f.update(visible_when={'source':[None]},help='Manual decisions are optional. Prefer Prepared decisions from to reuse the probability-based outcome reporter.')
+            if name in ('min_probability','max_probability_loss'):f.update(kind='number',min=0,max=1,step='any')
+            if name in ('min_ev','default_odds','odds','stake'):f.update(kind='number',step='any')
+            if name=='min_ev':f['initial']=0.0
+            if name=='default_odds':f.update(initial=1.1,min=1.000001)
+            if name=='odds':f.update(initial=1.85,min=1.000001)
+            if name=='show_badges':f['default']=True
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')
     for m in metrics:

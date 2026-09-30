@@ -21,7 +21,7 @@ The execution key is a deterministic digest of the recorded input description:
 
 \[
 k=H(\text{data, order, definitions, splits, configuration,
-factory code, analyses, policies, source, runtime}).
+factory code, pre-analysis, policies, numerical source, runtime}).
 \]
 
 This is an identity for reuse, not a statistical guarantee or proof that hidden
@@ -30,6 +30,13 @@ completed search trials with matching keys may be loaded while missing work is
 executed. Explicit external revisions belong in configuration or cache_key().
 Input mutation during an execution and concurrent writers are outside the
 contract. Prepared auxiliary outputs alone do not enter this key.
+
+Post-training analysis does not enter the fitting key. Given retained predictions
+\(\widehat{Y}\), a changed reporter configuration \(c\) computes
+\(R_c=\mathcal{A}_c(\widehat{Y},Y,\text{metadata},\text{fitted models})\)
+without another fit. Feature selectors and evidence used to select a model remain
+part of fitting identity. Saved fitted adapters include their learned input/target
+transforms; restoring them does not estimate those transforms again.
 
 ## Equivalent resumed fitting
 

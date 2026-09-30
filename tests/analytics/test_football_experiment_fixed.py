@@ -27,7 +27,9 @@ def test_real_estimator_fixed_run_reuse_and_load_without_computation(tmp_path,mo
     assert calls=={'prepare':2,'fit':2,'predict':2}
     assert len(experiment.store.read_runs())==1 and loaded.reused
     for a,b in zip(first.training.folds,loaded.training.folds):
-        assert b.model is None
+        assert b.model is not None
+        np.testing.assert_array_equal(a.model.estimator.named_steps['standardscaler'].mean_,
+                                      b.model.estimator.named_steps['standardscaler'].mean_)
         pd.testing.assert_frame_equal(a.predictions['predict'],b.predictions['predict'])
         pd.testing.assert_frame_equal(a.metadata,b.metadata)
         np.testing.assert_array_equal(a.fit_positions,b.fit_positions)
@@ -35,6 +37,9 @@ def test_real_estimator_fixed_run_reuse_and_load_without_computation(tmp_path,mo
     pd.testing.assert_frame_equal(loaded.prepared.outputs['observed_history'],data.outputs['observed_history'])
     assert '<iframe' in loaded._repr_html_()
     assert calls=={'prepare':2,'fit':2,'predict':2}
+    data_only=reopened.load(first.record['run_id'],load_models=False)
+    assert all(f.model is None for f in data_only.training.folds)
+    assert all(f.model is None for f in experiment.store.load_run(first.record['run_id'])['training'].folds)
 
 def test_reuse_false_creates_new_execution_group_and_one_final_each(tmp_path):
     experiment=FootballExperiment('fresh executions',output_dir=tmp_path)

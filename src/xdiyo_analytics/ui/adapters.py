@@ -21,6 +21,7 @@ class BoostingAdapter(EstimatorAdapter):
     """
     fit_kwargs: dict = field(default_factory=dict)
     sample_weight_column: str | None = None
+    exact_counts: bool = False
 
     def _native(self):
         return self.estimator.steps[-1][1] if hasattr(self.estimator, 'steps') else self.estimator
@@ -76,6 +77,14 @@ class BoostingAdapter(EstimatorAdapter):
         self.native_model_ = model
         self.preprocessing_ = self.estimator[:-1] if hasattr(self.estimator, 'steps') and len(self.estimator.steps) > 1 else None
         y = context.y.iloc[:, 0]
+        if self.exact_counts:
+            if not type(model).__name__.endswith('Classifier'):
+                raise ValueError('exact_counts requires a classifier.')
+            values = pd.to_numeric(y, errors='raise').to_numpy(dtype=float)
+            if not np.isfinite(values).all() or (values < 0).any() or (values != np.floor(values)).any():
+                raise ValueError('Exact count classification requires finite nonnegative integer labels.')
+            if family == 'xgboost':
+                model.set_params(objective='multi:softprob', num_class=int(y.nunique()))
         self.label_encoder_ = None
         if family == 'xgboost' and type(model).__name__.endswith('Classifier'):
             from sklearn.preprocessing import LabelEncoder
@@ -84,6 +93,11 @@ class BoostingAdapter(EstimatorAdapter):
         X = self.preprocessing_.fit_transform(context.X, y) if self.preprocessing_ is not None else context.X
         X = self._matrix(X, context.X.index)
         kwargs = dict(self.fit_kwargs)
+        if context.sample_weight is not None:
+            from ..weighting import estimator_weight_kwargs
+            if 'sample_weight' in kwargs or self.sample_weight_column is not None:
+                raise ValueError('Choose common class weights or native/metadata sample weights, not both.')
+            kwargs.update(estimator_weight_kwargs(model, context, pipeline=False))
         if self.sample_weight_column is not None:
             kwargs['sample_weight'] = context.metadata[self.sample_weight_column].to_numpy()
         ranker = type(model).__name__.endswith('Ranker')
