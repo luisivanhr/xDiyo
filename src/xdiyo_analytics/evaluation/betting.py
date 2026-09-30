@@ -58,8 +58,9 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
     Decimal odds >1, nonnegative finite stakes and explicit boolean decisions
     are required for placed bets. Missing quotes/stakes remain unresolved; invalid
     finite values raise. Wins pay stake*odds; losses pay zero; push/void return
-    stake. No fees, bankroll limits, dynamic staking, quarter lines or parlays are
-    simulated. ROI = known net profit / settled stakes, INCLUDING push/void.
+    stake. This function settles singles; compose_bets builds parlay/system
+    tickets from its ledger. No fees, bankroll limits, dynamic staking or quarter
+    lines are simulated. ROI = known net profit / settled stakes, INCLUDING push/void.
     Profit/ROI have partial status while placed bets remain unresolved. No bets
     means profit=0 and ROI undefined. Repeated match options across folds require
     per-fold reporting or an explicit unique-row pooling policy upstream.

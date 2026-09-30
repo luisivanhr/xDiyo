@@ -55,8 +55,9 @@ class BetOption(LabelExpr):
     may be assigned explicit finite values; settlement strings always remain
     distinct. Only explicitly listed void_statuses produce voids, even if the
     outcome itself is missing. Other unfinished/missing results remain missing.
-    Single-threshold comparisons only: quarter-line splitting and parlays are
-    deferred. For example, line=9.25 means the literal threshold 9.25, not a
+    Single-threshold comparisons only: quarter-line splitting is deferred.
+    Parlay/system composition belongs to evaluation.compose_bets, using these
+    individual leg settlements. For example, line=9.25 means the literal threshold 9.25, not a
     bookmaker's split-stake market. void_statuses accepts a tuple or list.
     """
     source: LabelExpr

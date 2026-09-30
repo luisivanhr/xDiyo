@@ -1369,3 +1369,10 @@ The consolidated sections above retain the substance needed for ordinary discuss
 | 12 | League-mean versus James-Stein prior experiment; dependence questions involving home/away goals and corners. |
 | 13 | Statistical tests as possible reusable operators. |
 | 14 | Period-free naming alternatives and replacement of a window-only field with general parameters. |
+
+
+## 30 September 2026: composite betting tickets
+
+Implemented optional Parlay, BetSlip and MultiBet composition for both betting reporters and the structured UI catalog. Group by league-season-round, shared season-round across leagues, or UTC calendar day, with configurable leg counts. MultiBet enumerates requested sizes within complete batches, using per-ticket or divided-total stakes. BetSlip retains named independent templates. Ticket ledgers preserve leg membership, product odds, configurable push/void rules, missing results and ticket-level metrics. Joint win probabilities require an explicit independence assumption. Existing single bets and report-only reuse remain supported.
+
+See [bet ticket guide](docs/analytics/bet_tickets.md) for equations, controls, timing requirements and examples. This completes the basic templates previously deferred; hand-picked legs, same-game dependence, bookmaker-specific pricing, split-quarter lines and bankroll simulation remain deferred.

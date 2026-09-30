@@ -1165,3 +1165,12 @@ The current pilot still uses selectable corner/shot lag and rolling feature defi
 - Normalized Python 3.14 generated class/dataclass metadata and slice constants in execution fingerprints so equivalent notebook definitions can be recovered reliably.
 - Verified the integrated analytics suite: **3,122 passed, 3 skipped** in Python 3.14. The skips are optional SciPy array-API checks. Existing warnings include estimator convergence/deprecation notices and intentional numeric-overflow fixtures.
 - Publication excludes local scraper changes, generated experiment runs, private collection data and incomplete legacy CSV deletions.
+
+
+## 30 September 2026: composite betting tickets
+
+Implemented optional Parlay, BetSlip and MultiBet composition for both betting reporters and the structured UI catalog. Group by league-season-round, shared season-round across leagues, or UTC calendar day, with configurable leg counts. MultiBet enumerates requested sizes within complete batches, using per-ticket or divided-total stakes. BetSlip retains named independent templates. Ticket ledgers preserve leg membership, product odds, configurable push/void rules, missing results and ticket-level metrics. Joint win probabilities require an explicit independence assumption. Existing single bets and report-only reuse remain supported.
+
+See [bet ticket guide](docs/analytics/bet_tickets.md) for equations, controls, timing requirements and examples. This completes the basic templates previously deferred; hand-picked legs, same-game dependence, bookmaker-specific pricing, split-quarter lines and bankroll simulation remain deferred.
+
+Verification: 136 focused betting/UI/recovery tests passed; after the final display change, all 41 ticket/outcome tests passed again. Existing scikit-learn n_jobs deprecation warnings only. Playwright with installed Chrome exercised all grouping choices, MultiBet size/staking, nested BetSlip creation and expandable reports at 1400x1000 and 600x850 with no JavaScript exceptions. Synthetic badges render; long narrow tables scroll horizontally. Tests explicitly prohibit model fit/predict when adding or changing composition on a saved run. No real experiment was trained during browser verification.

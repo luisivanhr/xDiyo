@@ -24,6 +24,7 @@ class BetPerformanceReporter(PredictionReporter):
     history: object = None
     time_column: str = "kickoff_at"
     source: str | None = None
+    composition: object = None
 
     def run(self, context):
         if self.source is not None:
@@ -33,6 +34,8 @@ class BetPerformanceReporter(PredictionReporter):
             if previous is None or 'alternatives' not in previous.tables or 'ledger' not in previous.tables:
                 raise ValueError(f"Bet source {self.source!r} needs an earlier BetOutcomeReporter with identical scope, partition and pooling.")
             ledger, metrics = previous.tables['ledger'].copy(), previous.tables['bet_metrics'].copy()
+            if self.composition is not None and 'tickets' in previous.tables:
+                raise ValueError("The source already contains tickets; configure composition on only one reporter.")
             if ledger.loc[ledger['take'], 'odds'].isna().any():
                 raise ValueError("Bet performance needs odds for selected bets. Add quotes or explicit default_odds to the source reporter.")
         else:
@@ -44,6 +47,18 @@ class BetPerformanceReporter(PredictionReporter):
                                  "Decimal odds; stake returned for push/void. No fees or bankroll simulation.",
                                  "ROI divides known net profit by settled stakes, including push/void.",
                                  f"Cumulative known profit ordered by {self.time_column}; unresolved bets remain visible."])
+        if self.composition is not None:
+            from .tickets import add_tickets
+            if self.source is not None:
+                result.tables['alternatives'] = previous.tables['alternatives'].copy()
+            add_tickets(result, self.composition, context)
+            ledger, metrics = result.tables['ledger'], result.tables['bet_metrics']
+            result.tables['metrics'] = metrics
+            result.artifacts[1] = Artifact('table', metrics, 'Ticket metrics')
+        elif self.source is not None and 'tickets' in previous.tables:
+            for name in ('tickets', 'ticket_legs', 'leg_ledger'):
+                result.tables[name] = previous.tables[name].copy()
+            result.notes.append('Accounting unit: composed tickets from the source; individual legs are not staked again.')
         if len(ledger):
             ledger[self.time_column] = pd.to_datetime(ledger[self.time_column], utc=True, errors="raise")
             if ledger[self.time_column].isna().any():

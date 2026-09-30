@@ -31,6 +31,7 @@ class BetOutcomeReporter(PredictionReporter):
     labels: object = None
     history: object = None
     default_odds: float | None = None
+    composition: object = None
     catalog: object = None
     show_badges: bool = True
     page_size: int = 25
@@ -81,8 +82,13 @@ class BetOutcomeReporter(PredictionReporter):
                              'Green wins; red losses; push, void, unavailable and no bet remain neutral. Filters only change the display.'])
         if self.default_odds is not None:
             result.notes.append(f'Explicit fallback decimal odds: {self.default_odds}. This is a fixed-odds scenario where quotes are absent.')
-        result.artifacts.append(Artifact('match_results', table, f'{target}: bet decisions', dict(
+        display_title = f'{target}: selected legs' if self.composition is not None else f'{target}: bet decisions'
+        result.artifacts.append(Artifact('match_results', table, display_title, dict(
             teams=teams, layout=context.layout, page_size=self.page_size, bets=True,
-            numeric=False, probabilities=False, odds=bool(table.odds.notna().any()), profit=bool(table.profit.notna().any()),
+            numeric=False, probabilities=False, odds=bool(table.odds.notna().any()),
+            profit=self.composition is None and bool(table.profit.notna().any()),
             initial={key:None if getattr(self,key) is None else team_key(getattr(self,key)) for key in ('league','season','team','round')})))
+        if self.composition is not None:
+            from .tickets import add_tickets
+            add_tickets(result, self.composition, context, fixture_table=table, teams=teams)
         return result

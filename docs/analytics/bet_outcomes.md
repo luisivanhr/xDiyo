@@ -174,4 +174,10 @@ For custom numerical workflows, `prepare_bets(context, offers, policy, ...)`
 returns named `BetSpec` objects and an alternatives table. Call `evaluate_bets`
 afterward for settlement. Existing manual `BetPerformanceReporter(bets=...)`
 configuration remains supported. Point-prediction confidence policies, joint
-parlays and dynamic stakes remain future extensions.
+dependence models for same-game parlays and dynamic stakes remain future extensions.
+
+## Composite tickets
+
+Both reporters now accept optional `composition=Parlay(...)`, `MultiBet(...)`,
+or `BetSlip(...)`. See [Parlays, bet slips and system bets](bet_tickets.md) for
+the UI workflow, grouping choices, settlement rules, equations and retained tables.
