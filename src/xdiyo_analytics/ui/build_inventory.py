@@ -678,6 +678,52 @@ def build():
             if name=='default_odds':f.update(initial=1.1,min=1.000001)
             if name=='odds':f.update(initial=1.85,min=1.000001)
             if name=='show_badges':f['default']=True
+    ticket_components = ['evaluation.Parlay', 'evaluation.MultiBet', 'evaluation.BetSlip']
+    for key in ('reporting.BetOutcomeReporter', 'reporting.BetPerformanceReporter'):
+        for f in components[key]['fields']:
+            if f['name'] == 'composition':
+                f.update(kind='component', components=ticket_components, initial_component='evaluation.Parlay',
+                         title='Compose tickets', primary=True,
+                         help='Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.')
+    ticket_help = {
+        'size': 'Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.',
+        'grouping': 'Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.',
+        'order_by': 'Rank eligible selected legs before filling each batch. Kickoff is chronological; probability and expected profit rank highest first. Real outcomes never affect the ranking.',
+        'stake': 'Stake per ticket, or total per MultiBet batch when Total is selected. Ticket stakes replace the original single-leg stakes.',
+        'sizes': 'System sizes: 2 and 3 with pool size 3 creates three doubles and one treble. Every size must be at most the pool size.',
+        'stake_mode': 'Per ticket stakes this amount on every combination. Total divides this amount equally across all combinations in each complete batch.',
+        'on_push': 'Remove: leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.',
+        'on_void': 'Remove: cancelled leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.',
+        'probability_mode': 'None leaves joint probability blank. Independent multiplies leg win probabilities as an explicit assumption; it does not estimate dependence or push-adjusted return probability.',
+        'max_tickets': 'Maximum generated tickets per template in this report scope. System combinations can grow quickly; exceeding the limit gives an error, not a truncated result.',
+        'tickets': 'Add named Parlay or MultiBet templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.',
+    }
+    for key in ticket_components:
+        for f in components[key]['fields']:
+            name = f['name']
+            f.update(help=ticket_help[name], primary=True)
+            if name == 'grouping':
+                f.update(kind='select', choices=[{'value':'league_round','label':'Same league and round'},
+                                                {'value':'round','label':'Same round across leagues'},
+                                                {'value':'day','label':'Same calendar day (UTC)'}])
+            if name == 'order_by':
+                f.update(kind='select', choices=['kickoff', 'probability', 'expected_profit'])
+            if name in ('on_push', 'on_void'):
+                f.update(kind='select', choices=['remove', 'refund', 'loss'])
+            if name == 'probability_mode':
+                f.update(kind='select', choices=['none', 'independent'])
+            if name == 'stake_mode':
+                f.update(kind='select', choices=['per_ticket', 'total'])
+            if name in ('size','max_tickets'):
+                f.update(kind='number', min=1, step=1)
+            if name == 'size':
+                f['title'] = 'Pool size' if key.endswith('MultiBet') else 'Legs per ticket'
+            if name == 'stake':
+                f.update(kind='number', min=0, step='any')
+            if name == 'sizes':
+                f.update(kind='list', item={'kind':'number', 'min':1, 'step':1}, title='System sizes')
+            if name == 'tickets':
+                f.update(kind='map', item={'kind':'component', 'components':ticket_components[:2], 'initial_component':'evaluation.Parlay'})
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')
     for m in metrics:

@@ -3027,6 +3027,301 @@
       ],
       "accepts_extra": false
     },
+    "evaluation.Parlay": {
+      "id": "evaluation.Parlay",
+      "title": "Parlay",
+      "category": "evaluation",
+      "description": "Disjoint tickets of size legs from each prediction-only group.",
+      "fields": [
+        {
+          "name": "size",
+          "title": "Legs per ticket",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "grouping",
+          "title": "Grouping",
+          "required": false,
+          "kind": "select",
+          "default": "league_round",
+          "help": "Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "league_round",
+              "label": "Same league and round"
+            },
+            {
+              "value": "round",
+              "label": "Same round across leagues"
+            },
+            {
+              "value": "day",
+              "label": "Same calendar day (UTC)"
+            }
+          ]
+        },
+        {
+          "name": "order_by",
+          "title": "Order by",
+          "required": false,
+          "kind": "select",
+          "default": "kickoff",
+          "help": "Rank eligible selected legs before filling each batch. Kickoff is chronological; probability and expected profit rank highest first. Real outcomes never affect the ranking.",
+          "primary": true,
+          "choices": [
+            "kickoff",
+            "probability",
+            "expected_profit"
+          ]
+        },
+        {
+          "name": "stake",
+          "title": "Stake",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Stake per ticket, or total per MultiBet batch when Total is selected. Ticket stakes replace the original single-leg stakes.",
+          "step": "any",
+          "primary": true,
+          "min": 0
+        },
+        {
+          "name": "on_push",
+          "title": "On push",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "on_void",
+          "title": "On void",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: cancelled leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "probability_mode",
+          "title": "Probability mode",
+          "required": false,
+          "kind": "select",
+          "default": "none",
+          "help": "None leaves joint probability blank. Independent multiplies leg win probabilities as an explicit assumption; it does not estimate dependence or push-adjusted return probability.",
+          "primary": true,
+          "choices": [
+            "none",
+            "independent"
+          ]
+        },
+        {
+          "name": "max_tickets",
+          "title": "Max tickets",
+          "required": false,
+          "kind": "number",
+          "default": 1000,
+          "help": "Maximum generated tickets per template in this report scope. System combinations can grow quickly; exceeding the limit gives an error, not a truncated result.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.BetSlip": {
+      "id": "evaluation.BetSlip",
+      "title": "BetSlip",
+      "category": "evaluation",
+      "description": "Named Parlay/MultiBet templates, settled and staked independently.",
+      "fields": [
+        {
+          "name": "tickets",
+          "title": "Tickets",
+          "required": true,
+          "kind": "map",
+          "help": "Add named Parlay or MultiBet templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.",
+          "primary": true,
+          "item": {
+            "kind": "component",
+            "components": [
+              "evaluation.Parlay",
+              "evaluation.MultiBet"
+            ],
+            "initial_component": "evaluation.Parlay"
+          }
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.MultiBet": {
+      "id": "evaluation.MultiBet",
+      "title": "MultiBet",
+      "category": "evaluation",
+      "description": "System bet: all requested k-leg combinations within each size-leg batch.",
+      "fields": [
+        {
+          "name": "size",
+          "title": "Pool size",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "grouping",
+          "title": "Grouping",
+          "required": false,
+          "kind": "select",
+          "default": "league_round",
+          "help": "Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "league_round",
+              "label": "Same league and round"
+            },
+            {
+              "value": "round",
+              "label": "Same round across leagues"
+            },
+            {
+              "value": "day",
+              "label": "Same calendar day (UTC)"
+            }
+          ]
+        },
+        {
+          "name": "order_by",
+          "title": "Order by",
+          "required": false,
+          "kind": "select",
+          "default": "kickoff",
+          "help": "Rank eligible selected legs before filling each batch. Kickoff is chronological; probability and expected profit rank highest first. Real outcomes never affect the ranking.",
+          "primary": true,
+          "choices": [
+            "kickoff",
+            "probability",
+            "expected_profit"
+          ]
+        },
+        {
+          "name": "stake",
+          "title": "Stake",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Stake per ticket, or total per MultiBet batch when Total is selected. Ticket stakes replace the original single-leg stakes.",
+          "step": "any",
+          "primary": true,
+          "min": 0
+        },
+        {
+          "name": "on_push",
+          "title": "On push",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "on_void",
+          "title": "On void",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: cancelled leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "probability_mode",
+          "title": "Probability mode",
+          "required": false,
+          "kind": "select",
+          "default": "none",
+          "help": "None leaves joint probability blank. Independent multiplies leg win probabilities as an explicit assumption; it does not estimate dependence or push-adjusted return probability.",
+          "primary": true,
+          "choices": [
+            "none",
+            "independent"
+          ]
+        },
+        {
+          "name": "max_tickets",
+          "title": "Max tickets",
+          "required": false,
+          "kind": "number",
+          "default": 1000,
+          "help": "Maximum generated tickets per template in this report scope. System combinations can grow quickly; exceeding the limit gives an error, not a truncated result.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "sizes",
+          "title": "System sizes",
+          "required": false,
+          "kind": "list",
+          "default": [
+            2,
+            3
+          ],
+          "help": "System sizes: 2 and 3 with pool size 3 creates three doubles and one treble. Every size must be at most the pool size.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "min": 1,
+            "step": 1
+          }
+        },
+        {
+          "name": "stake_mode",
+          "title": "Stake mode",
+          "required": false,
+          "kind": "select",
+          "default": "per_ticket",
+          "help": "Per ticket stakes this amount on every combination. Total divides this amount equally across all combinations in each complete batch.",
+          "primary": true,
+          "choices": [
+            "per_ticket",
+            "total"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
     "reporting.HeatmapReporter": {
       "id": "reporting.HeatmapReporter",
       "title": "HeatmapReporter",
@@ -4406,6 +4701,21 @@
           "help": "Reuse an earlier Bet Outcome Reporter, with the same scope, rows and pooling. Its exact decisions and settlements feed profit accounting; no second selection step.",
           "primary": true,
           "discovery": "bet_outcomes"
+        },
+        {
+          "name": "composition",
+          "title": "Compose tickets",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.",
+          "primary": true,
+          "components": [
+            "evaluation.Parlay",
+            "evaluation.MultiBet",
+            "evaluation.BetSlip"
+          ],
+          "initial_component": "evaluation.Parlay"
         }
       ],
       "accepts_extra": false
@@ -4544,6 +4854,21 @@
           "step": "any",
           "initial": 1.1,
           "min": 1.000001
+        },
+        {
+          "name": "composition",
+          "title": "Compose tickets",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.",
+          "primary": true,
+          "components": [
+            "evaluation.Parlay",
+            "evaluation.MultiBet",
+            "evaluation.BetSlip"
+          ],
+          "initial_component": "evaluation.Parlay"
         },
         {
           "name": "catalog",
@@ -12550,6 +12875,15 @@
           "kind": "boolean",
           "default": true,
           "help": "Save fitted fold models, final refits and their fitted scalers for automatic restoration. Enabled by default. Load only trusted experiment folders.",
+          "primary": false
+        },
+        {
+          "name": "renderers",
+          "title": "Renderers",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Renderers for run. Optional; leave disabled to use the standard behavior.",
           "primary": false
         }
       ],
