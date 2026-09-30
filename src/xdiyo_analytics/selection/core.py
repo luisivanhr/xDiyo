@@ -11,7 +11,7 @@ import pandas as pd
 from ..analysis import PostTrainingAnalysis, PreTrainingAnalysis
 from ..datasets import ModelDataset
 from ..evaluation import Metric
-from ..evaluation.metrics import _sample_hash
+from ..evaluation.metrics import _sample_hash, _resolved_metric_definitions
 from ..experiments import configuration_hash
 from ..reporting import AnalysisReport, Artifact, PerformanceReporter, StudyResult, StudyRun
 from ..splits import Fold, SplitPlan
@@ -356,7 +356,7 @@ class ModelSelection:
     Custom decision objects implement decide(trials)->SelectionDecision.
     """
     candidates: object
-    metrics: object = ()
+    metrics: object = field(default=(), metadata={"recovery_resolver": _resolved_metric_definitions})
     decision: object = None
     pooling: str | None = None
     information_criteria: bool = False
@@ -489,7 +489,8 @@ class ModelSelection:
         search_key = None
         if experiment is not None:
             from ..experiments.recovery import execution_key
-            search_key = execution_key(dataset, split_plan, rows, metrics, rule, self.pooling,
+            search_key = execution_key(dataset, split_plan, rows, metrics, _resolved_metric_definitions(metrics),
+                                       rule, self.pooling,
                                        self.information_criteria, self.evidence_reporters, recovery_namespace, execution)
         if experiment is not None and run_group is None:
             run_group = (experiment.open_run(name, execution_key(search_key, identity_candidates), reuse=resume)

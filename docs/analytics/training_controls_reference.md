@@ -281,14 +281,34 @@ Legacy defaults apply to filtering/display without rewriting old JSON. Leaderboa
 tables add `role`, `run_group`, `selected_trial_id`; required metric compatibility,
 scaling and missing-value rules remain in the post-training reference.
 
-Every successful save writes `training.json`, including when predictions are
-disabled: per-fold development/fit/validation positions, selected columns, fold
-metadata, summary and long-form history in JSON table format. Missing legacy fit
-membership falls back to development rows. Nonfinite diagnostic values serialize
-as null. `tables.json` and optional Parquet/HTML retain prior behavior. Models and
-resumable checkpoints are not serialized. Private `_start` validates role/group
-and trial linkage before staging; `_json`, `_write` and `_publish` retain canonical
-JSON, exclusive writes and bounded Windows publication retry behavior.
+Every successful save writes `training.json` as a list of per-fold records,
+including when predictions are disabled: development/fit/validation positions,
+selected columns, fold metadata, summary and long-form history. Ordinary histories
+retain pandas JSON table format; histories with unsupported axes, dtypes or
+cell values use `{"encoding": "xdiyo.data-only.v1", "value": ...}` containing a
+data-only frame, following the same rules as report tables in the post-training
+reference. Typed histories retain temporal index frequency parameters; absent
+legacy frequency stays unset. Complex-valued history data, including columns,
+row indexes and categories, are unsupported and raise before completed publication.
+JSON-native fold metadata stays unchanged. Other fold metadata uses a data-only
+representation in `fold_metadata`, with sibling
+`fold_metadata_encoding: "xdiyo.data-only.v1"`; this preserves integer block keys,
+arrays, timestamps and durations. Ordinary summaries retain their JSON
+representation. Summaries containing NumPy temporal scalars or arrays, or other
+supported values requiring typed storage, use a packed `summary` with sibling
+`summary_encoding: "xdiyo.data-only.v1"`, preserving values such as integer-keyed
+mappings and durations. Configuration descriptors are not used for these typed
+summary values. `ExperimentStore.load_run` and
+`FootballExperiment.load` automatically read both original and tagged forms,
+including runs without `recovery.json`.
+
+Missing legacy fit membership falls back to development rows. Nonfinite numbers
+in ordinary diagnostics serialize as null; tagged fold metadata and summaries
+retain their explicit missing-value representation. Optional Parquet/HTML retains
+prior behavior. Models and resumable checkpoints are not serialized. Private
+`_start` validates role/group and trial linkage before staging; configuration
+`_json` validation remains strict. `_write` and `_publish` retain exclusive writes
+and bounded Windows publication retry behavior.
 
 ## Scope and evidence
 

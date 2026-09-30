@@ -1,7 +1,7 @@
 """Small local experiment/run store; JSON metadata and Parquet predictions."""
 
 from dataclasses import is_dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -13,14 +13,142 @@ import numpy as np
 import pandas as pd
 
 
-def _json(value, *, missing=False):
-    """Canonical supported configuration values; never unstable object reprs."""
+_ARTIFACT_ENCODING = "xdiyo.data-only.v1"
+_CONFIG_TAGS = {"__native_timedelta__", "__numpy_temporal__", "__numpy_temporal_array__",
+                "__datetime__", "__type__", "__literal_config__"}
+
+
+def _plain_metadata(value):
+    """Whether JSON preserves this runtime metadata without erasing its types."""
+    if value is None or type(value) in (str, bool, int):
+        return True
+    if type(value) is float:
+        return np.isfinite(value)
+    if type(value) is list:
+        return all(_plain_metadata(item) for item in value)
+    if type(value) is dict:
+        return all(isinstance(key, str) and _plain_metadata(item) for key, item in value.items())
+    return False
+
+
+def _plain_table_cell(value):
+    """JSON-native cells, allowing the existing NumPy scalar normalization."""
+    if isinstance(value, (np.datetime64, np.timedelta64)):
+        return False
+    if isinstance(value, np.generic):
+        value = value.item()
+    if value is None or isinstance(value, (str, bool, int)):
+        return True
+    if isinstance(value, float):
+        return np.isfinite(value)
+    if isinstance(value, list):
+        return all(_plain_table_cell(item) for item in value)
+    if isinstance(value, dict):
+        return all(isinstance(key, str) and _plain_table_cell(item) for key, item in value.items())
+    return False
+
+
+def _plain_table_column(values):
+    """Whether table JSON retains a column's supported dtype and cell types."""
+    from .recovery import _reject_numpy_dtype
+    dtype = values.dtype
+    _reject_numpy_dtype(dtype)
+    if isinstance(dtype, pd.SparseDtype):
+        raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
+    if dtype.kind == "c":
+        raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
+    # Duration JSON cannot be read; datetime JSON loses units/sub-ms precision.
+    if dtype.kind in "mM":
+        return False
+    if isinstance(dtype, pd.CategoricalDtype):
+        categories = dtype.categories
+        # The enum retains values/order, but not the category-index dtype/name.
+        return (_plain_table_column(pd.Series(categories))
+                and categories.identical(pd.Index(categories.tolist(), tupleize_cols=False)))
+    if isinstance(dtype, pd.StringDtype):
+        # The table schema stores the dtype name, but omits string storage.
+        return dtype == pd.api.types.pandas_dtype(str(dtype))
+    if dtype.kind == "O":
+        # Top-level nulls normalize to NaN, and homogeneous scalar columns may
+        # be inferred as numeric/string/bool. Nested JSON nulls remain literal.
+        return (all(value is not None and _plain_table_cell(value) for value in values)
+                and pd.Series(values.tolist(), dtype=None).dtype == dtype)
+    if dtype.kind == "f" and np.isinf(values).any():
+        return False
+    if isinstance(dtype, np.dtype) and dtype.kind in "biuf":
+        # Unlike nullable extension dtypes, NumPy widths/signs are not in the
+        # table schema. Preserve ordinary bool/int64/float64 JSON and rounding.
+        return dtype in (np.dtype("bool"), np.dtype("int64"), np.dtype("float64"))
+    return True
+
+
+def _table_document(table):
+    """Keep ordinary table JSON when it can preserve the axes and typed cells."""
+    from .recovery import _reject_numpy_dtype
+    for dtype in (*table.dtypes, table.index.dtype, table.columns.dtype):
+        _reject_numpy_dtype(dtype)
+        if isinstance(dtype, pd.SparseDtype):
+            raise TypeError(f"Unsupported sparse table dtype {dtype}; convert to dense data before saving.")
+    for dtype in table.dtypes:
+        if dtype.kind == "c":
+            raise TypeError(f"Unsupported complex table dtype {dtype}; use real-valued data-only artifacts.")
+    columns, index = table.columns, table.index
+    # Table JSON uses columns/index names as record keys. Duplicate or typed
+    # labels can silently collapse, change type, or make pandas' reader fail.
+    plain_columns = type(columns) is pd.Index or (isinstance(columns, pd.RangeIndex) and not len(columns))
+    # Reuse column dtype checks for index fields. Keep pandas' working period
+    # schema and RangeIndex for compatibility with existing numerical artifacts.
+    # Float labels need exact identity, unlike rounded numerical table values.
+    plain_index = ((type(index) is pd.Index or isinstance(index, (pd.RangeIndex, pd.PeriodIndex)))
+                   and (isinstance(index, pd.PeriodIndex) or _plain_table_column(pd.Series(index, dtype=index.dtype)))
+                   and all(pd.api.types.is_scalar(label)
+                           and not isinstance(label, (date, timedelta, np.datetime64, np.timedelta64,
+                                                      float, np.floating))
+                           for label in index))
+    plain_axes = (plain_columns and columns.name is None and columns.is_unique
+                  and all(isinstance(label, str) for label in columns)
+                  and not isinstance(index, pd.MultiIndex) and index.is_unique
+                  and plain_index
+                  and (index.name is None or (isinstance(index.name, str) and index.name != "index"))
+                  and (index.name if index.name is not None else "index") not in columns)
+    # pandas table JSON omits attrs even when every axis and cell is ordinary.
+    if table.attrs or not plain_axes or not all(_plain_table_column(table.iloc[:, i]) for i in range(len(columns))):
+        from .recovery import pack
+        return {"encoding": _ARTIFACT_ENCODING, "value": pack(table)}
+    return json.loads(table.to_json(orient="table", date_format="iso"))
+
+
+def _json(value, *, missing=False, temporal_descriptors=True, escape_literals=True):
+    """Normalize raw configuration once, distinguishing typed values from literals.
+
+    Artifact writers disable literal escaping: configs there are already encoded,
+    while ordinary diagnostic mappings retain their historical JSON shape.
+    """
+    sub = lambda item: _json(item, missing=missing, temporal_descriptors=temporal_descriptors,
+                             escape_literals=escape_literals)
+    if isinstance(value, (np.generic, np.ndarray)):
+        from .recovery import _reject_numpy_value
+        _reject_numpy_value(value)
     if value is None or value is pd.NA or value is pd.NaT:
         return None
+    if isinstance(value, (np.datetime64, np.timedelta64)):
+        if not temporal_descriptors:
+            raise TypeError("NumPy temporal summaries require data-only encoding.")
+        return {"__numpy_temporal__": {"dtype": str(value.dtype), "ticks": int(value.astype("int64"))}}
+    if type(value) is timedelta:
+        if not temporal_descriptors:
+            raise TypeError("Native timedelta summaries require data-only encoding.")
+        return {"__native_timedelta__": {"days": value.days, "seconds": value.seconds,
+                                         "microseconds": value.microseconds}}
     if isinstance(value, np.generic):
-        return _json(value.item(), missing=missing)
+        return sub(value.item())
     if isinstance(value, np.ndarray):
-        return _json(value.tolist(), missing=missing)
+        if value.dtype.kind in "mM":
+            if not temporal_descriptors:
+                raise TypeError("NumPy temporal summaries require data-only encoding.")
+            return {"__numpy_temporal_array__": {"dtype": str(value.dtype), "shape": list(value.shape),
+                                                 "ticks": value.astype("int64").tolist()}}
+        return sub(value.tolist())
     if isinstance(value, (str, bool, int)):
         return value
     if isinstance(value, float):
@@ -35,25 +163,32 @@ def _json(value, *, missing=False):
         return str(value)
     if is_dataclass(value) and not isinstance(value, type):
         return {"__type__": f"{type(value).__module__}.{type(value).__qualname__}",
-                "fields": {key: _json(getattr(value, key), missing=missing) for key in value.__dataclass_fields__}}
+                "fields": {key: sub(getattr(value, key)) for key in value.__dataclass_fields__}}
     if isinstance(value, dict):
         if any(not isinstance(key, str) for key in value):
             raise TypeError("Configuration dictionary keys must be strings.")
-        return {key: _json(item, missing=missing) for key, item in value.items()}
+        encoded = {key: sub(item) for key, item in value.items()}
+        if escape_literals and temporal_descriptors and _CONFIG_TAGS.intersection(value):
+            return {"__literal_config__": encoded}
+        return encoded
     if isinstance(value, (tuple, list)):
-        return [_json(item, missing=missing) for item in value]
+        return [sub(item) for item in value]
     raise TypeError(f"Cannot record {type(value).__name__}; provide a descriptive configuration mapping.")
 
 
 def configuration_hash(config):
-    """Automatic stable digest of explicit JSON-compatible configuration values."""
+    """Digest original configuration inputs, including typed-value provenance.
+
+    A stored descriptor mapping is a literal mapping if supplied as a new input;
+    it cannot transparently stand in for its original typed value.
+    """
     payload = json.dumps(_json(config), sort_keys=True, separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def _write(path, value):
     with path.open("x", encoding="utf-8") as stream:
-        json.dump(_json(value, missing=True), stream, ensure_ascii=False, indent=2, allow_nan=False)
+        json.dump(_json(value, missing=True, escape_literals=False), stream, ensure_ascii=False, indent=2, allow_nan=False)
 
 
 def _publish(stage, destination):
@@ -81,7 +216,7 @@ def _report_data(report):
             continue
         for table_name, table in study.result.tables.items():
             tables.append(dict(study=study.name, fold_id=study.fold_id, name=table_name,
-                               table=json.loads(table.to_json(orient="table", date_format="iso"))))
+                               table=_table_document(table)))
         if "metrics" in study.result.tables:
             for metric in study.result.tables["metrics"].to_dict("records"):
                 metrics.append(dict(metric, study=study.name, type=study.type,
@@ -162,16 +297,20 @@ class ExperimentStore:
         stage.mkdir()
         return stage, record
 
-    def save_run(self, training, report, *, name, config, save_predictions=True, save_html=False,
+    def save_run(self, training, report, *, name, config, save_predictions=True, save_html=False, renderers=None,
                  role="final", run_group=None, selected_trial_id=None, recovery=None, recovery_key=None,
-                 display_report=None, save_models=False, model_serializer=None):
+                 display_report=None, save_models=False, model_serializer=None, _finalize_report=None):
         """Persist computed numerical studies and optional predictions/HTML.
 
         A successful run is published only after its artifacts are written.
         Incomplete .pending directories are ignored by read_runs. Metrics retain
         study/fold/target/output/settings, evaluated-sample fingerprint and scope.
         Tables are stored as JSON table documents; predictions/y/metadata are
-        Parquet with original indexes. No reporter or model is rerun to save.
+        Parquet with original indexes. No model is rerun to save. The private
+        FootballExperiment finalizer adds experiment-report snapshots after the
+        numerical record is assembled, before HTML/recovery and publication.
+        Other callers save their already computed report without running reporters.
+        renderers supplies custom artifact HTML callbacks when save_html is true.
         Publication retries brief Windows access/sharing failures up to six
         attempts (1.55 seconds backoff); persistent errors propagate and leave
         artifacts in the unpublished .pending directory.
@@ -193,13 +332,25 @@ class ExperimentStore:
         for fold in training.folds:
             fit = fold.fit_positions if fold.fit_positions is not None else fold.train_positions
             validation = fold.validation_positions if fold.validation_positions is not None else []
-            diagnostics.append(dict(fold_id=fold.fold_id, train_positions=list(fold.train_positions),
-                                    fit_positions=list(fit), validation_positions=list(validation),
-                                    feature_columns=list(fold.feature_columns), target_columns=list(fold.target_columns),
-                                    fold_metadata=fold.fold_metadata,
-                                    summary=fold.training_summary,
-                                    calibration_positions=[] if fold.calibration_positions is None else list(fold.calibration_positions),
-                                    history=json.loads(fold.training_history.to_json(orient="table", date_format="iso"))))
+            diagnostic = dict(fold_id=fold.fold_id, train_positions=list(fold.train_positions),
+                              fit_positions=list(fit), validation_positions=list(validation),
+                              feature_columns=list(fold.feature_columns), target_columns=list(fold.target_columns),
+                              fold_metadata=fold.fold_metadata, summary=fold.training_summary,
+                              calibration_positions=[] if fold.calibration_positions is None else list(fold.calibration_positions),
+                              history=_table_document(fold.training_history))
+            if not _plain_metadata(fold.fold_metadata):
+                from .recovery import pack
+                diagnostic["fold_metadata"] = pack(fold.fold_metadata)
+                diagnostic["fold_metadata_encoding"] = _ARTIFACT_ENCODING
+            try:
+                # Keep the historical summary shape and null handling whenever
+                # the existing JSON conversion accepts it.
+                _json(fold.training_summary, missing=True, temporal_descriptors=False)
+            except (TypeError, ValueError):
+                from .recovery import pack
+                diagnostic["summary"] = pack(fold.training_summary)
+                diagnostic["summary_encoding"] = _ARTIFACT_ENCODING
+            diagnostics.append(diagnostic)
         _write(stage / "training.json", diagnostics)
         record["artifacts"]["training"] = "training.json"
         if save_predictions:
@@ -221,8 +372,11 @@ class ExperimentStore:
                                   test_positions=fold.test_positions.tolist(), feature_columns=list(fold.feature_columns),
                                   target_columns=list(fold.target_columns)))
             record["artifacts"]["folds"] = saved
+        if _finalize_report is not None:
+            display_report = _finalize_report(_json(record, missing=True, escape_literals=False))
         if save_html:
-            (display_report if display_report is not None else report).to_html(stage / "report.html", spatial_limit=100)
+            options = {} if renderers is None else {"renderers": renderers}
+            (display_report if display_report is not None else report).to_html(stage / "report.html", spatial_limit=100, **options)
             record["artifacts"]["report"] = "report.html"
         if recovery is not None:
             from .recovery import dump_bundle
@@ -246,7 +400,7 @@ class ExperimentStore:
                 record["artifacts"]["refit_model"] = "models/refit"
         _write(stage / "run.json", record)
         _publish(stage, self.path / "runs" / record["run_id"])
-        return _json(record, missing=True)
+        return _json(record, missing=True, escape_literals=False)
 
     def open_run(self, name, recovery_key, *, reuse=True):
         """Reopen a matching execution group, or allocate a new one.
@@ -310,7 +464,7 @@ class ExperimentStore:
                 loaded["extra"]["refit"] = restore(record["artifacts"]["refit_model"])
         return loaded
 
-    def refresh_report(self, run_id, report, *, display_report=None):
+    def refresh_report(self, run_id, report, *, display_report=None, renderers=None, analysis_signature=None):
         """Publish refreshed analysis without replacing fitted/prediction artifacts.
 
         Keep one leaderboard entry. The manifest switches only after all new
@@ -327,14 +481,16 @@ class ExperimentStore:
         _write(destination / "tables.json", tables)
         loaded["report"] = report
         dump_bundle(destination / "recovery.json", loaded)
-        (display_report if display_report is not None else report).to_html(destination / "report.html", spatial_limit=100)
+        (display_report if display_report is not None else report).to_html(destination / "report.html", spatial_limit=100, renderers=renderers)
         for key, filename in (("tables", "tables.json"), ("recovery", "recovery.json"), ("report", "report.html")):
             record["artifacts"][key] = (relative / filename).as_posix()
+        if analysis_signature is not None:
+            record["config"]["post_analysis"] = analysis_signature
         record["analysis_updated_at"] = datetime.now(timezone.utc).isoformat()
         pending = folder / f".run-{uuid4()}.json"
         _write(pending, record)
         pending.replace(folder / "run.json")
-        return _json(record, missing=True)
+        return _json(record, missing=True, escape_literals=False)
 
     def save_failure(self, *, name, config, error, role="final", run_group=None):
         """Record a failed candidate explicitly; no exception swallowing in runners."""

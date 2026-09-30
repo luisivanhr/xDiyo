@@ -97,7 +97,7 @@ def test_nested_selection_and_data_only_recovery_preserve_one_target_inverse(tmp
         np.testing.assert_allclose(fold.predictions['predict'].target, manual_inverse, atol=1e-9)
         np.testing.assert_allclose(fold.predictions['predict'].target, data.y.iloc[test, 0], atol=1e-9)
         assert not np.allclose(internal, fold.predictions['predict'].target)
-    loaded = experiment.load(result.record['run_id'])
+    loaded = experiment.load(result.record['run_id'], load_models=False)
     for original, restored in zip(result.training.folds, loaded.training.folds):
         assert restored.model is None
         pd.testing.assert_frame_equal(original.predictions['predict'], restored.predictions['predict'])

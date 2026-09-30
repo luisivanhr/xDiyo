@@ -46,6 +46,7 @@ class RefitPolicy:
     CV requires an explicit candidate, because its outer folds can select different
     configurations. Fitted feature selection is rerun on refit fitting rows.
     validation/control default to None, independently of evaluation controls.
+    FootballExperiment records the resolved refit settings in config['refit'].
     """
     train_positions: object
     candidate: object = None
@@ -105,6 +106,7 @@ class ExperimentResult:
     record: dict = field(default_factory=dict)
     path: object = None
     reused: bool = False
+    _renderers: dict = field(default_factory=dict, init=False, repr=False, compare=False)
 
     @property
     def dataset(self):
@@ -135,16 +137,19 @@ class ExperimentResult:
         return AnalysisReport(studies, self.record.get("name", "Football experiment"))
 
     def show(self, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.show(**kwargs)
 
     def to_html(self, path=None, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.to_html(path, **kwargs)
 
     def to_notebook(self, **kwargs):
+        kwargs.setdefault("renderers", self._renderers)
         return self.report.to_notebook(**kwargs)
 
     def _repr_html_(self):
-        return self.report._repr_html_()
+        return self.to_notebook()._repr_html_()
 
 
 def _display_name(candidate, fields=None):
@@ -182,6 +187,37 @@ def _summary(selection):
     return SelectionSummary(comparison_for_display(selection.comparison, configs), deepcopy(winners))
 
 
+class _ExperimentRecords:
+    """Read-only reporting snapshot, optionally including an unpublished final.
+
+    Exposes record inspection only: the provisional run has no loadable artifacts.
+    Copies isolate reporters from each other and from the record being published.
+    """
+    def __init__(self, store, pending=None):
+        self._path = store.path
+        self._manifest = deepcopy(store.manifest)
+        records = store.read_runs()
+        if pending is not None:
+            records = [record for record in records if record["run_id"] != pending["run_id"]]
+            records.append(pending)
+        self._records = deepcopy(sorted(records, key=lambda item: (item["created_at"], item["run_id"])))
+
+    @property
+    def path(self):
+        return self._path
+
+    @property
+    def manifest(self):
+        return deepcopy(self._manifest)
+
+    def read_runs(self, *, role=None, run_group=None):
+        if role not in {None, "final", "trial"}:
+            raise ValueError("role must be final, trial or None.")
+        return deepcopy([record for record in self._records
+                         if (role is None or record.get("role", "final") == role)
+                         and (run_group is None or record.get("run_group", record["run_id"]) == run_group)])
+
+
 class FootballExperiment:
     """One named experiment folder, containing independently named final runs.
 
@@ -211,7 +247,7 @@ class FootballExperiment:
             raise TypeError("Preparation must return PreparedExperiment.")
         return result
 
-    def load(self, run_id, *, load_models=True, model_serializer=None):
+    def load(self, run_id, *, load_models=True, model_serializer=None, renderers=None):
         """Reopen a trusted local run without preparation, fitting or prediction.
 
         Models and fitted scalers are restored when saved. Set load_models=False
@@ -220,13 +256,16 @@ class FootballExperiment:
         loaded = self.store.load_run(run_id, load_models=load_models, model_serializer=model_serializer)
         extra = loaded["extra"]
         if extra.get("kind") == "legacy":
-            return ExperimentResult(None, loaded["training"], AnalysisReport(), loaded["report"],
-                                    record=loaded["record"], path=self.store.path / "runs" / run_id, reused=True)
-        if extra.get("kind") != "football_experiment":
+            result = ExperimentResult(None, loaded["training"], AnalysisReport(), loaded["report"],
+                                      record=loaded["record"], path=self.store.path / "runs" / run_id, reused=True)
+        elif extra.get("kind") == "football_experiment":
+            result = ExperimentResult(extra["prepared"], loaded["training"], extra["pre_report"], loaded["report"],
+                                      extra["selection"], extra["refit"], loaded["record"],
+                                      self.store.path / "runs" / run_id, True)
+        else:
             raise ValueError("This record is not a FootballExperiment final result.")
-        return ExperimentResult(extra["prepared"], loaded["training"], extra["pre_report"], loaded["report"],
-                                extra["selection"], extra["refit"], loaded["record"],
-                                self.store.path / "runs" / run_id, True)
+        result._renderers = dict(renderers or {})
+        return result
 
     def leaderboard(self, weights, **kwargs):
         """Read current final runs from this experiment, including earlier sessions."""
@@ -237,7 +276,7 @@ class FootballExperiment:
     def run(self, prepared=None, *, model=None, model_selection=None, selection_plan=None,
             development_positions=None, inner_plan_factory=None, pre_analysis=None, post_analysis=None,
             refit_policy=None, checkpoint_policy=None, name=None, name_fields=None, config=None, reuse=True, execution=None,
-            save_models=True, model_serializer=None):
+            save_models=True, model_serializer=None, renderers=None):
         """Execute fixed fitting, holdout search, or optional nested selection.
 
         model is a Candidate. Alternatively model_selection is ModelSelection:
@@ -251,6 +290,8 @@ class FootballExperiment:
         Post-analysis refreshes on reuse without fitting or predicting. Fitted
         models/scalers are saved by default using joblib; custom frameworks can
         supply model_serializer. Load only your own or otherwise trusted artifacts.
+        Experiment reporters receive a read-only snapshot before publication.
+        Custom renderers are supplied again on load and are not serialized.
         """
         prepared = self.prepare() if prepared is None else prepared
         if not isinstance(prepared, PreparedExperiment):
@@ -264,6 +305,8 @@ class FootballExperiment:
         if model is not None and any(value is not None for value in (selection_plan, development_positions, inner_plan_factory)):
             raise ValueError("Selection scopes require model_selection.")
         nested = inner_plan_factory is not None
+        if nested and refit_policy is not None and not isinstance(refit_policy.candidate, Candidate):
+            raise ValueError("Refitting needs an explicit Candidate after nested selection.")
         if model_selection is not None:
             model_selection.validate_evidence()
             if nested and (selection_plan is not None or development_positions is not None):
@@ -276,9 +319,13 @@ class FootballExperiment:
                 if np.isin(outer.test, development).any() or not np.isin(outer.train, development).all():
                     raise ValueError("Outer test must be outside selection development; outer train must be inside it.")
             source = model_selection.candidates
-            model_selection = replace(model_selection, candidates=list(source() if callable(source) else source))
+            # Nested selection calls a source once per outer fold. Preserve that
+            # callable, but snapshot one-shot iterables for recovery identity.
+            if not nested or not callable(source):
+                model_selection = replace(model_selection, candidates=list(source() if callable(source) else source))
         pre_analysis = pre_analysis or PreTrainingAnalysis()
         post_analysis = post_analysis or PostTrainingAnalysis()
+        renderers = dict(renderers or {})
         settings = {"experiment": self.config, "preparation": prepared.config, "run": dict(config or {})}
         if execution is not None:
             from ..training.execution import ExecutionPolicy
@@ -297,14 +344,17 @@ class FootballExperiment:
                 recipe.pop("analysis_options", None)
         key = execution_key(prepared.dataset, prepared.split_plan, identity_settings, model, model_selection,
                             selection_plan, development_positions, inner_plan_factory, pre_analysis,
-                            refit_policy, checkpoint_policy, name, name_fields, save_models, model_serializer)
+                            refit_policy, checkpoint_policy, name, name_fields, save_models, model_serializer, renderers)
+        settings["post_analysis"] = signature(post_analysis)
         if reuse:
             record = self.store.find_completed(key)
             if record is not None:
-                result = self.load(record["run_id"], model_serializer=model_serializer)
-                result.post_report = self._numerical_reports(post_analysis).run(result.training)
-                result.record = self.store.refresh_report(result.record["run_id"], result.post_report,
-                                                         display_report=result.report)
+                result = self.load(record["run_id"], model_serializer=model_serializer, renderers=renderers)
+                if record.get("config", {}).get("post_analysis") != settings["post_analysis"]:
+                    result.post_report = self._numerical_reports(post_analysis).run(result.training)
+                    self._experiment_reports(result, post_analysis)
+                    result.record = self.store.refresh_report(result.record["run_id"], result.post_report,
+                        display_report=result.report, renderers=renderers, analysis_signature=settings["post_analysis"])
                 self._experiment_reports(result, post_analysis)
                 return result
         group = self.store.open_run(name or "Football run", key, reuse=reuse)
@@ -333,9 +383,22 @@ class FootballExperiment:
         numerical = self._numerical_reports(post_analysis)
         post_report = numerical.run(training)
         refit = None
+        settings["refit"] = None
         if refit_policy is not None:
             policy = refit_policy
             refit_candidate = policy.candidate or chosen
+            if isinstance(refit_candidate, Candidate):
+                # Describe the resolved deployment candidate before checkpoint
+                # wrapping, using policy controls rather than evaluation controls.
+                settings["refit"] = {
+                    "candidate": {"name": refit_candidate.name, "config": deepcopy(refit_candidate.config)},
+                    "policy": signature(type(policy)),
+                    "train_positions": np.asarray(policy.train_positions).tolist(),
+                    "validation": signature(policy.validation), "control": signature(policy.control),
+                    "fitting": signature({field: getattr(refit_candidate, field) for field in
+                                          ("model_factory", "feature_columns", "target_columns",
+                                           "features_from", "pre_analysis")}),
+                }
             if checkpoint_policy is not None and refit_candidate is not None:
                 refit_candidate = replace(refit_candidate, model_factory=checkpoint_policy.wrap(
                     refit_candidate.model_factory, self.store.path / "checkpoints", f"{group}:refit"))
@@ -351,15 +414,27 @@ class FootballExperiment:
                                            "validation", "control", "calibration")}) for candidate in candidates]
         settings["definitions"] = signature(dataset.definitions)
         result = ExperimentResult(prepared, training, pre_report, post_report, selection, refit, {"name": display_name})
+        result._renderers = renderers
+        selected_trial_id = None
+        if selection is not None and not nested:
+            saved_id = selection.winner.saved_run_id
+            # Rescoring may recover a trial from an earlier execution group. Its
+            # provenance stays in summary.winners; direct links are group-local.
+            if any(record["run_id"] == saved_id and record["status"] == "complete"
+                   for record in self.store.read_runs(role="trial", run_group=group)):
+                selected_trial_id = saved_id
+        def finalize_report(record):
+            self._experiment_reports(result, post_analysis, experiment=_ExperimentRecords(self.store, record))
+            return result.report
+
         record = self.store.save_run(training, post_report, name=display_name, config=settings,
-                                     save_html=True, run_group=group,
-                                     selected_trial_id=selection.winner.saved_run_id if selection is not None and not nested else None,
+                                     save_html=True, renderers=renderers, run_group=group,
+                                     selected_trial_id=selected_trial_id,
                                      recovery_key=key, recovery={"kind": "football_experiment", "prepared": prepared,
                                                                "pre_report": pre_report, "selection": summary, "refit": refit},
                                      display_report=result.report, save_models=save_models,
-                                     model_serializer=model_serializer)
+                                     model_serializer=model_serializer, _finalize_report=finalize_report)
         result.record, result.path = record, self.store.path / "runs" / record["run_id"]
-        self._experiment_reports(result, post_analysis)
         return result
 
     @staticmethod
@@ -368,8 +443,10 @@ class FootballExperiment:
                                      if reporter.partition != "experiment"}, post_analysis.title,
                                     fold_ids=post_analysis.fold_ids)
 
-    def _experiment_reports(self, result, post_analysis):
+    def _experiment_reports(self, result, post_analysis, *, experiment=None):
         reporters = {key: reporter for key, reporter in post_analysis.reporters.items() if reporter.partition == "experiment"}
         if reporters:
-            report = PostTrainingAnalysis(reporters, post_analysis.title).run(result.training, experiment=self.store)
-            result.post_report.studies.extend(report.studies)
+            report = PostTrainingAnalysis(reporters, post_analysis.title).run(
+                result.training, experiment=experiment if experiment is not None else _ExperimentRecords(self.store))
+            result.post_report.studies[:] = [study for study in result.post_report.studies
+                                            if study.partition != "experiment"] + report.studies
