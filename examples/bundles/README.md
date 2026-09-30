@@ -29,9 +29,13 @@ Results are written to `experiments/example_bundles`, which stays local.
 The configuration is derived from the local recipe previously referenced by the
 UI guide, `experiments/_recipes/Corners_experiment.json`, whose source SHA-256 is
 `f39afea22727d81fa21d9e1647bd66a04e51a93cc0a86eb01993a4c6b7db2dc6`.
-The 53 feature definitions, target, preprocessing, Lasso settings and reporters
-are retained. The example has a relative data path and its own output/name, enables
-input hash verification, orders the same five seasons chronologically, uses one
+The 53 feature definitions, target, preprocessing, Lasso settings and reporter
+types are retained. The Distribution reporter uses `features: null` to include
+all available feature columns; an explicit empty selection is invalid. The fitted
+Correlation reporter runs per fold, matching the Selector that consumes its
+training-row results. The example has a relative data path and its own output/name,
+enables input hash verification, orders the same five seasons chronologically,
+and uses one
 explicit four-season/one-season holdout with zero gap, disables the optional grid,
 and uses one CPU worker. These execution choices make a fresh run explicit. The
 original local recipe and all historical results remain unchanged. This bundle

@@ -118,6 +118,12 @@ counters outside that key. `PreparedExperiment.outputs` is retained data, not an
 identity input: put a relevant external revision in `config` when it changes
 without changing model inputs.
 
+For custom artifact kinds, pass `renderers={"kind": callback}` to `run`. Each
+callback receives an `Artifact` and returns trusted HTML. The returned result
+uses these callbacks for display; provide them again to `load(run_id,
+renderers=...)` after restarting. Only artifact data is saved in recovery bundles.
+Renderer changes participate in final-result reuse identity.
+
 Use `reuse=False` for a new execution group even when everything matches.
 Names alone never identify reusable work. Only one writer may use an experiment
 or checkpoint namespace at a time.
@@ -127,8 +133,10 @@ or checkpoint namespace at a time.
 Keep **Execution & refit → Run settings → Reuse** enabled in the builder, change
 the post-training reporters or their selected test folds, and run again. Python
 calls use the same `experiment.run(..., post_analysis=new_analysis)` interface.
-The same fitted run and prediction artifacts are reused; all requested post-training
-studies are recomputed, saved and shown. The leaderboard keeps one entry whose
+The same fitted run and prediction artifacts are reused. When the post-training
+configuration changes, the requested studies are recomputed, saved and shown.
+Unchanged configurations retain their saved report snapshots; experiment-level
+studies such as the leaderboard refresh from the current experiment records. The leaderboard keeps one entry whose
 metrics reflect the latest analysis. Earlier analysis snapshots remain on disk.
 
 **Run & results → Saved runs → List saved runs → Open report** opens the latest
@@ -243,9 +251,14 @@ their own searches/evaluations if not already completed.
 The combined report orders descriptive pre-training studies, internal candidate
 comparison, and final post-training studies. Only final post-training numerical
 metrics enter the final run record. Default leaderboards hide trials and show
-expandable configuration details. All requested post-training reporters refresh on
-reuse. Experiment reporters run after publication; an explicitly loaded result
-retains its latest saved report snapshot.
+expandable configuration details. Before publication, experiment reporters receive
+a read-only snapshot of saved records plus the current final. Its `read_runs`
+method supports `role` and `run_group` filters; `path` and copied `manifest` are
+available for inspection, but the current final's artifacts are not yet loadable.
+The report snapshot and HTML publish together with the final run. Reporter failure
+leaves that final unpublished. When the post-training configuration changes, reuse
+refreshes that analysis without fitting and saves an updated report snapshot;
+explicit load performs no reporting.
 
 For nested CV, pass `inner_plan_factory` instead of `selection_plan`. It receives
 each outer training population with local positions. It returns inner splits in

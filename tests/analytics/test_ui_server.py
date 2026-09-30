@@ -97,3 +97,47 @@ def test_preview_preserves_large_ids_and_missing_values():
     result = _frame(frame)
     assert result['rows'] == [[str(2**63+19), None], [str(2**63+21), None]]
     json.dumps(result, allow_nan=False)
+
+
+@pytest.mark.parametrize('save_html', [False, True])
+def test_saved_run_picker_offers_only_loadable_finals_including_legacy(builder, save_html):
+    from dataclasses import replace
+    from football_experiment_samples import prepared, ridge, post
+    from model_selection_samples import plan
+    from xdiyo_analytics.experiments import FootballExperiment
+    from xdiyo_analytics.selection import ModelSelection
+    from xdiyo_analytics.reporting import ExperimentLeaderboardReporter
+
+    recipe = default_recipe('data')
+    recipe['name'] = 'Saved search reports'
+    paths = builder.state.recipe_paths(recipe)
+    experiment = FootballExperiment(paths['name'], output_dir=paths['output_dir'])
+    preparation = prepared(holdout=True)
+    analysis = post()
+    analysis.reporters['Board'] = ExperimentLeaderboardReporter(weights={'mse': 1.})
+    result = experiment.run(preparation, model_selection=ModelSelection([ridge(.1), replace(ridge(1.), name='Ridge 1')], metrics='mse'),
+                            selection_plan=plan(preparation.dataset), post_analysis=analysis)
+    store = experiment.store
+    legacy = store.save_run(result.training, result.post_report, name='Legacy final', config={}, save_html=save_html)
+    manifest = store.path / 'runs' / legacy['run_id'] / 'run.json'
+    record = json.loads(manifest.read_text(encoding='utf-8'))
+    record.pop('role')
+    record.pop('run_group')
+    manifest.write_text(json.dumps(record), encoding='utf-8')
+    store.save_failure(name='Failed final', config={}, error='injected failure')
+    store.save_failure(name='Failed trial', config={}, error='injected failure',
+                       role='trial', run_group=result.record['run_group'])
+    assert len(store.read_runs()) == 6
+    assert len(store.read_runs(role='trial')) == 3
+
+    listing = call(builder, 'runs', {'recipe': recipe})['runs']
+    assert {item['id'] for item in listing} == {result.record['run_id'], legacy['run_id']}
+    assert all(item['status'] == 'complete' for item in listing)
+    for item in listing:
+        response = call(builder, 'load_run', {'recipe': recipe, 'id': item['id']})
+        assert 'Errors' in response['html']
+        if item['id'] == result.record['run_id']:
+            assert 'Experiment leaderboard' in response['html']
+        elif save_html:
+            document = store.path / 'runs' / legacy['run_id'] / 'report.html'
+            assert response['html'].encode('utf-8') == document.read_bytes()

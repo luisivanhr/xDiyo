@@ -1,12 +1,13 @@
 """Concrete iterative backend for sklearn-style partial_fit estimators."""
 
 from copy import deepcopy
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 
 import numpy as np
 import pandas as pd
 
 from ..evaluation import Metric, evaluate_metrics
+from ..evaluation.metrics import _resolved_metric_definitions
 from .estimators import EstimatorAdapter
 from .inspection import estimator_coefficients
 
@@ -28,7 +29,7 @@ class PartialFitBackend:
     each step passes the whole fitting population in the supplied row order.
     """
     estimator: object
-    loss: object = "mse"
+    loss: object = field(default="mse", metadata={"recovery_resolver": _resolved_metric_definitions})
     preprocessor: object = None
     partial_fit_kwargs: object = None
     prediction_methods: tuple = ("predict",)
