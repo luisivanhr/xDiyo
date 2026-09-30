@@ -89,7 +89,8 @@ prediction_report.studies[2].result.tables['metrics']
 The KDE overlay contains separate observed and predicted curves, each normalized
 as a density, on a common grid. It has no histogram bars. A constant sample uses a
 vertical marker. `mode='ecdf'` shows cumulative frequencies; `mode='frequency'`
-compares categorical relative frequencies. Similar marginal distributions do not
+compares relative frequencies, sorting numeric labels in ascending numerical order
+and retaining first-seen order for text categories. Similar marginal distributions do not
 establish accurate predictions for individual matches. Residuals are observed
 minus predicted values. Timeline gaps remain visible; no time interpolation occurs.
 
