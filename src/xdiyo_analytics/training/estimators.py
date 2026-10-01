@@ -101,17 +101,19 @@ class EstimatorAdapter:
         # Retain a native count distribution for downstream O/U decisions. A
         # mode prediction is never mistaken for its conditional mean.
         from .counts import NegativeBinomialRegressor
+        from sklearn.linear_model import PoissonRegressor
         estimator = self.estimator
         inputs = context.X
-        if hasattr(estimator, 'steps') and isinstance(estimator.steps[-1][1], NegativeBinomialRegressor):
+        if hasattr(estimator, 'steps') and isinstance(estimator.steps[-1][1], (NegativeBinomialRegressor, PoissonRegressor)):
             if len(estimator.steps) > 1:
                 inputs = estimator[:-1].transform(inputs)
             estimator = estimator.steps[-1][1]
-        if isinstance(estimator, NegativeBinomialRegressor):
-            mean = estimator.predict_mean(inputs)
+        if isinstance(estimator, (NegativeBinomialRegressor, PoissonRegressor)):
+            mean = estimator.predict_mean(inputs) if isinstance(estimator, NegativeBinomialRegressor) else estimator.predict(inputs)
+            dispersion = estimator.dispersion_ if isinstance(estimator, NegativeBinomialRegressor) else 0.
             columns = pd.MultiIndex.from_product([self.target_columns_, ['mean', 'dispersion']],
                                                 names=['target', 'parameter'])
             result['count_distribution'] = pd.DataFrame(
-                np.column_stack([mean, np.full(len(mean), estimator.dispersion_)]),
+                np.column_stack([mean, np.full(len(mean), dispersion)]),
                 index=context.X.index, columns=columns)
         return result
