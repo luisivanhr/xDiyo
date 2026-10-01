@@ -31,7 +31,9 @@ class PerformanceReporter(PredictionReporter):
     metrics: object = field(metadata={"recovery_resolver": _resolved_metric_definitions})
 
     def run(self, context):
-        table = evaluate_metrics(context.y, context.predictions, self.metrics, metadata=context.metadata)
+        table = evaluate_metrics(context.y, context.predictions, self.metrics, metadata=context.metadata,
+                                 source_folds=getattr(context, "fold_results", None),
+                                 pooling=getattr(context, "pooling", None))
         shown = table[['target', 'metric', 'value', 'n', 'n_missing', 'status']]
         return StudyResult("Predictive performance", [Artifact("table", shown, "Metrics")],
                            {"metrics": table}, ["Metrics use paired eligible observations; n_missing records excluded rows."])

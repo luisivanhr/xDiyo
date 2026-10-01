@@ -734,8 +734,16 @@ def build():
             fields=[dict(name='positive_label',title='Positive label',kind='number',default=1,help=HELP['positive_label'])]
         elif m['name'] in ('log_loss','cross_entropy','binary_cross_entropy'):
             fields=[dict(name='eps',title='Probability floor',kind='number',default=1e-15,help='Clip extremely small probabilities for a finite logarithmic loss.')]
+        elif m['name'] == 'count_ou_brier':
+            from ..evaluation.count_scores import DEFAULT_OU_LINES
+            fields=[dict(name='lines',title='Over/under lines',kind='list',
+                         item={'kind':'number','min':0.5,'step':1,'default':6.5},
+                         default=list(DEFAULT_OU_LINES),
+                         help='Distinct positive half-lines, e.g. 6.5 or 10.5. Both sides and all lines have equal weight; lower Brier score is better.')]
         m['fields']=fields
         m['description']={'numeric':'Compares numeric predictions with observed values.','label':'Compares predicted and observed classes.','probability':'Evaluates predicted class probabilities.','uncertainty':'Describes predicted uncertainty; no observed label is required.'}[m['kind']]
+        if m['name'] == 'count_ou_brier':
+            m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 
