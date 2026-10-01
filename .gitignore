@@ -1,4 +1,6 @@
 .venv/
+# Private purchased odds and derived snapshots are not redistributed.
+/data/odds/
 __pycache__/
 *.py[cod]
 .pytest_cache/

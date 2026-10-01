@@ -51,7 +51,7 @@ class Catalog:
         # Recovery's signature walker hashes callable code and package versions.
         # Display text is irrelevant to numerical identity, constructors are not.
         return {key: item['constructor'] for key, item in sorted(self.entries.items())
-                if item['category'] != 'post_reporter'}
+                if item['category'] not in ('post_reporter', 'odds_input')}
 
     def encode(self, value):
         import numpy as np

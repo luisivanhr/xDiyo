@@ -47,6 +47,14 @@ class BetPerformanceReporter(PredictionReporter):
                                  "Decimal odds; stake returned for push/void. No fees or bankroll simulation.",
                                  "ROI divides known net profit by settled stakes, including push/void.",
                                  f"Cumulative known profit ordered by {self.time_column}; unresolved bets remain visible."])
+        if 'quote_snapshot' in ledger:
+            from ..odds.selection import TIMING_NOTE
+            result.notes.append(TIMING_NOTE)
+            result.tables['odds_provenance'] = ledger[[c for c in ledger if c.startswith('quote_') or c in ('vendor_match_id','source_column')]].drop_duplicates()
+        elif self.source is not None and 'odds_provenance' in previous.tables:
+            from ..odds.selection import TIMING_NOTE
+            result.notes.append(TIMING_NOTE)
+            result.tables['odds_provenance'] = previous.tables['odds_provenance'].copy()
         if self.composition is not None:
             from .tickets import add_tickets
             if self.source is not None:

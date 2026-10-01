@@ -80,6 +80,10 @@ class BetOutcomeReporter(PredictionReporter):
                                                      'ledger': ledger, 'bet_metrics': metrics}, notes=list(dict.fromkeys(notes)))
         result.notes.extend([f'Probability source: {output}. Selection uses predictions only; outcomes are used afterward for settlement.',
                              'Green wins; red losses; push, void, unavailable and no bet remain neutral. Filters only change the display.'])
+        if 'quote_snapshot' in ledger:
+            from ..odds.selection import TIMING_NOTE
+            result.notes.append(TIMING_NOTE)
+            result.tables['odds_provenance'] = ledger[[c for c in ledger if c.startswith('quote_') or c in ('vendor_match_id','source_column')]].drop_duplicates()
         if self.default_odds is not None:
             result.notes.append(f'Explicit fallback decimal odds: {self.default_odds}. This is a fixed-odds scenario where quotes are absent.')
         display_title = f'{target}: selected legs' if self.composition is not None else f'{target}: bet decisions'

@@ -671,7 +671,8 @@ def training_source_files(root):
         "ui/build_inventory.py", "ui/inventory.py", "ui/schema.py", "ui/server.py",
     }
     return [path for path in sorted(root.rglob("*.py"))
-            if path.relative_to(root).as_posix() not in presentation]
+            if path.relative_to(root).as_posix() not in presentation
+            and not path.relative_to(root).as_posix().startswith('odds/')]
 
 
 def execution_key(*values):

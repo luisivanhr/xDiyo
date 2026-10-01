@@ -598,7 +598,7 @@ def build():
                 f['choices']=['regression','regression_l1','huber','fair','poisson','quantile','mape','gamma','tweedie'] if c['id'].endswith('Regressor') else ['binary','multiclass','multiclassova'] if c['id'].endswith('Classifier') else ['lambdarank','rank_xendcg']
             if c['id']=='features.TransitionContext' and name in ('team_seasons','season_starts','population'):f.update(kind='component',components=['input.Table'],initial_component='input.Table')
             if c['id']=='features.TransitionContext' and name=='population':f['hidden']=True
-            if c['id']=='input.Table' and name=='index':f.update(kind='multiselect',choices=['competition_id','season_id','team_id','event_id','fold_id','row_position'],help='Columns forming the exact row index. Select both competition_id and season_id for league-season counts.')
+            if c['id']=='input.Table' and name=='index':f.update(kind='multiselect',choices=['source_league','source_season','competition_id','season_id','event_id','team_id','fold_id','row_position'],help='Exact observation identities: source_league, source_season, competition_id, season_id, event_id; add team_id for team rows.')
             if name in ('steps','transformers') and c['id'] in ('sklearn.pipeline.Pipeline','sklearn.compose.ColumnTransformer'):
                 fields=[dict(name='0',title='Step name',kind='text',required=True,default='step',help='Unique name for this preprocessing step.'),dict(name='1',title='Transformation',kind='component',required=True,categories=['preprocessor','model'] if name=='steps' else ['preprocessor'],initial_component='sklearn.preprocessing.StandardScaler',help='Choose the fitted operation to apply.')]
                 if name=='transformers':fields.append(dict(name='2',title='Input columns',kind='multiselect',discovery='features',required=True,default=[],help='Prepared predictor columns passed to this operation.'))
@@ -678,6 +678,25 @@ def build():
             if name=='default_odds':f.update(initial=1.1,min=1.000001)
             if name=='odds':f.update(initial=1.85,min=1.000001)
             if name=='show_badges':f['default']=True
+    for key in ('evaluation.BetOffer','evaluation.BetSpec'):
+        for f in components[key]['fields']:
+            if f['name']=='odds':
+                f.update(kind='odds', primary=True, help='Choose a fixed decimal price, an identity-indexed table, or the current odds database. Imported missing quotes mean no bet; no closing-price fallback.')
+    odds_fields = {
+        'snapshot': dict(hidden=True,initial='data/odds'),
+        'crosswalk': dict(title='Fixture mapping',kind='select',discovery='odds_crosswalks',help='Reviewed mapping from provider fixtures to native matches. Build it below after choosing seasons.'),
+        'seasons': dict(kind='multiselect',discovery='seasons',help='Explicit seasons to read from the odds database; no implicit future-season inclusion.'),
+        'leagues': dict(kind='multiselect',discovery='leagues',help='Optional league subset. Disabled uses all leagues in the database.'),
+        'market': dict(kind='select',choices=['corners','yellow_cards','1x2','goals'],help='Market must describe the predicted target. BTTS and Asian handicap prices are stored but not enabled for native settlement.'),
+        'selection': dict(kind='select',choices=['over','under'],choices_by={'market':{'corners':['over','under'],'yellow_cards':['over','under'],'goals':['over','under'],'1x2':['home','draw','away']}},help='Choose the quoted event. Home/away are absolute fixture sides; Outcome perspective is checked.'),
+        'quote_type': dict(kind='select',choices=['closing','opening'],choices_by={'market':{'corners':['closing'],'yellow_cards':['closing'],'goals':['opening','closing'],'1x2':['opening','closing']}},help='Opening is earliest recorded; closing is last recorded. Actual quote times and bookmaker are unknown. This is a price scenario, not verified early-entry execution.'),
+        'line': dict(kind='number',step=0.5,initial=9.5,visible_when={'market':['corners','yellow_cards','goals']},clear_when_hidden=True,help='Integer or half line. Equality on integer totals pushes. Quarter-line split settlement is unsupported.'),
+        'settlement_confirmed': dict(kind='boolean',help='Confirm that the native target and void rules match vendor regulation time. For yellow cards verify second yellows/bench cards and exclude red cards. This does not confirm quote availability at prediction time.'),
+        'snapshot_hash': dict(hidden=True), 'crosswalk_hash': dict(hidden=True),
+    }
+    components['input.OddsSeries']['title']='Database odds'
+    for f in components['input.OddsSeries']['fields']:
+        f.update(primary=True, **odds_fields[f['name']])
     ticket_components = ['evaluation.Parlay', 'evaluation.MultiBet', 'evaluation.BetSlip']
     for key in ('reporting.BetOutcomeReporter', 'reporting.BetPerformanceReporter'):
         for f in components[key]['fields']:
