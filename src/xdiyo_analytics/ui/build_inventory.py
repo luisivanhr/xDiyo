@@ -740,6 +740,10 @@ def build():
                          item={'kind':'number','min':0.5,'step':1,'default':6.5},
                          default=list(DEFAULT_OU_LINES),
                          help='Distinct positive half-lines, e.g. 6.5 or 10.5. Both sides and all lines have equal weight; lower Brier score is better.')]
+            fields.append(dict(name='distribution',title='Count distribution',kind='select',
+                choices=['categorical','negative_binomial','poisson'],default='categorical',
+                help='Categorical uses retained class probabilities. Negative binomial uses mean and dispersion; Poisson uses mean with zero dispersion. Native count models retain these in count_distribution.'))
+            m['output_by_distribution']={'categorical':'predict_proba','negative_binomial':'count_distribution','poisson':'count_distribution'}
         m['fields']=fields
         m['description']={'numeric':'Compares numeric predictions with observed values.','label':'Compares predicted and observed classes.','probability':'Evaluates predicted class probabilities.','uncertainty':'Describes predicted uncertainty; no observed label is required.'}[m['kind']]
         if m['name'] == 'count_ou_brier':

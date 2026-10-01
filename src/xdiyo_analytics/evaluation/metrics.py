@@ -7,7 +7,7 @@ import json
 import numpy as np
 import pandas as pd
 
-from .count_scores import count_ou_brier, source_count_probabilities
+from .count_scores import count_ou_brier, source_count_probabilities, count_score_output
 
 
 @dataclass(frozen=True)
@@ -165,6 +165,8 @@ def metric_inputs(y, predictions, request):
     """Resolve one target's aligned inputs and complete-case mask, without fitting."""
     definition = METRICS[request.name]
     output = request.output or ("predict_proba" if definition.kind in {"probability", "uncertainty"} else "predict")
+    if request.name == "count_ou_brier":
+        output = count_score_output(request)
     frame = predictions[output]
     if not frame.index.equals(y.index):
         raise ValueError("Prediction outputs and targets must retain the same index/order.")
@@ -228,7 +230,7 @@ def evaluate_metrics(y, predictions, metrics, *, metadata=None, source_folds=Non
             request = replace(spec, target=target)
             resolved = predictions
             if spec.name == "count_ou_brier":
-                output = request.output or "predict_proba"
+                output = count_score_output(request)
                 resolved = {**predictions, output: source_count_probabilities(
                     y, predictions, request, source_folds, pooling)}
             truth, prediction, mask, output = metric_inputs(y, resolved, request)

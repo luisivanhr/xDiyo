@@ -1373,6 +1373,8 @@ The consolidated sections above retain the substance needed for ordinary discuss
 
 ## 1 October 2026: count Over/Under Brier selection
 
+Extended the metric with explicit negative-binomial and Poisson representations. Parameter scoring consumes exact retained means/dispersion, reuses native analytic tails and preserves fold identities without parameter imputation. The Poisson adapter now retains mean and zero dispersion. UI distribution controls select the normal output automatically; existing categorical defaults remain unchanged. See the same guide for parameter contracts and equations.
+
 Added opt-in `count_ou_brier` through native Metric, PerformanceReporter and MetricSelection, with editable half-lines in the UI. It includes observed counts outside fitted support and scores retained calibrated probabilities without fitting. Source-fold distributions preserve absent-class versus invalid-cell semantics. Occurrences/first/last pooling follow existing rules; mean pooling is explicitly unsupported for this metric. Existing objectives and missing-value behavior for other metrics remain unchanged. See [count O/U Brier guide](docs/analytics/count_ou_brier.md) for equations, recipe and reuse details. No research grid or saved recipe was changed.
 
 ## 30 September 2026: composite betting tickets

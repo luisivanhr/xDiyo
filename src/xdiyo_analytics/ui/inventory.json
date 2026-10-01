@@ -13242,6 +13242,11 @@
       "name": "count_ou_brier",
       "kind": "probability",
       "direction": "minimize",
+      "output_by_distribution": {
+        "categorical": "predict_proba",
+        "negative_binomial": "count_distribution",
+        "poisson": "count_distribution"
+      },
       "fields": [
         {
           "name": "lines",
@@ -13264,6 +13269,18 @@
             13.5
           ],
           "help": "Distinct positive half-lines, e.g. 6.5 or 10.5. Both sides and all lines have equal weight; lower Brier score is better."
+        },
+        {
+          "name": "distribution",
+          "title": "Count distribution",
+          "kind": "select",
+          "choices": [
+            "categorical",
+            "negative_binomial",
+            "poisson"
+          ],
+          "default": "categorical",
+          "help": "Categorical uses retained class probabilities. Negative binomial uses mean and dispersion; Poisson uses mean with zero dispersion. Native count models retain these in count_distribution."
         }
       ],
       "description": "Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included."

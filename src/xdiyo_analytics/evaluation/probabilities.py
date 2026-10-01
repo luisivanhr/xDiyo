@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-from scipy.stats import nbinom, poisson
 
 from ..labels import BetOption, MatchTotal, TeamValue, Outcome, Above
 
@@ -78,6 +77,9 @@ def negative_binomial_bet_probabilities(mean, dispersion, option):
     Variance is mean + dispersion*mean**2. Dispersion zero uses the Poisson limit.
     A predicted mode must never be supplied in place of the conditional mean.
     """
+    # Keep scipy distribution instances local: native recovery fingerprints
+    # functions/configuration, not mutable scipy generator objects.
+    from scipy.stats import nbinom, poisson
     _option(option)
     if option.selection not in {"under", "over"}:
         raise ValueError("Negative binomial probabilities support count over/under options.")
