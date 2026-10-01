@@ -300,7 +300,11 @@ not profitability or valid prices for every market.
 
 ## Automatic database selection
 
-The builder uses the most recently imported database under `data/odds`. A new run resolves it automatically and retains its identity with the result; already running jobs keep their original data. Explicit paths in older Python recipes continue to work. Fixture mappings must belong to the current database: rebuild a mapping after updating the import. Existing private directories remain readable without moving or rewriting their contents.
+New odds inputs in the builder use the most recently imported database under `data/odds`. A new run resolves it automatically and retains its identity with the result; already running jobs keep their original data. Existing private directories remain readable without moving or rewriting their contents.
+
+Saved recipes can instead name an explicit database directory and pin its manifest hash, together with the fixture mapping and its hash. Opening, displaying, refreshing discovery, saving, and exporting these recipes preserve those choices, including paths outside the workspace. Legacy explicit paths without hashes also remain explicit; they are not silently converted to the current database. Python and notebook exports retain the same source contract.
+
+Editing a line, market, season or league preserves unchanged source pins. Choosing or building a fixture mapping clears only the mapping hash so it can be pinned again; the builder uses the recipe's selected database and checks any existing database pin before building. A mapping from another database still fails validation. Replacing an odds input deliberately through the Odds source control creates a fresh input with current-database defaults and no inherited mapping or pins. There is no version picker.
 
 ## Complete fixture reconciliation
 

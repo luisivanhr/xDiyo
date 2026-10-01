@@ -212,7 +212,12 @@ class BuilderState:
             return result
         if route == 'odds-crosswalk':
             from ..odds.crosswalk import native_fixture_metadata, build_fixture_crosswalk, save_crosswalk, load_mapping_rules
+            from ..odds.database import current_database
+            from ..odds.workbook import _hash
             import pandas as pd
+            snapshot = current_database(self.resolve(request.get('snapshot') or 'data/odds'))
+            if request.get('snapshot_hash') is not None and _hash(snapshot/'manifest.json') != request['snapshot_hash']:
+                raise ValueError('snapshot manifest changed since it was pinned')
             seasons = request['seasons']
             leagues = request.get('leagues')
             aliases, overrides = load_mapping_rules(self.workspace/'data/odds')
@@ -222,8 +227,6 @@ class BuilderState:
                     raise ValueError('Team alias keys must be unique')
                 aliases.update({(r.source_league,r.vendor_team):r.native_team_id for r in table.itertuples()})
             native = native_fixture_metadata(self.resolve(request['root']), seasons=seasons, leagues=leagues)
-            from ..odds.database import current_database
-            snapshot = current_database(self.workspace/'data/odds')
             frame = build_fixture_crosswalk(snapshot, native, seasons=seasons, leagues=leagues,
                     team_aliases=aliases, fixture_overrides=overrides,
                     date_tolerance_days=request.get('date_tolerance_days',0))
