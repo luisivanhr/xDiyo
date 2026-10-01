@@ -13239,6 +13239,36 @@
       "description": "Evaluates predicted class probabilities."
     },
     {
+      "name": "count_ou_brier",
+      "kind": "probability",
+      "direction": "minimize",
+      "fields": [
+        {
+          "name": "lines",
+          "title": "Over/under lines",
+          "kind": "list",
+          "item": {
+            "kind": "number",
+            "min": 0.5,
+            "step": 1,
+            "default": 6.5
+          },
+          "default": [
+            6.5,
+            7.5,
+            8.5,
+            9.5,
+            10.5,
+            11.5,
+            12.5,
+            13.5
+          ],
+          "help": "Distinct positive half-lines, e.g. 6.5 or 10.5. Both sides and all lines have equal weight; lower Brier score is better."
+        }
+      ],
+      "description": "Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included."
+    },
+    {
       "name": "roc_auc",
       "kind": "probability",
       "direction": "maximize",

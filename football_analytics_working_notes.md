@@ -1371,6 +1371,10 @@ The consolidated sections above retain the substance needed for ordinary discuss
 | 14 | Period-free naming alternatives and replacement of a window-only field with general parameters. |
 
 
+## 1 October 2026: count Over/Under Brier selection
+
+Added opt-in `count_ou_brier` through native Metric, PerformanceReporter and MetricSelection, with editable half-lines in the UI. It includes observed counts outside fitted support and scores retained calibrated probabilities without fitting. Source-fold distributions preserve absent-class versus invalid-cell semantics. Occurrences/first/last pooling follow existing rules; mean pooling is explicitly unsupported for this metric. Existing objectives and missing-value behavior for other metrics remain unchanged. See [count O/U Brier guide](docs/analytics/count_ou_brier.md) for equations, recipe and reuse details. No research grid or saved recipe was changed.
+
 ## 30 September 2026: composite betting tickets
 
 Implemented optional Parlay, BetSlip and MultiBet composition for both betting reporters and the structured UI catalog. Group by league-season-round, shared season-round across leagues, or UTC calendar day, with configurable leg counts. MultiBet enumerates requested sizes within complete batches, using per-ticket or divided-total stakes. BetSlip retains named independent templates. Ticket ledgers preserve leg membership, product odds, configurable push/void rules, missing results and ticket-level metrics. Joint win probabilities require an explicit independence assumption. Existing single bets and report-only reuse remain supported.

@@ -7,6 +7,8 @@ import json
 import numpy as np
 import pandas as pd
 
+from .count_scores import count_ou_brier, source_count_probabilities
+
 
 @dataclass(frozen=True)
 class MetricDefinition:
@@ -151,6 +153,7 @@ register_metric("binary_cross_entropy", lambda y, p, **kw: _log_loss(y, p, binar
                 kind="probability", direction="minimize")
 register_metric("binary_entropy", _entropy, kind="uncertainty")
 register_metric("brier_score", _brier, kind="probability", direction="minimize")
+register_metric("count_ou_brier", count_ou_brier, kind="probability", direction="minimize")
 register_metric("roc_auc", _auc, kind="probability", direction="maximize")
 for _alias, _original in {"f1": "f1_score", "mean_squared_error": "mse", "mean_absolute_error": "mae",
                          "accuracy_score": "accuracy", "precision_score": "precision",
@@ -197,7 +200,7 @@ def _sample_hash(y, metadata, mask):
     return digest.hexdigest()
 
 
-def evaluate_metrics(y, predictions, metrics, *, metadata=None):
+def evaluate_metrics(y, predictions, metrics, *, metadata=None, source_folds=None, pooling=None):
     """Compute requested scalar metrics, with explicit coverage and status.
 
     A string is shorthand for Metric(name). Missing/nonfinite pairs are excluded
@@ -206,6 +209,10 @@ def evaluate_metrics(y, predictions, metrics, *, metadata=None):
     value, not sklearn's negated scorer convention. Cross-entropy/entropy use nats.
     Precision/recall/F1 default to macro; pass average='binary', pos_label=... for
     a particular positive class. Custom functions must return a scalar.
+
+    count_ou_brier is strict: invalid targets/distributions raise without masking.
+    source_folds optionally resolves differing source class supports for that
+    metric alone; pooling=mean is unsupported for it.
     """
     from dataclasses import replace
     metadata = pd.DataFrame(index=y.index) if metadata is None else metadata
@@ -219,7 +226,17 @@ def evaluate_metrics(y, predictions, metrics, *, metadata=None):
             raise ValueError("Metric direction must be minimize/maximize/None.")
         for target in (list(y.columns) if spec.target is None else [spec.target]):
             request = replace(spec, target=target)
-            truth, prediction, mask, output = metric_inputs(y, predictions, request)
+            resolved = predictions
+            if spec.name == "count_ou_brier":
+                output = request.output or "predict_proba"
+                resolved = {**predictions, output: source_count_probabilities(
+                    y, predictions, request, source_folds, pooling)}
+            truth, prediction, mask, output = metric_inputs(y, resolved, request)
+            if spec.name == "count_ou_brier":
+                # Strict opt-in: validate the full population, including empty
+                # inputs/configuration, before the legacy complete-case path.
+                count_ou_brier(truth, prediction, **spec.parameters)
+                mask = pd.Series(True, index=y.index)
             n, status, value = int(mask.sum()), "ok", np.nan
             if n == 0:
                 status = "no_valid_observations"

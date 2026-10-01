@@ -1,5 +1,8 @@
 # Inspect predictions, account for bets and compare saved runs
 
+For exact-count classifiers, see the opt-in [count Over/Under Brier metric](count_ou_brier.md)
+for native model selection, configurable half-lines and retained-prediction reuse.
+
 Post-training analysis consumes an existing `TrainingResult`. It computes reusable
 tables and figures without fitting models or recomputing predictions. The examples
 below use twelve synthetic observations and two explicitly configured regressors.
