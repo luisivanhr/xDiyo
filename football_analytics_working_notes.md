@@ -1371,6 +1371,19 @@ The consolidated sections above retain the substance needed for ordinary discuss
 | 14 | Period-free naming alternatives and replacement of a window-only field with general parameters. |
 
 
+## 2 October 2026: private odds price extraction
+
+Full reconciliation follow-up: all 135 league-seasons and 13 leagues are mapped,
+using 473 resolved team aliases and nine documented original/resumption-date
+exceptions. There are 45,271 one-to-one fixture matches; 38 native-only and 424
+provider-only fixtures remain explicit source-coverage gaps. Saved aliases and
+exceptions are reused by Python and the UI; no global date-window expansion or
+outcome-based matching is used. Private audit: `data/odds/reconciliation/summary.json`.
+
+Added `xdiyo_analytics.odds.extract_odds` and `load_odds` for private, league-season-partitioned Parquet snapshots. Scope is the native manifest population and all matching seasons through 2026/27, as explicitly requested. Only fixture identity and price columns are decoded; observed outcomes and statistics are excluded. Provider IDs, original price strings, opening/closing labels and missing prices remain explicit. Paid outputs stay under ignored `data/odds/`.
+
+The follow-up integration adds versioned fixture crosswalks with explicit aliases, bounded calendar-date matching and quarantine; pinned `OddsSeries` selectors; paired opening/closing availability; target/settlement checks; native betting reporter provenance; and fixed/table/provider UI controls. Report-only quote changes reuse saved predictions and fitted models. UI mapping uses identity/time columns only. The initial six-league sample is superseded by the complete reconciliation recorded above. BTTS/AH settlement and team-specific markets remain disabled; native regulation-time/card equivalence requires explicit confirmation. Quote timestamps/bookmakers remain unknown. A standalone synthetic example produces an importable recipe and Python/notebook exports. See [the adapter guide](docs/analytics/odds.md).
+
 ## 1 October 2026: count Over/Under Brier selection
 
 Extended the metric with explicit negative-binomial and Poisson representations. Parameter scoring consumes exact retained means/dispersion, reuses native analytic tails and preserves fold identities without parameter imputation. The Poisson adapter now retains mean and zero dispersion. UI distribution controls select the normal output automatically; existing categorical defaults remain unchanged. See the same guide for parameter contracts and equations.

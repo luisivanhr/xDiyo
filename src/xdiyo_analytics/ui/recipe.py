@@ -103,6 +103,8 @@ def catalog_for_ui():
     catalog.register('preparation.IdentityFeatureSpec', IdentityFeatureSpec, category='preparation')
     catalog.register('preparation.NumericFeatures', NumericFeatures, category='preparation')
     catalog.register('input.Table', _context_file, category='input')
+    from ..odds import OddsSeries
+    catalog.register('input.OddsSeries', OddsSeries, category='odds_input')
     catalog.register('input.TeamCatalog', TeamCatalog.from_json, category='input')
     catalog.register('input.RatingRun', RatingRun.load, category='input')
     catalog.register('features.TransitionContext', TransitionContext, category='input')

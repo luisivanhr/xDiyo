@@ -146,6 +146,10 @@ class BuilderState:
                 value = {k: paths(v) for k, v in value.items()}
                 if value.get('component', '').startswith('input.') and value.get('params', {}).get('path'):
                     value['params']['path'] = str(self.resolve(value['params']['path']))
+                if value.get('component') == 'input.OddsSeries':
+                    for name in ('snapshot','crosswalk'):
+                        if value.get('params',{}).get(name):
+                            value['params'][name] = str(self.resolve(value['params'][name]))
             return value
         return paths(recipe)
 
@@ -187,6 +191,45 @@ class BuilderState:
             return {'components': self.catalog.schema(), 'stages': stage_schema(),
                     'recipe': default_recipe(str(self.workspace / 'data/xDiyo_data')),
                     'bundles': list_stat_bundles(), 'metrics': inventory()['metrics']}
+        if route == 'odds-discover':
+            from ..odds.crosswalk import read_manifest
+            from ..odds.database import current_database
+            result = {'odds_crosswalks': []}
+            root = self.workspace/'data/odds'
+            try:
+                current = read_manifest(current_database(root))
+            except ValueError:
+                return result
+            for path in sorted(root.glob('*/*/manifest.json')):
+                record = json.loads(path.read_text(encoding='utf-8'))
+                if record.get('crosswalk_version') and record.get('snapshot') == current['snapshot']:
+                    read_manifest(path.parent, crosswalk=True)
+                    count=record['status_counts'].get('matched',0)
+                    label = f"Fixture mapping · {count:,} matched"
+                    result['odds_crosswalks'].append({'value': str(path.parent), 'label': label, 'matched':count,
+                        'updated':path.stat().st_mtime_ns})
+            result['odds_crosswalks'].sort(key=lambda item:(item['matched'],item['updated']),reverse=True)
+            return result
+        if route == 'odds-crosswalk':
+            from ..odds.crosswalk import native_fixture_metadata, build_fixture_crosswalk, save_crosswalk, load_mapping_rules
+            import pandas as pd
+            seasons = request['seasons']
+            leagues = request.get('leagues')
+            aliases, overrides = load_mapping_rules(self.workspace/'data/odds')
+            if request.get('aliases'):
+                table = pd.read_csv(self.resolve(request['aliases']), dtype=str)
+                if table.duplicated(['source_league','vendor_team']).any():
+                    raise ValueError('Team alias keys must be unique')
+                aliases.update({(r.source_league,r.vendor_team):r.native_team_id for r in table.itertuples()})
+            native = native_fixture_metadata(self.resolve(request['root']), seasons=seasons, leagues=leagues)
+            from ..odds.database import current_database
+            snapshot = current_database(self.workspace/'data/odds')
+            frame = build_fixture_crosswalk(snapshot, native, seasons=seasons, leagues=leagues,
+                    team_aliases=aliases, fixture_overrides=overrides,
+                    date_tolerance_days=request.get('date_tolerance_days',0))
+            path = save_crosswalk(frame, snapshot=snapshot, output_root=self.workspace/'data/odds/mappings')
+            return {'path':str(path), 'status_counts':frame.status.value_counts().to_dict(),
+                    'review_path':str(path/'fixtures.parquet')}
         if route == 'discover':
             root = self.resolve(request['root'])
             if not root.is_dir():

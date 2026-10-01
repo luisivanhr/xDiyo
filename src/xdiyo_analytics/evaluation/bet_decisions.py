@@ -7,6 +7,7 @@ import pandas as pd
 from ..labels import BetOption
 from .betting import BetSpec, _aligned
 from .probabilities import bet_probabilities, negative_binomial_bet_probabilities
+from ..odds.selection import OddsSeries
 
 
 @dataclass(frozen=True)
@@ -123,7 +124,13 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
             raise ValueError("TightestLine supports over/under offers; use HighestExpectedProfit for other options.")
         probabilities = _option_probabilities(context, offer.option, target, output)
         quote = default_odds if offer.odds is None else offer.odds
-        odds = _aligned(np.nan if quote is None else quote, context, context.identity_columns, 'odds').astype(float)
+        quote_metadata = None
+        if isinstance(quote, OddsSeries):
+            quote.validate_option(offer.option)
+            quote_metadata = quote.resolve(context)
+            odds = quote_metadata.decimal_odds.astype(float)
+        else:
+            odds = _aligned(np.nan if quote is None else quote, context, context.identity_columns, 'odds').astype(float)
         stake = _aligned(offer.stake, context, context.identity_columns, 'stake').astype(float)
         if (odds.notna() & (~np.isfinite(odds) | odds.le(1))).any():
             raise ValueError("Decimal odds must be finite and greater than 1.")
@@ -140,6 +147,11 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
             accepted = table.expected_profit.ge(policy.min_ev)
             table.loc[table.eligible & ~accepted, 'reason'] = 'Missing odds or below minimum expected profit'
             table['eligible'] &= accepted
+        if quote_metadata is not None:
+            for column in quote_metadata.columns.difference(['decimal_odds']):
+                table[column] = quote_metadata[column]
+            table.loc[odds.isna(), 'reason'] = quote_metadata.loc[odds.isna(), 'quote_status']
+            table['eligible'] &= odds.notna()
         rows.append(table.reset_index())
     alternatives = pd.concat(rows, ignore_index=True)
     alternatives['take'] = False
@@ -163,6 +175,6 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
     specs = {}
     for name, offer in offers.items():
         selected = alternatives.loc[alternatives.bet.eq(name)].set_index(['fold_id', 'row_position']).reindex(context.y.index)
-        specs[name] = BetSpec(offer.option, selected.odds, selected['take'].astype(bool), selected.stake,
+        specs[name] = BetSpec(offer.option, offer.odds if isinstance(offer.odds, OddsSeries) else selected.odds, selected['take'].astype(bool), selected.stake,
                               policy=f'{policy!r}; output={output}; default_odds={default_odds}')
     return specs, alternatives

@@ -2860,11 +2860,11 @@
           "name": "odds",
           "title": "Odds",
           "required": true,
-          "kind": "number",
-          "help": "Decimal odds including returned stake. Example: 2.5 pays 2.5 times the stake on a win.",
+          "kind": "odds",
+          "help": "Choose a fixed decimal price, an identity-indexed table, or the current odds database. Imported missing quotes mean no bet; no closing-price fallback.",
           "initial": 1,
           "step": "any",
-          "primary": false
+          "primary": true
         },
         {
           "name": "take",
@@ -2930,9 +2930,9 @@
           "name": "odds",
           "title": "Odds",
           "required": false,
-          "kind": "number",
+          "kind": "odds",
           "default": null,
-          "help": "Optional decimal quote for this option, e.g. 1.85. Leave disabled to use the reporter fallback or show probability-only decisions.",
+          "help": "Choose a fixed decimal price, an identity-indexed table, or the current odds database. Imported missing quotes mean no bet; no closing-price fallback.",
           "initial": 1.85,
           "step": "any",
           "primary": true,
@@ -11855,16 +11855,191 @@
           "required": false,
           "kind": "multiselect",
           "default": null,
-          "help": "Columns forming the exact row index. Select both competition_id and season_id for league-season counts.",
+          "help": "Exact observation identities: source_league, source_season, competition_id, season_id, event_id; add team_id for team rows.",
           "primary": false,
           "choices": [
+            "source_league",
+            "source_season",
             "competition_id",
             "season_id",
-            "team_id",
             "event_id",
+            "team_id",
             "fold_id",
             "row_position"
           ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "input.OddsSeries": {
+      "id": "input.OddsSeries",
+      "title": "Database odds",
+      "category": "odds_input",
+      "description": "Read the odds database and supply native identity-aligned prices.",
+      "fields": [
+        {
+          "name": "snapshot",
+          "title": "Snapshot",
+          "required": true,
+          "kind": "text",
+          "help": "Snapshot for OddsSeries. Optional; leave disabled to use the standard behavior.",
+          "primary": true,
+          "hidden": true,
+          "initial": "data/odds"
+        },
+        {
+          "name": "crosswalk",
+          "title": "Fixture mapping",
+          "required": true,
+          "kind": "select",
+          "help": "Reviewed mapping from provider fixtures to native matches. Build it below after choosing seasons.",
+          "primary": true,
+          "discovery": "odds_crosswalks"
+        },
+        {
+          "name": "seasons",
+          "title": "Seasons",
+          "required": true,
+          "kind": "multiselect",
+          "help": "Explicit seasons to read from the odds database; no implicit future-season inclusion.",
+          "primary": true,
+          "discovery": "seasons"
+        },
+        {
+          "name": "market",
+          "title": "Market",
+          "required": true,
+          "kind": "select",
+          "help": "Market must describe the predicted target. BTTS and Asian handicap prices are stored but not enabled for native settlement.",
+          "primary": true,
+          "choices": [
+            "corners",
+            "yellow_cards",
+            "1x2",
+            "goals"
+          ]
+        },
+        {
+          "name": "selection",
+          "title": "Selection",
+          "required": true,
+          "kind": "select",
+          "help": "Choose the quoted event. Home/away are absolute fixture sides; Outcome perspective is checked.",
+          "primary": true,
+          "choices": [
+            "over",
+            "under"
+          ],
+          "choices_by": {
+            "market": {
+              "corners": [
+                "over",
+                "under"
+              ],
+              "yellow_cards": [
+                "over",
+                "under"
+              ],
+              "goals": [
+                "over",
+                "under"
+              ],
+              "1x2": [
+                "home",
+                "draw",
+                "away"
+              ]
+            }
+          }
+        },
+        {
+          "name": "quote_type",
+          "title": "Quote type",
+          "required": false,
+          "kind": "select",
+          "default": "closing",
+          "help": "Opening is earliest recorded; closing is last recorded. Actual quote times and bookmaker are unknown. This is a price scenario, not verified early-entry execution.",
+          "primary": true,
+          "choices": [
+            "closing",
+            "opening"
+          ],
+          "choices_by": {
+            "market": {
+              "corners": [
+                "closing"
+              ],
+              "yellow_cards": [
+                "closing"
+              ],
+              "goals": [
+                "opening",
+                "closing"
+              ],
+              "1x2": [
+                "opening",
+                "closing"
+              ]
+            }
+          }
+        },
+        {
+          "name": "line",
+          "title": "Line",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Integer or half line. Equality on integer totals pushes. Quarter-line split settlement is unsupported.",
+          "initial": 9.5,
+          "step": 0.5,
+          "primary": true,
+          "visible_when": {
+            "market": [
+              "corners",
+              "yellow_cards",
+              "goals"
+            ]
+          },
+          "clear_when_hidden": true
+        },
+        {
+          "name": "leagues",
+          "title": "Leagues",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Optional league subset. Disabled uses all leagues in the database.",
+          "primary": true,
+          "discovery": "leagues"
+        },
+        {
+          "name": "settlement_confirmed",
+          "title": "Settlement confirmed",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Confirm that the native target and void rules match vendor regulation time. For yellow cards verify second yellows/bench cards and exclude red cards. This does not confirm quote availability at prediction time.",
+          "primary": true
+        },
+        {
+          "name": "snapshot_hash",
+          "title": "Snapshot hash",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Snapshot hash for OddsSeries. Optional; leave disabled to use the standard behavior.",
+          "primary": true,
+          "hidden": true
+        },
+        {
+          "name": "crosswalk_hash",
+          "title": "Crosswalk hash",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Crosswalk hash for OddsSeries. Optional; leave disabled to use the standard behavior.",
+          "primary": true,
+          "hidden": true
         }
       ],
       "accepts_extra": false

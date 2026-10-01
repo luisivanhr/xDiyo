@@ -8,6 +8,7 @@ import pandas as pd
 
 from ..labels import BetOption, create_labels
 from .metrics import _sample_hash
+from ..odds.selection import OddsSeries
 
 
 @dataclass(frozen=True)
@@ -99,7 +100,14 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
         if take.isna().any() or not take.map(lambda v: isinstance(v, (bool, np.bool_))).all():
             raise ValueError("take must supply an explicit boolean decision for every observation.")
         take = take.astype(bool)
-        odds = pd.to_numeric(_aligned(spec.odds, context, keys, "odds"), errors="raise").astype(float)
+        quote_metadata = None
+        if isinstance(spec.odds, OddsSeries):
+            spec.odds.validate_option(spec.option)
+            quote_metadata = spec.odds.resolve(context)
+            odds = quote_metadata.decimal_odds.astype(float)
+            take &= odds.notna()
+        else:
+            odds = pd.to_numeric(_aligned(spec.odds, context, keys, "odds"), errors="raise").astype(float)
         stakes = pd.to_numeric(_aligned(spec.stake, context, keys, "stake"), errors="raise").astype(float)
         if ((take & odds.notna() & (~np.isfinite(odds) | (odds <= 1))).any() or
                 (take & stakes.notna() & (~np.isfinite(stakes) | (stakes < 0))).any()):
@@ -121,6 +129,9 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
         ledger["accounting_status"] = np.where(~take, "not_placed", np.where(settled, "settled", "unresolved"))
         ledger["payout"] = payout
         ledger["profit"] = profit
+        if quote_metadata is not None:
+            for column in quote_metadata.columns.difference(['decimal_odds']):
+                ledger[column] = quote_metadata[column]
         ledgers.append(ledger.reset_index())
         total_profit = float(profit.loc[settled].sum())
         settled_stakes = float(actual_stake.loc[settled].sum())
