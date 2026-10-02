@@ -102,3 +102,50 @@ implementation. Production parameters remain caller choices.
 Browser verification covered Chromium at two widths, not every browser or
 arbitrary imported extension. No large production performance benchmark or
 model-quality study was run. See [complete semantics and coverage matrix](explicit_warmup.md).
+
+## Ayre review remediation (2026-10-03)
+
+Review baseline: `4fba7684f68e5072b86f8904416d887e74a50c11`. All five
+reported findings were reproduced and corrected in the explicit statistical
+path; the shared legacy/Glicko implementation was left unchanged.
+
+| Finding | Correction and regression |
+|---|---|
+| R1: entrant evidence without current fixture rows | Use the complete supplied movement lookup for donor exclusion, evidence retention and hashing |
+| R2: newer origin seasons entering seeds | Restrict boundary windows to the identified predecessor and provably older seasons in that competition |
+| R3: undated targets | Keep their outputs missing even with finite cutoffs; ignore them in dated-kickoff duplicate checks |
+| R4: independent nullable flags | Preserve known negatives and explicit nulls independently; distinguish omitted flags from explicit missing evidence; retain validation of contradictions |
+| R5: alpha=1 cancellation | Assign the latest finite value and its moment state directly, including very large previous means |
+
+Permanent coverage: [20 review regressions](../../tests/analytics/test_warmup_review_regressions.py).
+The 64 existing numerical cases also pass (**84 combined**).
+
+The four unmodified external suites (`math-audit/test_independent_math.py`,
+`api-audit/test_independent_api.py`, `api-audit/test_movement_counterexamples.py`,
+`causal-audit/test_independent_boundaries.py`) now give **43 passed in 2.71 s**.
+The initial run reproduced ten failures; an additional temp-directory permission
+error was resolved by supplying a fresh `--basetemp`, without editing the tests.
+
+The broad command above, with `test_warmup_review_regressions.py` added, now
+gives **423 passed, 4 deselected in 20.03 s**. The same four estimator-running
+cases remain excluded. This includes the rendered Chromium save/reopen/export
+checks at both viewport sizes. No production model was fitted.
+
+For these reruns, use the environment above and a fresh writable test directory:
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE='1'
+$testTemp = Join-Path $env:TEMP ('xdiyo-warmstart-' + [guid]::NewGuid().ToString('N'))
+# Add --basetemp $testTemp to the pytest command.
+```
+
+Ayre's unchanged `causal-audit/compare_legacy.py` was rerun with its output in
+a fresh temporary file. Its serialized results match
+`baseline-legacy-values.json` **exactly**: ordinary mean/SD/Z-score, lag, EMA,
+three legacy warm-up configurations, league/LOO and both Glicko variants, for
+retained and moving teams. The supplied review files were not modified.
+
+Documentation now states predecessor ordering, undated-target handling,
+full entrant evidence, nullable-flag semantics and exact alpha=1 replacement.
+No source datasets, production recipes, saved models or studies were changed
+by this remediation. Unrelated checkout changes were preserved.

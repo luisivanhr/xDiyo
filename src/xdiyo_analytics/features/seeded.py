@@ -12,12 +12,17 @@ import pandas as pd
 from .expressions import RollingMean, RollingStd, RollingZScore, H2H
 from .league import League, LeaveOneOut
 from .warmup import Hard, LinearFade, ObservationCount
+from .transitions import _season_start_year
 
 
 def moment_update(mean, central, q, value, alpha):
+    if alpha == 1:
+        if not math.isfinite(value):
+            raise ValueError('Nonfinite warm-start observation.')
+        return float(value), 0., 1.
     delta = value - mean
     mean = mean + alpha * delta
-    central = 0. if alpha == 1 else (1-alpha) * (central + alpha * delta * delta)
+    central = (1-alpha) * (central + alpha * delta * delta)
     q = (1-alpha)**2 * q + alpha**2
     if not math.isfinite(mean) or (not math.isnan(central) and (not math.isfinite(central) or central < 0)):
         raise ValueError('Nonfinite or negative warm-start moment state.')
@@ -52,7 +57,7 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
     p, history = context.population, context.history
     # Two different events for one team at the same kickoff are ambiguous.
     # Reject only on this new path; do not change legacy historical tie handling.
-    if history.duplicated(['competition_id', 'team_id', 'kickoff_at']).any():
+    if history.loc[p.kickoff.notna().to_numpy()].duplicated(['competition_id', 'team_id', 'kickoff_at']).any():
         raise ValueError('Explicit warm-start modes require unambiguous team/kickoff observations.')
     def ordered(rows):
         return np.array(sorted(rows, key=lambda i: (p.kickoff.iloc[i], str(history.event_id.iloc[i]))), dtype=int)
@@ -66,6 +71,8 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
     if isinstance(op, RollingZScore) and op.reference is not None:
         reference = evaluate(op.reference, h2h)[0].to_numpy(dtype=float, na_value=np.nan)
     audits, seeds = [], {}
+    years = {key: _season_start_year(history.iloc[rows]) for key, rows in context.groups.items()}
+    origin_seasons = {}
 
     def boundary_window(team, previous, boundary, row):
         if previous is None or any(pd.isna(v) for v in previous) or previous not in context.groups:
@@ -76,7 +83,12 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
             return np.array([], dtype=int)
         rows = np.flatnonzero(p.valid & (p.teams == team) & (p.competitions == previous[0])
                               & (p.kickoff < boundary).to_numpy() & (p.available <= boundary).to_numpy())
-        rows = rows[np.array([context.seasons[i] != context.seasons[row] for i in rows], dtype=bool)]
+        if previous not in origin_seasons:
+            prior_year = years[previous]
+            origin_seasons[previous] = {key for key, year in years.items()
+                if key == previous or (key[0] == previous[0] and prior_year is not None
+                                       and year is not None and year < prior_year)}
+        rows = rows[np.array([context.seasons[i] in origin_seasons[previous] for i in rows], dtype=bool)]
         if 'season_id' in group_by:
             rows = rows[history.season_id.iloc[rows].astype(object).eq(previous[1]).to_numpy()]
         for name in extras:
@@ -108,7 +120,7 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
     for row in range(len(history)):
         record = context.record(row)
         season, boundary = context.seasons[row], record['entry_at']
-        if pd.isna(boundary) or pd.isna(p.cutoff.iloc[row]):
+        if pd.isna(boundary) or pd.isna(p.cutoff.iloc[row]) or pd.isna(p.kickoff.iloc[row]):
             continue
         rounds = 0 if isinstance(policy.handoff, ObservationCount) else context.completed_rounds(row, policy.round_keys)
         if isinstance(policy.handoff, (Hard, LinearFade)) and policy.handoff.weight(rounds, 0) == 0:
@@ -126,7 +138,7 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
                 for team in sorted(set(p.teams[old_rows]), key=lambda t: str(t)):
                     if team == record['team_id']:
                         continue
-                    entrant = context.records.get((*season, team), {})
+                    entrant = context.movement_evidence.get((*season, team), {})
                     if entrant.get('movement') in ('promoted', 'relegated', 'other_entry'):
                         continue
                     ranking_rows = ordered([i for i in old_rows if p.teams[i] == team])

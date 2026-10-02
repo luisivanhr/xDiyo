@@ -58,13 +58,18 @@ missing measures still occupy window positions. Each column reduces its own
 finite observations without extending the window to refill missing measures.
 Grouping must contain `team_id` and `competition_id`. Adding `season_id` limits
 the seed to the predecessor season; otherwise older observations in the same
-predecessor competition may complete the window. Other group values are matched
+predecessor competition may complete the window. Older seasons must have a
+known start year strictly before the predecessor's year; if that ordering is
+unavailable, only the identified predecessor is used. Newer origin seasons are
+excluded even when they contain matches before B. Other group values are matched
 to the prediction row. `venue="same"` matches its home/away side.
 
 Historical children of nested expressions keep each historical row's own
 cutoff. The new evaluator never unwraps a lag/rolling child into a raw statistic.
-Two observations for the same team, competition and kickoff are rejected as
-ambiguous on the new path. Legacy tie ordering is unchanged. IDs stay exact,
+Two dated observations for the same team, competition and kickoff are rejected
+as ambiguous on the new path. Undated target rows remain missing even with an
+explicit finite cutoff; multiple undated fixtures do not block dated rows.
+Legacy tie ordering is unchanged. IDs stay exact,
 including unsigned IDs larger than the floating-point exact-integer range.
 
 ## Cohort construction
@@ -73,6 +78,8 @@ Use the destination league's immediately previous-season membership. Exclude
 the focal team and known incoming promoted, relegated or administrative entrants;
 departing prior members may remain eligible. Every donor's paired mean/variance
 uses its own final eligible boundary window with the same source and scope.
+Supplied entrant evidence applies even if that team has no current-season
+fixture row. The complete evidence is retained in the audit and input hash.
 
 For positive counts, rank eligible donors by their latest valid provider
 **pregame standings position** available before B. This is a standings proxy,
@@ -165,6 +172,8 @@ increment. With \(\alpha=1\), mean becomes the latest value, population
 variance is zero and \(Q=1\); corrected variance is missing. Zero spread yields
 a missing Z-score. Materially invalid/nonfinite moment states raise; signed
 observations are allowed. Missing/inadequate dispersion is never filled with zero.
+The \(\alpha=1\) update assigns \((\mu',C',Q')=(x,0,1)\) directly, avoiding
+cancellation or overflow from subtracting a very large previous mean.
 
 ## Handoff
 
@@ -230,6 +239,13 @@ Full transition evaluation additionally validates adjacent predecessor identity.
 Native flags alone do not contain origin IDs: request the `team_seasons` table
 for movers' own-history warm starts. Absence from a loaded subset never establishes
 promotion, relegation or a false flag.
+
+Each flag has independent missingness: `False/None` produces `0/missing`, and
+`True/None` produces `1/missing`. Known negative flags without a movement status
+do not establish retention or administrative entry. A true flag can establish
+the corresponding movement for warm-start routing. A known status supplies
+flags omitted from a status-only record, but an explicitly null flag stays
+missing. Evidence records expose `movement_basis` (`status` or `flags`).
 
 ## Coverage matrix
 
