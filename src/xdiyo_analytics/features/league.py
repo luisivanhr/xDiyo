@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from numbers import Integral
 
-from .expressions import Expr, Stat, ForAgainst
+from .expressions import Expr, Stat, MatchScore, ForAgainst
 from .history import aligned_times
 
 
@@ -190,7 +190,7 @@ def reduce_league(node, population, evaluate):
         if node.reference is None:
             raise ValueError("League Z-score needs a historical reference, e.g. reference=Lag(stat).")
         reference, _ = evaluate(node.reference)
-        if isinstance(node.reference, (Stat, ForAgainst, League, LeaveOneOut)):
+        if isinstance(node.reference, (Stat, MatchScore, ForAgainst, League, LeaveOneOut)):
             raise ValueError("A league Z-score reference must be historical or known context.")
         if reference.shape[1] != frame.shape[1]:
             raise ValueError("Z-score reference and population must have matching column counts.")

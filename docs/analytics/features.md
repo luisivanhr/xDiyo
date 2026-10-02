@@ -1,5 +1,8 @@
 # Evaluate named football features
 
+See [historical goals](match_scores.md) for native-current goals scored/conceded
+using `RollingMean(MatchScore(...), window=20)` without a statistics table.
+
 See [heatmap features and fixture views](heatmaps.md) for spatial grid pooling,
 Gaussian smoothing, shared pitch orientation and `RegionMass` summaries.
 `Lag`, `RollingMean`, `RollingStd`, `RollingZScore` and `EMA` accept
@@ -46,12 +49,13 @@ when a result or statistic was completed or published.
 | --- | --- |
 | `Stat(period, group, key, field="value")` | One exact observed statistic identity, from the team's perspective. Use numeric `value` or an explicitly selected numeric field such as `total`. |
 | `Stat(None, group, key)` | Expand every supplied period separately. `ALL` remains the provider's full-match value; halves are not summed. |
-| `ForAgainst(stat, side="for")` | Select existing team (`for`), opponent (`against`) or both columns. Its source must be a `Stat`. |
+| `MatchScore(score_field="current", side="for")` | Observed native-current goals; `for`, `against`, or `both`. Requires a historical operator. |
+| `ForAgainst(source, side="for")` | Select team (`for`), opponent (`against`) or both columns for Stat, MatchScore or Heatmap. |
 | `H2H(expression)` | Restrict historical operations within the expression to the ordered team/opponent pair, respecting venue reversals. |
 | `IsHome()` | Current row's known home context: home 1, away 0; unknown side is missing. |
 | `NormalizedStanding(side="for", missing_value=0.0)` | Current row's supplied pregame standing, normalized using the full league-season team count. Also accepts `against` and `both`. |
 
-`Stat` and `ForAgainst` cannot be output roots, including when wrapped only in
+`Stat`, `MatchScore` and `ForAgainst` cannot be output roots, including when wrapped only in
 `H2H`; put a historical operator around observed values. This prevents returning
 the target match's realized statistic directly as a feature.
 

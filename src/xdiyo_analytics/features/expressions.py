@@ -18,10 +18,29 @@ class Stat(Expr):
 
 
 @dataclass(frozen=True)
-class ForAgainst(Expr):
-    """Select a Stat's team/opponent columns, without another join."""
+class MatchScore(Expr):
+    """Observed native-current goals; requires a historical operator.
 
-    source: Stat
+    for/against select the focal team's scored/conceded goals; both emits two
+    columns. Current is the provider's score, not necessarily regulation time.
+    No half, extra-time or penalty reconstruction or fallback is performed.
+    """
+
+    score_field: str = "current"
+    side: str = "for"
+
+    def __post_init__(self):
+        if self.score_field != "current":
+            raise ValueError("MatchScore score_field must be 'current'; other score bases are not supported.")
+        if self.side not in ("for", "against", "both"):
+            raise ValueError("MatchScore side must be 'for', 'against' or 'both'.")
+
+
+@dataclass(frozen=True)
+class ForAgainst(Expr):
+    """Select a Stat, MatchScore or Heatmap perspective, without another join."""
+
+    source: Expr
     side: str = "for"
 
 
