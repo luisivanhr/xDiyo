@@ -67,6 +67,17 @@ def inspect_season(data_root, season_stem, *, record_path=None) -> "pd.DataFrame
             "column_summary": ", ".join(f"{field.name}: {field.type}" for field in schema),
         })
     catalogue = pd.DataFrame(entries).set_index("table")
+    if 'team_seasons' not in catalogue.index:
+        from .movements import _movement_path, _read_movements
+        if _movement_path(data_root, season_stem, source).exists():
+            frame, _ = _read_movements(data_root, season_stem, source)
+            catalogue.loc['team_seasons'] = {
+                'rows': len(frame), 'column_count': len(frame.columns),
+                'description': TABLE_DESCRIPTIONS['team_seasons'] + ' Separate enrichment; original export unchanged.',
+                'columns': list(frame.columns),
+                'column_types': {k: str(v) for k, v in frame.dtypes.items()},
+                'column_summary': ', '.join(f'{k}: {v}' for k, v in frame.dtypes.items()),
+            }
     catalogue.attrs["source"] = {"season": season_stem, "version": source.manifest["version"],
                                   "manifest_path": str(source.path)}
     return catalogue

@@ -1,0 +1,9 @@
+{
+  "season": "Serie_A_21_22",
+  "old_manifest_sha256": "931e42342e4b78849df7327501374de9d48dad8bacd9e2cacb4fa0b7c0aef820",
+  "old_publication_sha256": "8348325d39cff3fdae14bffb0788487af9cf95199fe9b2545acbe86c23752e58",
+  "new_manifest_sha256": "ac2efa540938b0eb4bd1c79eb1423f769a69de82e27c609c178513df894e5eda",
+  "new_publication_sha256": "05a063e6c18a3f78f697fee41634c8f2112bc8c49d8e3f3730712b802dd66170",
+  "matches_sha256": "81365692e906a0f0f9ae5fa9dbdcf41810143940ee4631fc6fbe62de3f524d9d",
+  "season_sha256": "5b49431f7419aa2451cc5cf0b3d8fe8a11026322cdeeecae81dfef1bd3ba5259"
+}

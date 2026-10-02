@@ -1,0 +1,9 @@
+{
+  "season": "Premier_League_21_22",
+  "old_manifest_sha256": "575fe67f5dea0f228f99d878e9469617c12a297331c73eb8fe9b57ade785f262",
+  "old_publication_sha256": "cee987a9f7e75f7ce187c0bfc2f1460b345c30cb57749fe2a073e08a3370c4fc",
+  "new_manifest_sha256": "34ea397cb8658e9e71713d88e5a91612f4275056f14cb61db398a4eb5f1db18d",
+  "new_publication_sha256": "45ef36d13ec6ebc94c98a91d56e29081270d32494ede90d6df69a3c24dddb3b8",
+  "matches_sha256": "fd86f7461f553ca597eb6e044e2f619f70ef07cd7fe0cf4d7247dd4649aec94b",
+  "season_sha256": "50d91cbf015b4cdf822082dc37445969687a41c41e7a251fd466be8237eb80d9"
+}

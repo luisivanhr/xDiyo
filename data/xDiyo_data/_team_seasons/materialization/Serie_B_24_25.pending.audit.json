@@ -1,0 +1,9 @@
+{
+  "season": "Serie_B_24_25",
+  "old_manifest_sha256": "4402a2dbbffe607abb3974463c6f2b99c2f8b936313b73ac363d509a16d0b385",
+  "old_publication_sha256": "810d4ebdd471c16f1819f26cf9754c6c9a47c4ccb801076b99d6abe3cc7e771e",
+  "new_manifest_sha256": "fbcd230b9605498c295d8ad145e9c35619feb9a9003ecae7e8686b0efc428b64",
+  "new_publication_sha256": "126d49f60a89944aac2cdf30ab9bedd6aaf5fd6ab89de3e3e9810d9c4cabad13",
+  "matches_sha256": "bf16d3c94e0bf7f4ffc64ac05a0513eab27eb22fd61c689e37e691942cbf674c",
+  "season_sha256": "747134e86b76dffc906edb33352d61006663389fff73cb3fa1c8f3f84a87fede"
+}

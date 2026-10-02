@@ -1,0 +1,9 @@
+{
+  "season": "Ligue_2_21_22",
+  "old_manifest_sha256": "48bd4e5cd9576287d7733cb5df9cdfbb626ff3033be3a2b0e27c9b6e9f9bb66c",
+  "old_publication_sha256": "dee8a04578114e4659e42771ad7b8001bb816348a17e9c65833875b3dfa5919b",
+  "new_manifest_sha256": "fab881f2b423b9c0fe0ba61252b79d28bcddde220c450491a8691bca279e93a8",
+  "new_publication_sha256": "73d48cef705aa97a3b63a4028577b4661e4f09db08ed7b2420e7835e403f6334",
+  "matches_sha256": "02065eef58c472d4e298144fbd40a16fa65bbebd554bc8cbe2545d502cfc8268",
+  "season_sha256": "a3504250c4355cab02846bfb26fcb716630f0a2150ba751007613875aff7a43e"
+}

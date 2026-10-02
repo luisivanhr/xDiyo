@@ -1,0 +1,9 @@
+{
+  "season": "Eredivisie_25_26",
+  "old_manifest_sha256": "c36e4c979194c3c1d8798d5c5b6d5c316f80f6ab5f3cfc584667cc610241fa26",
+  "old_publication_sha256": "7f068c44e2bff7332e95c34a674dd00476c5131107eeb23819c3148c07673dcc",
+  "new_manifest_sha256": "16fef7c0c3485342890827ecbe67444fb30c074abd6c556daefa854ca06ffaa1",
+  "new_publication_sha256": "4e6e1ee2d71a462110789d85e1524967c8f7b25eba4ca21a78fb2fb880eff1ba",
+  "matches_sha256": "2fc33ec0e9e5915da3fa6d6addab78c6b7d6728a1b906694c726d8e31127b426",
+  "season_sha256": "b73079a379f5a72b6411fcfc9423d2fbd6443cebe7e99051e6714d9e0ac340ef"
+}

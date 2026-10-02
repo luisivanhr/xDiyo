@@ -1,0 +1,9 @@
+{
+  "season": "La_Liga_22_23",
+  "old_manifest_sha256": "c6f82f5a70a1c4bc6700e34cb50183bbf82ef2af42dc0d16662b408d95b86720",
+  "old_publication_sha256": "95b5229a3dd62b7e7142afe219673e6ec75d60091a7fb5ceb928c9b678388980",
+  "new_manifest_sha256": "e68165ff6c4ccd2acc9993c279ab1aef8c153bfb14cf8df06693da6f9c676441",
+  "new_publication_sha256": "84a384c50d9748df80710df3bdbbac5092a7485d2f4943713aef6236f20fe54d",
+  "matches_sha256": "5abeb4ebfc1c8cdd096397dd5b0550c3c1a75540014773e1ae4980e8e1ed19ce",
+  "season_sha256": "289737ab5f835fd99dc175782a5ed91e336772303e88bc59cdc838879360312e"
+}

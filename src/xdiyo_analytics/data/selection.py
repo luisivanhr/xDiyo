@@ -113,6 +113,8 @@ def select_stats(data: SeasonData, *, bundles=(), stats=(), categories=None) -> 
         raise KeyError(f"Unknown bundles: {sorted(unknown)}. Use list_stat_bundles().")
 
     tables = {}
+    if 'team_seasons' in data.tables:
+        tables['team_seasons'] = data['team_seasons'].copy(deep=False)
     if data.matches is not None:
         tables["matches"] = data.matches.copy(deep=False)
     statistic_bundles = [name for name in bundles if name != "standings"]

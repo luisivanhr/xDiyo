@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_22_23",
+  "old_manifest_sha256": "0fdfc3e9bde9d62f2c78c968fb24adbfedebbb5e03b9d38a4b8eb2c0fff7991e",
+  "old_publication_sha256": "cb6a19ac1bd24e0ea9c15ab05f101d7c6b434c2c41d6e4879fae2ff57423ef75",
+  "new_manifest_sha256": "7c1330dd415b097f4ed450fbf43a3f8cf2664edf546f7a2c1513132df88ebcf2",
+  "new_publication_sha256": "217084e4c68594dee8e44887229e432204303f28bf93e84cc871b2cc3570bd67",
+  "matches_sha256": "1f8580e2f796ab49c6dad39f02cdb38693f9b39fe818e9eba3f75ac6579d7dfe",
+  "season_sha256": "82920ddcb4d0b48ef114e2a45da81670b186875ad28258ed1078e2350dae222a"
+}

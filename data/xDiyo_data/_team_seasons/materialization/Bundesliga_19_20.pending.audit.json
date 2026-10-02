@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_19_20",
+  "old_manifest_sha256": "c9966ca75ec57af3510cd2b3619e356c3dd912c5b89502058a9e751d810bac2d",
+  "old_publication_sha256": "3e773e17d3a03404ede66026ffed15fe7f0fec91df85735e137ecff776f63efb",
+  "new_manifest_sha256": "467f278695bbede85673f258682d11054fdb83fd6d473aa1db2e1bc5fea4f319",
+  "new_publication_sha256": "7da3bfb7a6fc7dc201c137261125bcc3cd2de12f0754a535ad52b34a4dd544ee",
+  "matches_sha256": "f57976bbe8711085add675e5bec52c93695fd58fd68186a7782fbbd469bd6fbf",
+  "season_sha256": "39fc99c9874717ddbf7fa4d22199ee67ead7d0ce44a9cdb5a61ba00f5f2b0821"
+}

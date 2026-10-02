@@ -1403,3 +1403,25 @@ Added `AllCombinations(legs=2)` alongside existing batched policies: exact previ
 ## 2 October 2026: historical native-current goals
 
 Added `MatchScore(score_field="current", side="for"/"against"/"both")` for existing goals columns, with temporal source/reference guards, catalog/UI controls and recipe/export support. The compact two-definition rolling-20 recipe adds four home/away columns. Current is explicitly the native score, not a universal regulation-time label; no half-score reconstruction, data repair, odds predictors or study run. [Documentation and verification](docs/analytics/match_scores.md): 405 synthetic/preparation/browser regressions passed, including existing rating and label behavior. The separate draw study must retain its cohort/settlement exceptions and post-hoc disclosure.
+
+## 2 October 2026: additive team-season movement flags
+
+**Superseded storage choice:** the user subsequently approved in-place
+materialization with truthful checksums and recipe migration, avoiding duplicate
+datasets. All 135 current native matches and top-level season Parquet files now
+include home/away movement flags; native manifests also register team_seasons.
+`refresh_recipe_data` and Data → Update recipe to current data save new pins and
+a new recipe, preserving model/feature/report settings and original recipe files.
+Old pinned data references require refresh; historical fitted artifacts are not
+modified. Small resumable materialization journals retain before/after hashes.
+
+Added optional `team_seasons` loading, UI table selection, exact-ID history flags
+and propagation to explicitly configured feature/rating warm-up. Derived 2,610
+team-season rows across 135 publications: 2,098 retained, 374 promoted, 137
+relegated, one administrative entrant. Of those promotions, 213 are inferred
+from reviewed same/upper-division roster absence. Research supplies 14 boundary
+reviews, including the Eredivisie gap; administrative exceptions remain explicit.
+Separate enrichment files preserve all original exports and hashes; verified 405
+original manifests/match files unchanged. No existing recipe or saved run changed.
+See [movement guide](docs/analytics/team_movements.md) for evidence, usage and
+the distinction between dataset hashes and normal source-code cache invalidation.

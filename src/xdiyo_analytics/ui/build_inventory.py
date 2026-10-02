@@ -183,7 +183,7 @@ HELP = {
     'data_root': 'Folder containing published season manifests and tables. Example: data/xDiyo_data.',
     'seasons': 'Select the seasons available in this data folder.',
     'leagues': 'Select available leagues. Disabled includes all leagues for the chosen seasons.',
-    'tables': 'Select prediction-relevant source tables. Matches identify fixtures; statistics supplies numeric observations; pregame supplies standings.',
+    'tables': 'Select source tables. Matches identify fixtures and include published season-entry flags; statistics supplies observations; pregame supplies standings. Team seasons adds movement evidence and predecessor IDs for feature warm-up.',
     'stat_fields': 'Numeric statistic fields retained in team history. Value is the ordinary count or percentage; total is an optional denominator.',
     'include_awarded': 'Include administratively awarded matches. Disabled excludes them from training and histories.',
     'bundles': 'Convenience groups of statistics. Combine bundles with individually selected extra statistics.',
@@ -364,7 +364,7 @@ def build():
             if f['name']==name:f.update(kw)
     patch('data','seasons',kind='multiselect',discovery='seasons')
     patch('data','leagues',kind='multiselect',discovery='leagues',nullable=False,all_when_null=True,help='All available leagues are selected by default. Untick any league to exclude it.')
-    patch('data','tables',kind='multiselect',choices=['matches','statistics','pregame','shots','heatmap_points'])
+    patch('data','tables',kind='multiselect',choices=['matches','statistics','pregame','shots','heatmap_points','team_seasons'])
     patch('history','stat_fields',kind='multiselect',choices=['value','total'])
     patch('stat_selection','bundles',kind='multiselect',discovery='bundles')
     patch('stat_selection','stats',kind='list',item={'kind':'component','components':['features.Stat'],'initial_component':'features.Stat'})

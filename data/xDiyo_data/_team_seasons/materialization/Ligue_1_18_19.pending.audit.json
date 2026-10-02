@@ -1,0 +1,9 @@
+{
+  "season": "Ligue_1_18_19",
+  "old_manifest_sha256": "13eae73171f8e4841e207e83d844109b4adf790548ae6d73c6289b9318934574",
+  "old_publication_sha256": "7ac5de6413265d87fba21f1deebd51e3acc20dfbe5ce05d4941863738321da2c",
+  "new_manifest_sha256": "aacd8cd9b7b48f0607dc09081bbaac7e8ab36567c70f5d8eed96c3a0a0f96795",
+  "new_publication_sha256": "d600436ef8b7da6d4bbd4ba6c7f926e0c38fb92d480c852d3dd137edfde4cf2c",
+  "matches_sha256": "693aac0b0ca66ce90e05e28bea26d057e082bb62c5b1a397ae867c0a20a8c7bd",
+  "season_sha256": "ae4ec686e96e6130a9c1fc10b6328d483825076b75fa6cf68df4d72322f086f9"
+}

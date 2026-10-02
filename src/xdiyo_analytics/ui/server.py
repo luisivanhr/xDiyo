@@ -291,8 +291,14 @@ class BuilderState:
                 frame = pd.read_parquet(source.table_path('statistics'), columns=['period', 'group_name', 'key'])
                 stats = frame.drop_duplicates().to_dict('records')
             overview = overview.reset_index()
-            overview = overview.loc[overview['table'].isin(['matches','statistics','pregame','shots'])]
+            overview = overview.loc[overview['table'].isin(['matches','statistics','pregame','shots','team_seasons'])]
             return {'tables': _frame(overview[['table','rows','description']]), 'stats': stats}
+        if route == 'refresh-data':
+            from .refresh import refresh_recipe_data
+            import uuid
+            name = re.sub(r'[^A-Za-z0-9_-]+', '_', request['recipe']['name']).strip('_') or 'recipe'
+            return refresh_recipe_data(request['recipe'],
+                self.recipes / f'{name}_updated_{uuid.uuid4().hex[:10]}.json', workspace=self.workspace)
         if route == 'save':
             recipe = validate_recipe(request['recipe'])
             name = re.sub(r'[^A-Za-z0-9_-]+', '_', request.get('name') or recipe['name']).strip('_')

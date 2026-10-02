@@ -1,0 +1,9 @@
+{
+  "season": "Championship_17_18",
+  "old_manifest_sha256": "ae69de9b3694cc6f7ce7acc581859d746282147608edafeafca60041325c7acf",
+  "old_publication_sha256": "857f651fbf6fb811ae80067b8b90d1f2ff40ef2aa5a226b79899f261df833e32",
+  "new_manifest_sha256": "7820e14b21aa68334d4fe3acb3c5f3a12a098124fecee675dedf52b1eed7ddbe",
+  "new_publication_sha256": "2ef32753f27ade07040dac0a456219198aa4e47f7f21e9769a2d1d3bbffefc55",
+  "matches_sha256": "f5c018767085ebbcc36e1a53f469d06e77fa1d03ba98a833652cfad3a399c3ef",
+  "season_sha256": "238def408fd38a9efec525fe7145eb69b99f0f612e22818a797c0ce67c1ba95d"
+}

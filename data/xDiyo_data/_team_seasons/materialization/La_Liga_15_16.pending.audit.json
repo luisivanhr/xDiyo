@@ -1,0 +1,9 @@
+{
+  "season": "La_Liga_15_16",
+  "old_manifest_sha256": "bd3c850886f1601c2242f8acfb2388c46aa29561346409ee5f7774cb4eeae112",
+  "old_publication_sha256": "70ea2256b78c4f3de99877f8e7a592153ad5a6e281238817971a7e138cbdde28",
+  "new_manifest_sha256": "7e459195b3f98dc56315bfa187a4649fa5e7ecafa01a0d432f7b10055fe1ee9a",
+  "new_publication_sha256": "fd1ec6c3d42165ce849698f2b1d2dc7907f32099ed9f2bb2ba5ad0ded859b88f",
+  "matches_sha256": "eac6e4543bdfd65fcf299304c1b4a544073cd16b09d165b2094fca0da8d49b49",
+  "season_sha256": "0c95533b7d40b9bb537caeb8b0285803bc6530b6c3bb2304b092c9e1c100f461"
+}

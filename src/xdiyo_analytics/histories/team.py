@@ -45,6 +45,9 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
         raise ValueError("stat_fields must select value, total and/or display.")
 
     matches = data.matches.reset_index(drop=True)
+    if 'team_seasons' in data.tables:
+        from ..data.movements import attach_movement_flags
+        matches = attach_movement_flags(matches, data['team_seasons'])
     keys = [name for name in ("source_league", "source_season") if name in matches]
     keys += ["event_id"]
     required = [*keys, "home_id", "away_id", "kickoff_utc"]
@@ -75,6 +78,9 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
         for prefix, role in ((side, "team"), (opponent, "opponent")):
             if f"{prefix}_name" in matches:
                 part[f"{role}_name"] = matches[f"{prefix}_name"]
+            for field in ('got_promoted', 'got_demoted', 'season_entry'):
+                if f'{prefix}_{field}' in matches:
+                    part[f'{role}_{field}'] = matches[f'{prefix}_{field}']
         for prefix, label in ((side, "goals_for"), (opponent, "goals_against")):
             name = f"{prefix}_score_current"
             part[label] = matches[name] if name in matches else pd.Series(

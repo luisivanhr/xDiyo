@@ -1,0 +1,9 @@
+{
+  "season": "Pro_League_21_22",
+  "old_manifest_sha256": "eca61e2ab41f83bd5a99ce63a3409f13566848a33574a6cb354e1fb344b918dd",
+  "old_publication_sha256": "4e3779cba3628559d7f204f9eb2bda420ebf1aa16f241c11161201d9ac9204d9",
+  "new_manifest_sha256": "de9f722bb934b54c0445074c3b6d0daad319ca34e45471606605232f6fe57054",
+  "new_publication_sha256": "cdd1fc06ca8d5871e4492e3a67022644cd61ec98e3be79f58b0695af2ce02378",
+  "matches_sha256": "f4fd7b9fdc59766f4a1caddb04f9a9705bb14c607b2fcf8a3a087ac94a2ff845",
+  "season_sha256": "5fd08af0447e13334cec910cb60bc70e331190dd6ac771fe9f3e87bc1c22798f"
+}

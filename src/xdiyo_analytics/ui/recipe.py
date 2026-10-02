@@ -166,13 +166,19 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     options = catalog.build(recipe.get('feature_options', {}), context)
     if heatmaps is not None:
         options.setdefault('heatmaps', heatmaps)
+    if 'team_seasons' in data.tables:
+        options.setdefault('team_seasons', data['team_seasons'])
     hours = recipe.get('cutoff_hours')
     if hours is not None:
         if options.get('cutoffs') is not None:
             raise ValueError('Choose either cutoff hours or explicit cutoffs.')
         options['cutoffs'] = history.kickoff_at - pd.Timedelta(hours=float(hours))
-    ratings = {name: build_ratings(history, **catalog.build(spec, context))
-               for name, spec in recipe.get('ratings', {}).items()}
+    ratings = {}
+    for name, spec in recipe.get('ratings', {}).items():
+        rating_options = catalog.build(spec, context)
+        if 'team_seasons' in data.tables:
+            rating_options.setdefault('team_seasons', data['team_seasons'])
+        ratings[name] = build_ratings(history, **rating_options)
     if ratings:
         options['ratings'] = {**options.get('ratings', {}), **ratings}
     if options.get('keyed') is False:

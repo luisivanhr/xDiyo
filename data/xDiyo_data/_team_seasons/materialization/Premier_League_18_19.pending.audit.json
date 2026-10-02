@@ -1,0 +1,9 @@
+{
+  "season": "Premier_League_18_19",
+  "old_manifest_sha256": "178e91aeb6d6453e36788399b1e11bf0e35a2e91b0b6505acacb7979ebe33723",
+  "old_publication_sha256": "a803f4695ba493d897c527336b97c155d7a87627922865ba68ba21c758a33a80",
+  "new_manifest_sha256": "1bd41f7c2e6ab662f6c4985e2bd3df0a8560bc47f1be571a2eae245c7ccdbf09",
+  "new_publication_sha256": "5e82aaf10fb432fe552a9337050c6290106026cc3f1f9f7d571bfa274d169f04",
+  "matches_sha256": "7441de57c59dfe81979ba6d3ae01582e6ad0f8b286582357ab21bbf0d116705c",
+  "season_sha256": "5ea2e14f32a1f1e91cb839042d1b0fb023df0e6d8f85ca886a5f12478e3c56df"
+}
