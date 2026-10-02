@@ -2,6 +2,9 @@
 
 from copy import deepcopy
 import json
+import hashlib
+import os
+from tempfile import TemporaryDirectory
 from pathlib import Path
 
 
@@ -15,6 +18,7 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None):
     """
     from .recipe import validate_recipe
     from ..data._source import _open_source
+    from ..data.loading import _validate_season_options, _discover_seasons
 
     base = Path(workspace or Path.cwd()).resolve()
     def resolve(p):
@@ -32,24 +36,16 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None):
         raise FileExistsError('Choose a new output recipe path; existing recipes and records are preserved.')
     if output.is_relative_to(root) or records.is_relative_to(root):
         raise ValueError('Save recipes and selection records outside the source data directory.')
-    seasons = config['seasons']
-    seasons = [seasons] if isinstance(seasons, str) else seasons
-    leagues = config.get('leagues')
-    leagues = [leagues] if isinstance(leagues, str) else leagues
-    selected = []
-    for path in sorted(root.glob('*.manifest.json')):
-        stem = path.name.removesuffix('.manifest.json')
-        league, a, b = stem.rsplit('_', 2)
-        if f'{a}_{b}' in seasons and (leagues is None or league in leagues):
-            selected.append((stem, league, f'{a}_{b}'))
-    if set(seasons) - {r[2] for r in selected} or set(leagues or []) - {r[1] for r in selected}:
-        raise ValueError('Some requested seasons or leagues have no current publication.')
-    if not selected:
-        raise ValueError('No matching current publications.')
-    tables = config.get('tables', ['matches'])
-    tables = [tables] if isinstance(tables, str) else tables
+    seasons, leagues, tables = _validate_season_options(config['seasons'], config.get('leagues'),
+        config.get('tables', ['matches']), config.get('include_awarded', False))
+    if not root.is_dir():
+        raise FileNotFoundError(f'Data directory does not exist: {root}')
+    try:
+        selected = _discover_seasons(root, seasons, leagues)
+    except ValueError as exc:
+        raise ValueError('Some requested seasons or leagues have no current publication.') from exc
     pending, changes = [], []
-    for stem, _, _ in selected:
+    for _, _, stem in selected:
         source = _open_source(root, stem)
         for table in tables:
             if table == 'team_seasons' and table not in source.manifest['tables']:
@@ -57,6 +53,11 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None):
                 _read_movements(root, stem, source)
             elif not source.table_path(table).is_file():
                 raise FileNotFoundError(source.table_path(table))
+            elif config.get('verify_hashes', False):
+                with source.table_path(table).open('rb') as stream:
+                    digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+                if digest != source.manifest['tables'][table]['sha256']:
+                    raise ValueError(f'{stem}/{table}: fingerprint mismatch during recipe refresh.')
         previous = None
         if config.get('record_dir'):
             old_path = resolve(config['record_dir']) / f'{stem}.json'
@@ -73,10 +74,25 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None):
     # are required: their pins may be stale precisely because data was replaced.
     config['data_root'] = str(root)
     config['record_dir'] = str(records)
-    records.mkdir(parents=True)
-    for stem, record in pending:
-        (records / f'{stem}.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
-    with output.open('x', encoding='utf-8') as stream:
-        json.dump(updated, stream, indent=2, ensure_ascii=False)
-        stream.write('\n')
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with TemporaryDirectory(prefix='.recipe-refresh-', dir=output.parent) as temporary:
+        stage = Path(temporary)
+        staged_records = stage / 'records'
+        staged_records.mkdir()
+        for stem, record in pending:
+            (staged_records / f'{stem}.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
+        staged_recipe = stage / 'recipe.json'
+        staged_recipe.write_text(json.dumps(updated, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+        installed = False
+        try:
+            staged_records.rename(records)
+            installed = True
+            # Atomic, no-overwrite publication on the same filesystem.
+            os.link(staged_recipe, output)
+        except BaseException:
+            if installed:
+                for stem, _ in pending:
+                    (records / f'{stem}.json').unlink()
+                records.rmdir()
+            raise
     return {'recipe': updated, 'path': str(output), 'changes': changes}

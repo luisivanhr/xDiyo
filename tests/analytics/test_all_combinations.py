@@ -251,12 +251,13 @@ def test_native_opening_odds_binary_recipe_and_performance_source(tmp_path):
     saved=save_crosswalk(mapping,snapshot=source,output_root=tmp_path/'mappings')
     odds=OddsSeries(str(source),str(saved),('24_25',),'1x2','draw',quote_type='opening',settlement_confirmed=True)
     catalog=catalog_for_ui()
-    for cutoff,expected in [(None,6),(.5,1)]:
+    for cutoff,min_ev,expected in [(None,None,6),(.5,None,1),(.8,0.,3),(.9,0.,3)]:
         reporter=node('reporting.BetOutcomeReporter',type='overall',partition='test',
             offers={'draw':node('evaluation.BetOffer',option=catalog.encode(option),odds=catalog.encode(odds))},
             policy=node('evaluation.BinaryDrawThreshold',max_non_draw_probability=cutoff),
             labels={'ref':'settlements'},show_badges=False,
-            composition=node('evaluation.AllCombinations',legs=2))
+            composition=node('evaluation.AllCombinations',legs=2,min_ev=min_ev,
+                probability_mode='independent' if min_ev is not None else 'none'))
         rebuilt=catalog.build(json.loads(json.dumps(reporter)),{'settlements':labels})
         training=as_training(ctx)
         training.definitions=deepcopy(ctx.definitions)
@@ -269,6 +270,8 @@ def test_native_opening_odds_binary_recipe_and_performance_source(tmp_path):
         assert after.tables['combination_preview'].missing_price_events.tolist()==[1]
         assert after.tables['ledger'].cumulative_known_profit.iloc[-1]==before.tables['tickets'].profit.sum()
         assert before.tables['ticket_legs'].quote_snapshot_hash.eq(odds.snapshot_hash).all()
+        for key in ('ticket_candidates','ticket_selection_summary','odds_provenance'):
+            pd.testing.assert_frame_equal(before.tables[key],after.tables[key])
 
 
 @pytest.mark.parametrize('fold_ids', [[4,4,9,9,9], [4,4,9,9,12]])
@@ -286,8 +289,10 @@ def test_binary_decisions_preserve_full_frame_across_folds(fold_ids, threshold):
     assert table.row_position.tolist()==list(range(5))
 
 
-@pytest.mark.parametrize('threshold,expected', [(None,{4:6,9:6,12:6}),(.5,{4:1,9:3,12:0})])
-def test_binary_multiple_fold_support_and_native_pooled_reports(threshold,expected):
+@pytest.mark.parametrize('threshold,min_ev,expected', [
+    (None,None,{4:6,9:6,12:6}),(.5,None,{4:1,9:3,12:0}),
+    (.8,0.,{4:3,9:3,12:0}),(.9,0.,{4:3,9:3,12:0})])
+def test_binary_multiple_fold_support_and_native_pooled_reports(threshold,min_ev,expected):
     from xdiyo_analytics.analysis import PostTrainingAnalysis
     from test_post_training_betting import as_training
     ctx,option,labels=binary_context()
@@ -321,13 +326,14 @@ def test_binary_multiple_fold_support_and_native_pooled_reports(threshold,expect
         index=pd.MultiIndex.from_frame(labels['draw'].metadata[list(KEYS)]))
     decision=BetOutcomeReporter(type='overall',partition='test',pooling='occurrences',
         offers={'draw':BetOffer(option,odds)},labels=labels,
-        policy=BinaryDrawThreshold(threshold),composition=AllCombinations(),show_badges=False)
+        policy=BinaryDrawThreshold(threshold),composition=AllCombinations(min_ev=min_ev,
+            probability_mode='independent' if min_ev is not None else 'none'),show_badges=False)
     report=PostTrainingAnalysis({'decisions':decision,'performance':BetPerformanceReporter(
         type='overall',partition='test',pooling='occurrences',source='decisions')}).run(training)
     before,after=[study.result for study in report.studies]
     masks=before.tables['alternatives'].groupby('fold_id')['take'].agg(list).to_dict()
     assert masks==({fold:[True,True,True,True,False] for fold in (4,9,12)} if threshold is None
-                  else {4:[True,True,False,False,False],9:[True,True,True,False,False],12:[False]*5})
+                  else {4:[True,True,threshold>=.6,False,False],9:[True,True,True,False,False],12:[False]*5})
     tickets=before.tables['tickets']
     assert tickets.groupby('fold_id').size().reindex([4,9,12],fill_value=0).to_dict()==expected
     members=before.tables['ticket_legs']
@@ -339,7 +345,7 @@ def test_binary_multiple_fold_support_and_native_pooled_reports(threshold,expect
         actual={tuple(sorted(group.event_id.tolist())) for _,group in
                 members.loc[members.fold_id==fold.fold_id].groupby('ticket_id')}
         assert actual==set(combinations(sorted(eligible),2))
-    for key in ['tickets','ticket_legs','combination_preview']:
+    for key in ['tickets','ticket_legs','combination_preview','ticket_candidates','ticket_selection_summary']:
         pd.testing.assert_frame_equal(before.tables[key],after.tables[key])
     assert after.tables['ledger'].cumulative_known_profit.iloc[-1]==tickets.profit.sum()
 

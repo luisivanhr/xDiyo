@@ -1,9 +1,9 @@
 {
   "season": "Premier_League_24_25",
-  "old_manifest_sha256": "88df3c239a89089189c48ce4caf166e864b9eb095cfc8e5edf68c683f7e023fe",
-  "old_publication_sha256": "272384563d3eaa7e54522cc952b4d2e73708a466b1ef20a2c9ebb1e204601d3f",
-  "new_manifest_sha256": "121b99f48c78f6b03a24bbe5ec27eeeaa981cf006a65bb82a6a9a6027dabb6ad",
-  "new_publication_sha256": "2d58f261d54096a0c917de101f78e4d5a5fe3340ec6bb1fdc48f30f2bd1aceda",
+  "old_manifest_sha256": "121b99f48c78f6b03a24bbe5ec27eeeaa981cf006a65bb82a6a9a6027dabb6ad",
+  "old_publication_sha256": "2d58f261d54096a0c917de101f78e4d5a5fe3340ec6bb1fdc48f30f2bd1aceda",
+  "new_manifest_sha256": "31af38696e01694b5bbe8ed2800361ec7727bb6b0c6b654732c56bfeb3bf6c40",
+  "new_publication_sha256": "89add959c03410234ddc4f0d7ee4ddffbfddcb32c4f36798b7b35f3cf5d53c26",
   "matches_sha256": "a87d7abd01db20706c8631890acdf6b6a3516e9b264437d3b6112038307e8890",
-  "season_sha256": "272a87f5f278819115192465bc5eeffebf036ec09dabfc800e86ae47b3a98029"
+  "season_sha256": "356b3d026677af64b73bb9e18378d66ed6884bdaf0c363842f4c5d72b23b727a"
 }

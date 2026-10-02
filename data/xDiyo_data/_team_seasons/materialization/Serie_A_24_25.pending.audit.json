@@ -1,9 +1,9 @@
 {
   "season": "Serie_A_24_25",
-  "old_manifest_sha256": "867e673a5d2c1ae14765311f2470effb190e2936c5d2d6281ee88d679c74eb3a",
-  "old_publication_sha256": "12edb1e75926c7d8c14b563a603275126d2e877dac4c2b45ecd68aebf937be02",
-  "new_manifest_sha256": "b0995f8c672cefeb8ff2c2d2e324ca6fd9fb3a9a3de8f0b9f73ef691ba2d6f53",
-  "new_publication_sha256": "922b8eb2506664e94831aab573d4723b1fffa95038705a14d9422011d4afe565",
+  "old_manifest_sha256": "b0995f8c672cefeb8ff2c2d2e324ca6fd9fb3a9a3de8f0b9f73ef691ba2d6f53",
+  "old_publication_sha256": "922b8eb2506664e94831aab573d4723b1fffa95038705a14d9422011d4afe565",
+  "new_manifest_sha256": "dd7e9c2f576e6484413f930211d1c74aa98c4b92f10fc39f6c88d659a3ee6f3b",
+  "new_publication_sha256": "1a72aa0473188909c4c2fe42721b4d6bb1e9293ca038da79d93d4a824362f15e",
   "matches_sha256": "6b14012fc79916315fe9c9a0c6cad62cba22d57a79447cb0815f027c93fb614b",
-  "season_sha256": "fde2f3da6a1902815018ace158060a690532882007773ce61a4e83c0b36f0428"
+  "season_sha256": "d0632b385b7d70fd5fed24bd2fdb28869ff5c627f14fd4e94e2a9511267ddafe"
 }

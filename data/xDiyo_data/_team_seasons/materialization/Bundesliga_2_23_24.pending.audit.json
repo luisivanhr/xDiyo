@@ -1,9 +1,9 @@
 {
   "season": "Bundesliga_2_23_24",
-  "old_manifest_sha256": "8dc02f78b7f75661cc16511042404028bb83d76449e60a50a8ac908346ca2fe5",
-  "old_publication_sha256": "f9557fc74e725bcadfa4daa7fac8d9fbdc4f5b54d93ee546260a851eb2cb0dbe",
-  "new_manifest_sha256": "2b6bf4c5082e74be55341e208f8edb31eddc929b33a58d72b15aae8dab413ec9",
-  "new_publication_sha256": "db16a1fe97050fffdefe2c250b7638a578e646763cb4f44c773746e255efcd33",
+  "old_manifest_sha256": "2b6bf4c5082e74be55341e208f8edb31eddc929b33a58d72b15aae8dab413ec9",
+  "old_publication_sha256": "db16a1fe97050fffdefe2c250b7638a578e646763cb4f44c773746e255efcd33",
+  "new_manifest_sha256": "0a4c700e6652480b3e6d6f8c551dad702b18d139683a07470cfc3a312fc88a87",
+  "new_publication_sha256": "b098a5f797feb9cd5e9b0eb62be2f557bbe550255c17f608be50c88fa8dc10d7",
   "matches_sha256": "29dc611e0c0107b015035189431403a91477faf93a1109e88dd2ca4ca9f74c35",
-  "season_sha256": "199e91a3cd6a44adb9f7d35827c827a499d54f4870cd0a6da6c58f3851781a26"
+  "season_sha256": "74e6582f504bca3987cfcd828eb75e40f198f7e403e0bd3e9fc7d24b9a78214a"
 }

@@ -3449,7 +3449,7 @@
           "required": false,
           "kind": "number",
           "default": 1.0,
-          "help": "Stake on EACH ticket. For n events and k legs: total stake = C(n,k) × stake. Legs are not separately staked.",
+          "help": "Stake on EACH selected ticket. C(n,k) × stake is candidate exposure before ticket EV filtering. Actual stake is selected tickets × stake. Legs are not separately staked.",
           "step": "any",
           "primary": true,
           "min": 0
@@ -3505,6 +3505,18 @@
             "none",
             "independent"
           ]
+        },
+        {
+          "name": "min_ev",
+          "title": "Minimum ticket EV (per unit stake)",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional ticket EV per unit stake. Accepts strictly greater EV; equality rejects. Requires explicit Independent probability mode and win/loss probabilities. Candidate exposure is counted before filtering; only selected tickets are staked.",
+          "primary": true,
+          "step": "any",
+          "nullable": true,
+          "initial": 0.0
         }
       ],
       "accepts_extra": false

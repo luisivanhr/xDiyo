@@ -1,9 +1,9 @@
 {
   "season": "Championship_20_21",
-  "old_manifest_sha256": "7b96b945c144ef2da7769f579b769e907b1565ac0286088f6595eb0eccdc19d1",
-  "old_publication_sha256": "4880d07684809d365d52a999ff7ddfb0c713d12d2bf8b98bac8f187476402e1e",
-  "new_manifest_sha256": "f2ad9f5235831daee54948fb41fd0015bda5994c1d6fc6d742d02fafc79c7b0a",
-  "new_publication_sha256": "84d2fc190f253bbc3fd7689aee6ed7bcfc5fac6ae5adb26514a88d45aecb0100",
+  "old_manifest_sha256": "f2ad9f5235831daee54948fb41fd0015bda5994c1d6fc6d742d02fafc79c7b0a",
+  "old_publication_sha256": "84d2fc190f253bbc3fd7689aee6ed7bcfc5fac6ae5adb26514a88d45aecb0100",
+  "new_manifest_sha256": "c13c456fdc2fc0fbb1c58fc10aa9bc275bb27c4dc0a4171e40e94e6564ed4595",
+  "new_publication_sha256": "1e29946fade27ad12bab43e45b08a83ae74d78e1551ab2dc699f73f5d809dbea",
   "matches_sha256": "db1c776f0d2f76b2a7e9fca4e7764cdcc794c6876e5564410b54a782705c2c85",
-  "season_sha256": "3d598b8458d41f8e31e85c1b893ec954d74f4eb624fcf3329bab9296fc6ef323"
+  "season_sha256": "3e51c903a02daca707a33b426775f48c77065a66e4bc1e559859fc1d8d0c4d5a"
 }

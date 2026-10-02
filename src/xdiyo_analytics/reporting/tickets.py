@@ -15,7 +15,12 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
         fields = ['fold_id', 'row_position', 'bet', 'p_win', 'p_push', 'p_loss', 'expected_profit', 'description', 'reason']
         if 'probability_abstention' in alternatives:
             fields.append('probability_abstention')
-        legs = legs.merge(alternatives[fields].rename(columns={'reason':'decision_reason'}), on=['fold_id', 'row_position', 'bet'], how='left', validate='one_to_one')
+        evidence = alternatives[fields].rename(columns={'reason':'decision_reason'})
+        keys = ['fold_id', 'row_position', 'bet']
+        # Probability evidence comes from the retained decision output. Metadata
+        # may contain equally named columns; do not create ambiguous _x/_y fields.
+        legs = legs.drop(columns=[c for c in evidence if c not in keys], errors='ignore').merge(
+            evidence, on=keys, how='left', validate='one_to_one')
     if fixture_table is not None and len(fixture_table):
         fields = ['fold_id', 'row_position', 'home_id', 'away_id', 'home', 'away', 'result']
         display = fixture_table[fields]
@@ -23,12 +28,30 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
             display, on=fields[:2], how='left', validate='many_to_one')
     tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns)
     result.tables.update(leg_ledger=legs, ledger=tickets, tickets=tickets, ticket_legs=membership, bet_metrics=metrics)
+    empty_columns = {
+        'ticket_candidates': ['template', 'group_id', 'ticket_id', 'event_membership', 'probability', 'odds',
+                              'expected_profit', 'min_ev', 'take', 'rejection_reason', 'filter_enabled',
+                              'comparator', 'probability_assumption'],
+        'ticket_selection_summary': ['template', 'group_id', 'eligible_events', 'input_events', 'legs',
+                                     'ticket_count', 'expected_stake', 'candidate_tickets', 'candidate_stake',
+                                     'selected_tickets', 'selected_stake', 'rejected_by_ev',
+                                     'rejected_missing_probability', 'min_ev', 'comparator',
+                                     'filter_enabled', 'probability_assumption'],
+    }
+    for name in empty_columns:
+        if name in tickets.attrs:
+            records = tickets.attrs[name]
+            result.tables[name] = pd.DataFrame(records) if records else pd.DataFrame(columns=empty_columns[name])
+    if tickets.attrs.get('ticket_ev_enabled'):
+        result.artifacts.append(Artifact('table', result.tables['ticket_selection_summary'], 'Ticket selection: candidates and placed bets'))
+        result.notes.append('Ticket EV filter: strict EV > minimum, per unit stake, using independent win/loss probabilities. '
+                            'Rejected candidates are audited separately and incur no stake. Overlapping tickets share risk.')
     preview = preview_combinations(legs, composition, match_columns=context.match_columns)
     if preview.attrs['exceeded_limits']:
         result.tables['combination_preview'] = preview
-        result.artifacts.append(Artifact('table', preview, 'Whole-group combination counts'))
-        result.notes.append(f"Whole-group combinations: {preview.attrs['total_tickets']} tickets; "
-                            f"total stake {preview.attrs['total_stake']:g}. Exclusion counts may overlap. "
+        result.artifacts.append(Artifact('table', preview, 'Candidate combinations before ticket EV filtering'))
+        result.notes.append(f"Whole-group combinations: {preview.attrs['total_tickets']} candidate tickets; "
+                            f"hypothetical candidate stake {preview.attrs['total_stake']:g}. Selected counts/stakes are in the selection summary. Exclusion counts may overlap. "
                             'Each combination is staked once; shared events across tickets are intentional.')
     result.notes.extend([
         'Ticket stakes replace leg stakes. Each BetSlip template places separate bets. Parlay/MultiBet omit incomplete batches; AllCombinations uses whole eligible groups.',
@@ -52,6 +75,8 @@ def ticket_html(tickets, membership, teams):
         return image + escape(str(name))
 
     if tickets.empty:
+        if tickets.attrs.get('ticket_ev_enabled'):
+            return '<p>No tickets placed. The ticket EV filter requires a scorable probability and EV strictly above the minimum. See candidate decisions and selection summary for missing probabilities, rejected EVs, or undersized groups.</p>'
         return '<p>No complete tickets in the selected groups. Reduce the leg count or select more fixtures.</p>'
     panels = []
     membership_positions = membership.groupby('ticket_id', sort=False).indices
@@ -68,6 +93,8 @@ def ticket_html(tickets, membership, teams):
                 header += f" · Settled multiplier {fmt(settled_odds)}"
         if pd.notna(record['probability']):
             header += f" · P(all win, independent) {record['probability']:.1%}"
+        if pd.notna(record.get('expected_profit', float('nan'))):
+            header += f" · Expected profit per unit stake {fmt(record['expected_profit'])}"
         if pd.notna(record['profit']):
             header += f" · Net profit {fmt(record['profit'])}"
         rows = []

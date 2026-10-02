@@ -110,6 +110,21 @@ saved models/reports remain historical artifacts. Changed data or library code
 can invalidate automatic training reuse. Refresh adopts current data; it cannot
 reproduce an old run after its original data has been replaced.
 
+Refresh uses the loader's season, league and table validation and discovery.
+Unrelated manifest names are ignored; duplicate/empty selections and invalid
+`include_awarded` values fail before output is written. With `verify_hashes=True`,
+requested table bytes are checked before adopting their pins. Without that
+option, refresh checks publication/table availability, not all table contents.
+Recipe and record files are staged first. A caught publication/write failure
+removes only the newly installed records so the same output path can be retried.
+Publication never overwrites an existing recipe.
+
+Inputs are recipe dictionaries or native JSON, not Python/notebook exports.
+Refresh the JSON and regenerate those exports. All other configuration,
+including custom code-revision metadata, run names and output directories,
+remains unchanged: choose new-run provenance and output identity separately
+when starting a new experiment.
+
 ## Rebuilding
 
 From the repository root, with the normal analytics environment/PYTHONPATH:
@@ -124,9 +139,67 @@ recognized using the original evidence reference. Changed/new source populations
 need another roster review. `derive_movements` and `save_movement_enrichment` are
 public Python helpers.
 
+Already materialized seasons are compared with the newly derived table,
+including source-reference text and predecessor IDs. Any mismatch stops the
+builder before it replaces the audit or writes other enrichments. Identical
+evidence is idempotent. Audits therefore describe the actual persisted tables.
+An explicitly reviewed correction can be published with
+`build(..., rematerialize=True)` in `examples/build_team_movements.py`, or
+`materialize_movement_flags(root, stem, reviewed_flags=frame)` for one season.
+The builder CLI exposes the same explicit action as `--rematerialize`.
+The latter requires exact roster coverage and updates flags, evidence and real
+hashes together. The original matches hash remains recorded for roster review.
+
+Boundary IDs may be positive integers or integer strings; both apply identically.
+Duplicate boundary stems, absent teams, conflicting movement booleans and
+incompatible predecessor divisions are rejected. Explicit warm-up overrides
+must agree with available predecessor membership, adjacent year and league tier.
+
 `xdiyo_analytics.data.publish_movements.materialize_movement_flags` embeds that
 reviewed evidence into the native matches table and season Parquet, registers
 the native team-season table, and updates checksums. It stages one season at a
 time and keeps a small resumable journal and fingerprint audit under
 `_team_seasons/materialization`. It keeps no duplicate season dataset. Existing
 fields, nested observations and unrelated native tables are preserved.
+
+The writer preserves each existing file's compression codec and nested
+list-child names. Mixed codecs require an explicit supported choice rather
+than a silent default. `compression="zstd"` explicitly recompresses the top-level
+season export; native matches keep their codec. Each rewritten table is read
+back and compared for exact values and schema metadata before replacement.
+Compression levels are not recoverable from Parquet metadata: preservation
+refers to the codec, not byte-for-byte reproduction of the original encoding.
+
+## Warm-up across season boundaries
+
+Automatic team and destination-league predecessors require an adjacent season
+year, determined from `source_season`, `season_year` or `season_stem`. Missing
+or unparseable year information does not authorize guessing from season IDs or
+the latest available kickoff. Thus 2015/16 cannot seed 2017/18 when 2016/17 is
+missing. Explicit null predecessor IDs remain null even when adjacent history
+exists; omitted predecessor fields permit normal adjacent-season inference.
+Both predecessor IDs must be supplied together or both null. Warm-up remains
+opt-in, and no stale-season policy is implicitly enabled.
+
+## Review repair, 2 October 2026
+
+All 46 outdated source-reference rows in Championship 2016/17 and La Liga 2
+2016/17 were corrected. All 2,610 classifications stayed unchanged. All 135
+top-level exports now use ZSTD: 2,644,938,141 bytes became 1,440,234,065 bytes,
+saving 1,204,704,076 bytes. Current nested field names were preserved; previously
+normalized `element` names were not renamed again. Existing observation values
+were preserved, and publication/native checksums were verified for 45,309 matches.
+
+The real Eredivisie 2017/18 history was checked: none of its 18 teams acquires a
+fallback predecessor across the missing 2016/17 season. Fresh derivation agrees
+with every persisted flag and evidence row. No study models were refitted and
+no existing experiment recipes or completed results were rewritten. Old pinned
+recipes need the explicit refresh described above because these files have new,
+truthful hashes. See [repair verification](data/movement_review_repair.json).
+
+Focused synthetic verification (150 tests):
+
+```powershell
+$env:PYTHONPATH='.;src;tests/analytics'
+& 'C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe' -m pytest tests/analytics/test_movement_review.py tests/analytics/test_recipe_refresh.py tests/analytics/test_movement_enrichment.py tests/analytics/test_transition_context.py tests/analytics/test_warmup.py tests/analytics/test_rating_transitions.py tests/analytics/test_loading.py tests/analytics/test_multiseason.py tests/analytics/test_season.py tests/analytics/test_awarded_loading.py -q -p no:cacheprovider --tb=short
+```

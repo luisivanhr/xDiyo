@@ -1,9 +1,9 @@
 {
   "season": "Ligue_2_20_21",
-  "old_manifest_sha256": "ef69523fa9f031e494b44a43ef0c0b054f58b735e1f602d750c8d570ad0949c2",
-  "old_publication_sha256": "d6c8749d1604c094c9de77490d79b4535d1e94338c5c5ee16551e31d817ffea4",
-  "new_manifest_sha256": "06b626266538da133a219ec3fbde7cf23cc18990ec33325cbac4a04dc4e98ca3",
-  "new_publication_sha256": "c2779f659a2e058ae44cb13914dbdaff2b099bd9c4f3795d2b8c5e1c387ec697",
+  "old_manifest_sha256": "06b626266538da133a219ec3fbde7cf23cc18990ec33325cbac4a04dc4e98ca3",
+  "old_publication_sha256": "c2779f659a2e058ae44cb13914dbdaff2b099bd9c4f3795d2b8c5e1c387ec697",
+  "new_manifest_sha256": "9f7a8de9871c3090afd6687e89a73589961f1ddccc84904e101df3e70d20be2d",
+  "new_publication_sha256": "55c2e49bf942c3a29f5aef8e2081b417bb71eea18e6087b6afe447d49cd6c58d",
   "matches_sha256": "603876964c3f18fc51bb16e0b40694949f0fca9d56519a6efd4882a6f3373e13",
-  "season_sha256": "6ab00bf4434affe3913e18d2a4817585b44e7f7f17e9970b91eb09eaa83b0468"
+  "season_sha256": "4d2fdf9748ad578ac92563389dc361b959102099cefb22acedc729faf92f9d6c"
 }

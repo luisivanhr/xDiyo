@@ -1,9 +1,9 @@
 {
   "season": "Serie_B_26_27",
-  "old_manifest_sha256": "40bb6b334631f2bb301c0fe4b5a480a59d11530c4e7e5997b4143043d017650a",
-  "old_publication_sha256": "9abe3fd7fe1efcee94c38ce3197e87f65bc9585182bf66ba73ce0092c19d5f5b",
-  "new_manifest_sha256": "cc6b9d9e558b1e2128d8f1fec99ba98651bc61c0bdd1275d0d013eb5cbc3cb06",
-  "new_publication_sha256": "87dfd2f6155f0cc245f3a1408028195ccc757cacbd9d3f24cbb091b49ecc7e60",
+  "old_manifest_sha256": "cc6b9d9e558b1e2128d8f1fec99ba98651bc61c0bdd1275d0d013eb5cbc3cb06",
+  "old_publication_sha256": "87dfd2f6155f0cc245f3a1408028195ccc757cacbd9d3f24cbb091b49ecc7e60",
+  "new_manifest_sha256": "8bd191778a86fcf3d3999fe30f46bab7e698f487e221f7be48d50107dd342aed",
+  "new_publication_sha256": "54372ee7ac07c6ca8da2b879865e83ef04bc4337dec26fc29e98adb682ecb589",
   "matches_sha256": "8790bc10f4dbe7526fd63ce8d7d1e30d890d71f0d9f24697944a230865860b81",
-  "season_sha256": "31acb27fa598573dd59d0b45976ca1a54aae9d1548ce22dd8482be04eb160b6c"
+  "season_sha256": "6fad507bd7d3a770f5b97e4fa4791d57e776e09919b785f9cbf1cc02b33f651d"
 }

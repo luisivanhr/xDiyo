@@ -1,9 +1,9 @@
 {
   "season": "La_Liga_2_23_24",
-  "old_manifest_sha256": "e96aeac396214a84be97ece9214b92aebaf82921b5c897190e78ecb01049928f",
-  "old_publication_sha256": "8024a8f040f805baea1a23d5e124f84769290aa8840c9d35fb1da649d9e923ad",
-  "new_manifest_sha256": "89454cb9655500d116c8ba3924d0b23f8b833dfad1e7cfdcc7420cdda6bd0ece",
-  "new_publication_sha256": "fa760d3ccf2fa6849cd1786d14984e1f177198f01ad49114177ef0f95ec86423",
+  "old_manifest_sha256": "89454cb9655500d116c8ba3924d0b23f8b833dfad1e7cfdcc7420cdda6bd0ece",
+  "old_publication_sha256": "fa760d3ccf2fa6849cd1786d14984e1f177198f01ad49114177ef0f95ec86423",
+  "new_manifest_sha256": "815233dc1b1ac0576d89cf5f96e13c5feb5e02f4d2522bca00547ecef8db7a78",
+  "new_publication_sha256": "050d9c7b1fa222609ff20e84368bf6e74c62e771ce0d5f7e7df5f1364ee2d9df",
   "matches_sha256": "1410413c09e9f5e0e014af4696edc62ccd6e7435820d98de39ecd5bb1f6dee38",
-  "season_sha256": "b1c9fc36be5b6ce94f984c174e321b9baa7ecbb16d4cf5f2c04890045cdcaa34"
+  "season_sha256": "d460d61ad03c38f818bc7aec7e8f5793fe94f8e4312ca8a1004095ea54ab2319"
 }

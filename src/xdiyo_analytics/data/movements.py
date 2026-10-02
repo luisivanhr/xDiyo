@@ -3,6 +3,43 @@
 import hashlib
 import json
 from pathlib import Path
+import re
+
+
+def assert_movement_parity(expected, persisted, *, season='season'):
+    """Compare all evidence as well as flags, ignoring serialization dtypes/order."""
+    import pandas as pd
+    keys = ['competition_id', 'season_id', 'team_id']
+    try:
+        pd.testing.assert_frame_equal(
+            expected.sort_values(keys).reset_index(drop=True),
+            persisted.sort_values(keys).reset_index(drop=True), check_dtype=False, check_like=True)
+    except AssertionError as exc:
+        raise ValueError(f'{season}: persisted movement flags/evidence differ from reviewed derivation; '
+                         'use explicit reviewed rematerialization before rebuilding the audit.') from exc
+
+
+def validate_movement_flags(frame):
+    import pandas as pd
+    import numpy as np
+    for row in frame.to_dict('records'):
+        movement = row.get('movement')
+        if movement not in ('retained', 'promoted', 'relegated', 'other_entry', 'unknown'):
+            raise ValueError(f'Unknown season movement: {movement}')
+        for flag, meaning in [('got_promoted', 'promoted'), ('got_demoted', 'relegated')]:
+            value = row.get(flag)
+            if pd.isna(value):
+                continue
+            if not isinstance(value, (bool, np.bool_)) or movement == 'unknown' or bool(value) != (movement == meaning):
+                raise ValueError(f'{flag} contradicts movement={movement!r}.')
+        pc, ps = row.get('previous_competition_id'), row.get('previous_season_id')
+        if pd.isna(pc) != pd.isna(ps):
+            raise ValueError('Supply both predecessor IDs or null both.')
+        if pd.notna(pc) and (movement in ('unknown', 'other_entry') or
+            (movement == 'retained' and pc != row['competition_id']) or
+            (movement in ('promoted', 'relegated') and pc == row['competition_id']) or
+            (pc == row['competition_id'] and ps == row['season_id'])):
+            raise ValueError('Predecessor is incompatible with the declared movement.')
 
 
 def derive_movements(rosters, competitions, *, reviewed_seasons=(), boundaries=()):
@@ -20,7 +57,19 @@ def derive_movements(rosters, competitions, *, reviewed_seasons=(), boundaries=(
     if len(by_year) != len(rosters):
         raise ValueError('Duplicate league-year roster')
     reviewed = set(reviewed_seasons)
-    overrides = {b['stem']: b for b in boundaries}
+    overrides = {}
+    for boundary in boundaries:
+        b = dict(boundary)
+        if b['stem'] in overrides:
+            raise ValueError('Duplicate boundary season stem')
+        if b['stem'] not in {r['stem'] for r in rosters}:
+            raise ValueError('Boundary evidence refers to an absent season')
+        for key in ('promoted_ids', 'relegated_ids', 'other_entry_ids'):
+            ids = b.get(key, [])
+            if any(isinstance(t, bool) or not re.fullmatch(r'[1-9][0-9]*', str(t)) for t in ids):
+                raise ValueError('Boundary team IDs must be positive integers or integer strings')
+            b[key] = [int(t) for t in ids]
+        overrides[b['stem']] = b
     rows = []
     for current in rosters:
         league, year = current['league'], current['year']
@@ -55,6 +104,7 @@ def derive_movements(rosters, competitions, *, reviewed_seasons=(), boundaries=(
                 movement = 'promoted'
                 evidence = 'Inferred entry from below: absent from reviewed same/upper division rosters'
             if boundary:
+                inferred_movement = movement
                 applied = False
                 for key, value in [('promoted_ids', 'promoted'), ('relegated_ids', 'relegated'),
                                    ('other_entry_ids', 'other_entry')]:
@@ -71,6 +121,8 @@ def derive_movements(rosters, competitions, *, reviewed_seasons=(), boundaries=(
                         s['url'] if isinstance(s, dict) else s for s in boundary['sources'])
                     if prior is not None and movement not in ('retained', 'promoted', 'relegated'):
                         prior = None
+                    elif prior is not None and movement != inferred_movement:
+                        raise ValueError('Boundary movement contradicts the observed predecessor division.')
             rows.append(dict(competition_id=current['competition_id'], season_id=current['season_id'],
                              team_id=int(team), team_name=name, movement=movement,
                              got_promoted=None if movement == 'unknown' else movement == 'promoted',
@@ -84,6 +136,7 @@ def derive_movements(rosters, competitions, *, reviewed_seasons=(), boundaries=(
         frame[col] = pd.array([r[col] for r in rows], dtype='UInt64')
     for col in ('got_promoted', 'got_demoted'):
         frame[col] = frame[col].astype('boolean')
+    validate_movement_flags(frame)
     return frame
 
 
@@ -98,6 +151,7 @@ def attach_movement_flags(matches, flags):
     import pandas as pd
 
     keys = ['competition_id', 'season_id', 'team_id']
+    validate_movement_flags(flags)
     if flags[keys].isna().any().any() or flags.duplicated(keys).any():
         raise ValueError('Team-season enrichment needs distinct nonmissing identities')
     fields = ['got_promoted', 'got_demoted', 'movement']
