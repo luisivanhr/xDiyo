@@ -63,6 +63,16 @@ def test_materialize_then_refresh_stale_recipe_without_old_dataset(export, tmp_p
     with pytest.raises(FileExistsError):
         refresh_recipe_data(recipe, tmp_path / 'updated.json')
 
+    from xdiyo_analytics.data.movements import assert_movement_parity
+    before_correction = load_season(export.root, STEM, tables='team_seasons')['team_seasons']
+    frame.loc[:, 'evidence'] = 'Corrected reviewed source URL'
+    with pytest.raises(ValueError, match='persisted movement'):
+        assert_movement_parity(frame, before_correction)
+    materialize_movement_flags(export.root, STEM, reviewed_flags=frame)
+    corrected = load_season(export.root, STEM, tables='team_seasons', verify_hashes=True)['team_seasons']
+    assert_movement_parity(frame, corrected)
+    assert materialize_movement_flags(export.root, STEM, reviewed_flags=frame)['already_materialized']
+
 
 def test_missing_season_fails_without_creating_output(export, tmp_path):
     recipe = default_recipe(str(export.root))

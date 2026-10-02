@@ -3,6 +3,33 @@
 from .league import LeaguePopulation
 
 
+def _season_start_year(rows):
+    import re
+    for column in ('source_season', 'season_year', 'season_stem'):
+        if column not in rows:
+            continue
+        years = set()
+        for value in rows[column].dropna().unique():
+            match = re.search(r'(?:^|_)(\d{4}|\d{2})(?:[/_\-](\d{4}|\d{2}))?$', str(value))
+            if match:
+                year = int(match[1])
+                years.add(year + 2000 if year < 100 else year)
+        if len(years) == 1:
+            return years.pop()
+    return None
+
+
+def _validate_record_flags(record):
+    import pandas as pd
+    movement = record.get('movement', 'unknown')
+    for flag, label in [('got_promoted', 'promoted'), ('got_demoted', 'relegated')]:
+        value = record.get(flag)
+        if value is None or pd.isna(value):
+            continue
+        if not isinstance(value, (__import__('numpy').bool_, bool)) or movement == 'unknown' or bool(value) != (movement == label):
+            raise ValueError(f'{flag} contradicts movement={movement!r}.')
+
+
 def build_team_seasons(history, competition_info, *, season_years=None,
                        complete_memberships=(), overrides=()):
     """Adapt prepared histories to the existing ID-based movement evidence core.
@@ -44,6 +71,23 @@ def build_team_seasons(history, competition_info, *, season_years=None,
     # The older core deliberately omits predecessor provenance for overrides.
     # Preserve explicit predecessor IDs supplied by this caller.
     manual = {(r["competition_id"], r["season_id"], r["team_id"]): r for r in overrides}
+    membership_lookup = {(m.competition_id, m.season_id): m for m in memberships}
+    for override in overrides:
+        _validate_record_flags(override)
+        pc, ps = override.get('previous_competition_id'), override.get('previous_season_id')
+        if pd.isna(pc) != pd.isna(ps):
+            raise ValueError('Supply both predecessor IDs or null both.')
+        if pd.isna(pc):
+            continue
+        current = membership_lookup[(override['competition_id'], override['season_id'])]
+        prior = membership_lookup.get((pc, ps))
+        movement = override['movement']
+        tier_delta = {'retained':0, 'promoted':1, 'relegated':-1}.get(movement)
+        if (prior is None or prior.start_year != current.start_year-1 or
+            prior.system != current.system or override['team_id'] not in prior.teams or
+            tier_delta is None or prior.tier-current.tier != tier_delta or
+            (movement == 'retained' and prior.competition_id != current.competition_id)):
+            raise ValueError('Override predecessor is incompatible with season, team, or movement.')
     for record in records:
         override = manual.get(tuple(record[k] for k in ("competition_id", "season_id", "team_id")), {})
         for name in ("previous_competition_id", "previous_season_id"):
@@ -83,9 +127,11 @@ class TransitionContext:
                 raise ValueError("A season entry must not follow its first prediction cutoff.")
             self.anchors[key] = value
         self.predecessors = {}
+        years = {key: _season_start_year(history.iloc[rows]) for key, rows in self.groups.items()}
         for key, time in self.anchors.items():
             previous = [other for other, before in self.anchors.items()
-                        if other[0] == key[0] and pd.notna(before) and before < time]
+                        if other[0] == key[0] and pd.notna(before) and before < time
+                        and years[key] is not None and years[other] == years[key] - 1]
             self.predecessors[key] = max(previous, key=self.anchors.get) if previous else None
         supplied = {}
         if team_seasons is not None:
@@ -104,8 +150,20 @@ class TransitionContext:
                 if movement not in {"retained", "promoted", "relegated", "unknown", "other_entry"}:
                     raise ValueError(f"Unknown season movement: {movement}")
                 pc, ps = record.get("previous_competition_id"), record.get("previous_season_id")
-                if pd.isna(pc) or pd.isna(ps):
+                explicit_prior = 'previous_competition_id' in record or 'previous_season_id' in record
+                if explicit_prior and pd.isna(pc) != pd.isna(ps):
+                    raise ValueError('Supply both predecessor IDs or explicitly null both.')
+                if not explicit_prior:
                     pc, ps = previous if team in old_teams and movement == "retained" else (None, None)
+                elif pd.notna(pc) and pd.notna(ps):
+                    origin = (pc, ps)
+                    if origin == key or (movement == 'retained' and pc != key[0]) or (movement in ('promoted', 'relegated') and pc == key[0]):
+                        raise ValueError('Predecessor contradicts retained movement or refers to the current season.')
+                    if origin in years and years[key] is not None and years[origin] != years[key] - 1:
+                        raise ValueError('Warm-up predecessors must be from the adjacent previous season.')
+                    if origin in self.groups and team not in set(history.iloc[self.groups[origin]].team_id):
+                        raise ValueError('Predecessor does not contain this team.')
+                _validate_record_flags(dict(record, movement=movement))
                 record.update(competition_id=key[0], season_id=key[1], team_id=team,
                               entry_at=self.anchors[key], movement=movement,
                               previous_competition_id=pc, previous_season_id=ps)

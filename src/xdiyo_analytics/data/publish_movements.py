@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def materialize_movement_flags(data_root, season_stem):
+def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, compression=None):
     """Update current native matches and nested season Parquet with real hashes.
 
     Does not keep duplicate dataset versions. Old source-selection records must
@@ -38,30 +38,72 @@ def materialize_movement_flags(data_root, season_stem):
     if journal.exists():
         return finish(json.loads(journal.read_bytes()))
     source = _open_source(root, season_stem)
-    if source.manifest.get('movement_enrichment', {}).get('materialized'):
+    enrichment = source.manifest.get('movement_enrichment', {})
+    original_hash = enrichment.get('original_matches_sha256') or (
+        Path(enrichment['evidence']['path']).parent.name if enrichment.get('materialized')
+        else source.manifest['tables']['matches']['sha256'])
+    if enrichment.get('materialized'):
+        from .loading import load_season
+        flags = load_season(root, season_stem, tables='team_seasons', verify_hashes=True)['team_seasons']
+        evidence = enrichment['evidence']
+    else:
+        flags, evidence = _read_movements(root, season_stem, source)
+    changed = False
+    if reviewed_flags is not None:
+        from .movements import assert_movement_parity
+        scope = source.manifest['scope']
+        selected = reviewed_flags.loc[reviewed_flags.competition_id.eq(scope['league_id']) &
+                                      reviewed_flags.season_id.eq(scope['season_id'])].copy()
+        if selected.empty:
+            raise ValueError('Reviewed movement evidence does not cover this season.')
+        try:
+            assert_movement_parity(selected, flags, season=season_stem)
+        except ValueError:
+            changed = True
+        flags = selected
+    if enrichment.get('materialized') and not changed and compression is None:
         return {'season': season_stem, 'already_materialized': True}
-    flags, evidence = _read_movements(root, season_stem, source)
     native = source.table_path('matches')
     publication_path = root / f'{season_stem}.manifest.json'
     publication = json.loads(publication_path.read_bytes())
     nested = root / publication['season_file']
     keys = ['competition_id', 'season_id', 'home_id', 'away_id']
 
+    def write_preserving(table, path, temporary):
+        original = pq.ParquetFile(path)
+        codecs = {original.metadata.row_group(i).column(j).compression.lower()
+                  for i in range(original.num_row_groups)
+                  for j in range(original.metadata.row_group(i).num_columns)}
+        if (compression is None or path != nested) and len(codecs) > 1:
+            raise ValueError('Mixed Parquet compression requires an explicit compression choice.')
+        codec = (compression if path == nested else None) or next(iter(codecs), 'zstd')
+        if codec == 'uncompressed':
+            codec = 'none'
+        # Preserve existing list-child names rather than renaming item to element.
+        pq.write_table(table, temporary, compression=codec, use_compliant_nested_type=False)
+        written = pq.ParquetFile(temporary).read()
+        if not written.schema.equals(table.schema, check_metadata=True) or not written.equals(table):
+            raise ValueError(f'Parquet rewrite changed schema or values: {path}')
+
     def enrich(path):
         table = pq.ParquetFile(path).read()
         context = table.select(keys).to_pandas(types_mapper=__import__('pandas').ArrowDtype)
+        expected_ids = set(context.home_id) | set(context.away_id)
+        if set(flags.team_id) != expected_ids:
+            raise ValueError('Reviewed movement evidence must cover exactly the season roster.')
         enriched = attach_movement_flags(context, flags)
         for name in enriched.columns:
             if name in keys:
                 continue
             values = pa.array(enriched[name])
             if name in table.column_names:
-                table = table.set_column(table.column_names.index(name), name, values)
+                index = table.column_names.index(name)
+                table = table.set_column(index, table.schema.field(index), values)
             else:
                 table = table.append_column(name, values)
         # Existing Arrow fields (including nested observations) stay unchanged.
         temporary = path.with_suffix('.movement-tmp')
-        pq.write_table(table, temporary)
+        write_preserving(table, path, temporary)
         payload = temporary.read_bytes()
         return temporary, dict(file=path.name, rows=table.num_rows, bytes=len(payload),
                                 sha256=hashlib.sha256(payload).hexdigest())
@@ -77,7 +119,9 @@ def materialize_movement_flags(data_root, season_stem):
     source.manifest['tables']['matches'] = native_info
     source.manifest['tables']['team_seasons'] = dict(file=flag_path.name, rows=len(flags),
         bytes=len(flag_payload), sha256=hashlib.sha256(flag_payload).hexdigest())
-    source.manifest['movement_enrichment'] = dict(materialized=True, evidence=evidence)
+    source.manifest['movement_enrichment'] = dict(materialized=True,
+        original_matches_sha256=original_hash,
+        evidence={'path': str(flag_path.resolve()), 'sha256': source.manifest['tables']['team_seasons']['sha256']})
     publication.update(bytes=nested_info['bytes'], sha256=nested_info['sha256'])
     publication['movement_enrichment'] = 'Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence.'
     reconciliation = publication.get('reconciliation', {})

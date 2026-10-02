@@ -1,9 +1,9 @@
 {
   "season": "Championship_16_17",
-  "old_manifest_sha256": "b98a33d5b0bf98b4535d03aeb619e20039e7a38a6b182c0a4a4371c06bfb61a7",
-  "old_publication_sha256": "6e98d06debc6a51e8628496910d2eafb4679204873b8e4080824b42fc7c6c777",
-  "new_manifest_sha256": "9096e3f5060a6aa8fd3fc23f2320194e4fb05f27dc484f96488f1592264f0a73",
-  "new_publication_sha256": "a9e5053ef3626908edd11b09dc2224b59209dfe31f3c9fdb29a1296237a8db1d",
+  "old_manifest_sha256": "47adc21cba74eeddef83b0fcead41b4bb0ccf28ecbe536eaa527507be4bc6891",
+  "old_publication_sha256": "8cfbeeb5a13783e974df86b323cbb37ded45aa3257f2c5892bce60a69c8312b9",
+  "new_manifest_sha256": "21d4a6f4775a98d96b77c81a16aaee36bae5ba56323832aad1319352f3195fed",
+  "new_publication_sha256": "819233ce08cb6ce0c1b04b66839fd08929fa6405cf443ebfd38bcb2e5708e826",
   "matches_sha256": "e1c28ce5fd4d253f694c16f6d7b3d59cf185d3631ed91faf48eb62feeea5ca07",
-  "season_sha256": "26a254d68679e172d2e81c31fe300458d35c40b1bc0ca7fd39fa3af96be5ddd5"
+  "season_sha256": "6e7496045bb53db05a308d80a76944358cdbdf36248a92a3b1f30de6a8383b9e"
 }

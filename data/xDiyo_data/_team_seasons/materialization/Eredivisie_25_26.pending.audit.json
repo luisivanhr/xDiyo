@@ -1,9 +1,9 @@
 {
   "season": "Eredivisie_25_26",
-  "old_manifest_sha256": "c36e4c979194c3c1d8798d5c5b6d5c316f80f6ab5f3cfc584667cc610241fa26",
-  "old_publication_sha256": "7f068c44e2bff7332e95c34a674dd00476c5131107eeb23819c3148c07673dcc",
-  "new_manifest_sha256": "16fef7c0c3485342890827ecbe67444fb30c074abd6c556daefa854ca06ffaa1",
-  "new_publication_sha256": "4e6e1ee2d71a462110789d85e1524967c8f7b25eba4ca21a78fb2fb880eff1ba",
+  "old_manifest_sha256": "16fef7c0c3485342890827ecbe67444fb30c074abd6c556daefa854ca06ffaa1",
+  "old_publication_sha256": "4e6e1ee2d71a462110789d85e1524967c8f7b25eba4ca21a78fb2fb880eff1ba",
+  "new_manifest_sha256": "86d499a8a671c347f4e20849822e673bdc191e6042153eb8c4b7f29cb79e45b0",
+  "new_publication_sha256": "fad90b36a11df730377cd514c923638068618914324aa7f369cc4e56c045dd72",
   "matches_sha256": "2fc33ec0e9e5915da3fa6d6addab78c6b7d6728a1b906694c726d8e31127b426",
-  "season_sha256": "b73079a379f5a72b6411fcfc9423d2fbd6443cebe7e99051e6714d9e0ac340ef"
+  "season_sha256": "fedcdf2f3ff5e65f57903221d918606ce5728eeaafc526e6ca3a4abb2132606f"
 }

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from itertools import combinations
-from math import comb
+from math import comb, fsum
 import hashlib
 import json
 
@@ -110,7 +110,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
     if not isinstance(templates, dict) or not templates:
         raise ValueError("A BetSlip needs at least one named ticket template.")
     rows, members = [], []
-    prepared = {}
+    prepared, decisions, summaries = {}, [], []
     # Complete preflight for every whole-group template before any expansion.
     for name, policy in templates.items():
         if isinstance(policy, AllCombinations):
@@ -120,14 +120,35 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
                 raise ValueError(f'{name}: requested {count} tickets exceeds max_tickets={policy.max_tickets}; '
                                  'reduce the eligible population/legs or deliberately increase max_tickets. '
                                  'Use preview_combinations to inspect group counts.')
-            prepared[name] = pools
+            prepared[name] = (pools, preview)
     for name, policy in templates.items():
         if not isinstance(name, str) or not name or not isinstance(policy, (Parlay, MultiBet, AllCombinations)):
             raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
         if isinstance(policy, AllCombinations):
-            new_rows, new_members = expand_pools(prepared[name], policy, name)
+            pools, preview = prepared[name]
+            new_rows, new_members, audit = expand_pools(pools, policy, name)
+            if policy.min_ev is not None:
+                try:
+                    for field in ('stake', 'payout', 'profit'):
+                        if not np.isfinite(fsum(r[field] for r in new_rows if pd.notna(r[field]))):
+                            raise OverflowError
+                except OverflowError as exc:
+                    raise ValueError('Selected ticket accounting total overflow; reduce stake or ticket population.') from exc
             rows.extend(new_rows)
             members.extend(new_members)
+            decisions.extend(audit)
+            counts = {}
+            for candidate in audit:
+                tally = counts.setdefault(candidate['group_id'], [0, 0, 0])
+                tally[0 if candidate['take'] else 2 if candidate['rejection_reason'] == 'missing_probability' else 1] += 1
+            for (group_id, _, _), record in zip(pools, preview):
+                selected, rejected_ev, rejected_missing = counts.get(group_id, [0, 0, 0])
+                summaries.append(dict(record, group_id=group_id,
+                    candidate_tickets=record['ticket_count'], candidate_stake=record['expected_stake'],
+                    selected_tickets=selected, selected_stake=selected * policy.stake,
+                    rejected_by_ev=rejected_ev, rejected_missing_probability=rejected_missing,
+                    min_ev=policy.min_ev, comparator='>', filter_enabled=policy.min_ev is not None,
+                    probability_assumption=policy.probability_mode))
             continue
         sizes = _validate(policy)
         if ledger.empty:
@@ -209,6 +230,10 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
                'stake', 'odds', 'probability', 'probability_assumption', 'settlement', 'accounting_status', 'payout', 'profit']
     tickets = pd.DataFrame(rows) if rows else pd.DataFrame(columns=columns)
     membership = pd.DataFrame(members) if members else pd.DataFrame(columns=[*ledger.columns, 'ticket_id', 'leg_number', 'template'])
+    if prepared:
+        # Internal transport only; reporters promote these records to exportable tables.
+        tickets.attrs.update(ticket_candidates=decisions, ticket_selection_summary=summaries,
+                             ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
     return tickets, membership, ticket_metrics(tickets, composition, membership)
 
 

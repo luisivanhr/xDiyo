@@ -13,7 +13,7 @@ from xdiyo_analytics.ui import default_recipe
 from xdiyo_analytics.ui.recipe import node, export_python, export_notebook
 
 
-def draw_recipe(*, threshold=0.5, snapshot='data/odds',
+def draw_recipe(*, threshold=0.80, min_ev=None, snapshot='data/odds',
                 crosswalk='data/odds/mappings/reviewed', snapshot_hash=None, crosswalk_hash=None):
     recipe = default_recipe()
     recipe['name'] = 'Binary draw whole-group combinations'
@@ -32,11 +32,16 @@ def draw_recipe(*, threshold=0.5, snapshot='data/odds',
             policy=node('evaluation.BinaryDrawThreshold', max_non_draw_probability=cutoff),
             history={'ref':'history'}, catalog={'ref':'team_catalog'}, show_badges=True,
             composition=node('evaluation.BetSlip', tickets={
-                title:node('evaluation.AllCombinations', legs=k, stage_column='tournament_id', stake=1., max_tickets=100000)
+                title:node('evaluation.AllCombinations', legs=k, stage_column='tournament_id', stake=1., max_tickets=100000,
+                           **({'min_ev':min_ev, 'probability_mode':'independent'} if min_ev is not None else {}))
                 for title,k in [('Pairs',2),('Triples',3),('Quads',4)]}))
         recipe['post_reporters'][name+' performance'] = node('reporting.BetPerformanceReporter',
             type='overall', partition='test', pooling='last', source=name)
     return recipe
+
+
+# Optional export-only configuration: draw_recipe(min_ev=0.0). No execution.
+# None preserves the unfiltered ticket baseline; each template's legs is editable.
 
 
 if __name__ == '__main__':

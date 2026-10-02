@@ -713,6 +713,7 @@ def build():
                          title='Compose tickets', primary=True,
                          help='Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.')
     ticket_help = {
+        'min_ev': 'Optional ticket EV per unit stake. Accepts strictly greater EV; equality rejects. Requires explicit Independent probability mode and win/loss probabilities. Candidate exposure is counted before filtering; only selected tickets are staked.',
         'size': 'Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.',
         'grouping': 'Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.',
         'order_by': 'Rank eligible selected legs before filling each batch. Kickoff is chronological; probability and expected profit rank highest first. Real outcomes never affect the ranking.',
@@ -754,10 +755,11 @@ def build():
             if name == 'tickets':
                 f.update(kind='map', item={'kind':'component', 'components':ticket_components[:-1], 'initial_component':'evaluation.Parlay'})
             if key == 'evaluation.AllCombinations':
+                if name == 'min_ev':f.update(kind='number', step='any', nullable=True, initial=0.0, title='Minimum ticket EV (per unit stake)')
                 if name == 'legs':f.update(kind='number',min=1,step=1,title='Legs per ticket')
                 if name == 'grouping':f.update(choices=[{'value':'league_round','label':'Same league, season, stage and round'}])
                 if name == 'stage_column':f.update(kind='select',choices=[{'value':'tournament_id','label':'Tournament id'}, {'value':'stage_id','label':'Stage id'}, {'value':'stage','label':'Stage label'}, {'value':None,'label':'Single-stage seasons (explicit)'}],nullable=False,all_when_null=True)
-                if name == 'stake':f['help']='Stake on EACH ticket. For n events and k legs: total stake = C(n,k) × stake. Legs are not separately staked.'
+                if name == 'stake':f['help']='Stake on EACH selected ticket. C(n,k) × stake is candidate exposure before ticket EV filtering. Actual stake is selected tickets × stake. Legs are not separately staked.'
                 if name == 'max_tickets':f['help']='Maximum total tickets per template in this report scope (default 100,000). All groups are counted before any expansion. Above the bound: error with exact count; never sample or truncate.'
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')

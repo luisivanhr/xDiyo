@@ -84,6 +84,25 @@ def test_population_public_plan_exposes_positional_window_then_exclusion():
     assert info[(10, 1, 3)][1] == START + pd.Timedelta(days=6)
 
 
+def test_missing_year_never_bridges_team_or_destination_prior():
+    history = history_from_games(warm_games())
+    history.loc[history.season_id.eq(1), 'source_season'] = '15_16'
+    history.loc[history.season_id.eq(2), 'source_season'] = '17_18'
+    records = [dict(competition_id=10,season_id=2,team_id=A,movement='retained',
+                    previous_competition_id=None,previous_season_id=None)]
+    context = TransitionContext(history, team_seasons=records)
+    assert context.predecessors[(10,2)] is None
+    assert pd.isna(context.record(4)['previous_season_id'])
+    assert TransitionContext(history).record(4)['previous_season_id'] is None
+
+
+def test_explicit_null_predecessor_is_authoritative_even_with_adjacent_history():
+    history = history_from_games(warm_games())
+    records = [dict(competition_id=10,season_id=2,team_id=A,movement='retained',
+                    previous_competition_id=None,previous_season_id=None)]
+    assert pd.isna(TransitionContext(history,team_seasons=records).record(4)['previous_season_id'])
+
+
 @pytest.mark.parametrize('kind', ['duplicate_movements', 'duplicate_starts', 'invalid_movement'])
 def test_ambiguous_context_tables_are_rejected(kind):
     history = history_from_games(warm_games())

@@ -208,6 +208,53 @@ def load_season_table(data_root, season_stem, *, table="matches", record_path=No
                     verify_hashes=verify_hashes, include_awarded=include_awarded)[table]
 
 
+def _validate_season_options(seasons, leagues, tables, include_awarded):
+    if not isinstance(include_awarded, bool):
+        raise TypeError("include_awarded must be True or False.")
+    if isinstance(seasons, str):
+        seasons = [seasons]
+    if (not isinstance(seasons, (list, tuple)) or not seasons
+            or any(not isinstance(s, str) or not re.fullmatch(r"[0-9]{2}_[0-9]{2}", s)
+                   or (int(s[:2]) + 1) % 100 != int(s[3:]) for s in seasons)):
+        raise ValueError("Choose seasons such as ['22_23', '23_24', '24_25']")
+    if len(set(seasons)) != len(seasons):
+        raise ValueError("Choose each season only once")
+    if isinstance(leagues, str):
+        leagues = [leagues]
+    if leagues is not None and (not isinstance(leagues, (list, tuple)) or not leagues
+            or any(not isinstance(n, str) or not n.strip() for n in leagues)
+            or len(set(leagues)) != len(leagues)):
+        raise ValueError("Choose distinct league names or leave leagues=None for all available")
+    if isinstance(tables, str):
+        tables = [tables]
+    if (not isinstance(tables, (list, tuple)) or not tables
+            or any(not isinstance(n, str) or not n.strip() for n in tables)
+            or len(set(tables)) != len(tables)):
+        raise ValueError("Choose a table name or a nonempty list of distinct table names")
+
+    return seasons, leagues, tables
+
+
+def _discover_seasons(root, seasons, leagues):
+    selected = []
+    for path in root.glob("*.manifest.json"):
+        stem = path.name.removesuffix(".manifest.json")
+        parts = stem.rsplit("_", 2)
+        if len(parts) != 3:
+            continue
+        league, start, end = parts
+        season = f"{start}_{end}"
+        if season in seasons and (leagues is None or league in leagues):
+            selected.append((season, league, stem))
+    missing_seasons = set(seasons) - {s for s, _, _ in selected}
+    missing_leagues = set(leagues or ()) - {league for _, league, _ in selected}
+    if missing_seasons or missing_leagues:
+        raise ValueError(f"No publications for seasons {sorted(missing_seasons)} or leagues {sorted(missing_leagues)}")
+    selected.sort(key=lambda item: (seasons.index(item[0]), item[1]))
+
+    return selected
+
+
 def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
                  record_dir=None, verify_hashes=False, include_awarded=False) -> SeasonData:
     """Load available league-season publications and combine each table separately.
@@ -232,28 +279,7 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
     """
     import pandas as pd
 
-    if not isinstance(include_awarded, bool):
-        raise TypeError("include_awarded must be True or False.")
-    if isinstance(seasons, str):
-        seasons = [seasons]
-    if (not isinstance(seasons, (list, tuple)) or not seasons
-            or any(not isinstance(s, str) or not re.fullmatch(r"[0-9]{2}_[0-9]{2}", s)
-                   or (int(s[:2]) + 1) % 100 != int(s[3:]) for s in seasons)):
-        raise ValueError("Choose seasons such as ['22_23', '23_24', '24_25']")
-    if len(set(seasons)) != len(seasons):
-        raise ValueError("Choose each season only once")
-    if isinstance(leagues, str):
-        leagues = [leagues]
-    if leagues is not None and (not isinstance(leagues, (list, tuple)) or not leagues
-            or any(not isinstance(n, str) or not n.strip() for n in leagues)
-            or len(set(leagues)) != len(leagues)):
-        raise ValueError("Choose distinct league names or leave leagues=None for all available")
-    if isinstance(tables, str):
-        tables = [tables]
-    if (not isinstance(tables, (list, tuple)) or not tables
-            or any(not isinstance(n, str) or not n.strip() for n in tables)
-            or len(set(tables)) != len(tables)):
-        raise ValueError("Choose a table name or a nonempty list of distinct table names")
+    seasons, leagues, tables = _validate_season_options(seasons, leagues, tables, include_awarded)
 
     root = Path(data_root).resolve()
     if not root.is_dir():
@@ -261,21 +287,7 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
     records = Path(record_dir).resolve() if record_dir is not None else None
     if records is not None and records.is_relative_to(root):
         raise ValueError("Save selection records outside the source data directory")
-    selected = []
-    for path in root.glob("*.manifest.json"):
-        stem = path.name.removesuffix(".manifest.json")
-        parts = stem.rsplit("_", 2)
-        if len(parts) != 3:
-            continue
-        league, start, end = parts
-        season = f"{start}_{end}"
-        if season in seasons and (leagues is None or league in leagues):
-            selected.append((season, league, stem))
-    missing_seasons = set(seasons) - {s for s, _, _ in selected}
-    missing_leagues = set(leagues or ()) - {league for _, league, _ in selected}
-    if missing_seasons or missing_leagues:
-        raise ValueError(f"No publications for seasons {sorted(missing_seasons)} or leagues {sorted(missing_leagues)}")
-    selected.sort(key=lambda item: (seasons.index(item[0]), item[1]))
+    selected = _discover_seasons(root, seasons, leagues)
 
     pieces = {name: [] for name in tables}
     sources = []

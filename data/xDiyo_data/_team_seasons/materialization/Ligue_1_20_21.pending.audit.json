@@ -1,9 +1,9 @@
 {
   "season": "Ligue_1_20_21",
-  "old_manifest_sha256": "2f008085fc6ffc08ba1f44b50953b8d071bca958ecd219273059fe2f8aa2c09f",
-  "old_publication_sha256": "bbdb58e74bad8fdb8e12f632333710aad9db2e3083502db716570d66863b6190",
-  "new_manifest_sha256": "8ec44b42b7ee04b881ef9ac4a08452a747e097dcf5ff3336e1ec188c7945fbf0",
-  "new_publication_sha256": "7a8a5963c10ced08c1cf349638821b370ac7152eff2bddb8a9d48d23d7397c04",
+  "old_manifest_sha256": "8ec44b42b7ee04b881ef9ac4a08452a747e097dcf5ff3336e1ec188c7945fbf0",
+  "old_publication_sha256": "7a8a5963c10ced08c1cf349638821b370ac7152eff2bddb8a9d48d23d7397c04",
+  "new_manifest_sha256": "42f26e434f3491651e222110fe9138a2472a4166e2736039757c648d781ff579",
+  "new_publication_sha256": "652ddcccde37fffa92734f8ce8484662afd10e4f3afcabf44c229dbc12e23f8f",
   "matches_sha256": "fc640e00ac42a6a6ddfea458856e5a4bf343d633867385122b8caa9fcb295502",
-  "season_sha256": "75e81c396f5190118d5822a6ab57d137ad65dc6a39f00525d7bef8f2a35fd11c"
+  "season_sha256": "df9374c0b9e62e874c3c19078e900a61fc014576fe76fdcbc89d50f14b42ccc6"
 }

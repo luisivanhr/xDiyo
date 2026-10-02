@@ -1,9 +1,9 @@
 {
   "season": "Serie_A_23_24",
-  "old_manifest_sha256": "889b9d2e57fa44cc59f0bba54d29b8060e779fe80d711d29d787b43e86da8c65",
-  "old_publication_sha256": "480c533ea3120abca8c2c20031dd682f3844c2c995d8540b81176e6170246dae",
-  "new_manifest_sha256": "a43f261b4b481b1fef18d8e137b52f7b031c1d44df849cc5c75a60ce878dc6db",
-  "new_publication_sha256": "773e3a0a6d65b285b3e07945a414d6027d8ebe1931dbdf0626adc19a0a6cfa15",
+  "old_manifest_sha256": "a43f261b4b481b1fef18d8e137b52f7b031c1d44df849cc5c75a60ce878dc6db",
+  "old_publication_sha256": "773e3a0a6d65b285b3e07945a414d6027d8ebe1931dbdf0626adc19a0a6cfa15",
+  "new_manifest_sha256": "9a0910c3079ff066dcbded3f846ade52256ec7a08474608d7eb45d355e753bfc",
+  "new_publication_sha256": "23122ff59037f09a8d102b883e99f1cfb441ff5ab4be283fbc535dd8f6d208e6",
   "matches_sha256": "14c60104bd7efa14292a062e2fcffb0ea4249ffdc79bff1cd32c7c7364475ac3",
-  "season_sha256": "208b6c0e4749a973d28811505be483976fa2f30a8719fa104ae0eb887b588ea9"
+  "season_sha256": "3df42d1cd6367be55d63a5d3a9a2e8ad23663da592e7391598d7054b38f57c68"
 }

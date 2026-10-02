@@ -1,0 +1,21 @@
+{
+  "seasons": 135,
+  "matches": 45309,
+  "team_seasons": 2610,
+  "corrected_evidence_rows": 46,
+  "classifications_changed": 0,
+  "prior_export_bytes": 2644938141,
+  "export_bytes": 1440234065,
+  "checks": [
+    "native table hashes",
+    "publication hashes and sizes",
+    "all exports ZSTD",
+    "native/nested movement parity",
+    "persisted/rederived evidence parity",
+    "Eredivisie gap has no fallback predecessor"
+  ],
+  "notes": [
+    "Logical observations preserved; current nested field names preserved.",
+    "Existing pinned recipes need explicit refresh; saved experiment artifacts untouched."
+  ]
+}
