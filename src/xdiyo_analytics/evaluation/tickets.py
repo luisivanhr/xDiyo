@@ -1,6 +1,7 @@
 """Compose selected single bets into auditable tickets without fitting a model."""
 
 from dataclasses import dataclass
+from decimal import Decimal
 from itertools import combinations
 from math import comb, fsum
 import hashlib
@@ -127,13 +128,6 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
         if isinstance(policy, AllCombinations):
             pools, preview = prepared[name]
             new_rows, new_members, audit = expand_pools(pools, policy, name)
-            if policy.min_ev is not None:
-                try:
-                    for field in ('stake', 'payout', 'profit'):
-                        if not np.isfinite(fsum(r[field] for r in new_rows if pd.notna(r[field]))):
-                            raise OverflowError
-                except OverflowError as exc:
-                    raise ValueError('Selected ticket accounting total overflow; reduce stake or ticket population.') from exc
             rows.extend(new_rows)
             members.extend(new_members)
             decisions.extend(audit)
@@ -226,15 +220,37 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
                         for position, (_, leg) in enumerate(legs.iterrows(), 1):
                             member = leg.drop(labels=['_fixture_order']).to_dict()
                             members.append(dict(member, ticket_id=ticket_id, leg_number=position, template=name))
+    # Check the combined slip, including mixed templates, before metrics or curves.
+    try:
+        for field in ('stake', 'payout', 'profit'):
+            if not np.isfinite(fsum(r[field] for r in rows if pd.notna(r[field]))):
+                raise OverflowError
+    except OverflowError as exc:
+        raise ValueError('Selected ticket accounting total overflow; reduce stake or ticket population.') from exc
     columns = ['ticket_id', 'bet', 'fold_id', 'kind', 'n_legs', 'kickoff_at', 'last_kickoff_at', 'take',
                'stake', 'odds', 'probability', 'probability_assumption', 'settlement', 'accounting_status', 'payout', 'profit']
     tickets = pd.DataFrame(rows) if rows else pd.DataFrame(columns=columns)
     membership = pd.DataFrame(members) if members else pd.DataFrame(columns=[*ledger.columns, 'ticket_id', 'leg_number', 'template'])
     if prepared:
         # Internal transport only; reporters promote these records to exportable tables.
-        tickets.attrs.update(ticket_candidates=decisions, ticket_selection_summary=summaries,
+        tickets.attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
     return tickets, membership, ticket_metrics(tickets, composition, membership)
+
+
+def _audit_records(records):
+    """JSON-safe transport, retaining exact integer IDs and all rejection evidence.
+
+    Unrepresentably large candidate stake previews remain exact decimal text;
+    selected accounting totals must be finite. Missing evidence is JSON null.
+    """
+    def scalar(value):
+        if isinstance(value, np.generic):
+            value = value.item()
+        if isinstance(value, Decimal):
+            return str(value)
+        return None if pd.isna(value) else value
+    return [{key: scalar(value) for key, value in record.items()} for record in records]
 
 
 def ticket_metrics(tickets, composition, membership):

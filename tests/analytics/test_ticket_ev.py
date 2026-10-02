@@ -1,6 +1,6 @@
 """Synthetic retained evidence only: never fit, calibrate, or run experiments."""
 from dataclasses import replace
-from io import StringIO
+from io import BytesIO, StringIO
 import json
 from math import comb
 
@@ -109,12 +109,13 @@ def test_legacy_none_and_missing_probabilities():
 
 
 @pytest.mark.parametrize('bad',[-.1,1.1,np.inf,-np.inf,'bad','0.5',True])
-def test_corrupt_probability_not_hidden_by_missing(bad):
+@pytest.mark.parametrize('min_ev', [None, 0.])
+def test_corrupt_probability_not_hidden_by_missing(bad, min_ev):
     data=oracle().astype({'p_win':object})
     data.loc[0,'p_win']=np.nan
     data.loc[1,'p_win']=bad
     with pytest.raises(ValueError,match='numeric, finite'):
-        compose_bets(data,policy())
+        compose_bets(data,replace(policy(), min_ev=min_ev))
 
 
 def test_zero_one_push_and_extreme_products():
@@ -250,3 +251,82 @@ def test_empty_report_audits_and_html_exports():
         assert 'No tickets placed' in html and 'ticket EV filter' in html
         assert 'ticket_candidates' in html and 'ticket_selection_summary' in html
         assert 'data:text/csv' in html
+
+
+@pytest.mark.parametrize('min_ev', [None, 0., 100.])
+@pytest.mark.parametrize('missing', [False, True])
+def test_ticket_parquet_roundtrip_preserves_audit_and_exact_ids(min_ev, missing):
+    data = oracle().assign(competition_id=np.uint64(2**63 + 17))
+    if missing:
+        data.loc[0, 'p_win'] = np.nan
+    tickets, members, metrics = compose_bets(data, replace(policy(), min_ev=min_ev))
+    # Native JSON scalars, exact large integers, and null missing evidence.
+    serialized = json.dumps(tickets.attrs, allow_nan=False)
+    assert json.loads(serialized) == tickets.attrs
+    assert tickets.attrs['ticket_candidates'][0]['competition_id'] == 2**63 + 17
+    for table in (tickets, members, metrics):
+        buffer = BytesIO()
+        table.to_parquet(buffer)
+        buffer.seek(0)
+        restored = pd.read_parquet(buffer)
+        pd.testing.assert_frame_equal(table, restored)
+        assert table.attrs == restored.attrs
+    assert len(audit(tickets)) == 6
+    assert audit(tickets)['take'].sum() == len(tickets)
+
+
+@pytest.mark.parametrize('min_ev', [None, 0.])
+@pytest.mark.parametrize('dtype', ['float64', 'Float64', 'object'])
+@pytest.mark.parametrize('missing', [False, True])
+def test_numeric_probability_dtypes_have_identical_decisions(min_ev, dtype, missing):
+    data = oracle()
+    if missing:
+        data.loc[0, 'p_win'] = np.nan
+    config = replace(policy(), min_ev=min_ev)
+    expected = compose_bets(data, config)[0]
+    actual = compose_bets(data.astype({'p_win': dtype}), config)[0]
+    pd.testing.assert_frame_equal(expected, actual)
+    assert expected.attrs == actual.attrs
+    if min_ev == 0 and not missing:
+        assert len(actual) == 4
+
+
+@pytest.mark.parametrize('kind', ['enabled', 'disabled', 'mixed', 'parlay'])
+def test_combined_slip_accounting_overflow_is_rejected(kind):
+    data = oracle().iloc[:2].assign(settlement='loss')
+    large = policy(stake=1e308)
+    legacy = replace(large, min_ev=None)
+    parlay = Parlay(stake=1e308)
+    templates = {'enabled': (large, large), 'disabled': (legacy, legacy),
+                 'mixed': (large, parlay), 'parlay': (parlay, parlay)}[kind]
+    for template in templates:
+        tickets, _, _ = compose_bets(data, template)
+        assert len(tickets) == 1 and tickets.stake.iloc[0] == 1e308
+    with pytest.raises(ValueError, match='accounting total overflow'):
+        compose_bets(data, BetSlip(dict(zip(['first', 'second'], templates))))
+
+
+@pytest.mark.parametrize('min_ev', [None, 0., 100.])
+def test_saved_report_tables_reuse_without_recomposition(tmp_path, monkeypatch, min_ev):
+    from xdiyo_analytics.evaluation import BetOffer, BinaryDrawThreshold
+    from xdiyo_analytics.reporting import BetOutcomeReporter, BetPerformanceReporter
+    from xdiyo_analytics.reporting.contracts import StudyResult
+    ctx, option, labels = binary_context()
+    offers = {'draw': BetOffer(option, pd.Series([2., 3., 4., 5., np.nan], index=ctx.y.index))}
+    original = BetOutcomeReporter(type='overall', partition='test', offers=offers, labels=labels,
+        policy=BinaryDrawThreshold(.8), composition=replace(policy(), min_ev=min_ev), show_badges=False).run(ctx)
+    restored = {}
+    for name, table in original.tables.items():
+        path = tmp_path / f'{name}.parquet'
+        table.to_parquet(path)
+        restored[name] = pd.read_parquet(path)
+        pd.testing.assert_frame_equal(table, restored[name])
+        assert table.attrs == restored[name].attrs
+    ctx.previous_results = {'saved': StudyResult('Restored', tables=restored)}
+    import xdiyo_analytics.reporting.tickets as rendering
+    def forbidden(*args, **kwargs):
+        raise AssertionError('Saved result reuse must not recompose tickets')
+    monkeypatch.setattr(rendering, 'compose_bets', forbidden)
+    reused = BetPerformanceReporter(type='overall', partition='test', source='saved').run(ctx)
+    for name in ('tickets', 'ticket_legs', 'ticket_candidates', 'ticket_selection_summary'):
+        pd.testing.assert_frame_equal(original.tables[name], reused.tables[name])
