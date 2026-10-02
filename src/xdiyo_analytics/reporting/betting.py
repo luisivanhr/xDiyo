@@ -64,8 +64,9 @@ class BetPerformanceReporter(PredictionReporter):
             result.tables['metrics'] = metrics
             result.artifacts[1] = Artifact('table', metrics, 'Ticket metrics')
         elif self.source is not None and 'tickets' in previous.tables:
-            for name in ('tickets', 'ticket_legs', 'leg_ledger'):
-                result.tables[name] = previous.tables[name].copy()
+            for name in ('tickets', 'ticket_legs', 'leg_ledger', 'combination_preview'):
+                if name in previous.tables:
+                    result.tables[name] = previous.tables[name].copy()
             result.notes.append('Accounting unit: composed tickets from the source; individual legs are not staked again.')
         if len(ledger):
             ledger[self.time_column] = pd.to_datetime(ledger[self.time_column], utc=True, errors="raise")

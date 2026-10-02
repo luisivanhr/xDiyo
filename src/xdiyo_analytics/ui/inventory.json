@@ -3027,6 +3027,29 @@
       ],
       "accepts_extra": false
     },
+    "evaluation.BinaryDrawThreshold": {
+      "id": "evaluation.BinaryDrawThreshold",
+      "title": "BinaryDrawThreshold",
+      "category": "evaluation",
+      "description": "Retain a draw offer when P(non-draw) <= the frozen threshold.",
+      "fields": [
+        {
+          "name": "max_non_draw_probability",
+          "title": "Maximum non-draw probability",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Enable to retain P(non-draw) <= this frozen threshold; equality stays in. Missing probabilities abstain. Disabled explicitly uses None: all quoted draws, including unknown probabilities. Model label must be the draw BetOption (1=draw, 0=non-draw). No EV cutoff or threshold search.",
+          "primary": true,
+          "min": 0,
+          "max": 1,
+          "step": "any",
+          "nullable": true,
+          "initial": 0.5
+        }
+      ],
+      "accepts_extra": false
+    },
     "evaluation.Parlay": {
       "id": "evaluation.Parlay",
       "title": "Parlay",
@@ -3158,13 +3181,14 @@
           "title": "Tickets",
           "required": true,
           "kind": "map",
-          "help": "Add named Parlay or MultiBet templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.",
+          "help": "Add named Parlay, MultiBet or AllCombinations templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.",
           "primary": true,
           "item": {
             "kind": "component",
             "components": [
               "evaluation.Parlay",
-              "evaluation.MultiBet"
+              "evaluation.MultiBet",
+              "evaluation.AllCombinations"
             ],
             "initial_component": "evaluation.Parlay"
           }
@@ -3317,6 +3341,133 @@
           "choices": [
             "per_ticket",
             "total"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.AllCombinations": {
+      "id": "evaluation.AllCombinations",
+      "title": "AllCombinations",
+      "category": "evaluation",
+      "description": "Every unordered k-event combination in each league/season/stage/round.",
+      "fields": [
+        {
+          "name": "legs",
+          "title": "Legs per ticket",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Every unordered combination of this many distinct eligible events in the whole group. 2=pairs, 3=triples, 4=quads, 1=singles. With n<k there are no tickets; no incomplete tail is dropped.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "grouping",
+          "title": "Grouping",
+          "required": false,
+          "kind": "select",
+          "default": "league_round",
+          "help": "Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "league_round",
+              "label": "Same league, season, stage and round"
+            }
+          ]
+        },
+        {
+          "name": "stage_column",
+          "title": "Stage column",
+          "required": false,
+          "kind": "select",
+          "default": "tournament_id",
+          "help": "Stage identity column. Tournament id keeps repeated round numbers in different stages separate. Choose Single-stage seasons only when that declaration is correct; missing stage metadata otherwise fails clearly.",
+          "primary": true,
+          "choices": [
+            {
+              "value": "tournament_id",
+              "label": "Tournament id"
+            },
+            {
+              "value": "stage_id",
+              "label": "Stage id"
+            },
+            {
+              "value": "stage",
+              "label": "Stage label"
+            },
+            {
+              "value": null,
+              "label": "Single-stage seasons (explicit)"
+            }
+          ],
+          "nullable": false,
+          "all_when_null": true
+        },
+        {
+          "name": "stake",
+          "title": "Stake",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Stake on EACH ticket. For n events and k legs: total stake = C(n,k) × stake. Legs are not separately staked.",
+          "step": "any",
+          "primary": true,
+          "min": 0
+        },
+        {
+          "name": "max_tickets",
+          "title": "Max tickets",
+          "required": false,
+          "kind": "number",
+          "default": 100000,
+          "help": "Maximum total tickets per template in this report scope (default 100,000). All groups are counted before any expansion. Above the bound: error with exact count; never sample or truncate.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "on_push",
+          "title": "On push",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "on_void",
+          "title": "On void",
+          "required": false,
+          "kind": "select",
+          "default": "remove",
+          "help": "Remove: cancelled leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.",
+          "primary": true,
+          "choices": [
+            "remove",
+            "refund",
+            "loss"
+          ]
+        },
+        {
+          "name": "probability_mode",
+          "title": "Probability mode",
+          "required": false,
+          "kind": "select",
+          "default": "none",
+          "help": "None leaves joint probability blank. Independent multiplies leg win probabilities as an explicit assumption; it does not estimate dependence or push-adjusted return probability.",
+          "primary": true,
+          "choices": [
+            "none",
+            "independent"
           ]
         }
       ],
@@ -4708,11 +4859,12 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.",
+          "help": "Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.",
           "primary": true,
           "components": [
             "evaluation.Parlay",
             "evaluation.MultiBet",
+            "evaluation.AllCombinations",
             "evaluation.BetSlip"
           ],
           "initial_component": "evaluation.Parlay"
@@ -4793,7 +4945,8 @@
           "help": "Choose how one offer is selected for each match (or each team row). No qualifying offer produces No bet. Outcomes never influence selection.",
           "components": [
             "evaluation.TightestLine",
-            "evaluation.HighestExpectedProfit"
+            "evaluation.HighestExpectedProfit",
+            "evaluation.BinaryDrawThreshold"
           ],
           "initial_component": "evaluation.TightestLine",
           "primary": true
@@ -4861,11 +5014,12 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.",
+          "help": "Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.",
           "primary": true,
           "components": [
             "evaluation.Parlay",
             "evaluation.MultiBet",
+            "evaluation.AllCombinations",
             "evaluation.BetSlip"
           ],
           "initial_component": "evaluation.Parlay"

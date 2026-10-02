@@ -667,7 +667,7 @@ def build():
             if name in ('history','labels'):f.update(hidden=True)
             if name=='catalog':f.update(hidden=True,kind='reference',initial={'ref':'team_catalog'})
             if name=='offers':f.update(kind='map',item={'kind':'component','components':['evaluation.BetOffer'],'initial_component':'evaluation.BetOffer'})
-            if name=='policy':f.update(kind='component',categories=['evaluation'],components=['evaluation.TightestLine','evaluation.HighestExpectedProfit'],initial_component='evaluation.TightestLine')
+            if name=='policy':f.update(kind='component',categories=['evaluation'],components=['evaluation.TightestLine','evaluation.HighestExpectedProfit','evaluation.BinaryDrawThreshold'],initial_component='evaluation.TightestLine')
             if name=='option':f.update(kind='component',categories=['label'],components=['labels.BetOption'],initial_component='labels.BetOption')
             if name=='source':f.update(kind='select',discovery='bet_outcomes',title='Prepared decisions from')
             if name=='output':f.update(kind='select',choices=['auto','predict_proba','predict_proba_raw','count_distribution'])
@@ -697,13 +697,17 @@ def build():
     components['input.OddsSeries']['title']='Database odds'
     for f in components['input.OddsSeries']['fields']:
         f.update(primary=True, **odds_fields[f['name']])
-    ticket_components = ['evaluation.Parlay', 'evaluation.MultiBet', 'evaluation.BetSlip']
+    for f in components['evaluation.BinaryDrawThreshold']['fields']:
+        f.update(kind='number', min=0, max=1, step='any', primary=True, nullable=True,
+                 default=None, initial=0.5, title='Maximum non-draw probability',
+                 help='Enable to retain P(non-draw) <= this frozen threshold; equality stays in. Missing probabilities abstain. Disabled explicitly uses None: all quoted draws, including unknown probabilities. Model label must be the draw BetOption (1=draw, 0=non-draw). No EV cutoff or threshold search.')
+    ticket_components = ['evaluation.Parlay', 'evaluation.MultiBet', 'evaluation.AllCombinations', 'evaluation.BetSlip']
     for key in ('reporting.BetOutcomeReporter', 'reporting.BetPerformanceReporter'):
         for f in components[key]['fields']:
             if f['name'] == 'composition':
                 f.update(kind='component', components=ticket_components, initial_component='evaluation.Parlay',
                          title='Compose tickets', primary=True,
-                         help='Optional: Parlay combines legs; MultiBet makes system combinations; BetSlip contains named ticket templates. Disabled keeps singles. Configure here or on the prepared-decisions source, not both.')
+                         help='Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.')
     ticket_help = {
         'size': 'Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.',
         'grouping': 'Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.',
@@ -715,7 +719,9 @@ def build():
         'on_void': 'Remove: cancelled leg contributes odds 1. Refund: return the whole ticket stake unless another leg loses. Loss: treat this leg as losing.',
         'probability_mode': 'None leaves joint probability blank. Independent multiplies leg win probabilities as an explicit assumption; it does not estimate dependence or push-adjusted return probability.',
         'max_tickets': 'Maximum generated tickets per template in this report scope. System combinations can grow quickly; exceeding the limit gives an error, not a truncated result.',
-        'tickets': 'Add named Parlay or MultiBet templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.',
+        'tickets': 'Add named Parlay, MultiBet or AllCombinations templates. Each places separate stakes; a size-1 Parlay adds singles. Repeated legs in different templates are additional bets.',
+        'legs': 'Every unordered combination of this many distinct eligible events in the whole group. 2=pairs, 3=triples, 4=quads, 1=singles. With n<k there are no tickets; no incomplete tail is dropped.',
+        'stage_column': 'Stage identity column. Tournament id keeps repeated round numbers in different stages separate. Choose Single-stage seasons only when that declaration is correct; missing stage metadata otherwise fails clearly.',
     }
     for key in ticket_components:
         for f in components[key]['fields']:
@@ -742,7 +748,13 @@ def build():
             if name == 'sizes':
                 f.update(kind='list', item={'kind':'number', 'min':1, 'step':1}, title='System sizes')
             if name == 'tickets':
-                f.update(kind='map', item={'kind':'component', 'components':ticket_components[:2], 'initial_component':'evaluation.Parlay'})
+                f.update(kind='map', item={'kind':'component', 'components':ticket_components[:-1], 'initial_component':'evaluation.Parlay'})
+            if key == 'evaluation.AllCombinations':
+                if name == 'legs':f.update(kind='number',min=1,step=1,title='Legs per ticket')
+                if name == 'grouping':f.update(choices=[{'value':'league_round','label':'Same league, season, stage and round'}])
+                if name == 'stage_column':f.update(kind='select',choices=[{'value':'tournament_id','label':'Tournament id'}, {'value':'stage_id','label':'Stage id'}, {'value':'stage','label':'Stage label'}, {'value':None,'label':'Single-stage seasons (explicit)'}],nullable=False,all_when_null=True)
+                if name == 'stake':f['help']='Stake on EACH ticket. For n events and k legs: total stake = C(n,k) × stake. Legs are not separately staked.'
+                if name == 'max_tickets':f['help']='Maximum total tickets per template in this report scope (default 100,000). All groups are counted before any expansion. Above the bound: error with exact count; never sample or truncate.'
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')
     for m in metrics:

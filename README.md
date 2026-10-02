@@ -17,6 +17,8 @@ The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available laye
 
 Use the [odds adapter](docs/analytics/odds.md) to retain purchased odds as private Parquet snapshots, review native fixture mappings, and select opening/closing prices in either betting reporter through Python or the UI. The guide includes a standalone synthetic example; odds remain separate from model inputs.
 
+Use [whole-group combinations](docs/analytics/all_combinations.md) for every pair, triple or other chosen ticket size within a league/season/stage/round. The guide covers exact count previews, expansion limits and binary draw probability filtering, with a portable native recipe example.
+
 For a code-first experiment, use [notebook 18: Lasso for total match corners](notebooks/18_lasso_total_corners_pipeline.ipynb). It configures the loading, features, target, temporal split, model, reports and persistence stages explicitly. Its [companion guide](docs/analytics/lasso_total_corners.md) explains the defaults and optional stages.
 
 For a broad feature experiment with prediction intervals, use [notebook 19: XGBoost quantiles for total corners](notebooks/19_xgboost_quantile_total_corners.ipynb). It trains separate 10th, 50th and 90th percentile models and inspects held-out pinball loss, interval coverage and quantile crossings. The [guide](docs/analytics/xgboost_quantile_total_corners.md) explains its features, GPU configuration and saved results.

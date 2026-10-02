@@ -1,5 +1,13 @@
 # Parlays, bet slips and system bets
 
+For every k-event combination across a whole variable-size stage-round, use
+[AllCombinations](all_combinations.md). The existing batched templates below
+retain their original behavior.
+
+For every k-event combination across a whole variable-size stage-round, use
+[AllCombinations](all_combinations.md). The existing batched templates below
+retain their original behavior.
+
 Both betting reporters accept optional `composition`. Its default is `None`,
 which preserves the existing single-bet workflow. Composition uses retained
 predictions and the selected-leg ledger. It never fits or calls a model.

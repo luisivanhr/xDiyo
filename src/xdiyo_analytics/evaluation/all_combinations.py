@@ -1,0 +1,157 @@
+"""Whole-group ticket expansion, counted completely before materialization."""
+
+from dataclasses import dataclass
+from itertools import combinations
+from math import comb
+import hashlib
+import json
+
+import numpy as np
+import pandas as pd
+
+
+@dataclass(frozen=True, kw_only=True)
+class AllCombinations:
+    """Every unordered k-event combination in each league/season/stage/round.
+
+    Stake is per ticket. Size one means singles; undersized pools emit none.
+    stage_column=None explicitly declares that there is only one stage per
+    league-season. Missing stage identity otherwise raises. Duplicate identical
+    selections collapse; conflicting selections for one event raise.
+    """
+    legs: int = 2
+    grouping: str = 'league_round'
+    stage_column: str | None = 'tournament_id'
+    stake: float = 1.0
+    max_tickets: int = 100000
+    on_push: str = 'remove'
+    on_void: str = 'remove'
+    probability_mode: str = 'none'
+
+
+def _identity(values):
+    return json.dumps([str(v) for v in values], ensure_ascii=False, separators=(',', ':'))
+
+
+def prepare_pools(ledger, policy, match_columns, name):
+    from .tickets import Parlay, _validate
+    _validate(Parlay(size=policy.legs, stake=policy.stake, max_tickets=policy.max_tickets,
+                     on_push=policy.on_push, on_void=policy.on_void,
+                     probability_mode=policy.probability_mode))
+    if policy.grouping != 'league_round':
+        raise ValueError('AllCombinations grouping must be league_round (league/season/stage/round).')
+    if policy.stage_column not in ('tournament_id', 'stage_id', 'stage', None):
+        raise ValueError('stage_column must be tournament_id, stage_id, stage or None for explicitly single-stage seasons.')
+    if ledger.empty:
+        return [], []
+    data = ledger.copy()
+    keys = list(match_columns)
+    if not keys or any(k not in data for k in keys):
+        raise ValueError('AllCombinations needs the full fixture identity columns.')
+    groups = ['fold_id']
+    for options in [('competition_id', 'source_league'), ('season_id', 'source_season')]:
+        key = next((k for k in options if k in data), None)
+        if key is None:
+            raise ValueError('AllCombinations needs league and season identities.')
+        groups.append(key)
+    if policy.stage_column is not None:
+        groups.append(policy.stage_column)
+    groups.append('round')
+    if any(k not in data for k in groups) or data[list(dict.fromkeys(groups + keys))].isna().any().any():
+        raise ValueError('AllCombinations requires nonmissing league/season/stage/round and fold identities; '
+                         'supply stage_column, or explicitly set None for single-stage seasons.')
+    if data['take'].isna().any() or not data['take'].map(lambda v: isinstance(v, (bool, np.bool_))).all():
+        raise ValueError('Ticket decisions must be explicit booleans.')
+    data['kickoff_at'] = pd.to_datetime(data.kickoff_at, utc=True, errors='raise')
+    if data.kickoff_at.isna().any():
+        raise ValueError('Ticket legs require kickoff times.')
+    data['odds'] = pd.to_numeric(data.odds, errors='raise')
+    valid_price = data.odds.notna() & np.isfinite(data.odds) & data.odds.gt(1)
+    # Column iteration preserves uint64 IDs; row-wise apply can coerce mixed
+    # signed/unsigned numeric identities to float and merge distinct fixtures.
+    data['_group'] = [_identity(r) for r in zip(*(data[k] for k in groups))]
+    data['_event'] = [_identity(r) for r in zip(*(data[k] for k in keys))]
+    # An event in two stage/round pools is ambiguous, even if the selections agree.
+    if data.groupby(['fold_id', '_event'])._group.nunique().gt(1).any():
+        raise ValueError('One fixture has conflicting stage/round grouping identities.')
+    data['_price_valid'] = valid_price
+    previews, pools = [], []
+    for group_id, all_rows in data.groupby('_group', sort=True):
+        offered = all_rows.loc[all_rows['take'] & all_rows._price_valid].copy()
+        duplicates = 0
+        # Compare all semantic evidence. Row positions are occurrence bookkeeping;
+        # derived accounting values must never choose a leg.
+        compare = [c for c in offered if c not in {'row_position', 'stake', 'profit', 'payout',
+                                                   'accounting_status', 'cumulative_known_profit'}]
+        for _, repeated in offered.groupby('_event', sort=False):
+            if len(repeated) > 1 and len(repeated[compare].drop_duplicates()) != 1:
+                raise ValueError('Conflicting selections or evidence for one fixture; select exactly one option per event.')
+        duplicates = len(offered) - offered._event.nunique()
+        order = ['kickoff_at', '_event', 'bet'] + (['row_position'] if 'row_position' in offered else [])
+        offered = offered.sort_values(order, kind='stable').drop_duplicates('_event')
+        n = len(offered)
+        count = comb(n, policy.legs) if n >= policy.legs else 0
+        unknown = all_rows.get('decision_reason', pd.Series('', index=all_rows.index)).eq('Probability unavailable')
+        unknown = all_rows.get('probability_abstention', unknown).fillna(False).astype(bool)
+        record = {k: all_rows[k].iloc[0] for k in groups}
+        record.update(template=name, eligible_events=n, legs=policy.legs, ticket_count=count,
+                      expected_stake=count * policy.stake, input_events=all_rows._event.nunique(),
+                      not_selected_events=all_rows.loc[~all_rows['take'], '_event'].nunique(),
+                      missing_price_events=all_rows.loc[~all_rows._price_valid, '_event'].nunique(),
+                      missing_probability_events=all_rows.loc[unknown, '_event'].nunique(),
+                      duplicate_rows_removed=duplicates)
+        previews.append(record)
+        pools.append((group_id, groups, offered))
+    return pools, previews
+
+
+def expand_pools(pools, policy, name):
+    from .tickets import _settle
+    rows, members = [], []
+    for group_id, groups, offered in pools:
+        for positions in combinations(range(len(offered)), policy.legs):
+            legs = offered.iloc[list(positions)]
+            identity = json.dumps([name, group_id, sorted(legs._event.tolist())], separators=(',', ':'))
+            ticket_id = name + ':' + hashlib.sha256(identity.encode()).hexdigest()
+            odds = float(np.prod(legs.odds))
+            if not np.isfinite(odds):
+                raise ValueError('Combined odds overflow; reduce ticket size.')
+            state, payout = _settle(legs, policy, policy.stake)
+            probability = np.nan
+            if policy.probability_mode == 'independent' and 'p_win' in legs and legs.p_win.notna().all():
+                if (~np.isfinite(legs.p_win) | ~legs.p_win.between(0, 1)).any():
+                    raise ValueError('Leg probabilities must be between 0 and 1.')
+                probability = float(np.prod(legs.p_win))
+            rows.append(dict(ticket_id=ticket_id, bet=name, kind='single' if policy.legs == 1 else 'parlay',
+                             n_legs=policy.legs, kickoff_at=legs.kickoff_at.min(), last_kickoff_at=legs.kickoff_at.max(),
+                             take=True, stake=policy.stake, odds=odds, probability=probability,
+                             probability_assumption=policy.probability_mode, settlement=state,
+                             accounting_status='unresolved' if pd.isna(payout) else 'settled',
+                             payout=payout, profit=payout-policy.stake,
+                             **{k: legs[k].iloc[0] for k in groups}))
+            for position, (_, leg) in enumerate(legs.iterrows(), 1):
+                member = leg.drop(labels=['_group', '_event', '_price_valid']).to_dict()
+                members.append(dict(member, ticket_id=ticket_id, leg_number=position, template=name))
+    return rows, members
+
+
+def preview_combinations(ledger, composition, *, match_columns=('event_id',)):
+    """Exact post-filter counts without expanding tickets, including above limits.
+
+    Rows describe AllCombinations templates only. Exclusion counts can overlap.
+    Totals and per-template limit status are in DataFrame.attrs.
+    """
+    from .tickets import BetSlip
+    templates = composition.tickets if isinstance(composition, BetSlip) else {'tickets': composition}
+    rows, limits = [], {}
+    for name, policy in templates.items():
+        if isinstance(policy, AllCombinations):
+            _, preview = prepare_pools(ledger, policy, match_columns, name)
+            rows.extend(preview)
+            limits[name] = sum(int(r['ticket_count']) for r in preview) > policy.max_tickets
+    frame = pd.DataFrame(rows) if rows else pd.DataFrame(columns=[
+        'template', 'eligible_events', 'legs', 'ticket_count', 'expected_stake',
+        'input_events', 'not_selected_events', 'missing_price_events', 'missing_probability_events', 'duplicate_rows_removed'])
+    frame.attrs.update(total_tickets=sum(int(r['ticket_count']) for r in rows),
+                       total_stake=sum(r['expected_stake'] for r in rows), exceeded_limits=limits)
+    return frame

@@ -178,7 +178,7 @@ def default_catalog():
         'splits': ('split', 'TemporalSplit MatchKFold GroupKFold CPCV Fold SplitPlan'),
         'training': ('training', 'ProbabilityCalibrator TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
         'selection': ('selection', 'MetricSelection WeightedSelection ParsimonySelection FitStatistics'),
-        'evaluation': ('evaluation', 'Metric BetSpec BetOffer TightestLine HighestExpectedProfit Parlay BetSlip MultiBet'),
+        'evaluation': ('evaluation', 'Metric BetSpec BetOffer TightestLine HighestExpectedProfit BinaryDrawThreshold Parlay BetSlip MultiBet AllCombinations'),
         'reporting': ('reporter', 'HeatmapReporter ClassWeightReporter FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter BetOutcomeReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter CountClassificationReporter FeatureImportanceReporter MatchResultReporter TeamCatalog'),
     }
     for module, (category, names) in groups.items():
