@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from ..labels import BetOption
+from ..labels import BetOption, Outcome
 from .betting import BetSpec, _aligned
 from .probabilities import bet_probabilities, negative_binomial_bet_probabilities
 from ..odds.selection import OddsSeries
@@ -42,13 +42,27 @@ class HighestExpectedProfit:
     min_ev: float = 0.0
 
 
-def _option_probabilities(context, option, target, output):
+@dataclass(frozen=True)
+class BinaryDrawThreshold:
+    """Retain a draw offer when P(non-draw) <= the frozen threshold.
+
+    The predicted label must be this exact draw BetOption, with 1=draw and
+    0=non-draw. None selects every offered event (baseline), even when its
+    probability is missing. Finite valid prices remain mandatory. No EV cutoff,
+    ranking, tuning or independence assumption is applied.
+    """
+    max_non_draw_probability: float | None = None
+
+
+def _option_probabilities(context, option, target, output, *, binary_draw=False):
     frame = context.predictions.get(output)
     if frame is None:
         raise ValueError(f"Prediction output {output!r} is unavailable. Retain probabilities when training.")
     if not frame.index.equals(context.y.index):
         raise ValueError("Bet probabilities must align with prediction row identities.")
     if output == "count_distribution":
+        if binary_draw:
+            raise ValueError('BinaryDrawThreshold requires binary class probabilities.')
         if context.pooling == 'mean':
             # A mixture of NB predictions is not an NB at the average parameters.
             # Resolve each retained component first, then mix probabilities.
@@ -85,7 +99,18 @@ def _option_probabilities(context, option, target, output):
             subset = subset.loc[:, support]
         valid = subset.notna().all(axis=1)
         if valid.any():
-            result.loc[subset.index[valid]] = bet_probabilities(subset.loc[valid], option).to_numpy()
+            if binary_draw:
+                values = subset.loc[valid]
+                p = values.to_numpy(dtype=float)
+                if (not values.columns.is_unique or not len(values.columns) or
+                        not set(values.columns).issubset({0, 1}) or not np.isfinite(p).all() or
+                        (p < 0).any() or (p > 1).any() or not np.allclose(p.sum(axis=1), 1, atol=1e-6, rtol=0)):
+                    raise ValueError('Binary draw probabilities need numeric 0=non-draw, 1=draw classes summing to one.')
+                mapped = pd.DataFrame({'p_win': values.get(1, 0.), 'p_push': 0.,
+                                       'p_loss': values.get(0, 0.)}, index=values.index)
+            else:
+                mapped = bet_probabilities(subset.loc[valid], option)
+            result.loc[subset.index[valid]] = mapped.to_numpy()
     return result
 
 
@@ -96,13 +121,19 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
     prediction row. For team layouts that is one per team. Unknown probability
     rows are skipped explicitly. Odds are optional unless the policy uses EV.
     """
-    if not isinstance(policy, (TightestLine, HighestExpectedProfit)):
-        raise TypeError("Choose TightestLine or HighestExpectedProfit.")
-    if not np.isfinite(policy.min_probability) or not 0 <= policy.min_probability <= 1:
+    binary = isinstance(policy, BinaryDrawThreshold)
+    if not isinstance(policy, (TightestLine, HighestExpectedProfit, BinaryDrawThreshold)):
+        raise TypeError("Choose TightestLine, HighestExpectedProfit or BinaryDrawThreshold.")
+    if binary and policy.max_non_draw_probability is not None and (
+            isinstance(policy.max_non_draw_probability, bool) or not np.isfinite(policy.max_non_draw_probability)
+            or not 0 <= policy.max_non_draw_probability <= 1):
+        raise ValueError('max_non_draw_probability must be in [0, 1], or None for the unfiltered baseline.')
+    if not binary and (not np.isfinite(policy.min_probability) or not 0 <= policy.min_probability <= 1):
         raise ValueError("min_probability must be between 0 and 1.")
     if isinstance(policy, TightestLine) and (not np.isfinite(policy.max_probability_loss) or not 0 <= policy.max_probability_loss <= 1):
         raise ValueError("max_probability_loss must be between 0 and 1.")
-    if policy.min_ev is not None and not np.isfinite(policy.min_ev):
+    min_ev = None if binary else policy.min_ev
+    if min_ev is not None and not np.isfinite(min_ev):
         raise ValueError("min_ev must be finite or None.")
     if isinstance(policy, HighestExpectedProfit) and policy.min_ev is None:
         raise ValueError("HighestExpectedProfit requires a finite min_ev and decimal odds.")
@@ -114,7 +145,12 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
     offers = {name: offer if isinstance(offer, BetOffer) else BetOffer(**offer) for name, offer in offers.items()}
     source = next(iter(offers.values())).option.source
     definition = context.definitions.get('label')
-    if definition is not None and definition != source:
+    if binary:
+        option = next(iter(offers.values())).option
+        if (len(offers) != 1 or not isinstance(source, Outcome) or option.selection != 'draw'
+                or definition != option):
+            raise ValueError('BinaryDrawThreshold needs one draw offer and the exact draw BetOption as the predicted label.')
+    elif definition is not None and definition != source:
         raise ValueError("Bet options must use the same label source as the predicted target.")
     rows = []
     for order, (name, offer) in enumerate(offers.items()):
@@ -122,7 +158,7 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
             raise ValueError("Name each offer and use one common target source per reporter.")
         if isinstance(policy, TightestLine) and offer.option.selection not in {'under', 'over'}:
             raise ValueError("TightestLine supports over/under offers; use HighestExpectedProfit for other options.")
-        probabilities = _option_probabilities(context, offer.option, target, output)
+        probabilities = _option_probabilities(context, offer.option, target, output, binary_draw=binary)
         quote = default_odds if offer.odds is None else offer.odds
         quote_metadata = None
         if isinstance(quote, OddsSeries):
@@ -140,11 +176,19 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
                                      line=offer.option.line, odds=odds, stake=stake)
         table['description'] = offer.option.selection.title() + (f' {offer.option.line:g}' if offer.option.line is not None else '')
         table['expected_profit'] = table.p_win * (odds - 1) - table.p_loss
-        table['eligible'] = table.p_win.ge(policy.min_probability)
+        table['probability_abstention'] = (False if binary and policy.max_non_draw_probability is None
+                                          else table.p_win.isna())
+        table['eligible'] = (True if policy.max_non_draw_probability is None else
+                             table.p_loss.le(policy.max_non_draw_probability)) if binary else table.p_win.ge(policy.min_probability)
         table['reason'] = np.where(table.p_win.isna(), 'Probability unavailable',
                                    np.where(table.eligible, 'Eligible alternative', 'Below minimum probability'))
-        if policy.min_ev is not None:
-            accepted = table.expected_profit.ge(policy.min_ev)
+        if binary:
+            table['reason'] = np.where(table.eligible, 'Eligible alternative',
+                                      np.where(table.p_loss.isna(), 'Probability unavailable', 'Above non-draw threshold'))
+            table.loc[odds.isna(), 'reason'] = 'Missing odds'
+            table['eligible'] &= odds.notna()
+        if min_ev is not None:
+            accepted = table.expected_profit.ge(min_ev)
             table.loc[table.eligible & ~accepted, 'reason'] = 'Missing odds or below minimum expected profit'
             table['eligible'] &= accepted
         if quote_metadata is not None:
@@ -167,6 +211,8 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
                 if len(candidates):
                     finalists.append(candidates.sort_values(['line', 'order'], ascending=[side == 'under', True]).index[0])
             ranked = group.loc[finalists].sort_values(['p_win', 'order'], ascending=[False, True])
+        elif binary:
+            ranked = eligible.sort_values('order', kind='stable')
         else:
             ranked = eligible.sort_values(['expected_profit', 'order'], ascending=[False, True])
         if len(ranked):

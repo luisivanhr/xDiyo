@@ -8,6 +8,7 @@ import json
 
 import numpy as np
 import pandas as pd
+from .all_combinations import AllCombinations, prepare_pools, expand_pools, preview_combinations
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -109,9 +110,25 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
     if not isinstance(templates, dict) or not templates:
         raise ValueError("A BetSlip needs at least one named ticket template.")
     rows, members = [], []
+    prepared = {}
+    # Complete preflight for every whole-group template before any expansion.
     for name, policy in templates.items():
-        if not isinstance(name, str) or not name or not isinstance(policy, (Parlay, MultiBet)):
-            raise TypeError("Name each BetSlip entry and use a Parlay or MultiBet template.")
+        if isinstance(policy, AllCombinations):
+            pools, preview = prepare_pools(ledger, policy, match_columns, name)
+            count = sum(int(r['ticket_count']) for r in preview)
+            if count > policy.max_tickets:
+                raise ValueError(f'{name}: requested {count} tickets exceeds max_tickets={policy.max_tickets}; '
+                                 'reduce the eligible population/legs or deliberately increase max_tickets. '
+                                 'Use preview_combinations to inspect group counts.')
+            prepared[name] = pools
+    for name, policy in templates.items():
+        if not isinstance(name, str) or not name or not isinstance(policy, (Parlay, MultiBet, AllCombinations)):
+            raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
+        if isinstance(policy, AllCombinations):
+            new_rows, new_members = expand_pools(prepared[name], policy, name)
+            rows.extend(new_rows)
+            members.extend(new_members)
+            continue
         sizes = _validate(policy)
         if ledger.empty:
             continue

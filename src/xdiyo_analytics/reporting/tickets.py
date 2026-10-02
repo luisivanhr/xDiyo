@@ -3,7 +3,7 @@
 from html import escape
 import pandas as pd
 
-from ..evaluation.tickets import compose_bets
+from ..evaluation.tickets import compose_bets, preview_combinations
 from .contracts import Artifact
 from .teams import team_key
 
@@ -12,8 +12,10 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
     legs = result.tables['ledger']
     alternatives = result.tables.get('alternatives')
     if alternatives is not None:
-        fields = ['fold_id', 'row_position', 'bet', 'p_win', 'p_push', 'p_loss', 'expected_profit', 'description']
-        legs = legs.merge(alternatives[fields], on=['fold_id', 'row_position', 'bet'], how='left', validate='one_to_one')
+        fields = ['fold_id', 'row_position', 'bet', 'p_win', 'p_push', 'p_loss', 'expected_profit', 'description', 'reason']
+        if 'probability_abstention' in alternatives:
+            fields.append('probability_abstention')
+        legs = legs.merge(alternatives[fields].rename(columns={'reason':'decision_reason'}), on=['fold_id', 'row_position', 'bet'], how='left', validate='one_to_one')
     if fixture_table is not None and len(fixture_table):
         fields = ['fold_id', 'row_position', 'home_id', 'away_id', 'home', 'away', 'result']
         display = fixture_table[fields]
@@ -21,8 +23,15 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
             display, on=fields[:2], how='left', validate='many_to_one')
     tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns)
     result.tables.update(leg_ledger=legs, ledger=tickets, tickets=tickets, ticket_legs=membership, bet_metrics=metrics)
+    preview = preview_combinations(legs, composition, match_columns=context.match_columns)
+    if preview.attrs['exceeded_limits']:
+        result.tables['combination_preview'] = preview
+        result.artifacts.append(Artifact('table', preview, 'Whole-group combination counts'))
+        result.notes.append(f"Whole-group combinations: {preview.attrs['total_tickets']} tickets; "
+                            f"total stake {preview.attrs['total_stake']:g}. Exclusion counts may overlap. "
+                            'Each combination is staked once; shared events across tickets are intentional.')
     result.notes.extend([
-        'Ticket stakes replace leg stakes. Each BetSlip template places separate bets; incomplete batches are omitted.',
+        'Ticket stakes replace leg stakes. Each BetSlip template places separate bets. Parlay/MultiBet omit incomplete batches; AllCombinations uses whole eligible groups.',
         'Probabilities stay blank unless independence is explicitly selected. Quoted odds multiply; removed push/void legs contribute odds 1 at settlement.',
         'All leg predictions must be available before the first kickoff for prospective use. Groups stay within fold occurrences; calendar days use UTC.',
     ])
@@ -45,8 +54,9 @@ def ticket_html(tickets, membership, teams):
     if tickets.empty:
         return '<p>No complete tickets in the selected groups. Reduce the leg count or select more fixtures.</p>'
     panels = []
+    membership_positions = membership.groupby('ticket_id', sort=False).indices
     for record in tickets.to_dict('records'):
-        legs = membership.loc[membership.ticket_id.eq(record['ticket_id'])]
+        legs = membership.iloc[membership_positions[record['ticket_id']]]
         color = {'win':'#58c7b2', 'loss':'#ed7975'}.get(record['settlement'], '#9eb0c5')
         header = (f"{escape(record['ticket_id'])} · {record['n_legs']} leg(s) · {escape(record['settlement'])}"
                   f" · Stake {fmt(record['stake'])}")
