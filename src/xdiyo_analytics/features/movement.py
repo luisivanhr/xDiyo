@@ -2,9 +2,10 @@
 from dataclasses import dataclass
 from collections.abc import Mapping
 import pandas as pd
+import numpy as np
 
 from .expressions import Expr
-from .transitions import _validate_record_flags, TransitionContext
+from .transitions import TransitionContext
 
 
 @dataclass(frozen=True)
@@ -47,24 +48,35 @@ def movement_records(history, supplied=None):
         pc, ps = record.get('previous_competition_id'), record.get('previous_season_id')
         if pd.isna(pc) != pd.isna(ps):
             raise ValueError('Supply both predecessor IDs or explicitly null both.')
-        pc, ps = record.get('previous_competition_id'), record.get('previous_season_id')
-        if pd.isna(pc) != pd.isna(ps):
-            raise ValueError('Supply both predecessor IDs or explicitly null both.')
         movement = record.get('movement')
         if movement is None or pd.isna(movement):
-            promoted, relegated = record.get('got_promoted'), record.get('got_demoted')
-            if pd.notna(promoted) and bool(promoted):
-                movement = 'promoted'
-            elif pd.notna(relegated) and bool(relegated):
-                movement = 'relegated'
-            else:
-                movement = 'unknown'
+            movement = 'unknown'
         if movement not in ('promoted', 'relegated', 'retained', 'other_entry', 'unknown'):
             raise ValueError(f'Unknown season movement: {movement}')
-        record['movement'] = movement
-        _validate_record_flags(record)
+        known_status = movement != 'unknown'
         for field, label in [('got_promoted', 'promoted'), ('got_demoted', 'relegated')]:
-            record[field] = None if movement == 'unknown' else movement == label
+            # A status-only record can define omitted flags. An explicitly
+            # supplied null flag is independent missing evidence and stays null.
+            value = record.get(field, movement == label if known_status else None)
+            if pd.isna(value):
+                value = None
+            elif not isinstance(value, (bool, np.bool_)):
+                raise ValueError(f'{field} must be a boolean or missing.')
+            elif known_status and bool(value) != (movement == label):
+                raise ValueError(f'{field} contradicts movement={movement!r}.')
+            else:
+                value = bool(value)
+            record[field] = value
+        if record['got_promoted'] is True and record['got_demoted'] is True:
+            raise ValueError('A team cannot be both promoted and relegated.')
+        record['movement_basis'] = 'status' if known_status else 'flags'
+        if not known_status:
+            if record['got_promoted'] is True:
+                movement = 'promoted'
+            elif record['got_demoted'] is True:
+                movement = 'relegated'
+            # Known negative flags alone never establish retention/admin status.
+        record['movement'] = movement
     return records
 
 
@@ -79,6 +91,19 @@ def statistical_context(base, supplied=None):
             for name in ('previous_competition_id', 'previous_season_id'):
                 if name not in evidence:
                     record[name] = None
+        # The shared legacy validator assumes a complete status/flag pairing.
+        # New independent flag evidence was validated above. Pass status and
+        # identities through it, then restore the exact nullable flags below.
+        record.pop('got_promoted', None)
+        record.pop('got_demoted', None)
         records.append(record)
-    return TransitionContext(base.history, team_seasons=records, season_starts=base.anchors,
-                             population=base.population)
+    context = TransitionContext(base.history, team_seasons=records, season_starts=base.anchors,
+                                population=base.population)
+    for key, record in context.records.items():
+        for field in ('got_promoted', 'got_demoted'):
+            record[field] = resolved[key][field]
+    # Authoritative records can describe a donor not present in target fixtures.
+    # Keep all of them for eligibility, audit and fingerprinting, independently
+    # of TransitionContext's observed-row index. Ratings do not use this path.
+    context.movement_evidence = resolved
+    return context

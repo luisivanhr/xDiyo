@@ -93,11 +93,12 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     movement_evidence = None
 
     def stat_context():
-        nonlocal stat_transitions
+        nonlocal stat_transitions, movement_evidence
         if stat_transitions is None:
             base = TransitionContext(history, cutoffs=cutoffs, available_at=available_at,
                                      season_starts=season_starts)
             stat_transitions = statistical_context(base, team_seasons)
+            movement_evidence = stat_transitions.movement_evidence
         return stat_transitions
 
     def transition_context():
