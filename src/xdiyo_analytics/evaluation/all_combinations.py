@@ -1,6 +1,7 @@
 """Whole-group ticket expansion, counted completely before materialization."""
 
 from dataclasses import dataclass
+from decimal import Decimal, localcontext
 from itertools import combinations
 from math import comb
 import hashlib
@@ -31,6 +32,29 @@ class AllCombinations:
 
 def _identity(values):
     return json.dumps([str(v) for v in values], ensure_ascii=False, separators=(',', ':'))
+
+
+def _stake_preview(terms):
+    """Float for ordinary totals; exact finite Decimal beyond float range.
+
+    Each term is (exact ticket count, per-ticket stake). Decimal precision is
+    sized to the inputs so even previews far above the expansion cap are safe.
+    """
+    amounts = []
+    for count, stake in terms:
+        value = Decimal(str(stake))
+        with localcontext() as ctx:
+            ctx.prec = max(28, len(str(count)) + len(value.as_tuple().digits))
+            amounts.append(Decimal(count) * value)
+    if not amounts:
+        return 0.0
+    with localcontext() as ctx:
+        ctx.prec = max(28, max(v.adjusted() for v in amounts)
+                       - min(v.as_tuple().exponent for v in amounts)
+                       + len(str(len(amounts))) + 2)
+        total = sum(amounts, Decimal(0))
+    number = float(total)
+    return number if np.isfinite(number) else total
 
 
 def prepare_pools(ledger, policy, match_columns, name):
@@ -95,7 +119,7 @@ def prepare_pools(ledger, policy, match_columns, name):
         unknown = all_rows.get('probability_abstention', unknown).fillna(False).astype(bool)
         record = {k: all_rows[k].iloc[0] for k in groups}
         record.update(template=name, eligible_events=n, legs=policy.legs, ticket_count=count,
-                      expected_stake=count * policy.stake, input_events=all_rows._event.nunique(),
+                      expected_stake=_stake_preview([(count, policy.stake)]), input_events=all_rows._event.nunique(),
                       not_selected_events=all_rows.loc[~all_rows['take'], '_event'].nunique(),
                       missing_price_events=all_rows.loc[~all_rows._price_valid, '_event'].nunique(),
                       missing_probability_events=all_rows.loc[unknown, '_event'].nunique(),
@@ -143,15 +167,23 @@ def preview_combinations(ledger, composition, *, match_columns=('event_id',)):
     """
     from .tickets import BetSlip
     templates = composition.tickets if isinstance(composition, BetSlip) else {'tickets': composition}
-    rows, limits = [], {}
+    rows, limits, stake_terms = [], {}, []
     for name, policy in templates.items():
         if isinstance(policy, AllCombinations):
             _, preview = prepare_pools(ledger, policy, match_columns, name)
             rows.extend(preview)
+            stake_terms.extend((int(r['ticket_count']), policy.stake) for r in preview)
             limits[name] = sum(int(r['ticket_count']) for r in preview) > policy.max_tickets
-    frame = pd.DataFrame(rows) if rows else pd.DataFrame(columns=[
+    # Object columns prevent pandas from coercing enormous integers to floats;
+    # ordinary previews retain their usual numeric dtypes.
+    object_columns = {key for key in ('ticket_count', 'expected_stake')
+                      if any(isinstance(r[key], Decimal) or
+                             (key == 'ticket_count' and r[key] > 2**63-1) for r in rows)}
+    frame = pd.DataFrame({key: pd.Series([r.get(key, np.nan) for r in rows],
+        dtype=object if key in object_columns else None)
+        for key in dict.fromkeys(k for row in rows for k in row)}) if rows else pd.DataFrame(columns=[
         'template', 'eligible_events', 'legs', 'ticket_count', 'expected_stake',
         'input_events', 'not_selected_events', 'missing_price_events', 'missing_probability_events', 'duplicate_rows_removed'])
     frame.attrs.update(total_tickets=sum(int(r['ticket_count']) for r in rows),
-                       total_stake=sum(r['expected_stake'] for r in rows), exceeded_limits=limits)
+                       total_stake=_stake_preview(stake_terms), exceeded_limits=limits)
     return frame

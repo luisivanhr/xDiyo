@@ -88,6 +88,12 @@ or truncated. Preview remains available above the limit. Reduce the eligible
 population, change the size, or deliberately raise the limit. A BetSlip with
 several templates adds their respective counts and stakes.
 
+Preview counts remain exact Python integers even beyond floating-point range.
+Ordinary expected stakes and total stakes are floats; amounts beyond that range
+are finite `decimal.Decimal` values, never infinity. Zero stakes remain zero
+even for enormous counts. These are preview amounts only: the complete ticket
+count still passes through the expansion limit before materialization.
+
 ## Binary draw filtering
 
 The predicted label is the exact native draw option:
@@ -175,12 +181,22 @@ only writes configurations, never prepares, trains, predicts or places bets.
 Run from the repository root in PowerShell, using the project Python environment:
 
 ```powershell
-$env:PYTHONPATH='src;tests/analytics'
-python -m pytest tests/analytics/test_all_combinations.py tests/analytics/test_ui_all_combinations.py tests/analytics/test_ui_odds_roundtrip.py tests/analytics/test_bet_tickets.py tests/analytics/test_bet_outcomes.py tests/analytics/test_post_training_betting.py tests/analytics/test_labels.py tests/analytics/test_ui_inventory.py::test_saved_inventory_has_widgets_help_and_packaged_file tests/analytics/test_ui_inventory.py::test_known_form_schemas_use_saved_inventory_without_signature_inspection tests/analytics/test_ui_inventory.py::test_schema_reads_are_isolated_from_persistent_defaults -k 'not ui_ticket_changes and not nb_pipeline_retains and not ui_classifier_retains' -q -p no:cacheprovider --tb=short
+$env:PYTHONPATH='.;src;tests/analytics'
+python -m pytest tests/analytics/test_all_combinations.py tests/analytics/test_ui_all_combinations.py tests/analytics/test_ui_odds_roundtrip.py tests/analytics/test_bet_tickets.py tests/analytics/test_bet_outcomes.py tests/analytics/test_post_training_betting.py tests/analytics/test_labels.py tests/analytics/test_odds_adapter.py tests/analytics/test_ui_inventory.py::test_saved_inventory_has_widgets_help_and_packaged_file tests/analytics/test_ui_inventory.py::test_known_form_schemas_use_saved_inventory_without_signature_inspection tests/analytics/test_ui_inventory.py::test_schema_reads_are_isolated_from_persistent_defaults -k 'not ui_ticket_changes and not nb_pipeline_retains and not ui_classifier_retains' -q -p no:cacheprovider --tb=short
 ```
 
-Verified on 2 October 2026: **186 passed, 3 deselected**. The three excluded
+Verified after the review fixes on 2 October 2026: **214 passed, 0 failed,
+3 deselected** in 20.06 seconds. This includes **3 passing actual Chromium UI
+tests** using the existing Playwright fixtures (Browser plugin unavailable).
+The three excluded
 tests fit models; this verification used synthetic retained predictions,
 ledgers, quotes and browser controls without fitting models or running the
 research experiment. It covers native settlement, exact previews, binary class
 semantics, stage isolation, report totals, recipe exports and preserved odds pins.
+
+The review regressions cover two and three retained folds, different per-fold
+binary class supports, unchanged inclusive thresholds, missing probabilities and
+prices, and overall outcome-to-performance reporting with exact fold-isolated
+ticket memberships. Extreme-count tests use 1,100 events and 550 legs, including
+zero stakes and multiple groups, and forbid expansion to verify the guard runs
+first. Aggregate stake overflow and mixed stage-column templates are covered too.
