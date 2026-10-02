@@ -181,6 +181,12 @@ exists; omitted predecessor fields permit normal adjacent-season inference.
 Both predecessor IDs must be supplied together or both null. Warm-up remains
 opt-in, and no stale-season policy is implicitly enabled.
 
+For a list of record dictionaries, omission is interpreted separately for each
+team: another team's explicit null predecessor does not suppress inference for
+a record that omits those fields. In a DataFrame, every column has a cell on
+every row; null predecessor cells explicitly disable that predecessor. Use
+record dictionaries when mixing omitted fields with explicit nulls.
+
 ## Review repair, 2 October 2026
 
 All 46 outdated source-reference rows in Championship 2016/17 and La Liga 2

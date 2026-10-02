@@ -180,8 +180,9 @@ zero and one are valid. Invalid evidence raises even if another leg is missing.
 Only `take=True` legs with finite odds greater than one enter candidate pools;
 nonnumeric quotes raise. No market-implied or closing-price fallback is added.
 
-Combined odds and payout overflow still raise. Enabled filters also reject
-unrepresentable aggregate selected stakes, payouts or profits. With the filter enabled, a
+Combined odds and payout overflow still raise. The combined placed ledger also
+rejects unrepresentable total stakes, payouts or profits across all BetSlip
+templates, including mixed and filter-disabled templates. With the filter enabled, a
 strictly positive probability product below the smallest normal float (including
 underflow to zero) raises an unrepresentable-valuation error. An actual zero
 probability remains valid. Nonfinite EV raises; comparison uses the computed
@@ -201,6 +202,13 @@ depend on template, group and event membership, so a changed threshold does not
 rename surviving tickets. Rejections carry no actual stake, payout or profit.
 The reporters export two additional ordinary tables, also available internally
 as record lists in `tickets.attrs` for direct `compose_bets` callers:
+
+These attributes survive Parquet save/load with all candidate and rejection
+evidence intact. Integer identities remain exact Python integers; missing
+evidence uses JSON null. Candidate stake previews beyond floating-point range
+use exact decimal text. Reporters retain the audits as separate ordinary tables
+as well. Numeric probabilities in float, nullable-float, or object columns are
+accepted consistently; strings and booleans are not coerced into probabilities.
 
 - `ticket_candidates`: template/group/fold, stable ticket ID, JSON fixture
   membership, joint probability, odds, unit `expected_profit`, threshold,
@@ -311,3 +319,29 @@ prices, and overall outcome-to-performance reporting with exact fold-isolated
 ticket memberships. Extreme-count tests use 1,100 events and 550 legs, including
 zero stakes and multiple groups, and forbid expansion to verify the guard runs
 first. Aggregate stake overflow and mixed stage-column templates are covered too.
+
+### Readiness review regression checks
+
+The follow-up to the `085e470` review fixes Parquet serialization of ticket audit
+attributes, numeric-object probability inputs, combined BetSlip accounting
+overflow, and mixed-record warm-up predecessor handling. Focused verification:
+**323 passed, 3 fitting tests deselected**.
+
+```powershell
+$env:PYTHONPATH='.;src;tests/analytics'
+& 'C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe' -m pytest tests/analytics/test_ticket_ev.py tests/analytics/test_transition_context.py tests/analytics/test_all_combinations.py tests/analytics/test_bet_tickets.py tests/analytics/test_bet_outcomes.py tests/analytics/test_post_training_betting.py tests/analytics/test_warmup.py tests/analytics/test_rating_transitions.py tests/analytics/test_movement_review.py tests/analytics/test_movement_enrichment.py -k 'not ui_ticket_changes and not nb_pipeline_retains and not ui_classifier_retains' -q -p no:cacheprovider --tb=short
+```
+
+Parquet regressions cover disabled/enabled filters, all-rejected pools, missing
+probabilities, exact unsigned integer identities, every exported report table,
+and saved outcome-to-performance reuse without recomposition.
+
+Separately, the historical `native_draw_report.py` helper's actual
+`write_bundle`/`load_bundle` path passed with three synthetic strategies in each
+mode: six tickets with EV disabled and four with EV enabled. Tables and audit
+attributes survived exactly, the native profit reporter reproduced its tables,
+and a corrupted saved table was rejected. Helper SHA256:
+`09e5cc6398ba6ba721c0c5b076028a1824a9388dc23ca9f0789955626f94885a`.
+This used fresh temporary bundles, not historical research results. No models
+were fitted or calibrated, and no production experiment or browser flow was run
+for this follow-up; the existing UI configuration is unchanged.

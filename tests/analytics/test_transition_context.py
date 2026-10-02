@@ -103,6 +103,28 @@ def test_explicit_null_predecessor_is_authoritative_even_with_adjacent_history()
     assert pd.isna(TransitionContext(history,team_seasons=records).record(4)['previous_season_id'])
 
 
+@pytest.mark.parametrize('reverse', [False, True])
+def test_mixed_record_presence_does_not_change_another_teams_warmup(reverse):
+    from xdiyo_analytics.features import evaluate_features, WarmStart, RollingMean, SeededEMA
+    history = history_from_games(warm_games())
+    omitted = dict(competition_id=10, season_id=2, team_id=A, movement='retained')
+    explicit_null = dict(competition_id=10, season_id=2, team_id=B, movement='retained',
+                         previous_competition_id=None, previous_season_id=None)
+    records = [omitted, explicit_null][::(-1 if reverse else 1)]
+    context = TransitionContext(history, team_seasons=records)
+    assert context.record(4)['previous_season_id'] == 1
+    assert context.record(5)['previous_season_id'] is None
+    features = {'warm': WarmStart(RollingMean(STAT, 2), SeededEMA())}
+    alone = evaluate_features(history, features, team_seasons=[omitted])
+    mixed = evaluate_features(history, features, team_seasons=records)
+    assert mixed.warm.iloc[4] == alone.warm.iloc[4] == 3.
+    # In an already-tabular input, missing cells are explicitly null.
+    table = pd.DataFrame(records, dtype=object)
+    assert pd.isna(TransitionContext(history, team_seasons=table).record(4)['previous_season_id'])
+    columns = table.to_dict('list')
+    assert pd.isna(TransitionContext(history, team_seasons=columns).record(4)['previous_season_id'])
+
+
 @pytest.mark.parametrize('kind', ['duplicate_movements', 'duplicate_starts', 'invalid_movement'])
 def test_ambiguous_context_tables_are_rejected(kind):
     history = history_from_games(warm_games())

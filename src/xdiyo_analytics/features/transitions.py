@@ -1,5 +1,7 @@
 """Shared season-entry context; policies decide how to use it."""
 
+from collections.abc import Mapping
+
 from .league import LeaguePopulation
 
 
@@ -135,11 +137,16 @@ class TransitionContext:
             self.predecessors[key] = max(previous, key=self.anchors.get) if previous else None
         supplied = {}
         if team_seasons is not None:
-            table = pd.DataFrame(team_seasons, dtype=object)
+            # Preserve omitted keys in individual records. A DataFrame has
+            # explicit cells for every column, so null cells remain authoritative.
+            records = (pd.DataFrame(team_seasons, dtype=object).to_dict('records')
+                       if isinstance(team_seasons, (pd.DataFrame, Mapping))
+                       else list(team_seasons))
+            table = pd.DataFrame(records, dtype=object)
             keys = ["competition_id", "season_id", "team_id"]
             if table.duplicated(keys).any():
                 raise ValueError("team_seasons must be unique per competition-season-team.")
-            supplied = {tuple(r[k] for k in keys): r for r in table.to_dict("records")}
+            supplied = {tuple(r[k] for k in keys): r for r in records}
         self.records = {}
         for key, rows in self.groups.items():
             previous = self.predecessors[key]

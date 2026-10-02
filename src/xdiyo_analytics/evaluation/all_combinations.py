@@ -120,8 +120,8 @@ def prepare_pools(ledger, policy, match_columns, name):
     previews, pools = [], []
     for group_id, all_rows in data.groupby('_group', sort=True):
         offered = all_rows.loc[all_rows['take'] & all_rows._price_valid].copy()
-        if policy.min_ev is not None:
-            for field in ('p_win', 'p_push'):
+        if policy.min_ev is not None or policy.probability_mode == 'independent':
+            for field in (('p_win', 'p_push') if policy.min_ev is not None else ('p_win',)):
                 if field not in offered:
                     continue
                 supplied = offered[field].dropna()
@@ -132,6 +132,9 @@ def prepare_pools(ledger, policy, match_columns, name):
                     raise ValueError(f'Ticket EV {field} probabilities must be numeric, finite and between 0 and 1.')
                 if field == 'p_push' and numeric.ne(0).any():
                     raise ValueError('Ticket EV supports win/loss probabilities only; nonzero p_push is unsupported.')
+                # Use the validated numeric values during expansion, including
+                # object/nullable columns. Missing values must remain abstentions.
+                offered[field] = offered[field].map(lambda v: float(v) if pd.notna(v) else np.nan)
         duplicates = 0
         # Compare all semantic evidence. Row positions are occurrence bookkeeping;
         # derived accounting values must never choose a leg.
