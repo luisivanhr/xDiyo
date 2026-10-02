@@ -269,3 +269,125 @@ def test_native_opening_odds_binary_recipe_and_performance_source(tmp_path):
         assert after.tables['combination_preview'].missing_price_events.tolist()==[1]
         assert after.tables['ledger'].cumulative_known_profit.iloc[-1]==before.tables['tickets'].profit.sum()
         assert before.tables['ticket_legs'].quote_snapshot_hash.eq(odds.snapshot_hash).all()
+
+
+@pytest.mark.parametrize('fold_ids', [[4,4,9,9,9], [4,4,9,9,12]])
+@pytest.mark.parametrize('threshold', [None,.5])
+def test_binary_decisions_preserve_full_frame_across_folds(fold_ids, threshold):
+    ctx,option,_=binary_context()
+    index=pd.MultiIndex.from_arrays([fold_ids,range(5)],names=['fold_id','row_position'])
+    ctx.y.index=ctx.metadata.index=ctx.predictions['predict_proba'].index=index
+    odds=pd.Series([2.,3.,4.,5.,np.nan],index=index)
+    _,table=prepare_bets(ctx,{'draw':BetOffer(option,odds)},BinaryDrawThreshold(threshold))
+    assert table['take'].tolist()==([True,True,True,True,False] if threshold is None
+                                    else [True,True,False,False,False])
+    np.testing.assert_allclose(table.p_win,[.8,.5,.4,np.nan,.9],equal_nan=True)
+    assert table.fold_id.tolist()==fold_ids
+    assert table.row_position.tolist()==list(range(5))
+
+
+@pytest.mark.parametrize('threshold,expected', [(None,{4:6,9:6,12:6}),(.5,{4:1,9:3,12:0})])
+def test_binary_multiple_fold_support_and_native_pooled_reports(threshold,expected):
+    from xdiyo_analytics.analysis import PostTrainingAnalysis
+    from test_post_training_betting import as_training
+    ctx,option,labels=binary_context()
+    training=as_training(ctx,repeat=True)
+    training.folds.append(deepcopy(training.folds[-1]))
+    training.folds[-1].fold_id=12
+    # Different declared supports after the first fold: only draw, then only
+    # non-draw. Concatenation NaNs outside that support are not missing evidence.
+    for fold,support in zip(training.folds[1:],[1,0]):
+        frame=fold.predictions['predict_proba']
+        fold.predictions['predict_proba']=pd.DataFrame(
+            [1.,1.,1.,np.nan,1.],index=frame.index,
+            columns=pd.MultiIndex.from_tuples([('draw',support)]))
+    # Disjoint evaluation fixtures, as in retained annual folds. Repeated bets
+    # on the same fixture across folds require a separate explicit pooling rule.
+    label_parts=[]
+    for number,fold in enumerate(training.folds):
+        offset=number*5
+        positions=pd.Index(np.arange(5)+offset,name='row_position')
+        fold.test_positions=fold.score_positions=positions.to_numpy()
+        fold.y_true.index=fold.metadata.index=positions
+        fold.metadata['event_id']=fold.metadata.event_id+offset
+        for frame in fold.predictions.values():
+            frame.index=positions
+        label_parts.append(fold.metadata.reset_index(drop=True))
+    labels['draw'].metadata=pd.concat(label_parts,ignore_index=True)
+    labels['draw'].y=pd.concat([labels['draw'].y]*3,ignore_index=True)
+    labels['draw'].settlement=pd.concat([labels['draw'].settlement]*3,ignore_index=True)
+    training.definitions=deepcopy(ctx.definitions)
+    odds=pd.Series([2.,3.,4.,5.,np.nan]*3,
+        index=pd.MultiIndex.from_frame(labels['draw'].metadata[list(KEYS)]))
+    decision=BetOutcomeReporter(type='overall',partition='test',pooling='occurrences',
+        offers={'draw':BetOffer(option,odds)},labels=labels,
+        policy=BinaryDrawThreshold(threshold),composition=AllCombinations(),show_badges=False)
+    report=PostTrainingAnalysis({'decisions':decision,'performance':BetPerformanceReporter(
+        type='overall',partition='test',pooling='occurrences',source='decisions')}).run(training)
+    before,after=[study.result for study in report.studies]
+    masks=before.tables['alternatives'].groupby('fold_id')['take'].agg(list).to_dict()
+    assert masks==({fold:[True,True,True,True,False] for fold in (4,9,12)} if threshold is None
+                  else {4:[True,True,False,False,False],9:[True,True,True,False,False],12:[False]*5})
+    tickets=before.tables['tickets']
+    assert tickets.groupby('fold_id').size().reindex([4,9,12],fill_value=0).to_dict()==expected
+    members=before.tables['ticket_legs']
+    assert members.groupby('ticket_id').fold_id.nunique().eq(1).all()
+    assert members.groupby('ticket_id').event_id.nunique().eq(2).all()
+    from itertools import combinations
+    for fold in training.folds:
+        eligible=fold.metadata.event_id.iloc[np.flatnonzero(masks[fold.fold_id])].tolist()
+        actual={tuple(sorted(group.event_id.tolist())) for _,group in
+                members.loc[members.fold_id==fold.fold_id].groupby('ticket_id')}
+        assert actual==set(combinations(sorted(eligible),2))
+    for key in ['tickets','ticket_legs','combination_preview']:
+        pd.testing.assert_frame_equal(before.tables[key],after.tables[key])
+    assert after.tables['ledger'].cumulative_known_profit.iloc[-1]==tickets.profit.sum()
+
+
+@pytest.mark.parametrize('stake',[1.,0.,.25])
+@pytest.mark.parametrize('groups',[1,2])
+def test_extreme_counts_preview_and_guard_without_expansion(monkeypatch,stake,groups):
+    from decimal import Decimal, localcontext
+    import xdiyo_analytics.evaluation.tickets as module
+    data=pd.concat([sample(1100).assign(round=i,event_id=lambda x:x.event_id+i*10000)
+                    for i in range(groups)],ignore_index=True)
+    policy=AllCombinations(legs=550,stake=stake)
+    count=comb(1100,550)
+    preview=preview_combinations(data,policy)
+    assert preview.ticket_count.tolist()==[count]*groups
+    assert preview.attrs['total_tickets']==groups*count
+    assert preview.attrs['exceeded_limits']=={'tickets':True}
+    with localcontext() as ctx:
+        ctx.prec=400
+        amount=Decimal(count)*Decimal(str(stake))
+        assert preview.expected_stake.tolist()==[amount]*groups
+        assert preview.attrs['total_stake']==amount*groups
+    assert all(value.is_finite() if isinstance(value,Decimal) else np.isfinite(value)
+               for value in [*preview.expected_stake,preview.attrs['total_stake']])
+    def forbidden(*args):
+        raise AssertionError('Expansion began before count validation')
+    monkeypatch.setattr(module,'expand_pools',forbidden)
+    with pytest.raises(ValueError,match=f'requested {count*groups}.*max_tickets=100000'):
+        compose_bets(data,policy)
+
+
+def test_preview_total_stake_can_exceed_float_range_with_finite_group_stakes():
+    from decimal import Decimal
+    data=sample(2).assign(round=[1,2])
+    preview=preview_combinations(data,AllCombinations(legs=1,stake=1e308))
+    assert preview.expected_stake.tolist()==[1e308,1e308]
+    assert pd.api.types.is_float_dtype(preview.expected_stake)
+    assert preview.attrs['total_stake']==Decimal('2e308')
+    assert preview.attrs['total_stake'].is_finite()
+
+
+def test_preview_preserves_distinct_stage_columns_between_templates():
+    data=sample(4).assign(stage_id=7)
+    preview=preview_combinations(data,BetSlip({
+        'tournament':AllCombinations(), 'stage':AllCombinations(stage_column='stage_id')}))
+    assert preview.attrs['total_tickets']==12
+    assert preview.attrs['total_stake']==12.
+    assert preview.tournament_id.tolist()[0]==50
+    assert pd.isna(preview.tournament_id.iloc[1])
+    assert pd.isna(preview.stage_id.iloc[0])
+    assert preview.stage_id.iloc[1]==7

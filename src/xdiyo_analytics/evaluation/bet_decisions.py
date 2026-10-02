@@ -100,14 +100,14 @@ def _option_probabilities(context, option, target, output, *, binary_draw=False)
         valid = subset.notna().all(axis=1)
         if valid.any():
             if binary_draw:
-                values = subset.loc[valid]
-                p = values.to_numpy(dtype=float)
-                if (not values.columns.is_unique or not len(values.columns) or
-                        not set(values.columns).issubset({0, 1}) or not np.isfinite(p).all() or
+                valid_rows = subset.loc[valid]
+                p = valid_rows.to_numpy(dtype=float)
+                if (not valid_rows.columns.is_unique or not len(valid_rows.columns) or
+                        not set(valid_rows.columns).issubset({0, 1}) or not np.isfinite(p).all() or
                         (p < 0).any() or (p > 1).any() or not np.allclose(p.sum(axis=1), 1, atol=1e-6, rtol=0)):
                     raise ValueError('Binary draw probabilities need numeric 0=non-draw, 1=draw classes summing to one.')
-                mapped = pd.DataFrame({'p_win': values.get(1, 0.), 'p_push': 0.,
-                                       'p_loss': values.get(0, 0.)}, index=values.index)
+                mapped = pd.DataFrame({'p_win': valid_rows.get(1, 0.), 'p_push': 0.,
+                                       'p_loss': valid_rows.get(0, 0.)}, index=valid_rows.index)
             else:
                 mapped = bet_probabilities(subset.loc[valid], option)
             result.loc[subset.index[valid]] = mapped.to_numpy()
