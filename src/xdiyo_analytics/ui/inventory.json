@@ -334,6 +334,28 @@
       "fields": [],
       "accepts_extra": false
     },
+    "features.TeamMovement": {
+      "id": "features.TeamMovement",
+      "title": "TeamMovement",
+      "category": "feature",
+      "description": "A known 0/1/missing focal-team flag; administrative entry is not retained.",
+      "fields": [
+        {
+          "name": "movement",
+          "title": "Movement",
+          "required": false,
+          "kind": "select",
+          "default": "promoted",
+          "help": "Known season-entry flag for this team: 1 yes, 0 no, missing when unknown. Administrative entry can be 0/0 without being retained.",
+          "choices": [
+            "promoted",
+            "relegated"
+          ],
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.NormalizedStanding": {
       "id": "features.NormalizedStanding",
       "title": "NormalizedStanding",
@@ -5894,8 +5916,13 @@
           "required": false,
           "kind": "number",
           "default": 0.5,
-          "help": "Blend a moving team’s previous mean toward its destination league prior. 0 keeps its old mean; 1 uses the league prior.",
+          "help": "Legacy only. In explicit modes this field is inactive: uniform never mixes cohorts, while league-prior mode fully replaces the mover seed.",
           "step": "any",
+          "visible_when": {
+            "mode": [
+              "legacy"
+            ]
+          },
           "primary": true
         },
         {
@@ -5918,7 +5945,133 @@
             "source_league",
             "source_season"
           ],
-          "primary": false
+          "primary": true
+        },
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "legacy",
+          "help": "Legacy preserves old recipes. Uniform seeds from the team’s final eligible pre-break rolling window. With league prior replaces a mover’s seed with an equal-team destination cohort.",
+          "choices": [
+            {
+              "value": "legacy",
+              "label": "Legacy (unchanged)"
+            },
+            {
+              "value": "uniform",
+              "label": "Uniform — own rolling state"
+            },
+            {
+              "value": "w_league_prior",
+              "label": "With league prior — mover cohort"
+            }
+          ],
+          "primary": true
+        },
+        {
+          "name": "bottom",
+          "title": "Bottom",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Promoted teams use the bottom destination-league cohort, ranked by eligible previous-season pregame standings. Positive integer or -1 for all eligible donors; 0 is invalid.",
+          "step": 1,
+          "visible_when": {
+            "mode": [
+              "w_league_prior"
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "top",
+          "title": "Top",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Relegated teams use the top destination-league cohort, ranked by eligible previous-season pregame standings. Positive integer or -1 for all eligible donors; 0 is invalid.",
+          "step": 1,
+          "visible_when": {
+            "mode": [
+              "w_league_prior"
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "variance_prior",
+          "title": "Variance prior",
+          "required": false,
+          "kind": "select",
+          "default": "within_team",
+          "help": "Average donor within-team variances, never standard deviations. No between-team mean-difference term.",
+          "choices": [
+            "within_team"
+          ],
+          "visible_when": {
+            "mode": [
+              "uniform",
+              "w_league_prior"
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "variance_estimator",
+          "title": "Variance estimator",
+          "required": false,
+          "kind": "select",
+          "default": "population",
+          "help": "For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength.",
+          "choices": [
+            "population",
+            "weighted_sample"
+          ],
+          "visible_when": {
+            "mode": [
+              "uniform",
+              "w_league_prior"
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "prior_strength",
+          "title": "Prior strength",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Explicit effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.",
+          "step": "any",
+          "visible_when": {
+            "mode": [
+              "w_league_prior"
+            ],
+            "variance_estimator": [
+              "weighted_sample"
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "variance_fade",
+          "title": "Variance fade",
+          "required": false,
+          "kind": "select",
+          "default": "estimate_interpolation",
+          "help": "Blend compatible variance estimates, then take the square root. This is not a mixture of distributions.",
+          "choices": [
+            "estimate_interpolation"
+          ],
+          "visible_when": {
+            "mode": [
+              "uniform",
+              "w_league_prior"
+            ]
+          },
+          "primary": true
         }
       ],
       "accepts_extra": false
@@ -5935,7 +6088,7 @@
           "required": false,
           "kind": "number",
           "default": 1,
-          "help": "Number of rounds for this setting. For prediction, choose the upcoming rounds to align.",
+          "help": "Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.",
           "step": 1,
           "primary": true
         }
@@ -5964,7 +6117,7 @@
           "required": false,
           "kind": "number",
           "default": 2,
-          "help": "Number of rounds for this setting. For prediction, choose the upcoming rounds to align.",
+          "help": "Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.",
           "step": 1,
           "primary": true
         }

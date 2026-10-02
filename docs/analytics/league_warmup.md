@@ -5,6 +5,11 @@ Every warm-up/transition policy is opt-in. Existing expressions without a wrappe
 and `build_ratings(..., transition=None)` retain their previous behavior.
 All three handoffs described below are implemented.
 
+The statistical warm-up examples on this page describe `mode="legacy"`, which
+remains the default. For final-window `uniform` seeds, destination-cohort
+`w_league_prior` seeds, corrected dispersion, and selectable movement flags, see
+[explicit statistical warm starts](explicit_warmup.md).
+
 Start with the separate [minimal notebook](../../notebooks/04_league_warmup_quickstart.ipynb).
 The [API and helper reference](league_warmup_reference.md) lists exact signatures,
 schemas, extension points and restrictions. The [coverage checklist](league_warmup_documentation_checklist.md)

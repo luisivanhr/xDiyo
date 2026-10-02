@@ -417,9 +417,20 @@ def build():
             if name=='option' and c['id']=='evaluation.BetSpec':f.update(components=['labels.BetOption'],initial_component='labels.BetOption')
             if name=='alpha' and c['id']=='features.SeededEMA':f['help']='Weight assigned to each new observation when updating prior-seeded moments. 0.5 gives the new value half of the update weight.'
             if name=='league_weight':f['help']='Blend a moving team’s previous mean toward its destination league prior. 0 keeps its old mean; 1 uses the league prior.'
+            if c['id']=='features.TeamMovement' and name=='movement':
+                f.update(kind='select',choices=['promoted','relegated'],help='Known season-entry flag for this team: 1 yes, 0 no, missing when unknown. Administrative entry can be 0/0 without being retained.')
+            if c['id']=='features.SeededEMA':
+                if name=='mode':f.update(kind='select',choices=[dict(value='legacy',label='Legacy (unchanged)'),dict(value='uniform',label='Uniform — own rolling state'),dict(value='w_league_prior',label='With league prior — mover cohort')],primary=True,help='Legacy preserves old recipes. Uniform seeds from the team’s final eligible pre-break rolling window. With league prior replaces a mover’s seed with an equal-team destination cohort.')
+                if name=='league_weight':f.update(visible_when={'mode':['legacy']},help='Legacy only. In explicit modes this field is inactive: uniform never mixes cohorts, while league-prior mode fully replaces the mover seed.')
+                if name in ('top','bottom'):f.update(visible_when={'mode':['w_league_prior']},step=1,help=('Relegated teams use the top' if name=='top' else 'Promoted teams use the bottom')+' destination-league cohort, ranked by eligible previous-season pregame standings. Positive integer or -1 for all eligible donors; 0 is invalid.')
+                if name=='variance_prior':f.update(kind='select',choices=['within_team'],visible_when={'mode':['uniform','w_league_prior']},help='Average donor within-team variances, never standard deviations. No between-team mean-difference term.')
+                if name=='variance_estimator':f.update(kind='select',choices=['population','weighted_sample'],visible_when={'mode':['uniform','w_league_prior']},help='For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength.')
+                if name=='prior_strength':f.update(kind='number',step='any',visible_when={'mode':['w_league_prior'],'variance_estimator':['weighted_sample']},help='Explicit effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.')
+                if name=='variance_fade':f.update(kind='select',choices=['estimate_interpolation'],visible_when={'mode':['uniform','w_league_prior']},help='Blend compatible variance estimates, then take the square root. This is not a mixture of distributions.')
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
-            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass','features.MatchScore') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
+            if name=='rounds' and c['id'] in ('features.Hard','features.LinearFade'):f['help']='Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.'
+            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass','features.MatchScore','features.TeamMovement','features.SeededEMA') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
             if f['name']=='type' and c['category'] in ('pre_reporter','post_reporter'):
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']

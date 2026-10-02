@@ -56,7 +56,11 @@ class ObservationCount:
 class SeededEMA:
     """Prior-seeded moments, with an explicit handoff to ordinary rolling.
 
-    alpha controls each new observation. league_weight blends a known mover's
+    Omitted mode preserves legacy behavior below. uniform uses the final own
+    boundary rolling window; w_league_prior replaces mover seeds with a cohort.
+    New modes interpolate variance estimates during fade. See explicit_warmup.md.
+
+    In legacy mode, alpha controls each observation. league_weight blends a mover's
     previous-team mean toward the destination league mean. Variance always uses
     matching previous-season league observations. No rating rank cohorts apply.
     When no mean prior exists, use the ordinary rolling result. A missing spread
@@ -67,6 +71,13 @@ class SeededEMA:
     handoff: object = Hard()
     league_weight: float = .5
     round_keys: tuple = ("competition_id", "season_id", "round")
+    mode: str = "legacy"
+    bottom: int = 3
+    top: int = 3
+    variance_prior: str = "within_team"
+    variance_estimator: str = "population"
+    prior_strength: float | None = None
+    variance_fade: str = "estimate_interpolation"
 
     def __post_init__(self):
         if not math.isfinite(self.alpha) or not 0 < self.alpha <= 1:
@@ -75,6 +86,19 @@ class SeededEMA:
             raise ValueError("league_weight must lie in [0, 1].")
         if not isinstance(self.handoff, (Hard, LinearFade, ObservationCount)):
             raise TypeError("Choose Hard, LinearFade or ObservationCount for handoff.")
+        if self.mode not in ('legacy', 'uniform', 'w_league_prior'):
+            raise ValueError('mode must be legacy, uniform or w_league_prior.')
+        for name in ('bottom', 'top'):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, Integral) or (value != -1 and value < 1):
+                raise ValueError(f'{name} must be a positive integer or -1 (all eligible donors).')
+        if self.variance_prior != 'within_team' or self.variance_fade != 'estimate_interpolation':
+            raise ValueError('New modes use within_team variance and estimate_interpolation fade.')
+        if self.variance_estimator not in ('population', 'weighted_sample'):
+            raise ValueError('variance_estimator must be population or weighted_sample.')
+        if self.prior_strength is not None and (isinstance(self.prior_strength, bool)
+                or not math.isfinite(self.prior_strength) or self.prior_strength <= 1):
+            raise ValueError('prior_strength must be finite and greater than 1, or None.')
 
 
 @dataclass(frozen=True)
@@ -116,6 +140,9 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
     import numpy as np
     import pandas as pd
     operator, policy = node.source, node.policy
+    if policy.mode != 'legacy':
+        from .seeded import evaluate_seeded
+        return evaluate_seeded(node, context, evaluate, candidates, h2h=h2h, group_by=group_by)
     if not isinstance(operator, (RollingMean, RollingStd, RollingZScore)):
         raise TypeError("SeededEMA wraps RollingMean, RollingStd or RollingZScore.")
     ordinary, scope = evaluate(operator, h2h)
