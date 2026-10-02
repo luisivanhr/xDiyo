@@ -14,6 +14,7 @@ from .transitions import TransitionContext
 from .composition import Constant, ARITHMETIC, operands, constant_frame, arithmetic_frame
 from .contextual import RestDays, CalendarFeature, evaluate_context_features
 from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
+from .movement import TeamMovement, movement_records, statistical_context
 
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
@@ -88,6 +89,16 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     counts = team_counts
     population = None
     transitions = None
+    stat_transitions = None
+    movement_evidence = None
+
+    def stat_context():
+        nonlocal stat_transitions
+        if stat_transitions is None:
+            base = TransitionContext(history, cutoffs=cutoffs, available_at=available_at,
+                                     season_starts=season_starts)
+            stat_transitions = statistical_context(base, team_seasons)
+        return stat_transitions
 
     def transition_context():
         nonlocal transitions, population
@@ -141,11 +152,21 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return history[columns].copy()
 
     def evaluate(node, h2h=False, rating_policy=None):
-        nonlocal counts, population
+        nonlocal counts, population, movement_evidence
         cache_key = (node, h2h, rating_policy)
         if cache_key in cache:
             return cache[cache_key]
-        if isinstance(node, RestDays):
+        if isinstance(node, TeamMovement):
+            if movement_evidence is None:
+                movement_evidence = movement_records(history, team_seasons)
+                if any(pd.notna(record.get('previous_competition_id')) for record in movement_evidence.values()):
+                    stat_context()  # Validate supplied predecessor identities for flags too.
+            field = 'got_promoted' if node.movement == 'promoted' else 'got_demoted'
+            values = [movement_evidence[key][field] for key in zip(
+                history.competition_id.tolist(), history.season_id.tolist(), history.team_id.tolist())]
+            result = (pd.DataFrame({f'was_{node.movement}': pd.array(values, dtype='Float64')}, index=history.index), h2h)
+            result[0].attrs['movement_evidence'] = list(movement_evidence.values())
+        elif isinstance(node, RestDays):
             kicks = history.kickoff_at
             values = [np.nan if len(rows) == 0 else
                       (kicks.iloc[i] - kicks.iloc[rows[-1]]).total_seconds() / 86400
@@ -168,7 +189,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             if node.policy is None:
                 result = evaluate(node.source, h2h)
             elif isinstance(node.policy, SeededEMA):
-                result = evaluate_warm_start(node, transition_context(), evaluate, history_rows,
+                result = evaluate_warm_start(node, transition_context() if node.policy.mode == 'legacy' else stat_context(), evaluate, history_rows,
                                              h2h=h2h, group_by=group_by)
             elif isinstance(node.source, (MatchResultGlicko, StatGlicko)):
                 result = evaluate(node.source, h2h, node.policy)
@@ -334,13 +355,31 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             return all(prediction_safe(child) for child in operands(node))
         return not isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut))
 
-    outputs, spatial_metadata = [], {}
+    outputs, spatial_metadata, warm_audits = [], {}, {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
         if not prediction_safe(node):
             raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to MatchScore and Heatmap sources.")
         frame, _ = evaluate(node)
+        if frame.attrs.get('warm_start_audit') is not None:
+            warm_audits[name] = frame.attrs['warm_start_audit']
+        else:
+            # Arithmetic does not carry DataFrame attrs. Keep provenance for
+            # warmed descendants, including descendants already in the cache.
+            from dataclasses import fields, is_dataclass
+            descendants = set()
+            def visit(value):
+                if not is_dataclass(value) or value in descendants:
+                    return
+                descendants.add(value)
+                for field in fields(value):
+                    visit(getattr(value, field.name))
+            visit(node)
+            child_audits = [audit for (child, _, _), (value, _) in cache.items()
+                            if child in descendants for audit in value.attrs.get('warm_start_audit', [])]
+            if child_audits:
+                warm_audits[name] = child_audits
         names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
         frame, metadata = finalize_spatial(frame, history, names, name)
         spatial_metadata.update(metadata)
@@ -353,7 +392,21 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "group_by": group_by,
         "availability": "earlier_finished_kickoff_proxy" if available_at is None else "explicit",
         "spatial_features": spatial_metadata,
+        "warm_start_audit": warm_audits,
+        "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
+    if stat_transitions is not None or movement_evidence is not None:
+        import hashlib
+        digest = hashlib.sha256(pd.util.hash_pandas_object(history, index=True).to_numpy().tobytes())
+        digest.update(repr(movement_evidence).encode())
+        for (source_node, source_scope, _), (source_frame, _) in cache.items():
+            if 'warm_start_source_hash' in source_frame.attrs:
+                digest.update(repr((source_node, source_scope, source_frame.attrs['warm_start_source_hash'])).encode())
+        if stat_transitions is not None:
+            digest.update(repr(stat_transitions.records).encode())
+            for times in (stat_transitions.population.cutoff, stat_transitions.population.available):
+                digest.update(pd.util.hash_pandas_object(times, index=True).to_numpy().tobytes())
+        result.attrs['warm_start_input_hash'] = digest.hexdigest()
     if keyed:
         keys = [name for name in ("source_league", "source_season", "competition_id", "season_id", "event_id") if name in history]
         keys += ["team_id", "side"]

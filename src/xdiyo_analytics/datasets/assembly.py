@@ -195,5 +195,8 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
         X=X, y=y, metadata=meta, layout=layout, identity_columns=identities,
         match_columns=match_keys, target_perspective=label.perspective,
         definitions={"features": deepcopy(features.attrs.get("features", {})),
-                     "label": deepcopy(label.definition), "spatial_features":spatial},
+                     "label": deepcopy(label.definition), "spatial_features":spatial,
+                     **{key: deepcopy(features.attrs[key]) for key in
+                        ('warm_start_input_hash', 'warm_start_audit', 'movement_evidence')
+                        if features.attrs.get(key)}},
     )

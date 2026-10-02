@@ -4,6 +4,12 @@ These flags describe **how a team entered the current season**. `got_demoted`
 means relegated from a higher division before this season began. It does not
 mean the team will be relegated at the end of the current season.
 
+To use these as model inputs, explicitly select `TeamMovement("promoted")` and
+`TeamMovement("relegated")`, conventionally named `was_promoted` and
+`was_relegated`. They preserve numeric 0/1/missing values. See
+[explicit warm starts and movement features](explicit_warmup.md) for API/UI
+examples, override precedence, and statistical transition policies.
+
 ## Loading
 
 ```python
