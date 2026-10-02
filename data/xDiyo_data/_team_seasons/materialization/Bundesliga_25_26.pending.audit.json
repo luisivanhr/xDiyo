@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_25_26",
+  "old_manifest_sha256": "50165a2b2ffd47350745394273bbe3f656184b442a84817ab524eb8a33d57a92",
+  "old_publication_sha256": "fe44f9eb15b3ca3ed0f5df43eac1b842155c6c9746e28c176664a37bd1e3c6c7",
+  "new_manifest_sha256": "d1e95fe6f5b8010f22b07509eb5fe7a24b4e2be7f5eeea9116cf46de7637009a",
+  "new_publication_sha256": "b2dbcedf10395c7e1b63f398f15d3d442e1081e25aafd8f935fca757ca1fdfb9",
+  "matches_sha256": "48a2b5c4d2764dddc8e6bc16904b017db0fe81c9aac2045fda99b0faa56e96ec",
+  "season_sha256": "b799e968818c36c61a88ee83f5226f4879054cde80d71bc84c04782f89ec5a34"
+}

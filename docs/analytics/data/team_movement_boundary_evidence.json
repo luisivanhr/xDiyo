@@ -1,0 +1,572 @@
+[
+  {
+    "stem": "Bundesliga_15_16",
+    "promoted_ids": [
+      5880,
+      2576
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/0224-0f842ac9bf08-281f7e5c371c-1000/first_division_clubs_in_europe_2015_16.pdf",
+        "title": "UEFA first division clubs 2015/16",
+        "scope": "Germany page 44: complete promoted-club list is Ingolstadt and Darmstadt.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Top division: no arrivals from a higher domestic division. Hamburg won its survival play-off and is retained."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "5880": "FC Ingolstadt 04",
+      "2576": "Darmstadt 98"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "Bundesliga_2_17_18",
+    "promoted_ids": [
+      2543,
+      2573,
+      2567
+    ],
+    "relegated_ids": [
+      5880,
+      2576
+    ],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.dfb.de/fileadmin/_dfbdam/150102-Saisonreport_3Liga_2016-17_web.pdf",
+        "title": "DFB 3. Liga season report 2016/17",
+        "scope": "Duisburg and Kiel promoted directly; Regensburg promoted via play-off. Indexed report text read; direct web open failed.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.dfb.de/news/noch-zwei-spiele-gelingt-msv-duisburg-siebter-durchmarsch",
+        "title": "DFB: direct promotions and Regensburg play-off history",
+        "scope": "Confirms Duisburg return after 2016/17 and Regensburg play-off promotion behind Duisburg and Kiel.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/023c-0f842cc06326-9e6a9439509c-1000/2017_18_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2017/18",
+        "scope": "Germany page 44: Ingolstadt and Darmstadt relegated.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Braunschweig lost the Bundesliga promotion play-off and remained in Bundesliga 2."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2543": "MSV Duisburg",
+      "2573": "Holstein Kiel",
+      "2567": "SSV Jahn Regensburg",
+      "5880": "FC Ingolstadt 04",
+      "2576": "Darmstadt 98"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "Championship_16_17",
+    "promoted_ids": [
+      49,
+      134,
+      23
+    ],
+    "relegated_ids": [
+      40,
+      39,
+      263
+    ],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablese/eng2016.html",
+        "title": "RSSSF England 2015/16",
+        "scope": "League One final table: Wigan and Burton promoted; play-off final won by Barnsley.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://www.efl.com/news/2023/december/05/-i-always-think--what-if-we-d-kept-everyone-together----barnsley-s-efl-trophy-winning-campaign/",
+        "title": "EFL: Barnsley 2015/16 promotion and Trophy double",
+        "scope": "Confirms Barnsley promotion.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.premierleague.com/es/news/693680",
+        "title": "Premier League 2015/16 season review",
+        "scope": "Villa, Norwich and Newcastle relegated.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.itv.com/news/2016-05-08/league-one-review-burton-albion-promoted-to-the-championship",
+        "title": "ITV League One review 8 May 2016",
+        "scope": "Burton secure second automatic promotion place; Wigan are league champions.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [
+      "Promotion evidence for Wigan and Burton uses the historical results archive RSSSF, corroborated by contemporary ITV reporting of Burton promotion and Wigan's league title. No administrative entry found."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "49": "Wigan Athletic",
+      "134": "Burton Albion",
+      "23": "Barnsley",
+      "40": "Aston Villa",
+      "39": "Newcastle United",
+      "263": "Norwich City"
+    },
+    "observed_member_count": 24
+  },
+  {
+    "stem": "Eredivisie_15_16",
+    "promoted_ids": [
+      2962,
+      2949,
+      2954
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.knvb.nl/nieuws/betaald-voetbal/jupiler-league/5884/jupiler-league-opent-vrijdag-seizoen-20152016",
+        "title": "KNVB: Jupiler League opens 2015/16",
+        "scope": "Names all three departing promoted clubs: NEC, De Graafschap, Roda JC.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Top division; all three promoted teams mapped to observed IDs."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2962": "NEC Nijmegen",
+      "2949": "De Graafschap",
+      "2954": "Roda JC Kerkrade"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "Eredivisie_17_18",
+    "promoted_ids": [
+      2980,
+      2947
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.knvb.com/news/mens-football/eredivisie/381/2016-17-season-list-national-champions",
+        "title": "KNVB 2016/17 national champions",
+        "scope": "VVV-Venlo promoted as champions.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.knvb.nl/nieuws/betaald-voetbal/eredivisie/27084/roda-jc-handhaaft-zich-na-nipte-winst-eredivisie",
+        "title": "KNVB: Roda survives, NAC promoted",
+        "scope": "NAC replaces NEC; Roda retains its place.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Boundary is immediately prior 2016/17 season, even though local Eredivisie 2016/17 data is absent. Sparta Rotterdam is retained, having been promoted a year earlier. Do not compare 2017/18 directly against 2015/16 for movement flags."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2980": "VVV-Venlo",
+      "2947": "NAC Breda"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "La_Liga_15_16",
+    "promoted_ids": [
+      2816,
+      2852,
+      6577
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "administrative_retained_ids": [
+      2839
+    ],
+    "sources": [
+      {
+        "url": "https://www.laliga.com/noticias/los-tres-nuevos-equipos-de-liga-bbva",
+        "title": "LaLiga: the three new Liga BBVA teams",
+        "scope": "Complete promoted list: Real Betis, Sporting, Las Palmas.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.sdeibar.com/2014-2021-un-paseo-por-las-nubes",
+        "title": "SD Eibar official club history 2014-2021",
+        "scope": "Eibar kept its first-division place after Elche administrative relegation.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Eibar is retained under prior-season-membership semantics: it played La Liga in 2014/15. Administrative reprieve is recorded separately; it is not a newly promoted team."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2816": "Real Betis",
+      "2852": "Sporting Gijón",
+      "6577": "UD Las Palmas",
+      "2839": "Eibar"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "La_Liga_2_16_17",
+    "promoted_ids": [
+      55785,
+      37589,
+      7762,
+      4488
+    ],
+    "relegated_ids": [
+      2859,
+      2818,
+      2849
+    ],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.laliga.com/en-GB/news/javier-tebas-to-newly-promoted-sides-you-have-to-uphold-our-values-on-and-off-the-pitch",
+        "title": "LaLiga welcomes newly promoted sides 2016/17",
+        "scope": "Complete LaLiga2 promotion list: UCAM Murcia, Reus, Sevilla Atletico, Cadiz.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://assets.laliga.com/assets/2023/02/13/originals/64ae8a9b058040bfa6d4a8b2e1e59d6e.pdf",
+        "title": "LaLiga annual report 2015/16",
+        "scope": "Final-day summary explicitly records Getafe, Rayo Vallecano and Levante relegation. Indexed text verified; direct web open failed.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/0230-0f842bc44ee2-2837c38639e0-1000/2016_17_klubs_der_ersten_divisionen_in_europa.pdf",
+        "title": "UEFA first division clubs 2016/17",
+        "scope": "Spain page 104: complete final table marks Rayo Vallecano, Getafe and Levante relegated.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Sevilla Atletico is the promoted reserve team, not Sevilla first team. Elche entered the second tier in 2015/16 and is retained for 2016/17."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "55785": "UCAM Murcia",
+      "37589": "Reus Deportiu",
+      "7762": "Sevilla Atlético",
+      "4488": "Cádiz",
+      "2859": "Getafe",
+      "2818": "Rayo Vallecano",
+      "2849": "Levante UD"
+    },
+    "observed_member_count": 22
+  },
+  {
+    "stem": "Ligue_1_15_16",
+    "promoted_ids": [
+      1684,
+      7924,
+      1652
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.uefa.com/news-media/news/0222-0e90fca3b19c-8aef4b007efa-1000--season-review-france/",
+        "title": "UEFA season review France 2015",
+        "scope": "Complete promoted list: Angers, Gazelec Ajaccio, Troyes.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "GFC Ajaccio is Gazelec, distinct from AC Ajaccio."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "1684": "Angers",
+      "7924": "GFC Ajaccio",
+      "1652": "Troyes"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Ligue_2_17_18",
+    "promoted_ids": [
+      1666,
+      210099
+    ],
+    "relegated_ids": [
+      1656,
+      1675
+    ],
+    "other_entry_ids": [
+      6070
+    ],
+    "sources": [
+      {
+        "url": "https://www.lfp.fr/assets/PV_CA_20170725_VF_bed0f12dda.PDF",
+        "title": "LFP Board minutes 25 July 2017",
+        "scope": "Pages 2 and 4-5: Paris FC administrative admission following Bastia demotion; Chateauroux and Quevilly accession.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/023c-0f842cc06326-9e6a9439509c-1000/2017_18_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2017/18",
+        "scope": "France page 40: Lorient and Nancy relegated; Bastia also relegated but does not enter observed Ligue 2 roster.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.lequipe.fr/Football/Actualites/National-quevilly-rouen-et-chateauroux-promus-en-ligue-2/800777",
+        "title": "L'Equipe 12 May 2017: Quevilly-Rouen and Chateauroux promoted",
+        "scope": "Confirms both sporting promotions.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [
+      "Paris FC lost the sporting promotion play-off, then entered administratively replacing Bastia; classify as other_entry rather than ordinary sporting promotion.",
+      "Bastia is excluded from relegated_ids because it did not participate in this observed Ligue 2 season."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "1666": "Châteauroux",
+      "210099": "Quevilly - Rouen Métropole",
+      "1656": "Lorient",
+      "1675": "Nancy",
+      "6070": "Paris FC"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Premier_League_15_16",
+    "promoted_ids": [
+      60,
+      24,
+      263
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.premierleague.com/en/news/60899",
+        "title": "Premier League: promoted sides' opening matches",
+        "scope": "2015/16 row lists Bournemouth, Watford, Norwich.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.thefa.com/news/2015/jun/17/2015-16-fixtures-released",
+        "title": "The FA: 2015/16 fixtures",
+        "scope": "Explicitly identifies all three newly promoted clubs.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Top division; complete three-club promotion list."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "60": "Bournemouth",
+      "24": "Watford",
+      "263": "Norwich City"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Premiership_20_21",
+    "promoted_ids": [
+      2349
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://spfl.co.uk/news/spfl-resolution-approved-by-clubs-in-all-four-di",
+        "title": "SPFL resolution approved 15 April 2020",
+        "scope": "Dundee United declared Championship champions after curtailed season.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://spfl.co.uk/admin/filemanager/files/shares/SPFL%20Rules%20and%20Regulations%202-Jul-20%20%28MASTER%20COPY%29%20CLEAN.pdf",
+        "title": "SPFL rules 2 July 2020",
+        "scope": "2020/21 divisional composition and 2019/20 points-per-game table.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://spfl.co.uk/news/arbitration-panel-hands-down-unanimous-judgement",
+        "title": "SPFL arbitration judgement 27 July 2020",
+        "scope": "Final challenge to season-ending resolution failed.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Dundee United is the sole promoted club; COVID-curtailed 2019/20 was decided by points per game, with promotion/relegation play-offs cancelled. This is an officially awarded promotion, not an other-entry label."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2349": "Dundee United"
+    },
+    "observed_member_count": 12
+  },
+  {
+    "stem": "Pro_League_20_21",
+    "promoted_ids": [
+      169260,
+      2918
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "administrative_retained_ids": [
+      4859
+    ],
+    "sources": [
+      {
+        "url": "https://www.proleague.be/nieuws/communicatie-na-algemene-vergadering-pro-league",
+        "title": "Pro League general assembly communication 31 July 2020",
+        "scope": "Expansion to 18: Waasland-Beveren retained, Beerschot and OH Leuven admitted from 1B.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/0266-117d5b8e770c-c0058427ec01-1000/booklet_top-division_clubs_in_europe_2020-21.pdf",
+        "title": "UEFA top-division clubs 2020/21",
+        "scope": "Belgium summary explicitly lists OH Leuven and Beerschot as promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Both 1B finalists promoted under expansion decision. Waasland-Beveren, observed under current label SK Beveren (ID 4859), is retained because it participated in 2019/20 top division."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "169260": "K. Beerschot V.A.",
+      "2918": "Oud-Heverlee Leuven",
+      "4859": "SK Beveren"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "Serie_A_15_16",
+    "promoted_ids": [
+      43685,
+      2801,
+      2685
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "sources": [
+      {
+        "url": "https://www.uefa.com/news-media/news/0222-0e911a56873f-7c485bfbeae0-1000--season-review-italy/",
+        "title": "UEFA season review Italy 2015",
+        "scope": "Complete promoted list: Carpi, Frosinone, Bologna.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Bologna won the promotion play-off; Carpi and Frosinone promoted directly."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "43685": "Carpi",
+      "2801": "Frosinone",
+      "2685": "Bologna"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Serie_B_19_20",
+    "promoted_ids": [
+      43680,
+      111205,
+      5324,
+      2737,
+      43686
+    ],
+    "relegated_ids": [
+      2705,
+      2801,
+      2694
+    ],
+    "other_entry_ids": [],
+    "administrative_retained_ids": [
+      2688
+    ],
+    "sources": [
+      {
+        "url": "https://www.legab.it/news/il-100-gol-di-mancosu-trascina-lentella",
+        "title": "Lega B: Mancosu and Entella 2019",
+        "scope": "Confirms five promoted teams, explicitly Entella, Pisa and Pordenone.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.legab.it/news/allo-stirpe-ce-frosinone-empoli-il-benevento-in-scena-a-venezia",
+        "title": "Lega B 2019 matchday preview",
+        "scope": "Names promoted clubs Trapani, Virtus Entella, Juve Stabia, Pisa and Pordenone.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.uefa.com/MultimediaFiles/Download/FirstDiv/uefaorg/Publications/02/62/00/55/2620055_DOWNLOAD.pdf",
+        "title": "UEFA first division clubs 2019/20",
+        "scope": "Italy printed page 55 (PDF page 57): Empoli, Frosinone and Chievo relegated.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.figc.it/it/federazione/news/consiglio-federale-escluso-il-palermo-in-serie-b-riammesso-il-venezia-x2rr4km5",
+        "title": "FIGC Council 12 July 2019",
+        "scope": "Palermo excluded and Venezia readmitted to Serie B.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Venezia had played Serie B in 2018/19 and was readmitted following Palermo exclusion. Under prior-season-membership semantics it is retained, with separate administrative-retained annotation.",
+      "No refounded club is a new entrant in this observed boundary roster."
+    ],
+    "complete_review": true,
+    "reviewed_on": "2026-10-02",
+    "uncertainty": [],
+    "observed_team_names": {
+      "43680": "Virtus Entella",
+      "111205": "Pordenone",
+      "5324": "Juve Stabia",
+      "2737": "Pisa",
+      "43686": "Trapani",
+      "2705": "Empoli",
+      "2801": "Frosinone",
+      "2694": "Chievo Verona",
+      "2688": "Venezia"
+    },
+    "observed_member_count": 20
+  }
+]

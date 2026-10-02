@@ -12531,13 +12531,14 @@
           "default": [
             "matches"
           ],
-          "help": "Select prediction-relevant source tables. Matches identify fixtures; statistics supplies numeric observations; pregame supplies standings.",
+          "help": "Select source tables. Matches identify fixtures and include published season-entry flags; statistics supplies observations; pregame supplies standings. Team seasons adds movement evidence and predecessor IDs for feature warm-up.",
           "choices": [
             "matches",
             "statistics",
             "pregame",
             "shots",
-            "heatmap_points"
+            "heatmap_points",
+            "team_seasons"
           ],
           "primary": true
         },

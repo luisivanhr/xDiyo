@@ -1,0 +1,689 @@
+{
+  "team_seasons": 2610,
+  "seasons": 135,
+  "movement_counts": {
+    "retained": 2098,
+    "promoted": 374,
+    "relegated": 137,
+    "other_entry": 1
+  },
+  "original_files_verified_unchanged": 405,
+  "inferred_promotions": 213,
+  "outputs": {
+    "Bundesliga_15_16": {
+      "sha256": "1f2df7d061d263594b6b2ac708fb18a7fb04d9d8a45e93c1f4c465007e41ea94",
+      "rows": 18,
+      "matches_sha256": "6e442ce7379f4cece372af27c4e174d1ae053fccd334ca2b309c19f8fe8111e4"
+    },
+    "Bundesliga_16_17": {
+      "sha256": "f8d7418d3452814d36eddff290d96fef74a8fea525f7be906d514ea6d2a8d824",
+      "rows": 18,
+      "matches_sha256": "0da01d250658f28626997293d83c031c7b2842698289fd932ea797b2a7e4f962"
+    },
+    "Bundesliga_17_18": {
+      "sha256": "9a5bbd2e842b0d75be72134bb0f2e49b640285ac66398ef3861aa2458c4c8616",
+      "rows": 18,
+      "matches_sha256": "26e9c458cf699681a474bef56952e7c2d454bd0f16b36b2933bef69eae3708ce"
+    },
+    "Bundesliga_18_19": {
+      "sha256": "6fcbb0acf2ab6ab8070994458c1d28122700c440e0dd23c3aa7bba661d67ca67",
+      "rows": 18,
+      "matches_sha256": "21332c9459f3abaecb26e3a34f2dcf1b3630de799a7719bad3260fee9d45e935"
+    },
+    "Bundesliga_19_20": {
+      "sha256": "2b3fca6c18350a497695ebd654e9ec475843ed2bd453fff003f764cea686a596",
+      "rows": 18,
+      "matches_sha256": "558ca3033bb8128ad2f33daffd588a69b9a5fb03bd89b992cc5e60b65dbc13a4"
+    },
+    "Bundesliga_20_21": {
+      "sha256": "ef40a6551c3fa026b98414caf265c3624dd0dae055371d6199fcf5959732d546",
+      "rows": 18,
+      "matches_sha256": "6e95c452468d0a76fe320bad82cdaa62f80d528a8dbf829666b6c9f5d019f93e"
+    },
+    "Bundesliga_21_22": {
+      "sha256": "1e000ce8f8fa6f38715a220465aa9e06d1d22bc9607d8e2a27a27186ada33209",
+      "rows": 18,
+      "matches_sha256": "4af0b3a46005c0a973620cb8c0aedb256b09cadf7f8de296994570a77655d32f"
+    },
+    "Bundesliga_22_23": {
+      "sha256": "7b160e66654cecc051f5b1d5e52a479ac7576d96e12a6acd7af3c57716feb8bd",
+      "rows": 18,
+      "matches_sha256": "9452a489472c007bd8d32ac60420efdc44882fa111d52c57e74a4481b4bcf241"
+    },
+    "Bundesliga_23_24": {
+      "sha256": "2fb60036119853e9ed2188d9a767493b36b9a3b25d0a1bc30bee11e450bb5721",
+      "rows": 18,
+      "matches_sha256": "13607f3f2bf48248a39147d86188d5088448cf6d8ae53e79afaa0b44bd7f2617"
+    },
+    "Bundesliga_24_25": {
+      "sha256": "611055aa7a54305cf9f44dec73989d2bbc2c34a90447f2387953e5a4f5a2c3b3",
+      "rows": 18,
+      "matches_sha256": "314891f825986d30d583b966cc53f0bd82d5b183a472981eef74f7dbc4d5a80a"
+    },
+    "Bundesliga_25_26": {
+      "sha256": "9ec1cfbfd8fd3dc2a40fea0f5d5e5c49f50a2dcf9c476ecb5e2207dad3a1f8e2",
+      "rows": 18,
+      "matches_sha256": "294791ccd73e320046d32f1abdc4e1d080d228bf977f35c43b7fc9ca6634c228"
+    },
+    "Bundesliga_26_27": {
+      "sha256": "db71a502e36325792054d32dd071ae86284f7814d7cec76de423a6d51ed8218f",
+      "rows": 18,
+      "matches_sha256": "9549364fbf8c5b39cdd80ec51d7ad415af4e7fac2e8bdfe3c62f526de1662172"
+    },
+    "Bundesliga_2_17_18": {
+      "sha256": "d99df4ea85aeb6e3a112860254e0ff6bcc5b4c400f812c011ef23616e2a6c1b7",
+      "rows": 18,
+      "matches_sha256": "4abe5900a7cb75b5150292f52d892339b0aabf2944d7bdf88ab3cd4581c26246"
+    },
+    "Bundesliga_2_18_19": {
+      "sha256": "f421b27d046adf867039d286c229596ec16d5204966fd2e88dbbba3841c8df41",
+      "rows": 18,
+      "matches_sha256": "270722ad3af3b0b58bb64e5eb14f928b309a0aa7e1f1fbabf61a0296275d5f23"
+    },
+    "Bundesliga_2_19_20": {
+      "sha256": "129e1b343b2f663ad2d599f0755d34515698d8eb020ae97e50249d9668c20dcd",
+      "rows": 18,
+      "matches_sha256": "f7d48c68e3d4d1331890b01d29a4df628c30522d164bb6a2bba6b57b67e8a26b"
+    },
+    "Bundesliga_2_20_21": {
+      "sha256": "3e1f3879f8d222c882fd005b190bba9171b237f8bbf030c5ae1addd93e21cc3f",
+      "rows": 18,
+      "matches_sha256": "bea5ccf5d1e0e322d730518ea470e36b20a7d8dd2bbd85833af68809de924bb6"
+    },
+    "Bundesliga_2_21_22": {
+      "sha256": "0360635db2c569634576c31d0f15ecaef8b599b31b15945383d26b1ff8250e4a",
+      "rows": 18,
+      "matches_sha256": "79dea46f2c57414a8248231236e0ef4123c87c27c99122e681a20560c71be0d5"
+    },
+    "Bundesliga_2_22_23": {
+      "sha256": "bbde24a53a0a6d37081be6f8ba732f02bfa8639b6804f0ff5e9b5fb66d687199",
+      "rows": 18,
+      "matches_sha256": "0b77fbacb3d4684217c1a753a7c19f7dcde96c93d9c93a1b28af007cd5015e65"
+    },
+    "Bundesliga_2_23_24": {
+      "sha256": "bb9de426f44d545a429122f86daa8d6596e42c6434d8046a42411e15bfbf5304",
+      "rows": 18,
+      "matches_sha256": "136eba261f6c32c19402597cf8d84f8b5336136e7e10ec212e5cd71117d1602b"
+    },
+    "Bundesliga_2_24_25": {
+      "sha256": "056d9d63a81f521781697580d466a85f1bef08bca98636d58fa8eeb56825554f",
+      "rows": 18,
+      "matches_sha256": "ae3c71c5e6575109faf92f6c001c5087c9f571cd9236398251be62c8f2fb0a3b"
+    },
+    "Bundesliga_2_25_26": {
+      "sha256": "b026f820964c57fa441353b207ee5864abdfbf4e9fd719ca716bac4c4927f360",
+      "rows": 18,
+      "matches_sha256": "891cad926bf9a877bf1941620de7c921350aa6cf5d9c18dfb55ff805faf6af7c"
+    },
+    "Bundesliga_2_26_27": {
+      "sha256": "a3288eb90b1a6fab5b4ca51160c738b98065d4a1d30b4f989d80233a230cba11",
+      "rows": 18,
+      "matches_sha256": "7ce7fbbbc7ef6daaa646efc0cdd14485cbb21b9115d581568630ac1b79eb7f9c"
+    },
+    "Championship_16_17": {
+      "sha256": "5101b7fe0c7b2b32b665ee70a5589871f56ae4d618099e6cdb5e168b1566f3a2",
+      "rows": 24,
+      "matches_sha256": "cab338070d0c12dbe394142e325e8c4c494d14ff806a15e60f2858a6830269f6"
+    },
+    "Championship_17_18": {
+      "sha256": "737bd5ecac66ed4be1987701cb4d800f2cfdd10f906bb87f96815cc4d13c9259",
+      "rows": 24,
+      "matches_sha256": "b7b1a5f9f90899d04afe937a4818139385dd666cb1dcc900af0b4555d2309da0"
+    },
+    "Championship_18_19": {
+      "sha256": "dffd820e4d1b0944e05a699a350eaa203a5e0d77b2252e4f7e034c1490388bbd",
+      "rows": 24,
+      "matches_sha256": "5e81a67fce7f4774da7ef4620f482cbfb992c84b4493c63c37e14c7988749411"
+    },
+    "Championship_19_20": {
+      "sha256": "7ceed1a1a17234c3747758e2e19b7db4793c6641b69f6b5761ff79771291ee99",
+      "rows": 24,
+      "matches_sha256": "01a33d2db17efbe53c01b518d9344cab282ec1e1bbb91ef41b16cc06073273de"
+    },
+    "Championship_20_21": {
+      "sha256": "3e90558df27e234f99da5c7b71b6906b49cf27c5d9db39ad9d42c0ede23ac65c",
+      "rows": 24,
+      "matches_sha256": "3fb2efcdb117f88d33bbdf1ed260b7e28796f1b7993ab94917c3cc0615b42522"
+    },
+    "Championship_21_22": {
+      "sha256": "2eb90955bc16514986daaa1b7f5202a18588e9d4f292abdefeade363f025e029",
+      "rows": 24,
+      "matches_sha256": "838c11809acddca1c4dc342bd235596eac245181f4b24029abb2ed59af29fbfd"
+    },
+    "Championship_22_23": {
+      "sha256": "8116883bab377556e7ef71e738494e2f79dfc41564a2f4c4deaa12dcc94fa554",
+      "rows": 24,
+      "matches_sha256": "fee2992402506e09939559b59586869fa7463c229493afaf13a8e99938f06eda"
+    },
+    "Championship_23_24": {
+      "sha256": "d33a1c1d6eea29ad7ff666ac89f1e0cb326c5a7519ba70cbafa6061e311b666b",
+      "rows": 24,
+      "matches_sha256": "0e39e0bf51778b3358ea29cdee931e3751dcac96b0b3f73edc13142a997f3461"
+    },
+    "Championship_24_25": {
+      "sha256": "1e2e0190dac34275714329107658279481c6a6e14c5d729b4468e11e77fef240",
+      "rows": 24,
+      "matches_sha256": "e9f8de9ce2a392811164071b4bf323d2e115fe41b8487c95c7db329324b22d99"
+    },
+    "Championship_25_26": {
+      "sha256": "b1cb46d1f2d25c9560b661657f007c806cb017853fe564918e317729f46e3c0a",
+      "rows": 24,
+      "matches_sha256": "ee56644e5115e17a7e472776eefd95515f11ccfb687c6af240097f0f9e45a354"
+    },
+    "Championship_26_27": {
+      "sha256": "2c7006b5edafd68ff1c692ba6604fb7fc54b7bfb9c17337fd7b3cc87531bdaad",
+      "rows": 24,
+      "matches_sha256": "d6a62f54c4d1d81edb2d392a373039182bbb11972a5c5de582b8fdfdc0b0347b"
+    },
+    "Eredivisie_15_16": {
+      "sha256": "0032c987e62c34183481e9795c391e3fb81d86b1ebc02b0fc381fef27bef66ed",
+      "rows": 18,
+      "matches_sha256": "7f7144aa82303797ceffd9d3578ecebd470189343c188fd6bcbdcfe24cf3a7cc"
+    },
+    "Eredivisie_17_18": {
+      "sha256": "14de5c7a99b2196c48e4c3685d254ee94710195298772f11d0ca0284d01b980d",
+      "rows": 18,
+      "matches_sha256": "54f9ca34ef242925ebf74653f3d76cfcc08bdfd15ade9d022e164f9330ef92d8"
+    },
+    "Eredivisie_18_19": {
+      "sha256": "cc2cfbd0dbb92fb27d9f5841e39c9ece0fcf135438a0a32cb24985a53918db60",
+      "rows": 18,
+      "matches_sha256": "b7d66a03c03b0ace765e67c83935afbeb0431cc817249476701474fefe571c07"
+    },
+    "Eredivisie_19_20": {
+      "sha256": "f879c5fd1f235411decb2484fd176ad76842bf3f0631337d536a5bb5736bf4da",
+      "rows": 18,
+      "matches_sha256": "5a89f0e7dd00eaf6280a87116aa90b0be0cba16233327e624a5d43a512d36ad9"
+    },
+    "Eredivisie_20_21": {
+      "sha256": "e83afe814224c9396e0fa3c86a92424ce949037fde831c74f469b3102005da8a",
+      "rows": 18,
+      "matches_sha256": "76adefd795e653879e00d60f7976221f7e9d78d78b7cc2fffa3a3383ae99ff94"
+    },
+    "Eredivisie_21_22": {
+      "sha256": "60455e0f5f9f7695502bd3d9dee04e5cdd09168cc883d268d80abb7fb67e01f2",
+      "rows": 18,
+      "matches_sha256": "2e9f0e37b8939bb513364fad518171c158c1110dad1e24c35b0e0a312fc8da3c"
+    },
+    "Eredivisie_22_23": {
+      "sha256": "7dc85f13eeb7755c5778ee6f65c56ddbd54339e9e2d0d4fa4e1b982136fe4812",
+      "rows": 18,
+      "matches_sha256": "7c93c1f4e2beefe41f9732abc1a7a755bcf3a082f109522940f77b2ec8587a3c"
+    },
+    "Eredivisie_23_24": {
+      "sha256": "2ae2c8b8cf46d014c371ff7d87c5f7718d869903d7f00f34ea3ee926fb7b4f0c",
+      "rows": 18,
+      "matches_sha256": "4317b8dc6e1ddf5fc7c29a1081fed68be9dffcc1a8a3b28276e5ba1301319391"
+    },
+    "Eredivisie_24_25": {
+      "sha256": "ab117114e629a096eb6c5f9dc0242d15b3f7a596f13bb252096b9ad7ca6471a9",
+      "rows": 18,
+      "matches_sha256": "8a61ff2cd88032dd697a035d202d81112be94aa594ddbec1b53ec75a4fb58f75"
+    },
+    "Eredivisie_25_26": {
+      "sha256": "f7df3fb94e167d5c920aabf035861aaea17e199e14e331a1b37dee8668904377",
+      "rows": 18,
+      "matches_sha256": "73ed8a1b30be523e49efb557e7e6589d63d2889a55037359c86c17f508a00b26"
+    },
+    "Eredivisie_26_27": {
+      "sha256": "6bdab9a4a35f741addc5e79e5ed34efd4933688394a7cb31f97f80fbef22f722",
+      "rows": 18,
+      "matches_sha256": "b8eb093e3a02d98ef6ca51f11d5a62a7de132cda76ad9cd4740b7d3c4ccdae91"
+    },
+    "La_Liga_15_16": {
+      "sha256": "830da48a790d6917b3e3e9100ed83df1364e3688e9b5c8f984cf0de293667627",
+      "rows": 20,
+      "matches_sha256": "4e9ed21b099acbd5937a90df9d4fc24907e0a3ce07ac71c6dd658fcb625c912e"
+    },
+    "La_Liga_16_17": {
+      "sha256": "79315163198411f3478ade5f33e30678b83b59a0f48534931b4fad9a1e27d8ed",
+      "rows": 20,
+      "matches_sha256": "a9ed28e73e33071a84a431ddca96864d9e610eff1abbc10067c00d8e75f9d50c"
+    },
+    "La_Liga_17_18": {
+      "sha256": "ccb3755f2873e611d3799f3d83f3b63123158f4004e97642df60818419769953",
+      "rows": 20,
+      "matches_sha256": "9c173f2d831540e34f2240fc51b387f5ed5cded564e461559434eff0c34f6609"
+    },
+    "La_Liga_18_19": {
+      "sha256": "9a2928946d069d72f9f78f86c7cd82dfb397f81291b44f6c5edda44aea7c7b16",
+      "rows": 20,
+      "matches_sha256": "daed8c6072e60c895d3465a0ce2098309bf644e1c70944a4714567f62d7f883f"
+    },
+    "La_Liga_19_20": {
+      "sha256": "a194e06fed94ea4e303067e6649ec8b4d90c67c79dc64c57608d9efa9e0ad77f",
+      "rows": 20,
+      "matches_sha256": "c7d29a042887a1c685f5023cf8c7cee0c8b726f11e30c76f02eb32f8da9eeb82"
+    },
+    "La_Liga_20_21": {
+      "sha256": "f066f2384152aef25085f3b9043290b3fbb16333b3b2fb0d1735b62b3e6d77f7",
+      "rows": 20,
+      "matches_sha256": "7200cf660504f9de6dc72b205195878aabb4a579075b2720a620df9fef97ac42"
+    },
+    "La_Liga_21_22": {
+      "sha256": "3ce660f27b39bad748813be079ad7e3c94619d14d596ae09d1469ec48f3de05b",
+      "rows": 20,
+      "matches_sha256": "7da6ebdc23f209546cc061284f00613e932a826999e9980a89ef6f14c55b3005"
+    },
+    "La_Liga_22_23": {
+      "sha256": "68c37194e422ebf8285ba6df31cdc009eb5c16d8532cac7a55a7da20985f60fa",
+      "rows": 20,
+      "matches_sha256": "a8d406c40451e6929c8c5e7c6e4058563d380b89800f685704d3e766f7391d04"
+    },
+    "La_Liga_23_24": {
+      "sha256": "043fbb561c7860d4c727473b0321362e3f66f90f9f1a0ad3725ec53086451647",
+      "rows": 20,
+      "matches_sha256": "f30e26307940155804f257837b0a952f9dba14eec8a063e40e8e1b26e07c53a1"
+    },
+    "La_Liga_24_25": {
+      "sha256": "fa7fd0fc5ea254f4ce96ea7fb39a6577c83757b58e123a543e4f730f62bd04b0",
+      "rows": 20,
+      "matches_sha256": "9e891cda544ea56307ff2481c84ac91a6ef0614c13d11fbcb1dac527778ffbfb"
+    },
+    "La_Liga_25_26": {
+      "sha256": "64b69f616d7f4eca89fbc3ed764ae260bbdd6242a64609b65a0640704ef0fbf5",
+      "rows": 20,
+      "matches_sha256": "b1e8b09d19a8bc69a06bd79f1aa83902d82525445ed9755add60981fd2938a7b"
+    },
+    "La_Liga_26_27": {
+      "sha256": "f21346057cb2449a68e207a9eda8e4eaa9cab922fb5e7f4aee4242e12a7a2273",
+      "rows": 20,
+      "matches_sha256": "6c3a5aa008d54cd9c8a56f26e2969d20b28420f9521e7b832e82ae3072ca853f"
+    },
+    "La_Liga_2_16_17": {
+      "sha256": "dcdaaa03705b556722799545d384708294a426e4235950a94b90b0c284b73ae4",
+      "rows": 22,
+      "matches_sha256": "66b98ad1e127d00cbde80bc793feab7e8606c42d1937062386999f93123b2705"
+    },
+    "La_Liga_2_17_18": {
+      "sha256": "2e8cc0d0eba099a0d2bef05f6059fa62025e6015d4cc5b515263c7ebce89868c",
+      "rows": 22,
+      "matches_sha256": "4a2ad6a3c9d0244634aee6dcba73a8d302bf2fe1ea956acc6bb0b85873a87677"
+    },
+    "La_Liga_2_18_19": {
+      "sha256": "e10d3c6250ac1331b6cbdc82fc57f5cf40c519cbd45269db1d5b4c7156e382d2",
+      "rows": 22,
+      "matches_sha256": "0b850a609cfeffdad4507b506129f7070986ce53dff7ec7b717f179b46cc55dc"
+    },
+    "La_Liga_2_19_20": {
+      "sha256": "bae4f348f887d3812a5f246091c22e2cb474056ac480a984a026a78a89b3a0a0",
+      "rows": 22,
+      "matches_sha256": "8ab8491fce54c8e81295f3ff7ec8bc099902f45835f91f1510c588c59778c394"
+    },
+    "La_Liga_2_20_21": {
+      "sha256": "b9ca6c6d3ccbdfeb27494aa9499f0663e22cdba787708aa3dac1d10ba6744a2c",
+      "rows": 22,
+      "matches_sha256": "897e7eefa643d333f403d2e377f75b4a05e3cc1b8a572d91f067af2f0bb853ef"
+    },
+    "La_Liga_2_21_22": {
+      "sha256": "c1dec79afef721dfc6bcb82f035b862bd78b8c8d535cc5904c85240628a3329c",
+      "rows": 22,
+      "matches_sha256": "035c16c87dd1b8dbc238f6682510c91de113ac6bb8004004c6f1d1b435a03aa1"
+    },
+    "La_Liga_2_22_23": {
+      "sha256": "978ba20896f765a29eb43c63859726e054b9fc99ef6c113384c93c6646d6dc58",
+      "rows": 22,
+      "matches_sha256": "28f149dc4dfaca11e2e717a4b9be61fd6e4ea71809a053c076d376003470ac9d"
+    },
+    "La_Liga_2_23_24": {
+      "sha256": "32d6c6b6bdfedeac00a699e6dbb0088da1daedc3f5be14eec15ee297167e37b7",
+      "rows": 22,
+      "matches_sha256": "2c81ed0f42495a12a2d8ad3aa6d23092c5e7e4b8e1c3e1a99cbd7f454c523893"
+    },
+    "La_Liga_2_24_25": {
+      "sha256": "f192f5999f5a61e6b7f732d644c2756b25ebf99bace05ea8d2ebd9bc31513388",
+      "rows": 22,
+      "matches_sha256": "cd36cafe84518d6135f38f4325838f7e5fb6ca576e322299ff92e541d8f5bf38"
+    },
+    "La_Liga_2_25_26": {
+      "sha256": "dc33b53382a7c6187602ee6e2d9135e8b1cfd0f0cbd7fd3753d91020e6844b9d",
+      "rows": 22,
+      "matches_sha256": "9415d53416a87f3adae994922a0cd7def84cb55296d2b47019df838de9dc48bf"
+    },
+    "La_Liga_2_26_27": {
+      "sha256": "438e1d9a7d0b9e03e1470b030276bd435bf580a3e855edd00b6761e6113ab270",
+      "rows": 22,
+      "matches_sha256": "6e9ae6f671f1f7c258625a9f4fe96f3b341784e1a78b96813118038a7bfde5b5"
+    },
+    "Ligue_1_15_16": {
+      "sha256": "7fba49b3b05e92beae880e6cf8299812a1022be925fdb25b032a392e0c415239",
+      "rows": 20,
+      "matches_sha256": "158662fd6238a4dcf326144b45c2a3ed15850e687b29bb6ab45f4733a58e32c3"
+    },
+    "Ligue_1_16_17": {
+      "sha256": "3fe584d5579258a0a497bf4bfda5b8a851d47ede53229fe3eaeb50410b9d19b2",
+      "rows": 20,
+      "matches_sha256": "8ebcf19d346ce827a572a2f8912666f041897ab11850148598642e99e53d955b"
+    },
+    "Ligue_1_17_18": {
+      "sha256": "d07119e84991907f26b78d6955994e658166b2eb4d4b36a52df04d64262496de",
+      "rows": 20,
+      "matches_sha256": "05995de91e438faa32577a9896ec5f05c4c5a6cce3d9ba152528461a56af5c6f"
+    },
+    "Ligue_1_18_19": {
+      "sha256": "697c6f15cc0c27675c1d658ecdd6f3ae7750fc4340f7cf81ed8fd5b374f40eea",
+      "rows": 20,
+      "matches_sha256": "4384e8d4056f259c0e224f61839969e29ed6fe1d0a103c63310b6260f8ca143a"
+    },
+    "Ligue_1_19_20": {
+      "sha256": "a5a853906e0db070692f5b0a624d76d2386bd9e708d272a728849edb6f30033a",
+      "rows": 20,
+      "matches_sha256": "3a67dc037b5591b93c3b13888409bbea2b87c20d82928774cef32fe6d9c268d8"
+    },
+    "Ligue_1_20_21": {
+      "sha256": "ed40cc8070cdd2d6f582661ff796f7a7017a7723bac3e5978ec59d1dbaa37071",
+      "rows": 20,
+      "matches_sha256": "bcdf60a60ba4c5110d9fb7688a66e8e7c7d1bab2d5f6a1637ce7d259ae40040f"
+    },
+    "Ligue_1_21_22": {
+      "sha256": "cdd8f464fc694d32fc7c9e88e505c371a5cce47c5d43b5136632fcf57bbc28ef",
+      "rows": 20,
+      "matches_sha256": "a1ec68da29304db90fe683d4ac58a473401575eec0206d120a105c59edd67893"
+    },
+    "Ligue_1_22_23": {
+      "sha256": "983647c0b9c622e22ac343ea9d08180aa5c534fec15ce9facc6484e99f8de4a7",
+      "rows": 20,
+      "matches_sha256": "e814ae5144b7732324ee75251ba390e5930abdd0abba3c2cd9302b7d985865af"
+    },
+    "Ligue_1_23_24": {
+      "sha256": "20c7ea6e7768d0539d508638dea889ac5c9e1bb3e71ad0e534d768d18506afc3",
+      "rows": 18,
+      "matches_sha256": "66ce48861a9aea786d0e1a763fe5e66370ad10c6065829de1aefd62550d50186"
+    },
+    "Ligue_1_24_25": {
+      "sha256": "92eddbb5d62830543d0bff00998984e94aa2ba7accddcc1abcc19b2438ae7d36",
+      "rows": 18,
+      "matches_sha256": "b9bd7112c57c31edf6c38f7429c6ba6c9e59d33c1ed78ed57d5d2a76d93d5d61"
+    },
+    "Ligue_1_25_26": {
+      "sha256": "c3ca886a367aa67af9f97f504ec5d577418d5d4eaaff7608e29bf53a2ab1b85f",
+      "rows": 18,
+      "matches_sha256": "67472c4b388ed3242bb663361b10d19b11da7144bab3b03c5d74519f8a455c02"
+    },
+    "Ligue_1_26_27": {
+      "sha256": "e2afeb8de3e790e51b5c43f2754ef49743f3e8ef6d5923c51d1eed3f1809c194",
+      "rows": 18,
+      "matches_sha256": "818e88a47047a0f8284541c89bfaff5c422e301133de23abcc8e0adc6218b0be"
+    },
+    "Ligue_2_17_18": {
+      "sha256": "2b74ec0f9b34b2c75c60541769fed3c78a5c349ddadddc5d0f92507a4a8ea1dd",
+      "rows": 20,
+      "matches_sha256": "a13997feca1ac27099deee9bf38fe792b79e55ea1fa8066d6756c6d4d2beebec"
+    },
+    "Ligue_2_18_19": {
+      "sha256": "53737ec90a1f04176ee128dfdb9552f8c71786feeb9cbfcb560e471f6ae61b11",
+      "rows": 20,
+      "matches_sha256": "bd675444687184f4e69cd99d2a3553380c1a8efe92d4e5fd659deacaf4788efa"
+    },
+    "Ligue_2_19_20": {
+      "sha256": "194a7c2a927413a3323dfbbad8a48501e79e055e14dabf61f002dcc62d574837",
+      "rows": 20,
+      "matches_sha256": "7c207b0a855d3b95b68472fc9455859df18d201de2a9cc994468a956981a7052"
+    },
+    "Ligue_2_20_21": {
+      "sha256": "072900ea283e3b623238400e9a77a388b7fe47e0d689522bbd58fbdd34c9fdab",
+      "rows": 20,
+      "matches_sha256": "3e15610885672eb2b4725e696acd8ccc2db3ed807faf3dbc8cd5aa9345c1c8e9"
+    },
+    "Ligue_2_21_22": {
+      "sha256": "39ec57b2bc9c1e5837f82cffb1eb5804af43f8f77e8816f7b0e8fff167ec2213",
+      "rows": 20,
+      "matches_sha256": "6e1956ba8e7794aab3b78d1f7da48ca2e8824fb3c7a55f3feeafed7966a480d7"
+    },
+    "Ligue_2_22_23": {
+      "sha256": "8228452a5939778a5c2294f28e006c4f25666f93ed7979f7460c40638cbc3a12",
+      "rows": 20,
+      "matches_sha256": "f0d0d30c30d15a9f7fd9496bea967336ae9166e820126921b3637714d2761ac6"
+    },
+    "Ligue_2_23_24": {
+      "sha256": "27ac52d55b0c9447d87b5c01ec4ddfdbf0094c8132ca5f808a536c4f547fd05b",
+      "rows": 20,
+      "matches_sha256": "e4befe12f081ecc1595b65c97c187db60317930191046101eadc7498d4b8e9f4"
+    },
+    "Ligue_2_24_25": {
+      "sha256": "c982a48270d7c5c116773f4099be2b45f356e35fb5e9f691d7f639d027005ee1",
+      "rows": 18,
+      "matches_sha256": "d3657825417cafa8a9f21b8edabc7bf9460ec7ab0eec10946f2a0261c954a5af"
+    },
+    "Ligue_2_25_26": {
+      "sha256": "9be4711349c65ef4a8845be9e8001d5592d70cf71259402e8d4f9808de38a020",
+      "rows": 18,
+      "matches_sha256": "926427b1d7f24710578963620a3452c51bdd688aabaacd044e572c0fe110f966"
+    },
+    "Ligue_2_26_27": {
+      "sha256": "7ae0589308af5b71d5796d8b8bf3b862684b0be0fef32f5a9c87a49da46150d1",
+      "rows": 18,
+      "matches_sha256": "64f329a05f63bf23e69ef4237c31331c2c9bd4dbb2447d296e90a903593d25ce"
+    },
+    "Premier_League_15_16": {
+      "sha256": "4f23ae9a432d53b7410a6291c464cebaaddb05614fea61350a466ac3e223e199",
+      "rows": 20,
+      "matches_sha256": "ecbafe17ecfd74061f41c676c07565c2f2fb7f2353a1d947a2e6b667251fd507"
+    },
+    "Premier_League_16_17": {
+      "sha256": "458ba77f58847274134d06243a15caafb4a74fa0f5692330dfc5848b1664434c",
+      "rows": 20,
+      "matches_sha256": "dfbf2041510a72f9c60895802e084ac768bb3e71b4c721184aabce01a05d71b6"
+    },
+    "Premier_League_17_18": {
+      "sha256": "bd6720679e96eed143a8ab1c406cbd421da1c8c33ebb7a85a7566e0192dfaaa2",
+      "rows": 20,
+      "matches_sha256": "104e08348b2aa60464b67b97e7b17f8504325ae7b99ea5f52346a0ce4f2e8983"
+    },
+    "Premier_League_18_19": {
+      "sha256": "d624ea41b020b47d992ee2d582b96874457de0e981d94dcc76169f1ef9eceff8",
+      "rows": 20,
+      "matches_sha256": "1896663b431399f2b80cea0938a1a2fe3edacf835a624556a30946c2a26c6be2"
+    },
+    "Premier_League_19_20": {
+      "sha256": "621438c57f89b24c06555f46cd8f6a2571291f6c122fabce2c11b24fd66ff3f5",
+      "rows": 20,
+      "matches_sha256": "293c27b06c71d413413b29b115d0f2fb12aa1ed36f42b37da978f44c540596ae"
+    },
+    "Premier_League_20_21": {
+      "sha256": "45a32978243393f1404f8d6d3b41a3217c17d92ade47560e592f3faf8f7f1d40",
+      "rows": 20,
+      "matches_sha256": "1d798100adad3e5149874a4d5d59ed46c93301f0e55b5ec80ccd18d8fbab38df"
+    },
+    "Premier_League_21_22": {
+      "sha256": "027647d608781b0abe59b32993df1795c10134573e4c02cf003e7e4119335e4d",
+      "rows": 20,
+      "matches_sha256": "9e3950624b00366a6d137e5203796d786adca235fe6ef6a753f8a53f5a4476f6"
+    },
+    "Premier_League_22_23": {
+      "sha256": "c82596d4a2af96cd798243429b1e404e66772e5c78650220e61be2e0279aa11a",
+      "rows": 20,
+      "matches_sha256": "72737a2a6854d84e185765e4ae4d47946182ae44679bea91efcf34b4676058fa"
+    },
+    "Premier_League_23_24": {
+      "sha256": "06006b9af9526b2d530fac748aacc8f4698f9a67523616904a1d1ead2528a60a",
+      "rows": 20,
+      "matches_sha256": "1c546861bcc69d394c97d544dca40a0b97649dc44a3aa10fce038c09bacdf8ba"
+    },
+    "Premier_League_24_25": {
+      "sha256": "d4d86bcf9843138bdbf8d151c01594379df74d7f92e482424788c9d5045d7e6a",
+      "rows": 20,
+      "matches_sha256": "d182e8ecd60ebbb8ff60eca24255a122805af4b0b1fe62189f9b370c933b0719"
+    },
+    "Premier_League_25_26": {
+      "sha256": "4cd13cfe8b4bf2571878416b639612f55bd21d7682df0ec716fbf90117e722c6",
+      "rows": 20,
+      "matches_sha256": "c722c14d1999bd465898d8ed73afdfc1fa9e36124c1c3d34013aab9d8965d211"
+    },
+    "Premier_League_26_27": {
+      "sha256": "5cde9b075f4cf82cc47434ece67797a0206ab6ab7d7def18ebea4d1fedd25bd6",
+      "rows": 20,
+      "matches_sha256": "2b354cd9b521980711655b8945b5ebc34a0d7d074ddd1a1e23891a91d1f43b02"
+    },
+    "Premiership_20_21": {
+      "sha256": "527fd772af6e4789ccc5fb6d342260300999f1964fd5f98f12a005c09bbf9404",
+      "rows": 12,
+      "matches_sha256": "45b4a635a93b5f7eb211eee5d8b2fcc4c851e8a6592ec73e4ec2a0234204d4cd"
+    },
+    "Premiership_21_22": {
+      "sha256": "cac0de7c5201862275989a83b20d7f862fa70b4c10ddf4befa7f998046151611",
+      "rows": 12,
+      "matches_sha256": "af966662477730c53b89a192069e86c8553c8f5abccd54851c3c5b1e6bfbc01c"
+    },
+    "Premiership_22_23": {
+      "sha256": "d861987aec547f2f1b329ab366f04d7cd213bf4c7cd4d5d5bff2c42c95503b2e",
+      "rows": 12,
+      "matches_sha256": "75f90f81073b6e3458a60435af12031663b3c588704ad60f77c88202b15e9dbb"
+    },
+    "Premiership_23_24": {
+      "sha256": "3cfa2b6f95c73496ed2de4ec4601bbc634195eb9ddd62ef9da1ab1baeb9dc67d",
+      "rows": 12,
+      "matches_sha256": "37a66f8ecb40082d76574f28a3f061d9559b9e0c934658584bb973cd3a1601f1"
+    },
+    "Premiership_24_25": {
+      "sha256": "e2eb4191a60e62c089a74b16df6a588f988e0a0d6d80e255538487e8946004bf",
+      "rows": 12,
+      "matches_sha256": "ba66cc7218193d9d9ea64dfcda89e528e4bdf7cd9db0da92fdd4edf9c3c54bb6"
+    },
+    "Premiership_25_26": {
+      "sha256": "fa98e075e45ca0010cb5c61c6a7be144764d86785e739856f5b22ea3c29291fb",
+      "rows": 12,
+      "matches_sha256": "b14340d9df47ccba2d72d136ff3485c56e7b565fb4ebeea61d2273bef6d3595c"
+    },
+    "Premiership_26_27": {
+      "sha256": "9d6a37c0806f786f97204d2a6422171d9f9a245ebcf1c4a85509139186d67252",
+      "rows": 12,
+      "matches_sha256": "9e14ac3570041436d8552cf4b503defd5caddf2ecf812bfce69862bb78c55795"
+    },
+    "Pro_League_20_21": {
+      "sha256": "ff4f02cd70a6faac5621227e9f7c06c2a90ad09e3346f1729e0a936e50ab09ee",
+      "rows": 18,
+      "matches_sha256": "a2ef1b70feb8a3a00d1ad9ebcc92cb3a6afeac4f4258ba35d46a216f9f92b725"
+    },
+    "Pro_League_21_22": {
+      "sha256": "608aefd325bd1c9eeeed37f35b53b518e48cbb98af2d1347c7bd26b9bef9e9a2",
+      "rows": 18,
+      "matches_sha256": "7c6e5a84ffe113c4aec771bcfbe49ed1a76690194adda263699e8416d790a8f3"
+    },
+    "Pro_League_22_23": {
+      "sha256": "a5d8d4ac82675107062aa69558b991e39d0c4c04bf084d07769b4e79008456f4",
+      "rows": 18,
+      "matches_sha256": "d9b33768d08e8ae5a980ea7cd225025ff076ed4a7095c9623eb00b95b543916e"
+    },
+    "Pro_League_23_24": {
+      "sha256": "251dc5e65d4d67caea039f93ea1a69a632b705c498dc25ab6f9d1beb84c17728",
+      "rows": 16,
+      "matches_sha256": "09d22d096f8796635ac91604b5753dfaebb34e9afca988817126868bf0b9193b"
+    },
+    "Pro_League_24_25": {
+      "sha256": "32e0840856ad757559f7b225276a6a216182e140709987fd4ddd6671c49335d0",
+      "rows": 16,
+      "matches_sha256": "681e3218226264659dce2b32191ab5745b3408924622e44c5d534f1318778408"
+    },
+    "Pro_League_25_26": {
+      "sha256": "1d4f17e3f718d1f72f55b815efeaceefafd774ae24716abf38e169297d3eeabc",
+      "rows": 16,
+      "matches_sha256": "9a765e12e7148cce8f103839895a5001c10eb64997a89a5d9e458b5ca53fb375"
+    },
+    "Pro_League_26_27": {
+      "sha256": "3ee340883589952d54da782dd6f6e95dc198f51588ac2b085d462f82a072022c",
+      "rows": 18,
+      "matches_sha256": "9c6af9a3896ffd0710e718d93294fab1d19db4aa0ec5d45e2d2dd263ab74a2e7"
+    },
+    "Serie_A_15_16": {
+      "sha256": "26eff762922c3f598f9f958fceb894117616ef89442cd3e9f11080eb55f209da",
+      "rows": 20,
+      "matches_sha256": "26c7665dcc1a4fcfcdbf6d56c456ead07b8f08a96168975b3952c23d360ea505"
+    },
+    "Serie_A_16_17": {
+      "sha256": "998b102e6dd66605d5a677f98ed71f949a67a45ab76c8b38f370ee4bb900e348",
+      "rows": 20,
+      "matches_sha256": "82cc0b7dd295a937298447572535567fecfd046c96d015243e9afe5dc1a64e8e"
+    },
+    "Serie_A_17_18": {
+      "sha256": "f69da4161c02c068f9d9628ab66ae6dce8bd40184ec61181753cbb98ff904e66",
+      "rows": 20,
+      "matches_sha256": "ae0180f36654eeb983b08a1fe65d6fa684861c4337017285c7a2aae2f8fad423"
+    },
+    "Serie_A_18_19": {
+      "sha256": "f2eb0ec73f77ec84954b5cf5ab80795da2c0bfc9273a72d4f95065e505b8e2e8",
+      "rows": 20,
+      "matches_sha256": "aaa1ab7ff8dfe940226a29a5a7e2dd2239287fe82c6bba2e88f0ad8076b78fc8"
+    },
+    "Serie_A_19_20": {
+      "sha256": "7f5308f998c6311ca8d14a4aa754711554aee0d982b60ed7d3be7ff87899cc83",
+      "rows": 20,
+      "matches_sha256": "ed386da94041baa42d463e114b6b95f845f9e437b1fe630fad75ab47dcf18f19"
+    },
+    "Serie_A_20_21": {
+      "sha256": "d7a72a552fd7534593df2a76c32c59fe4a96ea67699e3f5dd4d91e5ab9bde0f3",
+      "rows": 20,
+      "matches_sha256": "fed277b3d516524ea2087b557a6aa07524dcc0fc0b6eddb94b3ad73b5dfe5147"
+    },
+    "Serie_A_21_22": {
+      "sha256": "eed9c2ad52b6ccaa3b41a9fd6b986f1a48345d7bbe3e5d7c20ece48529c65e0e",
+      "rows": 20,
+      "matches_sha256": "72628d3cde6e30e546960446dfecdce34f354118275295b465fd7b4a8def3352"
+    },
+    "Serie_A_22_23": {
+      "sha256": "86c1bef6731199470af510ea376c17be916d7e534aef72f72b0ba148bdd34f56",
+      "rows": 20,
+      "matches_sha256": "932693b44a648f2723dd380459c89ded8d847eccd6ace501ccaa570751115d6a"
+    },
+    "Serie_A_23_24": {
+      "sha256": "1eaf51e4c28d5fcc2aadbf7f734f33326f770f04c4c0ee65aa5c4b9abbc836e4",
+      "rows": 20,
+      "matches_sha256": "ed192e061424c831322f905426f97551b0e1cd8627c29acd7afdfeac2dd57f47"
+    },
+    "Serie_A_24_25": {
+      "sha256": "954c5e1101c762e9eb6d4a90ef0eb26f4d67f16afaa4572caa29704c32a3bf77",
+      "rows": 20,
+      "matches_sha256": "4d82ccfe58ad38ddf866b69879279d1b7afb43e19979b74ef863974a96ef6e09"
+    },
+    "Serie_A_25_26": {
+      "sha256": "8ba084f46120658af33a4cb40a0657084f99b68d916d108f2bdae881e59eccb4",
+      "rows": 20,
+      "matches_sha256": "f47b643c93a41201443e2217a9f348d2d066606ae0c591a852fb44decfa01846"
+    },
+    "Serie_A_26_27": {
+      "sha256": "e4b19ea04c143e2c035bca8c68f602b90e21be5b657ce39bda2e4e7238d90f9a",
+      "rows": 20,
+      "matches_sha256": "88c09b15ae9280079c9cb0b948701393a8585aaf91bd9bf6a60df2cb47100051"
+    },
+    "Serie_B_19_20": {
+      "sha256": "984031e86f894edefca3ffbe16084a303996fa2691911ae49cfba8df01ab2bc5",
+      "rows": 20,
+      "matches_sha256": "6a2b09d8a6f7c86897197a185239ecfcb243ec99585651892bb566bd38b1348e"
+    },
+    "Serie_B_20_21": {
+      "sha256": "3c7a61f796ada796f27e0603115773881ac577d5fda2be5077aed20bb34a8d25",
+      "rows": 20,
+      "matches_sha256": "4ecb194b1683fa20b086afd5a90cb24d7cc54ebf54bd52dcf13b8a64d839fd54"
+    },
+    "Serie_B_21_22": {
+      "sha256": "ed6e1cea8fb21ccc0437cdb9c93f617e108bcc67e01c4a90b7c785e6e0daeb30",
+      "rows": 20,
+      "matches_sha256": "2d23bc2a14702b13a3877820b5cc43e26f995a65e2df7d2093ef8c67801cb4f6"
+    },
+    "Serie_B_22_23": {
+      "sha256": "f2a416a2aa1c49b5cd093e4d4efcfa6fb86dfdfe7148e1886376a8c7d5bfa231",
+      "rows": 20,
+      "matches_sha256": "cbc15e697fee2b8c0cb5491515a807dd6e03b742ea2d28fb6a7af8439a2aac1f"
+    },
+    "Serie_B_23_24": {
+      "sha256": "c420b56ea0add5de90a1a318860ea35356b65869898b29bf962519f374910457",
+      "rows": 20,
+      "matches_sha256": "643c63db7743ea7c515ec6b25bd5641fd2222e72b1647b1b11bf5a5af51ef63c"
+    },
+    "Serie_B_24_25": {
+      "sha256": "51ba878dc5bd92d88bf571d928b5a206ad999915715415d8bf01b8a1e5496a61",
+      "rows": 20,
+      "matches_sha256": "4c3c71a2f569a568afc29ba10313ced68bcc4485054d28c562373c63add6156f"
+    },
+    "Serie_B_25_26": {
+      "sha256": "797445778bc4f2163aebaa248293ebd40a3d88ca39042fbbb8138849d9294da5",
+      "rows": 20,
+      "matches_sha256": "26c19336b95ed6a537284e50efcc6a6ca23486c20ae2f055018e03abefe2744b"
+    },
+    "Serie_B_26_27": {
+      "sha256": "5489c5b427e68d6bc39e56f6cfd68298a0dfa42546f9009a2b200f53aa0feff8",
+      "rows": 20,
+      "matches_sha256": "c93d02e64ef5b46a80071993def3a4610b5d5946dcceda70b72f0df6c75a19da"
+    }
+  }
+}

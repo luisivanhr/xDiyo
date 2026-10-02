@@ -1,0 +1,9 @@
+{
+  "season": "La_Liga_19_20",
+  "old_manifest_sha256": "5aaa23fe0cb0ed7b60713fca417b004a1d05bba3c4aba93e41cadcb2eda57f2d",
+  "old_publication_sha256": "1bd62e050ecb4f905cf4ca5657edde94e870122d63cb0caaface24395d572e5a",
+  "new_manifest_sha256": "3d14cccba356936974b3ae2a1c5cc24881ef2cbf2c03a6a81196bd40b973baea",
+  "new_publication_sha256": "9006411ae0b671cf47e952fd35a23fa7c6a45fe4595ebb2d3e909c02448913bf",
+  "matches_sha256": "c7ba538e420882bfd09e37658ff228fef19e4661b0ea928197537cd1e03f72d8",
+  "season_sha256": "af2ecac0d69529737174bce0fd270549bb2eaa9bbe6c72332396002278ad9e15"
+}

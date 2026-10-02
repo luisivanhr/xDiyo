@@ -152,6 +152,9 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
     their event-linked rows in every requested table. Missing flags stay unknown
     and are retained. This may read matches internally even when not requested;
     include_awarded=True retains the original selected-tables-only loading path.
+    Request team_seasons to load separately fingerprinted movement enrichment
+    when available. Existing exports and selection records remain unchanged;
+    the extra fingerprint is recorded only when this table is requested.
     """
     if not isinstance(include_awarded, bool):
         raise TypeError("include_awarded must be True or False.")
@@ -162,9 +165,15 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
     if len(set(tables)) != len(tables):
         raise ValueError("Choose each table only once")
     source = _open_source(data_root, season_stem, record_path)
+    enrichment = None
     for name in tables:
-        source.table_path(name)
-    frames = {name: _read_table(source, name, verify_hashes) for name in tables}
+        if name == 'team_seasons' and name not in source.manifest['tables']:
+            from .movements import _read_movements
+            enrichment = _read_movements(data_root, season_stem, source)
+        else:
+            source.table_path(name)
+    frames = {name: enrichment[0] if name == 'team_seasons' and enrichment is not None
+              else _read_table(source, name, verify_hashes) for name in tables}
     if "matches" in frames:
         _check_matches(frames["matches"], source.manifest["scope"])
     if "statistics" in frames:
@@ -184,6 +193,8 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
                 "manifest_path": str(source.path), "tables": tuple(tables),
                 "include_awarded": include_awarded, "excluded_awarded_event_ids": excluded,
                 "awarded_flag_available": matches is not None and "is_awarded" in matches}
+    if enrichment is not None:
+        provenance['team_seasons'] = enrichment[1]
     for name, frame in frames.items():
         frame.attrs["source"] = {**provenance, "table": name}
     source.save()

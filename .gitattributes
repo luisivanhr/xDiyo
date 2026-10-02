@@ -1,0 +1,2 @@
+# Published checksums describe exact bytes; do not rewrite them on checkout.
+data/xDiyo_data/** -text

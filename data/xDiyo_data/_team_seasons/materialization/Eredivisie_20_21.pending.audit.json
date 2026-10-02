@@ -1,0 +1,9 @@
+{
+  "season": "Eredivisie_20_21",
+  "old_manifest_sha256": "8c1c448d043ff4254cfd1af20d4ad7c0cf1d6179a6555ac1dbeeca9b74f4bb6b",
+  "old_publication_sha256": "c23dfc3a637fc2dbfb34ee4454fd811d3af54839d484b0b4d9f35b1441f36cef",
+  "new_manifest_sha256": "9c2c462c0467db8f1e3ec23d65d0cb306a5e6505bf4dabf7dd1a0e8853573f7e",
+  "new_publication_sha256": "893f54f9bd7decefc2dc67bdbced8601a34ad5d7b22ca2f6e5cf820ebde6cb4f",
+  "matches_sha256": "4932ed3b0762c4984514c976d99633f48f5941c4e84297fbfc463ed1ec3f6ba1",
+  "season_sha256": "466498a04c08fe82a3baed7c1858ca6d76fd302e357c3d8ef4dea239be01afae"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "La_Liga_2_26_27",
+  "old_manifest_sha256": "618f9e4cf1dbdcdf929dfe00d529ac54a4c8d46a0321150a3252de6febb90c1c",
+  "old_publication_sha256": "d25504f3c6249c3449c72b57a051f23a11c5d08830f19347c0f8931cf0acb642",
+  "new_manifest_sha256": "753e65d41a2e9fd820b13fcb0bc96df3b61e12854e1ab9d2cba0ed4ecd40c024",
+  "new_publication_sha256": "a3bf4e895706905af798513c3695f70dfcf781d8e38f57d5d27648c75c8823da",
+  "matches_sha256": "ecc34bc2361e4b36161cb10f672b437087a5f09fb2c2c3ce9caf11425a31a88a",
+  "season_sha256": "bcca2cf56702a908c70cac762633296aac2ad6bbf8273d5c62b4a89b6a77c88d"
+}

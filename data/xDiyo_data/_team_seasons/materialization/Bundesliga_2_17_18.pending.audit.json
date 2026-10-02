@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_2_17_18",
+  "old_manifest_sha256": "e9eddfcab0fa58518527054db23ad71643d408f18d9f6449143510265289a5e9",
+  "old_publication_sha256": "0eb897afab037a347cf482ed15591c2776fac6a078da0a0f13bd69832769d242",
+  "new_manifest_sha256": "b46d6994b40408356be1320af7efa52bcfd0f7a064e4ddb053c312a023ff056a",
+  "new_publication_sha256": "c4e5d8a39a30d8002843470b47160ad1f15fc94890d4d0a6dba3af6997d319e2",
+  "matches_sha256": "327aa2593f9a685d6d3a8c92db6b2337b55427ee64a546dbbbc8988b53b01a96",
+  "season_sha256": "cba1b3065774979d6f9fa921815053024bdaabfd5e76bbd43cd9a294ddb3fc6a"
+}

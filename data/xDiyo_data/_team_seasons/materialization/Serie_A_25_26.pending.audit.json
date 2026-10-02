@@ -1,0 +1,9 @@
+{
+  "season": "Serie_A_25_26",
+  "old_manifest_sha256": "9d1813dc6c8654aaff97a505695aff5ddb1a74e522b48475db7e8ea5565de3ce",
+  "old_publication_sha256": "dbae32c4444b54df0c0687c993eda9dd3b0d1b45cffcb6a1abb0deb385f16a24",
+  "new_manifest_sha256": "520639d0c9dc39c02c4d3070bf14f354b3000809c769b80e5dacdfa65b9114d6",
+  "new_publication_sha256": "abbd33e9a276b93db42b802df831beb2fd3c2c7aa3b91e559f0a48d02520600a",
+  "matches_sha256": "9a40115dc29d31ca0f25ae6c50ecaf669ff7e52f740e18338ba1a5f1ab026c81",
+  "season_sha256": "82836f1c0366ecc1a87081cc1e165ecc2b2d9ca096ec7bc1c8827a2ad41af7ef"
+}

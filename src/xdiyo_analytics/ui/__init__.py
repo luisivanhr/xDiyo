@@ -1,6 +1,7 @@
 """Local, notebook-launchable experiment builder and portable recipes."""
 
 from .catalog import Catalog
+from .refresh import refresh_recipe_data
 from .recipe import (catalog_for_ui, default_recipe, export_notebook, export_python,
                      predict_recipe, prepare_recipe, read_recipe, run_recipe)
 
@@ -12,4 +13,4 @@ def launch_ui(**kwargs):
 
 
 __all__ = ['Catalog', 'catalog_for_ui', 'default_recipe', 'export_notebook', 'export_python',
-           'predict_recipe', 'prepare_recipe', 'read_recipe', 'run_recipe', 'launch_ui']
+           'predict_recipe', 'prepare_recipe', 'read_recipe', 'run_recipe', 'launch_ui', 'refresh_recipe_data']
