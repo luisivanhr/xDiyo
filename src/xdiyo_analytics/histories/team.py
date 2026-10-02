@@ -16,7 +16,9 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
 
     Context columns include event/team/opponent IDs, side, competition/season,
     names when supplied, goals_for/against and result. Goals are the provider's
-    score_current values. W/D/L is assigned only for status='finished' with both
+    score_current values, not necessarily regulation-time scores. MatchScore
+    features read these columns without reconstructing halves or adding penalties.
+    W/D/L is assigned only for status='finished' with both
     scores present; this is a score comparison, not a penalty-shootout winner.
     Unfinished matches remain in the output and have no result.
 
@@ -163,5 +165,7 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
     history = history.sort_values(
         ["kickoff_at", *keys, "side"], kind="stable", na_position="last",
     ).reset_index(drop=True)
-    history.attrs = {"source": data.provenance, "stat_columns": column_info}
+    history.attrs = {"source": data.provenance, "stat_columns": column_info,
+                     "score_columns": {"goals_for": {"score_field": "current", "side": "for"},
+                                       "goals_against": {"score_field": "current", "side": "against"}}}
     return history

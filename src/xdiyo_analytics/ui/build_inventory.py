@@ -305,7 +305,11 @@ def build():
             if name == 'source' and key in ('labels.TeamValue','labels.MatchTotal','labels.Outcome','features.ForAgainst','features.StatGlicko'):
                 f.update(kind='component',components=['features.Stat'],initial_component='features.Stat')
             if name == 'source' and key == 'features.LeaveOneOut':f.update(components=['features.League'],initial_component='features.League')
-            if name == 'source' and key == 'features.ForAgainst': f['components'] = ['features.Stat', 'features.Heatmap']
+            if name == 'source' and key == 'features.ForAgainst': f['components'] = ['features.Stat', 'features.MatchScore', 'features.Heatmap']
+            if key == 'features.MatchScore':
+                f['primary'] = True
+                if name == 'score_field': f.update(kind='select', choices=['current'], title='Score basis', help='Native current score from the matches table. It is not universally regulation time. No reconstruction from halves, extra time or penalties, and no fallback to another score field.')
+                if name == 'side': f.update(kind='select', choices=['for','against','both'], help='For is goals scored by the focal team; against is goals conceded; both creates separate scored and conceded columns. Wrap in Rolling mean or Lag to use previous matches only.')
             if name == 'venue' and key.startswith('features.'):
                 f.update(visible_when_contains={'source':['features.Heatmap']}, clear_when_hidden=True)
                 f.update(kind='select', choices=[{'value':'all','label':'All venues'}, {'value':'same','label':'Same venue as target fixture'}], primary=True, help='All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.')
@@ -415,7 +419,7 @@ def build():
             if name=='league_weight':f['help']='Blend a moving team’s previous mean toward its destination league prior. 0 keeps its old mean; 1 uses the league prior.'
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
-            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
+            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass','features.MatchScore') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
             if f['name']=='type' and c['category'] in ('pre_reporter','post_reporter'):
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']

@@ -1399,3 +1399,7 @@ See [bet ticket guide](docs/analytics/bet_tickets.md) for equations, controls, t
 ## 2 October 2026: whole-group combinations
 
 Added `AllCombinations(legs=2)` alongside existing batched policies: exact previews, per-template limits, deterministic full-identity membership and explicit stage isolation. Added `BinaryDrawThreshold` for the exact binary draw BetOption (1=draw, 0=non-draw), inclusive frozen thresholds and an unfiltered baseline. Both are discoverable in the UI and native recipe exports; opening-price provenance and source pins remain intact. See [the guide](docs/analytics/all_combinations.md) and `examples/all_combinations_draw.py`. Verification uses synthetic ledgers, predictions, quotes and actual browser controls only. No model fitting, research run or threshold search.
+
+## 2 October 2026: historical native-current goals
+
+Added `MatchScore(score_field="current", side="for"/"against"/"both")` for existing goals columns, with temporal source/reference guards, catalog/UI controls and recipe/export support. The compact two-definition rolling-20 recipe adds four home/away columns. Current is explicitly the native score, not a universal regulation-time label; no half-score reconstruction, data repair, odds predictors or study run. [Documentation and verification](docs/analytics/match_scores.md): 405 synthetic/preparation/browser regressions passed, including existing rating and label behavior. The separate draw study must retain its cohort/settlement exceptions and post-hoc disclosure.

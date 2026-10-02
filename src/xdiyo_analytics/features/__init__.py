@@ -2,7 +2,7 @@
 
 from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
-    RollingMean, RollingStd, RollingZScore, Stat,
+    RollingMean, RollingStd, RollingZScore, Stat, MatchScore,
 )
 from .evaluation import evaluate_features
 from .history import eligible_history_rows, league_season_team_counts
@@ -18,7 +18,7 @@ from .spatial import Heatmap, RegionMass, heatmap_grid
 
 __all__ = [
     "RegionMass",
-    "Stat", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",
+    "Stat", "MatchScore", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",
     "RollingMean", "RollingStd", "RollingZScore", "EMA", "evaluate_features",
     "eligible_history_rows", "league_season_team_counts",
     "Rating", "MatchResultGlicko", "StatGlicko",

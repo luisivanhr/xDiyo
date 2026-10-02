@@ -51,6 +51,41 @@
       ],
       "accepts_extra": false
     },
+    "features.MatchScore": {
+      "id": "features.MatchScore",
+      "title": "MatchScore",
+      "category": "feature",
+      "description": "Observed native-current goals; requires a historical operator.",
+      "fields": [
+        {
+          "name": "score_field",
+          "title": "Score basis",
+          "required": false,
+          "kind": "select",
+          "default": "current",
+          "help": "Native current score from the matches table. It is not universally regulation time. No reconstruction from halves, extra time or penalties, and no fallback to another score field.",
+          "primary": true,
+          "choices": [
+            "current"
+          ]
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "select",
+          "default": "for",
+          "choices": [
+            "for",
+            "against",
+            "both"
+          ],
+          "help": "For is goals scored by the focal team; against is goals conceded; both creates separate scored and conceded columns. Wrap in Rolling mean or Lag to use previous matches only.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.Heatmap": {
       "id": "features.Heatmap",
       "title": "Heatmap",
@@ -235,7 +270,7 @@
       "id": "features.ForAgainst",
       "title": "ForAgainst",
       "category": "feature",
-      "description": "Select a Stat's team/opponent columns, without another join.",
+      "description": "Select a Stat, MatchScore or Heatmap perspective, without another join.",
       "fields": [
         {
           "name": "source",
@@ -248,6 +283,7 @@
           "help": "Choose the observed statistic or expression consumed by this calculation.",
           "components": [
             "features.Stat",
+            "features.MatchScore",
             "features.Heatmap"
           ],
           "initial_component": "features.Stat",

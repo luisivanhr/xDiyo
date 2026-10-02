@@ -1,5 +1,11 @@
 # Build observed team histories
 
+The [MatchScore feature source](match_scores.md) turns existing native-current
+`goals_for`/`goals_against` columns into historical predictors through normal lag
+and rolling operators. `history.attrs['score_columns']` records that basis.
+Current does not universally mean regulation time; no half-score reconstruction
+or penalty addition is performed.
+
 ```python
 from xdiyo_analytics.histories import build_team_history
 

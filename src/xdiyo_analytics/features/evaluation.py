@@ -4,7 +4,7 @@ from numbers import Integral, Real
 
 from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
-    RollingMean, RollingStd, RollingZScore, Stat,
+    RollingMean, RollingStd, RollingZScore, Stat, MatchScore,
 )
 from .history import eligible_history_rows, league_season_team_counts
 from .ratings import MatchResultGlicko, Rating, StatGlicko
@@ -122,7 +122,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     def known_reference(node):
         while isinstance(node, (H2H, WarmStart, RegionMass)):
             node = node.source
-        if isinstance(node, (Stat, Heatmap, ForAgainst, League, LeaveOneOut)):
+        if isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut)):
             raise ValueError("Z-score reference must be historical or known context.")
         if isinstance(node, ARITHMETIC):
             for child in operands(node):
@@ -183,14 +183,20 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             result = (region_values(source, node.region), scope)
         elif isinstance(node, Stat):
             result = (stat_values(node, "for"), h2h)
+        elif isinstance(node, MatchScore):
+            columns = ["goals_for" if role == "team" else "goals_against"
+                       for role in roles(node.side)]
+            # build_team_history retains native current scores and creates
+            # missing values when their export fields are absent.
+            result = (history[columns].copy(), h2h)
         elif isinstance(node, ForAgainst):
-            if isinstance(node.source, Heatmap):
+            if isinstance(node.source, (Heatmap, MatchScore)):
                 from dataclasses import replace
                 result = evaluate(replace(node.source, side=node.side), h2h)
             elif isinstance(node.source, Stat):
                 result = (stat_values(node.source, node.side), h2h)
             else:
-                raise TypeError("ForAgainst takes a Stat or Heatmap reference.")
+                raise TypeError("ForAgainst takes a Stat, MatchScore or Heatmap reference.")
         elif isinstance(node, (Rating, MatchResultGlicko, StatGlicko)):
             if h2h:
                 raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")
@@ -326,14 +332,14 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             return prediction_safe(node.source)
         if isinstance(node, ARITHMETIC):
             return all(prediction_safe(child) for child in operands(node))
-        return not isinstance(node, (Stat, Heatmap, ForAgainst, League, LeaveOneOut))
+        return not isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut))
 
     outputs, spatial_metadata = [], {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
         if not prediction_safe(node):
-            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to Heatmap sources.")
+            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to MatchScore and Heatmap sources.")
         frame, _ = evaluate(node)
         names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
         frame, metadata = finalize_spatial(frame, history, names, name)

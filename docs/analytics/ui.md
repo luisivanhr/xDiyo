@@ -1,5 +1,9 @@
 # Football experiment builder
 
+For goals scored/conceded, choose **Match Score** as a **Rolling Mean** source in
+Features & ratings. Its score-basis and perspective dropdowns describe the native
+values used. See the [compact four-column goals recipe](match_scores.md).
+
 For spatial predictors and fixture pitch views, see [heatmap features](heatmaps.md#experiment-builder).
 Choose Heatmap inside a historical feature and select all-venue or same-venue
 history. This selector appears only for heatmap-based sources; ordinary statistics do not show it. RegionMass can summarize either half. Add Heatmap Reporter under
