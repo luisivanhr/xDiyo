@@ -233,9 +233,14 @@ feature APIs; the adapter does not infer them from arbitrary feature columns.
 - Native current scores are not universally regulation-time counts. Regulation
   mode requires explicit caller preparation. Awarded matches are excluded.
 - Checkpoint updates need new releases strictly after their frontier. Result
-  revisions and equal-time partial append batches need a full rebuild.
-  Previous-season observations arriving after a transition/bridge are rejected;
-  retrospective seasonal smoothing is not implemented.
+  revisions and equal-release partial append batches need a full rebuild.
+  A retained observation/entry journal supports late prior-season results by
+  recomputing present states and downstream transitions/bridges in kickoff order,
+  while preserving earlier forecasts and publishing revisions only when the
+  result becomes available. This is re-filtering, not full Bayesian smoothing.
+  Legacy checkpoints without that journal must be rebuilt before assimilating
+  results. Retrospective membership changes without a new observation release
+  also require a full-history rebuild.
 - A loaded parameter bundle does not contain trained team states. A static
   saved-run feature query does not automatically ingest new results. Use the
   documented replay/update path and explicit entry metadata.
