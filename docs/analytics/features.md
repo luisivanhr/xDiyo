@@ -171,3 +171,115 @@ The two-day change leaves these real feature values unchanged in this snapshot;
 synthetic tests exercise cutoffs that change eligible history.
 
 See [recorded verification and source hashes](features_check.json).
+# Season progress
+
+`SeasonProgress()` is known fixture context, named `season_progress` in the
+example below. It does not need a lag or rolling wrapper. Choose `mode="rounds"`
+(default) or `mode="kickoff"`.
+
+## Assigned-round mode
+
+For a fixture assigned to round \(r\) in a season containing \(R\) rounds:
+
+\[
+\operatorname{season\_progress}=\frac{r}{R}.
+\]
+
+The first round is \(1/R\), not zero; the final round is one. Both teams in the
+same fixture receive the same value. This is a normalized **round position**,
+not the fraction of matches completed or elapsed calendar time.
+
+**Postponed fixtures retain their original assigned round.** For example, in a
+38-round season, a round-5 fixture played during round 12 still receives
+\(5/38 \approx 0.1316\), not \(12/38\). Moving its kickoff does not change this
+feature. The source `round` column must retain that assignment; the library
+does not reconstruct an original round if the provider has overwritten it.
+
+By default, the denominator is the maximum numeric assigned round, separately
+for each `(competition_id, season_id)`, in the **full loaded fixture schedule**.
+Scheduled, unfinished and postponed fixtures are included. Neither observed
+scores nor completion times enter the calculation. Evaluate before filtering
+labels, prediction fixtures, folds, or report rows. The builder already evaluates
+features before dropping missing targets and creating folds.
+
+```python
+from xdiyo_analytics.features import SeasonProgress, evaluate_features
+
+features = evaluate_features(history, {
+    "season_progress": SeasonProgress(),
+})
+# With a partial schedule, explicitly supply the scheduled season length:
+features = evaluate_features(history, {
+    "season_progress": SeasonProgress(total_rounds=38),
+})
+```
+
+The automatic mode assumes that the loaded schedule includes the final assigned
+round. It cannot detect an incomplete schedule, and does not infer the season
+length from team counts or the number of completed matches. Use the override
+for such inputs; it applies to every row evaluated with that expression. For
+mixed season lengths, use complete schedules or evaluate each league-season
+with its own explicit override. An abandoned season's last played round is not
+necessarily its originally scheduled final round.
+
+Round numbers must run consecutively across the intended season scale. Stages
+that restart round numbering require an upstream consistent season-round scale;
+an override alone cannot resolve that ambiguity. Missing/nonnumeric rounds give
+missing values. Numeric rounds outside positive integers, or above an explicit
+total, raise an error rather than being clipped. Missing league/season identity
+also yields missing automatic progress. The override must be a positive integer.
+
+**UI:** Features & ratings → add feature → **Season progress**. Name the output
+`season_progress`, select **rounds**; leave **Total rounds override** disabled for inference, or
+enable it and enter the planned total. Recipes, Python/notebook exports and saved
+feature definitions use the same expression. Match layout emits equal Home/Away
+columns, following the usual feature assembly contract.
+
+## Kickoff-day mode
+
+Let \(D\) be the fixture's UTC kickoff calendar date, \(D_0\) the first kickoff
+date and \(D_1\) the last kickoff date in its league-season schedule. Then
+
+\[
+\operatorname{season\_progress}_{\mathrm{kickoff}}
+=\frac{(D-D_0).\mathrm{days}+1}{(D_1-D_0).\mathrm{days}+1}.
+\]
+
+Both endpoints are inclusive: the opening day is day 1 and the final day has
+progress 1. Time of day is ignored after conversion to UTC. A season whose
+fixtures all fall on one day has progress 1 for every fixture.
+
+**Postponed fixtures use the kickoff date when they actually take place in this
+mode.** For example, for a schedule from January 1 through January 20, a round-5
+fixture postponed until January 16 receives \(16/20=0.8\). A round-12 fixture
+played January 11 receives \(11/20=0.55\). The same fixtures in rounds mode keep
+their assigned-round values, irrespective of these dates. For an upcoming match,
+the available scheduled kickoff date is used; no unknown actual date is guessed.
+
+```python
+features = evaluate_features(history, {
+    "season_progress": SeasonProgress(mode="kickoff"),
+})
+# Optional boundaries for a partial schedule (both apply to every input row):
+feature = SeasonProgress(mode="kickoff", start_date="2026-08-01", total_days=300)
+```
+
+In the UI, select **kickoff** to see **Total days** and **Start date** overrides.
+Leave them disabled to infer the earliest and latest kickoff per league-season.
+Start date is a date string; total days is a positive inclusive calendar-day
+count. Either override may be used independently; remaining boundaries come
+from the full schedule. Use both if the input omits the season's opening and
+closing fixtures. `total_rounds` belongs only to rounds mode; `total_days` and
+`start_date` belong only to kickoff mode.
+
+Missing or unparseable kickoff dates remain missing. Unknown grouping identity
+gives missing inferred progress. Dates outside explicit boundaries raise an
+error. All-missing schedules remain missing.
+
+**Schedule revisions:** inference uses the schedule currently supplied, including
+future fixtures. If a postponement moves the final kickoff, the inferred duration
+and other fixtures' normalized values may change on re-evaluation. To reproduce
+what was knowable at an earlier prediction date, supply that schedule version or
+freeze boundaries explicitly. A final historical schedule is not evidence that
+all its revised dates were known in advance. Features are computed before fold
+filtering; a split mask does not freeze historical schedule revisions.

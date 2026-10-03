@@ -1,5 +1,16 @@
 # Football analytics working notes
 
+**3 October 2026 — Season progress:** `SeasonProgress()` computes assigned round
+divided by the maximum assigned round per league-season in the full loaded
+schedule, including unplayed fixtures. `total_rounds` optionally overrides it
+for incomplete schedules. Postponed matches keep their original round position,
+irrespective of the later kickoff. The feature is available in the builder;
+formulas, schedule-completeness assumptions and examples are in `docs/analytics/features.md`.
+`mode="kickoff"` instead uses inclusive UTC calendar-day position between the
+first and last league-season kickoff. Postponed fixtures use their actual
+recorded kickoff date; `start_date`/`total_days` can fix boundaries. Documentation
+distinguishes complete-schedule inference from point-in-time schedule knowledge.
+
 **Terminology:** Use **Rolling mean** throughout the UI, reports and documentation
 for both ordinary statistics and heatmaps. The shared Python API is `RollingMean`.
 

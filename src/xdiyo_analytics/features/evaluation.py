@@ -12,7 +12,7 @@ from .league import League, LeaveOneOut, LeaguePopulation, reduce_league
 from .warmup import WarmStart, SeededEMA, evaluate_warm_start
 from .transitions import TransitionContext
 from .composition import Constant, ARITHMETIC, operands, constant_frame, arithmetic_frame
-from .contextual import RestDays, CalendarFeature, evaluate_context_features
+from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_context_features
 from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
 from .movement import TeamMovement, movement_records, statistical_context
 
@@ -173,7 +173,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                       (kicks.iloc[i] - kicks.iloc[rows[-1]]).total_seconds() / 86400
                       for i, rows in enumerate(history_rows(h2h))]
             result = (pd.DataFrame({'rest_days': values}, index=history.index), h2h)
-        elif isinstance(node, CalendarFeature):
+        elif isinstance(node, (CalendarFeature, SeasonProgress)):
             result = (evaluate_context_features(history, {'calendar': node}), h2h)
         elif isinstance(node, Constant):
             result = (constant_frame(node.value, history.index), h2h)

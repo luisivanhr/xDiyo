@@ -458,6 +458,19 @@ def build():
             if key == 'context.CalendarFeature' and name == 'kind':
                 f.update(kind='select', choices=['month_sin','month_cos','weekday','round'], primary=True,
                          help='UTC fixture context. Month uses sin/cos(2π × month / 12); weekday is Monday=0; round is numeric.')
+            if key == 'features.SeasonProgress' and name == 'total_rounds':
+                c['title'] = 'Season progress'
+                f.update(kind='number', min=1, step=1, primary=True, title='Total rounds override', visible_when={'mode':['rounds']}, clear_when_hidden=True,
+                         help='Disabled infers the highest assigned round separately for each league-season from the full loaded schedule, including upcoming matches. Enable for a partial schedule; the override applies to all selected seasons. A postponed round-5 fixture remains 5 / total rounds even when played during round 12. Stage round numbers must not restart.')
+            if key == 'features.SeasonProgress' and name == 'mode':
+                f.update(kind='select', choices=['rounds','kickoff'], primary=True,
+                         help='Rounds uses the originally assigned round. Kickoff uses UTC calendar days from the first through the last scheduled kickoff, counting the opening day as 1. Postponed games use their actual kickoff date in kickoff mode.')
+            if key == 'features.SeasonProgress' and name == 'total_days':
+                f.update(kind='number', min=1, step=1, primary=True, visible_when={'mode':['kickoff']}, clear_when_hidden=True,
+                         help='Optional inclusive season length in calendar days. Disabled infers it from the first and last kickoff in each full league-season schedule. Applies to every selected season; partial schedules may also need a start date override.')
+            if key == 'features.SeasonProgress' and name == 'start_date':
+                f.update(kind='text', primary=True, visible_when={'mode':['kickoff']}, clear_when_hidden=True,
+                         help='Optional season opening date, e.g. 2026-08-01, interpreted in UTC. Disabled uses the earliest kickoff per league-season. This override applies to every selected season.')
             if key == 'preparation.NumericFeatures' and name == 'dtype':
                 f.update(kind='select', choices=['float32','float64'], primary=True, help='Numeric precision of model inputs. No scaling or imputation is applied.')
             if key == 'preparation.IdentityFeatureSpec':
@@ -772,6 +785,7 @@ def build():
                 if name == 'stage_column':f.update(kind='select',choices=[{'value':'tournament_id','label':'Tournament id'}, {'value':'stage_id','label':'Stage id'}, {'value':'stage','label':'Stage label'}, {'value':None,'label':'Single-stage seasons (explicit)'}],nullable=False,all_when_null=True)
                 if name == 'stake':f['help']='Stake on EACH selected ticket. C(n,k) × stake is candidate exposure before ticket EV filtering. Actual stake is selected tickets × stake. Legs are not separately staked.'
                 if name == 'max_tickets':f['help']='Maximum total tickets per template in this report scope (default 100,000). All groups are counted before any expansion. Above the bound: error with exact count; never sample or truncate.'
+    components['features.SeasonProgress']['fields'].sort(key=lambda field: field['name'] != 'mode')
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')
     for m in metrics:

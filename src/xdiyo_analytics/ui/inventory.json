@@ -334,6 +334,77 @@
       "fields": [],
       "accepts_extra": false
     },
+    "features.SeasonProgress": {
+      "id": "features.SeasonProgress",
+      "title": "Season progress",
+      "category": "feature",
+      "description": "Normalized season position by assigned round or UTC kickoff calendar day.",
+      "fields": [
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "rounds",
+          "help": "Rounds uses the originally assigned round. Kickoff uses UTC calendar days from the first through the last scheduled kickoff, counting the opening day as 1. Postponed games use their actual kickoff date in kickoff mode.",
+          "primary": true,
+          "choices": [
+            "rounds",
+            "kickoff"
+          ]
+        },
+        {
+          "name": "total_rounds",
+          "title": "Total rounds override",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Disabled infers the highest assigned round separately for each league-season from the full loaded schedule, including upcoming matches. Enable for a partial schedule; the override applies to all selected seasons. A postponed round-5 fixture remains 5 / total rounds even when played during round 12. Stage round numbers must not restart.",
+          "primary": true,
+          "min": 1,
+          "step": 1,
+          "visible_when": {
+            "mode": [
+              "rounds"
+            ]
+          },
+          "clear_when_hidden": true
+        },
+        {
+          "name": "total_days",
+          "title": "Total days",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional inclusive season length in calendar days. Disabled infers it from the first and last kickoff in each full league-season schedule. Applies to every selected season; partial schedules may also need a start date override.",
+          "primary": true,
+          "min": 1,
+          "step": 1,
+          "visible_when": {
+            "mode": [
+              "kickoff"
+            ]
+          },
+          "clear_when_hidden": true
+        },
+        {
+          "name": "start_date",
+          "title": "Start date",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional season opening date, e.g. 2026-08-01, interpreted in UTC. Disabled uses the earliest kickoff per league-season. This override applies to every selected season.",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "kickoff"
+            ]
+          },
+          "clear_when_hidden": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.TeamMovement": {
       "id": "features.TeamMovement",
       "title": "TeamMovement",
