@@ -130,7 +130,8 @@ def prepare(data_root, *, seasons=('22_23', '23_24', '24_25'), leagues=None,
     labels = create_labels(history, {'total_corners': MatchTotal(Stat('ALL', 'Match overview', 'cornerKicks'))})
     dataset = assemble_dataset(values, labels['total_corners'], layout='match', drop_missing_targets=True)
     preset = FeatureBankPreset()
-    combinations = preset.postassembly_definitions(values.columns, dataset.X.columns)
+    combinations = preset.postassembly_definitions(values.columns, dataset.X.columns,
+        feature_scopes=values.attrs.get('feature_scopes', {}))
     dataset.X = combine_features(dataset.X, combinations)
     extras = evaluate_context_features(dataset.metadata, preset.calendar_definitions())
     kickoff = dataset.metadata.kickoff_at

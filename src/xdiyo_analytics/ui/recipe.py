@@ -245,7 +245,9 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     if preset is not None:
         dataset.definitions['feature_preset'] = {'stat_identities': identities, 'configuration': recipe['feature_preset']}
         if preset.include_combinations:
-            dataset.X = combine_features(dataset.X, preset.postassembly_definitions(features.columns, dataset.X.columns))
+            dataset.X = combine_features(dataset.X, preset.postassembly_definitions(
+                features.columns, dataset.X.columns,
+                feature_scopes=features.attrs.get('feature_scopes', {})))
     if recipe.get('derived_features'):
         dataset.X = combine_features(dataset.X, catalog.build(recipe['derived_features']))
     calendar = preset.calendar_definitions() if preset is not None and preset.include_calendar else {}

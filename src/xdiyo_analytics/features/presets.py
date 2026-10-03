@@ -139,13 +139,24 @@ class FeatureBankPreset:
                 definitions[f'warm::{name}'] = WarmStart(definitions[name], rating_warm_policy)
         return definitions
 
-    def postassembly_definitions(self, history_columns, assembled_columns):
-        """Historical home/away sums, differences, and mean3-minus-mean20 trends."""
+    def postassembly_definitions(self, history_columns, assembled_columns, *, feature_scopes=None):
+        """Historical team-side sums, differences, and mean3-minus-mean20 trends.
+
+        feature_scopes maps evaluated history column names to 'team' or 'fixture',
+        as emitted in evaluate_features(...).attrs['feature_scopes']. Fixture
+        outputs never participate, regardless of their aliases. Missing entries
+        retain the legacy team-level behavior.
+        """
         if not self.include_combinations:
             return {}
+        scopes = feature_scopes if feature_scopes is not None else {}
+        if any(scope not in ('team', 'fixture') for scope in scopes.values()):
+            raise ValueError("Feature scopes must be 'team' or 'fixture'.")
         available = set(assembled_columns)
         combinations = {}
         for name in history_columns:
+            if scopes.get(name, 'team') == 'fixture':
+                continue
             if any(token in name for token in ('_mean5', '_mean10', 'standing', 'glicko', 'rest_days')):
                 home_name, away_name = f'home::{name}', f'away::{name}'
                 if home_name not in available or away_name not in available:
@@ -156,7 +167,10 @@ class FeatureBankPreset:
         for side in ('home', 'away'):
             for group, key in self.stats:
                 for role in ('for', 'against'):
-                    stem = f'{side}::ALL_{group}_{key}_{role}_mean'
+                    history_stem = f'ALL_{group}_{key}_{role}_mean'
+                    if any(scopes.get(history_stem + window, 'team') == 'fixture' for window in ('3', '20')):
+                        continue
+                    stem = f'{side}::{history_stem}'
                     if stem + '3' in available and stem + '20' in available:
                         combinations[f'trend::{stem}3_vs_20'] = Difference(Column(stem + '3'), Column(stem + '20'))
         return combinations
