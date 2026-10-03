@@ -70,7 +70,7 @@ def test_preparation_native_goal_label_and_exported_feature_selection(ui_recipe)
     before = deepcopy(ui_recipe)
     prepared = prepare_recipe(ui_recipe)
     assert list(prepared.dataset.y) == ['score::home_goals', 'score::away_goals']
-    assert prepared.dataset.X.shape[1] == 12  # Four team + two fixture values per side.
+    assert prepared.dataset.X.shape[1] == 10  # Four team values per side + two fixture values once.
     assert any('defence_vulnerability_mean' in name for name in prepared.dataset.X)
     assert not any('attack_sd' in name for name in prepared.dataset.X)
     assert prepared.dataset.X.notna().all().all()

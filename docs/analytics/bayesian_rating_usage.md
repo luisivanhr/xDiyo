@@ -93,9 +93,22 @@ the team states accumulated during calibration.
 
 Larger defensive vulnerability means worse defence. `log_defence_strength`
 reverses this direction. Team features are focal-team/opponent summaries;
-fixture fields always mean the actual home/away teams. Under ordinary match
-assembly, fixture fields appear in both team blocks with equal values. Select
-one copy through downstream column selection if duplication is undesirable.
+fixture fields always mean the actual home/away teams. Feature evaluation marks
+these columns with explicit fixture scope. Match-layout assembly now emits one
+`fixture::<name>` column for each selected fixture output, after the home and away
+team blocks. For example, `BayesianFixture` named `fixture` with multiple fields
+produces `fixture::fixture::p_draw`; a single-field feature named `draw` produces
+`fixture::draw`. The former `home::fixture::p_draw` and `away::fixture::p_draw`
+copies are no longer produced. Update explicit selectors or derived-column
+references in older recipes accordingly; existing saved artifacts are not
+rewritten, and fitted models expecting the old duplicated schema need their old
+input schema or retraining with the new schema.
+
+Both copies must have the same nonmissing prediction cutoff and exactly equal
+values before assembly collapses them. Two missing values agree; one missing
+value or unequal values/times raises an error. `BayesianRating` and generic
+`Rating` retain both teams' columns even if their values happen to be equal.
+Team-match layout retains the original two rows and feature names unchanged.
 Field order follows the requested
 tuple. Empty, repeated or unknown Bayesian fields are rejected.
 

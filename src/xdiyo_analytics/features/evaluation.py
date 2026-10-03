@@ -67,7 +67,10 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     BayesianRating and BayesianFixture share one score filter per fixed model.
     Their parameters are never trained here. Team fields retain the focal-team
     perspective; fixture fields refer to the actual home/away sides. Full state
-    is retained independently of the requested output columns.
+    is retained independently of the requested output columns. Per-column
+    feature_scopes metadata marks fixture outputs for match-layout assembly.
+    Identity-keyed prediction_cutoffs metadata accompanies those outputs so
+    assembly can validate copies even after rows are shuffled or filtered.
 
     League populations support pooled round/match/day windows and optional LOO.
     WarmStart explicitly enables SeededEMA or a rating transition policy for its
@@ -385,7 +388,25 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             return all(prediction_safe(child) for child in operands(node))
         return not isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut))
 
-    outputs, spatial_metadata, warm_audits = [], {}, {}
+    def output_scope(node):
+        # This is expression semantics, never inferred from equal values.
+        # Temporal operators use each team's history and therefore stay team
+        # scoped even when their child describes a fixture.
+        if isinstance(node, BayesianFixture):
+            return "fixture"
+        if isinstance(node, (Constant, Real)):
+            return "constant"
+        if isinstance(node, WarmStart) and node.policy is None:
+            return output_scope(node.source)
+        if isinstance(node, ARITHMETIC):
+            scopes = {output_scope(child) for child in operands(node)}
+            if "fixture" in scopes and scopes <= {"fixture", "constant"}:
+                return "fixture"
+            if scopes == {"constant"}:
+                return "constant"
+        return "team"
+
+    outputs, spatial_metadata, warm_audits, feature_scopes = [], {}, {}, {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
@@ -411,6 +432,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             if child_audits:
                 warm_audits[name] = child_audits
         names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
+        scope = "fixture" if output_scope(node) == "fixture" else "team"
+        feature_scopes.update(dict.fromkeys(names, scope))
         frame, metadata = finalize_spatial(frame, history, names, name)
         spatial_metadata.update(metadata)
         outputs.append(frame)
@@ -419,6 +442,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         raise ValueError("Feature names produce duplicate output columns.")
     result.attrs = {
         "features": {name: repr(node) for name, node in features.items()},
+        "feature_scopes": feature_scopes,
         "group_by": group_by,
         "availability": "earlier_finished_kickoff_proxy" if available_at is None else "explicit",
         "spatial_features": spatial_metadata,
@@ -437,7 +461,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             for times in (stat_transitions.population.cutoff, stat_transitions.population.available):
                 digest.update(pd.util.hash_pandas_object(times, index=True).to_numpy().tobytes())
         result.attrs['warm_start_input_hash'] = digest.hexdigest()
-    if keyed:
+    if keyed or "fixture" in feature_scopes.values():
         keys = [name for name in ("source_league", "source_season", "competition_id", "season_id", "event_id") if name in history]
         keys += ["team_id", "side"]
         if "event_id" not in keys:
@@ -446,6 +470,16 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             raise ValueError("Keyed features need unique, nonmissing match/team identifiers.")
         if not history["side"].isin(["home", "away"]).all():
             raise ValueError("Keyed feature sides must be home or away.")
-        result.index = pd.MultiIndex.from_frame(history[keys])
-        result.attrs["identity_columns"] = tuple(keys)
+        if "fixture" in feature_scopes.values():
+            from .history import aligned_times
+            times = aligned_times(history, cutoffs, default="kickoff_at")
+            records = history[keys].to_dict("records")
+            for record, time in zip(records, times):
+                record["cutoff"] = None if pd.isna(time) else time.isoformat()
+            result.attrs["prediction_cutoffs"] = {
+                "identity_columns": tuple(keys), "records": records,
+            }
+        if keyed:
+            result.index = pd.MultiIndex.from_frame(history[keys])
+            result.attrs["identity_columns"] = tuple(keys)
     return result
