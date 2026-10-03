@@ -86,7 +86,10 @@ def catalog_for_ui():
     catalog = default_catalog()
     from ..reporting import TeamCatalog
     from ..features import TransitionContext, build_team_seasons
-    from ..ratings import RatingRun
+    from ..ratings import (
+        BayesianModel, BayesianRatingRun, BayesianScoreAdapter,
+        BayesianScoreSerializer, RatingRun,
+    )
     from ..training import JoblibSerializer
     from .adapters import BoostingAdapter
     from ..features.presets import FeatureBankPreset
@@ -107,6 +110,14 @@ def catalog_for_ui():
     catalog.register('input.OddsSeries', OddsSeries, category='odds_input')
     catalog.register('input.TeamCatalog', TeamCatalog.from_json, category='input')
     catalog.register('input.RatingRun', RatingRun.load, category='input')
+    catalog.register('input.BayesianModel', BayesianModel.load, category='input',
+                     description='Load fixed Bayesian parameter JSON trained before the prediction period. Loading parameters does not fit them on this recipe history.')
+    catalog.register('input.BayesianRatingRun', BayesianRatingRun.load, category='input',
+                     description='Load a saved Bayesian run, including its full state checkpoint, model and opponent/venue-dependent predictions.')
+    catalog.register('ratings.BayesianScoreAdapter', BayesianScoreAdapter, category='model',
+                     title='Bayesian goal-score rating',
+                     description='Fit fixed Bayesian rating parameters using the fitting partition only, with pooled or separate league parameters. Requires match-layout metadata and the observed home and away goal targets. No feature or target preprocessing is supported.')
+    catalog.register('training.BayesianScoreSerializer', BayesianScoreSerializer, category='training')
     catalog.register('features.TransitionContext', TransitionContext, category='input')
     catalog.register('features.TeamSeasons', build_team_seasons, category='input')
     catalog.register('training.JoblibSerializer', JoblibSerializer, category='training')
@@ -280,8 +291,15 @@ class ModelFactory:
 
     def __call__(self):
         from sklearn.pipeline import Pipeline
+        from ..ratings import BayesianScoreAdapter
         from ..training import EstimatorAdapter, TargetTransformAdapter
         estimator = self.catalog.build(self.recipe['model'])
+        if isinstance(estimator, BayesianScoreAdapter):
+            if self.recipe.get('preprocessors') or self.recipe.get('target_transformer') is not None:
+                raise ValueError('Bayesian goal-score training requires untransformed scores and match metadata; disable preprocessors and target_transformer.')
+            if self.recipe.get('adapter') is not None:
+                raise ValueError('BayesianScoreAdapter is already a training adapter; disable the adapter override.')
+            return estimator
         native_estimator = estimator
         steps = [(f'prepare_{i}', self.catalog.build(spec)) for i, spec in enumerate(self.recipe.get('preprocessors', []))]
         if steps:

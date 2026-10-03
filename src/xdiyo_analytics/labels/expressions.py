@@ -23,6 +23,22 @@ class MatchTotal(LabelExpr):
 
 
 @dataclass(frozen=True)
+class MatchGoals(LabelExpr):
+    """Native home/away goal counts in one match-layout target, in that order.
+
+    Only score_field='current' is supported, consistently with MatchScore and
+    build_team_history. This does not claim that provider current scores always
+    mean regulation time. Unfinished matches retain missing targets.
+    """
+
+    score_field: str = "current"
+
+    def __post_init__(self):
+        if self.score_field != "current":
+            raise ValueError("MatchGoals supports only score_field='current'.")
+
+
+@dataclass(frozen=True)
 class Outcome(LabelExpr):
     """Loss=-1, draw=0, win=1 for team, home or away perspective.
 

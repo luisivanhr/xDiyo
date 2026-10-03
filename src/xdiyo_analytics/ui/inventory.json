@@ -846,7 +846,18 @@
           "choices": [
             "rating",
             "rd",
-            "sigma"
+            "sigma",
+            "attack_mean",
+            "defence_vulnerability_mean",
+            "attack_sd",
+            "defence_vulnerability_sd",
+            "log_attack",
+            "log_defence_strength",
+            "strength_index",
+            "attack_shape",
+            "attack_rate",
+            "defence_shape",
+            "defence_rate"
           ],
           "primary": true
         }
@@ -1045,6 +1056,126 @@
           "default": true,
           "help": "If enabled, the team with the larger statistic receives the win. Disable for quantities where smaller is better.",
           "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.BayesianRating": {
+      "id": "features.BayesianRating",
+      "title": "BayesianRating",
+      "category": "feature",
+      "description": "Evolving attack and defensive vulnerability from goals. Select team-state outputs; larger defensive vulnerability means worse defence. Fixed model parameters are never fitted during feature preparation.",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional fixed parameter bundle. Disabled uses documented priors. For evaluation, any fitted bundle must have a training cutoff before every predicted row.",
+          "primary": true,
+          "components": [
+            "input.BayesianModel",
+            "ratings.BayesianModel"
+          ],
+          "initial_component": "input.BayesianModel"
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "text",
+          "default": "both",
+          "choices": [
+            "for",
+            "against",
+            "both"
+          ],
+          "help": "For uses this team’s values; against uses its opponent’s values; both creates separate outputs.",
+          "primary": true
+        },
+        {
+          "name": "fields",
+          "title": "Fields",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "attack_mean",
+            "defence_vulnerability_mean"
+          ],
+          "help": "Select output columns in the requested order. This does not alter filtering, fitted parameters or the full saved state.",
+          "choices": [
+            "attack_mean",
+            "defence_vulnerability_mean",
+            "attack_sd",
+            "defence_vulnerability_sd",
+            "log_attack",
+            "log_defence_strength",
+            "strength_index",
+            "attack_shape",
+            "attack_rate",
+            "defence_shape",
+            "defence_rate"
+          ],
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.BayesianFixture": {
+      "id": "features.BayesianFixture",
+      "title": "BayesianFixture",
+      "category": "feature",
+      "description": "Expected goals and optional score probabilities for the actual home and away teams. These depend on both opponents and venue, and share the score filter with Bayesian team features using the same model.",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional fixed parameter bundle. Disabled uses documented priors. For evaluation, any fitted bundle must have a training cutoff before every predicted row.",
+          "primary": true,
+          "components": [
+            "input.BayesianModel",
+            "ratings.BayesianModel"
+          ],
+          "initial_component": "input.BayesianModel"
+        },
+        {
+          "name": "fields",
+          "title": "Fields",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "expected_home_goals",
+            "expected_away_goals"
+          ],
+          "help": "Select output columns in the requested order. This does not alter filtering, fitted parameters or the full saved state.",
+          "choices": [
+            "expected_home_goals",
+            "expected_away_goals",
+            "expected_total_goals",
+            "expected_goal_difference",
+            "strength_difference",
+            "home_advantage_mean",
+            "home_advantage_sd",
+            "p_home_win",
+            "p_draw",
+            "p_away_win",
+            "p_both_score",
+            "p_over_2_5"
+          ],
+          "primary": true
+        },
+        {
+          "name": "name",
+          "title": "Name",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional key of a saved BayesianRatingRun supplied through feature_options.ratings. Leave the model disabled when selecting a saved run.",
+          "primary": false
         }
       ],
       "accepts_extra": false
@@ -1401,6 +1532,27 @@
       ],
       "accepts_extra": false
     },
+    "labels.MatchGoals": {
+      "id": "labels.MatchGoals",
+      "title": "MatchGoals",
+      "category": "label",
+      "description": "Native home/away goal counts in one match-layout target, in that order.",
+      "fields": [
+        {
+          "name": "score_field",
+          "title": "Score field",
+          "required": false,
+          "kind": "select",
+          "default": "current",
+          "help": "Paired native current scores, producing home_goals and away_goals targets. This is not guaranteed to be regulation time; no other score fields are substituted.",
+          "primary": true,
+          "choices": [
+            "current"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
     "labels.Outcome": {
       "id": "labels.Outcome",
       "title": "Outcome",
@@ -1747,6 +1899,450 @@
             "median"
           ],
           "help": "Use the cohort mean or median for the rating transition prior.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "ratings.BayesianParameters": {
+      "id": "ratings.BayesianParameters",
+      "title": "BayesianParameters",
+      "category": "rating",
+      "description": "Positive Gamma shape/rate priors, forgetting factors and score dispersion. Defaults are starting values, not parameters trained on your data. Entry shifts mirror promotion and relegation on the log scale.",
+      "fields": [
+        {
+          "name": "team_discount",
+          "title": "Team discount",
+          "required": false,
+          "kind": "number",
+          "default": 0.987,
+          "help": "Team discount for BayesianParameters. Default: 0.987.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "season_discount",
+          "title": "Season discount",
+          "required": false,
+          "kind": "number",
+          "default": 0.737,
+          "help": "Season discount for BayesianParameters. Default: 0.737.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "home_discount",
+          "title": "Home discount",
+          "required": false,
+          "kind": "number",
+          "default": 0.999,
+          "help": "Home discount for BayesianParameters. Default: 0.999.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "home_season_discount",
+          "title": "Home season discount",
+          "required": false,
+          "kind": "number",
+          "default": 0.911,
+          "help": "Home season discount for BayesianParameters. Default: 0.911.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "kappa",
+          "title": "Kappa",
+          "required": false,
+          "kind": "number",
+          "default": 6.323,
+          "help": "Kappa for BayesianParameters. Default: 6.323.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "attack_mean",
+          "title": "Attack mean",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Attack mean for BayesianParameters. Default: 1.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "defence_mean",
+          "title": "Defence mean",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Defence mean for BayesianParameters. Default: 1.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "home_mean",
+          "title": "Home mean",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Home mean for BayesianParameters. Default: 1.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "attack_shape",
+          "title": "Attack shape",
+          "required": false,
+          "kind": "number",
+          "default": 10.0,
+          "help": "Attack shape for BayesianParameters. Default: 10.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "defence_shape",
+          "title": "Defence shape",
+          "required": false,
+          "kind": "number",
+          "default": 10.0,
+          "help": "Defence shape for BayesianParameters. Default: 10.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "home_shape",
+          "title": "Home shape",
+          "required": false,
+          "kind": "number",
+          "default": 10.0,
+          "help": "Home shape for BayesianParameters. Default: 10.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "entry_attack_shift",
+          "title": "Entry attack shift",
+          "required": false,
+          "kind": "number",
+          "default": 0.2,
+          "help": "Entry attack shift for BayesianParameters. Default: 0.2.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "entry_defence_shift",
+          "title": "Entry defence shift",
+          "required": false,
+          "kind": "number",
+          "default": 0.13,
+          "help": "Entry defence shift for BayesianParameters. Default: 0.13.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "entry_attack_shape",
+          "title": "Entry attack shape",
+          "required": false,
+          "kind": "number",
+          "default": 20.0,
+          "help": "Entry attack shape for BayesianParameters. Default: 20.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "entry_defence_shape",
+          "title": "Entry defence shape",
+          "required": false,
+          "kind": "number",
+          "default": 30.0,
+          "help": "Entry defence shape for BayesianParameters. Default: 30.0.",
+          "step": "any",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "ratings.BayesianConfig": {
+      "id": "ratings.BayesianConfig",
+      "title": "BayesianConfig",
+      "category": "rating",
+      "description": "Numerical and temporal conventions, saved with every parameter bundle.",
+      "fields": [
+        {
+          "name": "bivariate",
+          "title": "Bivariate",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Bivariate for BayesianConfig. Default: True.",
+          "primary": false
+        },
+        {
+          "name": "method",
+          "title": "Method",
+          "required": false,
+          "kind": "select",
+          "default": "vb",
+          "help": "VB converges variational updates; one_step uses the paper's single-update approximation. This is an inference setting, not a parameter-training mode.",
+          "primary": true,
+          "choices": [
+            "vb",
+            "one_step"
+          ]
+        },
+        {
+          "name": "tolerance",
+          "title": "Tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-09,
+          "help": "Allowed numerical tolerance for this calculation. Zero uses exact comparison.",
+          "step": "any",
+          "min": 0,
+          "primary": true
+        },
+        {
+          "name": "max_iterations",
+          "title": "Max iterations",
+          "required": false,
+          "kind": "number",
+          "default": 500,
+          "help": "Max iterations for BayesianConfig. Default: 500.",
+          "step": 1,
+          "primary": false
+        },
+        {
+          "name": "clock",
+          "title": "Clock",
+          "required": false,
+          "kind": "select",
+          "default": "team_match",
+          "help": "Clock for BayesianConfig. Default: team_match.",
+          "primary": true,
+          "choices": [
+            "team_match",
+            "days"
+          ]
+        },
+        {
+          "name": "time_unit_days",
+          "title": "Time unit days",
+          "required": false,
+          "kind": "number",
+          "default": 7.0,
+          "help": "Time unit days for BayesianConfig. Default: 7.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "score_basis",
+          "title": "Score basis",
+          "required": false,
+          "kind": "select",
+          "default": "provider_current",
+          "help": "Provider current uses native goals. Regulation requires an externally verified history explicitly marked score_basis=regulation; it does not reconstruct regulation scores.",
+          "primary": true,
+          "choices": [
+            "provider_current",
+            "regulation"
+          ]
+        },
+        {
+          "name": "transition",
+          "title": "Transition",
+          "required": false,
+          "kind": "select",
+          "default": "mirrored",
+          "help": "Mirrored gives promoted/relegated teams direction-aware destination priors. Bridge retains an available source posterior using explicitly supplied league gaps, falling back to mirrored priors when evidence is absent.",
+          "primary": true,
+          "choices": [
+            "mirrored",
+            "bridge"
+          ]
+        },
+        {
+          "name": "bridge_gaps",
+          "title": "Bridge gaps",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Explicit source/destination/gap triples. Positive gap means the source competition is stronger. Reverse movements reuse the negative gap. Import a bundle to preserve string identifiers.",
+          "primary": false,
+          "item": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "0",
+                "title": "Source competition ID",
+                "kind": "number",
+                "required": true,
+                "step": 1
+              },
+              {
+                "name": "1",
+                "title": "Destination competition ID",
+                "kind": "number",
+                "required": true,
+                "step": 1
+              },
+              {
+                "name": "2",
+                "title": "Log strength gap",
+                "kind": "number",
+                "required": true,
+                "step": "any"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bridge_discount",
+          "title": "Bridge discount",
+          "required": false,
+          "kind": "number",
+          "default": 0.8,
+          "help": "Bridge discount for BayesianConfig. Default: 0.8.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "tail_tolerance",
+          "title": "Tail tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-10,
+          "help": "Tail tolerance for BayesianConfig. Default: 1e-10.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "max_total_goals",
+          "title": "Max total goals",
+          "required": false,
+          "kind": "number",
+          "default": 10000,
+          "help": "Max total goals for BayesianConfig. Default: 10000.",
+          "step": 1,
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "ratings.BayesianModel": {
+      "id": "ratings.BayesianModel",
+      "title": "BayesianModel",
+      "category": "rating",
+      "description": "Fixed Bayesian parameters with their training cutoff. Pooled models share parameters across leagues; per-league bundles retain separate parameters. Team states remain distinct in either mode.",
+      "fields": [
+        {
+          "name": "parameters",
+          "title": "Parameters",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "ratings.BayesianParameters",
+            "params": {
+              "team_discount": 0.987,
+              "season_discount": 0.737,
+              "home_discount": 0.999,
+              "home_season_discount": 0.911,
+              "kappa": 6.323,
+              "attack_mean": 1.0,
+              "defence_mean": 1.0,
+              "home_mean": 1.0,
+              "attack_shape": 10.0,
+              "defence_shape": 10.0,
+              "home_shape": 10.0,
+              "entry_attack_shift": 0.2,
+              "entry_defence_shift": 0.13,
+              "entry_attack_shape": 20.0,
+              "entry_defence_shape": 30.0
+            }
+          },
+          "help": "Parameters for BayesianModel. Default: {'component': 'ratings.BayesianParameters', 'params': {'team_discount': 0.987, 'season_discount': 0.737, 'home_discount': 0.999, 'home_season_discount': 0.911, 'kappa': 6.323, 'attack_mean': 1.0, 'defence_mean': 1.0, 'home_mean': 1.0, 'attack_shape': 10.0, 'defence_shape': 10.0, 'home_shape': 10.0, 'entry_attack_shift': 0.2, 'entry_defence_shift': 0.13, 'entry_attack_shape': 20.0, 'entry_defence_shape': 30.0}}.",
+          "primary": false,
+          "components": [
+            "ratings.BayesianParameters"
+          ],
+          "initial_component": "ratings.BayesianParameters"
+        },
+        {
+          "name": "per_league",
+          "title": "Per league",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Separate competition ID and parameter pairs. Prefer loading a trained JSON bundle to preserve exact identifiers and training provenance.",
+          "primary": false,
+          "item": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "0",
+                "title": "Competition ID",
+                "kind": "number",
+                "required": true,
+                "step": 1
+              },
+              {
+                "name": "1",
+                "title": "Parameters",
+                "kind": "component",
+                "required": true,
+                "components": [
+                  "ratings.BayesianParameters"
+                ],
+                "initial_component": "ratings.BayesianParameters"
+              }
+            ]
+          }
+        },
+        {
+          "name": "training_cutoff",
+          "title": "Training cutoff",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "UTC end of the observations used to fit these parameters. Preserve the recorded cutoff when exporting a trained bundle; it prevents using later-trained parameters for earlier predictions.",
+          "primary": false
+        },
+        {
+          "name": "config",
+          "title": "Config",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "ratings.BayesianConfig",
+            "params": {
+              "bivariate": true,
+              "method": "vb",
+              "tolerance": 1e-09,
+              "max_iterations": 500,
+              "clock": "team_match",
+              "time_unit_days": 7.0,
+              "score_basis": "provider_current",
+              "transition": "mirrored",
+              "bridge_gaps": [],
+              "bridge_discount": 0.8,
+              "tail_tolerance": 1e-10,
+              "max_total_goals": 10000
+            }
+          },
+          "help": "Additional descriptive configuration stored with the run for identification and comparison.",
+          "primary": false,
+          "components": [
+            "ratings.BayesianConfig"
+          ],
+          "initial_component": "ratings.BayesianConfig"
+        },
+        {
+          "name": "provenance_json",
+          "title": "Provenance json",
+          "required": false,
+          "kind": "text",
+          "default": "{}",
+          "help": "Provenance json for BayesianModel. Default: {}.",
           "primary": false
         }
       ],
@@ -12504,6 +13100,236 @@
       ],
       "accepts_extra": false
     },
+    "input.BayesianModel": {
+      "id": "input.BayesianModel",
+      "title": "BayesianModel",
+      "category": "input",
+      "description": "Load fixed Bayesian parameter JSON trained before the prediction period. Loading parameters does not fit them on this recipe history.",
+      "fields": [
+        {
+          "name": "path",
+          "title": "Path",
+          "required": true,
+          "kind": "text",
+          "help": "Local file or saved-model directory to load. Relative paths are resolved from the experiment workspace.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "input.BayesianRatingRun": {
+      "id": "input.BayesianRatingRun",
+      "title": "BayesianRatingRun",
+      "category": "input",
+      "description": "Load a saved Bayesian run, including its full state checkpoint, model and opponent/venue-dependent predictions.",
+      "fields": [
+        {
+          "name": "path",
+          "title": "Path",
+          "required": true,
+          "kind": "text",
+          "help": "Local file or saved-model directory to load. Relative paths are resolved from the experiment workspace.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "ratings.BayesianScoreAdapter": {
+      "id": "ratings.BayesianScoreAdapter",
+      "title": "Bayesian goal-score rating",
+      "category": "model",
+      "description": "Fit fixed Bayesian rating parameters using the fitting partition only, with pooled or separate league parameters. Requires match-layout metadata and the observed home and away goal targets. No feature or target preprocessing is supported.",
+      "fields": [
+        {
+          "name": "history",
+          "title": "History",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional explicit contextual table. Fitting still uses only identities and results eligible in the current training partition.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
+        },
+        {
+          "name": "home_goal_target",
+          "title": "Home goal target",
+          "required": true,
+          "kind": "select",
+          "help": "Choose the observed integer goal-count target for the actual home team. Use match layout and untransformed scores.",
+          "primary": true,
+          "discovery": "targets"
+        },
+        {
+          "name": "away_goal_target",
+          "title": "Away goal target",
+          "required": true,
+          "kind": "select",
+          "help": "Choose the observed integer goal-count target for the actual away team. Use match layout and untransformed scores.",
+          "primary": true,
+          "discovery": "targets"
+        },
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "pooled",
+          "help": "Pooled shares fitted parameters across the selected leagues. Per league estimates separate parameters for each league; histories and states retain league identity.",
+          "primary": true,
+          "choices": [
+            "pooled",
+            "per_league"
+          ]
+        },
+        {
+          "name": "config",
+          "title": "Config",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Additional descriptive configuration stored with the run for identification and comparison.",
+          "primary": false,
+          "components": [
+            "ratings.BayesianConfig"
+          ],
+          "initial_component": "ratings.BayesianConfig"
+        },
+        {
+          "name": "initial",
+          "title": "Initial",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Initial for Bayesian goal-score rating. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "ratings.BayesianParameters"
+          ],
+          "initial_component": "ratings.BayesianParameters"
+        },
+        {
+          "name": "min_seasons",
+          "title": "Min seasons",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional eligibility override. Defaults require three training seasons for pooled fitting and five for per-league fitting; these are pilot guidelines, not accuracy guarantees.",
+          "primary": false,
+          "min": 1,
+          "step": 1
+        },
+        {
+          "name": "fit_fields",
+          "title": "Fit fields",
+          "required": false,
+          "kind": "multiselect",
+          "default": null,
+          "help": "Parameters to estimate from fitting rows. Disabled uses the restrained default subset; all other parameters retain their initial values.",
+          "primary": false,
+          "choices": [
+            "team_discount",
+            "season_discount",
+            "home_discount",
+            "home_season_discount",
+            "kappa",
+            "entry_attack_shift",
+            "entry_defence_shift",
+            "entry_attack_shape",
+            "entry_defence_shape"
+          ]
+        },
+        {
+          "name": "max_iterations",
+          "title": "Max iterations",
+          "required": false,
+          "kind": "number",
+          "default": 100,
+          "help": "Max iterations for Bayesian goal-score rating. Default: 100.",
+          "step": 1,
+          "primary": false
+        },
+        {
+          "name": "objective",
+          "title": "Objective",
+          "required": false,
+          "kind": "select",
+          "default": "outcome_log_loss",
+          "help": "Optimize sequential win/draw/loss probabilities or the probability of the observed home/away score pair, using training results only.",
+          "primary": false,
+          "choices": [
+            "outcome_log_loss",
+            "score_log_loss"
+          ]
+        },
+        {
+          "name": "regularization",
+          "title": "Regularization",
+          "required": false,
+          "kind": "number",
+          "default": 0.01,
+          "help": "Regularization for Bayesian goal-score rating. Default: 0.01.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "available_at",
+          "title": "Available at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional result-availability column in the supplied history or match metadata. Disabled uses the earlier-finished-kickoff proxy.",
+          "primary": false
+        },
+        {
+          "name": "team_seasons",
+          "title": "Team seasons",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional explicit contextual table. Fitting still uses only identities and results eligible in the current training partition.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
+        },
+        {
+          "name": "season_starts",
+          "title": "Season starts",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional explicit contextual table. Fitting still uses only identities and results eligible in the current training partition.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "training.BayesianScoreSerializer": {
+      "id": "training.BayesianScoreSerializer",
+      "title": "BayesianScoreSerializer",
+      "category": "training",
+      "description": "Native JSON/parquet checkpoint serializer for BayesianScoreAdapter.",
+      "fields": [
+        {
+          "name": "format_id",
+          "title": "Format id",
+          "required": false,
+          "kind": "text",
+          "default": "xdiyo.bayesian_score.v1",
+          "help": "Format id for BayesianScoreSerializer. Default: xdiyo.bayesian_score.v1.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.TransitionContext": {
       "id": "features.TransitionContext",
       "title": "TransitionContext",
@@ -13480,6 +14306,20 @@
           "primary": false
         },
         {
+          "name": "model_serializer",
+          "title": "Model serializer",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Explicit persistence backend. Choose Bayesian Score Serializer for Bayesian goal-score models; ordinary estimator models use Joblib. Supply the same serializer when loading.",
+          "primary": false,
+          "components": [
+            "training.JoblibSerializer",
+            "training.BayesianScoreSerializer"
+          ],
+          "initial_component": "training.JoblibSerializer"
+        },
+        {
           "name": "renderers",
           "title": "Renderers",
           "required": false,
@@ -13556,10 +14396,15 @@
           "name": "serializer",
           "title": "Serializer",
           "required": false,
-          "kind": "text",
+          "kind": "component",
           "default": null,
-          "help": "Serialization backend for reading a previously saved model. The default reads the library’s ordinary saved-model format.",
-          "primary": false
+          "help": "Explicit persistence backend. Choose Bayesian Score Serializer for Bayesian goal-score models; ordinary estimator models use Joblib. Supply the same serializer when loading.",
+          "primary": false,
+          "components": [
+            "training.JoblibSerializer",
+            "training.BayesianScoreSerializer"
+          ],
+          "initial_component": "training.JoblibSerializer"
         }
       ],
       "accepts_extra": false

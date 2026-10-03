@@ -15,6 +15,11 @@ builder = launch_ui(workspace=".")
 
 The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available layers and verification boundaries.
 
+The optional [Bayesian score rating](docs/analytics/bayesian_rating_model.md)
+adds attack and defensive vulnerability states alongside Glicko2, with pooled
+or per-league calibration, promotion/relegation handling and
+[selectable output columns](docs/analytics/bayesian_rating_usage.md).
+
 Use the [odds adapter](docs/analytics/odds.md) to retain purchased odds as private Parquet snapshots, review native fixture mappings, and select opening/closing prices in either betting reporter through Python or the UI. The guide includes a standalone synthetic example; odds remain separate from model inputs.
 
 Use [whole-group combinations](docs/analytics/all_combinations.md) for every pair, triple or other chosen ticket size within a league/season/stage/round. The guide covers exact count previews, expansion limits and binary draw probability filtering, with a portable native recipe example.
