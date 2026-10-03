@@ -608,7 +608,11 @@ def build():
         for f in stages[key]['fields']:
             if f['name'] in ('team_counts','team_seasons','season_starts','transition_context'):
                 f.update(kind='component',components=['input.Table'],initial_component='input.Table')
-            if f['name']=='ratings':f['hidden']=True
+            if f['name']=='ratings':
+                f.update(kind='map', title='Saved rating runs', primary=True,
+                         item={'kind':'component','components':['input.BayesianRatingRun','input.RatingRun'],
+                               'initial_component':'input.BayesianRatingRun'},
+                         help='Name and load an existing rating artifact. Bayesian Rating Run restores its full checkpoint and fixture predictions; Rating Run loads generic numeric snapshots. Saved names must differ from generated rating names.')
     patch('rating_options','transition_context',kind='component',components=['features.TransitionContext'],initial_component='features.TransitionContext')
     for c in components.values():
         for f in c['fields']:
@@ -847,10 +851,17 @@ def _bayesian_widgets(components, stages):
                              initial_component='input.BayesianModel', primary=True,
                              help='Optional fixed parameter bundle. Disabled uses documented priors. For evaluation, any fitted bundle must have a training cutoff before every predicted row.')
             elif name == 'name':
-                field.update(kind='text', help='Optional key of a saved BayesianRatingRun supplied through feature_options.ratings. Leave the model disabled when selecting a saved run.')
+                field.update(kind='select', discovery='bayesian_ratings', primary=True,
+                             title='Saved Bayesian run',
+                             help='Optional saved Bayesian run configured in Saved rating runs. Leave the model disabled when selecting a saved run.')
     for field in components['features.Rating']['fields']:
         if field['name'] == 'fields':
             field['choices'] = list(dict.fromkeys([*field['choices'], *TEAM_FIELDS]))
+            field['source_choices'] = {
+                'generated': ['rating', 'rd', 'sigma'],
+                'input.BayesianRatingRun': list(TEAM_FIELDS),
+            }
+            field['help'] = 'Select numeric state columns for the named source. Disabled exports all its numeric fields. Bayesian runs offer attack and defence summaries; generated Glicko streams offer rating, rd and sigma.'
     for key in ('ratings.BayesianModel', 'ratings.BayesianScoreAdapter'):
         for field in components[key]['fields']:
             name = field['name']
@@ -880,7 +891,7 @@ def _bayesian_widgets(components, stages):
                 for obsolete in ('components', 'initial_component'):
                     field.pop(obsolete, None)
             elif name == 'training_cutoff':
-                field.update(kind='text', help='UTC end of the observations used to fit these parameters. Preserve the recorded cutoff when exporting a trained bundle; it prevents using later-trained parameters for earlier predictions.')
+                field.update(kind='text', help='Earliest permitted prediction time, respecting parameter calibration and any declared fold fit time. Preserve it on export.')
     for field in components['ratings.BayesianModel']['fields']:
         if field['name'] == 'per_league':
             field.update(kind='list', item={'kind': 'record', 'fields': [

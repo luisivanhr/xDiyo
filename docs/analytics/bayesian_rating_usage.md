@@ -99,6 +99,17 @@ The optional **Model** chooses a loaded `input.BayesianModel` or explicit
 `ratings.BayesianModel`. Feature preparation never trains those parameters.
 The existing **Named rating states** form continues to configure Glicko runs.
 
+To reuse a saved run without editing JSON, open **Saved rating runs**, click
+**Add**, give the source a name, select **Bayesian Rating Run**, and enter its
+artifact folder. Select that name in a **Rating** feature for team summaries,
+or enable **Saved Bayesian run** in a **Bayesian Fixture** feature. The team
+field choices follow the selected source; fixture name choices include only
+saved Bayesian runs. When changing sources, incompatible selected fields remain
+visible with a warning so you can remove them or choose a compatible source.
+Saved and generated names must be distinct; duplicate names fail validation. Saving,
+reopening and exporting the recipe retain this mapping. **Inspect preparation**
+loads the artifact and reads eligible snapshots without training or updating it.
+
 A recipe can reuse a complete saved Bayesian run through the existing named
 rating input:
 

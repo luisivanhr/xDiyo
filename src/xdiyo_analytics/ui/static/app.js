@@ -4,6 +4,7 @@ import {el,clone,configure,configureOdds,discovered,fieldsEditor,componentEditor
 const token=location.hash.slice(1), content=document.querySelector('#content'), notification=document.querySelector('#notification');
 let catalog,recipe,stage='data',job=null,dirty=false;
 let publications=[], available={}, discoveryKey='', discoveryBusy=false,preparedColumns=null,preparedKey='',jobPreparationKey='',appliedPreviewJob=null,jobRequestedFoldIds=null,jobBaseColumns=false;
+let ratingDiscoveryKey='';
 let outerFoldMetadata=[],evaluatedFoldMetadata=[],evaluatedFoldSelection=null,postSelectionScope=null;
 const stages=[
  ['data','Data','Choose available leagues and seasons; inspect the tables and discover statistics.'],
@@ -24,8 +25,17 @@ function action(fn){return async (...args)=>{try{await fn(...args);}catch(e){not
 const changed=()=>{dirty=true;document.title='• Football experiment builder';syncNames();try{localStorage.setItem('football-builder-draft-v2',JSON.stringify(recipe));}catch{}};
 const preparationKey=()=>JSON.stringify([recipe.data,recipe.stat_selection,recipe.features,recipe.feature_options,recipe.cutoff_hours,recipe.labels,recipe.target,recipe.assembly,recipe.ratings,recipe.history,recipe.split,recipe.split_options,recipe.feature_preset,recipe.preset_seasons,recipe.derived_features,recipe.context_features,recipe.identity_features,recipe.numeric_features]);
 const foldDetails=f=>(f.description?' · '+f.description:'')+' · '+f.train+' train / '+f.test+' test';
+function ratingSources(){
+ const sources=Object.fromEntries(Object.entries(recipe.feature_options?.ratings||{}).map(([name,value])=>[name,value?.component]));
+ for(const name of Object.keys(recipe.ratings||{}))sources[name]='generated';
+ return sources;
+}
 function syncNames(){
  if(!recipe)return;
+ const sources=ratingSources(),sourceKey=JSON.stringify(sources);
+ const field=spec('features.Rating')?.fields.find(f=>f.name==='fields');
+ if(field)field.choices_by={name:Object.fromEntries(Object.entries(sources).map(([name,kind])=>[name,field.source_choices?.[kind]||field.choices]))};
+ if(sourceKey!==ratingDiscoveryKey){ratingDiscoveryKey=sourceKey;if(stage==='features')queueMicrotask(render);}
  const key=preparationKey(),selection=JSON.stringify(recipe.fold_ids??null),scope=JSON.stringify([key,selection]);
  // Report IDs are local to the selected outer population. Never silently reuse
  // an explicit report subset for a different population or selection order.
@@ -40,7 +50,7 @@ function syncNames(){
  }else if(selection===evaluatedFoldSelection)selected=evaluatedFoldMetadata;
  const postChoices=selected.map((f,i)=>({value:i,label:'Fold '+i+(recipe.fold_ids!=null?' (outer '+recipe.fold_ids[i]+')':'')+foldDetails(f)}));
  if(selected.length&&recipe.analysis_options?.post?.fold_ids?.some(id=>!postChoices.some(choice=>choice.value===id)))delete recipe.analysis_options.post.fold_ids;
- discovered({bet_source:recipe.labels?.[recipe.target],fold_ids:postChoices,outer_fold_ids:outerChoices,heatmaps:preparedColumns?.spatial_features||[],features:preparedColumns?.features||[],targets:preparedColumns?.targets||Object.keys(recipe.labels||{}),selectors:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.TopKCorrelationSelector').map(([k])=>k),weight_reporters:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.ClassWeightReporter').map(([k])=>k),weight_classes:(preparedColumns?.classes||[]).map(String),correlations:Object.entries({...recipe.pre_reporters,...recipe.fitted_reporters}).filter(([,v])=>v?.component==='reporting.CorrelationAnalysis').map(([k])=>k),ratings:Object.keys(recipe.ratings||{})});
+ discovered({bet_source:recipe.labels?.[recipe.target],fold_ids:postChoices,outer_fold_ids:outerChoices,heatmaps:preparedColumns?.spatial_features||[],features:preparedColumns?.features||[],targets:preparedColumns?.targets||Object.keys(recipe.labels||{}),selectors:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.TopKCorrelationSelector').map(([k])=>k),weight_reporters:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.ClassWeightReporter').map(([k])=>k),weight_classes:(preparedColumns?.classes||[]).map(String),correlations:Object.entries({...recipe.pre_reporters,...recipe.fitted_reporters}).filter(([,v])=>v?.component==='reporting.CorrelationAnalysis').map(([k])=>k),ratings:Object.keys(sources),bayesian_ratings:Object.keys(sources).filter(name=>sources[name]==='input.BayesianRatingRun')});
 }
 async function discoverData(force=false){const source=clone(recipe.data),key=JSON.stringify(source);if(!force&&key===discoveryKey)return;discoveryBusy=true;try{const data=await api('discover',{root:source.data_root});const choices=await api('choices',{root:source.data_root,seasons:source.seasons,leagues:source.leagues});if(key!==JSON.stringify(recipe.data))return;publications=data.publications;discovered({seasons:[...new Set(publications.map(p=>p.season))].sort(),leagues:[...new Set(publications.map(p=>p.league))].sort()});available=choices;discovered({...available,stat_keys:[...new Set((available.stats||[]).map(s=>s.key))],identity_columns:['source_league','home_id','away_id','team_id','opponent_id']});discoveryKey=key;}finally{discoveryBusy=false;}if(stage==='data')render();}
 function optionalComponent(title,key,id,description,ids=[id]){return optional(title,key,()=>{if(!recipe[key]?.component)recipe[key]=makeNode(id);return el('div',{},el('p',{class:'help',text:description}),componentEditor(recipe[key],v=>set(key,v),null,ids));});}
@@ -50,7 +60,7 @@ function optional(title,key,editor){const box=el('section',{class:'section'}), c
  const body=el('div',{class:'section-body'});const draw=()=>{body.replaceChildren();if(recipe[key]!=null)body.append(editor());};
  box.append(el('label',{class:'inline'},el('input',{type:'checkbox',checked,onchange:e=>{set(key,e.target.checked?{}:null);draw();}}),el('h2',{text:title})),body);draw();return box;}
 function parameterFields(fields,values,onChange){const shown=fields.filter(f=>f.required||f.primary||Object.hasOwn(values,f.name));const other=fields.filter(f=>!shown.includes(f));return el('div',{},fieldsEditor(shown,values,onChange),other.length?el('details',{class:'advanced'},el('summary',{text:'Additional settings'}),fieldsEditor(other,values,onChange)):null);}
-function options(key,schemaKey=key){recipe[key]??={};let fs=catalog.stages[schemaKey].fields;if(key==='split_options')fs=fs.filter(f=>(spec(recipe.split.component)?.inputs||[]).includes(f.name));return parameterFields(fs,recipe[key],v=>set(key,v));}
+function options(key,schemaKey=key){recipe[key]??={};let fs=catalog.stages[schemaKey].fields;if(key==='feature_options')fs=fs.filter(f=>f.name!=='ratings');if(key==='split_options')fs=fs.filter(f=>(spec(recipe.split.component)?.inputs||[]).includes(f.name));return parameterFields(fs,recipe[key],v=>set(key,v));}
 function analysisFields(phase,fields){return fieldsEditor(fields,recipe.analysis_options?.[phase]??{},values=>{
  recipe.analysis_options??={};const target=recipe.analysis_options[phase]??={};
  for(const f of fields){if(Object.hasOwn(values,f.name))target[f.name]=values[f.name];else delete target[f.name];}changed();
@@ -96,6 +106,9 @@ function render(){
   content.append(section('Named features','Choose a raw Stat as a source, then wrap it in Lag, RollingMean, EMA or another historical operator. Current-match raw observations cannot be used directly as predictors.',featureMapEditor(recipe.features,v=>set('features',v))));
   content.append(section('Historical timing and grouping','Only eligible past results enter historical features. Leave the cutoff disabled for the existing retrospective assumption.',fieldsEditor([manual('cutoff_hours','Hours before kickoff','number',null,{initial:2,help:'Example: 48 simulates a prediction two days before kickoff. Disabled uses earlier finished matches.'})],recipe,()=>changed()),options('feature_options')));
   content.append(section('Named rating states','Add one stream for match results, or enable Statistic to rate corners or another quantity. Reuse its name with a Rating feature. Strength, uncertainty and volatility are separate outputs.',mapEditor(recipe.ratings,v=>set('ratings',v),{itemFields:catalog.stages.rating_options.fields})));
+  const savedRatingField=catalog.stages.feature_options.fields.find(f=>f.name==='ratings');
+  content.append(section('Saved rating runs','Load an existing state artifact and give it a distinct name. Rating reads its team fields; Bayesian Fixture reads predictions from a saved Bayesian run. Loading does not fit or update the saved run.',mapEditor(recipe.feature_options?.ratings,v=>{recipe.feature_options??={};recipe.feature_options.ratings=v;changed();},{item:savedRatingField.item})));
+
   content.append(section('Derived match features','Combine assembled home/away columns using sum, difference or ratio. Each expression reads existing columns; nest expressions instead of referencing another derived name.',el('button',{text:'Discover assembled columns',onclick:()=>start('prepare',true,true)}),mapEditor(recipe.derived_features||{},v=>set('derived_features',v),{componentCategory:['derived_feature']})));
   content.append(section('Fixture context','Known calendar and round values are added once per assembled row. Preset calendar fields can be switched off if selecting them here.',mapEditor(recipe.context_features||{},v=>set('context_features',v),{componentCategory:['context_feature']})));
   content.append(optionalComponent('Identity indicators','identity_features','preparation.IdentityFeatureSpec','Freeze categories from common outer-training rows. Unseen leagues/teams produce zeros. The saved model retains its vocabulary for future fixtures.'));

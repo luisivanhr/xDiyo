@@ -842,7 +842,7 @@
           "required": false,
           "kind": "multiselect",
           "default": null,
-          "help": "Choose the rating outputs: rating is strength, rd is uncertainty, sigma is volatility.",
+          "help": "Select numeric state columns for the named source. Disabled exports all its numeric fields. Bayesian runs offer attack and defence summaries; generated Glicko streams offer rating, rd and sigma.",
           "choices": [
             "rating",
             "rd",
@@ -859,7 +859,27 @@
             "defence_shape",
             "defence_rate"
           ],
-          "primary": true
+          "primary": true,
+          "source_choices": {
+            "generated": [
+              "rating",
+              "rd",
+              "sigma"
+            ],
+            "input.BayesianRatingRun": [
+              "attack_mean",
+              "defence_vulnerability_mean",
+              "attack_sd",
+              "defence_vulnerability_sd",
+              "log_attack",
+              "log_defence_strength",
+              "strength_index",
+              "attack_shape",
+              "attack_rate",
+              "defence_shape",
+              "defence_rate"
+            ]
+          }
         }
       ],
       "accepts_extra": false
@@ -1170,12 +1190,13 @@
         },
         {
           "name": "name",
-          "title": "Name",
+          "title": "Saved Bayesian run",
           "required": false,
-          "kind": "text",
+          "kind": "select",
           "default": null,
-          "help": "Optional key of a saved BayesianRatingRun supplied through feature_options.ratings. Leave the model disabled when selecting a saved run.",
-          "primary": false
+          "help": "Optional saved Bayesian run configured in Saved rating runs. Leave the model disabled when selecting a saved run.",
+          "primary": true,
+          "discovery": "bayesian_ratings"
         }
       ],
       "accepts_extra": false
@@ -2304,7 +2325,7 @@
           "required": false,
           "kind": "text",
           "default": null,
-          "help": "UTC end of the observations used to fit these parameters. Preserve the recorded cutoff when exporting a trained bundle; it prevents using later-trained parameters for earlier predictions.",
+          "help": "Earliest permitted prediction time, respecting parameter calibration and any declared fold fit time. Preserve it on export.",
           "primary": false
         },
         {
@@ -13770,13 +13791,20 @@
         },
         {
           "name": "ratings",
-          "title": "Ratings",
+          "title": "Saved rating runs",
           "required": false,
-          "kind": "text",
+          "kind": "map",
           "default": null,
-          "help": "Named rating states available to Rating features. Configure these in Named rating states.",
-          "primary": false,
-          "hidden": true
+          "help": "Name and load an existing rating artifact. Bayesian Rating Run restores its full checkpoint and fixture predictions; Rating Run loads generic numeric snapshots. Saved names must differ from generated rating names.",
+          "primary": true,
+          "item": {
+            "kind": "component",
+            "components": [
+              "input.BayesianRatingRun",
+              "input.RatingRun"
+            ],
+            "initial_component": "input.BayesianRatingRun"
+          }
         },
         {
           "name": "team_seasons",

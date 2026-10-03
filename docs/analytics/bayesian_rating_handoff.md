@@ -1,6 +1,6 @@
 # Bayesian rating maintainer handoff
 
-Prepared 2026-10-03. This is an implementation and synthetic-verification
+Prepared 2026-10-03; review revisions verified 2026-10-04. This is an implementation and synthetic-verification
 handoff, not a production model evaluation.
 
 ## Checkout and review boundary
@@ -79,7 +79,7 @@ the local dependency versions was excluded.
 | Optional dependency | `pyproject.toml`, extra `ratings` with SciPy |
 | Explanation | [Model equations and limits](bayesian_rating_model.md), [usage and UI](bayesian_rating_usage.md), [design boundary](bayesian_rating_design.md) |
 
-## Final verification
+## Initial implementation verification
 
 All checks used the main checkout's existing `.venv` Python with the worktree's
 `src` on `PYTHONPATH`. No dependencies were installed and no production data
@@ -124,6 +124,60 @@ $regressionTests = @(rg --files tests/analytics | Where-Object {
 & $ratingPython -m pytest @regressionTests -q -p no:cacheprovider --basetemp "$env:TEMP\xdiyo-bayes-$([guid]::NewGuid())" --deselect tests/analytics/test_ui_inventory.py::test_iterative_inventory_factory_keeps_preprocessing_and_restart_seed --deselect tests/analytics/test_ui_workflow.py::test_iterative_recipe_validation_and_restart_history
 ```
 
+## Maintainer review revisions, 2026-10-04
+
+All three requested findings have been addressed in new commits on the same
+isolated branch. Nothing has been merged or pushed.
+
+1. **Declared fold timing** (`42caa50`): fitting honors the existing
+   `training_boundary` and `fit_at` metadata. Every selected kickoff must be
+   strictly before the data boundary, and every selected result must be available
+   by it. Invalid populations fail instead of being silently filtered or assigned
+   a later cutoff. Native persistence preserves the model activation time;
+   prediction validates it and the recorded fit population against supplied
+   context. Standalone/refit calls without declared timing retain their behavior.
+2. **Saved-run UI**: the Features & ratings page exposes saved rating inputs
+   through the existing `feature_options.ratings` mapping and loaders. Name
+   discovery and field choices distinguish generated Glicko and saved Bayesian
+   sources. Incompatible selected fields remain visible with a warning; duplicate
+   saved/generated names fail validation. Recipe saving, Python/notebook export,
+   reopening and preparation are exercised in Chromium with training and replay
+   patched to fail if called. Saved artifact hashes remain unchanged.
+3. **Browser locators**: the original Bayesian control test uses the actual
+   lowercase checkbox labels and passes in Chromium.
+
+Revision verification uses the reviewer's existing browser-capable runtime,
+`C:\Users\luisi\Documents\Programming\Python\.misc314\Scripts\python.exe`.
+No dependencies were installed and no production model was fitted.
+
+- All Bayesian tests plus model persistence, training runner, training controls,
+  temporal split/mixed-gap tests and the maintainer's original boundary
+  reproducer: **272 passed in 19.97s**.
+- All `tests/analytics/test_ui*.py`: **121 passed in 79.60s**, with no skips or
+  deselections. The two initial iterative serializer failures also pass in this
+  runtime. Two existing pandas float32 overflow warnings occur in preparation
+  parity fixtures.
+- JavaScript syntax checks and `git diff --check` passed.
+
+Reproduction commands, from this worktree:
+
+```powershell
+$env:PYTHONPATH = "$PWD\src;$PWD\tests\analytics"
+$env:PYTHONDONTWRITEBYTECODE = '1'
+$reviewPython = 'C:\Users\luisi\Documents\Programming\Python\.misc314\Scripts\python.exe'
+$bayesianTests = @(rg --files tests/analytics | Where-Object { $_ -match 'test_bayesian.*\.py$' })
+& $reviewPython -m pytest @bayesianTests tests/analytics/test_model_persistence.py tests/analytics/test_training_runner.py tests/analytics/test_training_controls_refit.py tests/analytics/test_temporal_splits.py tests/analytics/test_temporal_mixed_gaps.py "$env:TEMP\test_bayesian_review_boundary.py" -q -p no:cacheprovider --basetemp "$env:TEMP\xdiyo-review-numerics-$([guid]::NewGuid())"
+$uiTests = @(rg --files tests/analytics | Where-Object { $_ -match 'test_ui.*\.py$' })
+& $reviewPython -m pytest @uiTests -q -p no:cacheprovider --basetemp "$env:TEMP\xdiyo-review-ui-$([guid]::NewGuid())"
+```
+
+The boundary reproducer in the first command is the reviewer's local temporary
+file; the new committed `test_bayesian_fold_boundaries.py` retains equivalent
+coverage and additional gap, malformed-time, persistence and split integration
+cases. The existing model context exposes scalar fold timing, not the original
+per-row cutoff vector. Exact per-row cutoffs remain available through the rating
+feature APIs; the adapter does not infer them from arbitrary feature columns.
+
 ## Remaining limits and evaluation work
 
 - The default team clock is per observed appearance, with an optional elapsed-day
@@ -150,6 +204,6 @@ $regressionTests = @(rg --files tests/analytics | Where-Object {
   not proven minimum sample sizes.
 - Production convergence, calibration speed, probability calibration and any
   improvement over Glicko2 remain unmeasured. No betting-profit claim is made.
-- The browser test and the two pre-existing iterative serializer failures remain
-  environment/maintenance followups; no global serializer or environment repair
-  was included in this model change.
+- The initial main-checkout `.venv` limitations are recorded above for provenance.
+  Browser tests now run in the existing reviewer runtime; no global serializer
+  or environment repair was included in this model change.

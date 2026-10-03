@@ -56,6 +56,10 @@ def validate_recipe(recipe):
     unknown = set(recipe) - set(default_recipe())
     if unknown:
         raise ValueError(f'Unknown recipe sections: {sorted(unknown)}')
+    saved_ratings = recipe.get('feature_options', {}).get('ratings') or {}
+    duplicate_ratings = set(saved_ratings) & set(recipe.get('ratings', {}))
+    if duplicate_ratings:
+        raise ValueError(f'Saved and generated rating names must be distinct: {sorted(duplicate_ratings)}')
     recipe = deepcopy(recipe)
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
     for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:

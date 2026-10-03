@@ -139,9 +139,9 @@ def test_bayesian_controls_save_and_export_selected_fields(browser_ui, tmp_path)
                            'fixture': node('features.BayesianFixture')}
     import_recipe(page, recipe)
     page.get_by_role('link', name='Features & ratings', exact=True).click()
-    assert page.get_by_role('checkbox', name='Attack mean', exact=True).is_checked()
-    page.get_by_role('checkbox', name='Attack sd', exact=True).check()
-    page.get_by_role('checkbox', name='P draw', exact=True).check()
+    assert page.get_by_role('checkbox', name='attack mean', exact=True).is_checked()
+    page.get_by_role('checkbox', name='attack sd', exact=True).check()
+    page.get_by_role('checkbox', name='p draw', exact=True).check()
     saved = save_recipe(page, handle)
     assert saved['features']['state']['params']['fields'] == [
         'attack_mean', 'defence_vulnerability_mean', 'attack_sd']
