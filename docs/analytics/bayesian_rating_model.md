@@ -186,6 +186,12 @@ The implementation sums total-goal strata until the omitted mass is at most
 `tail_tolerance`; it raises if `max_total_goals` cannot meet that bound.
 Outcome probabilities are not silently renormalized. Both-score and over-2.5
 probabilities use closed forms. The numerical helper also returns omitted mass.
+Joint score log probabilities use a rising-factorial identity to avoid
+cancellation at large finite dispersion shapes. Total-goal probabilities use
+a complementary incomplete-beta tail when the usual negative-binomial
+parameterization loses precision. This preserves the finite-shape model without
+switching to a Poisson approximation. Unsupported nonfinite special-function
+results raise explicitly.
 
 `BayesianRating.fields` chooses team columns, preserving order. Defaults are
 `attack_mean` and `defence_vulnerability_mean`. Optional columns are
@@ -232,13 +238,29 @@ results require an explicit rating update.
   A contributing kickoff must be strictly before the prediction cutoff; result
   availability may equal it. Simultaneous fixtures cannot see one another.
 - An earlier match released exactly at a season boundary is assimilated before
-  a transfer. A prior-season observation arriving after its state has already
-  transitioned is rejected; exact retrospective smoothing/re-filtering across
-  such transfers is not implemented.
+  a transfer. State recursions follow actual kickoff order; available matches
+  with equal kickoff in a competition form one joint update. Distinct kickoffs
+  remain separate even when their scores arrive in the same release batch.
+- A late result triggers chronological re-filtering of the saved observation
+  and entry journal. It refreshes teams, shared home advantage and downstream
+  retained-season or promotion/relegation bridges. Revised states are published
+  when the result becomes available. Earlier snapshots and stored forecasts
+  retain the information available at their original prediction times. This
+  is re-filtering of the configured approximation, not Bayesian smoothing.
+- Inferred season anchors may move earlier when an older fixture first arrives.
+  Explicit season-start declarations remain authoritative. A forecast-only
+  update cannot add a new entry before the durable frontier without a new
+  result release; rebuild full history for that membership correction.
 - Future scheduled entry anchors may produce query snapshots but cannot move
   the resumable observation frontier. An update accepts only new releases
   strictly later than that frontier. Revisions and partial equal-time append
   batches require rebuilding from complete history.
+- Saved runs now retain the observation/entry journal. Older artifacts remain
+  readable for forecasts, but must be rebuilt from full history before updating.
+  Ordinary ordered observations retain the incremental path. A late append
+  replays retained history; a full-history call containing delayed releases
+  may replay prefixes at every release boundary, with quadratic worst-case
+  work. This also increases calibration cost on such datasets.
 - Feature queries before `training_cutoff` are forbidden even if the state
   lookup itself is chronological. Hyperparameters fitted on future results would
   leak. Use separate calibration windows or refit inside each temporal fold.
@@ -264,8 +286,12 @@ Calibration minimizes chronological mean outcome log loss (default) or joint
 score log loss, with a weak penalty around the supplied initial parameters.
 The bounded optimizer is deterministic L-BFGS-B. Nine dynamics, dispersion and
 entry parameters are candidates by default; baseline means and initial shapes
-are supplied as fixed settings. Entry fields without labeled movements, and
-dispersion in univariate mode, are reported as inactive and held fixed.
+are supplied as fixed settings. Entry fields with no actual mirrored-prior
+application, and dispersion in univariate mode, are reported as inactive and
+held fixed. Successful bridges bypass those entry parameters. Reports include
+actual mirrored/bridge mechanism counts; historical mirrored uses remain
+counted if later information enables a bridge. Active optimization coordinates
+are not evidence of statistical identification.
 Inspect success, counts and parameter
 provenance before exporting a fitted bundle. Optimization success does not
 establish identifiability or predictive calibration.

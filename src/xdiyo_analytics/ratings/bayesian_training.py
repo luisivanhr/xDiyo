@@ -195,8 +195,9 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
     ``fit_fields=()`` evaluates and freezes initial parameters without optimizing.
     The optimizer is deterministic L-BFGS-B with a weak quadratic penalty around
     initial parameters, on a log scale for positive shape/dispersion parameters.
-    Entry parameters without labeled movements, and kappa for a univariate
-    model, remain at their initial values and are reported as inactive fields.
+    Entry parameters without any actual mirrored-prior use, and kappa for a
+    univariate model, remain at their initial values and are reported as inactive
+    fields. Mechanism participation does not establish statistical identification.
     No stochastic simulation, MCMC, held-out evaluation, or research run occurs.
     """
     import numpy as np
@@ -240,12 +241,27 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
         context = TransitionContext(rows, available_at="_bayesian_available_at",
                                     team_seasons=transitions, season_starts=starts)
         movements = Counter(record["movement"] for record in context.records.values())
+        initial_run = build_bayesian_ratings(
+            rows, model=BayesianModel(parameters=initial, config=config),
+            available_at="_bayesian_available_at", team_seasons=transitions,
+            season_starts=starts)
+        # Movement labels alone do not activate entry parameters: successful
+        # bridges bypass the mirrored prior. Replay's effective counts preserve
+        # historical uses when later knowledge changes an entry into a bridge.
+        # Mechanism selection depends on history/config, not fitted coordinates,
+        # so the initial replay also describes every calibration candidate.
+        # Older producers expose the complete entry history in their snapshots.
+        effective_entries = initial_run.metadata.get("effective_entry_counts")
+        if effective_entries is None:
+            effective_entries = initial_run.snapshots["snapshot_kind"].value_counts()
+        entry_mechanisms = {name: int(effective_entries.get(name, 0))
+                            for name in ("mirrored", "bridge")}
         inactive = {}
         for name in requested:
             if name == "kappa" and not config.bivariate:
                 inactive[name] = "Univariate scoring has no shared-effect dispersion parameter."
-            elif name.startswith("entry_") and not (movements["promoted"] + movements["relegated"]):
-                inactive[name] = "No labeled promoted/relegated entries in this fitting population."
+            elif name.startswith("entry_") and not entry_mechanisms["mirrored"]:
+                inactive[name] = "No mirrored entry prior was used in this fitting population; successful bridges do not use entry parameters."
         names = tuple(name for name in requested if name not in inactive)
         center = np.array([encoded(name, getattr(initial, name)) for name in names])
         bounds = [(encoded(name, low), encoded(name, high)) for name in names for low, high in [_BOUNDS[name]]]
@@ -255,15 +271,16 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
         evaluations = 0
         best = [float("inf"), initial, float("inf")]
 
-        def loss(vector):
+        def loss(vector, run=None):
             nonlocal evaluations
             evaluations += 1
             values = {name: float(np.exp(value) if name in _LOG_FIELDS else value)
                       for name, value in zip(names, vector)}
-            parameters = replace(initial, **values)
-            model = BayesianModel(parameters=parameters, config=config)
-            run = build_bayesian_ratings(rows, model=model, available_at="_bayesian_available_at",
-                                         team_seasons=transitions, season_starts=starts)
+            parameters = initial if run is not None else replace(initial, **values)
+            if run is None:
+                model = BayesianModel(parameters=parameters, config=config)
+                run = build_bayesian_ratings(rows, model=model, available_at="_bayesian_available_at",
+                                             team_seasons=transitions, season_starts=starts)
             predictions = run.predictions
             if len(predictions) != len(rows) // 2:
                 raise ValueError("Calibration replay did not predict every eligible match exactly once.")
@@ -284,7 +301,8 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
                 best[:] = [value, parameters, raw]
             return value
 
-        initial_objective = loss(center)
+        initial_objective = loss(center, initial_run)
+        del initial_run
         if names:
             optimized = minimize(loss, center, method="L-BFGS-B", bounds=bounds,
                                  options={"maxiter": max_iterations, "ftol": 1e-8})
@@ -296,7 +314,8 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
                          penalized_objective=best[0], mean_negative_log_likelihood=best[2])
         return best[1], {**_population_report(rows), "optimizer": optimizer,
                         "fit_fields": list(names), "inactive_fit_fields": inactive,
-                        "movement_counts": dict(movements)}
+                        "movement_counts": dict(movements),
+                        "entry_mechanism_counts": entry_mechanisms}
 
     if mode == "pooled":
         parameters, details = fit_one(chosen)
@@ -313,11 +332,15 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
     active = [name for name in requested if any(name in detail["fit_fields"] for detail in fits)]
     inactive = {name: fits[0]["inactive_fit_fields"][name] for name in requested if name not in active}
     movement_counts = Counter()
+    entry_mechanism_counts = Counter()
     for details in fits:
         movement_counts.update(details["movement_counts"])
+        entry_mechanism_counts.update(details["entry_mechanism_counts"])
     report = {"schema": 1, "mode": mode, "cutoff": time.isoformat(), "objective": objective,
               "requested_fit_fields": list(requested), "fit_fields": active,
               "inactive_fit_fields": inactive, "movement_counts": dict(movement_counts),
+              "entry_mechanism_counts": dict(entry_mechanism_counts),
+              "fit_fields_interpretation": "Optimization coordinates after excluding unused dispersion and entry mechanisms; participation and optimizer success do not establish statistical identification.",
               "minimum_observed_seasons": minimum,
               "regularization": float(regularization), "regularization_center": "initial_parameters",
               "optimizer": "scipy.L-BFGS-B", "fits": fits,

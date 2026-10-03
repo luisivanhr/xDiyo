@@ -43,8 +43,49 @@ The normal model adapter fits only exact `FitContext` matches and supplied goal
 targets. Predictions may project known season movements from a frozen checkpoint
 without consuming evaluation outcomes or changing that checkpoint. Native
 serialization retains movement declarations and season-start anchors. Inactive
-entry parameters without movement evidence, and univariate dispersion, are held
+entry parameters without actual mirrored-prior use, and univariate dispersion, are held
 fixed and identified in calibration reports.
+
+## Independent mathematical audit follow-up (2026-10-04)
+
+The user requested corrections to audit findings 5 and 6 plus kickoff-ordered
+updates. This follow-up implements:
+
+- Entry-parameter activity based on observed mirrored-prior use. Successful
+  bridges alone no longer make unused entry parameters appear fitted. Reports
+  include mechanism counts and distinguish activity from identification.
+- Stable finite-shape joint log probabilities and total-goal tails, including
+  large externally supplied dispersion values. Unsupported numerical cases fail
+  explicitly instead of emitting misleading probabilities.
+- Kickoff-ordered updates with availability-dated state versions. Late scores
+  re-filter the retained observation/entry journal, refreshing shared home
+  advantage and downstream season bridges while preserving earlier forecasts.
+  Equal-kickoff matches form one joint batch; different kickoffs remain ordered
+  even when released together. Normal ordered updates retain the fast path.
+
+The journal is retained through native save/load. Inferred anchors can move
+earlier when an older fixture arrives; explicit anchors remain authoritative.
+Older state artifacts remain readable but require a full-history rebuild before
+updating. Event corrections, equal-release appends, and retrospective membership
+changes without a new observation release still require a full rebuild. Full
+historical runs containing delayed releases can incur quadratic replay work;
+calibration on those histories inherits that cost.
+
+Verification includes independent high-precision probability references,
+calibration mechanism tests, and kickoff/version/bridge persistence tests.
+The integrated Bayesian selection passed **151 tests**. This does not establish
+predictive quality on real league data. Full posterior-predictive state
+uncertainty and the separate offseason-discount convention were outside this
+follow-up's scope.
+
+The broader analytics run completed with 3,781 passes, three skips and six
+failures while edits were still underway. Three assertions expected the former
+late-season rejection behavior; their updated replacement checks pass in the
+final Bayesian selection. Two cache-identity failures passed after edits
+settled (69 passes across the identity, metric-recovery and packaging files).
+The remaining packaging assertion expects only `xdiyo-ui`, although both the
+unchanged pre-follow-up `pyproject.toml` and current metadata declare
+`xdiyo-report` too. That existing mismatch is outside this rating change.
 
 ## Compatibility decisions
 
