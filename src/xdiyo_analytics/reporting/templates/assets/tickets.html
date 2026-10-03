@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{title}}</title><link rel="stylesheet" href="tickets.css"></head><body>
+<header><div class="eyebrow">Saved research · exported evidence</div><h1 id="title">{{title}}</h1><p id="subtitle">{{subtitle}}</p><p class="notice">{{notice}}</p><p>{{links}}</p></header>
+<main><p id="loading" role="status">Loading preserved ticket evidence…</p><section id="app" hidden>
+<div class="controls"><label class="field wide">Study / feature group<select id="group"></select></label><label class="field wide">Policy / season<select id="policy"></select></label></div>
+<div id="policyNote" class="muted"></div><div class="summary" id="policyTotals"></div>
+<div class="controls"><label class="field">League<select id="league"></select></label><label class="field">Ticket result<select id="result"></select></label><label class="field">From first kickoff<input type="date" id="from"></label><label class="field">Through first kickoff<input type="date" id="to"></label><label class="field wide">Team, event, market, round or ticket ID<input id="search" placeholder="Search these tickets" type="search"></label></div>
+<div class="toolbar"><button id="csv" class="primary">Download full policy CSV</button><button id="filteredCsv">Download filtered CSV</button><button id="reset">Reset filters</button><span id="filteredSummary"></span></div>
+<div class="toolbar"><button id="prev">Previous</button><span id="page"></span><button id="next">Next</button><label>Per page <select id="size"><option>20</option><option selected>50</option><option>100</option></select></label></div>
+<div class="tickets" id="tickets"></div><p id="badgeNote" class="muted"></p></section></main>
+<footer><p>{{footer}}</p><small>Policies are separate supplied evidence. Full-policy CSV downloads preserve the original bytes. Filtered CSV retains original headers and cell strings.</small><p>{{attribution}}</p></footer>
+<script src="index.js"></script><script src="tickets.js"></script></body></html>

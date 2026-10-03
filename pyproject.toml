@@ -17,12 +17,14 @@ training = ["scikit-learn>=1.6,<2", "statsmodels>=0.14.5,<0.16", "joblib>=1.4,<2
 
 [project.scripts]
 xdiyo-ui = "xdiyo_analytics.ui.server:main"
+xdiyo-report = "xdiyo_analytics.reporting.templates.__main__:main"
 
 [tool.setuptools]
-packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting", "xdiyo_analytics.training", "xdiyo_analytics.evaluation", "xdiyo_analytics.experiments", "xdiyo_analytics.selection", "xdiyo_analytics.ui", "xdiyo_analytics.odds"]
+packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting", "xdiyo_analytics.reporting.templates", "xdiyo_analytics.training", "xdiyo_analytics.evaluation", "xdiyo_analytics.experiments", "xdiyo_analytics.selection", "xdiyo_analytics.ui", "xdiyo_analytics.odds"]
 package-dir = {"xdiyo_analytics" = "src/xdiyo_analytics"}
 
 [tool.setuptools.package-data]
+"xdiyo_analytics.reporting.templates" = ["assets/*.html", "assets/*.js", "assets/*.css", "assets/*.md"]
 "xdiyo_analytics.ui" = ["static/*.html", "static/*.js", "static/*.css", "inventory.json"]
 
 [tool.pytest.ini_options]

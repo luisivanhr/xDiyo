@@ -1,2 +1,4 @@
 # Published checksums describe exact bytes; do not rewrite them on checkout.
 data/xDiyo_data/** -text
+# The standalone viewer preserves the supplied stylesheet and its SHA-256.
+src/xdiyo_analytics/reporting/templates/assets/tickets.css -text
