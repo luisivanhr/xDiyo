@@ -3,6 +3,11 @@
 Rating expressions produce ordinary numeric columns aligned with the team-history
 index. Use them in training `X`, prediction inputs and reporting.
 
+For paired-goal attack/defence distributions, see the optional
+[Bayesian score rating](bayesian_rating_model.md) and its
+[selectable output and UI guide](bayesian_rating_usage.md). It returns the same
+rating feature contract with its own score-aware state producer.
+
 ```python
 from xdiyo_analytics.features import (
     Stat, MatchResultGlicko, StatGlicko, evaluate_features,

@@ -5,7 +5,7 @@ from numbers import Real
 import math
 
 from ..features.expressions import Stat
-from .expressions import LabelExpr, TeamValue, MatchTotal, Outcome, Above, BetOption
+from .expressions import LabelExpr, TeamValue, MatchTotal, MatchGoals, Outcome, Above, BetOption
 
 
 @dataclass
@@ -126,7 +126,21 @@ def create_labels(history, labels):
         if node in cache:
             return cache[node]
         settlement = None
-        if isinstance(node, (TeamValue, MatchTotal)):
+        if isinstance(node, MatchGoals):
+            pair = numeric_values(["goals_for", "goals_against"])
+            pair[~np.isfinite(pair)] = np.nan
+            # Home-row order is the existing match-target contract. Paired rows
+            # must carry the same native scores; do not choose one contradictory
+            # view or reconstruct a missing goal from another score basis.
+            if not np.array_equal(pair[home][finished[home]], pair[away, ::-1][finished[home]], equal_nan=True):
+                raise ValueError("MatchGoals requires agreeing home/away score perspectives.")
+            values = pair[home].copy()
+            values[~finished[home]] = np.nan
+            observed = values[np.isfinite(values)]
+            if np.any(observed < 0) or np.any(observed != np.floor(observed)):
+                raise ValueError("MatchGoals requires nonnegative integer goal counts.")
+            rows, names, unit, perspective = home, ["home_goals", "away_goals"], "match", "home"
+        elif isinstance(node, (TeamValue, MatchTotal)):
             own, other, names, other_names = pair_values(node.source)
             if isinstance(node, MatchTotal):
                 with np.errstate(over="ignore", invalid="ignore"):

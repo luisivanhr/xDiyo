@@ -27,7 +27,7 @@ def stage_schema(*, refresh=False):
         ('refit', RefitPolicy, set()),
         ('run', FootballExperiment.run, {'self', 'prepared', 'model', 'model_selection', 'selection_plan',
                                        'development_positions', 'inner_plan_factory', 'pre_analysis', 'post_analysis',
-                                       'refit_policy', 'checkpoint_policy', 'execution', 'model_serializer'}),
+                                       'refit_policy', 'checkpoint_policy', 'execution'}),
         ('prediction', select_prediction_fixtures, {'data'}),
         ('model_loading', load_model, set()),
     ]

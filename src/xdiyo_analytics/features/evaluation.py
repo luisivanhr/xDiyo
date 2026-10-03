@@ -7,7 +7,7 @@ from .expressions import (
     RollingMean, RollingStd, RollingZScore, Stat, MatchScore,
 )
 from .history import eligible_history_rows, league_season_team_counts
-from .ratings import MatchResultGlicko, Rating, StatGlicko
+from .ratings import BayesianFixture, BayesianRating, MatchResultGlicko, Rating, StatGlicko
 from .league import League, LeaveOneOut, LeaguePopulation, reduce_league
 from .warmup import WarmStart, SeededEMA, evaluate_warm_start
 from .transitions import TransitionContext
@@ -63,6 +63,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     RatingRun supplied through ratings={name: run}, including custom state fields.
     Rating nodes own their scope; group_by applies to lag/rolling history instead.
     Outputs are aligned training features as well as future-prediction inputs.
+
+    BayesianRating and BayesianFixture share one score filter per fixed model.
+    Their parameters are never trained here. Team fields retain the focal-team
+    perspective; fixture fields refer to the actual home/away sides. Full state
+    is retained independently of the requested output columns.
 
     League populations support pooled round/match/day windows and optional LOO.
     WarmStart explicitly enables SeededEMA or a rating transition policy for its
@@ -219,6 +224,30 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 result = (stat_values(node.source, node.side), h2h)
             else:
                 raise TypeError("ForAgainst takes a Stat, MatchScore or Heatmap reference.")
+        elif isinstance(node, (BayesianRating, BayesianFixture)):
+            if h2h:
+                raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")
+            if isinstance(node, BayesianFixture) and node.name is not None:
+                if ratings is None or node.name not in ratings:
+                    raise KeyError(f"Supply the named BayesianRatingRun through ratings: {node.name}")
+                run = ratings[node.name]
+            else:
+                from ..ratings import build_bayesian_ratings
+                definition = ("bayesian", node.model)
+                if definition not in rating_cache:
+                    rating_cache[definition] = build_bayesian_ratings(
+                        history, model=node.model, available_at=available_at,
+                        team_seasons=team_seasons, season_starts=season_starts,
+                        cutoffs=cutoffs,
+                    )
+                run = rating_cache[definition]
+            if isinstance(node, BayesianFixture):
+                if not callable(getattr(run, "fixture_features", None)):
+                    raise TypeError("BayesianFixture requires a BayesianRatingRun with fixture predictions.")
+                frame = run.fixture_features(history, cutoffs=cutoffs, fields=node.fields)
+            else:
+                frame = run.features(history, cutoffs=cutoffs, side=node.side, fields=node.fields)
+            result = (frame, h2h)
         elif isinstance(node, (Rating, MatchResultGlicko, StatGlicko)):
             if h2h:
                 raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")

@@ -210,6 +210,10 @@ DESCRIPTIONS = {
     'features.MatchResultGlicko': 'Evolving team strength from wins, draws and losses. Each feature uses the rating before that match; both teams update from their pre-match states.',
     'features.StatGlicko': 'Evolving strength for a selected statistic. For corner kicks, more corners counts as a win, equal corners as a draw. This rates superiority, not the size of the winning margin.',
     'features.Rating': 'Reuse a named rating stream configured below. Select strength, uncertainty and/or volatility without recalculating separate streams.',
+    'features.BayesianRating': 'Evolving attack and defensive vulnerability from goals. Select team-state outputs; larger defensive vulnerability means worse defence. Fixed model parameters are never fitted during feature preparation.',
+    'features.BayesianFixture': 'Expected goals and optional score probabilities for the actual home and away teams. These depend on both opponents and venue, and share the score filter with Bayesian team features using the same model.',
+    'ratings.BayesianModel': 'Fixed Bayesian parameters with their training cutoff. Pooled models share parameters across leagues; per-league bundles retain separate parameters. Team states remain distinct in either mode.',
+    'ratings.BayesianParameters': 'Positive Gamma shape/rate priors, forgetting factors and score dispersion. Defaults are starting values, not parameters trained on your data. Entry shifts mirror promotion and relegation on the log scale.',
     'ratings.Glicko2': 'Glicko-2 maintains strength (rating), uncertainty (rd) and volatility (sigma). Start with the defaults; adjust tau only to change volatility adaptation.',
 }
 
@@ -786,6 +790,7 @@ def build():
                 if name == 'stake':f['help']='Stake on EACH selected ticket. C(n,k) × stake is candidate exposure before ticket EV filtering. Actual stake is selected tickets × stake. Legs are not separately staked.'
                 if name == 'max_tickets':f['help']='Maximum total tickets per template in this report scope (default 100,000). All groups are counted before any expansion. Above the bound: error with exact count; never sample or truncate.'
     components['features.SeasonProgress']['fields'].sort(key=lambda field: field['name'] != 'mode')
+    _bayesian_widgets(components, stages)
     from ..evaluation import list_metrics
     metrics = list_metrics().to_dict('records')
     for m in metrics:
@@ -812,6 +817,98 @@ def build():
             m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+
+def _bayesian_widgets(components, stages):
+    """Model-specific hints in the maintained inventory, using existing widgets."""
+    from ..ratings.bayesian import FIXTURE_FIELDS, TEAM_FIELDS
+    from ..ratings.bayesian_training import DEFAULT_FIT_FIELDS
+
+    for key, name in [('run', 'model_serializer'), ('model_loading', 'serializer')]:
+        for field in stages[key]['fields']:
+            if field['name'] == name:
+                field.update(kind='component', components=['training.JoblibSerializer', 'training.BayesianScoreSerializer'],
+                             initial_component='training.JoblibSerializer',
+                             help='Explicit persistence backend. Choose Bayesian Score Serializer for Bayesian goal-score models; ordinary estimator models use Joblib. Supply the same serializer when loading.')
+
+    for field in components['labels.MatchGoals']['fields']:
+        field.update(kind='select', choices=['current'], primary=True,
+                     help='Paired native current scores, producing home_goals and away_goals targets. This is not guaranteed to be regulation time; no other score fields are substituted.')
+
+    for key, choices in [('features.BayesianRating', TEAM_FIELDS),
+                         ('features.BayesianFixture', FIXTURE_FIELDS)]:
+        for field in components[key]['fields']:
+            name = field['name']
+            if name == 'fields':
+                field.update(kind='multiselect', choices=list(choices), primary=True,
+                             help='Select output columns in the requested order. This does not alter filtering, fitted parameters or the full saved state.')
+            elif name == 'model':
+                field.update(kind='component', components=['input.BayesianModel', 'ratings.BayesianModel'],
+                             initial_component='input.BayesianModel', primary=True,
+                             help='Optional fixed parameter bundle. Disabled uses documented priors. For evaluation, any fitted bundle must have a training cutoff before every predicted row.')
+            elif name == 'name':
+                field.update(kind='text', help='Optional key of a saved BayesianRatingRun supplied through feature_options.ratings. Leave the model disabled when selecting a saved run.')
+    for field in components['features.Rating']['fields']:
+        if field['name'] == 'fields':
+            field['choices'] = list(dict.fromkeys([*field['choices'], *TEAM_FIELDS]))
+    for key in ('ratings.BayesianModel', 'ratings.BayesianScoreAdapter'):
+        for field in components[key]['fields']:
+            name = field['name']
+            if name in ('parameters', 'initial', 'config'):
+                component = 'ratings.BayesianConfig' if name == 'config' else 'ratings.BayesianParameters'
+                field.update(kind='component', components=[component], initial_component=component)
+            elif name == 'mode':
+                field.update(kind='select', choices=['pooled', 'per_league'], primary=True,
+                             help='Pooled shares fitted parameters across the selected leagues. Per league estimates separate parameters for each league; histories and states retain league identity.')
+            elif name in ('home_goal_target', 'away_goal_target'):
+                field.update(kind='select', discovery='targets', primary=True,
+                             help='Choose the observed integer goal-count target for the actual '+('home' if name.startswith('home') else 'away')+' team. Use match layout and untransformed scores.')
+            elif name == 'min_seasons':
+                field.update(kind='number', min=1, step=1,
+                             help='Optional eligibility override. Defaults require three training seasons for pooled fitting and five for per-league fitting; these are pilot guidelines, not accuracy guarantees.')
+            elif name == 'fit_fields':
+                field.update(kind='multiselect', choices=list(DEFAULT_FIT_FIELDS),
+                             help='Parameters to estimate from fitting rows. Disabled uses the restrained default subset; all other parameters retain their initial values.')
+            elif name == 'objective':
+                field.update(kind='select', choices=['outcome_log_loss', 'score_log_loss'],
+                             help='Optimize sequential win/draw/loss probabilities or the probability of the observed home/away score pair, using training results only.')
+            elif name in ('history', 'team_seasons', 'season_starts'):
+                field.update(kind='component', components=['input.Table'], initial_component='input.Table',
+                             help='Optional explicit contextual table. Fitting still uses only identities and results eligible in the current training partition.')
+            elif name == 'available_at':
+                field.update(kind='text', help='Optional result-availability column in the supplied history or match metadata. Disabled uses the earlier-finished-kickoff proxy.')
+                for obsolete in ('components', 'initial_component'):
+                    field.pop(obsolete, None)
+            elif name == 'training_cutoff':
+                field.update(kind='text', help='UTC end of the observations used to fit these parameters. Preserve the recorded cutoff when exporting a trained bundle; it prevents using later-trained parameters for earlier predictions.')
+    for field in components['ratings.BayesianModel']['fields']:
+        if field['name'] == 'per_league':
+            field.update(kind='list', item={'kind': 'record', 'fields': [
+                {'name': '0', 'title': 'Competition ID', 'kind': 'number', 'required': True, 'step': 1},
+                {'name': '1', 'title': 'Parameters', 'kind': 'component', 'required': True,
+                 'components': ['ratings.BayesianParameters'], 'initial_component': 'ratings.BayesianParameters'},
+            ]}, help='Separate competition ID and parameter pairs. Prefer loading a trained JSON bundle to preserve exact identifiers and training provenance.')
+    for field in components['ratings.BayesianConfig']['fields']:
+        name = field['name']
+        choices = {'method': ['vb', 'one_step'], 'clock': ['team_match', 'days'],
+                   'score_basis': ['provider_current', 'regulation'],
+                   'transition': ['mirrored', 'bridge']}
+        if name in choices:
+            field.update(kind='select', choices=choices[name], primary=True)
+            for obsolete in ('components', 'categories', 'initial_component'):
+                field.pop(obsolete, None)
+        if name == 'score_basis':
+            field['help'] = 'Provider current uses native goals. Regulation requires an externally verified history explicitly marked score_basis=regulation; it does not reconstruct regulation scores.'
+        elif name == 'transition':
+            field['help'] = 'Mirrored gives promoted/relegated teams direction-aware destination priors. Bridge retains an available source posterior using explicitly supplied league gaps, falling back to mirrored priors when evidence is absent.'
+        elif name == 'method':
+            field['help'] = 'VB converges variational updates; one_step uses the paper\'s single-update approximation. This is an inference setting, not a parameter-training mode.'
+        elif name == 'bridge_gaps':
+            field.update(kind='list', item={'kind': 'record', 'fields': [
+                {'name': '0', 'title': 'Source competition ID', 'kind': 'number', 'required': True, 'step': 1},
+                {'name': '1', 'title': 'Destination competition ID', 'kind': 'number', 'required': True, 'step': 1},
+                {'name': '2', 'title': 'Log strength gap', 'kind': 'number', 'required': True, 'step': 'any'},
+            ]}, help='Explicit source/destination/gap triples. Positive gap means the source competition is stronger. Reverse movements reuse the negative gap. Import a bundle to preserve string identifiers.')
 
 
 if __name__ == '__main__':
