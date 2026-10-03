@@ -113,7 +113,8 @@ class BayesianModel:
 
     An empty per_league tuple denotes shared parameters. Otherwise each item
     is (competition_id, BayesianParameters), and unknown competitions fail.
-    training_cutoff records the latest information boundary of calibration;
+    training_cutoff records the earliest permitted prediction time, respecting
+    the calibration information boundary and any declared fold fit_at;
     historical feature queries before this timestamp are forbidden.
     """
 

@@ -243,6 +243,20 @@ results require an explicit rating update.
   lookup itself is chronological. Hyperparameters fitted on future results would
   leak. Use separate calibration windows or refit inside each temporal fold.
   Stored prequential fitting diagnostics do not constitute held-out evaluation.
+- In the normal training adapter, a declared fold `training_boundary` constrains
+  every selected observation: kickoff must be earlier, and result availability
+  must be at or before it. If only `fit_at` is declared, it supplies that limit.
+  The adapter rejects an inconsistent exact fit population instead of dropping
+  rows or advancing the fitting time. The saved model's `training_cutoff` is
+  `fit_at` when supplied; the calibration report retains the separate data cutoff
+  and actual last observation times. Without either fold timestamp, standalone
+  fits and final refits retain the observation-derived cutoff.
+- Prediction checks the declared fold `fit_at` and data boundary as well as
+  target kickoff. The existing `PredictionContext` retains the earliest fold
+  prediction time, not the original per-row cutoff vector. An `explicit` cutoff
+  marker is not a timestamp or column name. Exact row-specific rating cutoffs
+  remain available through the rating feature/replay APIs; the adapter does not
+  guess missing timing information.
 
 ## Calibration and reasonable history
 
