@@ -4,6 +4,9 @@ Companion to the [practical guide and equations](reporting.md),
 [coverage checklist](reporting_documentation_checklist.md) and
 [minimal notebook](../../notebooks/08_reporting_quickstart.ipynb).
 
+For sharing already-exported tickets, saved P&L curves or portfolio evidence
+without orchestration, see [standalone result-sharing formats](standalone_sharing.md).
+
 ## Imports and optional dependencies
 
 Import `PreTrainingAnalysis` from `xdiyo_analytics.analysis`. The public exports
