@@ -148,6 +148,67 @@ def test_ordinary_recipe_optional_keys_leave_preparation_unchanged(ui_recipe):
     pd.testing.assert_frame_equal(actual.dataset.y, expected.dataset.y)
 
 
+@pytest.mark.parametrize('kind', ['fixture', 'team', 'mixed'])
+def test_preset_fixture_alias_and_successful_passes_prepare_and_export(ui_recipe, monkeypatch, kind):
+    from xdiyo_analytics.data import load_seasons
+    from xdiyo_analytics.ui.recipe import export_python, export_notebook
+
+    data = load_seasons(**ui_recipe['data'])
+    passes = data.statistics.copy()
+    passes['group_name'], passes['key'] = 'Passes', 'accuratePasses'
+    passes['value'] = passes['value'] * 100
+    data.tables['statistics'] = pd.concat([data.statistics, passes], ignore_index=True)
+    monkeypatch.setattr('xdiyo_analytics.data.load_seasons', lambda **kwargs: deepcopy(data))
+
+    recipe = deepcopy(ui_recipe)
+    recipe['stat_selection'] = None
+    recipe['features'] = ({'goal_mean5': node('features.BayesianFixture', fields=['expected_home_goals'])}
+                          if kind in ('fixture', 'mixed') else {})
+    recipe['feature_preset'] = node('preparation.FeatureBankPreset',
+        stats=[['Passes', 'accuratePasses']] if kind in ('team', 'mixed') else [],
+        periods=['ALL'], windows=[5], lags=[], spans=[], std_windows=[], z_windows=[],
+        league_windows=[], include_ratings=False, include_loo=False, include_h2h=False,
+        include_rest=False, include_calendar=False, include_combinations=True)
+    before = deepcopy(recipe)
+    prepared = prepare_recipe(recipe)
+    frame = prepared.dataset.X
+    without = deepcopy(recipe)
+    without['feature_preset']['params']['include_combinations'] = False
+    baseline = prepare_recipe(without).dataset.X
+    pd.testing.assert_frame_equal(frame[list(baseline)], baseline)
+    expected_columns = list(baseline)
+    for name, scope in prepared.outputs['features'].attrs['feature_scopes'].items():
+        if scope == 'team':
+            expected_columns.extend([f'sum::{name}', f'difference::{name}'])
+    assert list(frame) == expected_columns
+
+    if kind in ('fixture', 'mixed'):
+        assert [name for name in frame if 'goal_mean5' in name] == ['fixture::goal_mean5']
+        assert prepared.dataset.definitions['feature_scopes']['fixture::goal_mean5'] == 'fixture'
+        assert frame['fixture::goal_mean5'].notna().all()
+    if kind in ('team', 'mixed'):
+        for role in ('for', 'against'):
+            name = f'ALL_Passes_accuratePasses_{role}_mean5'
+            assert prepared.outputs['features'].attrs['feature_scopes'][name] == 'team'
+            home, away = frame[f'home::{name}'], frame[f'away::{name}']
+            assert home.dropna().ge(100).all() and home.notna().any()
+            np.testing.assert_allclose(frame[f'sum::{name}'], home + away, equal_nan=True)
+            np.testing.assert_allclose(frame[f'difference::{name}'], home - away, equal_nan=True)
+
+    # Execute the actual exported preparation cells, without fitting a model.
+    sources = [export_python(recipe).split('result = run_recipe', 1)[0],
+               ''.join(export_notebook(recipe)['cells'][1]['source'])]
+    for source in sources:
+        namespace = {}
+        exec(compile(source, '<exported-preparation>', 'exec'), namespace)
+        assert namespace['recipe'] == recipe
+        restored = namespace['prepared']
+        pd.testing.assert_frame_equal(restored.dataset.X, frame)
+        pd.testing.assert_frame_equal(restored.dataset.y, prepared.dataset.y)
+        assert restored.dataset.definitions['feature_scopes'] == prepared.dataset.definitions['feature_scopes']
+    assert recipe == before
+
+
 def test_grid_dotted_paths_reach_fitted_reporter_and_preprocessor_params(ui_recipe):
     recipe = deepcopy(ui_recipe)
     recipe['model'] = node('sklearn.linear_model.LogisticRegression', C=.5)

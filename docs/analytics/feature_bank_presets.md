@@ -27,7 +27,10 @@ if preset.include_rest:
     definitions["rest_days"] = RestDays()
 features = evaluate_features(history, definitions, keyed=True)
 # After the usual label creation and assemble_dataset(..., layout="match"):
-derived = preset.postassembly_definitions(features.columns, dataset.X.columns)
+derived = preset.postassembly_definitions(
+    features.columns, dataset.X.columns,
+    feature_scopes=features.attrs['feature_scopes'],
+)
 dataset.X = combine_features(dataset.X, derived)
 calendar = evaluate_context_features(dataset.metadata, preset.calendar_definitions())
 ```
@@ -60,6 +63,19 @@ the original helper's home/away sums/differences for names containing mean5,
 mean10, standings, Glicko or rest; trends subtract mean20 from mean3. It requires
 match layout and preserves the source columns. This naming-based combination
 policy is explicit; it is not an arbitrary automatic cross-product of features.
+
+Combinations apply only to **team-level outputs**. Recipe preparation passes the
+evaluator's `feature_scopes` metadata automatically, including in exported Python
+and notebooks. For direct calls, pass that mapping as shown above; its keys are
+the evaluated history column names, before match-layout prefixes. Omitted scope
+entries retain the legacy team-level behavior.
+
+For example, `BayesianFixture(fields=('expected_home_goals',))` named `goal_mean5`
+remains one `fixture::goal_mean5` predictor and creates no home/away combinations.
+A team rolling mean such as `ALL_Passes_accuratePasses_for_mean5` still produces
+`home::...`, `away::...`, `sum::...` and `difference::...`. Scope metadata takes
+precedence over alias patterns; values are never used to infer scope. The same
+rule excludes fixture outputs from mean3-minus-mean20 trends.
 
 ## Rest days and calendar
 

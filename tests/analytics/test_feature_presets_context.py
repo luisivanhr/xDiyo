@@ -61,6 +61,27 @@ def test_rest_days_obeys_cutoffs_availability_h2h_and_missing_history():
     pd.testing.assert_frame_equal(actual, evaluate_features(altered, {'rest': RestDays(), 'h2h_rest': H2H(RestDays())}))
 
 
+@pytest.mark.parametrize('name', ['goal_mean5', 'goal_mean10', 'standing', 'glicko', 'rest_days'])
+def test_postassembly_excludes_fixture_scope_even_with_team_named_copies(name):
+    preset = FeatureBankPreset()
+    columns = [f'{side}::{name}' for side in ('home', 'away', 'fixture')]
+    assert preset.postassembly_definitions([name], columns, feature_scopes={name: 'fixture'}) == {}
+    # Same alias explicitly marked team still gets both original combinations.
+    assert list(preset.postassembly_definitions([name], columns, feature_scopes={name: 'team'})) == [
+        f'sum::{name}', f'difference::{name}']
+    with pytest.raises(ValueError, match='home/away'):
+        preset.postassembly_definitions([name], [f'fixture::{name}'], feature_scopes={name: 'team'})
+
+
+def test_postassembly_trends_also_respect_explicit_scope():
+    stem = 'ALL_Passes_accuratePasses_for_mean'
+    names = [stem + '3', stem + '20']
+    columns = [f'{side}::{name}' for side in ('home', 'away') for name in names]
+    preset = FeatureBankPreset(stats=(('Passes', 'accuratePasses'),))
+    assert preset.postassembly_definitions(names, columns, feature_scopes={names[0]: 'fixture'}) == {}
+    assert len(preset.postassembly_definitions(names, columns, feature_scopes=dict.fromkeys(names, 'team'))) == 2
+
+
 def test_calendar_is_identical_on_history_or_metadata_and_preserves_duplicate_index():
     data = pd.DataFrame({'kickoff_at': pd.to_datetime(['2026-01-05T01:00Z', None, '2026-07-07T01:00Z']),
                          'round': ['3', 'final', 4]}, index=[8, 8, 1])
