@@ -87,7 +87,7 @@ for team \(t\) on side \(s\). The alignment is
 X_{m,t}=f(k_m,t,s_t)\quad\text{for team-match layout},
 \]
 \[
-X_m=\left[f(k_m,h_m,\mathrm{home}),\ f(k_m,a_m,\mathrm{away})\right]
+X_m=\left[f_{\mathrm{team}}(k_m,h_m,\mathrm{home}),\ f_{\mathrm{team}}(k_m,a_m,\mathrm{away}),\ f_{\mathrm{fixture}}(k_m)\right]
 \quad\text{for match layout}.
 \]
 
@@ -97,7 +97,30 @@ rows follow label order, and each output table receives a fresh RangeIndex.
 | Layout | Feature columns | Label requirement |
 | --- | --- | --- |
 | `team_match` | Original selected feature names, one row per team-match. | `label.unit` is `team_match`, with complete, consistent home/away label pairs. |
-| `match` | All `home::<feature>` columns, followed by all `away::<feature>` columns. | `label.unit` is `match`, with distinct, nonmissing home/away IDs. |
+| `match` | All `home::<feature>` team columns, then `away::<feature>` team columns, then `fixture::<feature>` columns once per match. | `label.unit` is `match`, with distinct, nonmissing home/away IDs. |
+
+Each block preserves the selected input-column order. Fixture scope is explicit
+metadata, not a test for equal values: `BayesianFixture` declares fixture outputs,
+whereas `BayesianRating`, `Rating` and undeclared custom columns stay team scoped.
+Both teams' ratings survive even when equal. Arithmetic on fixture outputs and
+constants keeps fixture scope; a team-history operator such as `Lag` or
+`RollingMean` makes its output team scoped again.
+
+Before collapsing fixture copies, assembly joins their recorded prediction
+cutoffs by exact match/team/side identity and requires the same known UTC instant
+on both sides. Values must match exactly, without a tolerance or averaging.
+Two missing values (`NaN`, `None`, or `pd.NA`) agree; one missing value does not.
+Missing cutoff metadata, missing times on either or both sides, unequal times,
+or conflicting values raise a clear error. These checks run before target-based
+row filtering and only for selected fixture columns/matches. Team-match layout
+keeps both copies and does not impose their equality.
+
+**Column-name change:** match-layout Bayesian fixture outputs previously appeared
+twice as `home::<feature>` and `away::<feature>`. They now appear as
+`fixture::<feature>` once. Explicit recipes referencing the old names must be
+updated. Team-column names and ordering are unchanged. See the
+[scope metadata contract](datasets_reference.md#feature-scope-and-cutoff-metadata)
+for caller-built frames.
 
 An away-outcome label retains away target perspective, but the feature blocks
 still stay in home-then-away order. Assembly neither aggregates team labels into

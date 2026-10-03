@@ -51,6 +51,52 @@ numeric dtype conversion. A downstream adapter must validate suitability for its
 chosen model. Column labels selected as features or targets must be nonempty
 strings. All participating DataFrames must have unique column names.
 
+## Feature scope and cutoff metadata
+
+`evaluate_features` writes `features.attrs['feature_scopes']`, a mapping from each
+output-column name to `team` or `fixture`. Assembly defaults undeclared columns
+to `team` for compatibility with custom/older frames. Unknown scope values for
+selected columns raise an error. Scope is never inferred from matching numbers.
+`BayesianFixture` outputs are fixture scoped; team ratings remain team scoped.
+Fixture-only arithmetic (optionally with constants) preserves fixture scope;
+team-history operators and arithmetic involving a team output remain team scoped.
+
+When fixture outputs exist, evaluation also writes
+`features.attrs['prediction_cutoffs']` with this structure:
+
+```python
+{
+    'identity_columns': ('competition_id', 'season_id', 'event_id', 'team_id', 'side'),
+    'records': [
+        {'competition_id': 17, 'season_id': 2025, 'event_id': 123,
+         'team_id': 10, 'side': 'home', 'cutoff': '2025-08-01T12:00:00+00:00'},
+        {'competition_id': 17, 'season_id': 2025, 'event_id': 123,
+         'team_id': 11, 'side': 'away', 'cutoff': '2025-08-01T12:00:00+00:00'},
+    ],
+}
+```
+
+Actual records include all available identity fields, including source league
+and season when present. Records must cover the selected feature identities;
+they are joined by keys, not position. Thus shuffling/filtering a frame or
+resetting its index keeps the metadata usable. Preserve these attrs when saving,
+loading or transforming fixture-bearing frames. Caller-built fixture frames must
+supply the same contract; no missing cutoff is inferred from label metadata.
+
+For match layout, both copies need equal nonmissing UTC-compatible datetimes
+(equivalent timezone representations compare equal). Numeric timestamps without
+a declared unit, invalid dates, duplicate cutoff identities or missing records
+raise errors. Values compare exactly; two missing values agree, one does not.
+Equality is checked before dropping rows for missing targets. The original home
+copy is retained only after validation, preserving its dtype/missing encoding.
+Team-match layout keeps both copies unchanged without requiring equal cutoffs.
+
+Match output orders the selected team columns under `home::`, then `away::`, then
+the selected fixture columns under `fixture::`. Each block retains selection
+order, including expanded-field order. A one-field named `draw` becomes
+`fixture::draw`; a multi-field `score` output becomes, for example,
+`fixture::score::expected_home_goals`. Team-only datasets keep their old schema.
+
 ## Label metadata validation
 
 `label.y` and `label.metadata` must share their row order/index. The identity tuple
@@ -87,14 +133,14 @@ ModelDataset.groups -> pandas.Series
 
 | Member | Contract |
 | --- | --- |
-| `X` | Selected team features or the home-then-away feature blocks; original feature dtypes/missing values preserved. |
+| `X` | Selected team-row features, or home/away team blocks followed by one fixture block; original feature dtypes/missing values preserved. |
 | `y` | Selected label columns with unchanged names, values and dtypes. |
 | `metadata` | Label metadata with exact ID/context dtypes and selected settlement columns. |
 | `layout` | Explicit match or team-match observation unit. |
 | `identity_columns` | Selected label's identity tuple, retained exactly. |
 | `match_columns` | Identity tuple without `team_id`; used for grouping and whole-match filtering. |
 | `target_perspective` | Selected label's team/home/away/total perspective, without rewriting feature orientation. |
-| `definitions` | Deep copies of `features.attrs.get('features', {})` and `label.definition`, under `features` and `label`. Explicit caller-built frames may have no feature definitions. |
+| `definitions` | Deep copies of feature/label definitions plus `feature_scopes` keyed by assembled output names. Explicit caller-built frames may have no feature definitions. |
 | `groups` | Computed Series named `match_group`, dtype object, indexed like metadata, containing exact match-identity tuples. Not ranker group sizes. |
 
 All three output tables have the same fresh RangeIndex and follow selected label

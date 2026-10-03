@@ -45,13 +45,20 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
 
     layout must equal label.unit. 'team_match' retains per-team features and label
     order. 'match' aligns home/away independently, puts home::<feature> followed by
-    away::<feature> columns beside each other, and follows label match order. It
+    away::<feature> team columns, then fixture::<feature> columns once per match,
+    and follows label match order. Explicit attrs['feature_scopes'] declares
+    'team' or 'fixture' per input column; undeclared columns remain team scoped.
+    Fixture copies require equal known prediction cutoffs from identity-keyed
+    attrs['prediction_cutoffs'] and exactly equal values (two missing values
+    agree; one missing value does not). Inconsistent copies raise. Team layout
+    does not collapse or require equality between either side's outputs. It
     does not aggregate team labels or replicate match labels across teams.
 
     feature_columns and target_columns select names before pivot/filtering; None
     selects all feature/target columns, excluding explicit identifier columns.
     Feature values, including missing values, pass through with no imputation,
-    scaling, deduplication or fitting. Missing feature *records* raise an error.
+    scaling, value-based deduplication or fitting. Missing feature *records* raise
+    an error.
 
     drop_missing_targets=False retains prediction fixtures with missing y. True
     removes an entire match when any selected target is missing for either team,
@@ -111,6 +118,15 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
         return chosen
 
     feature_names = select_columns(feature_columns, candidates, "feature_columns")
+    from collections.abc import Mapping
+    declared_scopes = features.attrs.get("feature_scopes", {})
+    if not isinstance(declared_scopes, Mapping):
+        raise ValueError("feature_scopes must map feature columns to team or fixture.")
+    scopes = {name: declared_scopes.get(name, "team") for name in feature_names}
+    if any(scope not in ("team", "fixture") for scope in scopes.values()):
+        raise ValueError("Feature scope must be team or fixture for every selected column.")
+    team_names = [name for name in feature_names if scopes[name] == "team"]
+    fixture_names = [name for name in feature_names if scopes[name] == "fixture"]
     target_names = select_columns(target_columns, label.y.columns, "target_columns")
     meta = label.metadata.copy(deep=True).reset_index(drop=True)
     meta.attrs = {}
@@ -158,7 +174,7 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
             raise KeyError("Match label metadata needs home_id and away_id.")
         if meta[["home_id", "away_id"]].isna().any().any() or meta["home_id"].eq(meta["away_id"]).any():
             raise ValueError("Match labels need distinct, nonmissing home/away IDs.")
-        halves = []
+        halves, side_positions, side_values = [], {}, {}
         for side in ("home", "away"):
             query = meta[list(match_keys)].copy()
             query["side"] = side
@@ -166,8 +182,34 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
             if feature_ids["team_id"].iloc[positions].tolist() != meta[f"{side}_id"].tolist():
                 raise ValueError("Feature and label home/away team IDs disagree.")
             part = values.iloc[positions].reset_index(drop=True)
-            part.columns = [f"{side}::{name}" for name in feature_names]
-            halves.append(part)
+            side_positions[side], side_values[side] = positions, part
+            team_part = part[team_names].copy()
+            team_part.columns = [f"{side}::{name}" for name in team_names]
+            halves.append(team_part)
+        if fixture_names:
+            paired_ids = pd.concat([feature_ids.iloc[side_positions[side]]
+                                    for side in ("home", "away")], ignore_index=True)
+            times = _fixture_cutoffs(features, paired_ids, required)
+            home_times = times.iloc[:len(meta)].reset_index(drop=True)
+            away_times = times.iloc[len(meta):].reset_index(drop=True)
+
+            def inconsistent(mask, description):
+                if mask.any():
+                    row = mask.to_numpy().nonzero()[0][0]
+                    identity = {key: meta[key].iloc[row] for key in match_keys}
+                    raise ValueError(f"Inconsistent fixture-level {description} for match {identity}.")
+
+            inconsistent(home_times.isna() | away_times.isna() | home_times.ne(away_times),
+                         "prediction cutoffs (both copies need the same nonmissing UTC time)")
+            for name in fixture_names:
+                home, away = side_values["home"][name], side_values["away"][name]
+                same = home.isna() & away.isna()
+                present = home.notna() & away.notna()
+                same.loc[present] = home.loc[present].eq(away.loc[present]).fillna(False)
+                inconsistent(~same, f"values in {name!r} (two missing values agree; one does not)")
+            fixtures = side_values["home"][fixture_names].copy()
+            fixtures.columns = [f"fixture::{name}" for name in fixture_names]
+            halves.append(fixtures)
         X = pd.concat(halves, axis=1)
 
     if label.settlement is not None:
@@ -195,8 +237,39 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
         X=X, y=y, metadata=meta, layout=layout, identity_columns=identities,
         match_columns=match_keys, target_perspective=label.perspective,
         definitions={"features": deepcopy(features.attrs.get("features", {})),
+                     "feature_scopes": (dict(scopes) if layout == "team_match" else {
+                         **{f"{side}::{name}": "team" for side in ("home", "away") for name in team_names},
+                         **{f"fixture::{name}": "fixture" for name in fixture_names},
+                     }),
                      "label": deepcopy(label.definition), "spatial_features":spatial,
                      **{key: deepcopy(features.attrs[key]) for key in
                         ('warm_start_input_hash', 'warm_start_audit', 'movement_evidence')
                         if features.attrs.get(key)}},
     )
+
+
+def _fixture_cutoffs(features, feature_ids, required):
+    """Join cutoff provenance by identity, never by a mutable row position."""
+    import pandas as pd
+    from collections.abc import Mapping
+
+    provenance = features.attrs.get("prediction_cutoffs")
+    if not isinstance(provenance, Mapping) or not set(required) <= set(provenance.get("identity_columns", ())):
+        raise ValueError("Fixture-level features require identity-keyed prediction_cutoffs metadata.")
+    records = pd.DataFrame(provenance.get("records", []), columns=[*required, "cutoff"])
+    if records[required].isna().any().any() or records.duplicated(required).any():
+        raise ValueError("Fixture prediction cutoff metadata needs unique, nonmissing match/team/side identities.")
+    positions = pd.MultiIndex.from_frame(records[required]).get_indexer(
+        pd.MultiIndex.from_frame(feature_ids[required]))
+    if (positions < 0).any():
+        raise ValueError("Fixture prediction cutoff metadata is missing feature identities.")
+    try:
+        # Numeric timestamps have no declared unit and must not be guessed.
+        from numbers import Number
+        selected = records.cutoff.iloc[positions].reset_index(drop=True)
+        if any(isinstance(value, Number) and not pd.isna(value) for value in selected):
+            raise ValueError("numeric cutoff without unit")
+        times = pd.to_datetime(selected, utc=True, format="mixed", errors="raise")
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ValueError("Fixture prediction cutoffs must be valid UTC-compatible datetimes.") from error
+    return times
