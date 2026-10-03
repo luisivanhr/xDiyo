@@ -302,6 +302,43 @@ def team_summary(state: TeamState) -> dict[str, float]:
     }
 
 
+def _log1p_ratio(numerator: float, denominator: float) -> float:
+    """Log(1 + numerator / denominator) without overflowing the ratio."""
+    if numerator <= denominator:
+        return math.log1p(numerator / denominator)
+    return math.log(numerator) - math.log(denominator) + math.log1p(denominator / numerator)
+
+
+def score_log_probability(x, y, home, away, kappa):
+    """Joint goal-count log PMF, including zero intensities and large kappa.
+
+    The rising-factorial identity avoids subtracting nearly equal log-Gamma
+    values. It is the exact Gamma-mixed Poisson PMF, not a Poisson-limit
+    approximation. Gamma distributions use shape/rate throughout.
+    """
+    x, y = _count(x, "home_goals"), _count(y, "away_goals")
+    home = _positive(home, "lambda_home", allow_zero=True)
+    away = _positive(away, "lambda_away", allow_zero=True)
+    if kappa is not None:
+        kappa = _positive(kappa, "kappa")
+    total = home + away
+    if not math.isfinite(total):
+        raise ValueError("Total expected goals must be finite")
+    if (x and home == 0) or (y and away == 0):
+        return -math.inf
+    score_terms = [(x * math.log(home)) if x else 0.0,
+                   (y * math.log(away)) if y else 0.0,
+                   -math.lgamma(x + 1), -math.lgamma(y + 1)]
+    if kappa is None:
+        return math.fsum([*score_terms, -total])
+    log_denominator = _log1p_ratio(total, kappa)
+    # A ratio below the smallest float has a representable first-order product.
+    zero_log_probability = -total if log_denominator == 0 else -kappa * log_denominator
+    return math.fsum([*score_terms, zero_log_probability,
+                      -(x + y) * log_denominator,
+                      *(_log1p_ratio(float(j), kappa) for j in range(x + y))])
+
+
 def predict_score_summary(
     lambda_home: float,
     lambda_away: float,
@@ -316,7 +353,9 @@ def predict_score_summary(
     on the total, home goals are binomial. Summation of total-goal strata is
     exact apart from the reported tail. Outcome probabilities are NOT
     renormalized. Both-score and over-2.5 probabilities have closed forms.
-    Team-state posterior uncertainty is not integrated by this function.
+    Team-state posterior uncertainty is not integrated by this function. Large
+    kappa uses an exact complementary-beta tail and a rising-factorial PMF;
+    no Poisson approximation or rounded success probability is substituted.
     """
     lambda_home = _positive(lambda_home, "lambda_home", allow_zero=True)
     lambda_away = _positive(lambda_away, "lambda_away", allow_zero=True)
@@ -336,37 +375,64 @@ def predict_score_summary(
                 "p_both_score": 0.0, "p_over_2_5": 0.0, "omitted_mass": 0.0}
 
     import numpy as np
+    from scipy.special import betainc, gammaln
     from scipy.stats import binom, nbinom, poisson
 
     if kappa is None:
         total_distribution = poisson(total_mean)
+        total_survival = total_distribution.sf
+        total_mass = total_distribution.pmf
         zero_home, zero_away, zero_both = (math.exp(-lambda_home),
                                           math.exp(-lambda_away), math.exp(-total_mean))
     else:
-        total_distribution = nbinom(kappa, kappa / (kappa + total_mean))
-        zero_home = math.exp(-kappa * math.log1p(lambda_home / kappa))
-        zero_away = math.exp(-kappa * math.log1p(lambda_away / kappa))
-        zero_both = math.exp(-kappa * math.log1p(total_mean / kappa))
+        log_denominator = _log1p_ratio(total_mean, kappa)
+        log_zero = -total_mean if log_denominator == 0 else -kappa * log_denominator
+        zero_home = math.exp(score_log_probability(0, 0, lambda_home, 0.0, kappa))
+        zero_away = math.exp(score_log_probability(0, 0, lambda_away, 0.0, kappa))
+        zero_both = math.exp(log_zero)
+        if kappa <= 100 and kappa / (kappa + total_mean) < 1.0:
+            # Preserve the established path throughout the calibration domain.
+            total_distribution = nbinom(kappa, kappa / (kappa + total_mean))
+            total_survival = total_distribution.sf
+            total_mass = total_distribution.pmf
+        else:
+            # I_q(n+1, kappa) is the NB upper tail. Form q directly: obtaining
+            # it as 1-p loses all precision when p rounds to one at large kappa.
+            ratio = total_mean / kappa
+            failure_probability = (ratio / (1.0 + ratio) if ratio <= 1.0
+                                   else 1.0 / (1.0 + kappa / total_mean))
+
+            def total_survival(n):
+                value = float(betainc(n + 1, kappa, failure_probability))
+                if not math.isfinite(value):
+                    raise ValueError("Negative-binomial survival calculation is not finite for these parameters")
+                return value
+
+            def total_mass(totals):
+                # totals is always the contiguous integer support starting at 0.
+                rising = np.concatenate(([0.0], np.cumsum(np.log1p(totals[:-1] / kappa))))
+                return np.exp(log_zero + rising - gammaln(totals + 1)
+                              + totals * (math.log(total_mean) - log_denominator))
 
     # A bounded integer search using sf avoids cancellation in 1-cdf and
     # quantile failures for very small tail tolerances.
     upper = min(max_total, max(1, int(math.ceil(total_mean))))
-    while float(total_distribution.sf(upper)) > tail_tolerance and upper < max_total:
+    while float(total_survival(upper)) > tail_tolerance and upper < max_total:
         upper = min(max_total, max(upper + 1, upper * 2))
-    omitted = float(total_distribution.sf(upper))
+    omitted = float(total_survival(upper))
     if not math.isfinite(omitted) or omitted > tail_tolerance:
         raise ValueError("max_total cannot achieve the requested score probability tail_tolerance")
     low, high = 0, upper
     while low < high:
         middle = (low + high) // 2
-        if float(total_distribution.sf(middle)) <= tail_tolerance:
+        if float(total_survival(middle)) <= tail_tolerance:
             high = middle
         else:
             low = middle + 1
     upper = low
-    omitted = float(total_distribution.sf(upper))
+    omitted = float(total_survival(upper))
     totals = np.arange(upper + 1)
-    mass = total_distribution.pmf(totals)
+    mass = total_mass(totals)
     fraction = lambda_home / total_mean
     draw = np.where(totals % 2 == 0, binom.pmf(totals // 2, totals, fraction), 0.0)
     home_win = binom.sf(totals // 2, totals, fraction)
@@ -377,5 +443,5 @@ def predict_score_summary(
         "p_draw": float(np.dot(mass, draw)),
         "p_away_win": float(np.dot(mass, away_win)),
         "p_both_score": min(1.0, max(0.0, 1.0 - zero_home - zero_away + zero_both)),
-        "p_over_2_5": float(total_distribution.sf(2)), "omitted_mass": omitted,
+        "p_over_2_5": float(total_survival(2)), "omitted_mass": omitted,
     }

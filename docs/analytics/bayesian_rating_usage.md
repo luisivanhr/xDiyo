@@ -12,6 +12,14 @@ research or establish that Bayesian features improve a downstream model.
 `history` is paired team history built by `build_team_history`. The optional
 `available_at` argument accepts a caller-supplied, aligned result-availability
 series. Without it the existing earlier-finished-kickoff proxy is used.
+Kickoff determines the order of rating updates; availability determines when
+the resulting state can inform a forecast. A newly received old result triggers
+automatic replay of saved observations in kickoff order, including downstream
+season transfers. Forecasts made before its arrival keep their original values.
+The new result must have an availability time strictly after the checkpoint's
+observation frontier. Corrections to existing scores and partial equal-release
+batches require a rebuild from complete history. Saved runs retain the replay
+journal; artifacts saved before this addition need rebuilding before updating.
 
 ```python
 from xdiyo_analytics.ratings import BayesianConfig, train_bayesian

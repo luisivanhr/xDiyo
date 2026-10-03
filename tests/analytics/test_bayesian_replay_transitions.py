@@ -90,24 +90,32 @@ def test_eligible_boundary_release_precedes_frozen_entry_transfer(destination, m
 
 
 @pytest.mark.parametrize("destination,movement", [(1, "retained"), (2, "relegated")])
-def test_previous_season_result_after_transition_is_rejected(destination, movement):
+def test_previous_season_result_after_transition_refreshes_entry(destination, movement):
     source = (1, 1, 2020, "2020-08-01", 10, 11, 5, 0, "finished", "2021-08-02")
     query = (2, destination, 2021, "2021-08-01", 10, 11, None, None, "scheduled")
     model = BayesianModel(config=BayesianConfig(transition="bridge", bridge_gaps=((1, 2, .3),)))
-    with pytest.raises(ValueError, match="previous-season result arrived after"):
-        build_bayesian_ratings(history([source, query]), model=model, available_at="released_at",
-                               team_seasons=movements(destination=destination, movement=movement))
+    declarations = movements(destination=destination, movement=movement)
+    run = build_bayesian_ratings(history([source, query]), model=model, available_at="released_at",
+                                 team_seasons=declarations)
+    reference = build_bayesian_ratings(history([source, query]), model=model,
+                                       team_seasons=declarations)
+    future = history([query]).assign(kickoff_at=pd.Timestamp("2021-08-03", tz="UTC"))
+    pd.testing.assert_frame_equal(run.fixture_features(future), reference.fixture_features(future))
 
 
-def test_closed_bridge_source_is_saved_and_stays_closed_on_resume():
+def test_closed_bridge_source_is_saved_and_replayed_on_late_observation():
     moved = [(3, 2, 2021, "2021-08-01", 10, 11, 1, 1)]
     model = BayesianModel(config=BayesianConfig(transition="bridge", bridge_gaps=((1, 2, .3),)))
     run = build_bayesian_ratings(history(FIRST + moved), model=model,
                                  team_seasons=movements(destination=2, movement="relegated"))
     assert run.checkpoint["closed_sources"] == [[1, 2020, 10], [1, 2020, 11]]
     delayed = [(7, 1, 2020, "2020-08-15", 10, 11, 2, 2, "finished", "2021-08-02")]
-    with pytest.raises(ValueError, match="previous-season result arrived after"):
-        run.update(history(delayed), available_at="released_at")
+    resumed = run.update(history(delayed), available_at="released_at")
+    reference = build_bayesian_ratings(history(FIRST + delayed + moved), model=model,
+                                       team_seasons=movements(destination=2, movement="relegated"))
+    assert resumed.checkpoint["teams"] == reference.checkpoint["teams"]
+    assert resumed.checkpoint["leagues"] == reference.checkpoint["leagues"]
+    assert resumed.checkpoint["closed_sources"] == run.checkpoint["closed_sources"]
 
 
 def test_future_queries_do_not_advance_checkpoint_or_block_current_season_resume():

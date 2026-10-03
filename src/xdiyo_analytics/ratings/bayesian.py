@@ -291,7 +291,11 @@ class BayesianRatingRun(RatingRun):
                    pd.read_parquet(root / "predictions.parquet"), state["checkpoint"])
 
     def update(self, history, *, available_at=None, team_seasons=None, season_starts=None, cutoffs=None):
-        """Resume at strictly later event releases; full replay handles revisions."""
+        """Append new releases, replaying late kickoffs from the saved journal.
+
+        Releases must be strictly later than the durable frontier. Corrections
+        to existing events and equal-release appends require full-history replay.
+        """
         return build_bayesian_ratings(history, model=self.model, available_at=available_at,
                                       team_seasons=team_seasons, season_starts=season_starts,
                                       cutoffs=cutoffs, checkpoint=self)
