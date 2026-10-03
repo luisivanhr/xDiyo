@@ -10,6 +10,7 @@ from collections import Counter
 from collections.abc import Mapping
 from copy import deepcopy
 from datetime import date, datetime
+from numbers import Number
 import hashlib
 import json
 from pathlib import Path
@@ -62,12 +63,26 @@ def _json_value(value):
 def _cutoff(value):
     import pandas as pd
 
-    if value is None or isinstance(value, (int, float)):
+    if value is None or isinstance(value, Number):
         raise ValueError("Supply an explicit datetime training cutoff.")
     time = pd.to_datetime(value, utc=True, errors="raise")
     if not isinstance(time, pd.Timestamp) or pd.isna(time):
         raise ValueError("Training cutoff must be one valid datetime.")
     return time
+
+
+def _fold_timing(metadata):
+    """Read existing temporal-fold scalars without inventing row cutoffs."""
+    times = {}
+    for name in ("training_boundary", "fit_at"):
+        if name in metadata:
+            try:
+                times[name] = _cutoff(metadata[name])
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f"fold_metadata.{name} must be one valid datetime.") from error
+    if len(times) == 2 and times["training_boundary"] > times["fit_at"]:
+        raise ValueError("fold_metadata.training_boundary cannot follow fit_at.")
+    return times
 
 
 def _restrict_transitions(history, team_seasons, season_starts):
@@ -435,7 +450,13 @@ class BayesianScoreAdapter:
         kickoff = pd.to_datetime(history["kickoff_at"], utc=True)
         if kickoff.isna().any() or available.isna().any():
             raise ValueError("Every fitted match needs valid kickoff and availability timestamps.")
-        cutoff = max(kickoff.max() + pd.Timedelta(1, unit="ns"), pd.to_datetime(available, utc=True).max())
+        timing = _fold_timing(context.fold_metadata)
+        cutoff = timing.get("training_boundary", timing.get("fit_at"))
+        if cutoff is None:
+            # Standalone/refit contexts do not declare a temporal fold boundary.
+            cutoff = max(kickoff.max() + pd.Timedelta(1, unit="ns"), pd.to_datetime(available, utc=True).max())
+        elif kickoff.ge(cutoff).any() or pd.to_datetime(available, utc=True).gt(cutoff).any():
+            raise ValueError("Bayesian fit population violates the declared fold training boundary: every selected kickoff must be earlier and every result available by that boundary; align split and adapter availability rather than dropping fit rows.")
         transitions, starts = _restrict_transitions(history, self.team_seasons, self.season_starts)
         result = train_bayesian(history, mode=self.mode, cutoff=cutoff, config=self.config,
                                 initial=self.initial, available_at="_bayesian_available_at",
@@ -445,7 +466,12 @@ class BayesianScoreAdapter:
         self.model_, self.training_summary_ = result.model, result.report
         self.training_summary_["fit_population"] = "exact FitContext identities; outcomes supplied only by context.y"
         self.training_summary_["availability"] = "kickoff_proxy" if self.available_at is None else "explicit"
-        self.model_ = replace(self.model_, provenance_json=json.dumps(
+        activation = timing.get("fit_at", cutoff)
+        self.training_summary_["fit_timing"] = {
+            "declared": {name: value.isoformat() for name, value in timing.items()},
+            "data_cutoff": cutoff.isoformat(), "model_available_at": activation.isoformat(),
+        }
+        self.model_ = replace(self.model_, training_cutoff=activation.isoformat(), provenance_json=json.dumps(
             _json_value(self.training_summary_), sort_keys=True, allow_nan=False))
         self.training_history_ = pd.DataFrame()
         self.run_ = build_bayesian_ratings(history, model=self.model_, available_at="_bayesian_available_at",
@@ -458,6 +484,14 @@ class BayesianScoreAdapter:
             raise RuntimeError("Fit BayesianScoreAdapter before predicting.")
         if context.layout != "match" or not context.X.index.equals(context.metadata.index):
             raise ValueError("Bayesian prediction requires aligned match-layout metadata.")
+        timing = _fold_timing(context.fold_metadata)
+        if "fit_at" in timing and self.model_.training_cutoff is not None and pd.Timestamp(self.model_.training_cutoff) > timing["fit_at"]:
+            raise ValueError("Bayesian parameters were trained after the declared prediction fit_at.")
+        boundary = timing.get("training_boundary", timing.get("fit_at"))
+        if boundary is not None:
+            population = self.training_summary_["population"]
+            if pd.Timestamp(population["last_kickoff"]) >= boundary or pd.Timestamp(population["last_available_at"]) > boundary:
+                raise ValueError("Bayesian fitted observations violate the declared prediction fold training boundary.")
         paired = _match_history(context.metadata)
         paired["status"] = "scheduled"
         paired["goals_for"], paired["goals_against"] = float("nan"), float("nan")
@@ -465,6 +499,8 @@ class BayesianScoreAdapter:
         # frozen model solely to satisfy replay's score-basis contract.
         paired.attrs["score_basis"] = self.model_.config.score_basis
         times = pd.to_datetime(paired["kickoff_at"], utc=True)
+        if "fit_at" in timing and times.lt(timing["fit_at"]).any():
+            raise ValueError("Prediction fixture kickoff cannot precede the declared fit_at.")
         if self.model_.training_cutoff is not None and times.lt(pd.Timestamp(self.model_.training_cutoff)).any():
             raise ValueError("Bayesian parameters were trained after a requested prediction cutoff.")
         transitions, starts = _restrict_transitions(paired, self.team_seasons, self.season_starts)
