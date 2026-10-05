@@ -2,7 +2,7 @@
 
 from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
-    RollingMean, RollingStd, RollingZScore, Stat, MatchScore,
+    RollingMean, RollingStd, RollingSkewness, RollingZScore, Stat, MatchScore,
 )
 from .evaluation import evaluate_features
 from .history import eligible_history_rows, league_season_team_counts
@@ -21,7 +21,7 @@ __all__ = [
     "TeamMovement",
     "RegionMass",
     "Stat", "MatchScore", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",
-    "RollingMean", "RollingStd", "RollingZScore", "EMA", "evaluate_features",
+    "RollingMean", "RollingStd", "RollingSkewness", "RollingZScore", "EMA", "evaluate_features",
     "eligible_history_rows", "league_season_team_counts",
     "Rating", "MatchResultGlicko", "StatGlicko", "BayesianRating", "BayesianFixture",
     "League", "LeaveOneOut", "LeaguePopulation", "WarmStart", "SeededEMA",

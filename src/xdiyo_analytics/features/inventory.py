@@ -30,7 +30,7 @@ def summarize_feature_columns(columns):
             text = text[6:]
         variant = 'warmed' if warmed else 'baseline'
         family, operation, window, period, stat, role, field = 'unclassified', text, None, None, None, None, None
-        match = re.fullmatch(r'(ALL|1ST|2ND)_(.+)_([^_]+)_(for|against)_(lag|mean|std|z|ema)(\d+)(?:_vs_(\d+))?', text)
+        match = re.fullmatch(r'(ALL|1ST|2ND)_(.+)_([^_]+)_(for|against)_(lag|mean|std|skew|z|ema)(\d+)(?:_vs_(\d+))?', text)
         if match:
             period, group, key, role, operation, window, long = match.groups()
             family, stat = 'statistic', f'{group}/{key}'
@@ -38,9 +38,9 @@ def summarize_feature_columns(columns):
                 operation, window = 'mean_difference', f'{window}-{long}'
         elif text.startswith('h2h_corners_'):
             family, stat, period = 'H2H', 'Match overview/cornerKicks', 'ALL'
-            role, operation, window = re.fullmatch(r'h2h_corners_(for|against)_(mean|std|z)(\d+)', text).groups()
+            role, operation, window = re.fullmatch(r'h2h_corners_(for|against)_(mean|std|skew|z)(\d+)', text).groups()
         elif text.startswith(('loo_corners_', 'league_corners_')):
-            family, operation, window = re.fullmatch(r'(loo|league)_corners_(mean|std|z)(\d+)', text).groups()
+            family, operation, window = re.fullmatch(r'(loo|league)_corners_(mean|std|skew|z)(\d+)', text).groups()
             stat, period = 'Match overview/cornerKicks', 'ALL'
         elif 'glicko' in text:
             family, operation, field = 'rating', text.split('::')[0], text.split('::')[-1]

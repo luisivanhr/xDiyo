@@ -9,10 +9,11 @@ import math
 import numpy as np
 import pandas as pd
 
-from .expressions import RollingMean, RollingStd, RollingZScore, H2H
+from .expressions import RollingMean, RollingStd, RollingSkewness, RollingZScore, H2H
 from .league import League, LeaveOneOut
 from .warmup import Hard, LinearFade, ObservationCount
 from .transitions import _season_start_year
+from .moments import sample_moments, mix_moments, skewness
 
 
 def moment_update(mean, central, q, value, alpha):
@@ -34,8 +35,8 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
     if isinstance(op, H2H):
         return evaluate_seeded(replace(node, source=op.source), context, evaluate,
                                candidates, h2h=True, group_by=group_by)
-    if not isinstance(op, (RollingMean, RollingStd, RollingZScore)):
-        raise TypeError('Explicit SeededEMA modes wrap RollingMean, RollingStd or RollingZScore; '
+    if not isinstance(op, (RollingMean, RollingStd, RollingSkewness, RollingZScore)):
+        raise TypeError('Explicit SeededEMA modes wrap RollingMean, RollingStd, RollingSkewness or RollingZScore; '
                         'Lag retains exact-lag meaning and direct EMA has a separate span/state contract.')
     if isinstance(op.source, (League, LeaveOneOut)):
         raise ValueError('Explicit team seed modes cannot map a team predecessor/cohort onto a pooled '
@@ -43,6 +44,7 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
     if not {'team_id', 'competition_id'}.issubset(group_by):
         raise ValueError('Explicit team seeds require team_id and competition_id grouping.')
     dispersion = isinstance(op, (RollingStd, RollingZScore))
+    is_skew = isinstance(op, RollingSkewness)
     if dispersion:
         expected = 0 if policy.variance_estimator == 'population' else 1
         if op.ddof != expected:
@@ -99,16 +101,18 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
         sample = values[rows, col]
         sample = sample[np.isfinite(sample)]
         count = len(sample)
-        if count < op.min_periods or (dispersion and count <= op.ddof):
+        if count < max(op.min_periods, 3 if is_skew else 1) or (dispersion and count <= op.ddof):
             return None
         mean = float(sample.mean())
         central = float(np.mean((sample-mean)**2))
         if not np.isfinite(mean) or not np.isfinite(central):
             raise ValueError('Nonfinite boundary warm-start moments.')
+        if is_skew:
+            return mean, central, 1./count, count, sample_moments(sample)[2]
         return mean, central, 1./count, count
 
     def variance(s):
-        mean, central, q, count = s
+        mean, central, q, count = s[:4]
         return central if not dispersion or policy.variance_estimator == 'population' else (
             central / (1-q) if q < 1 else np.nan)
 
@@ -168,6 +172,10 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
                     v = float(np.mean([variance(d[-1]) for d in donors]))
                     q = 1./policy.prior_strength if dispersion and policy.variance_estimator == 'weighted_sample' else 0.
                     seed = (mean, v*(1-q), q, None)
+                    if is_skew:
+                        # Like within-team variance, retain donor shape after
+                        # recentering each donor to the cohort mean.
+                        seed += (float(np.mean([d[-1][4] for d in donors])),)
                     fallback = 'destination_cohort'
                 elif policy.mode == 'w_league_prior' and moved:
                     fallback = 'own_no_usable_cohort' if own is not None else 'ordinary_no_seed_or_cohort'
@@ -183,21 +191,36 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
                     available_donors=available, own_window=evidence(own_rows),
                     donors=[dict(team_id=int(t), position=rank, mean=s[0], variance=variance(s), valid_count=s[3],
                                  window=evidence(rows), ranking=evidence(ranking)) for t,rank,rows,ranking,s in donors]))
+                if is_skew:
+                    audits[-1].update(seed_third_central_moment=None if seed is None else seed[4],
+                                      skewness_estimator='population', skewness_fade='moment_mixture')
             seeds[signature] = column_seeds
         positions = all_rows[row]
         new = [i for i in positions if context.seasons[i] == season and p.kickoff.iloc[i] >= boundary]
         for col, seed in enumerate(seeds[signature]):
             if seed is None:
                 continue  # Frozen fallback stays on the ordinary path all season.
-            mean, central, q, _ = seed
+            mean, central, q, _ = seed[:4]
+            third = seed[4] if is_skew else None
             count = 0
             for i in new:
                 value = values[i, col]
                 if np.isfinite(value):
-                    mean, central, q = moment_update(mean, central, q, value, policy.alpha)
+                    if is_skew:
+                        mean, central, third = mix_moments((mean, central, third),
+                                                          (float(value), 0., 0.), 1-policy.alpha)
+                    else:
+                        mean, central, q = moment_update(mean, central, q, value, policy.alpha)
                     count += 1
             weight = policy.handoff.weight(rounds, count)
             if weight == 0:
+                continue
+            if is_skew:
+                moments = (mean, central, third)
+                rolling = state(positions[-op.window:], col)
+                if weight < 1 and rolling is not None:
+                    moments = mix_moments(moments, (rolling[0], rolling[1], rolling[4]), weight)
+                output[row, col] = skewness(moments)
                 continue
             v = variance((mean, central, q, count))
             rolling = state(positions[-op.window:], col)

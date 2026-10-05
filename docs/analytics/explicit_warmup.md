@@ -257,6 +257,7 @@ missing. Evidence records expose `movement_basis` (`status` or `flags`).
 | RegionMass | Reduce each match to a regional observation **before** SD/Z-score; summing cell SDs is not regional SD |
 | RollingMean | Boundary mean, per-observation updates, exact ordinary endpoint |
 | RollingStd / RollingZScore | Population ddof=0 or corrected weighted ddof=1; other ddof rejected |
+| RollingSkewness | Population third/second central moments; at least three finite seed observations; moment-mixture fade. See [rolling skewness](rolling_skewness.md) for cohort and LOO conventions |
 | Arithmetic Sum/Difference/Ratio/Constant | Per-match derived observations can be reduced; warmed leaves can feed arithmetic. Original scalar-column restrictions apply |
 | Nested temporal children | Historical child values retain their own cutoff and operator semantics |
 | H2H / venue / custom groups | Filters retained in own, donor, update and ordinary windows; require team + competition grouping |

@@ -4,7 +4,7 @@ Availability is an explicit input: callers discover identities only in their
 chosen development population. Building the preset does not inspect outcomes.
 """
 from dataclasses import dataclass, replace
-from .expressions import Stat, ForAgainst, Lag, RollingMean, RollingStd, RollingZScore, EMA, H2H, NormalizedStanding
+from .expressions import Stat, ForAgainst, Lag, RollingMean, RollingStd, RollingSkewness, RollingZScore, EMA, H2H, NormalizedStanding
 from .league import League, LeaveOneOut
 from .ratings import MatchResultGlicko, StatGlicko
 from .warmup import WarmStart
@@ -59,6 +59,7 @@ class FeatureBankPreset:
     include_rest: bool = True
     include_calendar: bool = True
     include_combinations: bool = True
+    skew_windows: tuple = ()
 
     def build(self, stat_identities):
         """Return ordered expressions from (period, group, key) identities."""
@@ -94,6 +95,8 @@ class FeatureBankPreset:
                             definitions[f'{prefix}_std{window}'] = RollingStd(source, window=window, ddof=1)
                         for window in self.z_windows:
                             definitions[f'{prefix}_z{window}'] = RollingZScore(source, window=window, ddof=1)
+                        for window in self.skew_windows:
+                            definitions[f'{prefix}_skew{window}'] = RollingSkewness(source, window=window)
                         for span in spans:
                             definitions[f'{prefix}_ema{span}'] = EMA(source, span=span)
         corners = Stat('ALL', 'Match overview', 'cornerKicks')
@@ -121,7 +124,7 @@ class FeatureBankPreset:
         # Additional columns retain all unwarmed definitions for direct comparison.
         if warm_policy is not None:
             for name, operator in list(definitions.items()):
-                if not isinstance(operator, (RollingMean, RollingStd, RollingZScore)):
+                if not isinstance(operator, (RollingMean, RollingStd, RollingSkewness, RollingZScore)):
                     continue
                 source = operator.source
                 h2h = isinstance(source, H2H)
@@ -192,7 +195,9 @@ def _reducer(name, source, window, reference=None):
         return RollingMean(source, window=window)
     if name == 'std':
         return RollingStd(source, window=window, ddof=1)
+    if name == 'skew':
+        return RollingSkewness(source, window=window)
     if name == 'z':
         return RollingZScore(source, window=window, ddof=1, reference=reference)
-    raise ValueError('Population reducers must be mean, std or z.')
+    raise ValueError('Population reducers must be mean, std, skew or z.')
 

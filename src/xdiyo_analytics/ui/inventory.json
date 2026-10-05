@@ -655,6 +655,72 @@
       ],
       "accepts_extra": false
     },
+    "features.RollingSkewness": {
+      "id": "features.RollingSkewness",
+      "title": "RollingSkewness",
+      "category": "feature",
+      "description": "Measure asymmetry in earlier observations: positive means a longer upper tail, negative a longer lower tail. Uses population third and second central moments; at least three finite values and nonzero spread are required. Supports League, LeaveOneOut and SeededEMA warm starts.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Choose the observed statistic or expression consumed by this calculation.",
+          "primary": true
+        },
+        {
+          "name": "window",
+          "title": "Window",
+          "required": false,
+          "kind": "number",
+          "default": 5,
+          "help": "Number of eligible past observations in the rolling window. Example: 5 uses the last five matches; a League source can use rounds or days.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "min_periods",
+          "title": "Min periods",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "At least three finite observations are always required; increase this to require more. Constant windows remain missing. Skewness uses population moments without a small-sample correction.",
+          "step": 1,
+          "min": 3,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "visible_when_contains": {
+            "source": [
+              "features.Heatmap"
+            ]
+          },
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.RollingZScore": {
       "id": "features.RollingZScore",
       "title": "RollingZScore",
@@ -1343,6 +1409,7 @@
           "components": [
             "features.RollingMean",
             "features.RollingStd",
+            "features.RollingSkewness",
             "features.RollingZScore",
             "features.MatchResultGlicko",
             "features.StatGlicko"
@@ -6817,7 +6884,7 @@
           "required": false,
           "kind": "select",
           "default": "population",
-          "help": "For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength.",
+          "help": "For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength. Skewness always uses population moments.",
           "choices": [
             "population",
             "weighted_sample"
@@ -6836,7 +6903,7 @@
           "required": false,
           "kind": "number",
           "default": null,
-          "help": "Explicit effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.",
+          "help": "SD/Z-score only: effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.",
           "step": "any",
           "visible_when": {
             "mode": [
@@ -6854,7 +6921,7 @@
           "required": false,
           "kind": "select",
           "default": "estimate_interpolation",
-          "help": "Blend compatible variance estimates, then take the square root. This is not a mixture of distributions.",
+          "help": "For SD/Z-score, blend compatible variance estimates, then take the square root. Skewness always blends the first three population moments, including between-means terms.",
           "choices": [
             "estimate_interpolation"
           ],
@@ -12777,11 +12844,12 @@
           "default": [
             "mean"
           ],
-          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1.",
+          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1; skew uses population moments and at least three valid observations.",
           "primary": false,
           "choices": [
             "mean",
             "std",
+            "skew",
             "z"
           ]
         },
@@ -12820,11 +12888,12 @@
           "default": [
             "mean"
           ],
-          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1.",
+          "help": "Population or H2H calculations to include; standard deviation and Z-score use ddof=1; skew uses population moments and at least three valid observations.",
           "primary": false,
           "choices": [
             "mean",
             "std",
+            "skew",
             "z"
           ]
         },
@@ -12890,6 +12959,21 @@
           "default": true,
           "help": "Include combinations in the generated bank. Existing named features remain additional.",
           "primary": true
+        },
+        {
+          "name": "skew_windows",
+          "title": "Skew windows",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "One positive integer per window, lag or EMA span. Each value produces a separate feature.",
+          "primary": false,
+          "item": {
+            "kind": "number",
+            "default": 5,
+            "min": 1,
+            "step": 1
+          }
         }
       ],
       "accepts_extra": false

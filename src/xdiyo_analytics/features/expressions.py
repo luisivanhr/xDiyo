@@ -89,6 +89,20 @@ class RollingStd(Expr):
 
 
 @dataclass(frozen=True)
+class RollingSkewness(Expr):
+    """Population skewness m3 / m2**1.5 over earlier eligible observations.
+
+    At least three finite observations and positive variance are required.
+    No small-sample correction is applied, including during seeded warm-up.
+    """
+
+    source: Expr
+    window: int = 5
+    min_periods: int = 3
+    venue: str = "all"
+
+
+@dataclass(frozen=True)
 class RollingZScore(Expr):
     """Latest eligible value versus its trailing window, including that value."""
 

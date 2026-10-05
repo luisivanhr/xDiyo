@@ -168,9 +168,9 @@ def reduce_league(node, population, evaluate):
     """Reduce pooled observations, never a series of round averages."""
     import numpy as np
     import pandas as pd
-    from .expressions import RollingMean, RollingStd, RollingZScore
-    if not isinstance(node, (RollingMean, RollingStd, RollingZScore)):
-        raise TypeError("League populations support RollingMean, RollingStd and RollingZScore.")
+    from .expressions import RollingMean, RollingStd, RollingSkewness, RollingZScore
+    if not isinstance(node, (RollingMean, RollingStd, RollingSkewness, RollingZScore)):
+        raise TypeError("League populations support RollingMean, RollingStd, RollingSkewness and RollingZScore.")
     selection = node.source
     league = selection.source if isinstance(selection, LeaveOneOut) else selection
     if not isinstance(league, League):
@@ -204,6 +204,9 @@ def reduce_league(node, population, evaluate):
                 continue
             if isinstance(node, RollingMean):
                 output[row, col] = sample.mean()
+            elif isinstance(node, RollingSkewness):
+                from .moments import sample_skewness
+                output[row, col] = sample_skewness(sample)
             elif len(sample) > node.ddof:
                 std = sample.std(ddof=node.ddof)
                 if isinstance(node, RollingStd):
