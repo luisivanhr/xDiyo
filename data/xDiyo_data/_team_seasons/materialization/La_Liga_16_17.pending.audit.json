@@ -1,8 +1,8 @@
 {
   "season": "La_Liga_16_17",
-  "old_manifest_sha256": "3c9bbbaea7cd441c3cb03f5ad8ecf840163775d92c53fed879fadf80cb0a3137",
-  "old_publication_sha256": "2da10efa7a5614528e88f4093ec0e95c267ae831fc218cb1e14651d336fd1f96",
-  "new_manifest_sha256": "298c89169aba31c9691b8a4ce008583ff1da241ac6893c45fbf350c400b18ce9",
+  "old_manifest_sha256": "298c89169aba31c9691b8a4ce008583ff1da241ac6893c45fbf350c400b18ce9",
+  "old_publication_sha256": "35ded245bc4f4358900b58c6ee4a0a88e34cd8856bea42a4eea3a889815d7503",
+  "new_manifest_sha256": "8b8c941558776ed1111cb9767da1957d18cfa61b23ef14fe478f9841e710812a",
   "new_publication_sha256": "35ded245bc4f4358900b58c6ee4a0a88e34cd8856bea42a4eea3a889815d7503",
   "matches_sha256": "2161c4fd259b62906eacc7e7e0f0da9fcc5324690cc407dc3254df80e8887e65",
   "season_sha256": "3c9ccdda8c90477a8087fc84f08e2113b83b92dc923906f62ba07cf000e9734d"

@@ -1,0 +1,2621 @@
+{
+  "reviewed_on": "2026-10-05",
+  "requested_seasons": 21,
+  "requested_matches": 6580,
+  "requested_team_seasons": 365,
+  "reviewed_seasons": 156,
+  "reviewed_team_seasons": 2975,
+  "requested_movement_counts": {
+    "retained": 290,
+    "promoted": 48,
+    "relegated": 27
+  },
+  "movement_counts": {
+    "retained": 2388,
+    "promoted": 422,
+    "relegated": 164,
+    "other_entry": 1
+  },
+  "changes": {
+    "Bundesliga_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "Bundesliga_2_15_16": "new movement enrichment",
+    "Bundesliga_2_16_17": "new movement enrichment",
+    "Bundesliga_2_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "Championship_15_16": "new movement enrichment",
+    "Championship_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "Eredivisie_16_17": "new movement enrichment",
+    "Eredivisie_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "La_Liga_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "La_Liga_2_15_16": "new movement enrichment",
+    "La_Liga_2_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "Ligue_1_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "Ligue_1_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "Ligue_2_15_16": "new movement enrichment",
+    "Ligue_2_16_17": "new movement enrichment",
+    "Ligue_2_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "Premier_League_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "Premiership_15_16": "new movement enrichment",
+    "Premiership_16_17": "new movement enrichment",
+    "Premiership_17_18": "new movement enrichment",
+    "Premiership_18_19": "new movement enrichment",
+    "Premiership_19_20": "new movement enrichment",
+    "Premiership_20_21": "newly available adjacent-season predecessors; classifications unchanged",
+    "Pro_League_15_16": "new movement enrichment",
+    "Pro_League_16_17": "new movement enrichment",
+    "Pro_League_17_18": "new movement enrichment",
+    "Pro_League_18_19": "new movement enrichment",
+    "Pro_League_19_20": "new movement enrichment",
+    "Pro_League_20_21": "newly available adjacent-season predecessors; classifications unchanged",
+    "Serie_A_16_17": "newly available adjacent-season predecessors; classifications unchanged",
+    "Serie_A_17_18": "newly available adjacent-season predecessors; classifications unchanged",
+    "Serie_A_18_19": "newly available adjacent-season predecessors; classifications unchanged",
+    "Serie_A_19_20": "newly available adjacent-season predecessors; classifications unchanged",
+    "Serie_B_15_16": "new movement enrichment",
+    "Serie_B_16_17": "new movement enrichment",
+    "Serie_B_17_18": "new movement enrichment",
+    "Serie_B_18_19": "new movement enrichment",
+    "Serie_B_19_20": "newly available adjacent-season predecessors; classifications unchanged",
+    "Bundesliga_16_17": "newly available adjacent-season predecessors; classifications unchanged"
+  },
+  "inputs": {
+    "Bundesliga_2_15_16": {
+      "matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 4284,
+          "sha256": "271a614a1e320494f1201c706cf1a0653c836a18d762698dfc153b32f0e01fcd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 809,
+          "sha256": "bfc88e2b92fee7f10620995f8c6e800db1512fff351932e6a62b521cdeec3974",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4933,
+          "sha256": "2a62a8b1218659cf60a70c93cc266beef4e22d1d8a0d2f60b53937af9af0fd53",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 10998,
+          "sha256": "eec0e3eace1d095eb8c888128541b21f6e70b6c311f769e6a010e6c1a9a78626",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "baf6ed5885f9ab9c53d6001cda77610f9e013f3f9491ddd4073079ec3b21bf6e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "f84091ff97ca8d333eb6534cbc3ffcc22e2ef370f197b682228ff9d236d9f0a7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 9138,
+          "sha256": "abf15c56b6564f16c242d58f5f5186a0f2bd53229fac8c3478d2a217a9d31878",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1404,
+          "sha256": "60d6ed5c71250d9263a4654142844de0e29e0c591bb0bffb16481703a88d93be",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "32f4351a41d0f01d81be9ca9cfd3cc2992ead1c55a8d6ce12bb91add4353985e",
+      "coverage": {
+        "cached_last_good": 918,
+        "no_goal_incidents": 22,
+        "not_requested": 306,
+        "per_goal_coverage_recorded": 284,
+        "present": 612,
+        "success": 306,
+        "unavailable": 1836
+      }
+    },
+    "Bundesliga_2_16_17": {
+      "matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 4284,
+          "sha256": "2f818ccc92ffda0e8d217bdbdd254bc43823959bd39f1e77f0d0e32d0d411c9b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 761,
+          "sha256": "54955274d10a78075ffbef2dc0daf3091cd41b7b39ccb9eb48b2276f3949f122",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4957,
+          "sha256": "ebad048eac4b3927493b6553cba5df13bcf48a85c1d0567160ef5aa2ce0668c5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 10997,
+          "sha256": "170aaf145dfa197ecc94f60ebd59632b2b27e3d7a081c2d128e77fa5c3161750",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "14182b390a412446b3c81c281cfd3cd152a4c05ffdb03f1b01485fdcb9858afa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "f107bbabf1749fbdb14ff727b930c8ed4b12835364cbd900449e16c8f72e60c7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 144363,
+          "sha256": "bd2baba00e60c9ef34e3dcc8c13ebcede1a45c03647415de3ff3ebe1b171e172",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 30662,
+          "sha256": "c9f6844332fec46e97baff8ee9011d8fc53feae6ac56ace2dd85013973d36eca",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1437,
+          "sha256": "c00bfbb89d73ac9b4ad917c0dff129d73ed923a0474cb0880b20256e392b807a",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "e1e2b7be3886a864dd9c7a98f4e62781c10ebcad6e9d7960edd3c462edc2ad3d",
+      "coverage": {
+        "cached_last_good": 918,
+        "no_goal_incidents": 25,
+        "not_requested": 306,
+        "per_goal_coverage_recorded": 281,
+        "present": 612,
+        "success": 306,
+        "unavailable": 1836
+      }
+    },
+    "Championship_15_16": {
+      "matches": 552,
+      "teams": 24,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 7852,
+          "sha256": "ae3c889eb1d3f0f4ca59c8b951a324e90d2286103b902d4943c09068e805e838",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 493,
+          "sha256": "e680c80e1300f7be81ceaf95f8fff9b8e74be92226452f3aa8782d8101936fc4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1337,
+          "sha256": "ab2594969d6c9cbd4d6b810a51063c34849ed2336cdf9c35d29bf188ebb774f5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 90722,
+          "sha256": "3a437ad628a7b25aafbe8ca9da9c51fad7cbb64d3c7684ce13e4417d2b24d113",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 8271,
+          "sha256": "f157c9371e3e13b7319a135113c60565285554fa26a4de5395768062876c1772",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 19862,
+          "sha256": "4138904d1f6a1772c60426a54db201f6c603f55f510421a2db807983f7008532",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 1104,
+          "sha256": "0e8b7b463c8d1ecbb47f42ee0b1ad6829879b2f87c2a3ba5b3a8b1d89b8e0cf4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 552,
+          "sha256": "8635cb8e74e4a043d8b451ec43d168cf8690b62be01f4bc6ce53a38266e787f3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 62,
+          "sha256": "8e531c28ad87fe05268712ea0c4208a144216220fe3fcabe360dee371085cd2c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 370458,
+          "sha256": "8fdee7b796c2d8618ba44d048499f037f1a6278d5f43df89797f84b2b4a60877",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 1594,
+          "sha256": "ad3fdb4d80cafabb3027528178d47b444df0a7f6017a4af35a35761f23f2c900",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 79940,
+          "sha256": "0898f5c10bd3f84df754fcf2f067da408c505d1b4a0c57d2244d98510d6e9141",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 3018,
+          "sha256": "8fd17802cff4e869b2d9d167082eff52157be014f51e42ea9663fb3e164099b0",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "99d99990122614a578c497a102d401271993cb2f107cb39b96ed62a17d1e9043",
+      "coverage": {
+        "cached_last_good": 1842,
+        "no_goal_incidents": 57,
+        "not_requested": 552,
+        "per_goal_coverage_recorded": 495,
+        "present": 1228,
+        "success": 552,
+        "unavailable": 3126
+      }
+    },
+    "Eredivisie_16_17": {
+      "matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 4896,
+          "sha256": "af3b315956f85eefbc9cc3ddfb1b36a2536d219e2ad86051cd10bffaccf20876",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 884,
+          "sha256": "acffd1e37ef43fa8c40415a1a564b01e648fead48ead4e40535d7fd6b1b944f0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 457990,
+          "sha256": "d570097ae6736f09de5a9b3b3764415e1fb9bd6ade544dc8e6d711f050f9710b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4690,
+          "sha256": "eaf348285af8f387ef2c66ffaa55c108763fc14de422fad49701384a8f7a1b11",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 12432,
+          "sha256": "022769a3830d5a1ee6f43eea544a745127b2e0f2b3aba6a6ec2d3c36088efa1b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "97e86a22b8ee50480fa70b21e8807b90500183e62a4699ecda51020129364895",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "991e9648bcb791a523f9b0c201053bf5d55af8197e4fd73d8742c5c5ea05a8d2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 225700,
+          "sha256": "b729610d0a48b082a42bde5de4f228454a872c50f5034960ca2e3a181e2fea83",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 8233,
+          "sha256": "a7aac353c5ec9a021cc2aa81c1d421c7b66867f7d3555bf616c862d586e23814",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 40438,
+          "sha256": "c30354e22e2da99c1cac095e12c4ce5946237868b0955ad1f63eac6743623ce7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1562,
+          "sha256": "982489888f7fc10916de65af6775f1db3804b1d089ccc36315165e115a2e3fcc",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "3e3b8934d97a46d437b66dfceb9ef77fd32db06a27856c8a762183c13f1c6086",
+      "coverage": {
+        "cached_last_good": 1836,
+        "no_goal_incidents": 13,
+        "not_requested": 306,
+        "per_goal_coverage_recorded": 293,
+        "present": 1224,
+        "success": 306,
+        "unavailable": 918
+      }
+    },
+    "La_Liga_2_15_16": {
+      "matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 6556,
+          "sha256": "8a270ee5ec57b007444d820820118fe3ce38dd9f63aedae970ebd08d50c254f5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1043,
+          "sha256": "8cbc6c6c9fffef396daddd20763bd5533c0f332dcd8fc40dc46c85ea1e15ee9e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 63158,
+          "sha256": "696c403994ebd0ef3e97a2d77a8d007237410e5268a34cd0dacd00cd34e4a991",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7971,
+          "sha256": "7fede3f42446b24a199ff29abd7dbf31a215b98ad1f7879feeeb928e598d477e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 16614,
+          "sha256": "8f1b55f84e30d0a7f2e07965e444104ac73f18798876e81154628b9b9e38bf1f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "940d26cf019cb20c135cbf79c75b2b0ba47c761d941e885f5fa0dc03c4614c52",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "a321db019e702c274dd43a1275e6e0604eb4ed6cf53cf3043c816a099eafac99",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 312986,
+          "sha256": "22923dcd87b1f21dd302ba62f54f1e6b55ba4946f80883a08fadd2efaffc706f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 1041,
+          "sha256": "63b7243a3c12073b5218c0469c09922a351324381485456516331d7c41f3751a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 62906,
+          "sha256": "191ce7ea0558a70363ada4e345229f6a116905ee609d5457051a4ffc6ae0ba2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2024,
+          "sha256": "36fe4473fe5bd1573f3938faa9d359f5383a8a2a3e2a67441afa75e839621fba",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "fb5e18a95ed4b0d8485821654ee066ab9e4bde597c3bce597fab7f4d7ca14aaa",
+      "coverage": {
+        "cached_last_good": 1515,
+        "no_goal_incidents": 48,
+        "not_requested": 462,
+        "per_goal_coverage_recorded": 414,
+        "present": 1012,
+        "success": 462,
+        "unavailable": 2643
+      }
+    },
+    "Ligue_2_15_16": {
+      "matches": 380,
+      "teams": 20,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 4472,
+          "sha256": "de73f6f8531f2c2ae8f389ce7f5873fec77a3c8d05856a46d411683d160c655d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 875,
+          "sha256": "fa516084ad6c3d4b9ca579ed0c259a1e6c5d24b7fe3f402319c744a122bf308b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 3090,
+          "sha256": "568ad39fc252d47c4cf0435df00ce8562667351e6abe5245c56265227795af07",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4512,
+          "sha256": "b07805a48fe930ab6ac329948d1a213e99471edb5c297e2593a6d69bfe3f3db2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5337,
+          "sha256": "631f4db9bf43edb4cd4ae577efe351f47e4a11ce830cfa237d8af1f25ddfc507",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 334,
+          "sha256": "58b8b8a800051e92254d1d80085f56c964b4551aabcb153c7c64e9ca72e20cba",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "16a08284b704f8fbd2fb41094eb3da94a9642964dbcc530cafeed22f7005d3ca",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 717,
+          "sha256": "f9184ef9c6ba3388752c388f9bc5c77e3f69779a21ae733ee33749dae61186a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 38,
+          "sha256": "e14c37321916f631b20d1891fac90eb01aec89c9a864551b1e090f064112f4c1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 2282,
+          "sha256": "dc9b021ac75d9ff41f3437366beba203a2c7fedb19b181a40bd12ff88fd5a09c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1474,
+          "sha256": "ea010b10968544a92f2de0adc1ba145dddcff649f238960749bd3c56587da8af",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "6822a5d0c6d9e72aef06d80080ef35ddadd75e3998680e9030af0af67410d8ce",
+      "coverage": {
+        "cached_last_good": 621,
+        "no_goal_incidents": 52,
+        "not_requested": 380,
+        "per_goal_coverage_recorded": 328,
+        "present": 338,
+        "success": 380,
+        "unavailable": 2373
+      }
+    },
+    "Ligue_2_16_17": {
+      "matches": 380,
+      "teams": 20,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 5268,
+          "sha256": "959f44c94f82a9393c44e7ad5880a5cf25d027f9ac3e5ef619bcd6adc1f6e873",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 943,
+          "sha256": "9bd59cc14bc9653637ea1c6b6f7876a261919b50eae6dd3fc264835d67ddc403",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 75694,
+          "sha256": "6d9623b6ed87332bbece9764c5f69f3c14aa2f24d84e3a7b28241899739a815e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 5543,
+          "sha256": "a8a63291547a26a152a98fd1a5c577aa2be227ab1a52614e31033ee494343fc2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 10907,
+          "sha256": "bd5b66f83a6a8a8ba267baa82bd3537bf8050da6454f65f2d80e44ec9a38e57d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 682,
+          "sha256": "6031da8fee65a9ea498a061e0d951b7d036392d569cdb2943ff38325e3a80daa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "d5405d2262825c75b2b518b3fce1b906c132d557986a3958df931acdb4fc4910",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 184531,
+          "sha256": "32074f5ee8d52260bd9532c5c13079e72948e69e594cf4f54d9029100fc1783e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 1241,
+          "sha256": "fe423b9adc912f7b85535a8cddd69db71f671c2eedfc9637e32a3a695720e44a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 39662,
+          "sha256": "3751ede1cc8d750300740c8366172cfc29e23741e0d6fd2705b43eec3af5c908",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1935,
+          "sha256": "b2703d0f8d122993d74e31ff55623c63b926be8fadeb8044573237e832c6d593",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "37f3f0f3939f2705c119a04e19be2e4d910de33b47c42e328c0dec3364ead21c",
+      "coverage": {
+        "cached_last_good": 1175,
+        "no_goal_incidents": 43,
+        "not_requested": 380,
+        "per_goal_coverage_recorded": 337,
+        "present": 786,
+        "success": 380,
+        "unavailable": 2167
+      }
+    },
+    "Premiership_15_16": {
+      "matches": 197,
+      "teams": 12,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 2758,
+          "sha256": "d7f8486c3c3477757ab85263ff695ae1c5bc85b3073760107a79c2c8f3ead02d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 546,
+          "sha256": "ce704e2b2363ee755c1a998b7d06187367abb76fbb8e9a775b6a6387339ea5c9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2925,
+          "sha256": "0800dc80a14550e2b3c1887ade021f65a705a5bdb7251550c5321b5643d10cfb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 7065,
+          "sha256": "e30a0a5284d26654d37f9ed13b66bef1824c9adbf44263afede1b94a8a7e59bd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 394,
+          "sha256": "84c20a74ed39099d2ca8d3344537ac720fe6c3514e45fef48471e84890cb26e0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 197,
+          "sha256": "1b7b0746b3b810fc426fb27116b1db7897a0df48777ff27b0c773d483b06db42",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 948,
+          "sha256": "416661a530a20b65aa9bab4cbc42f6272df269ab7cbd31cec4331890db289901",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 754,
+          "sha256": "65d3cbcb38873ceb533997b2ff9390d3e40d6f54eaae80d0e1520f5aee94045f",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "26c97f102d75ad8655f637c50c8abf681fd577a6214ee631c8975e4f013235f2",
+      "coverage": {
+        "cached_last_good": 426,
+        "no_goal_incidents": 15,
+        "not_requested": 197,
+        "per_goal_coverage_recorded": 182,
+        "present": 394,
+        "success": 197,
+        "unavailable": 1347
+      }
+    },
+    "Premiership_16_17": {
+      "matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 2760,
+          "sha256": "fc547fd3cdc2118cddbdccd92f21e78a5c1aefbce68c82d6cc3ae73cf126c5dd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 532,
+          "sha256": "70a79354de897dcb19816cc3b5c1994b93ab9e4aefdefa0334e9ba4a410ee770",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2898,
+          "sha256": "8a0634dee0ef35c840845f74b260bab3d38eed1af6d242cf69a2d04d9cb60ce0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 7000,
+          "sha256": "7e19005e7b590fe1ccdb5af77af0a0660b1603ac735cf44b54b2c62a0fa3af82",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 390,
+          "sha256": "8d0bd0b0bb832db656b101fb67492542c47639a7a3f1fe795f3207d6300d0ff4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 198,
+          "sha256": "2548819cbe272b7449b2b77ec0e214cff9fbcdcede1fbfa3c4739753849fc4a2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 1378,
+          "sha256": "251668d14109aa398cd9f7fae0284fecb9fd4eac7fe1a45c8897b57e20c3d69f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 692,
+          "sha256": "885373c92d4b78e313f4abb14b1ed597062aaf9c9f0fd757243f43281002ae59",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "ceba707dfd50df598127822a0215650cc788d37f2d83667f41a283c7d7d45e2c",
+      "coverage": {
+        "cached_last_good": 439,
+        "no_goal_incidents": 14,
+        "not_requested": 198,
+        "per_goal_coverage_recorded": 184,
+        "present": 390,
+        "success": 198,
+        "unavailable": 1337
+      }
+    },
+    "Premiership_17_18": {
+      "matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 2488,
+          "sha256": "a25170588e25d6b9142c1fffa59cad55d2b6760d699db46604442e661a6113cf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 514,
+          "sha256": "2dc6e25c18b7f5ea01ef2b78c393a83f3e2d2fa20b7e00332c46236ddb22c880",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2953,
+          "sha256": "25fbd0076db14981cf0b932a2795500794ed5a8014256589c41af3681793d3ad",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 4551,
+          "sha256": "55bbe6c2ef4cef9649951112585a4970402939503a638d7eea62bcab22f1d6ac",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 254,
+          "sha256": "d984cd2587e775eb74cb731dc67e7d136fc10105d4c3306e9c1fb03a91b06a68",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 198,
+          "sha256": "c31e10970775450e95a54686814fc4494326596d5604c7badb12a0cc49b5dc3f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 1256,
+          "sha256": "9e5b2cef3f232c7b905dd018ec6f951f13b0602a4f69947472992f9101a06757",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 736,
+          "sha256": "4959f87535a1965768158b2068c75b3f5d4dca66216cb72f0684d8a18db41fdf",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "a25a419ef0d1246bc6e1e31b7652e9c35402ef90519a32d33b1a7665e2a40bc6",
+      "coverage": {
+        "cached_last_good": 367,
+        "no_goal_incidents": 15,
+        "not_requested": 198,
+        "per_goal_coverage_recorded": 183,
+        "present": 254,
+        "success": 198,
+        "unavailable": 1273
+      }
+    },
+    "Premiership_18_19": {
+      "matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 2568,
+          "sha256": "6e9d69938afe3522cf5c08943a6b3fd23ec75657d9a44686fce6bba16d02bcdf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 503,
+          "sha256": "9b28a548246bed78881b87f08c477988a0047912869195c77085ad7d37be6df2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2892,
+          "sha256": "ac84d7e05c42a6e2ab20e2f7cdb673a766f696c102c00ba7269dfd38028ac9c4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5281,
+          "sha256": "c9bf3374aad89e36112dbb671f4d225e951c1fec87a6daea941c1325233a81a1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 294,
+          "sha256": "a062409133f80f763b02e9e2f9d586a4b7157562dd2214f575561ea519f4f7b1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 198,
+          "sha256": "b4f17583391b2856b06dcbc0ffca7d36916f578ff3139a059eca0daea53c41b2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 186,
+          "sha256": "b9b48c305fb931ebc6e39744d0c769d2a9a9f8e11e4e30b7e0fcbe5d80591e29",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 1366,
+          "sha256": "855c835ca0bababa9c9d412ff1335b900c25c7a8c3f12533d2e9fe9acc8fc856",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 681,
+          "sha256": "b514d6b5c153f8b3a2927fe63c3649094aaf02152ab29faa9a7e43fc92648e06",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "870e2710c5c42f8509fd75d18296b1b28b89964d755355c32d95cd2da8a83d83",
+      "coverage": {
+        "cached_last_good": 484,
+        "no_goal_incidents": 15,
+        "not_requested": 198,
+        "per_goal_coverage_recorded": 183,
+        "present": 294,
+        "success": 198,
+        "unavailable": 1196
+      }
+    },
+    "Premiership_19_20": {
+      "matches": 179,
+      "teams": 12,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 2844,
+          "sha256": "1ed907d43f199d1c4aa1b2b51b0fada93cd1b2e70a089406b88c346a9ec46f6a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 490,
+          "sha256": "990129d52fc1d0cd08cbe9c89d43f0cd7ac84aec9357e2747d5136a459b131af",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 244342,
+          "sha256": "7637174f1a0edfed6fff5ddfe01e4d7efd0c5743a994cc15863e248faa83e2bc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2700,
+          "sha256": "10f08d91c8a6a0ad2cf70d9626ce11295c779983b7f716534cabffccc78517cf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6431,
+          "sha256": "e018ef0a8de9970d6103e5cc32e448f6c40aba2e2067b7b19d119b1f1868396d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 358,
+          "sha256": "8017d4ead94be49a728a3e46730caf31afd2c27211e5a0ee1422ba9cc6db17f3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 179,
+          "sha256": "3840f29be30cc1c6f85b9c9321c80abd3f0c71c808bb1eaf7f7e3857627a6c90",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 95714,
+          "sha256": "7b0388ed16e94dc2391ee90ecd5df995eeb007ae71b44c4480950b2be9962562",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 346,
+          "sha256": "6522fe347c31d22133179e5faae98f97a293249e466b625ff79e20cda6a60f37",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4235,
+          "sha256": "eb6caba09ccc70316392963b97d8e8316d32a3455e9f99ca823184bbab49dd94",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 29374,
+          "sha256": "41bf56fc0f4fac8366f12df652ba821341a3d73cf9287a71edf97196c85f7778",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 730,
+          "sha256": "8de62936801cc974ec82f3778af313bea0eee53141cd1fa85a8fcafea068de04",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "1a6b9e42f1a43cf2055dfc646e0182466fe650a07eb7e77abbf93df80dd22a8b",
+      "coverage": {
+        "cached_last_good": 1176,
+        "no_goal_incidents": 16,
+        "not_requested": 179,
+        "per_goal_coverage_recorded": 163,
+        "present": 696,
+        "success": 179,
+        "unavailable": 435
+      }
+    },
+    "Pro_League_15_16": {
+      "matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 3360,
+          "sha256": "3ab2f268b4df3e422eb2ec505fb9de514fa439f16524c0f125b8ca29c943abe9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 694,
+          "sha256": "72fc46b5802105a9ba797f0cc2bfd10da97258f15b16fe349b1952ccfddde39d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3904,
+          "sha256": "effd7b11d4263c077489182451dadd9b22b29d138e5af845aebf18b88d55b75b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 8717,
+          "sha256": "98eee5f727844857420c4f1ee915732ed957e8196aaab3a79322f88ac3b43b60",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 480,
+          "sha256": "93bcb80365caf6dc52ddc1b8c1e89618410861cc23567cfc961920f158686359",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 240,
+          "sha256": "03608f99cf8dc356f831d6266b42a1fd01cf5cb1639e7c02495be40d169ffb7a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 5208,
+          "sha256": "919bbec63ebf13a040e1f642b08de97c371400055aea9129298d8132db4fece6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1234,
+          "sha256": "2bbd0e36ff2a9349417ebb66054a5cfe9eed9931831c29db08d7a683814f400e",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "b77b9094665847f90e123f0fd612b4d4548e57b5660dbc382349bac29950705b",
+      "coverage": {
+        "cached_last_good": 705,
+        "no_goal_incidents": 13,
+        "not_requested": 240,
+        "per_goal_coverage_recorded": 227,
+        "present": 480,
+        "success": 240,
+        "unavailable": 1455
+      }
+    },
+    "Pro_League_16_17": {
+      "matches": 239,
+      "teams": 16,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 3346,
+          "sha256": "fe10cd6f2433af1ea1a6a9835344024b4a607db6090e3cc6a641d2ce4fee601d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 654,
+          "sha256": "0856a5bc029b8b1269b05b56e95c183647295673d41b317f19719a3dd04a5c53",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3783,
+          "sha256": "da2d55590d4d512c5363147f59b62666515fc8d7d2e42baeb3eadc887d799c65",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 8702,
+          "sha256": "d087527d2b0955b8748c8c8403f825ded05810574963289d37cedcb76f1510ee",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 478,
+          "sha256": "d69e14bb233d7c45bef9a1803140b0874afdf567bae8ad871ebbce02ff72f8ab",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 239,
+          "sha256": "8b6361869d6e3bf3eb6ef8280784e5b23bdbf174fd3fb21be4a6289f90dd8c52",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 4828,
+          "sha256": "097ccbca892ca5cc3e68176f48c116d8a33665ea9eceffea0be9a02fcc1fc668",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1188,
+          "sha256": "fcd9b66bbed3fe10392a78c225129e04e004a8626f2ddd2643a237966e9ad8fa",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "d1e95ccf86df4caf2c4f6095fb2cf26b2313905c6667010f5eef060f0939ffbf",
+      "coverage": {
+        "cached_last_good": 711,
+        "no_goal_incidents": 20,
+        "not_requested": 239,
+        "per_goal_coverage_recorded": 219,
+        "present": 478,
+        "success": 239,
+        "unavailable": 1440
+      }
+    },
+    "Pro_League_17_18": {
+      "matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 3360,
+          "sha256": "a418d19e87877efa4f370eaee265794afdc844cb0cc29fc92c8ffd1a6763fed4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 687,
+          "sha256": "23cec1b9401ba4edf595a63521698d3c4587f9c441a38420a2d84b80eb20e3ac",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4020,
+          "sha256": "32ece580ba2eb3d923787d41f7a40c156fecd114e6e64e91d1858e779118dc9a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 8871,
+          "sha256": "be95da8852ae56571f2260f2d00ce11ec42cd36d08f08cc5343db796b51707b3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 480,
+          "sha256": "5c47942fec862a9d7081f81ae624042cdf9679782e8360a4240594146861c700",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 240,
+          "sha256": "2edf7868658a4a0b4075b0dd24dc66dbc1d4b381edd93cb71a44f8a26113704a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 4450,
+          "sha256": "6a8158ff85ece5809e8c9dbdd0166e55f05c84e6c8e0ad8ee9239cf723ca1703",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1164,
+          "sha256": "bb81cfbf25d753dfad97a138a9212768aa7381abcd118904439cac9412c1e156",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "d1616de3634e354600df3e9ce1419907acd0c383518017bf128763587aef0564",
+      "coverage": {
+        "cached_last_good": 715,
+        "no_goal_incidents": 15,
+        "not_requested": 240,
+        "per_goal_coverage_recorded": 225,
+        "present": 480,
+        "success": 240,
+        "unavailable": 1445
+      }
+    },
+    "Pro_League_18_19": {
+      "matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 3360,
+          "sha256": "647ac8c1f8781cf66de6225a8eba41ac9d595656a60977f048077d3c5d55ee0f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 696,
+          "sha256": "4eceaa29b72ff9efa11846af8c8418c634eff482106255d762e20af40d52dbf3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3996,
+          "sha256": "3e092a97ccd111f3f0e94810b132b72d786413433d07d9f673f17ecf6f7bdc06",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 8941,
+          "sha256": "8ddd732ae460b8275125de1be9afc1a4309ad97ec84d066b136114657da4dfb7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 480,
+          "sha256": "43d2d604cfa36577594c9790e1cc48b49c1bf1d3f44b3e8697e67f40917c47ce",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 240,
+          "sha256": "a6fbaf5a1b2e9df9d481d02610c4b45207cef7ecb65bb61f60a82b2c5f41986b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 176,
+          "sha256": "b73e1cb29253e54c2ac9cf0292ae28f1ad92791d6705f79257a26dad66e62356",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 4332,
+          "sha256": "a8f0ab6a3ef107686e7e1f495847e59a39ee38c87eebfeda294611867bdb8034",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1224,
+          "sha256": "5b7fe5d0d118148c07f75be7062978476655149f72199a0ea0f895c38b080356",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "f7fe2cf18e2c9fb7d19dc35f81b17ba64e5385d096076b3f92d59ae6c08625ff",
+      "coverage": {
+        "cached_last_good": 805,
+        "no_goal_incidents": 17,
+        "not_requested": 240,
+        "per_goal_coverage_recorded": 223,
+        "present": 480,
+        "success": 240,
+        "unavailable": 1355
+      }
+    },
+    "Pro_League_19_20": {
+      "matches": 232,
+      "teams": 16,
+      "awarded": 1,
+      "tables": {
+        "coverage": {
+          "rows": 3244,
+          "sha256": "efea0f6ace5c289b08bc986f0d882e8416fa85c04cd35e19055ff77565f41d5c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 649,
+          "sha256": "589d1d28ed4b62d66329eebb9a61650269f731481d1fa82fbd1ef768c694bc82",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3653,
+          "sha256": "7c54a56f785effbd26158dbcae85a5155284239d34eeb48d1d1298f02892c05a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 8727,
+          "sha256": "d9aa50db7bf0a8d0c72429d58cca150c1c933dcad21fedf44a7c79b564df5f67",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 462,
+          "sha256": "7f2b8ef0dc71ed9f1b93e993f5dd6166b5f04ed2ced1bbd2bb3d473c697e2959",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 232,
+          "sha256": "c21cb1aa29d6e28aeae66b229ab32f9f6413816d393cdd232dd8b244c1d0a722",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 448,
+          "sha256": "5a7fbe5adaa972c3b889b6a44cd080fc5983c2bc201a63bc0b7cd7fff2475bc1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 3434,
+          "sha256": "b68f5d684be7022784721909115d55418dd70ea837815058642c300cc67b3bf4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1168,
+          "sha256": "e11d5433f53500ed01d1cc5075c2cd12f831345b61315e1894a707cd0fbde87b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "cab01ca1a89c75eb67a44a0bcf35d9b10f351fd2a86bf2e4249ed88cbfea0d3a",
+      "coverage": {
+        "cached_last_good": 912,
+        "no_goal_incidents": 14,
+        "not_requested": 232,
+        "per_goal_coverage_recorded": 218,
+        "present": 462,
+        "success": 232,
+        "unavailable": 1174
+      }
+    },
+    "Serie_B_15_16": {
+      "matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 6468,
+          "sha256": "97dfc066ba95b9dc2d3ebcd29e649df597cc87d8f80e4a80a64e0b704d11cbb0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1124,
+          "sha256": "7d916434644388796e55d2d05f9f61572d071fd9a9d29eb1bc4faa8401c04dbd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 8224,
+          "sha256": "1af01b4c33dfadd6d527ae9f3dc90927faa0b15cd4cc2d45153349805bb6e5a3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 18442,
+          "sha256": "aa69c70c9b3e800b0877ff7c6011aba80a2c2a6955d53d2e24aaf2d5bc9502b8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "f7d7dee068335fb06b1b300ddbed7adff12c5dc32e27a0789fbf444371af9880",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "e24fc1cfa3727d9409598488dab353a05903729a411abeaae7a94df364ba6c44",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 13818,
+          "sha256": "41bb6e0f61cef3993f11b30685a47685c971cfa99a6de4ef13f7b293e5650172",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2475,
+          "sha256": "d985182de08d1a1a994ff259a73b74abcd993488868c3a6f04829f5f985a43aa",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "1e20c3c7afd5d592ab10819d102bb2d74e8e2b1a6adb850acbc187fc707aac16",
+      "coverage": {
+        "cached_last_good": 1386,
+        "no_goal_incidents": 45,
+        "not_requested": 462,
+        "per_goal_coverage_recorded": 417,
+        "present": 924,
+        "success": 462,
+        "unavailable": 2772
+      }
+    },
+    "Serie_B_16_17": {
+      "matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 6468,
+          "sha256": "583ca320e37246981a4d134220cf1e9512dd74e853b01516ec0596707102f5bd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1021,
+          "sha256": "3703b5e8b0ee144d7a1cefaa41e8e4bf752c0233683bf3f7b3b6bc0c268ce558",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7876,
+          "sha256": "6b1aecb99dce0ca358391a9c3720d4b9ac88726d64a9414a32bc5fc50fbf3e4b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 18439,
+          "sha256": "885d291dce39fadcdec0e13a78b2925453438fe75d2cac4a3150007d98970af7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "9ab51ae4c09ffaa2f61e089685184857e5238ce788569d6f02b9bae476b05e24",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "f6e4e994b1d53358fcbe578492fe18b36bce4840323ef79d73a4ebeba11d45a7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 13522,
+          "sha256": "b5ea95d4744e0594dcdfc037c2ca79ff213da899156c016b9d228163c27ea519",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2448,
+          "sha256": "2576973a33c8996c603e924dd254eb454ae5f6b7c015bc00ed1c484d4574ff2c",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "47120d575b16814129b573c135fcfc27eaec5c99d2a7d65d08f2283ea6f71a5e",
+      "coverage": {
+        "cached_last_good": 1378,
+        "no_goal_incidents": 60,
+        "not_requested": 462,
+        "per_goal_coverage_recorded": 402,
+        "present": 924,
+        "success": 462,
+        "unavailable": 2780
+      }
+    },
+    "Serie_B_17_18": {
+      "matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 6468,
+          "sha256": "360cfdf11350577331941664b35c67f7e4032196cca959159fde34d73a826f32",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1182,
+          "sha256": "0aec7c3fab6969ba09f06ee45fb109c9d213867a9f202013a1070ea2b234d31b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7585,
+          "sha256": "d1477a92808b13e05f8c69ba8a2c3983a63ec358f08b9d34a9784a8e76767777",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 20431,
+          "sha256": "cd782ea3ed3d738a069ab1babe6e6f38677c4cc879d32eb87a0d53a0ecc542f9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "7a32c07c44ddf02817ce2c83dff4aadc42ff0bce11d58aee1ba1591d0c41b895",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "cc693a09cd4a77091d4d6faf5092a3ebbb4bf64bf5a29a9771f57e0bf1a4ebb1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 13780,
+          "sha256": "af49fe5faf7499d316e21efb701d0c6a8dc8ab8b025ffabecd7e3b1150d1f8b9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2489,
+          "sha256": "15aea4266bc636bd485e3d55272466e8babac2498e10bdd044540f0907bcf8e3",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "65779fc2b03f0d0c356b388ec7e36b61e7180dff92b288bf522314ddd13fbe2f",
+      "coverage": {
+        "cached_last_good": 1386,
+        "no_goal_incidents": 47,
+        "not_requested": 462,
+        "per_goal_coverage_recorded": 415,
+        "present": 924,
+        "success": 462,
+        "unavailable": 2772
+      }
+    },
+    "Serie_B_18_19": {
+      "matches": 341,
+      "teams": 19,
+      "awarded": 0,
+      "tables": {
+        "coverage": {
+          "rows": 4976,
+          "sha256": "f9f2914afde40f2140b2c4b5d6506e275e22e0e93309a42c4076b0297bdf982a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 884,
+          "sha256": "41d14ecc621edf31f52e862b1dde18db2f5d2cde2d5bb2edff122315462701e1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 142184,
+          "sha256": "28b6e98bb4d1e59932b1c6ab2aa4ece09d8a2679baa791f1684c7056902c5e07",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 5861,
+          "sha256": "7790e1b513a621d5b0b7b1fdb84693baebb7220f152369d73db8ffec29a9f67c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 15122,
+          "sha256": "89138666efc9795a32cc1d26ce10ea335fe5c983fbc48bf44c7a94c4b7279169",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 682,
+          "sha256": "d71c6d51cdc71d1c675071f2d55f9b865a3f504f6127dab5562107ae26cf885d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 341,
+          "sha256": "b1e614f44345a65d63acee161df83fc68e0d89c0810199fcb3d04face167b70b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 7068,
+          "sha256": "b8f9aa47a443d37df9d5e9068583c68286b4174f39a1c32feb003cca112f13a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 396,
+          "sha256": "b41639acac2f4cdfcbbd07ee0dfd7086c7ec5f71283f1d966946b7378c7eb1f8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 2580,
+          "sha256": "60feffd1d30329541668a2ef8b3d736efc7e0542f0d955c579475211bfa20730",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 12002,
+          "sha256": "ad9e85f8db4dfd9885a5c40e6b5de00c4dba63e6b454300a0e43084e46225067",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1816,
+          "sha256": "e8b927e09ea49cebd58141ccdd4ca086de4083c97847b0bbcd1b53752bbc0b50",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      },
+      "export_sha256": "74fbf023b7e5897d46dde6c3cc0a8cc6a47dbb0b2f141a0437b62f95df8b23db",
+      "coverage": {
+        "cached_last_good": 1523,
+        "no_goal_incidents": 26,
+        "not_requested": 341,
+        "per_goal_coverage_recorded": 315,
+        "present": 884,
+        "success": 341,
+        "unavailable": 1546
+      }
+    }
+  },
+  "outputs": {
+    "Bundesliga_17_18": {
+      "matches_sha256": "b7e16ed085ed243f02120453c5e28550eed3094cb3afd4aba63fbe6758b6bfd1",
+      "season_sha256": "d16ba4ea0effcfe22233d378ff3d4008512c081f445fdc5b91dedc3edf3de214",
+      "team_seasons_sha256": "7d18ea1570462198c56e78e7064037e6fd6bc48ca57c171a9843f774541d4d02",
+      "preserved_observation_tables": 13,
+      "history_rows": 612
+    },
+    "Bundesliga_2_15_16": {
+      "matches_sha256": "812777884a23cbe33e6b89b7d9cd16f6ff6eda18eb0892af692eab0c65681cfc",
+      "season_sha256": "993384d5dc1bbdd9a240130343ff361ea9d4abf645a6811bc958ae67cdeb1037",
+      "team_seasons_sha256": "e21720b02f5fec486f682975a8ad6c626e55133a3be959418b994ab55f840bfa",
+      "preserved_observation_tables": 9,
+      "history_rows": 612
+    },
+    "Bundesliga_2_16_17": {
+      "matches_sha256": "f8149113f2a96e52fe88a9c612a62d5b78e69aa228066b8f3665a92eda244b93",
+      "season_sha256": "9cebc0b24f038a772c1e80849160634a5aeee2da2b63ec44f75d2fb64cae74ed",
+      "team_seasons_sha256": "3e6ae737a39857f203171bc890cd773ba82ec5063445c47d25193b5d5235eef8",
+      "preserved_observation_tables": 10,
+      "history_rows": 612
+    },
+    "Bundesliga_2_17_18": {
+      "matches_sha256": "327aa2593f9a685d6d3a8c92db6b2337b55427ee64a546dbbbc8988b53b01a96",
+      "season_sha256": "d546ed046c269d37952be5c9624b499cf72eeaf7171757629f2b296ee80728d5",
+      "team_seasons_sha256": "8e02fedda7ef30d07b6e1fe8abcf6c3ddd54ee768cab5f4fabfd685fa60753e8",
+      "preserved_observation_tables": 12,
+      "history_rows": 612
+    },
+    "Championship_15_16": {
+      "matches_sha256": "13dde6e51931ea009a681b3bf4d09d2138388c4a61579fee2a4d9c2f6470eafb",
+      "season_sha256": "341ae1bb68781a04c068d3804ba1fb912208bcddd56aa804c72cf59b716e08e8",
+      "team_seasons_sha256": "a08352206d9fe92bdecf940176ef8ccc2dfd3f08db195ced65c06128f948b5bb",
+      "preserved_observation_tables": 12,
+      "history_rows": 1104
+    },
+    "Championship_16_17": {
+      "matches_sha256": "e1c28ce5fd4d253f694c16f6d7b3d59cf185d3631ed91faf48eb62feeea5ca07",
+      "season_sha256": "6e7496045bb53db05a308d80a76944358cdbdf36248a92a3b1f30de6a8383b9e",
+      "team_seasons_sha256": "ce667ec3353812c28749526566f6af513153a4b8ff67646cc53b49e22a635677",
+      "preserved_observation_tables": 12,
+      "history_rows": 1104
+    },
+    "Eredivisie_16_17": {
+      "matches_sha256": "c92a8848fd7f2de9a1af27823de339b8f07666a2d53d9d0974dcf9189402db75",
+      "season_sha256": "ba33de8e3222066fe3f9993d9eb94478850ab78f8868764adf8831166d1889ac",
+      "team_seasons_sha256": "c474ac69691e077e3c4510cbf050dfa4daa510d8a067ef7110dba3ff651406d6",
+      "preserved_observation_tables": 12,
+      "history_rows": 612
+    },
+    "Eredivisie_17_18": {
+      "matches_sha256": "761e9ab9f51f4d1531f1713af641be749fd72a6b6b7214b847947a43b4703737",
+      "season_sha256": "297f6364873fa935ab201ad7087866b0eefa0cb2362f6257a2c58ea909623494",
+      "team_seasons_sha256": "5655df302568fe98399d310a43d27ac6dc3dbd1d21e1d929ca50acd5807d3d81",
+      "preserved_observation_tables": 13,
+      "history_rows": 612
+    },
+    "La_Liga_16_17": {
+      "matches_sha256": "2161c4fd259b62906eacc7e7e0f0da9fcc5324690cc407dc3254df80e8887e65",
+      "season_sha256": "3c9ccdda8c90477a8087fc84f08e2113b83b92dc923906f62ba07cf000e9734d",
+      "team_seasons_sha256": "7102a165c22bbc3d4bb99ad39f305d07753542609fadaa4a8a536f57be0353fa",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "La_Liga_2_15_16": {
+      "matches_sha256": "64159c28ea7d09923967566b3d025f108af4650e65344a7b3b5e886b6e618a89",
+      "season_sha256": "bb7b6d2a377bec3cfa727355b108cb87b3df9e7d5aa8ec4d6d8872bfef2d28a1",
+      "team_seasons_sha256": "6644d88d6af651b8a9a572792763d14d4ae9beb37256e767876fa0f6d42056b9",
+      "preserved_observation_tables": 12,
+      "history_rows": 924
+    },
+    "La_Liga_2_16_17": {
+      "matches_sha256": "445cede0326035fb4c1e08b8cd46e191d597f64db644a72428cc2c39ff788923",
+      "season_sha256": "8347cf08d11d823dc03d19586ee2adf3827c723ee507ae363733a7603b1772ff",
+      "team_seasons_sha256": "4dcb9befaa4657525b56a3aa612beb10917982af37a5634dbaa0798b007fd518",
+      "preserved_observation_tables": 13,
+      "history_rows": 924
+    },
+    "Ligue_1_16_17": {
+      "matches_sha256": "5c3407e481fd25b4b98a37e45175cf11a80a559f0572caa45db692d96d248f6b",
+      "season_sha256": "92a5f1229d76dbdde6da7ded7d33b3008eb88b25eee0f679dae378586bf402cc",
+      "team_seasons_sha256": "b97747822907f1d73dd84f5be08f438a7fab0078a835d13fa03f5ae6ab164d02",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "Ligue_1_17_18": {
+      "matches_sha256": "86c30889a1e7c997c5b2d6ba3ad8cd58ac73d50efcd6165ad63083ea1bd10c36",
+      "season_sha256": "03560b053e03d9bc9cdc1e763c687e19f797abe27a541172b3a4b52574ef39ef",
+      "team_seasons_sha256": "35d538ee0f3ae1fdaaa4b14c8a8d8c6d6c95c7193bb9414674012a98551b0e62",
+      "preserved_observation_tables": 13,
+      "history_rows": 760
+    },
+    "Ligue_2_15_16": {
+      "matches_sha256": "c68c1b0a1efcad4eb9453b2cb2244e7946d5fd163e2d9a97642001c7fd66c79e",
+      "season_sha256": "21aac360e007096f11adfe28e190def2b072f228d388c4c44d8b406fd79914f7",
+      "team_seasons_sha256": "06c377649353dcc12ab8ea0bd7e8674855f26ea2b1bccb8704ac45e3e97871c9",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "Ligue_2_16_17": {
+      "matches_sha256": "3d6d3cb82e780529d0577f64ca56173736420af081b870518f49c0ec3ec471dd",
+      "season_sha256": "715e255e48ece8b01ba6fca9529197cfa4c0ff737967ab8ccb1b8c2329fd03d1",
+      "team_seasons_sha256": "fb823b9c90c71e6922ee87a19d48f9d33d09a8a7d3e91b3e5897c410e1573683",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "Ligue_2_17_18": {
+      "matches_sha256": "5bba24056ea9ce8370e7e4e5114af5e5420af10d903f5bcc9c68f5decc21b1f2",
+      "season_sha256": "1d4a22ea92fee89ab83e968020013f6afe965a9e850145d21c9609716c43945b",
+      "team_seasons_sha256": "2b215d334e947e67732930f4efda81e6deb4d9ed7eea5a24f0401ec916562d3d",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "Premier_League_16_17": {
+      "matches_sha256": "c14290b9325d10f071272161cef9e118b94e1e5bda78cfbeb1879286d63fec85",
+      "season_sha256": "ffc26428cdc076b9d838da6abaa31ab9087b201b5cc20b05c4c15fd945d908e8",
+      "team_seasons_sha256": "b904e542e84e014312515ead24cc6e7712d122a44294ad3d869ed5cdb41d9a3d",
+      "preserved_observation_tables": 12,
+      "history_rows": 760
+    },
+    "Premiership_15_16": {
+      "matches_sha256": "14ec423819559d659ccd4203571070300d245b52f66bd23faad638d3fc135815",
+      "season_sha256": "8c49ae358a234af925eaeea5af21acf82cebf6ab6661af549d6f58fc04c34a43",
+      "team_seasons_sha256": "16721e5e33177cfa15df3ba067561354356acabbde01baff93036016ffcb7216",
+      "preserved_observation_tables": 9,
+      "history_rows": 394
+    },
+    "Premiership_16_17": {
+      "matches_sha256": "b1a2db288b02611dd61dcdbabb3ee3687e37ea299a00480fe3bc09ff0a17b633",
+      "season_sha256": "7e7ff0bdaf08fca61b4334d4a6b35be764c216e17bf281f95dce8fba46493dc1",
+      "team_seasons_sha256": "d0c62e8fb1e7f295f03487cb966275a917bd7b728964d514a518d2c624f20a11",
+      "preserved_observation_tables": 9,
+      "history_rows": 396
+    },
+    "Premiership_17_18": {
+      "matches_sha256": "cc7cd25d5240668d54d09aa0979dab9f29cabf00c20572e1f1cab55ca18ffadb",
+      "season_sha256": "0920182d15693ec34cd5b3a9c8ec41914f19402bf4e65a797ccc60fde783a4d1",
+      "team_seasons_sha256": "6d8bdb6d38d5cc2e55e52607bd0ca032a62c6a185db616470ace6780374c3e6e",
+      "preserved_observation_tables": 9,
+      "history_rows": 396
+    },
+    "Premiership_18_19": {
+      "matches_sha256": "f5dad4c553833113e5d62abab11fec99fa9d8ecc5c98c909b3bdf907db7c956b",
+      "season_sha256": "4bb4a6f69aa9766e9afda8a10c0b75c3b77bbf1756c5d204d34cd7ac9617a0d2",
+      "team_seasons_sha256": "3b55b6a651f314d35496ec01996c441b1668b2cb0d86e6bf898c45f2f2fb2a03",
+      "preserved_observation_tables": 10,
+      "history_rows": 396
+    },
+    "Premiership_19_20": {
+      "matches_sha256": "b2782df2d96d3824a3624d22fbbdc31d91cacb862a9efc7fd80964ad57f2a587",
+      "season_sha256": "c1bfe252a540314ecfd7cc0704fafab17ad4e0b531fe23efee6ebc3b3d17824f",
+      "team_seasons_sha256": "3a8923cd27f2699ffa9b17b66d9ba84649358df3861ca94c26358cf4ebba6b81",
+      "preserved_observation_tables": 13,
+      "history_rows": 358
+    },
+    "Premiership_20_21": {
+      "matches_sha256": "ca560dc380196be0afd20f765290c6f3cb9b1e88189e33027ab1e5db1bca79dc",
+      "season_sha256": "4c21bdd531f68f41c386a1e8c46fbfb37949b5c106d37ce04f4383bf3e8607d5",
+      "team_seasons_sha256": "2b9da44a1737783ea8250688d739f4fdf325801fcbc727f6ef57745dfde4d490",
+      "preserved_observation_tables": 13,
+      "history_rows": 456
+    },
+    "Pro_League_15_16": {
+      "matches_sha256": "aead714498512bba059b3114c6985b6f632f0c84b817430ff8b4f1d80e1c6ada",
+      "season_sha256": "89609c96262ec4feadb18c8d88969a8c63931c9e64674d67bf5c628f57a31757",
+      "team_seasons_sha256": "5fb1650046f12174a3565835f70c5c5445845e7048ebd25497318ad1b33ed2b4",
+      "preserved_observation_tables": 9,
+      "history_rows": 480
+    },
+    "Pro_League_16_17": {
+      "matches_sha256": "eafa75bb6b4005d6b5d3ef725644f714d813fb70d33495b057fd0c7fdefdefc0",
+      "season_sha256": "112abb51371beaa32c2eb8593f4aa79c482f1f46f141021a3267daa1373e1f9f",
+      "team_seasons_sha256": "73aadd14ffc32204f99af34d22aeb102c9a5f7dc8172066a51f8847153f4114b",
+      "preserved_observation_tables": 9,
+      "history_rows": 478
+    },
+    "Pro_League_17_18": {
+      "matches_sha256": "0132df720f149fd88cc0420c96f79e19bb4bcdaf16f1102b764d9061c30117e2",
+      "season_sha256": "b42c84359186026748f2d7fa1c8c85073ae9bda56d95cff1ae8d26764a8b7f4b",
+      "team_seasons_sha256": "b6b92f743a07bd44f679d1997ed44089e0a14ae4323e04be94e43cc10fe3fa17",
+      "preserved_observation_tables": 9,
+      "history_rows": 480
+    },
+    "Pro_League_18_19": {
+      "matches_sha256": "223a2099985e988e7522312afd1fec96c0efb6e5da44165983c73f009a035794",
+      "season_sha256": "8ef79fea9dcabd5927ee6d8cf4f8a3dc2457b7268f2c418e3811621435f746a7",
+      "team_seasons_sha256": "05474a59cfcdbacf68342e140a69444af30b948cf169923425a742944191714f",
+      "preserved_observation_tables": 10,
+      "history_rows": 480
+    },
+    "Pro_League_19_20": {
+      "matches_sha256": "6d1384a599508807d65367adfd05053d075a8e030d29e77b725f4747657f1db9",
+      "season_sha256": "815144ab19360daffa41f0001da57b19f608375843dcd294213e164b93a2c7e2",
+      "team_seasons_sha256": "65299cd2b4ff7b739b6043cf15de8616cc9399dfe58ab7a327b275dc47b0d6ef",
+      "preserved_observation_tables": 10,
+      "history_rows": 464
+    },
+    "Pro_League_20_21": {
+      "matches_sha256": "edb31f0bdbc3dd4018c2847d194df59e5169152a221e8614818ec0434f5e674a",
+      "season_sha256": "8855be2f2c00d3631d424ab9969869b2ffccc372c7d0f46e60adb82f36251218",
+      "team_seasons_sha256": "ef47c6c2081f9c7971fb38c95face4ab2facf4935b7bef97ae7a41ce6c375206",
+      "preserved_observation_tables": 13,
+      "history_rows": 660
+    },
+    "Serie_A_16_17": {
+      "matches_sha256": "8334f827986ec267427f53387b7682feffa01bec68158fcf249fa532955b19bc",
+      "season_sha256": "15ba9d323f55d57c3199e86cd4705ff19eb1d622f2cb1fee611fbde5a862aa5f",
+      "team_seasons_sha256": "afec1f4405f9706218eb60fe9fa8d405cf0c2f7be629c21b8a9a3585ea51c3c0",
+      "preserved_observation_tables": 13,
+      "history_rows": 760
+    },
+    "Serie_A_17_18": {
+      "matches_sha256": "edd2f7e9f4f15d2c2953806855355a0fce98221ec856f67a1ca733d6b5effd04",
+      "season_sha256": "f33d7e1380287c79aa99bd031df4cb2216baf1a309aac78bb351287e62b33dbd",
+      "team_seasons_sha256": "630bbecdbc8faef8a2928ed1138259130d7211f30bdeb82095d1c167a37a2b49",
+      "preserved_observation_tables": 13,
+      "history_rows": 760
+    },
+    "Serie_A_18_19": {
+      "matches_sha256": "b4a3e708c38308f23743bf9f875b1242e070ac2704451f225689167656d1f202",
+      "season_sha256": "68afc43bd31063c7ceb89f44af5612fb569c4cbc4f8fc4356f29dd9646a978f4",
+      "team_seasons_sha256": "193c0f9866a73b98275c397d76d56d837a96f5d5b3e53ca1faa21edd26b30622",
+      "preserved_observation_tables": 14,
+      "history_rows": 760
+    },
+    "Serie_A_19_20": {
+      "matches_sha256": "eea0806131dee2ad16532cd8c42b3d53ac04681c4d6c836e414f3eb7579914fe",
+      "season_sha256": "65518fdfd79ea6e663d91b8d0601b930f2826feaaeb524a9aa717e23ed1b0dc2",
+      "team_seasons_sha256": "79980a378743e56209dc28e5b892cb4c79496877b6982c77a5d3da78cc3272fb",
+      "preserved_observation_tables": 14,
+      "history_rows": 760
+    },
+    "Serie_B_15_16": {
+      "matches_sha256": "586f3b202639ee754f667540ab72e3a45d976d03e476308fb3fa0cc415ae12e7",
+      "season_sha256": "58e306c79dc0f9a8bd7a7639b5788404e83fe4aff00f4e22b10b195f5036ac06",
+      "team_seasons_sha256": "ad32fd757009aafa715b12a2c8eaccbfa42b8226eb076062a9265e990fc7177c",
+      "preserved_observation_tables": 9,
+      "history_rows": 924
+    },
+    "Serie_B_16_17": {
+      "matches_sha256": "5ca8fdf60672e17d76ad61494ca7a8af812b6a8c01c6e71775f690b175482812",
+      "season_sha256": "eb895855d46c75f961e38d53959e937475ed39384de8f8630cbf34073e3d544c",
+      "team_seasons_sha256": "a133ab7257d15eafee28ef93b0e4225cd75876fbdebbbc2baf64f9b816a2a27a",
+      "preserved_observation_tables": 9,
+      "history_rows": 924
+    },
+    "Serie_B_17_18": {
+      "matches_sha256": "ec97f85ff90e259c086337acb1e08179b9156ddb80001af3e71dd0a9cc9ff033",
+      "season_sha256": "877e4f145168b0160a6d2cf66c8add81de5a7412f6948b74473c0fb4772b5517",
+      "team_seasons_sha256": "e356f6deaafa672ff72e8620408acb8d241f38a05dbef81a623a179b4b0997c2",
+      "preserved_observation_tables": 9,
+      "history_rows": 924
+    },
+    "Serie_B_18_19": {
+      "matches_sha256": "6a874d06f62003558cd3fe05017ec2e65f2922449a8e4d9ae8920280d6d6dc30",
+      "season_sha256": "1da80da085423ed61ffafac907c78a6587e08bbf59e779e14c075e1e23670b7c",
+      "team_seasons_sha256": "cbcefb76142f8e489149ec402059adef10cfad42f354d3a14d8ff5259182e565",
+      "preserved_observation_tables": 13,
+      "history_rows": 682
+    },
+    "Serie_B_19_20": {
+      "matches_sha256": "2c7a12cb72350f88c8a5a5ec9c62c26b1296fb5fe040a94f04deb488a629cb49",
+      "season_sha256": "9a55e0f05408699e5559b1d12b916587467ae50fb7f8da6a1d5f35eb45588dba",
+      "team_seasons_sha256": "e3b3c993dca5f7e6ab8cc872310cff87ebe0a47415156a1b9dba21464c8f2e61",
+      "preserved_observation_tables": 13,
+      "history_rows": 760
+    },
+    "Bundesliga_16_17": {
+      "matches_sha256": "128291e887d6dccacf2061a7aa4e655753e6d94e9a0e526998d23de5a13001df",
+      "season_sha256": "7f259a65e3b245607dcac94e830d695d313ca042897ffa1a549b1dff9a72b4a0",
+      "team_seasons_sha256": "a1aa9c2406888895993230932691f4d31478c57df518ee311d5a60e6fbbb70f7",
+      "preserved_observation_tables": 12,
+      "history_rows": 612
+    }
+  },
+  "verification": "All source table/export hashes and codecs checked; existing observation columns and unrelated tables preserved.",
+  "coverage_policy": "Missing/empty optional source tables are retained as coverage limitations; no outcomes or statistics fabricated.",
+  "public_loader_verification": {
+    "Pro_League_15_16": {
+      "matches": 240,
+      "default_eligible_matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 480
+    },
+    "Premiership_15_16": {
+      "matches": 197,
+      "default_eligible_matches": 197,
+      "teams": 12,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 394
+    },
+    "Championship_15_16": {
+      "matches": 552,
+      "default_eligible_matches": 552,
+      "teams": 24,
+      "awarded": 0,
+      "table_count": 14,
+      "history_feature_rows": 1104
+    },
+    "La_Liga_2_15_16": {
+      "matches": 462,
+      "default_eligible_matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "table_count": 14,
+      "history_feature_rows": 924
+    },
+    "Bundesliga_2_15_16": {
+      "matches": 306,
+      "default_eligible_matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 612
+    },
+    "Ligue_2_15_16": {
+      "matches": 380,
+      "default_eligible_matches": 380,
+      "teams": 20,
+      "awarded": 0,
+      "table_count": 14,
+      "history_feature_rows": 760
+    },
+    "Serie_B_15_16": {
+      "matches": 462,
+      "default_eligible_matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 924
+    },
+    "Pro_League_16_17": {
+      "matches": 239,
+      "default_eligible_matches": 239,
+      "teams": 16,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 478
+    },
+    "Premiership_16_17": {
+      "matches": 198,
+      "default_eligible_matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 396
+    },
+    "Eredivisie_16_17": {
+      "matches": 306,
+      "default_eligible_matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "table_count": 14,
+      "history_feature_rows": 612
+    },
+    "Bundesliga_2_16_17": {
+      "matches": 306,
+      "default_eligible_matches": 306,
+      "teams": 18,
+      "awarded": 0,
+      "table_count": 12,
+      "history_feature_rows": 612
+    },
+    "Ligue_2_16_17": {
+      "matches": 380,
+      "default_eligible_matches": 380,
+      "teams": 20,
+      "awarded": 0,
+      "table_count": 14,
+      "history_feature_rows": 760
+    },
+    "Serie_B_16_17": {
+      "matches": 462,
+      "default_eligible_matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 924
+    },
+    "Pro_League_17_18": {
+      "matches": 240,
+      "default_eligible_matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 480
+    },
+    "Premiership_17_18": {
+      "matches": 198,
+      "default_eligible_matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 396
+    },
+    "Serie_B_17_18": {
+      "matches": 462,
+      "default_eligible_matches": 462,
+      "teams": 22,
+      "awarded": 0,
+      "table_count": 11,
+      "history_feature_rows": 924
+    },
+    "Pro_League_18_19": {
+      "matches": 240,
+      "default_eligible_matches": 240,
+      "teams": 16,
+      "awarded": 0,
+      "table_count": 12,
+      "history_feature_rows": 480
+    },
+    "Premiership_18_19": {
+      "matches": 198,
+      "default_eligible_matches": 198,
+      "teams": 12,
+      "awarded": 0,
+      "table_count": 12,
+      "history_feature_rows": 396
+    },
+    "Serie_B_18_19": {
+      "matches": 341,
+      "default_eligible_matches": 341,
+      "teams": 19,
+      "awarded": 0,
+      "table_count": 15,
+      "history_feature_rows": 682
+    },
+    "Pro_League_19_20": {
+      "matches": 232,
+      "default_eligible_matches": 231,
+      "teams": 16,
+      "awarded": 1,
+      "table_count": 12,
+      "history_feature_rows": 464
+    },
+    "Premiership_19_20": {
+      "matches": 179,
+      "default_eligible_matches": 179,
+      "teams": 12,
+      "awarded": 0,
+      "table_count": 15,
+      "history_feature_rows": 358
+    }
+  },
+  "regression_tests": {
+    "passed": 152,
+    "scope": "movement, recipe refresh, transition context, warmup, rating transitions, loading, multiseason, season, awarded loading"
+  },
+  "previous_season_predecessor_updates": {
+    "Bundesliga_16_17": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "a1aa9c2406888895993230932691f4d31478c57df518ee311d5a60e6fbbb70f7"
+    },
+    "Bundesliga_17_18": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "7d18ea1570462198c56e78e7064037e6fd6bc48ca57c171a9843f774541d4d02"
+    },
+    "Bundesliga_2_17_18": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "8e02fedda7ef30d07b6e1fe8abcf6c3ddd54ee768cab5f4fabfd685fa60753e8"
+    },
+    "Championship_16_17": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "ce667ec3353812c28749526566f6af513153a4b8ff67646cc53b49e22a635677"
+    },
+    "Eredivisie_17_18": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "5655df302568fe98399d310a43d27ac6dc3dbd1d21e1d929ca50acd5807d3d81"
+    },
+    "La_Liga_16_17": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "7102a165c22bbc3d4bb99ad39f305d07753542609fadaa4a8a536f57be0353fa"
+    },
+    "La_Liga_2_16_17": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "4dcb9befaa4657525b56a3aa612beb10917982af37a5634dbaa0798b007fd518"
+    },
+    "Ligue_1_16_17": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "b97747822907f1d73dd84f5be08f438a7fab0078a835d13fa03f5ae6ab164d02"
+    },
+    "Ligue_1_17_18": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "35d538ee0f3ae1fdaaa4b14c8a8d8c6d6c95c7193bb9414674012a98551b0e62"
+    },
+    "Ligue_2_17_18": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "2b215d334e947e67732930f4efda81e6deb4d9ed7eea5a24f0401ec916562d3d"
+    },
+    "Premier_League_16_17": {
+      "native_observation_tables_unchanged": 13,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "b904e542e84e014312515ead24cc6e7712d122a44294ad3d869ed5cdb41d9a3d"
+    },
+    "Premiership_20_21": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "2b9da44a1737783ea8250688d739f4fdf325801fcbc727f6ef57745dfde4d490"
+    },
+    "Pro_League_20_21": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "ef47c6c2081f9c7971fb38c95face4ab2facf4935b7bef97ae7a41ce6c375206"
+    },
+    "Serie_A_16_17": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "afec1f4405f9706218eb60fe9fa8d405cf0c2f7be629c21b8a9a3585ea51c3c0"
+    },
+    "Serie_A_17_18": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "630bbecdbc8faef8a2928ed1138259130d7211f30bdeb82095d1c167a37a2b49"
+    },
+    "Serie_A_18_19": {
+      "native_observation_tables_unchanged": 15,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "193c0f9866a73b98275c397d76d56d837a96f5d5b3e53ca1faa21edd26b30622"
+    },
+    "Serie_A_19_20": {
+      "native_observation_tables_unchanged": 15,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "79980a378743e56209dc28e5b892cb4c79496877b6982c77a5d3da78cc3272fb"
+    },
+    "Serie_B_19_20": {
+      "native_observation_tables_unchanged": 14,
+      "season_export_unchanged": true,
+      "team_seasons_sha256": "e3b3c993dca5f7e6ab8cc872310cff87ebe0a47415156a1b9dba21464c8f2e61"
+    }
+  }
+}

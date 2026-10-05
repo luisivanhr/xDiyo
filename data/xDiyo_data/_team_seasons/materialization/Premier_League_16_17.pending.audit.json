@@ -1,8 +1,8 @@
 {
   "season": "Premier_League_16_17",
-  "old_manifest_sha256": "6e87179befdfa049f8168ddce20f1772f31e1b5c3b7f137f81a9178f8a93e4c5",
-  "old_publication_sha256": "ab49d1f6f3b07e6b96d24e852485daad9f73c14ceaa711a2d8ba62631ab23cdc",
-  "new_manifest_sha256": "101e32f95ab43c97377e1922be2e9433b6dca818ba4d3182f894802ccb61b212",
+  "old_manifest_sha256": "101e32f95ab43c97377e1922be2e9433b6dca818ba4d3182f894802ccb61b212",
+  "old_publication_sha256": "421c2c9a8c111f2c0a3ea0b15395bb102bf5149b801163e4c98102abcf4471c4",
+  "new_manifest_sha256": "e483efe44def3e4f4138064bb5ac667e3e89fc52c054d16255537c808780873a",
   "new_publication_sha256": "421c2c9a8c111f2c0a3ea0b15395bb102bf5149b801163e4c98102abcf4471c4",
   "matches_sha256": "c14290b9325d10f071272161cef9e118b94e1e5bda78cfbeb1879286d63fec85",
   "season_sha256": "ffc26428cdc076b9d838da6abaa31ab9087b201b5cc20b05c4c15fd945d908e8"

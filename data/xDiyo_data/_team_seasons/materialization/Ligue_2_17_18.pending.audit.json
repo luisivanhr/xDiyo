@@ -1,8 +1,8 @@
 {
   "season": "Ligue_2_17_18",
-  "old_manifest_sha256": "423a2b0269babf7c8a4ab4f3ef7d62ade6960e39f7984ebac02cafe1c606e5f7",
-  "old_publication_sha256": "d3330613bf579eaaeb8176fd25d9bbb95c6726b373a5ee5e4704f54c24e5d9aa",
-  "new_manifest_sha256": "9d6802c06d6e34baba47d8c632e7862ceea6beacd15beab37a2993730ed828e7",
+  "old_manifest_sha256": "9d6802c06d6e34baba47d8c632e7862ceea6beacd15beab37a2993730ed828e7",
+  "old_publication_sha256": "365d2063b3d1206938d25f9cf78ed4d4fea124fe74019e96d23208e1339df5a9",
+  "new_manifest_sha256": "965dfbe97347e2ac7fe7ff3f6d6704c9cfe78809fb9ce30333490c79c30dcaec",
   "new_publication_sha256": "365d2063b3d1206938d25f9cf78ed4d4fea124fe74019e96d23208e1339df5a9",
   "matches_sha256": "5bba24056ea9ce8370e7e4e5114af5e5420af10d903f5bcc9c68f5decc21b1f2",
   "season_sha256": "1d4a22ea92fee89ab83e968020013f6afe965a9e850145d21c9609716c43945b"

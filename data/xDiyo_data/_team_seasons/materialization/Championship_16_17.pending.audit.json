@@ -1,8 +1,8 @@
 {
   "season": "Championship_16_17",
-  "old_manifest_sha256": "47adc21cba74eeddef83b0fcead41b4bb0ccf28ecbe536eaa527507be4bc6891",
-  "old_publication_sha256": "8cfbeeb5a13783e974df86b323cbb37ded45aa3257f2c5892bce60a69c8312b9",
-  "new_manifest_sha256": "21d4a6f4775a98d96b77c81a16aaee36bae5ba56323832aad1319352f3195fed",
+  "old_manifest_sha256": "21d4a6f4775a98d96b77c81a16aaee36bae5ba56323832aad1319352f3195fed",
+  "old_publication_sha256": "819233ce08cb6ce0c1b04b66839fd08929fa6405cf443ebfd38bcb2e5708e826",
+  "new_manifest_sha256": "a2b152f26197cbd4784cc86fc97637f29505f345e48f819176cf04e9c2a6597f",
   "new_publication_sha256": "819233ce08cb6ce0c1b04b66839fd08929fa6405cf443ebfd38bcb2e5708e826",
   "matches_sha256": "e1c28ce5fd4d253f694c16f6d7b3d59cf185d3631ed91faf48eb62feeea5ca07",
   "season_sha256": "6e7496045bb53db05a308d80a76944358cdbdf36248a92a3b1f30de6a8383b9e"

@@ -1,0 +1,9 @@
+{
+  "season": "Pro_League_19_20",
+  "old_manifest_sha256": "0e50034911907a7eceacc27ac4ff6febc4a9dbe333fd90fae09889d1247c57d6",
+  "old_publication_sha256": "f6aaaab9295cb4392ff6fa327ca57f47abc76b04c4b12123feb35788c37097c9",
+  "new_manifest_sha256": "7230f1db38f243a607e7c4493c97fc62a3b0950e9978d38ac5237c2ad1e7bf70",
+  "new_publication_sha256": "6e2344ccb2601f51a3f2a107b7cd7413a01970df17ed0296d3d1cfa18348ce0f",
+  "matches_sha256": "6d1384a599508807d65367adfd05053d075a8e030d29e77b725f4747657f1db9",
+  "season_sha256": "815144ab19360daffa41f0001da57b19f608375843dcd294213e164b93a2c7e2"
+}

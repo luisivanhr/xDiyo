@@ -68,11 +68,16 @@ def test_compression_and_nested_schema(export):
     flags=derive_movements([dict(stem=STEM,league='A',year=2024,competition_id=17,season_id=61627,
         teams={str(i):str(i) for i in ids})],{'A':dict(tier=1,system='A')})
     save_movement_enrichment(export.root,STEM,flags)
+    from xdiyo_analytics.data._source import _open_source
+    enrichment = next((export.root/'_team_seasons'/STEM).rglob('team_seasons.parquet'))
+    assert pq.ParquetFile(enrichment).metadata.row_group(0).column(0).compression == 'ZSTD'
     materialize_movement_flags(export.root,STEM)
     actual=pq.read_table(path).select(before.column_names)
     assert actual.schema.equals(before.schema,check_metadata=True)
     assert actual.equals(before)
     assert pq.ParquetFile(path).metadata.row_group(0).column(0).compression=='ZSTD'
+    published = _open_source(export.root, STEM).table_path('team_seasons')
+    assert pq.ParquetFile(published).metadata.row_group(0).column(0).compression == 'ZSTD'
 
 
 def test_boundary_id_normalization_and_duplicates():
@@ -109,7 +114,11 @@ def test_builder_checks_persisted_evidence_before_replacing_audit(export,tmp_pat
     with pytest.raises(ValueError,match='persisted movement'):
         build(export.root,evidence)
     assert (export.root/'_team_seasons/audit.json').read_bytes()==old_audit
+    from xdiyo_analytics.data._source import _open_source
+    paths = [_open_source(export.root, STEM).table_path('matches'), export.root/f'{STEM}.parquet']
+    before = {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in paths}
     build(export.root,evidence,rematerialize=True)
+    assert before == {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in paths}
     assert build(export.root,evidence).evidence.str.contains('corrected source').all()
 
 

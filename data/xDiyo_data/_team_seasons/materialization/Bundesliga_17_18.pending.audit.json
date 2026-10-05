@@ -1,8 +1,8 @@
 {
   "season": "Bundesliga_17_18",
-  "old_manifest_sha256": "54760e5c2462d83de45243113df85d64a721d38d873602bfaf4136c26fc19fee",
-  "old_publication_sha256": "a3b55e80cfa6db8d94ca4632997f88658179315974dd096c0f4655724494c940",
-  "new_manifest_sha256": "2675c69230c49be577879ba2486634a3ecc50628f25195a27dfbed46344945eb",
+  "old_manifest_sha256": "2675c69230c49be577879ba2486634a3ecc50628f25195a27dfbed46344945eb",
+  "old_publication_sha256": "250e11434ee48cf3c3cbd6fbdca74db43579489c8ded73e8ef754a7e429e4b69",
+  "new_manifest_sha256": "1e30bed04abfa48778c42dcbfc9b84ec3fccc0b62b4ae61cb1bae4addf11c9dc",
   "new_publication_sha256": "250e11434ee48cf3c3cbd6fbdca74db43579489c8ded73e8ef754a7e429e4b69",
   "matches_sha256": "b7e16ed085ed243f02120453c5e28550eed3094cb3afd4aba63fbe6758b6bfd1",
   "season_sha256": "d16ba4ea0effcfe22233d378ff3d4008512c081f445fdc5b91dedc3edf3de214"

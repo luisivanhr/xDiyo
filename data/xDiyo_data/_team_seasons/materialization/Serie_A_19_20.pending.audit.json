@@ -1,8 +1,8 @@
 {
   "season": "Serie_A_19_20",
-  "old_manifest_sha256": "0ddc6759a574906dcb3e8e9b829e2e1c773022c85e35c5984ddd1cf179d7d634",
-  "old_publication_sha256": "6a50493de32e9d7b607d4c878904d7849260f15bbe224823da7a06078e4d7284",
-  "new_manifest_sha256": "e9cedcc85ac6428747ae855455919a22cad2f39916363b265ab84299be0afb3b",
+  "old_manifest_sha256": "e9cedcc85ac6428747ae855455919a22cad2f39916363b265ab84299be0afb3b",
+  "old_publication_sha256": "8ba9a398cef6c5cc5bf0520b0448e695191ed17df2fe22fac47a74e60738b2a1",
+  "new_manifest_sha256": "75bdeef6e183e796d6df175de7872b9aa5331be699c5da4aa64978061155469b",
   "new_publication_sha256": "8ba9a398cef6c5cc5bf0520b0448e695191ed17df2fe22fac47a74e60738b2a1",
   "matches_sha256": "eea0806131dee2ad16532cd8c42b3d53ac04681c4d6c836e414f3eb7579914fe",
   "season_sha256": "65518fdfd79ea6e663d91b8d0601b930f2826feaaeb524a9aa717e23ed1b0dc2"
