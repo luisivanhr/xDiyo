@@ -1,8 +1,8 @@
 {
   "season": "Serie_B_19_20",
-  "old_manifest_sha256": "e5ccc03920c995778be8007d7fa81f9410746b2522b6522d5b705efe7e2ec66c",
-  "old_publication_sha256": "8dab764a12ee32b38b3313392b84624c4618aaf58b3a466c0881e5db95dc7839",
-  "new_manifest_sha256": "204e7cb6a751fc21007c50cda7b540577bbb4c76457834caf5a8abaa21eed1bc",
+  "old_manifest_sha256": "204e7cb6a751fc21007c50cda7b540577bbb4c76457834caf5a8abaa21eed1bc",
+  "old_publication_sha256": "b815fa2d04c43c964a5111a8b2ba8a6de629f7cab0fdd3781f8fce467792ff16",
+  "new_manifest_sha256": "5b6cb92643bca37a90fa48d7ab1e52b40b5d17eb9a54fade49bbd88b6f96eae0",
   "new_publication_sha256": "b815fa2d04c43c964a5111a8b2ba8a6de629f7cab0fdd3781f8fce467792ff16",
   "matches_sha256": "2c7a12cb72350f88c8a5a5ec9c62c26b1296fb5fe040a94f04deb488a629cb49",
   "season_sha256": "9a55e0f05408699e5559b1d12b916587467ae50fb7f8da6a1d5f35eb45588dba"

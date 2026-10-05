@@ -1,0 +1,9 @@
+{
+  "season": "Serie_B_15_16",
+  "old_manifest_sha256": "120ff237882234c682e5ac9d4b32a49ddcfe4a1dcf03eaf63c3f718a69f8f8d8",
+  "old_publication_sha256": "5339f357c14d774292a32e8564073abffc085e175811e39e9019514daa81e46f",
+  "new_manifest_sha256": "7036ad463bbaec881d126504faef940d08f9b4dd5d7bb5e804d7ad368bf5d2ef",
+  "new_publication_sha256": "affffd45b7f760791d9c4f7337554aaa645d2ca0ccddc679acb415bab5085b4d",
+  "matches_sha256": "586f3b202639ee754f667540ab72e3a45d976d03e476308fb3fa0cc415ae12e7",
+  "season_sha256": "58e306c79dc0f9a8bd7a7639b5788404e83fe4aff00f4e22b10b195f5036ac06"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Serie_B_17_18",
+  "old_manifest_sha256": "92a52f00e190f4ea9a2f398d27dedf186263772902c3a251e1374f78de20ef74",
+  "old_publication_sha256": "70ec9a030ca6077688d3dda368c3fd1cca12b1223384ad50c7be88d79ca504c0",
+  "new_manifest_sha256": "d131c0fe697f77832766c073b25c23bc6d5b3a7dcd9f9a93cafe024037e0bfca",
+  "new_publication_sha256": "bb378da9ce867e3b073a553f3a1cf4ca59c216bcf920fde878b3bf286ff0c4bf",
+  "matches_sha256": "ec97f85ff90e259c086337acb1e08179b9156ddb80001af3e71dd0a9cc9ff033",
+  "season_sha256": "877e4f145168b0160a6d2cf66c8add81de5a7412f6948b74473c0fb4772b5517"
+}

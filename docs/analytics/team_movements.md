@@ -67,11 +67,12 @@ Derivation uses the full reviewed source population. Roster completeness is
 distinct from match completion: a live season can already contain all its teams.
 No end-of-current-season result is used to classify current-season entry.
 
-The current review covers 135 league-seasons and 2,610 team-seasons: 2,098
-retained, 374 promoted, 137 relegated and one administrative entrant. 213 of the
-promotions use rule 3. The 14 boundary reviews include the gap before Eredivisie
-2017/18. Paris FC's 2017 Ligue 2 admission is `other_entry`; Eibar 2015, Venezia
-2019 and Waasland-Beveren 2020 are retained with administrative notes.
+As of 5 October 2026, the review covers 156 league-seasons and 2,975 team-seasons:
+2,388 retained, 422 promoted, 164 relegated and one administrative entrant. 214
+of the promotions use rule 3. The 21 boundary reviews retain historical source
+evidence even where this extension now supplies a predecessor season. Paris FC's
+2017 Ligue 2 admission is `other_entry`; Eibar 2015, Venezia 2019 and
+Waasland-Beveren 2020 are retained with administrative notes.
 
 Sources, exact IDs and exceptions are in
 [boundary evidence](data/team_movement_boundary_evidence.json). The exact roster
@@ -175,6 +176,9 @@ season export; native matches keep their codec. Each rewritten table is read
 back and compared for exact values and schema metadata before replacement.
 Compression levels are not recoverable from Parquet metadata: preservation
 refers to the codec, not byte-for-byte reproduction of the original encoding.
+New additive and native `team_seasons` tables explicitly use ZSTD. An update
+that changes only predecessor/evidence metadata leaves matching observation
+files untouched, including their bytes, timestamps and existing codecs.
 
 ## Warm-up across season boundaries
 
@@ -215,3 +219,61 @@ Focused synthetic verification (150 tests):
 $env:PYTHONPATH='.;src;tests/analytics'
 & 'C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe' -m pytest tests/analytics/test_movement_review.py tests/analytics/test_recipe_refresh.py tests/analytics/test_movement_enrichment.py tests/analytics/test_transition_context.py tests/analytics/test_warmup.py tests/analytics/test_rating_transitions.py tests/analytics/test_loading.py tests/analytics/test_multiseason.py tests/analytics/test_season.py tests/analytics/test_awarded_loading.py -q -p no:cacheprovider --tb=short
 ```
+
+## Historical extension, 5 October 2026
+
+The following requested downloads have been enriched in `data/xDiyo_data`:
+
+| Season | Leagues | Matches | Team-seasons |
+| --- | --- | ---: | ---: |
+| 2015/16 | Pro League, Premiership, Championship, La Liga 2, Bundesliga 2, Ligue 2, Serie B | 2,599 | 134 |
+| 2016/17 | Pro League, Premiership, Eredivisie, Bundesliga 2, Ligue 2, Serie B | 1,891 | 106 |
+| 2017/18 | Pro League, Premiership, Serie B | 900 | 50 |
+| 2018/19 | Pro League, Premiership, Serie B | 779 | 47 |
+| 2019/20 | Pro League, Premiership | 411 | 28 |
+| **Total** | **21 league-seasons** | **6,580** | **365** |
+
+The new team-season records contain 290 retained entries, 48 promotions and 27
+relegations, with no unknowns. Seven 2015/16 boundary populations were researched
+online because their adjacent 2014/15 rosters are absent. The linked
+[boundary evidence](data/team_movement_boundary_evidence.json) records exact
+team IDs, sources, review date and administrative exceptions. Ascoli is promoted
+as explicitly classified by [Lega Pro's official notice](https://www.lega-pro.com/com/1516-143L.pdf);
+Brescia and Virtus Entella remain retained after readmission. Elche is relegated
+from the upper division despite the administrative reason.
+
+All 21 top-level exports, available native tables, and new movement tables use
+**ZSTD, not Snappy**. Match scores, timestamps, awarded status, nested observations
+and existing optional tables were preserved. Missing/empty tables, partial
+statistic coverage and the source's regular-season fixture scope remain as
+downloaded. No absent statistics or fixtures were fabricated. Standings continue
+to be normalized by the existing history/feature layer from available pregame
+positions; missing positions remain missing. The one awarded fixture is retained
+in storage and excluded by the loader's existing default, giving 6,579 eligible
+matches unless `include_awarded=True`.
+
+The new adjacent seasons also fill predecessor IDs for 18 already-reviewed
+league-seasons. Their classifications, original observation files and season
+exports are unchanged; only movement evidence and its manifest references were
+updated. Eredivisie 2017/18 can now use its actual 2016/17 predecessor. No
+cross-gap fallback was introduced. Other newly downloaded seasons outside the
+explicit list were not enrolled in this review.
+
+Validation covered hashes and compression for every available new table and
+export, exact preservation of existing observation columns, all native tables
+through the public loader, team-history construction, `TeamMovement` features,
+and default awarded exclusion. Fresh derivation agrees with every persisted
+reviewed team-season table. The focused suite above now passes **152 tests**.
+See the [machine-readable extension audit](data/season_extension_20261005.json).
+
+The bounded preparation script can verify this exact extension again without
+writing data:
+
+```console
+python examples/prepare_season_extension_20261005.py
+```
+
+`--apply` publishes pending reviewed enrichments; already matching publications
+are left unchanged. Existing recipes and completed model artifacts were not
+edited or refitted. Dataset hashes are truthful; pinned recipes selecting
+changed manifests should use the explicit refresh helper described above.

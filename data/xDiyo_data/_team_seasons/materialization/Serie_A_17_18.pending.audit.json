@@ -1,8 +1,8 @@
 {
   "season": "Serie_A_17_18",
-  "old_manifest_sha256": "1e6a498fab908246182c4f8cc348637a278122d1edd799316b0da8a8ec9eca10",
-  "old_publication_sha256": "231451b85c7a17bbcc06468f77e62a683fe56608fa5aec72f2450b5d726959ef",
-  "new_manifest_sha256": "58900954a39d9dd1cea4313afbfc08efe2016b48e9eb6f3d049cd7d1477693b7",
+  "old_manifest_sha256": "58900954a39d9dd1cea4313afbfc08efe2016b48e9eb6f3d049cd7d1477693b7",
+  "old_publication_sha256": "195694256e38fa50a0b53a58d79be0f8ca422f316f85344d7e34ec1dae9a06b7",
+  "new_manifest_sha256": "e9d9b64da91c6b3f0b909e29597c67eb051c25422b7ef31040ca13f93de41628",
   "new_publication_sha256": "195694256e38fa50a0b53a58d79be0f8ca422f316f85344d7e34ec1dae9a06b7",
   "matches_sha256": "edd2f7e9f4f15d2c2953806855355a0fce98221ec856f67a1ca733d6b5effd04",
   "season_sha256": "f33d7e1380287c79aa99bd031df4cb2216baf1a309aac78bb351287e62b33dbd"

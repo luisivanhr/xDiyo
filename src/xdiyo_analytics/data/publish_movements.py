@@ -87,6 +87,7 @@ def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, c
 
     def enrich(path):
         table = pq.ParquetFile(path).read()
+        original_table = table
         context = table.select(keys).to_pandas(types_mapper=__import__('pandas').ArrowDtype)
         expected_ids = set(context.home_id) | set(context.away_id)
         if set(flags.team_id) != expected_ids:
@@ -102,6 +103,11 @@ def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, c
             else:
                 table = table.append_column(name, values)
         # Existing Arrow fields (including nested observations) stay unchanged.
+        # Updating predecessor evidence alone must not rewrite observation files.
+        if compression is None and table.equals(original_table, check_metadata=True):
+            payload = path.read_bytes()
+            return None, dict(file=path.name, rows=table.num_rows, bytes=len(payload),
+                              sha256=hashlib.sha256(payload).hexdigest())
         temporary = path.with_suffix('.movement-tmp')
         write_preserving(table, path, temporary)
         payload = temporary.read_bytes()
@@ -112,7 +118,7 @@ def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, c
     nested_temp, nested_info = enrich(nested)
     flag_path = native.parent / 'team_seasons.parquet'
     flag_temp = flag_path.with_suffix('.movement-tmp')
-    pq.write_table(pa.Table.from_pandas(flags, preserve_index=False), flag_temp)
+    pq.write_table(pa.Table.from_pandas(flags, preserve_index=False), flag_temp, compression='zstd')
     flag_payload = flag_temp.read_bytes()
     old_manifest_hash = hashlib.sha256(source.path.read_bytes()).hexdigest()
     old_publication_hash = hashlib.sha256(publication_path.read_bytes()).hexdigest()
@@ -129,8 +135,9 @@ def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, c
         reconciliation['promotion_relegation_flags'] = publication['movement_enrichment']
         reconciliation.get('feature_status_counts', {})['promotion_relegation_flags'] = {'materialized': native_info['rows']}
     files = [dict(path=str(path.relative_to(root)), sha256=info['sha256'])
-             for path, info in ((native, native_info), (nested, nested_info),
-                 (flag_path, {'sha256': hashlib.sha256(flag_payload).hexdigest()}))]
+             for path, temporary, info in ((native, native_temp, native_info), (nested, nested_temp, nested_info),
+                 (flag_path, flag_temp, {'sha256': hashlib.sha256(flag_payload).hexdigest()}))
+             if temporary is not None]
     for path, value in ((source.path, source.manifest), (publication_path, publication)):
         temporary = path.with_suffix('.movement-tmp')
         temporary.write_text(json.dumps(value, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')

@@ -204,7 +204,8 @@ def save_movement_enrichment(data_root, season_stem, frame):
     selected = frame.loc[frame.competition_id.eq(scope['league_id']) & frame.season_id.eq(scope['season_id'])]
     path = _movement_path(data_root, season_stem, source)
     buffer = pa.BufferOutputStream()
-    pq.write_table(pa.Table.from_pandas(selected.reset_index(drop=True), preserve_index=False), buffer)
+    pq.write_table(pa.Table.from_pandas(selected.reset_index(drop=True), preserve_index=False), buffer,
+                   compression='zstd')
     payload = buffer.getvalue().to_pybytes()
     if path.exists() and path.read_bytes() != payload:
         raise FileExistsError(f'Existing enrichment differs: {path}')

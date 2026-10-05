@@ -1,0 +1,9 @@
+{
+  "season": "Championship_15_16",
+  "old_manifest_sha256": "4c8f553ff16a0c930f6b64fe7a3b9b9c4cdb9e35c9fae6edd1e7cabf67c1868c",
+  "old_publication_sha256": "83df6f34458d9328aea32e83b1f6322a2ed4827176a17db7bf49922344ad760e",
+  "new_manifest_sha256": "d6bc2e1c3225ea93981b8602ecc4427d13508a13e32d2096927cd4e7c90900ed",
+  "new_publication_sha256": "3d09bc3c9a3e266613590adf588c96b58f7de987f60cab9fe801fa89fd2dedba",
+  "matches_sha256": "13dde6e51931ea009a681b3bf4d09d2138388c4a61579fee2a4d9c2f6470eafb",
+  "season_sha256": "341ae1bb68781a04c068d3804ba1fb912208bcddd56aa804c72cf59b716e08e8"
+}

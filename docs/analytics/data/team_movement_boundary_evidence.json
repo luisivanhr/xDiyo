@@ -28,6 +28,37 @@
     "observed_member_count": 18
   },
   {
+    "stem": "Bundesliga_2_15_16",
+    "promoted_ids": [
+      2540,
+      2543
+    ],
+    "relegated_ids": [
+      2538,
+      2561
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesd/duit2016.html",
+        "title": "RSSSF Germany 2015/16",
+        "scope": "Bielefeld and Duisburg arrived from below; Freiburg and Paderborn from the Bundesliga.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [],
+    "observed_team_names": {
+      "2540": "Arminia Bielefeld",
+      "2543": "MSV Duisburg",
+      "2538": "SC Freiburg",
+      "2561": "SC Paderborn 07"
+    },
+    "observed_member_count": 18
+  },
+  {
     "stem": "Bundesliga_2_17_18",
     "promoted_ids": [
       2543,
@@ -73,6 +104,47 @@
       "2576": "Darmstadt 98"
     },
     "observed_member_count": 18
+  },
+  {
+    "stem": "Championship_15_16",
+    "promoted_ids": [
+      58,
+      4,
+      21
+    ],
+    "relegated_ids": [
+      6,
+      96,
+      1
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablese/eng2015.html",
+        "title": "RSSSF England 2014/15",
+        "scope": "Bristol City and MK Dons won automatic promotion; Preston won the playoff final.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://www.rsssf.org/tablese/eng2016.html",
+        "title": "RSSSF England 2015/16",
+        "scope": "Burnley, Hull and QPR entered the Championship from the Premier League.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [],
+    "observed_team_names": {
+      "58": "Bristol City",
+      "4": "Milton Keynes Dons",
+      "21": "Preston North End",
+      "6": "Burnley",
+      "96": "Hull City",
+      "1": "Queens Park Rangers"
+    },
+    "observed_member_count": 24
   },
   {
     "stem": "Championship_16_17",
@@ -234,6 +306,52 @@
     "observed_member_count": 20
   },
   {
+    "stem": "La_Liga_2_15_16",
+    "promoted_ids": [
+      2851,
+      2840,
+      24265,
+      24324
+    ],
+    "relegated_ids": [
+      2850,
+      2858,
+      2846
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tabless/span2016.html",
+        "title": "RSSSF Spain 2015/16",
+        "scope": "Oviedo, Gimnastic, Huesca and Bilbao Athletic arrived from below; Cordoba, Almeria and Elche from above.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/2015%E2%80%9316_Segunda_Divisi%C3%B3n",
+        "title": "2015/16 Segunda Division",
+        "scope": "Pre-season promotion/relegation and Elche administrative relegation.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [
+      "Elche entered from the upper division following administrative relegation.",
+      "Athletic Club B U21 is the current source name for historical Bilbao Athletic."
+    ],
+    "observed_team_names": {
+      "2851": "Real Oviedo",
+      "2840": "Gimnàstic de Tarragona",
+      "24265": "Huesca",
+      "24324": "Athletic Club B U21",
+      "2850": "Córdoba",
+      "2858": "Almería",
+      "2846": "Elche"
+    },
+    "observed_member_count": 22
+  },
+  {
     "stem": "La_Liga_2_16_17",
     "promoted_ids": [
       55785,
@@ -311,6 +429,41 @@
       "1684": "Angers",
       "7924": "GFC Ajaccio",
       "1652": "Troyes"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Ligue_2_15_16",
+    "promoted_ids": [
+      52874,
+      6070,
+      35056
+    ],
+    "relegated_ids": [
+      1651,
+      1648,
+      21800
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesf/fran2016.html",
+        "title": "RSSSF France 2015/16",
+        "scope": "Red Star, Paris FC and Bourg promoted; Metz, Lens and Evian relegated into Ligue 2.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [],
+    "observed_team_names": {
+      "52874": "Red Star FC",
+      "6070": "Paris FC",
+      "35056": "Bourg-en-Bresse",
+      "1651": "Metz",
+      "1648": "RC Lens",
+      "21800": "Thonon Evian Grand Genève F.C"
     },
     "observed_member_count": 20
   },
@@ -400,6 +553,36 @@
     "observed_member_count": 20
   },
   {
+    "stem": "Premiership_15_16",
+    "promoted_ids": [
+      2353
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tabless/scot2016.html",
+        "title": "RSSSF Scotland 2015/16",
+        "scope": "Hearts was the only promoted Premiership entrant.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://spfl.co.uk/news/championship-roll-of-honour",
+        "title": "SPFL Championship roll of honour",
+        "scope": "Hearts won the 2014/15 second-tier championship.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "observed_team_names": {
+      "2353": "Heart of Midlothian"
+    },
+    "observed_member_count": 12
+  },
+  {
     "stem": "Premiership_20_21",
     "promoted_ids": [
       2349
@@ -436,6 +619,32 @@
       "2349": "Dundee United"
     },
     "observed_member_count": 12
+  },
+  {
+    "stem": "Pro_League_15_16",
+    "promoted_ids": [
+      2895,
+      2918
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesb/belg2016.html",
+        "title": "RSSSF Belgium 2015/16",
+        "scope": "Sint-Truiden and OH Leuven entered as promoted clubs.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [],
+    "observed_team_names": {
+      "2895": "Sint-Truidense VV",
+      "2918": "Oud-Heverlee Leuven"
+    },
+    "observed_member_count": 16
   },
   {
     "stem": "Pro_League_20_21",
@@ -504,6 +713,63 @@
       "2685": "Bologna"
     },
     "observed_member_count": 20
+  },
+  {
+    "stem": "Serie_B_15_16",
+    "promoted_ids": [
+      2767,
+      2710,
+      2704,
+      2707
+    ],
+    "relegated_ids": [
+      2719,
+      2742
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "reviewed_on": "2026-10-05",
+    "uncertainty": [],
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesi/ital2016.html",
+        "title": "RSSSF Italy 2015/16",
+        "scope": "Novara, Salernitana, Como and Ascoli entered from below; Cagliari and Cesena from Serie A.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://www.lega-pro.com/com/1516-143L.pdf",
+        "title": "Lega Pro official notice 143/L",
+        "scope": "Explicitly records Ascoli promoted and Virtus Entella reinstated in Serie B.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://www.figc.it/it/federazione/news/consiglio-federale-definiti-gli-organici-della-serie-b-e-della-lega-pro-s1jgrqf2",
+        "title": "FIGC: Serie B and Lega Pro membership",
+        "scope": "Entella and Ascoli replaced Catania and Teramo following disciplinary decisions.",
+        "kind": "primary"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/2015%E2%80%9316_Serie_B",
+        "title": "2015/16 Serie B",
+        "scope": "Brescia and Entella readmissions; Parma did not enter Serie B after bankruptcy.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [
+      "Ascoli is promoted, following the explicit Lega Pro classification despite the administrative route.",
+      "Brescia and Virtus Entella remain retained: both played in Serie B the previous season.",
+      "Parma is absent from this roster and must not be fabricated as a relegated entrant."
+    ],
+    "observed_team_names": {
+      "2767": "Novara",
+      "2710": "US Salernitana 1919",
+      "2704": "Como",
+      "2707": "Ascoli",
+      "2719": "Cagliari",
+      "2742": "Cesena"
+    },
+    "observed_member_count": 22
   },
   {
     "stem": "Serie_B_19_20",

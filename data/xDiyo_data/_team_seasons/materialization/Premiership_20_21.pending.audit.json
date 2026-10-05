@@ -1,8 +1,8 @@
 {
   "season": "Premiership_20_21",
-  "old_manifest_sha256": "bf5519f41dad40fae6f8cfaae1a0258793e5e6b50d6fc6c5dda6d475be1be459",
-  "old_publication_sha256": "307c33e6c0bc4680a82d7ee8b8b245cd688625f16c635fcafb0afe455e8423f7",
-  "new_manifest_sha256": "0b0ef9f2fc27de08fded5743fd1bcde353bfa1b7b4ba77e4a045f0747937697f",
+  "old_manifest_sha256": "0b0ef9f2fc27de08fded5743fd1bcde353bfa1b7b4ba77e4a045f0747937697f",
+  "old_publication_sha256": "56b48dd2383c3c429811bd93e8f9a84cbf177ce6d7ab9e3df8b2e52da697d971",
+  "new_manifest_sha256": "41432cae87c02b5af1c913fe202ebb07b5ae36f7e4cdc3f8d39749a7f0b63cef",
   "new_publication_sha256": "56b48dd2383c3c429811bd93e8f9a84cbf177ce6d7ab9e3df8b2e52da697d971",
   "matches_sha256": "ca560dc380196be0afd20f765290c6f3cb9b1e88189e33027ab1e5db1bca79dc",
   "season_sha256": "4c21bdd531f68f41c386a1e8c46fbfb37949b5c106d37ce04f4383bf3e8607d5"
