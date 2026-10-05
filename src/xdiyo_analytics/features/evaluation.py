@@ -4,7 +4,7 @@ from numbers import Integral, Real
 
 from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
-    RollingMean, RollingStd, RollingZScore, Stat, MatchScore,
+    RollingMean, RollingStd, RollingSkewness, RollingZScore, Stat, MatchScore,
 )
 from .history import eligible_history_rows, league_season_team_counts
 from .ratings import BayesianFixture, BayesianRating, MatchResultGlicko, Rating, StatGlicko
@@ -311,7 +311,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 values[valid] = 1 - (position[valid] - 1) / (size[valid] - 1)
                 output[f"{role}_standing"] = values
             result = (pd.DataFrame(output, index=history.index), h2h)
-        elif isinstance(node, (Lag, RollingMean, RollingStd, RollingZScore, EMA)):
+        elif isinstance(node, (Lag, RollingMean, RollingStd, RollingSkewness, RollingZScore, EMA)):
             if node.venue not in ('all', 'same'):
                 raise ValueError('Historical venue must be all or same.')
             if isinstance(node.source, (League, LeaveOneOut)):
@@ -373,6 +373,9 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                         output[row, col] = mean
                     elif isinstance(node, RollingMean):
                         output[row, col] = observed.mean()
+                    elif isinstance(node, RollingSkewness):
+                        from .moments import sample_skewness
+                        output[row, col] = sample_skewness(observed)
                     elif len(observed) > node.ddof:
                         std = observed.std(ddof=node.ddof)
                         if isinstance(node, RollingStd):

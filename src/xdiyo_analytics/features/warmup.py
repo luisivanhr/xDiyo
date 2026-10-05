@@ -4,7 +4,7 @@ from dataclasses import dataclass, replace
 from numbers import Integral
 import math
 
-from .expressions import Expr, Stat, ForAgainst, RollingMean, RollingStd, RollingZScore
+from .expressions import Expr, Stat, ForAgainst, RollingMean, RollingStd, RollingSkewness, RollingZScore
 from .league import League, LeaveOneOut, league_values
 
 
@@ -140,11 +140,13 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
     import numpy as np
     import pandas as pd
     operator, policy = node.source, node.policy
+    from .moments import sample_moments, mix_moments, skewness
+    is_skew = isinstance(operator, RollingSkewness)
     if policy.mode != 'legacy':
         from .seeded import evaluate_seeded
         return evaluate_seeded(node, context, evaluate, candidates, h2h=h2h, group_by=group_by)
-    if not isinstance(operator, (RollingMean, RollingStd, RollingZScore)):
-        raise TypeError("SeededEMA wraps RollingMean, RollingStd or RollingZScore.")
+    if not isinstance(operator, (RollingMean, RollingStd, RollingSkewness, RollingZScore)):
+        raise TypeError("SeededEMA wraps RollingMean, RollingStd, RollingSkewness or RollingZScore.")
     ordinary, scope = evaluate(operator, h2h)
     if isinstance(policy.handoff, Hard) and policy.handoff.rounds == 0:
         return ordinary, scope
@@ -224,17 +226,33 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
                 if league is None and record["movement"] in {"promoted", "relegated"} and np.isfinite(league_mean):
                     mean = policy.league_weight * league_mean + (1 - policy.league_weight) * mean
                 variance = league_sample.var(ddof=0) if len(league_sample) else np.nan
-                priors.append((mean, variance))
+                # Legacy priors use the destination spread about the chosen
+                # team/mover mean. Translate the league distribution, retaining
+                # its central third moment just as we retain its variance.
+                third = sample_moments(league_sample)[2] if is_skew else np.nan
+                if is_skew and len(league_sample) < max(3, operator.min_periods):
+                    variance, third = np.nan, np.nan
+                priors.append((mean, variance, third))
             prior_cache[signature] = priors
         positions = all_rows[row]
         new = np.array([i for i in positions if context.seasons[i] == season and p.kickoff.iloc[i] >= boundary], dtype=int)
-        for col, (mean, variance) in enumerate(prior_cache[signature]):
+        for col, (mean, variance, third) in enumerate(prior_cache[signature]):
             if not np.isfinite(mean):
                 continue
             sample = values[new, col]
             n = int(np.isfinite(sample).sum())
             weight = policy.handoff.weight(rounds, n)
             if weight == 0:
+                continue
+            if is_skew:
+                moments = (mean, variance, third)
+                for value in sample[np.isfinite(sample)]:
+                    moments = mix_moments(moments, (float(value), 0., 0.), 1-policy.alpha)
+                rolling = values[windows[row], col]
+                rolling = rolling[np.isfinite(rolling)]
+                if weight < 1 and len(rolling) >= max(3, operator.min_periods):
+                    moments = mix_moments(moments, sample_moments(rolling), weight)
+                output[row, col] = skewness(moments)
                 continue
             mean, variance = seeded_moments(mean, variance, sample, policy.alpha)
             rolling = values[windows[row], col]

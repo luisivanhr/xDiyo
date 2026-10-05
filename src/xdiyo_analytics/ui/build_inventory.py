@@ -202,6 +202,7 @@ HELP = {
 DESCRIPTIONS = {
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
     'features.RollingMean': 'Average the selected statistic over eligible past observations. A window of 5 uses up to five previous matches, excluding the match being predicted.',
+    'features.RollingSkewness': 'Measure asymmetry in earlier observations: positive means a longer upper tail, negative a longer lower tail. Uses population third and second central moments; at least three finite values and nonzero spread are required. Supports League, LeaveOneOut and SeededEMA warm starts.',
     'features.RollingStd': 'Measure variability across the observations in the past window. For league-round windows this uses individual observations, not averages of rounds.',
     'splits.TemporalSplit': 'Train on earlier matches and test on later matches. Use for forecasting a future season or round. Expanding keeps all earlier training data; sliding keeps a fixed-length window.',
     'splits.MatchKFold': 'Hold out whole matches in K groups. With shuffle enabled this tests generalization across matches, not a realistic future forecast. Both team rows always stay together.',
@@ -337,7 +338,9 @@ def build():
                 if name == 'type': f['choices'] = ['overall','per_fold']
                 if name == 'show_badges': f['help'] = 'Embed the team’s local badge beside its name. Missing badges fall back to the team name.'
             if name == 'source' and key == 'features.League':f.update(components=['features.Stat','features.ForAgainst'],initial_component='features.Stat')
-            if name == 'source' and key == 'features.WarmStart':f.update(components=['features.RollingMean','features.RollingStd','features.RollingZScore','features.MatchResultGlicko','features.StatGlicko'],initial_component='features.RollingMean')
+            if name == 'source' and key == 'features.WarmStart':f.update(components=['features.RollingMean','features.RollingStd','features.RollingSkewness','features.RollingZScore','features.MatchResultGlicko','features.StatGlicko'],initial_component='features.RollingMean')
+            if key == 'features.RollingSkewness' and name == 'min_periods':
+                f.update(min=3, help='At least three finite observations are always required; increase this to require more. Constant windows remain missing. Skewness uses population moments without a small-sample correction.')
             if key == 'splits.TemporalSplit' and name == 'window':
                 f['help']='Expanding retains all eligible earlier training blocks; sliding retains a fixed train_size window as the test window moves forward.'
             if key == 'splits.TemporalSplit' and name == 'unit':
@@ -428,9 +431,9 @@ def build():
                 if name=='league_weight':f.update(visible_when={'mode':['legacy']},help='Legacy only. In explicit modes this field is inactive: uniform never mixes cohorts, while league-prior mode fully replaces the mover seed.')
                 if name in ('top','bottom'):f.update(visible_when={'mode':['w_league_prior']},step=1,help=('Relegated teams use the top' if name=='top' else 'Promoted teams use the bottom')+' destination-league cohort, ranked by eligible previous-season pregame standings. Positive integer or -1 for all eligible donors; 0 is invalid.')
                 if name=='variance_prior':f.update(kind='select',choices=['within_team'],visible_when={'mode':['uniform','w_league_prior']},help='Average donor within-team variances, never standard deviations. No between-team mean-difference term.')
-                if name=='variance_estimator':f.update(kind='select',choices=['population','weighted_sample'],visible_when={'mode':['uniform','w_league_prior']},help='For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength.')
-                if name=='prior_strength':f.update(kind='number',step='any',visible_when={'mode':['w_league_prior'],'variance_estimator':['weighted_sample']},help='Explicit effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.')
-                if name=='variance_fade':f.update(kind='select',choices=['estimate_interpolation'],visible_when={'mode':['uniform','w_league_prior']},help='Blend compatible variance estimates, then take the square root. This is not a mixture of distributions.')
+                if name=='variance_estimator':f.update(kind='select',choices=['population','weighted_sample'],visible_when={'mode':['uniform','w_league_prior']},help='For SD/Z-score: population requires ddof=0; weighted sample requires ddof=1. Corrected cohort seeds also need explicit prior strength. Skewness always uses population moments.')
+                if name=='prior_strength':f.update(kind='number',step='any',visible_when={'mode':['w_league_prior'],'variance_estimator':['weighted_sample']},help='SD/Z-score only: effective strength > 1 for the abstract cohort dispersion prior. Not donor count or number of team matches; no production value is selected.')
+                if name=='variance_fade':f.update(kind='select',choices=['estimate_interpolation'],visible_when={'mode':['uniform','w_league_prior']},help='For SD/Z-score, blend compatible variance estimates, then take the square root. Skewness always blends the first three population moments, including between-means terms.')
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
             if name=='rounds' and c['id'] in ('features.Hard','features.LinearFade'):f['help']='Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.'
@@ -493,7 +496,7 @@ def build():
                 elif name == 'periods': f.update(kind='multiselect', choices=['ALL','1ST','2ND'], help='Full match and/or first and second half. Half-period features use their separate operator windows.')
                 elif name.endswith('windows') or name.endswith('lags') or name in ('lags','spans'):
                     f.update(kind='list', item={'kind':'number','default':5,'min':1,'step':1}, help='One positive integer per window, lag or EMA span. Each value produces a separate feature.')
-                elif name.endswith('reducers'): f.update(kind='multiselect', choices=['mean','std','z'], help='Population or H2H calculations to include; standard deviation and Z-score use ddof=1.')
+                elif name.endswith('reducers'): f.update(kind='multiselect', choices=['mean','std','skew','z'], help='Population or H2H calculations to include; standard deviation and Z-score use ddof=1; skew uses population moments and at least three valid observations.')
                 elif name in ('warm_policy','rating_warm_policy'):
                     component = 'features.SeededEMA' if name == 'warm_policy' else 'ratings.GlickoTransition'
                     f.update(kind='component', components=[component], initial_component=component, help='Add warmed copies while retaining every ordinary feature. Disabled omits these additional columns.')

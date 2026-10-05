@@ -5,7 +5,7 @@ using `RollingMean(MatchScore(...), window=20)` without a statistics table.
 
 See [heatmap features and fixture views](heatmaps.md) for spatial grid pooling,
 Gaussian smoothing, shared pitch orientation and `RegionMass` summaries.
-`Lag`, `RollingMean`, `RollingStd`, `RollingZScore` and `EMA` accept
+`Lag`, `RollingMean`, `RollingStd`, `RollingSkewness`, `RollingZScore` and `EMA` accept
 `venue="all"` or `venue="same"` for both ordinary and spatial team histories.
 
 See [arithmetic composition and fitted identity indicators](feature_composition.md)
@@ -73,6 +73,7 @@ record expressions, grouping and the availability mode. Inputs remain unchanged.
 | `Lag(source, periods=1)` | Value from the nth latest eligible match. Missing values do not renumber matches. |
 | `RollingMean(source, window=5, min_periods=1)` | Mean of finite values inside the last `window` eligible matches. |
 | `RollingStd(source, window=5, min_periods=1, ddof=1)` | Standard deviation with divisor `n - ddof`, requiring `n > ddof`. `ddof=0` gives the population form. |
+| `RollingSkewness(source, window=5, min_periods=3)` | Third central moment divided by population variance to power 3/2. At least three finite observations and positive variance; supports [LOO and moment-based warm starts](rolling_skewness.md). |
 | `RollingZScore(source, window=5, min_periods=1, ddof=1, reference=None)` | Defaults to the latest eligible value minus the window mean, divided by its std. An explicit historical/known-context reference can replace the numerator; League populations require it. |
 | `EMA(source, span=5, min_periods=1)` | Optional exponentially weighted mean over eligible history, with alpha `2 / (span + 1)`. |
 

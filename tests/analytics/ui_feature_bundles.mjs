@@ -19,7 +19,7 @@ test('one template expands multiple stats with shared settings and independent c
  assert.deepEqual(source,before);assert.deepEqual(chosen,beforeStats);
 });
 test('inventory window, span and lag defaults are materialized and named',()=>{
- for(const [component,field] of [['features.RollingMean','window'],['features.EMA','span'],['features.Lag','periods']]){
+ for(const [component,field] of [['features.RollingMean','window'],['features.RollingSkewness','window'],['features.EMA','span'],['features.Lag','periods']]){
   const input={component,params:{source:stat()}};
   const expected=components.find(c=>c.id===component).fields.find(f=>f.name===field).default;
   const [result]=expandFeatureBundle(input,[stats[0]],[],components);
