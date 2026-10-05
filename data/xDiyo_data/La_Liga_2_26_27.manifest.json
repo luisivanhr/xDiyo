@@ -1,1 +1,63 @@
-{"bytes":2401390,"complete":true,"completed_at":1789729376.0357876,"coverage":{"cached_last_good":376,"empty":26,"no_goal_incidents":7,"not_applicable_before_completion":44,"not_requested":66,"per_goal_coverage_recorded":48,"present":286,"success":66,"unavailable":33},"heatmap_points":82465,"lineup_events":56,"lineup_players":2453,"manifest":"_tables/competition=54/season=97280/versions/d855464397b44b8ebe25f27e1b4a05cb/manifest.json","matches":66,"profile":{"duration_mode":"incidents","include_comments":false,"include_goal_actions":true,"include_heatmaps":true,"include_injuries":true,"include_lineups":true,"include_pregame":true,"include_shotmap":true,"include_statistics":true,"include_upcoming":true,"injury_scope":"availability","lineup_window_hours":24,"locale":"en","negative_cache_seconds":604800,"settling_delay_seconds":21600,"settling_window_hours":48,"upcoming_refresh_seconds":1800},"reconciliation":{"campaign_id":"daily-2026-2027-404fa1c3","cohort_sha256":"117dbcf0d72814397b056048867d83b4bf12bba5222bd395692abee1422ea6f2","collection":"daily_update","discovery_id":"discover-2026-2027-add72057","last_completed_round":5,"reused_matches":0,"scope":"Observed completed history plus selected current/next regular round; not a claim that the season is finished.","target_round":6,"promotion_relegation_flags":"Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence."},"schema_version":"2","season_file":"La_Liga_2_26_27.parquet","sha256":"ba47b2afe904dd50cb5128be1087db66b933947efbf254a644f4486c5a19cd3c","shots":1374,"shots_with_xg":0,"movement_enrichment":"Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence."}
+{
+  "bytes": 2411663,
+  "complete": true,
+  "completed_at": 1789729376.0357876,
+  "coverage": {
+    "cached_last_good": 376,
+    "empty": 26,
+    "no_goal_incidents": 7,
+    "not_applicable_before_completion": 44,
+    "not_requested": 66,
+    "per_goal_coverage_recorded": 48,
+    "present": 286,
+    "success": 66,
+    "unavailable": 33
+  },
+  "heatmap_points": 82465,
+  "lineup_events": 56,
+  "lineup_players": 2453,
+  "manifest": "_tables/competition=54/season=97280/versions/d855464397b44b8ebe25f27e1b4a05cb/manifest.json",
+  "matches": 66,
+  "profile": {
+    "duration_mode": "incidents",
+    "include_comments": false,
+    "include_goal_actions": true,
+    "include_heatmaps": true,
+    "include_injuries": true,
+    "include_lineups": true,
+    "include_pregame": true,
+    "include_shotmap": true,
+    "include_statistics": true,
+    "include_upcoming": true,
+    "injury_scope": "availability",
+    "lineup_window_hours": 24,
+    "locale": "en",
+    "negative_cache_seconds": 604800,
+    "settling_delay_seconds": 21600,
+    "settling_window_hours": 48,
+    "upcoming_refresh_seconds": 1800
+  },
+  "reconciliation": {
+    "campaign_id": "daily-2026-2027-404fa1c3",
+    "cohort_sha256": "117dbcf0d72814397b056048867d83b4bf12bba5222bd395692abee1422ea6f2",
+    "collection": "daily_update",
+    "discovery_id": "discover-2026-2027-add72057",
+    "last_completed_round": 5,
+    "reused_matches": 0,
+    "scope": "Observed completed history plus selected current/next regular round; not a claim that the season is finished.",
+    "target_round": 6,
+    "promotion_relegation_flags": "Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence."
+  },
+  "schema_version": "2",
+  "season_file": "La_Liga_2_26_27.parquet",
+  "sha256": "28151cd7a919f7b7363e83caac6a40dc3e57129cc7b6d2f4e4ea037c88ca4641",
+  "shots": 1374,
+  "shots_with_xg": 0,
+  "movement_enrichment": "Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence.",
+  "statistics_enrichment": {
+    "policy": "fill_missing_only",
+    "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+    "audit": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\audits\\statistics_backfill\\a91c03e3382045389270\\La_Liga_2_26_27.cells.json",
+    "audit_sha256": "e1c261c576a0fd37cc9906376bb88ecfc14e876435f110042a1942cfb02adb8d"
+  }
+}

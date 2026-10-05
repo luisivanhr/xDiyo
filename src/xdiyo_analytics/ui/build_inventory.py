@@ -298,7 +298,7 @@ def build():
             if name == 'device': f['choices']=['cpu','auto','cuda','cuda:0']
             if name == 'partition' and key in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.FeatureImportanceReporter'): f['choices']=['model']
             if name == 'partition' and key == 'reporting.ExperimentLeaderboardReporter': f['choices']=['experiment']
-            if name == 'catalog' and key in ('reporting.MatchResultReporter', 'reporting.HeatmapReporter'): f.update(kind='reference',initial={'ref':'team_catalog'},hidden=True)
+            if name == 'catalog' and key in ('reporting.MatchResultReporter', 'reporting.HeatmapReporter', 'reporting.RatingReporter'): f.update(kind='reference',initial={'ref':'team_catalog'},hidden=True)
             if name == 'show_badges' and key == 'reporting.MatchResultReporter': f['default'] = True
             if name in ('cutoffs','available_at','information_start'): f.update(kind='component',components=['input.Table'],initial_component='input.Table')
             if name == 'estimator': f.update(kind='reference',initial={'ref':'estimator'})
@@ -439,6 +439,10 @@ def build():
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']
             if f['name']=='partition' and c['category']=='post_reporter' and c['id'] not in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.FeatureImportanceReporter','reporting.ExperimentLeaderboardReporter'):f['choices']=['score','test']
+            if c['id']=='reporting.RatingReporter':
+                if name=='ratings':f.update(hidden=True,help='Automatically discovers retained feature ratings and fitted Bayesian rating models. Choose the rating source in the rendered report.')
+                if name=='interval':f.update(kind='number',min=0.001,max=0.999,step=0.01,primary=True,help='Band probability, e.g. 0.95 for a 95% interval. Glicko uses rating deviation; Bayesian states use their Gamma posterior. These describe rating uncertainty, not uncertainty in the match score.')
+                if name=='pooling':f.update(kind='select',choices=['occurrences','first','last'],help='Keep fold-specific evaluation occurrences, or retain the first/last occurrence. Rating states are never averaged across fitted folds.')
             if f['name']=='score_rounds':f.update(kind='range',initial=[None,None])
             if f['name']=='name' and c['id']=='features.Rating':f.update(kind='select',discovery='ratings',help='Choose one of the named rating streams configured below.')
         if c['id']=='features.Stat':

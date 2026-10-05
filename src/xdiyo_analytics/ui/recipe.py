@@ -63,7 +63,7 @@ def validate_recipe(recipe):
     recipe = deepcopy(recipe)
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
     for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:
-        if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter'):
+        if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter', 'reporting.RatingReporter'):
             params = reporter.setdefault('params', {})
             params.setdefault('show_badges', True)
             params.setdefault('catalog', {'ref': 'team_catalog'})
@@ -240,7 +240,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         if overlap:
             raise ValueError(f'Explicit feature names duplicate the preset: {sorted(overlap)}')
         definitions = {**bank, **definitions}
-    features = evaluate_features(history, definitions, **options)
+    retained_ratings = {}
+    features = evaluate_features(history, definitions, rating_runs=retained_ratings, **options)
     dataset = assemble_dataset(features, labels[recipe['target']], **assembly)
     if preset is not None:
         dataset.definitions['feature_preset'] = {'stat_identities': identities, 'configuration': recipe['feature_preset']}
@@ -276,7 +277,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         return data, dataset, context
     plan = make_plan(dataset)
     return PreparedExperiment(dataset, plan, {'history': history, 'matches': data.matches, 'features': features,
-                                            'labels': labels, 'ratings': ratings, 'team_catalog': team_catalog},
+                                            'labels': labels, 'ratings': retained_ratings, 'team_catalog': team_catalog,
+                                            'rating_cutoffs': options.get('cutoffs')},
                               config={'recipe': recipe})
 
 

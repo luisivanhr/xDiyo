@@ -175,6 +175,10 @@ def test_prediction_is_frozen_and_native_model_roundtrip_has_full_checkpoint(tmp
     monkeypatch.setattr(BayesianScoreAdapter, "fit", lambda *args: pytest.fail("Loading must never fit"))
     restored = load_model(path, serializer=serializer)
     assert restored.model.run_.checkpoint == before
+    pd.testing.assert_frame_equal(restored.model.rating_report_run_.snapshots,
+                                  fitted.model.rating_report_run_.snapshots)
+    pd.testing.assert_frame_equal(restored.model.rating_report_run_.league_snapshots,
+                                  fitted.model.rating_report_run_.league_snapshots)
     pd.testing.assert_frame_equal(restored.model.run_.league_snapshots, fitted.model.run_.league_snapshots)
     for key, value in restored.predict(future, positions=rows).items():
         pd.testing.assert_frame_equal(value, expected[key])

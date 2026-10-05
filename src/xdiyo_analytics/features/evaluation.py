@@ -19,8 +19,12 @@ from .movement import TeamMovement, movement_records, statistical_context
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
                       cutoffs=None, available_at=None, team_counts=None, ratings=None,
-                      team_seasons=None, season_starts=None, keyed=False, heatmaps=None):
+                      team_seasons=None, season_starts=None, keyed=False, heatmaps=None,
+                      rating_runs=None):
     """Evaluate a mapping of output names to expressions; preserve row/index order.
+
+    rating_runs optionally receives the RatingRun objects used by this evaluation
+    for later diagnostics. It does not change feature values or fit new models.
 
     Stat references observed values and needs a historical operator at the root;
     IsHome and NormalizedStanding are current-match context and can stand alone.
@@ -94,6 +98,14 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     else:
         group_by = tuple(group_by)
     cache, histories, rating_cache = {}, {}, {}
+    retained_ratings = dict(ratings or {})
+
+    def retain_rating(run):
+        if rating_runs is not None and not any(value is run for value in retained_ratings.values()):
+            key = f"feature:{name}"
+            while key in retained_ratings:
+                key += ":rating"
+            retained_ratings[key] = run
     counts = team_counts
     population = None
     transitions = None
@@ -244,6 +256,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                         cutoffs=cutoffs,
                     )
                 run = rating_cache[definition]
+            retain_rating(run)
             if isinstance(node, BayesianFixture):
                 if not callable(getattr(run, "fixture_features", None)):
                     raise TypeError("BayesianFixture requires a BayesianRatingRun with fixture predictions.")
@@ -273,6 +286,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                         transition_context=transition_context() if rating_policy is not None else None,
                     )
                 run = rating_cache[definition]
+            retain_rating(run)
             result = (run.features(history, cutoffs=cutoffs, side=node.side, fields=node.fields), h2h)
         elif isinstance(node, IsHome):
             values = history["side"].map({"home": 1.0, "away": 0.0})
@@ -482,4 +496,6 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         if keyed:
             result.index = pd.MultiIndex.from_frame(history[keys])
             result.attrs["identity_columns"] = tuple(keys)
+    if rating_runs is not None:
+        rating_runs.update(retained_ratings)
     return result

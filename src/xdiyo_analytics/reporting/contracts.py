@@ -134,6 +134,7 @@ class PostTrainingContext:
     experiment: object = None
     fold_results: dict = field(default_factory=dict)
     previous_results: dict = field(default_factory=dict)
+    resources: dict = field(default_factory=dict)
 
     @property
     def row_positions(self):

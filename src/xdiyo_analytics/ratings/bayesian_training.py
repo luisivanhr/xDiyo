@@ -531,6 +531,9 @@ class BayesianScoreAdapter:
         # advances without explicitly observed results. Metadata can establish
         # a season entry, but no target or source-history outcome is accessed.
         forecast = self.run_.update(paired, team_seasons=transitions, season_starts=starts)
+        # Retain the exact query-only states for diagnostics, including season
+        # entry priors. The fitted checkpoint above remains unchanged.
+        self.rating_report_run_ = forecast
         query = paired.loc[paired["side"].eq("home")].copy()
         query.index = context.X.index
         fields = ("expected_home_goals", "expected_away_goals", "p_home_win", "p_draw", "p_away_win")
@@ -583,6 +586,8 @@ class BayesianScoreSerializer:
         with (folder / "adapter.json").open("x", encoding="utf-8") as stream:
             json.dump(data, stream, indent=2, allow_nan=False)
         adapter.run_.save(folder / "checkpoint")
+        if hasattr(adapter, "rating_report_run_"):
+            adapter.rating_report_run_.save(folder / "report_ratings")
 
     def load(self, directory):
         import pandas as pd
@@ -606,5 +611,7 @@ class BayesianScoreSerializer:
         adapter = BayesianScoreAdapter(config=run.model.config, team_seasons=team_seasons,
                                        season_starts=season_starts, **settings)
         adapter.model_, adapter.run_ = run.model, run
+        if (folder / "report_ratings").is_dir():
+            adapter.rating_report_run_ = BayesianRatingRun.load(folder / "report_ratings")
         adapter.training_summary_, adapter.training_history_ = data["report"], pd.DataFrame()
         return adapter

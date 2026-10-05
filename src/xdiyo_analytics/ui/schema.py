@@ -19,7 +19,7 @@ def stage_schema(*, refresh=False):
     functions = [
         ('data', load_seasons, set()), ('stat_selection', select_stats, {'data'}),
         ('history', build_team_history, {'data'}),
-        ('feature_options', evaluate_features, {'history', 'features', 'keyed', 'heatmaps'}),
+        ('feature_options', evaluate_features, {'history', 'features', 'keyed', 'heatmaps', 'rating_runs'}),
         ('rating_options', build_ratings, {'history'}),
         ('assembly', assemble_dataset, {'features', 'label'}),
         ('candidate', Candidate, {'model_factory', 'pre_analysis'}),

@@ -1,0 +1,3043 @@
+{
+  "date": "2026-10-05",
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "applied": true,
+  "publications": 174,
+  "mapping": {
+    "unmatched": 792,
+    "matched": 51230
+  },
+  "rejected_values": 7,
+  "filled_cells": 810624,
+  "affected_matches": 50587,
+  "enriched_publications": 154,
+  "by_statistic": {
+    "expectedGoals": 229618,
+    "shotsOnGoal": 18614,
+    "goalkeeperSaves": 19788,
+    "yellowCards": 31274,
+    "redCards": 248572,
+    "fouls": 189563,
+    "cornerKicks": 17634,
+    "ballPossession": 18550,
+    "totalShotsOnGoal": 18505,
+    "shotsOffGoal": 18506
+  },
+  "by_period": {
+    "ALL": 173659,
+    "1ST": 318526,
+    "2ND": 318439
+  },
+  "original_statistics_rows_preserved": 10138342,
+  "appended_rows": 810624,
+  "existing_null_observations_filled": 0,
+  "verification": {
+    "verified_publications": 154,
+    "imported_values": 810624,
+    "affected_matches": 50587,
+    "workbook_cells_verified": true,
+    "native_nested_parity": true,
+    "hashes_verified": true,
+    "compression": "ZSTD",
+    "loader_checks": true
+  },
+  "tests_passed": 11,
+  "pipeline_smoke_seasons": [
+    "Bundesliga_15_16",
+    "Bundesliga_2_15_16",
+    "Championship_15_16",
+    "Premiership_15_16"
+  ],
+  "unchanged_publications": [
+    "Bundesliga_10_11",
+    "Bundesliga_11_12",
+    "Bundesliga_2_10_11",
+    "Bundesliga_2_11_12",
+    "Championship_10_11",
+    "Championship_11_12",
+    "Eredivisie_10_11",
+    "La_Liga_10_11",
+    "La_Liga_11_12",
+    "La_Liga_2_10_11",
+    "Ligue_1_10_11",
+    "Ligue_2_10_11",
+    "Ligue_2_15_16",
+    "Premier_League_10_11",
+    "Premier_League_11_12",
+    "Premiership_10_11",
+    "Pro_League_10_11",
+    "Pro_League_15_16",
+    "Serie_A_10_11",
+    "Serie_B_10_11"
+  ],
+  "seasons": [
+    {
+      "season": "Bundesliga_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Bundesliga_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Bundesliga_15_16",
+      "source_candidates": 18360,
+      "filled_cells": 5520,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 6,
+        "yellowCards": 1224,
+        "redCards": 1224,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 616,
+        "1ST": 2452,
+        "2ND": 2452
+      }
+    },
+    {
+      "season": "Bundesliga_16_17",
+      "source_candidates": 18360,
+      "filled_cells": 4658,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1542,
+        "expectedGoals": 1836,
+        "goalkeeperSaves": 6,
+        "yellowCards": 50,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1144,
+        "1ST": 1758,
+        "2ND": 1756
+      }
+    },
+    {
+      "season": "Bundesliga_17_18",
+      "source_candidates": 18360,
+      "filled_cells": 4766,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1596,
+        "expectedGoals": 1836,
+        "yellowCards": 110,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1180,
+        "1ST": 1794,
+        "2ND": 1792
+      }
+    },
+    {
+      "season": "Bundesliga_18_19",
+      "source_candidates": 18360,
+      "filled_cells": 4736,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1602,
+        "expectedGoals": 1836,
+        "yellowCards": 68,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1170,
+        "1ST": 1784,
+        "2ND": 1782
+      }
+    },
+    {
+      "season": "Bundesliga_19_20",
+      "source_candidates": 18360,
+      "filled_cells": 4664,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1542,
+        "expectedGoals": 1836,
+        "yellowCards": 62,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1146,
+        "1ST": 1760,
+        "2ND": 1758
+      }
+    },
+    {
+      "season": "Bundesliga_20_21",
+      "source_candidates": 18360,
+      "filled_cells": 4836,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1656,
+        "expectedGoals": 1836,
+        "yellowCards": 102,
+        "goalkeeperSaves": 12,
+        "shotsOnGoal": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1204,
+        "1ST": 1816,
+        "2ND": 1816
+      }
+    },
+    {
+      "season": "Bundesliga_21_22",
+      "source_candidates": 18300,
+      "filled_cells": 4832,
+      "affected_matches": 305,
+      "by_statistic": {
+        "redCards": 1686,
+        "expectedGoals": 1830,
+        "goalkeeperSaves": 24,
+        "yellowCards": 72,
+        "fouls": 1220
+      },
+      "by_period": {
+        "ALL": 1204,
+        "1ST": 1814,
+        "2ND": 1814
+      }
+    },
+    {
+      "season": "Bundesliga_22_23",
+      "source_candidates": 18360,
+      "filled_cells": 2886,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1584,
+        "yellowCards": 66,
+        "expectedGoals": 6,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 554,
+        "1ST": 1166,
+        "2ND": 1166
+      }
+    },
+    {
+      "season": "Bundesliga_23_24",
+      "source_candidates": 18340,
+      "filled_cells": 2820,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1548,
+        "yellowCards": 42,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 532,
+        "1ST": 1144,
+        "2ND": 1144
+      }
+    },
+    {
+      "season": "Bundesliga_24_25",
+      "source_candidates": 18296,
+      "filled_cells": 2824,
+      "affected_matches": 305,
+      "by_statistic": {
+        "yellowCards": 56,
+        "redCards": 1548,
+        "fouls": 1220
+      },
+      "by_period": {
+        "ALL": 534,
+        "1ST": 1146,
+        "2ND": 1144
+      }
+    },
+    {
+      "season": "Bundesliga_25_26",
+      "source_candidates": 18360,
+      "filled_cells": 1816,
+      "affected_matches": 271,
+      "by_statistic": {
+        "redCards": 1542,
+        "yellowCards": 58,
+        "fouls": 216
+      },
+      "by_period": {
+        "ALL": 532,
+        "1ST": 644,
+        "2ND": 640
+      }
+    },
+    {
+      "season": "Bundesliga_26_27",
+      "source_candidates": 1620,
+      "filled_cells": 144,
+      "affected_matches": 24,
+      "by_statistic": {
+        "redCards": 144
+      },
+      "by_period": {
+        "ALL": 48,
+        "1ST": 48,
+        "2ND": 48
+      }
+    },
+    {
+      "season": "Bundesliga_2_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Bundesliga_2_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Bundesliga_2_15_16",
+      "source_candidates": 18288,
+      "filled_cells": 12784,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1764,
+        "goalkeeperSaves": 1228,
+        "cornerKicks": 1224,
+        "yellowCards": 1224,
+        "redCards": 1224,
+        "ballPossession": 1224,
+        "totalShotsOnGoal": 1224,
+        "shotsOnGoal": 1224,
+        "shotsOffGoal": 1224,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 592,
+        "1ST": 6096,
+        "2ND": 6096
+      }
+    },
+    {
+      "season": "Bundesliga_2_16_17",
+      "source_candidates": 18358,
+      "filled_cells": 7298,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1486,
+        "expectedGoals": 1836,
+        "goalkeeperSaves": 398,
+        "yellowCards": 394,
+        "fouls": 1224,
+        "cornerKicks": 392,
+        "ballPossession": 392,
+        "totalShotsOnGoal": 392,
+        "shotsOnGoal": 392,
+        "shotsOffGoal": 392
+      },
+      "by_period": {
+        "ALL": 982,
+        "1ST": 3158,
+        "2ND": 3158
+      }
+    },
+    {
+      "season": "Bundesliga_2_17_18",
+      "source_candidates": 18360,
+      "filled_cells": 4704,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "redCards": 1608,
+        "yellowCards": 36,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1160,
+        "1ST": 1772,
+        "2ND": 1772
+      }
+    },
+    {
+      "season": "Bundesliga_2_18_19",
+      "source_candidates": 18360,
+      "filled_cells": 4606,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1512,
+        "expectedGoals": 1836,
+        "yellowCards": 34,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1126,
+        "1ST": 1742,
+        "2ND": 1738
+      }
+    },
+    {
+      "season": "Bundesliga_2_19_20",
+      "source_candidates": 18360,
+      "filled_cells": 4566,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1470,
+        "expectedGoals": 1836,
+        "yellowCards": 30,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1114,
+        "1ST": 1726,
+        "2ND": 1726
+      }
+    },
+    {
+      "season": "Bundesliga_2_20_21",
+      "source_candidates": 18360,
+      "filled_cells": 4604,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1488,
+        "expectedGoals": 1836,
+        "yellowCards": 44,
+        "goalkeeperSaves": 12,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1126,
+        "1ST": 1740,
+        "2ND": 1738
+      }
+    },
+    {
+      "season": "Bundesliga_2_21_22",
+      "source_candidates": 18360,
+      "filled_cells": 4716,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "redCards": 1614,
+        "yellowCards": 42,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1164,
+        "1ST": 1776,
+        "2ND": 1776
+      }
+    },
+    {
+      "season": "Bundesliga_2_22_23",
+      "source_candidates": 18360,
+      "filled_cells": 4608,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "redCards": 1512,
+        "yellowCards": 30,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1128,
+        "1ST": 1740,
+        "2ND": 1740
+      }
+    },
+    {
+      "season": "Bundesliga_2_23_24",
+      "source_candidates": 18358,
+      "filled_cells": 4516,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1440,
+        "expectedGoals": 1834,
+        "yellowCards": 18,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1098,
+        "1ST": 1708,
+        "2ND": 1710
+      }
+    },
+    {
+      "season": "Bundesliga_2_24_25",
+      "source_candidates": 18360,
+      "filled_cells": 4608,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1536,
+        "expectedGoals": 1836,
+        "yellowCards": 12,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1128,
+        "1ST": 1740,
+        "2ND": 1740
+      }
+    },
+    {
+      "season": "Bundesliga_2_25_26",
+      "source_candidates": 18360,
+      "filled_cells": 1848,
+      "affected_matches": 270,
+      "by_statistic": {
+        "redCards": 1506,
+        "yellowCards": 54,
+        "goalkeeperSaves": 12,
+        "shotsOnGoal": 4,
+        "fouls": 272
+      },
+      "by_period": {
+        "ALL": 524,
+        "1ST": 662,
+        "2ND": 662
+      }
+    },
+    {
+      "season": "Bundesliga_2_26_27",
+      "source_candidates": 2700,
+      "filled_cells": 218,
+      "affected_matches": 37,
+      "by_statistic": {
+        "redCards": 216,
+        "yellowCards": 2
+      },
+      "by_period": {
+        "ALL": 72,
+        "1ST": 74,
+        "2ND": 72
+      }
+    },
+    {
+      "season": "Championship_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Championship_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Championship_15_16",
+      "source_candidates": 33120,
+      "filled_cells": 8484,
+      "affected_matches": 552,
+      "by_statistic": {
+        "yellowCards": 324,
+        "redCards": 2868,
+        "expectedGoals": 3312,
+        "goalkeeperSaves": 12,
+        "fouls": 1968
+      },
+      "by_period": {
+        "ALL": 2172,
+        "1ST": 3156,
+        "2ND": 3156
+      }
+    },
+    {
+      "season": "Championship_16_17",
+      "source_candidates": 33120,
+      "filled_cells": 8466,
+      "affected_matches": 552,
+      "by_statistic": {
+        "expectedGoals": 3312,
+        "redCards": 2814,
+        "yellowCards": 120,
+        "goalkeeperSaves": 12,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2086,
+        "1ST": 3190,
+        "2ND": 3190
+      }
+    },
+    {
+      "season": "Championship_17_18",
+      "source_candidates": 33120,
+      "filled_cells": 8578,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2868,
+        "expectedGoals": 3312,
+        "yellowCards": 172,
+        "goalkeeperSaves": 18,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2122,
+        "1ST": 3228,
+        "2ND": 3228
+      }
+    },
+    {
+      "season": "Championship_18_19",
+      "source_candidates": 33060,
+      "filled_cells": 8600,
+      "affected_matches": 551,
+      "by_statistic": {
+        "redCards": 2910,
+        "expectedGoals": 3306,
+        "yellowCards": 162,
+        "goalkeeperSaves": 18,
+        "fouls": 2204
+      },
+      "by_period": {
+        "ALL": 2132,
+        "1ST": 3234,
+        "2ND": 3234
+      }
+    },
+    {
+      "season": "Championship_19_20",
+      "source_candidates": 33120,
+      "filled_cells": 8690,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2958,
+        "expectedGoals": 3312,
+        "yellowCards": 176,
+        "goalkeeperSaves": 30,
+        "shotsOnGoal": 6,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2160,
+        "1ST": 3266,
+        "2ND": 3264
+      }
+    },
+    {
+      "season": "Championship_20_21",
+      "source_candidates": 33120,
+      "filled_cells": 8652,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2910,
+        "expectedGoals": 3312,
+        "yellowCards": 186,
+        "goalkeeperSaves": 30,
+        "shotsOnGoal": 6,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2148,
+        "1ST": 3252,
+        "2ND": 3252
+      }
+    },
+    {
+      "season": "Championship_21_22",
+      "source_candidates": 33120,
+      "filled_cells": 8592,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2934,
+        "expectedGoals": 3312,
+        "yellowCards": 132,
+        "goalkeeperSaves": 6,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2128,
+        "1ST": 3232,
+        "2ND": 3232
+      }
+    },
+    {
+      "season": "Championship_22_23",
+      "source_candidates": 33120,
+      "filled_cells": 8570,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2952,
+        "expectedGoals": 3312,
+        "goalkeeperSaves": 36,
+        "yellowCards": 62,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 2120,
+        "1ST": 3226,
+        "2ND": 3224
+      }
+    },
+    {
+      "season": "Championship_23_24",
+      "source_candidates": 33102,
+      "filled_cells": 5292,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2982,
+        "yellowCards": 96,
+        "cornerKicks": 6,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 1028,
+        "1ST": 2132,
+        "2ND": 2132
+      }
+    },
+    {
+      "season": "Championship_24_25",
+      "source_candidates": 32256,
+      "filled_cells": 5292,
+      "affected_matches": 552,
+      "by_statistic": {
+        "redCards": 2964,
+        "yellowCards": 108,
+        "goalkeeperSaves": 12,
+        "fouls": 2208
+      },
+      "by_period": {
+        "ALL": 1028,
+        "1ST": 2132,
+        "2ND": 2132
+      }
+    },
+    {
+      "season": "Championship_25_26",
+      "source_candidates": 33120,
+      "filled_cells": 3608,
+      "affected_matches": 509,
+      "by_statistic": {
+        "redCards": 3000,
+        "yellowCards": 140,
+        "goalkeeperSaves": 30,
+        "fouls": 436,
+        "expectedGoals": 2
+      },
+      "by_period": {
+        "ALL": 1056,
+        "1ST": 1276,
+        "2ND": 1276
+      }
+    },
+    {
+      "season": "Championship_26_27",
+      "source_candidates": 4980,
+      "filled_cells": 456,
+      "affected_matches": 75,
+      "by_statistic": {
+        "redCards": 450,
+        "yellowCards": 6
+      },
+      "by_period": {
+        "ALL": 152,
+        "1ST": 152,
+        "2ND": 152
+      }
+    },
+    {
+      "season": "Eredivisie_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Eredivisie_15_16",
+      "source_candidates": 18360,
+      "filled_cells": 5508,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "yellowCards": 1224,
+        "redCards": 1224,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 612,
+        "1ST": 2448,
+        "2ND": 2448
+      }
+    },
+    {
+      "season": "Eredivisie_16_17",
+      "source_candidates": 18360,
+      "filled_cells": 5514,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "goalkeeperSaves": 6,
+        "yellowCards": 1224,
+        "redCards": 1224,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 614,
+        "1ST": 2450,
+        "2ND": 2450
+      }
+    },
+    {
+      "season": "Eredivisie_17_18",
+      "source_candidates": 18360,
+      "filled_cells": 4770,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1566,
+        "expectedGoals": 1836,
+        "yellowCards": 144,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1180,
+        "1ST": 1796,
+        "2ND": 1794
+      }
+    },
+    {
+      "season": "Eredivisie_18_19",
+      "source_candidates": 18360,
+      "filled_cells": 4728,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1488,
+        "expectedGoals": 1836,
+        "yellowCards": 180,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1168,
+        "1ST": 1780,
+        "2ND": 1780
+      }
+    },
+    {
+      "season": "Eredivisie_19_20",
+      "source_candidates": 13920,
+      "filled_cells": 3556,
+      "affected_matches": 232,
+      "by_statistic": {
+        "redCards": 1158,
+        "expectedGoals": 1392,
+        "yellowCards": 78,
+        "fouls": 928
+      },
+      "by_period": {
+        "ALL": 876,
+        "1ST": 1340,
+        "2ND": 1340
+      }
+    },
+    {
+      "season": "Eredivisie_20_21",
+      "source_candidates": 18360,
+      "filled_cells": 4776,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1506,
+        "expectedGoals": 1836,
+        "yellowCards": 204,
+        "cornerKicks": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1184,
+        "1ST": 1796,
+        "2ND": 1796
+      }
+    },
+    {
+      "season": "Eredivisie_21_22",
+      "source_candidates": 18360,
+      "filled_cells": 4896,
+      "affected_matches": 306,
+      "by_statistic": {
+        "yellowCards": 234,
+        "redCards": 1602,
+        "expectedGoals": 1836,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1224,
+        "1ST": 1836,
+        "2ND": 1836
+      }
+    },
+    {
+      "season": "Eredivisie_22_23",
+      "source_candidates": 18360,
+      "filled_cells": 4772,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "redCards": 1596,
+        "yellowCards": 116,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1182,
+        "1ST": 1796,
+        "2ND": 1794
+      }
+    },
+    {
+      "season": "Eredivisie_23_24",
+      "source_candidates": 18322,
+      "filled_cells": 2902,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1542,
+        "yellowCards": 140,
+        "fouls": 1220
+      },
+      "by_period": {
+        "ALL": 560,
+        "1ST": 1174,
+        "2ND": 1168
+      }
+    },
+    {
+      "season": "Eredivisie_24_25",
+      "source_candidates": 18360,
+      "filled_cells": 2922,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1548,
+        "yellowCards": 150,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 566,
+        "1ST": 1178,
+        "2ND": 1178
+      }
+    },
+    {
+      "season": "Eredivisie_25_26",
+      "source_candidates": 18300,
+      "filled_cells": 1918,
+      "affected_matches": 275,
+      "by_statistic": {
+        "yellowCards": 98,
+        "redCards": 1542,
+        "goalkeeperSaves": 6,
+        "fouls": 272
+      },
+      "by_period": {
+        "ALL": 548,
+        "1ST": 686,
+        "2ND": 684
+      }
+    },
+    {
+      "season": "Eredivisie_26_27",
+      "source_candidates": 3240,
+      "filled_cells": 360,
+      "affected_matches": 51,
+      "by_statistic": {
+        "yellowCards": 54,
+        "redCards": 306
+      },
+      "by_period": {
+        "ALL": 120,
+        "1ST": 120,
+        "2ND": 120
+      }
+    },
+    {
+      "season": "La_Liga_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "La_Liga_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "La_Liga_15_16",
+      "source_candidates": 22800,
+      "filled_cells": 5558,
+      "affected_matches": 380,
+      "by_statistic": {
+        "expectedGoals": 2280,
+        "redCards": 1734,
+        "yellowCards": 12,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1346,
+        "1ST": 2106,
+        "2ND": 2106
+      }
+    },
+    {
+      "season": "La_Liga_16_17",
+      "source_candidates": 22800,
+      "filled_cells": 5666,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1854,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 6,
+        "yellowCards": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1382,
+        "1ST": 2142,
+        "2ND": 2142
+      }
+    },
+    {
+      "season": "La_Liga_17_18",
+      "source_candidates": 22800,
+      "filled_cells": 5740,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1920,
+        "expectedGoals": 2280,
+        "yellowCards": 14,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1406,
+        "1ST": 2166,
+        "2ND": 2168
+      }
+    },
+    {
+      "season": "La_Liga_18_19",
+      "source_candidates": 22800,
+      "filled_cells": 5654,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1848,
+        "expectedGoals": 2280,
+        "yellowCards": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1378,
+        "1ST": 2138,
+        "2ND": 2138
+      }
+    },
+    {
+      "season": "La_Liga_19_20",
+      "source_candidates": 22800,
+      "filled_cells": 5678,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1830,
+        "expectedGoals": 2280,
+        "yellowCards": 24,
+        "goalkeeperSaves": 24,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1386,
+        "1ST": 2146,
+        "2ND": 2146
+      }
+    },
+    {
+      "season": "La_Liga_20_21",
+      "source_candidates": 22800,
+      "filled_cells": 5762,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1884,
+        "expectedGoals": 2280,
+        "yellowCards": 60,
+        "goalkeeperSaves": 18,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1414,
+        "1ST": 2174,
+        "2ND": 2174
+      }
+    },
+    {
+      "season": "La_Liga_21_22",
+      "source_candidates": 22800,
+      "filled_cells": 5628,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1794,
+        "expectedGoals": 2280,
+        "yellowCards": 28,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1368,
+        "1ST": 2132,
+        "2ND": 2128
+      }
+    },
+    {
+      "season": "La_Liga_22_23",
+      "source_candidates": 22800,
+      "filled_cells": 3240,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1626,
+        "yellowCards": 86,
+        "goalkeeperSaves": 6,
+        "fouls": 1520,
+        "expectedGoals": 2
+      },
+      "by_period": {
+        "ALL": 572,
+        "1ST": 1332,
+        "2ND": 1336
+      }
+    },
+    {
+      "season": "La_Liga_23_24",
+      "source_candidates": 22784,
+      "filled_cells": 3376,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1818,
+        "yellowCards": 32,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 618,
+        "1ST": 1380,
+        "2ND": 1378
+      }
+    },
+    {
+      "season": "La_Liga_24_25",
+      "source_candidates": 22800,
+      "filled_cells": 3452,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1848,
+        "yellowCards": 60,
+        "goalkeeperSaves": 18,
+        "shotsOnGoal": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 644,
+        "1ST": 1404,
+        "2ND": 1404
+      }
+    },
+    {
+      "season": "La_Liga_25_26",
+      "source_candidates": 22800,
+      "filled_cells": 2098,
+      "affected_matches": 309,
+      "by_statistic": {
+        "redCards": 1752,
+        "goalkeeperSaves": 18,
+        "yellowCards": 36,
+        "fouls": 292
+      },
+      "by_period": {
+        "ALL": 602,
+        "1ST": 748,
+        "2ND": 748
+      }
+    },
+    {
+      "season": "La_Liga_26_27",
+      "source_candidates": 3540,
+      "filled_cells": 270,
+      "affected_matches": 45,
+      "by_statistic": {
+        "redCards": 270
+      },
+      "by_period": {
+        "ALL": 90,
+        "1ST": 90,
+        "2ND": 90
+      }
+    },
+    {
+      "season": "La_Liga_2_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "La_Liga_2_15_16",
+      "source_candidates": 27720,
+      "filled_cells": 6748,
+      "affected_matches": 462,
+      "by_statistic": {
+        "yellowCards": 24,
+        "redCards": 2062,
+        "expectedGoals": 2772,
+        "goalkeeperSaves": 22,
+        "fouls": 1848,
+        "cornerKicks": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1622,
+        "1ST": 2564,
+        "2ND": 2562
+      }
+    },
+    {
+      "season": "La_Liga_2_16_17",
+      "source_candidates": 27720,
+      "filled_cells": 6816,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2148,
+        "expectedGoals": 2772,
+        "yellowCards": 30,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 12,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 1656,
+        "1ST": 2580,
+        "2ND": 2580
+      }
+    },
+    {
+      "season": "La_Liga_2_17_18",
+      "source_candidates": 27720,
+      "filled_cells": 6878,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2220,
+        "expectedGoals": 2772,
+        "yellowCards": 32,
+        "goalkeeperSaves": 6,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 1676,
+        "1ST": 2602,
+        "2ND": 2600
+      }
+    },
+    {
+      "season": "La_Liga_2_18_19",
+      "source_candidates": 26456,
+      "filled_cells": 6536,
+      "affected_matches": 441,
+      "by_statistic": {
+        "redCards": 2082,
+        "expectedGoals": 2644,
+        "yellowCards": 30,
+        "goalkeeperSaves": 12,
+        "shotsOnGoal": 6,
+        "fouls": 1762
+      },
+      "by_period": {
+        "ALL": 1592,
+        "1ST": 2474,
+        "2ND": 2470
+      }
+    },
+    {
+      "season": "La_Liga_2_19_20",
+      "source_candidates": 27720,
+      "filled_cells": 6680,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2022,
+        "expectedGoals": 2772,
+        "yellowCards": 8,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 24,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 1610,
+        "1ST": 2534,
+        "2ND": 2536
+      }
+    },
+    {
+      "season": "La_Liga_2_20_21",
+      "source_candidates": 27660,
+      "filled_cells": 6710,
+      "affected_matches": 461,
+      "by_statistic": {
+        "redCards": 2058,
+        "expectedGoals": 2766,
+        "yellowCards": 24,
+        "goalkeeperSaves": 18,
+        "fouls": 1844
+      },
+      "by_period": {
+        "ALL": 1622,
+        "1ST": 2544,
+        "2ND": 2544
+      }
+    },
+    {
+      "season": "La_Liga_2_21_22",
+      "source_candidates": 27720,
+      "filled_cells": 6918,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2220,
+        "expectedGoals": 2772,
+        "yellowCards": 66,
+        "goalkeeperSaves": 12,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 1690,
+        "1ST": 2614,
+        "2ND": 2614
+      }
+    },
+    {
+      "season": "La_Liga_2_22_23",
+      "source_candidates": 27720,
+      "filled_cells": 6702,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2010,
+        "expectedGoals": 2772,
+        "yellowCards": 36,
+        "goalkeeperSaves": 30,
+        "shotsOnGoal": 6,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 1618,
+        "1ST": 2542,
+        "2ND": 2542
+      }
+    },
+    {
+      "season": "La_Liga_2_23_24",
+      "source_candidates": 27694,
+      "filled_cells": 6972,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2278,
+        "expectedGoals": 2746,
+        "yellowCards": 58,
+        "goalkeeperSaves": 16,
+        "shotsOnGoal": 10,
+        "fouls": 1848,
+        "cornerKicks": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1700,
+        "1ST": 2632,
+        "2ND": 2640
+      }
+    },
+    {
+      "season": "La_Liga_2_24_25",
+      "source_candidates": 26346,
+      "filled_cells": 5470,
+      "affected_matches": 462,
+      "by_statistic": {
+        "redCards": 2184,
+        "expectedGoals": 1398,
+        "yellowCards": 26,
+        "goalkeeperSaves": 18,
+        "fouls": 1844
+      },
+      "by_period": {
+        "ALL": 1208,
+        "1ST": 2132,
+        "2ND": 2130
+      }
+    },
+    {
+      "season": "La_Liga_2_25_26",
+      "source_candidates": 27600,
+      "filled_cells": 4314,
+      "affected_matches": 460,
+      "by_statistic": {
+        "redCards": 2082,
+        "yellowCards": 36,
+        "goalkeeperSaves": 12,
+        "expectedGoals": 1852,
+        "fouls": 332
+      },
+      "by_period": {
+        "ALL": 722,
+        "1ST": 1796,
+        "2ND": 1796
+      }
+    },
+    {
+      "season": "La_Liga_2_26_27",
+      "source_candidates": 3300,
+      "filled_cells": 502,
+      "affected_matches": 55,
+      "by_statistic": {
+        "redCards": 276,
+        "goalkeeperSaves": 6,
+        "expectedGoals": 220
+      },
+      "by_period": {
+        "ALL": 94,
+        "1ST": 204,
+        "2ND": 204
+      }
+    },
+    {
+      "season": "Ligue_1_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Ligue_1_15_16",
+      "source_candidates": 22740,
+      "filled_cells": 5538,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1680,
+        "expectedGoals": 2274,
+        "yellowCards": 56,
+        "goalkeeperSaves": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1340,
+        "1ST": 2100,
+        "2ND": 2098
+      }
+    },
+    {
+      "season": "Ligue_1_16_17",
+      "source_candidates": 22740,
+      "filled_cells": 6834,
+      "affected_matches": 379,
+      "by_statistic": {
+        "expectedGoals": 2274,
+        "goalkeeperSaves": 12,
+        "yellowCards": 1516,
+        "redCards": 1516,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 762,
+        "1ST": 3036,
+        "2ND": 3036
+      }
+    },
+    {
+      "season": "Ligue_1_17_18",
+      "source_candidates": 22800,
+      "filled_cells": 5690,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1812,
+        "expectedGoals": 2280,
+        "yellowCards": 72,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1390,
+        "1ST": 2150,
+        "2ND": 2150
+      }
+    },
+    {
+      "season": "Ligue_1_18_19",
+      "source_candidates": 22800,
+      "filled_cells": 5668,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 92,
+        "redCards": 1770,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1382,
+        "1ST": 2144,
+        "2ND": 2142
+      }
+    },
+    {
+      "season": "Ligue_1_19_20",
+      "source_candidates": 16740,
+      "filled_cells": 4158,
+      "affected_matches": 279,
+      "by_statistic": {
+        "redCards": 1326,
+        "expectedGoals": 1674,
+        "yellowCards": 42,
+        "fouls": 1116
+      },
+      "by_period": {
+        "ALL": 1014,
+        "1ST": 1572,
+        "2ND": 1572
+      }
+    },
+    {
+      "season": "Ligue_1_20_21",
+      "source_candidates": 22800,
+      "filled_cells": 5692,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1812,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 12,
+        "yellowCards": 68,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1390,
+        "1ST": 2152,
+        "2ND": 2150
+      }
+    },
+    {
+      "season": "Ligue_1_21_22",
+      "source_candidates": 22800,
+      "filled_cells": 5582,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1734,
+        "expectedGoals": 2280,
+        "yellowCards": 36,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1354,
+        "1ST": 2114,
+        "2ND": 2114
+      }
+    },
+    {
+      "season": "Ligue_1_22_23",
+      "source_candidates": 22800,
+      "filled_cells": 3466,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1794,
+        "yellowCards": 116,
+        "goalkeeperSaves": 24,
+        "expectedGoals": 6,
+        "shotsOnGoal": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 648,
+        "1ST": 1410,
+        "2ND": 1408
+      }
+    },
+    {
+      "season": "Ligue_1_23_24",
+      "source_candidates": 18344,
+      "filled_cells": 2804,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1506,
+        "yellowCards": 74,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 526,
+        "1ST": 1140,
+        "2ND": 1138
+      }
+    },
+    {
+      "season": "Ligue_1_24_25",
+      "source_candidates": 18360,
+      "filled_cells": 2768,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1482,
+        "yellowCards": 66,
+        "shotsOffGoal": 6,
+        "fouls": 1214
+      },
+      "by_period": {
+        "ALL": 520,
+        "1ST": 1124,
+        "2ND": 1124
+      }
+    },
+    {
+      "season": "Ligue_1_25_26",
+      "source_candidates": 18240,
+      "filled_cells": 1692,
+      "affected_matches": 258,
+      "by_statistic": {
+        "redCards": 1428,
+        "yellowCards": 44,
+        "goalkeeperSaves": 12,
+        "fouls": 208
+      },
+      "by_period": {
+        "ALL": 494,
+        "1ST": 600,
+        "2ND": 598
+      }
+    },
+    {
+      "season": "Ligue_1_26_27",
+      "source_candidates": 2160,
+      "filled_cells": 192,
+      "affected_matches": 31,
+      "by_statistic": {
+        "redCards": 186,
+        "yellowCards": 6
+      },
+      "by_period": {
+        "ALL": 64,
+        "1ST": 64,
+        "2ND": 64
+      }
+    },
+    {
+      "season": "Ligue_2_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Ligue_2_15_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Ligue_2_16_17",
+      "source_candidates": 22800,
+      "filled_cells": 10086,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1916,
+        "expectedGoals": 2280,
+        "yellowCards": 652,
+        "goalkeeperSaves": 614,
+        "cornerKicks": 588,
+        "ballPossession": 588,
+        "totalShotsOnGoal": 588,
+        "shotsOnGoal": 588,
+        "shotsOffGoal": 588,
+        "fouls": 1684
+      },
+      "by_period": {
+        "ALL": 2712,
+        "1ST": 3688,
+        "2ND": 3686
+      }
+    },
+    {
+      "season": "Ligue_2_17_18",
+      "source_candidates": 22800,
+      "filled_cells": 5760,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 72,
+        "redCards": 1852,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 16,
+        "fouls": 1520,
+        "cornerKicks": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1402,
+        "1ST": 2180,
+        "2ND": 2178
+      }
+    },
+    {
+      "season": "Ligue_2_18_19",
+      "source_candidates": 22740,
+      "filled_cells": 5644,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1758,
+        "expectedGoals": 2274,
+        "yellowCards": 84,
+        "goalkeeperSaves": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1376,
+        "1ST": 2134,
+        "2ND": 2134
+      }
+    },
+    {
+      "season": "Ligue_2_19_20",
+      "source_candidates": 16800,
+      "filled_cells": 4098,
+      "affected_matches": 280,
+      "by_statistic": {
+        "redCards": 1272,
+        "expectedGoals": 1680,
+        "yellowCards": 14,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 6,
+        "fouls": 1120
+      },
+      "by_period": {
+        "ALL": 992,
+        "1ST": 1554,
+        "2ND": 1552
+      }
+    },
+    {
+      "season": "Ligue_2_20_21",
+      "source_candidates": 22740,
+      "filled_cells": 5542,
+      "affected_matches": 379,
+      "by_statistic": {
+        "expectedGoals": 2274,
+        "redCards": 1656,
+        "yellowCards": 66,
+        "goalkeeperSaves": 18,
+        "shotsOnGoal": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1342,
+        "1ST": 2100,
+        "2ND": 2100
+      }
+    },
+    {
+      "season": "Ligue_2_21_22",
+      "source_candidates": 22740,
+      "filled_cells": 5722,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1806,
+        "expectedGoals": 2274,
+        "yellowCards": 108,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1402,
+        "1ST": 2160,
+        "2ND": 2160
+      }
+    },
+    {
+      "season": "Ligue_2_22_23",
+      "source_candidates": 22740,
+      "filled_cells": 5694,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1824,
+        "expectedGoals": 2274,
+        "yellowCards": 56,
+        "goalkeeperSaves": 24,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1392,
+        "1ST": 2152,
+        "2ND": 2150
+      }
+    },
+    {
+      "season": "Ligue_2_23_24",
+      "source_candidates": 22026,
+      "filled_cells": 5078,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1864,
+        "expectedGoals": 1560,
+        "yellowCards": 84,
+        "goalkeeperSaves": 34,
+        "fouls": 1516,
+        "cornerKicks": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1176,
+        "1ST": 1952,
+        "2ND": 1950
+      }
+    },
+    {
+      "season": "Ligue_2_24_25",
+      "source_candidates": 17496,
+      "filled_cells": 3738,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1488,
+        "expectedGoals": 972,
+        "goalkeeperSaves": 6,
+        "yellowCards": 48,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 838,
+        "1ST": 1450,
+        "2ND": 1450
+      }
+    },
+    {
+      "season": "Ligue_2_25_26",
+      "source_candidates": 17940,
+      "filled_cells": 3448,
+      "affected_matches": 299,
+      "by_statistic": {
+        "yellowCards": 38,
+        "redCards": 1386,
+        "expectedGoals": 1794,
+        "goalkeeperSaves": 18,
+        "shotsOnGoal": 4,
+        "fouls": 208
+      },
+      "by_period": {
+        "ALL": 1078,
+        "1ST": 1186,
+        "2ND": 1184
+      }
+    },
+    {
+      "season": "Ligue_2_26_27",
+      "source_candidates": 3240,
+      "filled_cells": 600,
+      "affected_matches": 54,
+      "by_statistic": {
+        "redCards": 270,
+        "expectedGoals": 324,
+        "yellowCards": 6
+      },
+      "by_period": {
+        "ALL": 200,
+        "1ST": 200,
+        "2ND": 200
+      }
+    },
+    {
+      "season": "Premier_League_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Premier_League_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Premier_League_15_16",
+      "source_candidates": 22800,
+      "filled_cells": 5890,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1950,
+        "expectedGoals": 2280,
+        "yellowCards": 134,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1456,
+        "1ST": 2216,
+        "2ND": 2218
+      }
+    },
+    {
+      "season": "Premier_League_16_17",
+      "source_candidates": 22800,
+      "filled_cells": 5948,
+      "affected_matches": 380,
+      "by_statistic": {
+        "expectedGoals": 2280,
+        "redCards": 2040,
+        "yellowCards": 96,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1476,
+        "1ST": 2236,
+        "2ND": 2236
+      }
+    },
+    {
+      "season": "Premier_League_17_18",
+      "source_candidates": 22800,
+      "filled_cells": 6062,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 186,
+        "redCards": 2070,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1514,
+        "1ST": 2274,
+        "2ND": 2274
+      }
+    },
+    {
+      "season": "Premier_League_18_19",
+      "source_candidates": 22800,
+      "filled_cells": 5980,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 152,
+        "redCards": 2016,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1486,
+        "1ST": 2248,
+        "2ND": 2246
+      }
+    },
+    {
+      "season": "Premier_League_19_20",
+      "source_candidates": 22800,
+      "filled_cells": 5936,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 2028,
+        "expectedGoals": 2280,
+        "yellowCards": 96,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1472,
+        "1ST": 2232,
+        "2ND": 2232
+      }
+    },
+    {
+      "season": "Premier_League_20_21",
+      "source_candidates": 22800,
+      "filled_cells": 5990,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 168,
+        "redCards": 2022,
+        "expectedGoals": 2280,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1490,
+        "1ST": 2250,
+        "2ND": 2250
+      }
+    },
+    {
+      "season": "Premier_League_21_22",
+      "source_candidates": 22800,
+      "filled_cells": 5984,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 2028,
+        "expectedGoals": 2280,
+        "yellowCards": 132,
+        "goalkeeperSaves": 24,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1488,
+        "1ST": 2248,
+        "2ND": 2248
+      }
+    },
+    {
+      "season": "Premier_League_22_23",
+      "source_candidates": 22800,
+      "filled_cells": 3746,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 98,
+        "redCards": 2118,
+        "goalkeeperSaves": 6,
+        "fouls": 1520,
+        "expectedGoals": 4
+      },
+      "by_period": {
+        "ALL": 740,
+        "1ST": 1504,
+        "2ND": 1502
+      }
+    },
+    {
+      "season": "Premier_League_23_24",
+      "source_candidates": 22794,
+      "filled_cells": 3524,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1956,
+        "yellowCards": 42,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 668,
+        "1ST": 1428,
+        "2ND": 1428
+      }
+    },
+    {
+      "season": "Premier_League_24_25",
+      "source_candidates": 22800,
+      "filled_cells": 3632,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 2004,
+        "yellowCards": 102,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 704,
+        "1ST": 1464,
+        "2ND": 1464
+      }
+    },
+    {
+      "season": "Premier_League_25_26",
+      "source_candidates": 22800,
+      "filled_cells": 2384,
+      "affected_matches": 348,
+      "by_statistic": {
+        "redCards": 2040,
+        "yellowCards": 84,
+        "goalkeeperSaves": 12,
+        "fouls": 248
+      },
+      "by_period": {
+        "ALL": 712,
+        "1ST": 836,
+        "2ND": 836
+      }
+    },
+    {
+      "season": "Premier_League_26_27",
+      "source_candidates": 2400,
+      "filled_cells": 222,
+      "affected_matches": 36,
+      "by_statistic": {
+        "redCards": 210,
+        "yellowCards": 12
+      },
+      "by_period": {
+        "ALL": 74,
+        "1ST": 74,
+        "2ND": 74
+      }
+    },
+    {
+      "season": "Premiership_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Premiership_15_16",
+      "source_candidates": 11816,
+      "filled_cells": 11246,
+      "affected_matches": 197,
+      "by_statistic": {
+        "cornerKicks": 1118,
+        "yellowCards": 1120,
+        "redCards": 1120,
+        "expectedGoals": 1180,
+        "ballPossession": 1118,
+        "totalShotsOnGoal": 1118,
+        "shotsOnGoal": 1118,
+        "shotsOffGoal": 1116,
+        "fouls": 1118,
+        "goalkeeperSaves": 1120
+      },
+      "by_period": {
+        "ALL": 3370,
+        "1ST": 3940,
+        "2ND": 3936
+      }
+    },
+    {
+      "season": "Premiership_16_17",
+      "source_candidates": 11880,
+      "filled_cells": 11052,
+      "affected_matches": 198,
+      "by_statistic": {
+        "expectedGoals": 1188,
+        "cornerKicks": 1096,
+        "yellowCards": 1096,
+        "redCards": 1096,
+        "ballPossession": 1096,
+        "totalShotsOnGoal": 1096,
+        "shotsOnGoal": 1096,
+        "shotsOffGoal": 1096,
+        "fouls": 1096,
+        "goalkeeperSaves": 1096
+      },
+      "by_period": {
+        "ALL": 3132,
+        "1ST": 3960,
+        "2ND": 3960
+      }
+    },
+    {
+      "season": "Premiership_17_18",
+      "source_candidates": 11880,
+      "filled_cells": 11124,
+      "affected_matches": 198,
+      "by_statistic": {
+        "cornerKicks": 1104,
+        "yellowCards": 1104,
+        "redCards": 1104,
+        "expectedGoals": 1188,
+        "ballPossession": 1104,
+        "totalShotsOnGoal": 1104,
+        "shotsOnGoal": 1104,
+        "shotsOffGoal": 1104,
+        "fouls": 1104,
+        "goalkeeperSaves": 1104
+      },
+      "by_period": {
+        "ALL": 3204,
+        "1ST": 3960,
+        "2ND": 3960
+      }
+    },
+    {
+      "season": "Premiership_18_19",
+      "source_candidates": 11880,
+      "filled_cells": 11060,
+      "affected_matches": 198,
+      "by_statistic": {
+        "expectedGoals": 1188,
+        "cornerKicks": 1096,
+        "yellowCards": 1098,
+        "redCards": 1098,
+        "ballPossession": 1098,
+        "totalShotsOnGoal": 1096,
+        "shotsOnGoal": 1096,
+        "shotsOffGoal": 1096,
+        "fouls": 1096,
+        "goalkeeperSaves": 1098
+      },
+      "by_period": {
+        "ALL": 3140,
+        "1ST": 3960,
+        "2ND": 3960
+      }
+    },
+    {
+      "season": "Premiership_19_20",
+      "source_candidates": 10740,
+      "filled_cells": 4556,
+      "affected_matches": 179,
+      "by_statistic": {
+        "redCards": 904,
+        "expectedGoals": 1074,
+        "cornerKicks": 250,
+        "yellowCards": 268,
+        "ballPossession": 250,
+        "totalShotsOnGoal": 250,
+        "shotsOnGoal": 250,
+        "shotsOffGoal": 250,
+        "fouls": 798,
+        "goalkeeperSaves": 262
+      },
+      "by_period": {
+        "ALL": 1324,
+        "1ST": 1616,
+        "2ND": 1616
+      }
+    },
+    {
+      "season": "Premiership_20_21",
+      "source_candidates": 13680,
+      "filled_cells": 3492,
+      "affected_matches": 228,
+      "by_statistic": {
+        "redCards": 1158,
+        "expectedGoals": 1368,
+        "goalkeeperSaves": 12,
+        "yellowCards": 42,
+        "fouls": 912
+      },
+      "by_period": {
+        "ALL": 860,
+        "1ST": 1316,
+        "2ND": 1316
+      }
+    },
+    {
+      "season": "Premiership_21_22",
+      "source_candidates": 13680,
+      "filled_cells": 3410,
+      "affected_matches": 228,
+      "by_statistic": {
+        "redCards": 1104,
+        "expectedGoals": 1368,
+        "yellowCards": 20,
+        "goalkeeperSaves": 6,
+        "fouls": 912
+      },
+      "by_period": {
+        "ALL": 832,
+        "1ST": 1290,
+        "2ND": 1288
+      }
+    },
+    {
+      "season": "Premiership_22_23",
+      "source_candidates": 13680,
+      "filled_cells": 3318,
+      "affected_matches": 228,
+      "by_statistic": {
+        "redCards": 996,
+        "expectedGoals": 1368,
+        "yellowCards": 36,
+        "goalkeeperSaves": 6,
+        "fouls": 912
+      },
+      "by_period": {
+        "ALL": 802,
+        "1ST": 1258,
+        "2ND": 1258
+      }
+    },
+    {
+      "season": "Premiership_23_24",
+      "source_candidates": 13666,
+      "filled_cells": 3508,
+      "affected_matches": 228,
+      "by_statistic": {
+        "redCards": 1176,
+        "expectedGoals": 1354,
+        "yellowCards": 66,
+        "fouls": 912
+      },
+      "by_period": {
+        "ALL": 868,
+        "1ST": 1316,
+        "2ND": 1324
+      }
+    },
+    {
+      "season": "Premiership_24_25",
+      "source_candidates": 13380,
+      "filled_cells": 3158,
+      "affected_matches": 228,
+      "by_statistic": {
+        "expectedGoals": 1068,
+        "redCards": 1128,
+        "yellowCards": 48,
+        "goalkeeperSaves": 6,
+        "fouls": 908
+      },
+      "by_period": {
+        "ALL": 750,
+        "1ST": 1204,
+        "2ND": 1204
+      }
+    },
+    {
+      "season": "Premiership_25_26",
+      "source_candidates": 11880,
+      "filled_cells": 1166,
+      "affected_matches": 170,
+      "by_statistic": {
+        "redCards": 978,
+        "yellowCards": 20,
+        "fouls": 168
+      },
+      "by_period": {
+        "ALL": 332,
+        "1ST": 416,
+        "2ND": 418
+      }
+    },
+    {
+      "season": "Premiership_26_27",
+      "source_candidates": 2160,
+      "filled_cells": 192,
+      "affected_matches": 30,
+      "by_statistic": {
+        "redCards": 180,
+        "yellowCards": 12
+      },
+      "by_period": {
+        "ALL": 64,
+        "1ST": 64,
+        "2ND": 64
+      }
+    },
+    {
+      "season": "Pro_League_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Pro_League_15_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Pro_League_16_17",
+      "source_candidates": 14322,
+      "filled_cells": 11215,
+      "affected_matches": 239,
+      "by_statistic": {
+        "expectedGoals": 1422,
+        "ballPossession": 1144,
+        "totalShotsOnGoal": 1142,
+        "shotsOnGoal": 1142,
+        "shotsOffGoal": 1144,
+        "fouls": 1139,
+        "goalkeeperSaves": 1146,
+        "cornerKicks": 968,
+        "yellowCards": 984,
+        "redCards": 984
+      },
+      "by_period": {
+        "ALL": 1667,
+        "1ST": 4774,
+        "2ND": 4774
+      }
+    },
+    {
+      "season": "Pro_League_17_18",
+      "source_candidates": 14390,
+      "filled_cells": 11468,
+      "affected_matches": 240,
+      "by_statistic": {
+        "expectedGoals": 1434,
+        "ballPossession": 1190,
+        "totalShotsOnGoal": 1183,
+        "shotsOnGoal": 1182,
+        "shotsOffGoal": 1183,
+        "fouls": 1184,
+        "goalkeeperSaves": 1186,
+        "yellowCards": 978,
+        "redCards": 978,
+        "cornerKicks": 970
+      },
+      "by_period": {
+        "ALL": 1878,
+        "1ST": 4800,
+        "2ND": 4790
+      }
+    },
+    {
+      "season": "Pro_League_18_19",
+      "source_candidates": 14397,
+      "filled_cells": 11535,
+      "affected_matches": 240,
+      "by_statistic": {
+        "cornerKicks": 966,
+        "yellowCards": 974,
+        "redCards": 974,
+        "expectedGoals": 1438,
+        "ballPossession": 1214,
+        "totalShotsOnGoal": 1194,
+        "shotsOnGoal": 1194,
+        "shotsOffGoal": 1193,
+        "fouls": 1192,
+        "goalkeeperSaves": 1196
+      },
+      "by_period": {
+        "ALL": 1938,
+        "1ST": 4800,
+        "2ND": 4797
+      }
+    },
+    {
+      "season": "Pro_League_19_20",
+      "source_candidates": 13860,
+      "filled_cells": 11474,
+      "affected_matches": 231,
+      "by_statistic": {
+        "expectedGoals": 1386,
+        "yellowCards": 946,
+        "redCards": 946,
+        "ballPossession": 1210,
+        "totalShotsOnGoal": 1210,
+        "shotsOnGoal": 1210,
+        "shotsOffGoal": 1210,
+        "fouls": 1210,
+        "goalkeeperSaves": 1210,
+        "cornerKicks": 936
+      },
+      "by_period": {
+        "ALL": 2234,
+        "1ST": 4620,
+        "2ND": 4620
+      }
+    },
+    {
+      "season": "Pro_League_20_21",
+      "source_candidates": 19800,
+      "filled_cells": 4926,
+      "affected_matches": 330,
+      "by_statistic": {
+        "expectedGoals": 1980,
+        "redCards": 1590,
+        "yellowCards": 30,
+        "goalkeeperSaves": 6,
+        "fouls": 1320
+      },
+      "by_period": {
+        "ALL": 1202,
+        "1ST": 1862,
+        "2ND": 1862
+      }
+    },
+    {
+      "season": "Pro_League_21_22",
+      "source_candidates": 18660,
+      "filled_cells": 4556,
+      "affected_matches": 311,
+      "by_statistic": {
+        "redCards": 1404,
+        "expectedGoals": 1866,
+        "yellowCards": 36,
+        "goalkeeperSaves": 6,
+        "fouls": 1244
+      },
+      "by_period": {
+        "ALL": 1104,
+        "1ST": 1726,
+        "2ND": 1726
+      }
+    },
+    {
+      "season": "Pro_League_22_23",
+      "source_candidates": 19680,
+      "filled_cells": 4794,
+      "affected_matches": 328,
+      "by_statistic": {
+        "expectedGoals": 1968,
+        "redCards": 1476,
+        "yellowCards": 32,
+        "goalkeeperSaves": 6,
+        "fouls": 1312
+      },
+      "by_period": {
+        "ALL": 1160,
+        "1ST": 1816,
+        "2ND": 1818
+      }
+    },
+    {
+      "season": "Pro_League_23_24",
+      "source_candidates": 14006,
+      "filled_cells": 2216,
+      "affected_matches": 240,
+      "by_statistic": {
+        "redCards": 1182,
+        "yellowCards": 62,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 6,
+        "fouls": 960
+      },
+      "by_period": {
+        "ALL": 418,
+        "1ST": 900,
+        "2ND": 898
+      }
+    },
+    {
+      "season": "Pro_League_24_25",
+      "source_candidates": 18232,
+      "filled_cells": 2776,
+      "affected_matches": 311,
+      "by_statistic": {
+        "redCards": 1488,
+        "yellowCards": 44,
+        "fouls": 1244
+      },
+      "by_period": {
+        "ALL": 510,
+        "1ST": 1134,
+        "2ND": 1132
+      }
+    },
+    {
+      "season": "Pro_League_25_26",
+      "source_candidates": 14400,
+      "filled_cells": 1548,
+      "affected_matches": 216,
+      "by_statistic": {
+        "redCards": 1194,
+        "yellowCards": 30,
+        "goalkeeperSaves": 6,
+        "fouls": 318
+      },
+      "by_period": {
+        "ALL": 410,
+        "1ST": 568,
+        "2ND": 570
+      }
+    },
+    {
+      "season": "Pro_League_26_27",
+      "source_candidates": 3240,
+      "filled_cells": 312,
+      "affected_matches": 49,
+      "by_statistic": {
+        "redCards": 294,
+        "yellowCards": 18
+      },
+      "by_period": {
+        "ALL": 104,
+        "1ST": 104,
+        "2ND": 104
+      }
+    },
+    {
+      "season": "Serie_A_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Serie_A_15_16",
+      "source_candidates": 22800,
+      "filled_cells": 5486,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1662,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 18,
+        "yellowCards": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1322,
+        "1ST": 2082,
+        "2ND": 2082
+      }
+    },
+    {
+      "season": "Serie_A_16_17",
+      "source_candidates": 22740,
+      "filled_cells": 5596,
+      "affected_matches": 379,
+      "by_statistic": {
+        "expectedGoals": 2274,
+        "redCards": 1776,
+        "goalkeeperSaves": 18,
+        "yellowCards": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1360,
+        "1ST": 2118,
+        "2ND": 2118
+      }
+    },
+    {
+      "season": "Serie_A_17_18",
+      "source_candidates": 22800,
+      "filled_cells": 5668,
+      "affected_matches": 380,
+      "by_statistic": {
+        "expectedGoals": 2280,
+        "redCards": 1806,
+        "yellowCards": 56,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1382,
+        "1ST": 2144,
+        "2ND": 2142
+      }
+    },
+    {
+      "season": "Serie_A_18_19",
+      "source_candidates": 22800,
+      "filled_cells": 5672,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1836,
+        "expectedGoals": 2280,
+        "yellowCards": 36,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1384,
+        "1ST": 2144,
+        "2ND": 2144
+      }
+    },
+    {
+      "season": "Serie_A_19_20",
+      "source_candidates": 22800,
+      "filled_cells": 5624,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1794,
+        "expectedGoals": 2280,
+        "yellowCards": 24,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1368,
+        "1ST": 2128,
+        "2ND": 2128
+      }
+    },
+    {
+      "season": "Serie_A_20_21",
+      "source_candidates": 22740,
+      "filled_cells": 5740,
+      "affected_matches": 379,
+      "by_statistic": {
+        "expectedGoals": 2274,
+        "redCards": 1902,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 24,
+        "yellowCards": 18,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1408,
+        "1ST": 2166,
+        "2ND": 2166
+      }
+    },
+    {
+      "season": "Serie_A_21_22",
+      "source_candidates": 22800,
+      "filled_cells": 5650,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1816,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 10,
+        "fouls": 1520,
+        "cornerKicks": 4,
+        "yellowCards": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1366,
+        "1ST": 2142,
+        "2ND": 2142
+      }
+    },
+    {
+      "season": "Serie_A_22_23",
+      "source_candidates": 22800,
+      "filled_cells": 3502,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1938,
+        "yellowCards": 32,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 660,
+        "1ST": 1422,
+        "2ND": 1420
+      }
+    },
+    {
+      "season": "Serie_A_23_24",
+      "source_candidates": 22782,
+      "filled_cells": 3506,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1920,
+        "yellowCards": 54,
+        "goalkeeperSaves": 12,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 662,
+        "1ST": 1422,
+        "2ND": 1422
+      }
+    },
+    {
+      "season": "Serie_A_24_25",
+      "source_candidates": 22796,
+      "filled_cells": 3464,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1866,
+        "yellowCards": 54,
+        "goalkeeperSaves": 24,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 648,
+        "1ST": 1408,
+        "2ND": 1408
+      }
+    },
+    {
+      "season": "Serie_A_25_26",
+      "source_candidates": 22800,
+      "filled_cells": 2256,
+      "affected_matches": 334,
+      "by_statistic": {
+        "redCards": 1956,
+        "yellowCards": 68,
+        "fouls": 232
+      },
+      "by_period": {
+        "ALL": 674,
+        "1ST": 792,
+        "2ND": 790
+      }
+    },
+    {
+      "season": "Serie_A_26_27",
+      "source_candidates": 2400,
+      "filled_cells": 246,
+      "affected_matches": 38,
+      "by_statistic": {
+        "redCards": 228,
+        "yellowCards": 18
+      },
+      "by_period": {
+        "ALL": 82,
+        "1ST": 82,
+        "2ND": 82
+      }
+    },
+    {
+      "season": "Serie_B_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Serie_B_15_16",
+      "source_candidates": 27720,
+      "filled_cells": 19414,
+      "affected_matches": 462,
+      "by_statistic": {
+        "expectedGoals": 2772,
+        "yellowCards": 1852,
+        "redCards": 1852,
+        "goalkeeperSaves": 1850,
+        "cornerKicks": 1848,
+        "ballPossession": 1848,
+        "totalShotsOnGoal": 1848,
+        "shotsOnGoal": 1848,
+        "shotsOffGoal": 1848,
+        "fouls": 1848
+      },
+      "by_period": {
+        "ALL": 934,
+        "1ST": 9240,
+        "2ND": 9240
+      }
+    },
+    {
+      "season": "Serie_B_16_17",
+      "source_candidates": 27720,
+      "filled_cells": 19586,
+      "affected_matches": 462,
+      "by_statistic": {
+        "expectedGoals": 2772,
+        "ballPossession": 1872,
+        "goalkeeperSaves": 1876,
+        "cornerKicks": 1866,
+        "yellowCards": 1868,
+        "redCards": 1868,
+        "totalShotsOnGoal": 1866,
+        "shotsOnGoal": 1866,
+        "shotsOffGoal": 1866,
+        "fouls": 1866
+      },
+      "by_period": {
+        "ALL": 1106,
+        "1ST": 9240,
+        "2ND": 9240
+      }
+    },
+    {
+      "season": "Serie_B_17_18",
+      "source_candidates": 27652,
+      "filled_cells": 19394,
+      "affected_matches": 461,
+      "by_statistic": {
+        "expectedGoals": 2762,
+        "goalkeeperSaves": 1856,
+        "ballPossession": 1852,
+        "yellowCards": 1854,
+        "redCards": 1854,
+        "cornerKicks": 1844,
+        "totalShotsOnGoal": 1844,
+        "shotsOnGoal": 1844,
+        "shotsOffGoal": 1840,
+        "fouls": 1844
+      },
+      "by_period": {
+        "ALL": 962,
+        "1ST": 9220,
+        "2ND": 9212
+      }
+    },
+    {
+      "season": "Serie_B_18_19",
+      "source_candidates": 20460,
+      "filled_cells": 14078,
+      "affected_matches": 341,
+      "by_statistic": {
+        "redCards": 1368,
+        "expectedGoals": 2046,
+        "yellowCards": 1338,
+        "goalkeeperSaves": 1330,
+        "cornerKicks": 1326,
+        "ballPossession": 1326,
+        "totalShotsOnGoal": 1326,
+        "shotsOnGoal": 1326,
+        "shotsOffGoal": 1326,
+        "fouls": 1366
+      },
+      "by_period": {
+        "ALL": 730,
+        "1ST": 6674,
+        "2ND": 6674
+      }
+    },
+    {
+      "season": "Serie_B_19_20",
+      "source_candidates": 22800,
+      "filled_cells": 5440,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1614,
+        "expectedGoals": 2280,
+        "goalkeeperSaves": 18,
+        "yellowCards": 8,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1306,
+        "1ST": 2068,
+        "2ND": 2066
+      }
+    },
+    {
+      "season": "Serie_B_20_21",
+      "source_candidates": 22740,
+      "filled_cells": 5580,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1758,
+        "expectedGoals": 2274,
+        "yellowCards": 26,
+        "goalkeeperSaves": 6,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1354,
+        "1ST": 2114,
+        "2ND": 2112
+      }
+    },
+    {
+      "season": "Serie_B_21_22",
+      "source_candidates": 22800,
+      "filled_cells": 5588,
+      "affected_matches": 380,
+      "by_statistic": {
+        "expectedGoals": 2280,
+        "redCards": 1776,
+        "yellowCards": 6,
+        "goalkeeperSaves": 6,
+        "fouls": 1520
+      },
+      "by_period": {
+        "ALL": 1356,
+        "1ST": 2116,
+        "2ND": 2116
+      }
+    },
+    {
+      "season": "Serie_B_22_23",
+      "source_candidates": 22740,
+      "filled_cells": 5476,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1680,
+        "expectedGoals": 2274,
+        "goalkeeperSaves": 6,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1320,
+        "1ST": 2078,
+        "2ND": 2078
+      }
+    },
+    {
+      "season": "Serie_B_23_24",
+      "source_candidates": 22774,
+      "filled_cells": 5594,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 1768,
+        "expectedGoals": 2254,
+        "yellowCards": 22,
+        "goalkeeperSaves": 10,
+        "fouls": 1520,
+        "cornerKicks": 4,
+        "ballPossession": 4,
+        "totalShotsOnGoal": 4,
+        "shotsOnGoal": 4,
+        "shotsOffGoal": 4
+      },
+      "by_period": {
+        "ALL": 1348,
+        "1ST": 2122,
+        "2ND": 2124
+      }
+    },
+    {
+      "season": "Serie_B_24_25",
+      "source_candidates": 21546,
+      "filled_cells": 4038,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 1788,
+        "cornerKicks": 6,
+        "yellowCards": 6,
+        "goalkeeperSaves": 6,
+        "expectedGoals": 720,
+        "fouls": 1512
+      },
+      "by_period": {
+        "ALL": 602,
+        "1ST": 1718,
+        "2ND": 1718
+      }
+    },
+    {
+      "season": "Serie_B_25_26",
+      "source_candidates": 22800,
+      "filled_cells": 2080,
+      "affected_matches": 318,
+      "by_statistic": {
+        "redCards": 1818,
+        "yellowCards": 30,
+        "expectedGoals": 6,
+        "goalkeeperSaves": 6,
+        "fouls": 220
+      },
+      "by_period": {
+        "ALL": 620,
+        "1ST": 730,
+        "2ND": 730
+      }
+    },
+    {
+      "season": "Serie_B_26_27",
+      "source_candidates": 2400,
+      "filled_cells": 204,
+      "affected_matches": 33,
+      "by_statistic": {
+        "redCards": 198,
+        "yellowCards": 6
+      },
+      "by_period": {
+        "ALL": 68,
+        "1ST": 68,
+        "2ND": 68
+      }
+    }
+  ]
+}
