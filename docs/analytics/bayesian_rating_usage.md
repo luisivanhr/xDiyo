@@ -46,6 +46,69 @@ The parameter file retains its training cutoff, conventions and calibration
 provenance. It is distinct from a checkpoint containing accumulated team and
 home-advantage states. Saving uses a new path and does not overwrite an artifact.
 
+### Calibration execution and reuse
+
+Calibration automatically prepares paired events, movement records, season
+anchors, chronological batches and fixture query positions once per fitting
+population. The cache belongs to that fit only. A new history, availability
+series, transition table, anchor, configuration, fold or cutoff gets a new
+plan. Optimizer trials share the plan but never share mutable posterior states.
+There is no additional UI setting or recipe migration.
+
+Each trial runs the original Python state-update equations and convergence
+checks, retaining compact mathematical state tuples instead of snapshot
+DataFrames, journals and report summaries. State lookups and ordinary
+Poisson/negative-binomial outcome probabilities are batched. Every fixture
+keeps its original integer support, tail tolerance and one-dimensional dot
+product; probabilities are not renormalized. Extreme dispersion configurations
+use the original stable scalar probability routine. No compiled kernel or
+fast-math is enabled, including for repeated-team simultaneous batches.
+
+Mirrored promotion/relegation entries use fresh priors, so an unrelated
+source-league result crossing that entry does not require refiltering. Same-league
+season boundaries, late/out-of-order results and real bridge dependencies remain
+protected. When late releases require refiltering, immutable chronological
+versions share unchanged batches rather than duplicating all historical prefixes.
+The numerical refilter work can still be quadratic in the worst case.
+
+The default nine candidate parameters, bounds, log transforms, regularization
+`0.01`, L-BFGS-B, `maxiter=100` and `ftol=1e-8` are unchanged. Existing inactive
+parameter rules and explicit caller overrides also remain unchanged.
+
+At the fitted parameters, a complete native run is constructed and the objective
+is independently recomputed through the original Python update and scalar
+probability path. A discrepancy raises an error. The report includes
+`reference_objective_verified`, `reference_mean_negative_log_likelihood` and
+`reference_penalized_objective`.
+For pooled training, `trained.run` retains this verified run and the training
+adapter reuses it. Independently fitted leagues are verified separately; the
+adapter then constructs their combined native run with the final model.
+
+#### Equivalence and timing evidence
+
+Regression tests retain the replay implementation from `b0ecb580` as a test-only
+oracle. They compare forecasts, posterior states, checkpoints, nondefault
+parameter bundles, all nine encoded finite-difference directions and a complete
+nine-parameter optimizer result. Cases include real English season boundaries,
+mirrored/bridge movement, delayed and split releases, simultaneous matches,
+repeated teams, alternate clocks, univariate scoring and the one-step method.
+
+A local fixed-parameter comparison on 1,864 matches from Premier League and
+Championship 2019/20 and 2020/21 took 2.72 seconds to prepare, then 0.87 seconds
+per objective evaluation versus 8.30 seconds through the original implementation
+(about 9.5 times faster for that evaluation). Forecasts, probabilities and final
+team posteriors matched exactly. Availability in this benchmark is **simulated
+as kickoff plus two hours**. These are one-run timings, not a measured full-fit
+speedup or a predictive-accuracy claim.
+
+Reproduce the comparison from the repository root with `PYTHONPATH=src`:
+
+```shell
+python examples/benchmark_bayesian_calibration.py --full-english-seasons
+```
+
+Without that flag, the script uses the small committed real-data test fixture.
+
 ## Select features and retain historical state
 
 To retain all available warm-up history, build a complete run first, then

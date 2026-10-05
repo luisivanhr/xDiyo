@@ -160,7 +160,7 @@ def _entry_usage(run, entries, through):
     return usage
 
 
-def _needs_refilter(events, entries, checkpoint, config=None):
+def _needs_refilter(events, entries, checkpoint):
     """Check shared league clocks and consumed transfer boundaries, not just teams."""
     import pandas as pd
     latest = {}
@@ -176,25 +176,16 @@ def _needs_refilter(events, entries, checkpoint, config=None):
             old_anchors = {_entry_key(r): pd.Timestamp(r["entry_at"]) for r in checkpoint.checkpoint["entry_journal"]}
             if any(_entry_key(r) in old_anchors and r["entry_at"] != old_anchors[_entry_key(r)] for r in entries):
                 return True
-    from bisect import bisect_right
-    boundaries = defaultdict(set)
-    for entry in entries:
-        boundaries[entry["competition_id"]].add(entry["entry_at"])
-        # Mirrored promotion/relegation consumes a fresh prior, not the source
-        # posterior. Retained teams and bridges really do depend on that state.
-        source = entry.get("previous_competition_id")
-        if source is not None and (config is None or config.transition == "bridge"
-                                   or entry["movement"] == "retained"):
-            boundaries[source].add(entry["entry_at"])
-    boundaries = {key: sorted(values) for key, values in boundaries.items()}
     batches = defaultdict(list)
     for event in events:
         batches[(event["available_at"], event["competition_id"])].append(event)
-        anchors = boundaries.get(event["competition_id"], ())
-        index = bisect_right(anchors, event["kickoff_at"])
-        # Equal-boundary releases are assimilated before the season entry.
-        if index < len(anchors) and anchors[index] < event["available_at"]:
-            return True
+        for entry in entries:
+            if (entry["competition_id"] == event["competition_id"]
+                    or entry.get("previous_competition_id") == event["competition_id"]):
+                # A score that became known at an entry boundary is handled by
+                # the normal kernel before that entry. Later releases need replay.
+                if event["kickoff_at"] < entry["entry_at"] < event["available_at"]:
+                    return True
     for (release, competition), batch in sorted(batches.items(), key=lambda item: (item[0][0], repr(item[0][1]))):
         kicks = {event["kickoff_at"] for event in batch}
         if len(kicks) != 1:
@@ -291,7 +282,7 @@ def replay(history, *, model, available_at=None, team_seasons=None, season_start
             raise ValueError("A newly supplied historical entry needs a new result release; otherwise rebuild full history. Forecast-only updates cannot silently revise past membership.")
     all_events = [*retained_events, *events]
     data_frontier = _maximum(frontier, *(event["available_at"] for event in events))
-    if _needs_refilter(events, entries, checkpoint, model.config):
+    if _needs_refilter(events, entries, checkpoint):
         run, used = _refilter_versions(history, model, events, all_events, entries, frontier,
                                       data_frontier, checkpoint)
         usage.update(used)
@@ -425,7 +416,7 @@ def _populate_predictions(run, history, events, keys, cutoffs, previous_predicti
 
 def _replay_in_order(history, *, model, available_at=None, team_seasons=None, season_starts=None,
                      cutoffs=None, checkpoint=None, _entries=None, _capture_at=None,
-                     _predict=True, _plan=None, _sink=None):
+                     _predict=True):
     import numpy as np
     import pandas as pd
     from ..features.transitions import TransitionContext
@@ -433,12 +424,9 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
     config = model.config
     if config.score_basis == "regulation" and history.attrs.get("score_basis") != "regulation":
         raise ValueError("Regulation mode requires caller-verified history.attrs['score_basis']='regulation'.")
-    events, keys, available = (_events(history, available_at) if _plan is None
-                               else (_plan.events, (), None))
+    events, keys, available = _events(history, available_at)
     if team_seasons is not None and not isinstance(team_seasons, (pd.DataFrame, Mapping)):
         team_seasons = list(team_seasons)
-    if _plan is not None:
-        _entries = _plan.entries
     context = (TransitionContext(history, cutoffs=cutoffs, available_at=available,
                                  team_seasons=team_seasons, season_starts=season_starts)
                if _entries is None else None)
@@ -480,44 +468,40 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
             if identity in seen_events or (frontier is not None and event["available_at"] <= frontier):
                 raise ValueError("Incremental replay requires new events released strictly after the checkpoint; replay full history for corrections/equal-time batches.")
 
-    if _plan is not None:
-        entry_events, releases, times, data_frontier = (
-            _plan.entry_events, _plan.releases, _plan.times, _plan.frontier)
-    else:
-        explicit_entries = {}
-        if team_seasons is not None:
-            supplied = (pd.DataFrame(team_seasons, dtype=object).to_dict("records")
-                        if isinstance(team_seasons, (pd.DataFrame, Mapping)) else list(team_seasons))
-            explicit_entries = {tuple(record[name] for name in ("competition_id", "season_id", "team_id")): record
-                                for record in supplied}
-        entry_events = defaultdict(list)
-        for record in (context.records.values() if _entries is None else _entries):
-            identity = tuple(_identifier(record[name]) for name in ("competition_id", "season_id", "team_id"))
-            if identity in processed_entries or pd.isna(record["entry_at"]):
+    explicit_entries = {}
+    if team_seasons is not None:
+        supplied = (pd.DataFrame(team_seasons, dtype=object).to_dict("records")
+                    if isinstance(team_seasons, (pd.DataFrame, Mapping)) else list(team_seasons))
+        explicit_entries = {tuple(record[name] for name in ("competition_id", "season_id", "team_id")): record
+                            for record in supplied}
+    entry_events = defaultdict(list)
+    for record in (context.records.values() if _entries is None else _entries):
+        identity = tuple(_identifier(record[name]) for name in ("competition_id", "season_id", "team_id"))
+        if identity in processed_entries or pd.isna(record["entry_at"]):
+            continue
+        time = record["entry_at"]
+        key = (identity[0], identity[2])
+        if (checkpoint is not None and any(team == identity[2] for _, team in states)
+                and (key not in states or team_season[key] != identity[1])):
+            explicit = explicit_entries.get(identity, {})
+            required = {"movement", "previous_competition_id", "previous_season_id"}
+            if required - set(explicit):
+                raise ValueError("Resuming a known team in a new season/league requires explicit movement and both predecessor IDs in team_seasons; use explicit null predecessors to request a fresh prior.")
+        # New teams in a resumed current season enter when first supplied. A
+        # known season must not be discounted twice because a subset starts later.
+        if frontier is not None and time <= frontier:
+            if key in states and team_season[key] == identity[1]:
                 continue
-            time = record["entry_at"]
-            key = (identity[0], identity[2])
-            if (checkpoint is not None and any(team == identity[2] for _, team in states)
-                    and (key not in states or team_season[key] != identity[1])):
-                explicit = explicit_entries.get(identity, {})
-                required = {"movement", "previous_competition_id", "previous_season_id"}
-                if required - set(explicit):
-                    raise ValueError("Resuming a known team in a new season/league requires explicit movement and both predecessor IDs in team_seasons; use explicit null predecessors to request a fresh prior.")
-            # New teams in a resumed current season enter when first supplied. A
-            # known season must not be discounted twice because a subset starts later.
-            if frontier is not None and time <= frontier:
-                if key in states and team_season[key] == identity[1]:
-                    continue
-                raise ValueError("A new season/team entry precedes the checkpoint; rebuild full history.")
-            entry_events[time].append(record)
-        releases = defaultdict(list)
-        for event in events:
-            releases[event["available_at"]].append(event)
-        times = sorted(set(entry_events) | set(releases))
-        data_frontier = _maximum(frontier, *(event["available_at"] for event in events))
-        if _capture_at is not None:
-            data_frontier = _capture_at
-            times = sorted({*times, _capture_at})
+            raise ValueError("A new season/team entry precedes the checkpoint; rebuild full history.")
+        entry_events[time].append(record)
+    releases = defaultdict(list)
+    for event in events:
+        releases[event["available_at"]].append(event)
+    times = sorted(set(entry_events) | set(releases))
+    data_frontier = _maximum(frontier, *(event["available_at"] for event in events))
+    if _capture_at is not None:
+        data_frontier = _capture_at
+        times = sorted({*times, _capture_at})
 
     def date(value):
         return None if value is None or pd.isna(value) else value.isoformat()
@@ -537,22 +521,15 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
             "closed_sources": [list(map(_identifier, entry)) for entry in sorted(closed_sources, key=repr)],
         }
 
-    payload = capture(frontier) if _sink is None else None
+    payload = capture(frontier)
 
     def record_team(key, time, order, kind):
-        if _sink is not None:
-            _sink.team(key, time, latest.get(key), states[key], counts[key], kind,
-                       team_season[key])
-            return
         snapshots.append({"competition_id": key[0], "team_id": key[1], "stream": "score",
                           "recorded_at": time, "latest_kickoff_at": latest.get(key, pd.NaT),
                           "games_seen": counts[key], "snapshot_order": order, "snapshot_kind": kind,
                           **team_summary(states[key])})
 
     def record_home(competition, time, order):
-        if _sink is not None:
-            _sink.home(competition, time, home_latest.get(competition), home_states[competition])
-            return
         state = home_states[competition]
         leagues.append({"competition_id": competition, "recorded_at": time,
                         "latest_kickoff_at": home_latest.get(competition, pd.NaT),
@@ -570,22 +547,16 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
                     raise ValueError("A previous-season result arrived after a season transition or state bridge; out-of-sequence seasonal observations are unsupported.")
                 if key not in states or competition not in home_states:
                     raise ValueError("Every result must follow its initialized season entry.")
-            if _plan is None:
-                by_league[competition].append(event)
-        batches = (_plan.batches[id(batch)] if _plan is not None else
-                   [(c, games, None, None, None) for c, games in sorted(by_league.items(), key=lambda item: repr(item[0]))])
-        for competition, games, appearances, team_kicks, observations in batches:
+            by_league[competition].append(event)
+        for competition, games in sorted(by_league.items(), key=lambda item: repr(item[0])):
             parameters = model.parameters_for(competition)
-            if _plan is None:
-                games.sort(key=lambda event: repr((event["season_id"], event["event_id"])))
-                appearances = Counter(team for event in games for team in (event["home_id"], event["away_id"]))
-                team_kicks = {team: [event["kickoff_at"] for event in games if team in (event["home_id"], event["away_id"])] for team in appearances}
-                observations = [(event["home_id"], event["away_id"], event["home_goals"], event["away_goals"]) for event in games]
+            games.sort(key=lambda event: repr((event["season_id"], event["event_id"])))
+            appearances = Counter(team for event in games for team in (event["home_id"], event["away_id"]))
             involved = {}
             contributing = [home_latest.get(competition, pd.NaT)]
             for team, number in appearances.items():
                 key = (competition, team)
-                kicks = team_kicks[team]
+                kicks = [event["kickoff_at"] for event in games if team in (event["home_id"], event["away_id"])]
                 previous = last_kick.get(key, pd.NaT)
                 exponent = number if config.clock == "team_match" else (
                     max(0.0, (max(kicks) - previous).total_seconds() / 86400 / config.time_unit_days)
@@ -593,52 +564,46 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
                 involved[team] = states[key].discount(parameters.team_discount ** exponent)
                 contributing.extend([latest.get(key, pd.NaT), *kicks])
             home = home_states[competition].discount(parameters.home_discount ** len(games))
+            observations = [(event["home_id"], event["away_id"], event["home_goals"], event["away_goals"]) for event in games]
             updated, hga, diagnostic = update_matches(involved, home, observations, parameters,
                                                      bivariate=config.bivariate, method=config.method,
                                                      tolerance=config.tolerance, max_iterations=config.max_iterations)
             if not diagnostic["converged"]:
                 raise RuntimeError(f"Bayesian {config.method} did not converge at {time}: {diagnostic}")
-            if _sink is None:
-                diagnostic = {**diagnostic, "competition_id": _identifier(competition), "recorded_at": time.isoformat()}
-                diagnostics.append(diagnostic)
+            diagnostic = {**diagnostic, "competition_id": _identifier(competition), "recorded_at": time.isoformat()}
+            diagnostics.append(diagnostic)
             newest = _maximum(*contributing)
             home_states[competition], home_latest[competition] = hga, newest
             for team in appearances:
                 key = (competition, team)
                 states[key], latest[key] = updated[team], newest
                 counts[key] += appearances[team]
-                last_kick[key] = _maximum(last_kick.get(key), *team_kicks[team])
+                last_kick[key] = _maximum(last_kick.get(key), *(event["kickoff_at"] for event in games if team in (event["home_id"], event["away_id"])))
                 record_team(key, time, order, "result")
             record_home(competition, time, order)
             seen_events.update((event["competition_id"], event["season_id"], event["event_id"]) for event in games)
 
     for time in times:
-        if _plan is not None:
-            before_entries, after_entries, equal_releases = _plan.steps[time]
-        else:
-            real_releases = [event for event in releases.get(time, ()) if event["kickoff_at"] < time]
-            before_entries, after_entries = [], []
-            # Earlier games available exactly at the entry boundary belong in the
-            # source posterior. Keep each league's real-release batch simultaneous.
-            # A league with any uninitialized participant waits until entries exist.
-            real_by_league = defaultdict(list)
-            for event in real_releases:
-                real_by_league[event["competition_id"]].append(event)
-            for competition, games in real_by_league.items():
-                initialized = (competition in home_states and all(
-                    (competition, team) in states and team_season[(competition, team)] == event["season_id"]
-                    and home_season[competition] == event["season_id"]
-                    for event in games for team in (event["home_id"], event["away_id"])))
-                (before_entries if initialized else after_entries).extend(games)
-            equal_releases = [event for event in releases.get(time, ()) if event["kickoff_at"] == time]
+        real_releases = [event for event in releases.get(time, ()) if event["kickoff_at"] < time]
+        before_entries, after_entries = [], []
+        # Earlier games available exactly at the entry boundary belong in the
+        # source posterior. Keep each league's real-release batch simultaneous.
+        # A league with any uninitialized participant waits until entries exist.
+        real_by_league = defaultdict(list)
+        for event in real_releases:
+            real_by_league[event["competition_id"]].append(event)
+        for competition, games in real_by_league.items():
+            initialized = (competition in home_states and all(
+                (competition, team) in states and team_season[(competition, team)] == event["season_id"]
+                and home_season[competition] == event["season_id"]
+                for event in games for team in (event["home_id"], event["away_id"])))
+            (before_entries if initialized else after_entries).extend(games)
         process_batch(before_entries, time, -1)
         # Season-entry reads use a frozen source population, including when
         # several leagues exchange teams at the same instant.
         pending = []
         touched_home = set()
-        ordered_entries = (entry_events.get(time, ()) if _plan is not None else
-                           sorted(entry_events.get(time, ()), key=lambda r: repr((r["competition_id"], r["team_id"]))))
-        for record in ordered_entries:
+        for record in sorted(entry_events.get(time, ()), key=lambda r: repr((r["competition_id"], r["team_id"]))):
             competition, season, team = (_identifier(record[name]) for name in ("competition_id", "season_id", "team_id"))
             parameters = model.parameters_for(competition)
             key = (competition, team)
@@ -685,12 +650,9 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
             record_home(competition, time, 0)
 
         process_batch(after_entries, time, 1)
-        process_batch(equal_releases, time, 2)
-        if _sink is None and pd.notna(data_frontier) and time == data_frontier:
+        process_batch([event for event in releases.get(time, ()) if event["kickoff_at"] == time], time, 2)
+        if pd.notna(data_frontier) and time == data_frontier:
             payload = capture(time)
-
-    if _sink is not None:
-        return _sink
 
     columns = ["competition_id", "team_id", "stream", "recorded_at", "latest_kickoff_at", "games_seen",
                "snapshot_order", "snapshot_kind", *TEAM_FIELDS]
