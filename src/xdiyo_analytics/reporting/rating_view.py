@@ -64,13 +64,22 @@ function initializeRatings(root){
     // Separate from the bottom legend: one badge per team's earliest visible
     // rating, projected onto the y axis. Paper sizing keeps badges at 22 px.
     // Read Plotly's resolved axis range so zooming preserves the value anchor.
-    let placing=false;
+    let placing=false,initialRange=true;
     function placeBadges(){
      if(placing||!el.isConnected||!el._fullLayout||!origins.size)return;
      const layout=el._fullLayout,axis=layout.yaxis,size=layout._size;
      if(size.w<=0||size.h<=0)return;
      const images=[...origins].map(([id,p])=>({source:data.teams[id].badge,name:data.teams[id].name,xref:'paper',yref:'y',x:0,y:p.mean,xanchor:'center',yanchor:'middle',sizex:22/size.w,sizey:Math.abs(axis.range[1]-axis.range[0])*22/size.h,sizing:'contain',layer:'above'}));
-     placing=true;Plotly.relayout(el,{images}).finally(()=>{placing=false;});
+     const update={images};
+     // Replace Plotly's percentage-based date padding with 14 px: half a
+     // badge (11 px) plus a 3 px gap before the first marker.
+     if(initialRange){
+      initialRange=false;
+      let start=Infinity,end=-Infinity;
+      for(const row of selected){const time=Date.parse(row.kickoff);if(Number.isFinite(time)){start=Math.min(start,time);end=Math.max(end,time);}}
+      if(end>start&&size.w>28){const pad=(end-start)*14/(size.w-28);update['xaxis.range']=[new Date(start-pad).toISOString(),new Date(end+pad).toISOString()];}
+     }
+     placing=true;Plotly.relayout(el,update).finally(()=>{placing=false;});
     }
     if(el.isConnected&&typeof el.on==='function'){el.on('plotly_relayout',placeBadges);placeBadges();}
    });
