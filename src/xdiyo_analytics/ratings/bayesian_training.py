@@ -5,7 +5,7 @@ The returned parameter bundle records its cutoff; filtered state is separately
 retained by the adapter and exported by its native, non-pickle serializer.
 """
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from collections import Counter
 from collections.abc import Mapping
 from copy import deepcopy
@@ -38,6 +38,7 @@ class BayesianTrainingResult:
 
     model: object
     report: dict
+    run: object = field(default=None, repr=False, compare=False)
 
 
 def _json_value(value):
@@ -235,26 +236,15 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
     encoded = lambda name, value: float(np.log(value) if name in _LOG_FIELDS else value)
 
     def fit_one(rows):
-        from ..features.transitions import TransitionContext
+        from .bayesian_calibration import CalibrationReplay
 
         transitions, starts = _restrict_transitions(rows, team_seasons, season_starts)
-        context = TransitionContext(rows, available_at="_bayesian_available_at",
-                                    team_seasons=transitions, season_starts=starts)
-        movements = Counter(record["movement"] for record in context.records.values())
-        initial_run = build_bayesian_ratings(
-            rows, model=BayesianModel(parameters=initial, config=config),
-            available_at="_bayesian_available_at", team_seasons=transitions,
-            season_starts=starts)
-        # Movement labels alone do not activate entry parameters: successful
-        # bridges bypass the mirrored prior. Replay's effective counts preserve
-        # historical uses when later knowledge changes an entry into a bridge.
-        # Mechanism selection depends on history/config, not fitted coordinates,
-        # so the initial replay also describes every calibration candidate.
-        # Older producers expose the complete entry history in their snapshots.
-        effective_entries = initial_run.metadata.get("effective_entry_counts")
-        if effective_entries is None:
-            effective_entries = initial_run.snapshots["snapshot_kind"].value_counts()
-        entry_mechanisms = {name: int(effective_entries.get(name, 0))
+        plan = CalibrationReplay(rows, config=config, cutoff=time,
+                                 available_at="_bayesian_available_at",
+                                 team_seasons=transitions, season_starts=starts)
+        movements = plan.movements
+        initial_evidence = plan.evaluate(BayesianModel(parameters=initial, config=config), objective=objective)
+        entry_mechanisms = {name: int(initial_evidence.entry_counts.get(name, 0))
                             for name in ("mirrored", "bridge")}
         inactive = {}
         for name in requested:
@@ -269,40 +259,25 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
             raise ValueError("Initial fitted parameters must lie within the calibration bounds.")
         scales = np.array([high - low for low, high in bounds])
         evaluations = 0
-        best = [float("inf"), initial, float("inf")]
+        best = [float("inf"), initial, float("inf"), center.copy()]
 
-        def loss(vector, run=None):
+        def loss(vector, evidence=None):
             nonlocal evaluations
             evaluations += 1
             values = {name: float(np.exp(value) if name in _LOG_FIELDS else value)
                       for name, value in zip(names, vector)}
-            parameters = initial if run is not None else replace(initial, **values)
-            if run is None:
-                model = BayesianModel(parameters=parameters, config=config)
-                run = build_bayesian_ratings(rows, model=model, available_at="_bayesian_available_at",
-                                             team_seasons=transitions, season_starts=starts)
-            predictions = run.predictions
-            if len(predictions) != len(rows) // 2:
-                raise ValueError("Calibration replay did not predict every eligible match exactly once.")
-            if objective == "score_log_loss":
-                log_prob = predictions["score_log_probability"].to_numpy(dtype=float)
-            else:
-                home = predictions["home_goals"].to_numpy()
-                away = predictions["away_goals"].to_numpy()
-                probabilities = predictions[["p_home_win", "p_draw", "p_away_win"]].to_numpy(dtype=float)
-                outcome = np.where(home > away, 0, np.where(home == away, 1, 2))
-                log_prob = np.log(np.maximum(probabilities[np.arange(len(home)), outcome], np.finfo(float).tiny))
-            if not np.isfinite(log_prob).all():
-                raise ValueError("Nonfinite prequential likelihood during Bayesian calibration.")
-            raw = float(-log_prob.mean())
+            parameters = initial if evidence is not None else replace(initial, **values)
+            if evidence is None:
+                evidence = plan.evaluate(BayesianModel(parameters=parameters, config=config), objective=objective)
+            raw = evidence.loss
             penalty = regularization * float(np.sum(((vector - center) / scales) ** 2)) if len(names) else 0.0
             value = raw + penalty
             if value < best[0]:
-                best[:] = [value, parameters, raw]
+                best[:] = [value, parameters, raw, vector.copy()]
             return value
 
-        initial_objective = loss(center, initial_run)
-        del initial_run
+        initial_objective = loss(center, initial_evidence)
+        del initial_evidence
         if names:
             optimized = minimize(loss, center, method="L-BFGS-B", bounds=bounds,
                                  options={"maxiter": max_iterations, "ftol": 1e-8})
@@ -310,23 +285,47 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
                          "message": str(optimized.message), "iterations": int(optimized.nit)}
         else:
             optimizer = {"success": True, "status": 0, "message": "Initial parameters frozen; no optimized fields.", "iterations": 0}
+        # Audit the winner through the original Python update/probability path.
+        # This is the only full native run constructed for this fitted population.
+        final_run = build_bayesian_ratings(
+            rows, model=BayesianModel(parameters=best[1], config=config),
+            available_at="_bayesian_available_at", team_seasons=transitions, season_starts=starts)
+        predictions = final_run.predictions
+        if len(predictions) != len(plan.events):
+            raise ValueError("Calibration replay did not predict every eligible match exactly once.")
+        if objective == "score_log_loss":
+            reference = predictions["score_log_probability"].to_numpy(dtype=float)
+        else:
+            probabilities = predictions[["p_home_win", "p_draw", "p_away_win"]].to_numpy(dtype=float)
+            reference = np.log(np.maximum(probabilities[np.arange(len(plan.events)), plan.outcomes], np.finfo(float).tiny))
+        verified_raw = float(-reference.mean())
+        verified_penalty = regularization * float(np.sum(((best[3] - center) / scales) ** 2)) if len(names) else 0.0
+        verified_objective = verified_raw + verified_penalty
+        if (not np.isfinite(verified_raw)
+                or not np.isclose(verified_raw, best[2], rtol=2e-13, atol=2e-14)
+                or not np.isclose(verified_objective, best[0], rtol=2e-13, atol=2e-14)):
+            raise RuntimeError("Optimized Bayesian objective disagrees with the original Python replay.")
+        optimizer.update(reference_mean_negative_log_likelihood=verified_raw,
+                         reference_penalized_objective=verified_objective,
+                         reference_objective_verified=True)
         optimizer.update(evaluations=evaluations, initial_objective=initial_objective,
                          penalized_objective=best[0], mean_negative_log_likelihood=best[2])
         return best[1], {**_population_report(rows), "optimizer": optimizer,
                         "fit_fields": list(names), "inactive_fit_fields": inactive,
                         "movement_counts": dict(movements),
-                        "entry_mechanism_counts": entry_mechanisms}
+                        "entry_mechanism_counts": entry_mechanisms}, final_run
 
     if mode == "pooled":
-        parameters, details = fit_one(chosen)
+        parameters, details, final_run = fit_one(chosen)
         per_league, fits = (), [details]
     else:
         bundles, fits = [], []
         for competition, rows in chosen.groupby("competition_id", sort=False):
-            parameters, details = fit_one(rows.reset_index(drop=True))
+            parameters, details, _ = fit_one(rows.reset_index(drop=True))
             bundles.append((_json_value(competition), parameters))
             fits.append(details)
         per_league, parameters = tuple(bundles), initial
+        final_run = None
     model = BayesianModel(parameters=parameters, per_league=per_league,
                           training_cutoff=time.isoformat(), config=config)
     active = [name for name in requested if any(name in detail["fit_fields"] for detail in fits)]
@@ -349,7 +348,7 @@ def train_bayesian(history, *, mode="pooled", cutoff, config=None, initial=None,
               "population": population, "score_basis": config.score_basis,
               "cutoff_rule": "kickoff < cutoff and availability <= cutoff; filtered prequential forecasts"}
     model = replace(model, provenance_json=json.dumps(_json_value(report), sort_keys=True, allow_nan=False))
-    return BayesianTrainingResult(model, report)
+    return BayesianTrainingResult(model, report, replace(final_run, model=model) if final_run is not None else None)
 
 
 def _match_history(metadata, *, goals=None, home_target=None, away_target=None):
@@ -497,8 +496,9 @@ class BayesianScoreAdapter:
         self.model_ = replace(self.model_, training_cutoff=activation.isoformat(), provenance_json=json.dumps(
             _json_value(self.training_summary_), sort_keys=True, allow_nan=False))
         self.training_history_ = pd.DataFrame()
-        self.run_ = build_bayesian_ratings(history, model=self.model_, available_at="_bayesian_available_at",
-                                           team_seasons=transitions, season_starts=starts)
+        self.run_ = (replace(result.run, model=self.model_) if result.run is not None else
+                     build_bayesian_ratings(history, model=self.model_, available_at="_bayesian_available_at",
+                                            team_seasons=transitions, season_starts=starts))
 
     def predict(self, context):
         import pandas as pd
