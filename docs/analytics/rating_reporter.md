@@ -24,13 +24,14 @@ Glicko volatility (`sigma`) is not used as the rating's error band.
 The rendered report contains league, rating-source/stream and team selectors.
 The rating-source selector is hidden when only one source/stream is available.
 Choose **All teams** to compare the league, or one team to inspect it. A team has
-the same line color across panels. Badge/name buttons below the plots hide or show
+the same line color across panels. Badge/name buttons above the plots hide or show
 that team's lines and intervals together; **Show all lines** restores visibility.
+Toggling a badge keeps its button in place and preserves the chart area during redraw to prevent scroll jumps.
 Missing badges fall back to names. The uncertainty checkbox toggles the bands.
 The shared home-advantage panel remains visible when selecting a team.
 
 Team badges also appear on the vertical axis at each team's earliest displayed
-rating value, including in single-team view. The bottom badge legend is shown
+rating value, including in single-team view. The top badge selector is shown
 only in All teams view. Axis badges follow visibility filters and stay anchored
 to their rating when zooming. Teams with similar starting ratings can overlap;
 their positions are not shifted to imply different values. The shared home
@@ -90,14 +91,17 @@ F^{-1}_{\operatorname{Gamma}(a,\theta)}\left(\frac{1+c}{2}\right)
 \]
 
 These are intervals for latent ratings under the rating model, **not predictive
-intervals for goals or corners**. The default is \(c=0.95\). Unavailable uncertainty
+intervals for goals or corners**. Glicko defaults to \(c=0.95\) (`interval`).
+Bayesian attack, defense and home advantage default to \(c=0.80\)
+(`bayesian_interval`), showing the **10th to 90th percentiles**. This setting
+changes only the displayed uncertainty, not fitted parameters or posteriors. Unavailable uncertainty
 produces no band; zero standard deviation produces a degenerate interval.
 
 ## Python and retained resources
 
 ```python
 post = PostTrainingAnalysis({
-    "Ratings": RatingReporter(type="overall", partition="test", interval=0.95),
+    "Ratings": RatingReporter(type="overall", partition="test", interval=0.95, bayesian_interval=0.80),
 })
 result = experiment.run(prepared, model=candidate, post_analysis=post)
 ```

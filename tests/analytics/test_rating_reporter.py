@@ -97,6 +97,37 @@ def test_score_and_fold_selection_and_gamma_intervals():
     assert _bounds(2., None, .95) == (None, None)
 
 
+def test_bayesian_bands_default_to_tenth_ninetieth_percentiles_only():
+    from scipy.stats import gamma
+    training, resources = sample()
+    result = report(training, resources).studies[0].result
+    table = result.tables['rating_states']
+    for panel, mean_field, sd_field in (
+        ('Attack', 'attack_mean', 'attack_sd'),
+        ('Defense · vulnerability', 'defence_vulnerability_mean', 'defence_vulnerability_sd'),
+        ('Home advantage', 'home_advantage_mean', 'home_advantage_sd'),
+    ):
+        row = table.loc[table.panel.eq(panel)].iloc[0]
+        run = resources['ratings'][row.source]
+        h = resources['history']
+        q = h.loc[h.event_id.astype(str).eq(row.event)]
+        q = q.loc[q.side.eq('home')] if row.team is None else q.loc[q.team_id.astype(str).eq(row.team)]
+        cutoffs = resources['rating_cutoffs'].loc[q.index]
+        if row.team is None:
+            values = run.fixture_features(q, cutoffs=cutoffs, fields=(mean_field, sd_field)).iloc[0]
+            mean, sd = values[mean_field], values[sd_field]
+        else:
+            values = run.features(q, cutoffs=cutoffs, side='for').iloc[0]
+            mean, sd = values[f'score::team::{mean_field}'], values[f'score::team::{sd_field}']
+        assert [row.lower, row.upper] == pytest.approx(gamma.ppf([.1, .9], a=(mean/sd)**2, scale=sd**2/mean))
+    wider = report(training, resources, bayesian_interval=.95).studies[0].result.tables['rating_states']
+    pd.testing.assert_frame_equal(table.loc[table.panel.eq('Rating')], wider.loc[wider.panel.eq('Rating')])
+    assert (wider.loc[wider.panel.ne('Rating'), 'upper'] > table.loc[table.panel.ne('Rating'), 'upper']).all()
+    assert result.artifacts[0].data['bayesian_interval'] == .8
+    with pytest.raises(ValueError, match='bayesian_interval'):
+        report(training, resources, bayesian_interval=1.)
+
+
 def test_recovery_payload_and_badges_and_safe_html(tmp_path):
     from xdiyo_analytics.experiments.recovery import dump_bundle, load_bundle
     training, resources = sample()

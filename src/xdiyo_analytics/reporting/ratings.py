@@ -99,6 +99,7 @@ class RatingReporter(PredictionReporter):
     pooling: str | None = 'occurrences'
     ratings: object = None
     interval: float = 0.95
+    bayesian_interval: float = 0.80
     show_badges: bool = True
     catalog: object = None
 
@@ -108,8 +109,10 @@ class RatingReporter(PredictionReporter):
             raise ValueError('RatingReporter uses test or score evaluation fixtures.')
         if context.pooling == 'mean':
             raise ValueError('RatingReporter cannot average rating states across folds; use occurrences, first or last.')
-        if isinstance(self.interval, bool) or not isinstance(self.interval, Real) or not np.isfinite(self.interval) or not 0 < self.interval < 1:
-            raise ValueError('interval must be a finite number strictly between 0 and 1.')
+        for name in ('interval', 'bayesian_interval'):
+            level = getattr(self, name)
+            if isinstance(level, bool) or not isinstance(level, Real) or not np.isfinite(level) or not 0 < level < 1:
+                raise ValueError(f'{name} must be a finite number strictly between 0 and 1.')
         runs = dict(context.resources.get('ratings') or {})
         for fold_id, model in context.models.items():
             run = _model_rating(model)
@@ -121,7 +124,7 @@ class RatingReporter(PredictionReporter):
         result = StudyResult('Rating histories', notes=[
             'States are queried at each evaluation fixture’s prediction cutoff; the horizontal axis is kickoff time.',
             'Only selected evaluation fixtures appear. Separate fold curves are never averaged.',
-            f'{self.interval:.0%} bands: approximate normal rating intervals for Glicko RD; Gamma posterior intervals for Bayesian states. These are not match-outcome prediction intervals.',
+            f'Glicko: {self.interval:.0%} approximate normal RD bands. Bayesian: {self.bayesian_interval:.0%} equal-tail Gamma posterior bands. These are not match-outcome prediction intervals.',
             'Bayesian defense is defensive vulnerability: lower is stronger. Home advantage is shared within each league, not across disconnected leagues.',
         ])
         if not selected:
@@ -170,12 +173,12 @@ class RatingReporter(PredictionReporter):
                         for panel, field, uncertainty in panels:
                             mean = float(values.iloc[i][f'{stream}::team::{field}'])
                             sd = float(values.iloc[i][f'{stream}::team::{uncertainty}']) if uncertainty else None
-                            lo, hi = _bounds(mean, sd, self.interval, gamma=bayesian)
+                            lo, hi = _bounds(mean, sd, self.bayesian_interval if bayesian else self.interval, gamma=bayesian)
                             records.append(dict(**common, stream=str(stream), panel=panel, team=team,
                                                 mean=mean, lower=lo, upper=hi))
                     if fixture is not None and row['side'] == 'home':
                         mean, sd = (float(fixture.iloc[i][field]) for field in ('home_advantage_mean', 'home_advantage_sd'))
-                        lo, hi = _bounds(mean, sd, self.interval, gamma=True)
+                        lo, hi = _bounds(mean, sd, self.bayesian_interval, gamma=True)
                         records.append(dict(**common, stream='score', panel='Home advantage', team=None,
                                             mean=mean, lower=lo, upper=hi))
         table = pd.DataFrame(records)
@@ -187,6 +190,6 @@ class RatingReporter(PredictionReporter):
         result.tables['rating_states'] = table
         # JSON-safe data, rather than pre-rendered plots for every league/team.
         payload = dict(rows=table.astype(object).where(table.notna(), None).to_dict('records'),
-                       teams=teams, interval=self.interval)
+                       teams=teams, interval=self.interval, bayesian_interval=self.bayesian_interval)
         result.artifacts.append(Artifact('ratings', payload, 'Team ratings and uncertainty'))
         return result
