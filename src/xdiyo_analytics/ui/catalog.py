@@ -179,7 +179,7 @@ def default_catalog():
         'training': ('training', 'ProbabilityCalibrator TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
         'selection': ('selection', 'MetricSelection WeightedSelection ParsimonySelection FitStatistics'),
         'evaluation': ('evaluation', 'Metric BetSpec BetOffer TightestLine HighestExpectedProfit BinaryDrawThreshold Parlay BetSlip MultiBet AllCombinations'),
-        'reporting': ('reporter', 'HeatmapReporter ClassWeightReporter FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter BetOutcomeReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter CountClassificationReporter FeatureImportanceReporter MatchResultReporter TeamCatalog'),
+        'reporting': ('reporter', 'RatingReporter HeatmapReporter ClassWeightReporter FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter BetOutcomeReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter CountClassificationReporter FeatureImportanceReporter MatchResultReporter TeamCatalog'),
     }
     for module, (category, names) in groups.items():
         namespace = import_module('xdiyo_analytics.' + module)

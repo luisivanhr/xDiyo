@@ -4231,6 +4231,99 @@
       ],
       "accepts_extra": false
     },
+    "reporting.RatingReporter": {
+      "id": "reporting.RatingReporter",
+      "title": "RatingReporter",
+      "category": "post_reporter",
+      "description": "Inspect retained rating states at selected test fixtures' prediction cutoffs.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold",
+            "timeline"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": false,
+          "kind": "text",
+          "default": "test",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "pooling",
+          "title": "Pooling",
+          "required": false,
+          "kind": "select",
+          "default": "occurrences",
+          "choices": [
+            "occurrences",
+            "first",
+            "last"
+          ],
+          "help": "Keep fold-specific evaluation occurrences, or retain the first/last occurrence. Rating states are never averaged across fitted folds.",
+          "primary": false
+        },
+        {
+          "name": "ratings",
+          "title": "Ratings",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Automatically discovers retained feature ratings and fitted Bayesian rating models. Choose the rating source in the rendered report.",
+          "primary": false,
+          "hidden": true
+        },
+        {
+          "name": "interval",
+          "title": "Interval",
+          "required": false,
+          "kind": "number",
+          "default": 0.95,
+          "help": "Band probability, e.g. 0.95 for a 95% interval. Glicko uses rating deviation; Bayesian states use their Gamma posterior. These describe rating uncertainty, not uncertainty in the match score.",
+          "step": 0.01,
+          "primary": true,
+          "min": 0.001,
+          "max": 0.999
+        },
+        {
+          "name": "show_badges",
+          "title": "Show badges",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Embed available local team badges in the saved match report, with team names as fallback.",
+          "primary": true
+        },
+        {
+          "name": "catalog",
+          "title": "Catalog",
+          "required": false,
+          "kind": "reference",
+          "default": null,
+          "help": "Catalog for RatingReporter. Optional; leave disabled to use the standard behavior.",
+          "initial": {
+            "ref": "team_catalog"
+          },
+          "hidden": true,
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
     "reporting.HeatmapReporter": {
       "id": "reporting.HeatmapReporter",
       "title": "HeatmapReporter",

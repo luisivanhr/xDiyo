@@ -1,0 +1,12 @@
+{
+  "Premiership_15_16": {
+    "meetings_per_pair": 3,
+    "scope": "Regular season, rounds 1 through 33; championship/relegation split excluded",
+    "required": [{"home_id": 2355, "away_id": 2376, "home": "Aberdeen", "away": "Hamilton Academical", "date_utc": "2015-09-15", "score": [1, 0], "round": 3, "source": "https://afcheritage.org/matches/match-report?id=11258", "corroboration": "https://www.skysports.com/football/aberdeen-vs-hamilton-academical/report/342082", "excluded_stub_id": 6773232}]
+  },
+  "Ligue_1_15_16": {
+    "meetings_per_pair": 2,
+    "scope": "Regular season, rounds 1 through 38",
+    "required": [{"home_id": 1652, "away_id": 7924, "home": "Troyes", "away": "Gazelec Ajaccio", "date_utc": "2015-08-08", "score": [0, 0], "round": 1, "source": "https://www.statmuse.com/fc/match/8-8-2015-etr-vs-gaz-96719", "corroboration": "https://www.maxifoot.fr/info-222205_150808/football.php"}]
+  }
+}

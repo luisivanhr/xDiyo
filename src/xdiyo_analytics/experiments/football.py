@@ -351,7 +351,8 @@ class FootballExperiment:
             if record is not None:
                 result = self.load(record["run_id"], model_serializer=model_serializer, renderers=renderers)
                 if record.get("config", {}).get("post_analysis") != settings["post_analysis"]:
-                    result.post_report = self._numerical_reports(post_analysis).run(result.training)
+                    result.post_report = self._numerical_reports(post_analysis).run(
+                        result.training, resources=result.prepared.outputs)
                     self._experiment_reports(result, post_analysis)
                     result.record = self.store.refresh_report(result.record["run_id"], result.post_report,
                         display_report=result.report, renderers=renderers, analysis_signature=settings["post_analysis"])
@@ -381,7 +382,7 @@ class FootballExperiment:
             training = selection.evaluate(dataset, plan.folds[0], checkpoint_policy=checkpoint_policy,
                                           checkpoint_directory=self.store.path / "checkpoints", checkpoint_namespace=group)
         numerical = self._numerical_reports(post_analysis)
-        post_report = numerical.run(training)
+        post_report = numerical.run(training, resources=prepared.outputs)
         refit = None
         settings["refit"] = None
         if refit_policy is not None:

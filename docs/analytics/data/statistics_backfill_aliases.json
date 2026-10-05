@@ -1,0 +1,11 @@
+[
+  {"league":"Pro_League","name":"Lokeren","team_id":2887,"native_name":"KSC Lokeren Oost-Vlaanderen","supporting_fixtures":90},
+  {"league":"Bundesliga_2","name":"Munich 1860","team_id":2536,"native_name":"TSV 1860 München","supporting_fixtures":66},
+  {"league":"Ligue_2","name":"Strasbourg","team_id":1659,"native_name":"RC Strasbourg","supporting_fixtures":38},
+  {"league":"Premiership","name":"Inverness","team_id":2362,"native_name":"Inverness Caledonian Thistle","supporting_fixtures":66},
+  {"league":"La_Liga_2","name":"Badalona Futur","team_id":54127,"native_name":"CF Badalona Futur","supporting_fixtures":40},
+  {"league":"La_Liga_2","name":"Ath Bilbao B","team_id":24324,"native_name":"Athletic Club B U21","supporting_fixtures":40},
+  {"league":"Serie_B","name":"Lanciano","team_id":378962,"native_name":"Lanciano FC","supporting_fixtures":42},
+  {"league":"Bundesliga_2","name":"Freiburg","team_id":2538,"native_name":"SC Freiburg","supporting_fixtures":32},
+  {"league":"Championship","name":"MK Dons","team_id":4,"native_name":"Milton Keynes Dons","supporting_fixtures":46}
+]

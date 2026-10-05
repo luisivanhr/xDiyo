@@ -16,9 +16,10 @@ from .model_diagnostics import LearningCurveReporter, CoefficientReporter, Featu
 from .match_results import MatchResultReporter
 from .teams import TeamCatalog
 from .heatmaps import HeatmapReporter
+from .ratings import RatingReporter
 
 __all__ = ["ClassWeightReporter", "Artifact", "StudyResult", "AnalysisContext", "Reporter", "StudyRun", "AnalysisReport",
-           "HeatmapReporter", "FeatureDistributionReporter", "CorrelationAnalysis", "FeatureTimeline",
+           "RatingReporter", "HeatmapReporter", "FeatureDistributionReporter", "CorrelationAnalysis", "FeatureTimeline",
            "FeatureSelection", "FeatureSelector", "vote_selections", "resolve_selection_count", "TopKCorrelationSelector",
            "PostTrainingContext", "PredictionReporter", "PerformanceReporter", "ResidualAnalysisReporter",
            "CalibrationReporter", "PredictionTimelineReporter", "PredictionDistributionReporter",

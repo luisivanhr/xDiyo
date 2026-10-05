@@ -85,7 +85,7 @@ class PostTrainingAnalysis:
     title: str = "Post-training analysis"
     fold_ids: object = None
 
-    def run(self, training=None, *, fold_ids=None, experiment=None):
+    def run(self, training=None, *, fold_ids=None, experiment=None, resources=None):
         report = AnalysisReport(title=self.title)
         all_folds = {} if training is None else {fold.fold_id: fold for fold in training.folds}
         fold_ids = self.fold_ids if fold_ids is None else fold_ids
@@ -131,6 +131,9 @@ class PostTrainingAnalysis:
                     deepcopy(training.definitions) if training is not None else {}, experiment,
                     {fold.fold_id: fold for fold in folds})
                 scope = y.index.to_frame(index=False)
+                # Prepared histories and rating runs are read-only inspection
+                # resources, like fitted models. No fitting takes place here.
+                context.resources = dict(resources or {})
                 context.previous_results = {
                     study.name: study.result for study in report.studies
                     if study.type == mode and study.partition == partition and study.fold_id == fold_id

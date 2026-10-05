@@ -351,3 +351,9 @@ importance, fold-aware state reconstruction and real pilot performance remain
 outside these post-training reporters. A leaderboard is a transparent comparison
 of recorded evidence; it does not correct selection bias or create new held-out
 observations.
+# Rating histories
+
+`RatingReporter` adds interactive Glicko/Bayesian rating timelines over selected
+test fixtures, including uncertainty, league/team selectors and team badges.
+See [RatingReporter](rating_reporter.md) for timing semantics, interval equations,
+retained resources and examples.
