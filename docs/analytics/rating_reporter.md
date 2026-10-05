@@ -29,6 +29,13 @@ that team's lines and intervals together; **Show all lines** restores visibility
 Missing badges fall back to names. The uncertainty checkbox toggles the bands.
 The shared home-advantage panel remains visible when selecting a team.
 
+Team badges also appear on the vertical axis at each team's earliest displayed
+rating value, including in single-team view. The bottom badge legend is shown
+only in All teams view. Axis badges follow visibility filters and stay anchored
+to their rating when zooming. Teams with similar starting ratings can overlap;
+their positions are not shifted to imply different values. The shared home
+advantage has no team badge. This visual addition is isolated for easy reversal.
+
 Plots are constructed for the current view, rather than caching a figure for
 every team. Switching controls uses retained numeric values and never fits a model,
 calls prediction, replays outcomes or updates a rating. The data is embedded in

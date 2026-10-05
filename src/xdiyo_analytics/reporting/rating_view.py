@@ -49,16 +49,31 @@ function initializeRatings(root){
    const el=document.createElement('div');el.className='rating-chart';el.setAttribute('aria-label',panel);charts.append(el);
    const selected=rows.filter(r=>r.panel===panel&&(r.team===null||((!team.value||team.value===r.team)&&!hidden.has(r.team))));
    const groups=new Map();for(const row of selected){const key=JSON.stringify([row.fold,row.team]);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);}
-   const traces=[];
+   const traces=[],origins=new Map();
    for(const points of groups.values()){
     points.sort((a,b)=>a.kickoff.localeCompare(b.kickoff));const r=points[0],c=r.team===null?colors[folds.indexOf(r.fold)%colors.length]:color(r.team);
     const label=(r.team===null?'Shared home advantage':data.teams[r.team].name)+(folds.length>1?' · fold '+r.fold:'');
     const x=points.map(p=>p.kickoff),y=points.map(p=>p.mean),valid=points.some(p=>p.lower!==null&&p.upper!==null);
+    const first=points.find(p=>Number.isFinite(p.mean));
+    if(r.team!==null&&first&&data.teams[r.team].badge&&(!origins.has(r.team)||first.kickoff<origins.get(r.team).kickoff))origins.set(r.team,first);
     if(bands.checked&&valid){traces.push({x,y:points.map(p=>p.lower),mode:'lines',line:{width:0},showlegend:false,hoverinfo:'skip',connectgaps:false});traces.push({x,y:points.map(p=>p.upper),mode:'lines',line:{width:0},fill:'tonexty',fillcolor:shade(c),showlegend:false,hoverinfo:'skip',connectgaps:false});}
     traces.push({x,y,customdata:points.map(p=>[p.cutoff,p.lower,p.upper]),name:label,mode:'lines+markers',marker:{size:4},line:{color:c,width:2,dash:['solid','dash','dot','dashdot'][folds.indexOf(r.fold)%4]},connectgaps:false,hovertemplate:'%{x}<br>%{y:.3f}<br>Interval: %{customdata[1]:.3f} – %{customdata[2]:.3f}<br>Cutoff: %{customdata[0]}<extra>%{fullData.name}</extra>'});
    }
    const shared=panel==='Home advantage';if(shared)el.style.height='480px';
-   Plotly.newPlot(el,traces,{title:{text:panel},paper_bgcolor:'#16212d',plot_bgcolor:'#16212d',font:{color:'#dce5f0'},margin:{t:45,l:65,r:20,b:shared?140:100},xaxis:{type:'date',title:{text:'Kickoff time',standoff:12},tickformat:'%d %b<br>%Y',nticks:4,automargin:true,gridcolor:'#2a394a'},yaxis:{title:{text:panel},automargin:true,gridcolor:'#2a394a'},showlegend:shared,legend:{orientation:'h',y:-.4,font:{size:11}},hovermode:'closest'},{responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'rating_history'}});
+   Plotly.newPlot(el,traces,{title:{text:panel},paper_bgcolor:'#16212d',plot_bgcolor:'#16212d',font:{color:'#dce5f0'},margin:{t:45,l:origins.size?90:65,r:20,b:shared?140:100},xaxis:{type:'date',title:{text:'Kickoff time',standoff:12},tickformat:'%d %b<br>%Y',nticks:4,automargin:true,gridcolor:'#2a394a'},yaxis:{title:{text:panel},ticklabelstandoff:origins.size?16:0,automargin:true,gridcolor:'#2a394a'},showlegend:shared,legend:{orientation:'h',y:-.4,font:{size:11}},hovermode:'closest'},{responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'rating_history'}}).then(()=>{
+    // Separate from the bottom legend: one badge per team's earliest visible
+    // rating, projected onto the y axis. Paper sizing keeps badges at 22 px.
+    // Read Plotly's resolved axis range so zooming preserves the value anchor.
+    let placing=false;
+    function placeBadges(){
+     if(placing||!el.isConnected||!el._fullLayout||!origins.size)return;
+     const layout=el._fullLayout,axis=layout.yaxis,size=layout._size;
+     if(size.w<=0||size.h<=0)return;
+     const images=[...origins].map(([id,p])=>({source:data.teams[id].badge,name:data.teams[id].name,xref:'paper',yref:'y',x:0,y:p.mean,xanchor:'center',yanchor:'middle',sizex:22/size.w,sizey:Math.abs(axis.range[1]-axis.range[0])*22/size.h,sizing:'contain',layer:'above'}));
+     placing=true;Plotly.relayout(el,{images}).finally(()=>{placing=false;});
+    }
+    if(el.isConnected&&typeof el.on==='function'){el.on('plotly_relayout',placeBadges);placeBadges();}
+   });
   }
  }
  league.onchange=source.onchange=updateTeams;team.onchange=bands.onchange=draw;updateTeams();
