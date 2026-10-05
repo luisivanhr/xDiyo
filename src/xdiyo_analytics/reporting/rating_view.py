@@ -6,7 +6,7 @@ import json
 def render_ratings(data):
     payload = json.dumps(data, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
     return ('<div class="rating-view"><div class="rating-controls"></div>'
-            '<div class="rating-charts"></div><div class="rating-teams" aria-label="Toggle team lines"></div>'
+            '<div class="rating-teams" aria-label="Toggle team lines"></div><div class="rating-charts"></div>'
             f'<script type="application/json">{payload}</script></div>')
 
 
@@ -36,15 +36,21 @@ function initializeRatings(root){
  const league=makeSelect('League',leagues),source=makeSelect('Rating source',sources),team=makeSelect('Teams',[['','All teams']]);
  source.parentElement.hidden=sources.length<=1;
  const bandLabel=document.createElement('label'),bands=document.createElement('input');bands.type='checkbox';bands.checked=true;bandLabel.append(bands,document.createTextNode('Uncertainty bands'));controls.append(bandLabel);
- const all=document.createElement('button');all.textContent='Show all lines';all.type='button';all.onclick=()=>{hidden.clear();draw();};controls.append(all);
+ const all=document.createElement('button');all.textContent='Show all lines';all.type='button';all.onclick=()=>{hidden.clear();draw(true);};controls.append(all);
  function available(){return data.rows.filter(r=>r.competition===league.value&&JSON.stringify([r.source,r.stream])===source.value);}
  function updateTeams(){const old=team.value;team.replaceChildren();const ids=new Set(available().map(r=>r.team).filter(v=>v!==null));for(const id of ['',...teamIds.filter(id=>ids.has(id))]){const o=document.createElement('option');o.value=id;o.textContent=id?data.teams[id].name:'All teams';team.append(o);}if([...team.options].some(o=>o.value===old))team.value=old;draw();}
- function draw(){
-  charts.querySelectorAll('.rating-chart').forEach(p=>{if(p.data)Plotly.purge(p);});charts.replaceChildren();legend.replaceChildren();
+ let drawVersion=0;
+ function draw(preserveLegend=false){
+  const version=++drawVersion,renders=[];
+  // Retain the chart area's height while replacing plots so the document
+  // cannot collapse and clamp the reader's scroll position during a toggle.
+  charts.style.minHeight=charts.getBoundingClientRect().height+'px';
+  charts.querySelectorAll('.rating-chart').forEach(p=>{if(p.data)Plotly.purge(p);});charts.replaceChildren();if(preserveLegend!==true)legend.replaceChildren();
   legend.hidden=Boolean(team.value);
   const rows=available(),panels=[...new Set(rows.map(r=>r.panel))],folds=[...new Set(rows.map(r=>r.fold))];
   const present=new Set(rows.map(r=>r.team).filter(v=>v!==null));
-  for(const id of teamIds.filter(id=>!team.value&&present.has(id))){const b=document.createElement('button');b.type='button';b.style.setProperty('--team-color',color(id));b.setAttribute('aria-pressed',String(!hidden.has(id)));b.title='Show or hide '+data.teams[id].name;const badge=data.teams[id].badge;if(badge){const img=document.createElement('img');img.src=badge;img.alt='';b.append(img);}b.append(document.createTextNode(data.teams[id].name));b.onclick=()=>{hidden.has(id)?hidden.delete(id):hidden.add(id);draw();};legend.append(b);}
+  if(preserveLegend!==true)for(const id of teamIds.filter(id=>!team.value&&present.has(id))){const b=document.createElement('button');b.type='button';b.dataset.team=id;b.style.setProperty('--team-color',color(id));b.setAttribute('aria-pressed',String(!hidden.has(id)));b.title='Show or hide '+data.teams[id].name;const badge=data.teams[id].badge;if(badge){const img=document.createElement('img');img.src=badge;img.alt='';b.append(img);}b.append(document.createTextNode(data.teams[id].name));b.onclick=()=>{hidden.has(id)?hidden.delete(id):hidden.add(id);draw(true);};legend.append(b);}
+  for(const b of legend.querySelectorAll('button'))b.setAttribute('aria-pressed',String(!hidden.has(b.dataset.team)));
   for(const panel of panels){
    const el=document.createElement('div');el.className='rating-chart';el.setAttribute('aria-label',panel);charts.append(el);
    const selected=rows.filter(r=>r.panel===panel&&(r.team===null||((!team.value||team.value===r.team)&&!hidden.has(r.team))));
@@ -60,8 +66,8 @@ function initializeRatings(root){
     traces.push({x,y,customdata:points.map(p=>[p.cutoff,p.lower,p.upper]),name:label,mode:'lines+markers',marker:{size:4},line:{color:c,width:2,dash:['solid','dash','dot','dashdot'][folds.indexOf(r.fold)%4]},connectgaps:false,hovertemplate:'%{x}<br>%{y:.3f}<br>Interval: %{customdata[1]:.3f} – %{customdata[2]:.3f}<br>Cutoff: %{customdata[0]}<extra>%{fullData.name}</extra>'});
    }
    const shared=panel==='Home advantage';if(shared)el.style.height='480px';
-   Plotly.newPlot(el,traces,{title:{text:panel},paper_bgcolor:'#16212d',plot_bgcolor:'#16212d',font:{color:'#dce5f0'},margin:{t:45,l:origins.size?90:65,r:20,b:shared?140:100},xaxis:{type:'date',title:{text:'Kickoff time',standoff:12},tickformat:'%d %b<br>%Y',nticks:4,automargin:true,gridcolor:'#2a394a'},yaxis:{title:{text:panel},ticklabelstandoff:origins.size?16:0,automargin:true,gridcolor:'#2a394a'},showlegend:shared,legend:{orientation:'h',y:-.4,font:{size:11}},hovermode:'closest'},{responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'rating_history'}}).then(()=>{
-    // Separate from the bottom legend: one badge per team's earliest visible
+   renders.push(Plotly.newPlot(el,traces,{title:{text:panel},paper_bgcolor:'#16212d',plot_bgcolor:'#16212d',font:{color:'#dce5f0'},margin:{t:45,l:origins.size?90:65,r:20,b:shared?140:100},xaxis:{type:'date',title:{text:'Kickoff time',standoff:12},tickformat:'%d %b<br>%Y',nticks:4,automargin:true,gridcolor:'#2a394a'},yaxis:{title:{text:panel},ticklabelstandoff:origins.size?16:0,automargin:true,gridcolor:'#2a394a'},showlegend:shared,legend:{orientation:'h',y:-.4,font:{size:11}},hovermode:'closest'},{responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'rating_history'}}).then(()=>{
+    // Separate from the team selector: one badge per team's earliest visible
     // rating, projected onto the y axis. Paper sizing keeps badges at 22 px.
     // Read Plotly's resolved axis range so zooming preserves the value anchor.
     let placing=false,initialRange=true;
@@ -82,8 +88,9 @@ function initializeRatings(root){
      placing=true;Plotly.relayout(el,update).finally(()=>{placing=false;});
     }
     if(el.isConnected&&typeof el.on==='function'){el.on('plotly_relayout',placeBadges);placeBadges();}
-   });
+   }));
   }
+  Promise.all(renders).finally(()=>{if(version===drawVersion)charts.style.minHeight='';});
  }
  league.onchange=source.onchange=updateTeams;team.onchange=bands.onchange=draw;updateTeams();
 }
