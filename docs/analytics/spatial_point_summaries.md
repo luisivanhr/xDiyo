@@ -163,5 +163,6 @@ These measurements cover one partition, not a full-archive preparation or a
 predictive-performance claim. The native loader still materializes requested
 tables. Audit memory before loading the entire archive at once.
 
-Entropy, additional regions, style distances, goalkeeper-only research blocks
-and fitted PCA are later phases; they are not part of this Phase A addition.
+[Phase B](spatial_distributions.md) adds regional shares, entropy and concentration.
+Style distances, goalkeeper-only research blocks and fitted PCA remain later
+research phases; they are not part of this Phase A addition.

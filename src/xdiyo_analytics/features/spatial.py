@@ -91,8 +91,12 @@ def heatmap_values(history, points, spec):
         raise ValueError("Load heatmap_points and pass it to evaluate_features(heatmaps=...).")
     scope = [c for c in ("source_league", "source_season") if c in history and c in points]
     keys = [*scope, "event_id", "team_id"]
-    grids = {key: heatmap_grid(frame, spec).ravel()
-             for key, frame in points.groupby(keys, sort=False, dropna=False)}
+    grids = {}
+    for key, frame in points.groupby(keys, sort=False, dropna=False):
+        try:
+            grids[key] = heatmap_grid(frame, spec).ravel()
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f'Invalid heatmap for map {key}: {exc}') from exc
     n = spec.grid_size
     output = {}
     metadata = {}
@@ -113,15 +117,47 @@ def heatmap_values(history, points, spec):
                 output[column] = matrix[:, y*n+x]
         metadata[prefix] = dict(kind='grid', columns=columns, grid_size=n, side=side,
                                 orientation=spec.orientation, normalization=spec.normalization,
-                                method=spec.method, operators=[], source='Heatmap')
+                                method=spec.method, operators=[], source='Heatmap',
+                                kinds=None if spec.kinds is None else list(spec.kinds),
+                                use_weights=spec.use_weights,
+                                **(dict(sigma=spec.sigma, resolution=spec.resolution, boundary='reflect') if spec.method == 'gaussian' else {}),
+                                calculation=dict(operator='Heatmap', grid_size=n, method=spec.method,
+                                                 normalization=spec.normalization, side=side))
     result = pd.DataFrame(output, index=history.index)
     result.attrs['spatial_features'] = metadata
     return result
 
 
+REGIONS = {
+    'own_half': ((0,50,0,100),), 'opponent_half': ((50,100,0,100),),
+    'defensive_third': ((0,100/3,0,100),),
+    'middle_third': ((100/3,200/3,0,100),),
+    'attacking_third': ((200/3,100,0,100),),
+    'low_y_wide': ((0,100,0,100/3),),
+    'central_channel': ((0,100,100/3,200/3),),
+    'high_y_wide': ((0,100,200/3,100),),
+    'wide_channels': ((0,100,0,100/3),(0,100,200/3,100)),
+    'central_attacking_third': ((200/3,100,100/3,200/3),),
+}
+
+
+def region_rectangles(region, rectangle=None):
+    if region != 'rectangle':
+        if region not in REGIONS or rectangle is not None:
+            raise ValueError('Choose a known region: own_half, opponent_half, thirds, channels or rectangle. Rectangle bounds apply only to region="rectangle".')
+        return REGIONS[region]
+    if rectangle is None or len(rectangle) != 4:
+        raise ValueError('Rectangle requires (x_min, x_max, y_min, y_max).')
+    bounds = tuple(float(v) for v in rectangle)
+    if (not np.isfinite(bounds).all() or not 0 <= bounds[0] < bounds[1] <= 100
+            or not 0 <= bounds[2] < bounds[3] <= 100):
+        raise ValueError('Rectangle bounds must be finite, ordered and inside 0..100.')
+    return (bounds,)
+
+
 @dataclass(frozen=True)
 class RegionMass:
-    """Integrate spatial cells over the focal team's own or opponent half.
+    """Integrate spatial cells over an explicitly bounded team-relative region.
 
     Accepts a Heatmap source inside a historical operator, or a historical grid
     directly. Regions are team-relative even when final grids use the home frame.
@@ -129,34 +165,61 @@ class RegionMass:
     """
     source: object
     region: str = 'own_half'
+    rectangle: tuple | None = None
 
     def __post_init__(self):
-        if self.region not in ('own_half', 'opponent_half'):
-            raise ValueError('Choose own_half or opponent_half.')
+        bounds = region_rectangles(self.region, self.rectangle)
+        if self.rectangle is not None:
+            object.__setattr__(self, 'rectangle', bounds[0])
 
 
-def region_values(frame, region):
+def region_values(frame, region, rectangle=None):
     """Integrate each declared grid in its internal focal-team frame."""
     from copy import deepcopy
     outputs, metadata = {}, {}
     specs = frame.attrs.get('spatial_features', {})
     if not specs or any(s['kind'] != 'grid' for s in specs.values()):
         raise TypeError('RegionMass needs a spatial grid source.')
+    rectangles = region_rectangles(region, rectangle)
     for name, spec in specs.items():
         n = spec['grid_size']
         edges = np.linspace(0, 100, n+1)
-        fraction = np.clip((50-edges[:-1])/(100/n), 0, 1)
-        if region == 'opponent_half':
-            fraction = 1-fraction
-        weights = np.tile(fraction, n)
+        if region in ('own_half', 'opponent_half'):
+            # Preserve legacy arithmetic and missing-contributing-cell behavior.
+            fraction = np.clip((50-edges[:-1])/(100/n), 0, 1)
+            if region == 'opponent_half':
+                fraction = 1-fraction
+            weights = np.tile(fraction, n)
+        else:
+            # Built-in unions have disjoint interiors. Arbitrary overlapping
+            # rectangles are not accepted as a union by this API.
+            weights = np.zeros((n, n))
+            for x0, x1, y0, y1 in rectangles:
+                wx = np.maximum(0, np.minimum(edges[1:], x1)-np.maximum(edges[:-1], x0))/(100/n)
+                wy = np.maximum(0, np.minimum(edges[1:], y1)-np.maximum(edges[:-1], y0))/(100/n)
+                weights += wy[:, None]*wx[None, :]
+            weights = weights.ravel()
         if spec['normalization'] == 'density':
             weights *= (100/n)**2
         values = frame[spec['columns']].to_numpy(dtype=float, na_value=np.nan)
+        if region not in ('own_half', 'opponent_half'):
+            from .spatial_distribution import validated_grid
+            values, missing = validated_grid(frame, spec, name)
+            totals = values[~missing].sum(axis=1)
+            if spec['normalization'] == 'density':
+                totals *= (100/n)**2
+            if (not np.isfinite(totals).all() or (totals <= 0).any()
+                    or (spec['normalization'] != 'count' and (np.abs(totals-1) > 1e-10).any())):
+                raise ValueError(f'Invalid spatial region source {name!r}: expected positive counts or unit mass within 1e-10.')
         # An unavailable contributing cell makes the regional quantity unknown.
         selected = weights > 0
         column = f'{name}::region_{region}'
         outputs[column] = values[:, selected] @ weights[selected]
-        metadata[column] = {**deepcopy(spec), 'kind':'region', 'region':region, 'columns':[column]}
+        metadata[column] = {**deepcopy(spec), 'kind':'region', 'region':region, 'columns':[column],
+                            'rectangles':[list(r) for r in rectangles], 'backend':'grid_area_overlap',
+                            'units':'point count' if spec['normalization'] == 'count' else 'mass share',
+                            'calculation':dict(operator='RegionMass', region=region,
+                                               rectangle=rectangle, source=deepcopy(spec.get('calculation', {})))}
     result = pd.DataFrame(outputs, index=frame.index)
     result.attrs['spatial_features'] = metadata
     return result

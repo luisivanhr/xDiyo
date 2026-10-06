@@ -8,6 +8,8 @@ badge**. It works in notebook reports and the experiment builder.
 [Exact point summaries](spatial_point_summaries.md) provide compact historical
 mean position and spatial spread directly from raw points, with no grid
 approximation. These scalars stay team-relative even for Away fixtures.
+For thirds, channels and rectangles, plus entropy/concentration of fixed grids,
+see [Phase B spatial distributions](spatial_distributions.md).
 
 ## Orientation: a shared home-oriented pitch
 

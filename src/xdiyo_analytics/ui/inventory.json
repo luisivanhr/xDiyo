@@ -302,7 +302,7 @@
       "id": "features.RegionMass",
       "title": "RegionMass",
       "category": "feature",
-      "description": "Integrate spatial cells over the focal team's own or opponent half.",
+      "description": "Integrate spatial cells over an explicitly bounded team-relative region.",
       "fields": [
         {
           "name": "source",
@@ -333,6 +333,157 @@
             "own_half",
             "opponent_half"
           ],
+          "primary": true
+        },
+        {
+          "name": "rectangle",
+          "title": "Rectangle",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Rectangle for RegionMass. Optional; leave disabled to use the standard behavior.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.SpatialEntropy": {
+      "id": "features.SpatialEntropy",
+      "title": "SpatialEntropy",
+      "category": "feature",
+      "description": "Measure how evenly activity is spread across a fixed grid. Rolling mean of entropy describes a typical match; entropy of a rolling-mean grid describes the historical mixture. Missing maps stay missing.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Default source is an unsmoothed 6x6 outfield unit-mass grid. Place this reducer inside Rolling mean for per-match summaries, or outside it for a summary of the historical mixture.",
+          "components": [
+            "features.Heatmap",
+            "features.Lag",
+            "features.RollingMean",
+            "features.EMA"
+          ],
+          "initial": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "normalization": "mass",
+              "method": "grid",
+              "kinds": [
+                "player"
+              ],
+              "orientation": "team"
+            }
+          },
+          "primary": true
+        },
+        {
+          "name": "normalized",
+          "title": "Normalized",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Divide entropy by the maximum for this grid size. Zero is one occupied cell; one is a uniform map. No pseudocount is added.",
+          "primary": true
+        },
+        {
+          "name": "base",
+          "title": "Base",
+          "required": false,
+          "kind": "number",
+          "default": 2.718281828459045,
+          "help": "Logarithm base greater than 1. Default e gives natural entropy; 2 gives bits. The base cancels for normalized entropy.",
+          "step": "any",
+          "visible_when": {
+            "normalized": [
+              false
+            ]
+          },
+          "primary": true
+        },
+        {
+          "name": "mass_tolerance",
+          "title": "Mass tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-10,
+          "help": "Absolute numerical tolerance around total mass 1. Only floating-point drift is normalized away; this does not smooth or repair corrupt maps.",
+          "step": "any",
+          "min": 0,
+          "max": 1e-06,
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.SpatialConcentration": {
+      "id": "features.SpatialConcentration",
+      "title": "SpatialConcentration",
+      "category": "feature",
+      "description": "Choose effective occupied cells, HHI or another concentration summary of a unit-mass grid. Choose one alternative at a time; effective cells is a transform of entropy.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Default source is an unsmoothed 6x6 outfield unit-mass grid. Place this reducer inside Rolling mean for per-match summaries, or outside it for a summary of the historical mixture.",
+          "components": [
+            "features.Heatmap",
+            "features.Lag",
+            "features.RollingMean",
+            "features.EMA"
+          ],
+          "initial": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "normalization": "mass",
+              "method": "grid",
+              "kinds": [
+                "player"
+              ],
+              "orientation": "team"
+            }
+          },
+          "primary": true
+        },
+        {
+          "name": "metric",
+          "title": "Metric",
+          "required": false,
+          "kind": "select",
+          "default": "hhi",
+          "help": "Effective cells = exp(natural entropy). HHI = sum of squared shares. Normalized HHI is 0 for uniform and 1 for a single cell. Occupied fraction is mainly diagnostic and depends on sampling volume.",
+          "discovery": "metrics",
+          "choices": [
+            "effective_cells",
+            "effective_fraction",
+            "hhi",
+            "normalized_hhi",
+            "largest_cell_share",
+            "occupied_fraction"
+          ],
+          "primary": true
+        },
+        {
+          "name": "mass_tolerance",
+          "title": "Mass tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-10,
+          "help": "Absolute numerical tolerance around total mass 1. Only floating-point drift is normalized away; this does not smooth or repair corrupt maps.",
+          "step": "any",
+          "min": 0,
+          "max": 1e-06,
           "primary": true
         }
       ],
@@ -4551,7 +4702,7 @@
           "required": false,
           "kind": "multiselect",
           "default": null,
-          "help": "Discover spatial outputs, including Heatmap, SpatialPointSummary and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.",
+          "help": "Discover spatial outputs, including grids, point geometry, regional shares, entropy and concentration. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.",
           "discovery": "heatmaps",
           "primary": true
         },

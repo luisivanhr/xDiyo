@@ -38,8 +38,8 @@ class SpatialPointSummary(Expr):
         object.__setattr__(self, 'min_points', int(self.min_points))
 
 
-def point_summary_source(history, points, kinds, min_points):
-    """Build a shared summary/audit once per point selection in one evaluation."""
+def validate_point_identities(history, points):
+    """Validate native map keys without deduplicating coordinate observations."""
     if points is None:
         raise ValueError('SpatialPointSummary requires the heatmap_points table; pass heatmaps=points.')
     scope = []
@@ -62,6 +62,13 @@ def point_summary_source(history, points, kinds, min_points):
     if 'point_order' in points and (points.point_order.isna().any() or
                                    points.duplicated([*keys, 'kind', 'point_order']).any()):
         raise ValueError('Duplicate/missing spatial point_order identity; possible duplicate table or fixture version.')
+    return keys
+
+
+def point_summary_source(history, points, kinds, min_points):
+    """Build a shared summary/audit once per point selection in one evaluation."""
+    keys = validate_point_identities(history, points)
+    required = [*keys, 'kind', 'x', 'y']
     # Compute source identity once; do not cache globally across mutable inputs.
     hashed = [*required, *[c for c in ('point_order', 'source_key', 'raw_hash', 'observed_at') if c in points]]
     digest = sha256(pd.util.hash_pandas_object(points[hashed], index=False).to_numpy().tobytes()).hexdigest()
