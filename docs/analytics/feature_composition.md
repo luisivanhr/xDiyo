@@ -11,6 +11,11 @@ for prepared columns. It does not silently add identity columns.
 
 ## Historical expressions
 
+For per-observation interactions and paired weighted histories, see
+[Interactions and weighted historical means](weighted_feature_interactions.md).
+`RollingWeightedMean(source, weights, ...)` is available in the native feature
+builder; `Product` remains the pointwise interaction primitive.
+
 ```python
 from xdiyo_analytics.features import (
     Stat, ForAgainst, RollingMean, Constant, Sum, Product, Difference, Ratio,
