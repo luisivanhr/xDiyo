@@ -20,6 +20,16 @@ class Constant(Expr):
 
 
 @dataclass(frozen=True)
+class Abs(Expr):
+    """Absolute value of one output column; finite zeros remain zero.
+
+    Missing/nonfinite inputs remain missing. This is a pointwise operation,
+    not a historical wrapper: observed sources still need Lag/rolling/EMA.
+    """
+    source: Expr
+
+
+@dataclass(frozen=True)
 class Sum(Expr):
     """Add two single-output expressions or finite numeric constants."""
     left: Expr
@@ -56,10 +66,12 @@ class Ratio(Expr):
     zero_value: float | None = None
 
 
-ARITHMETIC = (Sum, Product, Difference, Ratio)
+ARITHMETIC = (Abs, Sum, Product, Difference, Ratio)
 
 
 def operands(node):
+    if isinstance(node, Abs):
+        return (node.source,)
     return ((node.numerator, node.denominator) if isinstance(node, Ratio)
             else (node.left, node.right))
 
@@ -72,12 +84,15 @@ def constant_frame(value, index):
     return pd.DataFrame({"value": float(value)}, index=index)
 
 
-def arithmetic_frame(node, left, right):
+def arithmetic_frame(node, left, right=None):
     """Combine by exact row alignment, never by source column labels."""
     import numpy as np
     import pandas as pd
-    if left.shape[1] != 1 or right.shape[1] != 1:
+    if left.shape[1] != 1 or (right is not None and right.shape[1] != 1):
         raise ValueError("Arithmetic operands must each select one output column; choose an explicit period, side or rating field.")
+    if isinstance(node, Abs):
+        values = left.to_numpy(dtype=float, na_value=np.nan)[:, 0]
+        return pd.DataFrame({'value':np.where(np.isfinite(values), np.abs(values), np.nan)}, index=left.index)
     if not left.index.equals(right.index):
         raise ValueError("Arithmetic operands must have identical row indices.")
     a = left.iloc[:, 0].to_numpy(dtype=float, na_value=np.nan)
@@ -108,7 +123,7 @@ def combine_features(frame, definitions, *, keep_existing=True):
     """Add named arithmetic features to a prepared frame without mutating it.
 
     Column reads only the supplied feature frame, never labels or metadata.
-    Definitions can nest Sum/Product/Difference/Ratio and constants. References address
+    Definitions can nest Abs/Sum/Product/Difference/Ratio and constants. References address
     original columns; use nested expressions rather than forward references.
     This function does not establish temporal eligibility: its inputs must already
     be legitimate prediction features. Index, including keyed identities, survives.
@@ -126,8 +141,7 @@ def combine_features(frame, definitions, *, keep_existing=True):
         if isinstance(node, Real):
             return constant_frame(node, frame.index)
         if isinstance(node, ARITHMETIC):
-            left, right = operands(node)
-            return arithmetic_frame(node, evaluate(left), evaluate(right))
+            return arithmetic_frame(node, *(evaluate(child) for child in operands(node)))
         raise TypeError("combine_features takes Column, Constant and arithmetic expressions.")
     outputs = {}
     for name, node in definitions.items():

@@ -206,6 +206,7 @@ DESCRIPTIONS = {
 
     'features.SpatialPointSummary': 'Exact raw-point means, population spreads, robust widths and covariance geometry. Uses team-relative normalized coordinates and needs a historical wrapper before prediction.',
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
+    'features.Abs': 'Absolute value of one feature or finite constant. Missing inputs stay missing and zeros stay zero. Can be used before or after historical reduction; these orders have different meanings.',
     'features.Product': 'Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.',
     'features.RollingMean': 'Average the selected statistic over eligible past observations. A window of 5 uses up to five previous matches, excluding the match being predicted.',
     'features.RollingSkewness': 'Measure asymmetry in earlier observations: positive means a longer upper tail, negative a longer lower tail. Uses population third and second central moments; at least three finite values and nonzero spread are required. Supports League, LeaveOneOut and SeededEMA warm starts.',
@@ -484,7 +485,7 @@ def build():
                 f['primary'] = True
                 if name == 'name':
                     f.update(kind='select', discovery='assembled_features', help='Choose an already assembled predictor column. Click Discover assembled columns first; this works even while a derived expression is unfinished. Labels are not available as operands.')
-                elif name in ('left','right','numerator','denominator'):
+                elif name in ('source','left','right','numerator','denominator'):
                     f.update(kind='component', categories=['derived_feature'], initial_component='prepared.Column', help='Choose an assembled column, constant or nested arithmetic expression.')
             if key == 'context.CalendarFeature' and name == 'kind':
                 f.update(kind='select', choices=['month_sin','month_cos','weekday','round'], primary=True,
@@ -670,7 +671,7 @@ def build():
             c['fields'].append(dict(name='max_bin',title='Maximum bins',kind='number',required=False,default=255,min=2,step=1,help='Maximum histogram bins per feature. Larger values allow finer splits at higher memory cost.'))
             if c['id'].endswith('Regressor'):
                 c['fields'].append(dict(name='alpha',title='Quantile / Huber alpha',kind='number',required=False,default=0.9,visible_when={'objective':['quantile','huber']},help='Quantile level (0.5 is the median), or the Huber-loss alpha when that objective is selected.'))
-    for key in ('features.Sum', 'features.Product', 'features.Difference', 'features.Ratio', 'features.Constant'):
+    for key in ('features.Abs', 'features.Sum', 'features.Product', 'features.Difference', 'features.Ratio', 'features.Constant'):
         for f in components[key]['fields']:
             f['primary'] = f['required']
             if f['name'] == 'zero_value':

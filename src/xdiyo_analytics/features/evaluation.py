@@ -211,14 +211,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         elif isinstance(node, Real):
             result = (constant_frame(node, history.index), h2h)
         elif isinstance(node, ARITHMETIC):
-            left, right = operands(node)
-            a, a_scope = evaluate(left, h2h)
-            b, b_scope = evaluate(right, h2h)
-            if a_scope != b_scope:
+            children = [evaluate(child, h2h) for child in operands(node)]
+            if len({scope for _, scope in children}) != 1:
                 raise ValueError("Arithmetic operands must use the same H2H scope; wrap the combined expression in H2H.")
-            result = (arithmetic_frame(node, a, b), a_scope)
+            frames = [frame for frame, _ in children]
+            result = (arithmetic_frame(node, *frames), children[0][1])
             from .spatial_lineage import compose_spatial_metadata
-            compose_spatial_metadata(result[0], node, a, b)
+            compose_spatial_metadata(result[0], node, *frames)
         elif isinstance(node, WarmStart):
             if node.policy is None:
                 result = evaluate(node.source, h2h)

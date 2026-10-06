@@ -9,7 +9,7 @@ from hashlib import sha256
 from numbers import Real
 import json
 
-from .composition import Constant, Ratio, operands
+from .composition import Abs, Constant, Ratio, operands
 
 
 def lineage_id(value):
@@ -36,16 +36,17 @@ def calculation_for(frame, expression):
     return dict(operator='Nonspatial', expression=repr(expression))
 
 
-def compose_spatial_metadata(result, node, left, right):
+def compose_spatial_metadata(result, node, *frames):
     """Called only after ordinary single-column/H2H/numeric validation succeeds."""
-    if not any(frame.attrs.get('spatial_features') for frame in (left, right)):
+    if not any(frame.attrs.get('spatial_features') for frame in frames):
         return
-    a, b = operands(node)
-    calculation = dict(operator=type(node).__name__, left=calculation_for(left, a), right=calculation_for(right, b))
+    children = [calculation_for(frame, child) for frame, child in zip(frames, operands(node))]
+    calculation = (dict(operator='Abs', source=children[0]) if isinstance(node, Abs) else
+                   dict(operator=type(node).__name__, left=children[0], right=children[1]))
     if isinstance(node, Ratio):
         calculation['zero_value'] = None if node.zero_value is None else float(node.zero_value)
     sources = []
-    for frame in (left, right):
+    for frame in frames:
         for spec in frame.attrs.get('spatial_features', {}).values():
             sources.extend(spec.get('sources', [
                 {k: v for k, v in spec.items() if k not in ('columns', 'operators', 'feature', 'family')}
@@ -56,5 +57,5 @@ def compose_spatial_metadata(result, node, left, right):
         orientation='derived', side=None, calculation=calculation,
         sources=distinct_records(sources), operators=[])}
     for attr in ('point_map_coverage', 'point_history_coverage'):
-        if any(attr in frame.attrs for frame in (left, right)):
-            result.attrs[attr] = distinct_records(*(frame.attrs.get(attr, []) for frame in (left, right)))
+        if any(attr in frame.attrs for frame in frames):
+            result.attrs[attr] = distinct_records(*(frame.attrs.get(attr, []) for frame in frames))

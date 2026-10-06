@@ -45,6 +45,8 @@ def spatial_calculation_label(calculation):
         return f"{calculation['side']} {calculation['field'].replace('_', ' ')} ({', '.join(calculation['kinds'])})"
     if operator == 'Constant':
         return str(calculation['value'])
+    if operator == 'Abs':
+        return 'Absolute value of ' + spatial_calculation_label(calculation.get('source'))
     if operator == 'Nonspatial':
         return calculation['expression']
     if operator in ('Sum', 'Difference', 'Product', 'Ratio'):
