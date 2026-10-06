@@ -5,6 +5,10 @@ operators turn those observations into predictors. `HeatmapReporter` displays
 those actual predictors on a pitch, with a **team name, Home/Away role and local
 badge**. It works in notebook reports and the experiment builder.
 
+[Exact point summaries](spatial_point_summaries.md) provide compact historical
+mean position and spatial spread directly from raw points, with no grid
+approximation. These scalars stay team-relative even for Away fixtures.
+
 ## Orientation: a shared home-oriented pitch
 
 Following the user's external provider check on 29 September 2026, the input

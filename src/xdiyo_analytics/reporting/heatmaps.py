@@ -16,6 +16,35 @@ def spatial_descriptors(context):
     return specs
 
 
+def point_coverage_tables(context, positions):
+    """Scope identity-keyed diagnostics to exactly the displayed fixtures."""
+    audit = context.definitions.get('spatial_point_audit', {})
+    if not audit:
+        return {}
+    metadata = context.metadata.iloc[positions]
+    keys = [c for c in ('source_league', 'source_season', 'event_id') if c in metadata]
+    if context.layout != 'match':
+        keys.append('team_id')
+    allowed = set(metadata[keys].itertuples(index=False, name=None))
+    tables = {}
+    for kind, name in (('maps', 'point_map_coverage'), ('history', 'point_history_coverage')):
+        records = []
+        for feature, entries in audit.get('features', {}).items():
+            for record in entries.get(kind, []):
+                if tuple(record[k] for k in keys) in allowed:
+                    records.append({'feature':feature, **record})
+        tables[name] = pd.DataFrame(records)
+    maps = tables['point_map_coverage']
+    if not maps.empty:
+        scope = [c for c in ('feature', 'source_league', 'source_season', 'side') if c in maps]
+        fixture = maps.groupby([*scope, 'event_id'], dropna=False).agg(
+            teams=('team_id', 'nunique'), usable_teams=('valid_map', 'sum')).reset_index()
+        fixture['both_teams_usable'] = (fixture.teams == 2) & (fixture.usable_teams == 2)
+        tables['point_fixture_coverage'] = fixture.groupby(scope, dropna=False).agg(
+            fixtures=('event_id', 'size'), both_teams_usable=('both_teams_usable', 'sum')).reset_index()
+    return tables
+
+
 @dataclass
 class SpatialFixtureData:
     """Compact numerical store. Only a requested fixture/map becomes JSON live.
@@ -108,7 +137,7 @@ class HeatmapReporter:
                 entry['scale'][0] = min(entry['scale'][0], float(finite.min()))
                 entry['scale'][1] = max(entry['scale'][1], float(finite.max()))
         if not families:
-            raise ValueError('HeatmapReporter needs declared spatial feature metadata. Prepare Heatmap or RegionMass features first.')
+            raise ValueError('HeatmapReporter needs declared spatial feature metadata. Prepare Heatmap, SpatialPointSummary or RegionMass features first.')
         if requested is not None and any(k not in families and k not in specs for k in requested):
             raise KeyError('Unknown spatial feature selection.')
         catalog = self.catalog or TeamCatalog({})
@@ -151,8 +180,9 @@ class HeatmapReporter:
         data = SpatialFixtureData(values, fixtures, families, teams, self.cache_size)
         summary = pd.DataFrame([{k:v for k,v in f.items() if k != 'rows'} for f in fixtures])
         return StudyResult('Fixture spatial features', artifacts=[Artifact('spatial', data, title='Select a fixture and spatial feature')],
-                           tables={'fixtures':summary}, notes=[
+                           tables={'fixtures':summary, **point_coverage_tables(context, kept)}, notes=[
             'Panels show the exact prepared feature values for this fixture; no additional averaging is applied.',
             'Home-oriented grids share one pitch frame: Home goal left, Away goal right. Against describes opponents historically faced by each focal team.',
             'The displayed feature declares all-venue or same-venue history. Missing values remain unavailable.',
+            'Point summaries use unit-weight activity observations, population spatial spread and the team-relative frame. Coverage tables are diagnostics, not additional predictors.',
             f'{len(fixtures)} fixtures available. Live views cache at most {self.cache_size} fixture/feature pairs. Offline exports embed the chosen population.'])

@@ -14,6 +14,7 @@ from .transitions import TransitionContext
 from .composition import Constant, ARITHMETIC, operands, constant_frame, arithmetic_frame
 from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_context_features
 from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
+from .point_geometry import SpatialPointSummary, point_summary_source, point_summary_values
 from .movement import TeamMovement, movement_records, statistical_context
 
 
@@ -98,6 +99,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     else:
         group_by = tuple(group_by)
     cache, histories, rating_cache = {}, {}, {}
+    point_sources = {}
     retained_ratings = dict(ratings or {})
 
     def retain_rating(run):
@@ -154,7 +156,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     def known_reference(node):
         while isinstance(node, (H2H, WarmStart, RegionMass)):
             node = node.source
-        if isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut)):
+        if isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, ForAgainst, League, LeaveOneOut)):
             raise ValueError("Z-score reference must be historical or known context.")
         if isinstance(node, ARITHMETIC):
             for child in operands(node):
@@ -218,6 +220,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 raise TypeError("WarmStart needs SeededEMA for rolling features or a transition adapter for a rating producer. Apply saved-rating transitions when building the run.")
         elif isinstance(node, H2H):
             result = evaluate(node.source, True)
+        elif isinstance(node, SpatialPointSummary):
+            selection = (node.kinds, node.min_points)
+            if selection not in point_sources:
+                point_sources[selection] = point_summary_source(history, heatmaps, *selection)
+            result = (point_summary_values(history, point_sources[selection], node), h2h)
         elif isinstance(node, Heatmap):
             result = (heatmap_values(history, heatmaps, node), h2h)
         elif isinstance(node, RegionMass):
@@ -232,13 +239,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             # missing values when their export fields are absent.
             result = (history[columns].copy(), h2h)
         elif isinstance(node, ForAgainst):
-            if isinstance(node.source, (Heatmap, MatchScore)):
+            if isinstance(node.source, (Heatmap, SpatialPointSummary, MatchScore)):
                 from dataclasses import replace
                 result = evaluate(replace(node.source, side=node.side), h2h)
             elif isinstance(node.source, Stat):
                 result = (stat_values(node.source, node.side), h2h)
             else:
-                raise TypeError("ForAgainst takes a Stat, MatchScore or Heatmap reference.")
+                raise TypeError("ForAgainst takes a Stat, MatchScore, Heatmap or SpatialPointSummary reference.")
         elif isinstance(node, (BayesianRating, BayesianFixture)):
             if h2h:
                 raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")
@@ -385,13 +392,30 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                             if std > 0 and np.isfinite(value):
                                 output[row, col] = (value - observed.mean()) / std
             result = (pd.DataFrame(output, index=history.index, columns=source.columns), scope)
+            if source.attrs.get('point_map_coverage') is not None:
+                from copy import deepcopy
+                result[0].attrs['point_map_coverage'] = deepcopy(source.attrs['point_map_coverage'])
+                audit = []
+                ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
+                identities = history[ids].to_dict('records')
+                for row, positions in enumerate(candidates):
+                    if isinstance(node, Lag):
+                        selected = [positions[-node.periods]] if len(positions) >= node.periods else []
+                    else:
+                        selected = positions if isinstance(node, EMA) else positions[-node.window:]
+                    for col, column in enumerate(source.columns):
+                        audit.append({**identities[row], 'column':column,
+                                      'eligible_matches':len(positions), 'window_matches':len(selected),
+                                      'usable_maps':int(np.isfinite(values[selected, col]).sum())})
+                result[0].attrs['point_history_coverage'] = audit
             if source.attrs.get('spatial_features'):
                 from copy import deepcopy
                 specs = deepcopy(source.attrs['spatial_features'])
                 for spec in specs.values():
                     spec['operators'].append(dict(operator=type(node).__name__, venue=node.venue,
                                                   window=getattr(node, 'window', None),
-                                                  periods=getattr(node, 'periods', None), span=getattr(node, 'span', None)))
+                                                  periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
+                                                  min_periods=getattr(node, 'min_periods', None)))
                 result[0].attrs['spatial_features'] = specs
         else:
             raise TypeError(f"Unsupported feature expression: {type(node).__name__}")
@@ -403,7 +427,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             return prediction_safe(node.source)
         if isinstance(node, ARITHMETIC):
             return all(prediction_safe(child) for child in operands(node))
-        return not isinstance(node, (Stat, MatchScore, Heatmap, ForAgainst, League, LeaveOneOut))
+        return not isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, ForAgainst, League, LeaveOneOut))
 
     def output_scope(node):
         # This is expression semantics, never inferred from equal values.
@@ -424,11 +448,12 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return "team"
 
     outputs, spatial_metadata, warm_audits, feature_scopes = [], {}, {}, {}
+    point_audits = {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
         if not prediction_safe(node):
-            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to MatchScore and Heatmap sources.")
+            raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to MatchScore, Heatmap and SpatialPointSummary sources.")
         frame, _ = evaluate(node)
         if frame.attrs.get('warm_start_audit') is not None:
             warm_audits[name] = frame.attrs['warm_start_audit']
@@ -451,6 +476,9 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
         scope = "fixture" if output_scope(node) == "fixture" else "team"
         feature_scopes.update(dict.fromkeys(names, scope))
+        if 'point_map_coverage' in frame.attrs:
+            point_audits[name] = dict(maps=frame.attrs['point_map_coverage'],
+                                     history=frame.attrs.get('point_history_coverage', []))
         frame, metadata = finalize_spatial(frame, history, names, name)
         spatial_metadata.update(metadata)
         outputs.append(frame)
@@ -466,6 +494,20 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "warm_start_audit": warm_audits,
         "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
+    if point_sources:
+        from .history import aligned_times
+        from hashlib import sha256
+        ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
+        times = history[ids].copy()
+        times['cutoff'] = aligned_times(history, cutoffs, default='kickoff_at')
+        times['available_at'] = aligned_times(history, available_at, default='kickoff_at')
+        audit = result.attrs['spatial_point_audit'] = {
+            'features':point_audits, 'group_by':group_by, 'sources':[
+                {**{k:v for k,v in source.items() if k != 'groups'}, 'maps':list(source['groups'].values())}
+                for source in point_sources.values()]}
+        audit['timing_sha256'] = sha256(pd.util.hash_pandas_object(times, index=False).to_numpy().tobytes()).hexdigest()
+        audit['timing'] = times.assign(cutoff=times.cutoff.map(str), available_at=times.available_at.map(str)).to_dict('records')
+        audit['availability_policy'] = result.attrs['availability']
     if stat_transitions is not None or movement_evidence is not None:
         import hashlib
         digest = hashlib.sha256(pd.util.hash_pandas_object(history, index=True).to_numpy().tobytes())

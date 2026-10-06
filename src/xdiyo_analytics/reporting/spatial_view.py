@@ -67,7 +67,7 @@ function initializeSpatial(root){
       const ownLeft=spec.orientation!=='home'||panel.side==='home';const left=(spec.region==='own_half')===ownLeft;
       shapes.unshift({type:'rect',x0:left?0:52.5,x1:left?52.5:105,y0:0,y1:68,fillcolor:'rgba(88,199,178,.3)',line:{width:0}});
      }
-     annotations.push({text:(spec.region||'Value').replaceAll('_',' ')+': '+(panel.values[0]===null?'Unavailable':Number(panel.values[0]).toPrecision(5)),x:.5,y:1.05,xref:'paper',yref:'paper',showarrow:false});
+     annotations.push({text:(spec.field_label||spec.field||spec.region||'Value').replaceAll('_',' ')+': '+(panel.values[0]===null?'Unavailable':Number(panel.values[0]).toPrecision(5)),x:.5,y:1.05,xref:'paper',yref:'paper',showarrow:false});
     }
     await Plotly.react(host.querySelector('.spatial-chart'),traces,{template:'plotly_dark',paper_bgcolor:'#17202b',plot_bgcolor:'#17202b',font:{color:'#e8eef7'},height:390,margin:{l:28,r:35,t:35,b:32},shapes,annotations,xaxis:{range:[0,105],showgrid:false,zeroline:false,constrain:'domain'},yaxis:{range:[0,68],showgrid:false,zeroline:false,scaleanchor:'x',scaleratio:1,constrain:'domain'}},{responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'fixture_spatial_feature'}});
    }
