@@ -238,7 +238,7 @@
           "required": false,
           "kind": "select",
           "default": "mean_x",
-          "help": "Exact geometry on 0–100 coordinates, population moments and linear 10–90% quantile widths. Principal angle is in radians modulo pi, missing for isotropic/zero spread maps; arithmetic rolling averages of angles are not circular averages. Lateral touchline convention is unverified. Wrap in Rolling mean, Lag or EMA before prediction.",
+          "help": "Exact geometry on 0–100 coordinates, population moments and linear 10–90% quantile widths. Principal angle is in radians modulo pi, missing for isotropic/zero spread maps; arithmetic rolling averages of angles are not circular averages. For historical axes, roll the double-angle cosine and sine fields separately with identical settings; do not normalize their means. Lateral touchline convention is unverified. Wrap in Rolling mean, Lag or EMA before prediction.",
           "choices": [
             {
               "value": "mean_x",
@@ -295,6 +295,14 @@
             {
               "value": "axis_angle",
               "label": "Principal-axis angle"
+            },
+            {
+              "value": "axis_cos2",
+              "label": "Principal-axis cosine (double angle)"
+            },
+            {
+              "value": "axis_sin2",
+              "label": "Principal-axis sine (double angle)"
             }
           ],
           "primary": true

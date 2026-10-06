@@ -81,6 +81,7 @@ Python or the builder:
 | `major_spread`, `minor_spread` | Square roots of those eigenvalues |
 | `anisotropy` | `(major_variance-minor_variance)/(major_variance+minor_variance)`; missing at zero spread |
 | `axis_angle` | `0.5*atan2(2*cov_xy, var_x-var_y)` modulo pi, in `[0,pi)` radians |
+| `axis_cos2`, `axis_sin2` | `cos(2*axis_angle)` and `sin(2*axis_angle)` per match, sharing the axis validity mask |
 
 Eigenvalues use a symmetric solver; eigenvectors and their arbitrary signs are
 never exposed. Negative eigenvalues within `64*float64_epsilon*trace(covariance)`
@@ -96,6 +97,11 @@ dimensionless. These axes depend on x/y scaling and are not measured formation
 angles. The lateral touchline convention remains unverified. Ordinary rolling
 operators on angles calculate ordinary scalar statistics, **not circular angle
 statistics**; a mean near the zero/pi wrap can be misleading.
+Use the [native axial two-channel recipe](axial_point_features.md) for historical
+principal axes. Average each encoded channel separately with identical history
+settings. Both channels are dimensionless, with an underlying axis period of pi
+radians in the normalized pitch-coordinate metric. Keep the averaged pair's
+length; it contains between-match directional consistency.
 
 For an alternative robust recipe, replace `sd_x` and `sd_y` with `depth_80` and
 `width_80`; they are not appended to the baseline automatically. Between-match
