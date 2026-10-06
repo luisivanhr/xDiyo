@@ -541,6 +541,230 @@
       ],
       "accepts_extra": false
     },
+    "features.SpatialHistoricalDeviation": {
+      "id": "features.SpatialHistoricalDeviation",
+      "title": "SpatialHistoricalDeviation",
+      "category": "feature",
+      "description": "Observed JS distance from each match’s own prior mean map. Wrap in Rolling mean or Lag to use past deviations as predictors. Inner and outer windows are separate. Default is a 6x6 player-only grid; any grid size of at least 2 is supported.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "method": "grid",
+              "normalization": "mass",
+              "side": "for",
+              "sigma": 2.6,
+              "resolution": 100,
+              "kinds": [
+                "player"
+              ],
+              "use_weights": false,
+              "orientation": "team"
+            }
+          },
+          "categories": [
+            "feature"
+          ],
+          "help": "Choose any square grid size of at least 2. Default 6. Gaussian fine resolution must be a multiple of the output grid size. Fixture comparisons choose for/against automatically; keep source side For.",
+          "components": [
+            "features.Heatmap"
+          ],
+          "initial": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "normalization": "mass",
+              "method": "grid",
+              "kinds": [
+                "player"
+              ],
+              "orientation": "team"
+            }
+          },
+          "primary": true
+        },
+        {
+          "name": "window",
+          "title": "Window",
+          "required": false,
+          "kind": "number",
+          "default": 20,
+          "help": "Prior-map history only. Missing maps still occupy eligible-match window slots. The outer historical operator, when present, has independent settings.",
+          "step": 1,
+          "min": 1,
+          "primary": true
+        },
+        {
+          "name": "min_periods",
+          "title": "Min periods",
+          "required": false,
+          "kind": "number",
+          "default": 1,
+          "help": "Prior-map history only. Missing maps still occupy eligible-match window slots. The outer historical operator, when present, has independent settings.",
+          "step": 1,
+          "min": 1,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
+        },
+        {
+          "name": "mass_tolerance",
+          "title": "Mass tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-10,
+          "help": "Mass tolerance for SpatialHistoricalDeviation. Default: 1e-10.",
+          "step": "any",
+          "min": 0,
+          "max": 1e-06,
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "features.SpatialFixtureDistance": {
+      "id": "features.SpatialFixtureDistance",
+      "title": "SpatialFixtureDistance",
+      "category": "feature",
+      "description": "One match-level JS distance between the two teams’ prior mean maps. Choose style similarity or a directional opponent-context comparison. Defaults to 6x6; change Source → Grid size for another resolution.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "method": "grid",
+              "normalization": "mass",
+              "side": "for",
+              "sigma": 2.6,
+              "resolution": 100,
+              "kinds": [
+                "player"
+              ],
+              "use_weights": false,
+              "orientation": "team"
+            }
+          },
+          "categories": [
+            "feature"
+          ],
+          "help": "Choose any square grid size of at least 2. Default 6. Gaussian fine resolution must be a multiple of the output grid size. Fixture comparisons choose for/against automatically; keep source side For.",
+          "components": [
+            "features.Heatmap"
+          ],
+          "initial": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 6,
+              "normalization": "mass",
+              "method": "grid",
+              "kinds": [
+                "player"
+              ],
+              "orientation": "team"
+            }
+          },
+          "primary": true
+        },
+        {
+          "name": "comparison",
+          "title": "Comparison",
+          "required": false,
+          "kind": "select",
+          "default": "style",
+          "help": "Auto follows the label definition; numeric uses a tolerance; categorical compares class identity.",
+          "choices": [
+            "style",
+            "home_context",
+            "away_context"
+          ],
+          "primary": true
+        },
+        {
+          "name": "window",
+          "title": "Window",
+          "required": false,
+          "kind": "number",
+          "default": 20,
+          "help": "Prior-map history only. Missing maps still occupy eligible-match window slots. The outer historical operator, when present, has independent settings.",
+          "step": 1,
+          "min": 1,
+          "primary": true
+        },
+        {
+          "name": "min_periods",
+          "title": "Min periods",
+          "required": false,
+          "kind": "number",
+          "default": 1,
+          "help": "Prior-map history only. Missing maps still occupy eligible-match window slots. The outer historical operator, when present, has independent settings.",
+          "step": 1,
+          "min": 1,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true
+        },
+        {
+          "name": "mass_tolerance",
+          "title": "Mass tolerance",
+          "required": false,
+          "kind": "number",
+          "default": 1e-10,
+          "help": "Mass tolerance for SpatialFixtureDistance. Default: 1e-10.",
+          "step": "any",
+          "min": 0,
+          "max": 1e-06,
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.ForAgainst": {
       "id": "features.ForAgainst",
       "title": "ForAgainst",
@@ -7060,6 +7284,126 @@
           "kind": "text",
           "help": "Entries for TeamCatalog. Optional; leave disabled to use the standard behavior.",
           "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "training.SpatialPCA": {
+      "id": "training.SpatialPCA",
+      "title": "SpatialPCA",
+      "category": "preprocessor",
+      "description": "Fit a shared PCA basis on training-fold historical maps only. Declare ordered home/away grid-column blocks with the same resolution and team frame. Missing cells use training medians. Place before ordinary scalers/imputers to retain named columns.",
+      "fields": [
+        {
+          "name": "n_components",
+          "title": "N components",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "N components for SpatialPCA. Default: 3.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "blocks",
+          "title": "Blocks",
+          "required": false,
+          "kind": "list",
+          "default": null,
+          "help": "Add one ordered grid-column list per team. Prepare data to discover columns. Include every cell in row-major order, using identical resolution and team orientation. Omit only when the whole input is one map vector. The spatial_extensions example can generate these blocks from prepared metadata.",
+          "primary": true,
+          "item": {
+            "kind": "list",
+            "item": {
+              "kind": "select",
+              "discovery": "assembled_features",
+              "title": "Grid cell"
+            }
+          }
+        },
+        {
+          "name": "scale",
+          "title": "Scale",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Scale for SpatialPCA. Default: False.",
+          "primary": true
+        },
+        {
+          "name": "keep_other",
+          "title": "Keep other",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Keep other for SpatialPCA. Default: True.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "training.SpatialClusters": {
+      "id": "training.SpatialClusters",
+      "title": "SpatialClusters",
+      "category": "preprocessor",
+      "description": "Fit a shared training-fold map codebook and output distances to its centers. Ordered home/away grid blocks share one codebook; cluster numbers are not tactical categories. Place before other preprocessing.",
+      "fields": [
+        {
+          "name": "n_clusters",
+          "title": "N clusters",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "N clusters for SpatialClusters. Default: 3.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "blocks",
+          "title": "Blocks",
+          "required": false,
+          "kind": "list",
+          "default": null,
+          "help": "Add one ordered grid-column list per team. Prepare data to discover columns. Include every cell in row-major order, using identical resolution and team orientation. Omit only when the whole input is one map vector. The spatial_extensions example can generate these blocks from prepared metadata.",
+          "primary": true,
+          "item": {
+            "kind": "list",
+            "item": {
+              "kind": "select",
+              "discovery": "assembled_features",
+              "title": "Grid cell"
+            }
+          }
+        },
+        {
+          "name": "scale",
+          "title": "Scale",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Scale for SpatialClusters. Default: False.",
+          "primary": true
+        },
+        {
+          "name": "keep_other",
+          "title": "Keep other",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Keep other for SpatialClusters. Default: True.",
+          "primary": true
+        },
+        {
+          "name": "random_state",
+          "title": "Random state",
+          "required": false,
+          "kind": "number",
+          "default": 0,
+          "help": "Seed for repeatable randomization. Set a fixed integer to reproduce shuffled splits.",
+          "step": 1,
+          "primary": true
         }
       ],
       "accepts_extra": false

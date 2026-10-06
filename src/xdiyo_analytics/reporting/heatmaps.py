@@ -55,6 +55,10 @@ def spatial_calculation_label(calculation):
         return f'{operator}({left}, {right}{fallback})'
     if operator == 'SpatialEntropy':
         label = 'Normalized entropy' if calculation['normalized'] else 'Entropy'
+    elif operator in ('SpatialHistoricalDeviation', 'SpatialFixtureDistance'):
+        label = ('Observed JS deviation from prior' if operator == 'SpatialHistoricalDeviation' else
+                 calculation['comparison'].replace('_', ' ') + ' fixture JS distance')
+        label += f" ({calculation['window']} matches, min {calculation['min_periods']}, {calculation['venue']} venues)"
     elif operator == 'SpatialConcentration':
         label = calculation['metric'].replace('_', ' ')
     elif operator == 'RegionMass':
@@ -127,10 +131,12 @@ class SpatialFixtureData:
             raise KeyError('Unknown spatial fixture.')
         fixture, feature = self.fixtures[position], self.maps[map_id]
         panels = []
-        for side in ('home', 'away'):
+        is_fixture = feature['spec'].get('scope') == 'fixture'
+        for side in (('fixture',) if is_fixture else ('home', 'away')):
             spec = feature['sides'].get(side) or feature['sides'].get('team')
-            row = fixture['rows'].get(side)
-            panel = dict(side=side, team_id=fixture[side])
+            row = (fixture['rows'].get('home', fixture['rows'].get('away')) if is_fixture else fixture['rows'].get(side))
+            panel = dict(side=side, team_id=fixture['home'] if is_fixture else fixture[side],
+                         **({'opponent_id':fixture['away']} if is_fixture else {}))
             if row is None or spec is None:
                 panels.append({**panel, 'missing':True}); continue
             values = self.values.iloc[row][spec['columns']].to_numpy(dtype=float, na_value=np.nan)
@@ -143,6 +149,20 @@ class SpatialFixtureData:
         manifest = self.manifest(limit)
         return dict(manifest=manifest, pairs={f['id']:{m:self.panel_pair(f['id'], m) for m in self.maps}
                                              for f in manifest['fixtures']})
+
+
+def distance_coverage_tables(context, positions):
+    audit = context.definitions.get('spatial_distance_audit', {})
+    if not audit:
+        return {}
+    keys = [c for c in ('source_league','source_season','event_id') if c in context.metadata]
+    if context.layout != 'match':
+        keys.append('team_id')
+    allowed = set(context.metadata.iloc[positions][keys].itertuples(index=False, name=None))
+    records = [{'expression':expression, 'map':name, **record}
+        for expression, entries in audit.items() for name, values in entries.items()
+        for record in values if tuple(record[k] for k in keys) in allowed]
+    return {'spatial_distance_coverage':pd.DataFrame(records)}
 
 
 @dataclass
@@ -237,7 +257,7 @@ class HeatmapReporter:
         data = SpatialFixtureData(values, fixtures, families, teams, self.cache_size)
         summary = pd.DataFrame([{k:v for k,v in f.items() if k != 'rows'} for f in fixtures])
         return StudyResult('Fixture spatial features', artifacts=[Artifact('spatial', data, title='Select a fixture and spatial feature')],
-                           tables={'fixtures':summary, **point_coverage_tables(context, kept)}, notes=[
+                           tables={'fixtures':summary, **point_coverage_tables(context, kept), **distance_coverage_tables(context, kept)}, notes=[
             'Panels show the exact prepared feature values for this fixture; no additional averaging is applied.',
             'Home-oriented grids share one pitch frame: Home goal left, Away goal right. Against describes opponents historically faced by each focal team.',
             'The displayed feature declares all-venue or same-venue history. Missing values remain unavailable.',

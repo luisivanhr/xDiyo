@@ -156,7 +156,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     data_options = catalog.build(recipe['data'])
     def needs_heatmaps(value):
         if isinstance(value, dict):
-            return value.get('component') in ('features.Heatmap', 'features.SpatialPointSummary') or any(needs_heatmaps(v) for v in value.values())
+            return value.get('component') in ('features.Heatmap', 'features.SpatialPointSummary', 'features.SpatialHistoricalDeviation', 'features.SpatialFixtureDistance') or any(needs_heatmaps(v) for v in value.values())
         return isinstance(value, list) and any(needs_heatmaps(v) for v in value)
     if needs_heatmaps(recipe.get('features', {})) and data_options.get('tables') is not None:
         tables = data_options['tables']

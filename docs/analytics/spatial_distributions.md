@@ -192,4 +192,6 @@ Two fresh Windows processes on 6 October 2026 prepared Premier League 2023/24
 
 This is a single-partition implementation benchmark, not an archive-scale memory
 guarantee or evidence of predictive improvement. The loader materializes requested
-tables. Distance/deviation features and fitted PCA remain later phases.
+tables. [Distance/deviation features and fitted PCA/clustering](spatial_extensions.md)
+are now available as opt-in extensions. Every reducer accepts the chosen source
+grid resolution; the 6x6 default above is retained.

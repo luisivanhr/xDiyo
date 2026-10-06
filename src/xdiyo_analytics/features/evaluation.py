@@ -16,6 +16,7 @@ from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_cont
 from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
 from .point_geometry import SpatialPointSummary, point_summary_source, point_summary_values
 from .spatial_distribution import SpatialEntropy, SpatialConcentration, distribution_values, validate_distribution_source
+from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance, deviation_values, fixture_values
 from .movement import TeamMovement, movement_records, statistical_context
 
 
@@ -102,6 +103,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     cache, histories, rating_cache = {}, {}, {}
     point_sources = {}
     validated_grids = {}
+    distance_audits = {}
     retained_ratings = dict(ratings or {})
 
     def retain_rating(run):
@@ -165,7 +167,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     def known_reference(node):
         while isinstance(node, (H2H, WarmStart, RegionMass, SpatialEntropy, SpatialConcentration)):
             node = node.source
-        if isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, ForAgainst, League, LeaveOneOut)):
+        if isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, SpatialHistoricalDeviation, ForAgainst, League, LeaveOneOut)):
             raise ValueError("Z-score reference must be historical or known context.")
         if isinstance(node, ARITHMETIC):
             for child in operands(node):
@@ -237,6 +239,26 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             result = (point_summary_values(history, point_sources[selection], node), h2h)
         elif isinstance(node, Heatmap):
             result = (heatmap_values(history, heatmaps, node), h2h)
+        elif isinstance(node, (SpatialHistoricalDeviation, SpatialFixtureDistance)):
+            from dataclasses import replace
+            source = replace(node.source, orientation='team')
+            validate_grid_sources(source)
+            frame, scope = evaluate(source, h2h)
+            candidates = history_rows(scope, node.venue)
+            if isinstance(node, SpatialHistoricalDeviation):
+                result = (deviation_values(history, frame, candidates, node), scope)
+            else:
+                if h2h:
+                    raise ValueError('H2H cannot change fixture-distance histories; configure ordinary team histories.')
+                against = None
+                if node.comparison != 'style':
+                    other = replace(source, side='against')
+                    validate_grid_sources(other)
+                    against, _ = evaluate(other, h2h)
+                result = (fixture_values(history, frame, against, candidates, node, cutoffs), scope)
+            ids = history[[c for c in ('source_league','source_season','event_id','team_id') if c in history]].to_dict('records')
+            distance_audits[repr((node, h2h))] = {k:[{**identity, **record} for identity,record in zip(ids,records)]
+                for k,records in result[0].attrs['spatial_distance_coverage'].items() if records is not None}
         elif isinstance(node, (SpatialEntropy, SpatialConcentration)):
             validate_grid_sources(node.source)
             source, scope = evaluate(node.source, h2h)
@@ -461,13 +483,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             return prediction_safe(node.source)
         if isinstance(node, ARITHMETIC):
             return all(prediction_safe(child) for child in operands(node))
-        return not isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, ForAgainst, League, LeaveOneOut))
+        return not isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, SpatialHistoricalDeviation, ForAgainst, League, LeaveOneOut))
 
     def output_scope(node):
         # This is expression semantics, never inferred from equal values.
         # Temporal operators use each team's history and therefore stay team
         # scoped even when their child describes a fixture.
-        if isinstance(node, BayesianFixture):
+        if isinstance(node, (BayesianFixture, SpatialFixtureDistance)):
             return "fixture"
         if isinstance(node, (Constant, Real)):
             return "constant"
@@ -520,6 +542,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                                   [c for c in ('source_league','source_season','event_id','team_id') if c in history]
                                               ].to_dict('records')) for col in range(len(names))])
         frame, metadata = finalize_spatial(frame, history, names, name)
+        for spec in metadata.values():
+            # A temporal wrapper uses team history even if its child was a
+            # fixture scalar. The root's explicit scope is authoritative.
+            if scope == 'fixture':
+                spec['scope'] = 'fixture'
+            else:
+                spec.pop('scope', None)
         spatial_metadata.update(metadata)
         outputs.append(frame)
     result = pd.concat(outputs, axis=1)
@@ -534,6 +563,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "warm_start_audit": warm_audits,
         "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
+    if distance_audits:
+        result.attrs['spatial_distance_audit'] = distance_audits
     if point_sources or validated_grids:
         from .history import aligned_times
         from hashlib import sha256

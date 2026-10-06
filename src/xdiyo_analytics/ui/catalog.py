@@ -77,6 +77,10 @@ class Catalog:
             if key:
                 return {'component': key, 'params': {f.name: self.encode(getattr(value, f.name))
                                                     for f in fields(value) if f.init}}
+        if callable(getattr(value, 'get_params', None)) and not isinstance(value, type):
+            key = next((k for k,v in self.entries.items() if v['constructor'] is type(value)), None)
+            if key:
+                return {'component':key, 'params':self.encode(value.get_params(deep=False))}
         if isinstance(value, (tuple, list)):
             return [self.encode(v) for v in value]
         if isinstance(value, dict):
@@ -199,7 +203,7 @@ class Catalog:
 def default_catalog():
     catalog = Catalog()
     groups = {
-        'features': ('feature', 'Stat MatchScore Heatmap SpatialPointSummary RegionMass SpatialEntropy SpatialConcentration ForAgainst H2H IsHome SeasonProgress TeamMovement NormalizedStanding Lag RollingMean RollingStd RollingSkewness RollingZScore EMA Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Abs Sum Product Difference Ratio'),
+        'features': ('feature', 'Stat MatchScore Heatmap SpatialPointSummary RegionMass SpatialEntropy SpatialConcentration SpatialHistoricalDeviation SpatialFixtureDistance ForAgainst H2H IsHome SeasonProgress TeamMovement NormalizedStanding Lag RollingMean RollingStd RollingSkewness RollingZScore EMA Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Abs Sum Product Difference Ratio'),
         'labels': ('label', 'TeamValue MatchTotal MatchGoals Outcome Above BetOption'),
         'ratings': ('rating', 'Glicko2 GlickoTransition BayesianParameters BayesianConfig BayesianModel'),
         'splits': ('split', 'TemporalSplit MatchKFold GroupKFold CPCV Fold SplitPlan'),
@@ -217,6 +221,9 @@ def default_catalog():
                 if name == 'TeamCatalog':
                     cat = 'display'
             catalog.register(f'{module}.{name}', getattr(namespace, name), category=cat)
+    namespace = import_module('xdiyo_analytics.training.spatial')
+    for name in ('SpatialPCA', 'SpatialClusters'):
+        catalog.register('training.' + name, getattr(namespace, name), category='preprocessor')
     namespace = import_module('xdiyo_analytics.features')
     for name in ('SeededEMA', 'Hard', 'LinearFade', 'ObservationCount'):
         catalog.register('features.' + name, getattr(namespace, name), category='warmup')
