@@ -13,7 +13,8 @@ thirds/channels/rectangles, entropy and concentration summaries.
 `venue="all"` or `venue="same"` for both ordinary and spatial team histories.
 
 See [arithmetic composition and fitted identity indicators](feature_composition.md)
-for reusable sums, differences, ratios and categorical team/league columns.
+for reusable absolute values, sums, products, differences, ratios and categorical
+team/league columns.
 
 Build observed rows with `build_team_history`, then pass named expressions to
 `evaluate_features`. By default the result has the same row order and index as

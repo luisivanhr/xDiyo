@@ -1737,6 +1737,26 @@
       ],
       "accepts_extra": false
     },
+    "features.Abs": {
+      "id": "features.Abs",
+      "title": "Abs",
+      "category": "feature",
+      "description": "Absolute value of one feature or finite constant. Missing inputs stay missing and zeros stay zero. Can be used before or after historical reduction; these orders have different meanings.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Choose the observed statistic or expression consumed by this calculation.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.Sum": {
       "id": "features.Sum",
       "title": "Sum",
@@ -12685,6 +12705,27 @@
           "help": "Value for Constant. Optional; leave disabled to use the standard behavior.",
           "step": "any",
           "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Abs": {
+      "id": "prepared.Abs",
+      "title": "Abs",
+      "category": "derived_feature",
+      "description": "Absolute value of one output column; finite zeros remain zero.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
         }
       ],
       "accepts_extra": false

@@ -1,10 +1,10 @@
 # Arithmetic features and fitted identity indicators
 
-The public feature library provides `Column`, `Constant`, `Sum`, `Product`, `Difference`,
+The public feature library provides `Column`, `Constant`, `Abs`, `Sum`, `Product`, `Difference`,
 `Ratio`, `combine_features` and `IdentityIndicators` for reusable numeric
 combinations and categorical team/league indicators.
 
-The experiment builder's feature catalog exposes `Constant`, `Sum`, `Product`, `Difference`
+The experiment builder's feature catalog exposes `Constant`, `Abs`, `Sum`, `Product`, `Difference`
 and `Ratio`, including nested operands and a numeric zero-denominator fallback.
 The builder also exposes `Column` and arithmetic under **Derived match features**
 for prepared columns. It does not silently add identity columns.
@@ -65,6 +65,35 @@ Temporal arithmetic respects existing history/cutoff rules: `Sum(Stat(...), 0)`
 cannot turn the current observed statistic into a prediction feature. Operands
 must have compatible history scopes; apply H2H to the combined expression
 consistently. Nested temporal operators retain historical-row semantics.
+
+### Absolute value
+
+`Abs(source)` takes the absolute value of one output column. Negative finite
+values become positive, zero stays zero, and missing/nonfinite values remain
+missing. It does not impute values or change their historical eligibility.
+
+```python
+from xdiyo_analytics.features import Abs, Difference, RollingMean, SpatialPointSummary
+
+offset = Difference(SpatialPointSummary("mean_x", side="for"), 50)
+features = {
+    "mean_distance_from_midfield": RollingMean(Abs(offset), window=20, min_periods=1),
+    "distance_of_mean_position": Abs(RollingMean(offset, window=20, min_periods=1)),
+}
+```
+
+These orders differ: offsets of -10 and +10 give a mean absolute offset of 10,
+but an absolute mean offset of 0. `Abs` also composes with `Lag`, `RollingStd`,
+`RollingSkewness`, `EMA`, H2H and arithmetic wrappers. Fixed eligible-match
+windows still include missing maps as slots. Raw observed summaries inside
+`Abs` remain unsafe until historically wrapped.
+
+Native evaluation retains spatial source identities, coverage and recursive
+calculation metadata; the heatmap reporter labels the result as an absolute
+value. Team/fixture scope is inherited from the source. Both feature catalogs
+expose `Abs`, and JSON, Python and notebook recipe exports retain it. For an
+already assembled predictor, use `Abs(Column("home::corner_mean5"))` in
+`combine_features` or select **Abs** under **Derived match features**.
 
 ## Combining already assembled columns
 

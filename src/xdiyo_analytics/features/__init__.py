@@ -10,7 +10,7 @@ from .ratings import BayesianFixture, BayesianRating, Rating, MatchResultGlicko,
 from .league import League, LeaveOneOut, LeaguePopulation
 from .warmup import WarmStart, SeededEMA, Hard, LinearFade, ObservationCount, blend_moments
 from .transitions import build_team_seasons, TransitionContext
-from .composition import Column, Constant, Sum, Product, Difference, Ratio, combine_features, IdentityIndicators
+from .composition import Abs, Column, Constant, Sum, Product, Difference, Ratio, combine_features, IdentityIndicators
 from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_context_features
 from .presets import FeatureBankPreset
 from .preparation import NumericFeatures, IdentityFeatureSpec
@@ -29,7 +29,7 @@ __all__ = [
     "League", "LeaveOneOut", "LeaguePopulation", "WarmStart", "SeededEMA",
     "Hard", "LinearFade", "ObservationCount", "blend_moments",
     "build_team_seasons", "TransitionContext",
-    "Column", "Constant", "Sum", "Product", "Difference", "Ratio", "combine_features", "IdentityIndicators",
+    "Abs", "Column", "Constant", "Sum", "Product", "Difference", "Ratio", "combine_features", "IdentityIndicators",
     "RestDays", "CalendarFeature", "SeasonProgress", "evaluate_context_features", "FeatureBankPreset",
     "NumericFeatures", "IdentityFeatureSpec",
     "Heatmap", "heatmap_grid",
