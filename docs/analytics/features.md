@@ -7,6 +7,8 @@ See [heatmap features and fixture views](heatmaps.md) for spatial grid pooling,
 Gaussian smoothing, shared pitch orientation and `RegionMass` summaries.
 See [exact point summaries](spatial_point_summaries.md) for historical mean
 longitudinal position and longitudinal/lateral spatial standard deviations.
+See [regional shares and spatial distributions](spatial_distributions.md) for
+thirds/channels/rectangles, entropy and concentration summaries.
 `Lag`, `RollingMean`, `RollingStd`, `RollingSkewness`, `RollingZScore` and `EMA` accept
 `venue="all"` or `venue="same"` for both ordinary and spatial team histories.
 

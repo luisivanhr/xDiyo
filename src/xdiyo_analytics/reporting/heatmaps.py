@@ -16,6 +16,31 @@ def spatial_descriptors(context):
     return specs
 
 
+def spatial_calculation_label(calculation):
+    """Expose noncommuting reduction order in a prepared feature's caption."""
+    if not calculation:
+        return ''
+    operator = calculation.get('operator', '')
+    if operator == 'Heatmap':
+        return f"{calculation['grid_size']}×{calculation['grid_size']} {calculation['method']} grid"
+    if operator == 'SpatialEntropy':
+        label = 'Normalized entropy' if calculation['normalized'] else 'Entropy'
+    elif operator == 'SpatialConcentration':
+        label = calculation['metric'].replace('_', ' ')
+    elif operator == 'RegionMass':
+        label = calculation['region'].replace('_', ' ') + ' integration'
+    else:
+        label = 'Rolling mean' if operator == 'RollingMean' else operator
+        if calculation.get('window'):
+            label += f" ({calculation['window']} matches)"
+        elif calculation.get('periods'):
+            label += f" ({calculation['periods']} matches ago)"
+        elif calculation.get('span'):
+            label += f" (span {calculation['span']})"
+    child = spatial_calculation_label(calculation.get('source'))
+    return label + (' of ' + child if child else '')
+
+
 def point_coverage_tables(context, positions):
     """Scope identity-keyed diagnostics to exactly the displayed fixtures."""
     audit = context.definitions.get('spatial_point_audit', {})
@@ -117,6 +142,7 @@ class HeatmapReporter:
             raise ValueError('Select at least one spatial feature, or disable Maps for all.')
         families, columns = {}, []
         for name, spec in specs.items():
+            spec['calculation_label'] = spatial_calculation_label(spec.get('calculation'))
             family = spec.get('family', name)
             if requested is not None and family not in requested and name not in requested:
                 continue

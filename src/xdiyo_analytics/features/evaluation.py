@@ -15,6 +15,7 @@ from .composition import Constant, ARITHMETIC, operands, constant_frame, arithme
 from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_context_features
 from .spatial import Heatmap, RegionMass, heatmap_values, region_values, finalize_spatial
 from .point_geometry import SpatialPointSummary, point_summary_source, point_summary_values
+from .spatial_distribution import SpatialEntropy, SpatialConcentration, distribution_values, validate_distribution_source
 from .movement import TeamMovement, movement_records, statistical_context
 
 
@@ -100,6 +101,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         group_by = tuple(group_by)
     cache, histories, rating_cache = {}, {}, {}
     point_sources = {}
+    validated_grids = {}
     retained_ratings = dict(ratings or {})
 
     def retain_rating(run):
@@ -153,8 +155,15 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             raise ValueError("side must be 'for', 'against' or 'both'.")
         return choices[side]
 
+    def validate_grid_sources(node):
+        if isinstance(node, Heatmap):
+            if node not in validated_grids:
+                validated_grids[node] = validate_distribution_source(history, heatmaps, node)
+        elif hasattr(node, 'source'):
+            validate_grid_sources(node.source)
+
     def known_reference(node):
-        while isinstance(node, (H2H, WarmStart, RegionMass)):
+        while isinstance(node, (H2H, WarmStart, RegionMass, SpatialEntropy, SpatialConcentration)):
             node = node.source
         if isinstance(node, (Stat, MatchScore, Heatmap, SpatialPointSummary, ForAgainst, League, LeaveOneOut)):
             raise ValueError("Z-score reference must be historical or known context.")
@@ -227,9 +236,15 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             result = (point_summary_values(history, point_sources[selection], node), h2h)
         elif isinstance(node, Heatmap):
             result = (heatmap_values(history, heatmaps, node), h2h)
-        elif isinstance(node, RegionMass):
+        elif isinstance(node, (SpatialEntropy, SpatialConcentration)):
+            validate_grid_sources(node.source)
             source, scope = evaluate(node.source, h2h)
-            result = (region_values(source, node.region), scope)
+            result = (distribution_values(source, node), scope)
+        elif isinstance(node, RegionMass):
+            if node.region not in ('own_half', 'opponent_half'):
+                validate_grid_sources(node.source)
+            source, scope = evaluate(node.source, h2h)
+            result = (region_values(source, node.region, node.rectangle), scope)
         elif isinstance(node, Stat):
             result = (stat_values(node, "for"), h2h)
         elif isinstance(node, MatchScore):
@@ -412,6 +427,9 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 from copy import deepcopy
                 specs = deepcopy(source.attrs['spatial_features'])
                 for spec in specs.values():
+                    spec['calculation'] = dict(operator=type(node).__name__, window=getattr(node, 'window', None),
+                        periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
+                        min_periods=getattr(node, 'min_periods', None), venue=node.venue, source=spec.get('calculation', {}))
                     spec['operators'].append(dict(operator=type(node).__name__, venue=node.venue,
                                                   window=getattr(node, 'window', None),
                                                   periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
@@ -423,7 +441,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return result
 
     def prediction_safe(node):
-        if isinstance(node, (H2H, WarmStart, RegionMass)):
+        if isinstance(node, (H2H, WarmStart, RegionMass, SpatialEntropy, SpatialConcentration)):
             return prediction_safe(node.source)
         if isinstance(node, ARITHMETIC):
             return all(prediction_safe(child) for child in operands(node))
@@ -494,20 +512,23 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "warm_start_audit": warm_audits,
         "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
-    if point_sources:
+    if point_sources or validated_grids:
         from .history import aligned_times
         from hashlib import sha256
         ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
         times = history[ids].copy()
         times['cutoff'] = aligned_times(history, cutoffs, default='kickoff_at')
         times['available_at'] = aligned_times(history, available_at, default='kickoff_at')
-        audit = result.attrs['spatial_point_audit'] = {
-            'features':point_audits, 'group_by':group_by, 'sources':[
+        timing = dict(group_by=group_by,
+            timing_sha256=sha256(pd.util.hash_pandas_object(times, index=False).to_numpy().tobytes()).hexdigest(),
+            timing=times.assign(cutoff=times.cutoff.map(str), available_at=times.available_at.map(str)).to_dict('records'),
+            availability_policy=result.attrs['availability'])
+        if point_sources:
+            result.attrs['spatial_point_audit'] = {**timing, 'features':point_audits, 'sources':[
                 {**{k:v for k,v in source.items() if k != 'groups'}, 'maps':list(source['groups'].values())}
                 for source in point_sources.values()]}
-        audit['timing_sha256'] = sha256(pd.util.hash_pandas_object(times, index=False).to_numpy().tobytes()).hexdigest()
-        audit['timing'] = times.assign(cutoff=times.cutoff.map(str), available_at=times.available_at.map(str)).to_dict('records')
-        audit['availability_policy'] = result.attrs['availability']
+        if validated_grids:
+            result.attrs['spatial_distribution_audit'] = {**timing, 'sources':list(validated_grids.values())}
     if stat_transitions is not None or movement_evidence is not None:
         import hashlib
         digest = hashlib.sha256(pd.util.hash_pandas_object(history, index=True).to_numpy().tobytes())

@@ -64,8 +64,12 @@ function initializeSpatial(root){
      traces.push({type:'heatmap',z,x:Array.from({length:n},(_,x)=>(x+.5)*105/n),y:Array.from({length:n},(_,y)=>(y+.5)*68/n),zmin:minimum<0?-extent:0,zmax:minimum<0?extent:maximum||1,colorscale:minimum<0?'RdBu':'Viridis',reversescale:minimum<0,colorbar:{thickness:10,title:{text:'Value'}},hovertemplate:'x %{x:.1f}<br>y %{y:.1f}<br>%{z:.5g}<extra></extra>'});
     }else{
      if(spec.kind==='region'){
-      const ownLeft=spec.orientation!=='home'||panel.side==='home';const left=(spec.region==='own_half')===ownLeft;
-      shapes.unshift({type:'rect',x0:left?0:52.5,x1:left?52.5:105,y0:0,y1:68,fillcolor:'rgba(88,199,178,.3)',line:{width:0}});
+      const rectangles=spec.rectangles||(spec.region==='own_half'?[[0,50,0,100]]:[[50,100,0,100]]);
+      for(const rectangle of rectangles){
+       let [x0,x1,y0,y1]=rectangle;
+       if(spec.orientation==='home'&&panel.side==='away'){[x0,x1,y0,y1]=[100-x1,100-x0,100-y1,100-y0];}
+       shapes.unshift({type:'rect',x0:x0*1.05,x1:x1*1.05,y0:y0*.68,y1:y1*.68,fillcolor:'rgba(88,199,178,.3)',line:{width:0}});
+      }
      }
      annotations.push({text:(spec.field_label||spec.field||spec.region||'Value').replaceAll('_',' ')+': '+(panel.values[0]===null?'Unavailable':Number(panel.values[0]).toPrecision(5)),x:.5,y:1.05,xref:'paper',yref:'paper',showarrow:false});
     }

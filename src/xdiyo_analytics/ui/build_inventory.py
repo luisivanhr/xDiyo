@@ -200,6 +200,9 @@ HELP = {
 }
 
 DESCRIPTIONS = {
+    'features.SpatialEntropy': 'Measure how evenly activity is spread across a fixed grid. Rolling mean of entropy describes a typical match; entropy of a rolling-mean grid describes the historical mixture. Missing maps stay missing.',
+    'features.SpatialConcentration': 'Choose effective occupied cells, HHI or another concentration summary of a unit-mass grid. Choose one alternative at a time; effective cells is a transform of entropy.',
+
     'features.SpatialPointSummary': 'Exact mean longitudinal position or population spatial standard deviation from raw activity points. Uses the team-relative pitch frame and needs a historical wrapper before prediction.',
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
     'features.Product': 'Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.',
@@ -323,6 +326,14 @@ def build():
             if key == 'features.RegionMass':
                 if name == 'region': f.update(kind='select', choices=['own_half','opponent_half'], primary=True, help='Integrate the grid over the focal team’s own or opponent half. A cell crossing halfway contributes proportionally. Density is multiplied by area; mass sums proportions; count sums points.')
                 if name == 'source': f.update(kind='component', components=['features.Heatmap','features.Lag','features.RollingMean','features.EMA'], initial_component='features.RollingMean')
+            if key in ('features.SpatialEntropy','features.SpatialConcentration'):
+                if name == 'source':
+                    f.update(kind='component', components=['features.Heatmap','features.Lag','features.RollingMean','features.EMA'], initial={'component':'features.Heatmap','params':{'grid_size':6,'normalization':'mass','method':'grid','kinds':['player'],'orientation':'team'}}, help='Default source is an unsmoothed 6x6 outfield unit-mass grid. Place this reducer inside Rolling mean for per-match summaries, or outside it for a summary of the historical mixture.')
+                    f.pop('initial_component', None)
+                if name == 'normalized': f.update(kind='boolean', help='Divide entropy by the maximum for this grid size. Zero is one occupied cell; one is a uniform map. No pseudocount is added.')
+                if name == 'base': f.update(kind='number',step='any',visible_when={'normalized':[False]},help='Logarithm base greater than 1. Default e gives natural entropy; 2 gives bits. The base cancels for normalized entropy.')
+                if name == 'mass_tolerance': f.update(kind='number',min=0,max=1e-6,step='any',help='Absolute numerical tolerance around total mass 1. Only floating-point drift is normalized away; this does not smooth or repair corrupt maps.')
+                if name == 'metric': f.update(kind='select', choices=['effective_cells','effective_fraction','hhi','normalized_hhi','largest_cell_share','occupied_fraction'],help='Effective cells = exp(natural entropy). HHI = sum of squared shares. Normalized HHI is 0 for uniform and 1 for a single cell. Occupied fraction is mainly diagnostic and depends on sampling volume.')
             if key == 'features.SpatialPointSummary':
                 if name == 'field': f.update(kind='select', choices=[{'value':'mean_x','label':'Mean longitudinal position'}, {'value':'sd_x','label':'Longitudinal standard deviation'}, {'value':'sd_y','label':'Lateral standard deviation'}], help='Exact raw-point geometry on 0–100 coordinates; population standard deviation. Wrap in Rolling mean, Lag or EMA before prediction.')
                 if name == 'kinds': f.update(kind='multiselect', choices=['player','goalkeeper'], help='Player excludes goalkeepers. Each selected exported point has equal weight; repeated coordinates are retained.')
@@ -339,7 +350,7 @@ def build():
                 if name == 'use_weights': f.update(help='Disabled counts each exported point once. Enabled uses its supplied weight, with missing weights equal to 1.')
                 if name == 'orientation': f.update(kind='select', choices=[{'value':'home','label':'Shared pitch — Home goal left'}, {'value':'team','label':'Team-relative — own goal left'}], help='Shared pitch rotates final Away grids 180 degrees. Historical opponent points are first rotated into the focal team’s frame; history is averaged before final venue alignment. Both coordinate axes reverse.')
             if key == 'reporting.HeatmapReporter':
-                if name == 'maps': f.update(kind='multiselect', discovery='heatmaps', primary=True, help='Discover spatial outputs, including Heatmap, SpatialPointSummary and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.')
+                if name == 'maps': f.update(kind='multiselect', discovery='heatmaps', primary=True, help='Discover spatial outputs, including grids, point geometry, regional shares, entropy and concentration. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.')
                 if name == 'max_fixtures': f.update(kind='number', min=1, step=1, help='Optional cap on fixtures retained in this report scope. Useful for small offline exports. Disabled retains every selected fixture.')
                 if name == 'cache_size': f.update(kind='number', min=1, step=1, help='Maximum recently viewed fixture/feature pairs kept by the live browser. 8 is the default; this does not cap the experiment population.')
                 if name == 'type': f['choices'] = ['overall','per_fold']
@@ -444,7 +455,7 @@ def build():
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
             if name=='rounds' and c['id'] in ('features.Hard','features.LinearFade'):f['help']='Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.'
-            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.SpatialPointSummary','features.RegionMass','features.MatchScore','features.TeamMovement','features.SeededEMA') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
+            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.SpatialPointSummary','features.RegionMass','features.SpatialEntropy','features.SpatialConcentration','features.MatchScore','features.TeamMovement','features.SeededEMA') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
             if f['name']=='type' and c['category'] in ('pre_reporter','post_reporter'):
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']
