@@ -201,6 +201,10 @@ HELP = {
 }
 
 DESCRIPTIONS = {
+    'features.SpatialHistoricalDeviation': 'Observed JS distance from each match’s own prior mean map. Wrap in Rolling mean or Lag to use past deviations as predictors. Inner and outer windows are separate. Default is a 6x6 player-only grid; any grid size of at least 2 is supported.',
+    'features.SpatialFixtureDistance': 'One match-level JS distance between the two teams’ prior mean maps. Choose style similarity or a directional opponent-context comparison. Defaults to 6x6; change Source → Grid size for another resolution.',
+    'training.SpatialPCA': 'Fit a shared PCA basis on training-fold historical maps only. Declare ordered home/away grid-column blocks with the same resolution and team frame. Missing cells use training medians. Place before ordinary scalers/imputers to retain named columns.',
+    'training.SpatialClusters': 'Fit a shared training-fold map codebook and output distances to its centers. Ordered home/away grid blocks share one codebook; cluster numbers are not tactical categories. Place before other preprocessing.',
     'features.SpatialEntropy': 'Measure how evenly activity is spread across a fixed grid. Rolling mean of entropy describes a typical match; entropy of a rolling-mean grid describes the historical mixture. Missing maps stay missing.',
     'features.SpatialConcentration': 'Choose effective occupied cells, HHI or another concentration summary of a unit-mass grid. Choose one alternative at a time; effective cells is a transform of entropy.',
 
@@ -336,6 +340,18 @@ def build():
                 if name == 'base': f.update(kind='number',step='any',visible_when={'normalized':[False]},help='Logarithm base greater than 1. Default e gives natural entropy; 2 gives bits. The base cancels for normalized entropy.')
                 if name == 'mass_tolerance': f.update(kind='number',min=0,max=1e-6,step='any',help='Absolute numerical tolerance around total mass 1. Only floating-point drift is normalized away; this does not smooth or repair corrupt maps.')
                 if name == 'metric': f.update(kind='select', choices=['effective_cells','effective_fraction','hhi','normalized_hhi','largest_cell_share','occupied_fraction'],help='Effective cells = exp(natural entropy). HHI = sum of squared shares. Normalized HHI is 0 for uniform and 1 for a single cell. Occupied fraction is mainly diagnostic and depends on sampling volume.')
+            if key in ('features.SpatialHistoricalDeviation','features.SpatialFixtureDistance'):
+                if name == 'source':
+                    f.update(kind='component', components=['features.Heatmap'], initial={'component':'features.Heatmap','params':{'grid_size':6,'normalization':'mass','method':'grid','kinds':['player'],'orientation':'team'}}, help='Choose any square grid size of at least 2. Default 6. Gaussian fine resolution must be a multiple of the output grid size. Fixture comparisons choose for/against automatically; keep source side For.')
+                    f.pop('initial_component', None)
+                if name == 'comparison': f.update(kind='select', choices=['style','home_context','away_context'])
+                if name in ('window','min_periods'): f.update(kind='number', min=1, step=1, help='Prior-map history only. Missing maps still occupy eligible-match window slots. The outer historical operator, when present, has independent settings.')
+                if name == 'mass_tolerance': f.update(kind='number', min=0, max=1e-6, step='any')
+                if name == 'venue': f.pop('visible_when_contains', None)
+            if key in ('training.SpatialPCA','training.SpatialClusters'):
+                f['primary'] = True
+                if name == 'blocks': f.update(kind='list', item={'kind':'list','item':{'kind':'select','discovery':'assembled_features','title':'Grid cell'}}, help='Add one ordered grid-column list per team. Prepare data to discover columns. Include every cell in row-major order, using identical resolution and team orientation. Omit only when the whole input is one map vector. The spatial_extensions example can generate these blocks from prepared metadata.')
+                if name in ('n_components','n_clusters'): f.update(kind='number', min=1, step=1)
             if key == 'features.SpatialPointSummary':
                 if name == 'field': f.update(kind='select', choices=[{'value':key,'label':label} for key,(label,unit) in POINT_FIELDS.items()], help='Exact geometry on 0–100 coordinates, population moments and linear 10–90% quantile widths. Principal angle is in radians modulo pi, missing for isotropic/zero spread maps; arithmetic rolling averages of angles are not circular averages. For historical axes, roll the double-angle cosine and sine fields separately with identical settings; do not normalize their means. Lateral touchline convention is unverified. Wrap in Rolling mean, Lag or EMA before prediction.')
                 if name == 'kinds': f.update(kind='multiselect', choices=['player','goalkeeper'], help='Player excludes goalkeepers. Each selected exported point has equal weight; repeated coordinates are retained.')
@@ -671,6 +687,9 @@ def build():
             c['fields'].append(dict(name='max_bin',title='Maximum bins',kind='number',required=False,default=255,min=2,step=1,help='Maximum histogram bins per feature. Larger values allow finer splits at higher memory cost.'))
             if c['id'].endswith('Regressor'):
                 c['fields'].append(dict(name='alpha',title='Quantile / Huber alpha',kind='number',required=False,default=0.9,visible_when={'objective':['quantile','huber']},help='Quantile level (0.5 is the median), or the Huber-loss alpha when that objective is selected.'))
+    for key in ('features.SpatialHistoricalDeviation', 'features.SpatialFixtureDistance', 'training.SpatialPCA', 'training.SpatialClusters'):
+        for f in components[key]['fields']:
+            f['primary'] = True
     for key in ('features.Abs', 'features.Sum', 'features.Product', 'features.Difference', 'features.Ratio', 'features.Constant'):
         for f in components[key]['fields']:
             f['primary'] = f['required']

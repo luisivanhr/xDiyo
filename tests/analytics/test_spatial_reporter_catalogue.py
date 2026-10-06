@@ -17,6 +17,11 @@ from xdiyo_analytics.reporting.spatial_view import render_spatial
 
 
 def cases():
+    from xdiyo_analytics.features import SpatialHistoricalDeviation, SpatialFixtureDistance
+    yield 'deviation',RollingMean(SpatialHistoricalDeviation(),2),'scalar'
+    for comparison in ('style','home_context','away_context'):
+        yield comparison,SpatialFixtureDistance(comparison=comparison),'scalar'
+    yield 'keeper',RollingMean(SpatialPointSummary('mean_x',kinds=('goalkeeper',)),2),'scalar'
     for method in ('grid','gaussian'):
         for normalization in ('mass','density','count'):
             yield f'{method}_{normalization}',RollingMean(Heatmap(grid_size=2,method=method,normalization=normalization),2),'grid'
@@ -72,11 +77,12 @@ class Element {
  append(){}
 }
 global.document={createElement:()=>new Element(),createTextNode:x=>x};
-async function run(kind,missing=false){
+async function run(kind,missing=false,fixture=false){
  const calls=[];
  global.Plotly={react:async(host,traces,layout)=>calls.push({traces,layout}),purge:()=>{}};
  const spec={kind,grid_size:2,orientation:'team',field_label:'Axial channel',units:'dimensionless',rectangles:[[0,50,0,100]]};
  const panels=['home','away'].map((side,i)=>({side,team_id:String(i),spec,values:kind==='grid'?[.1,.2,.3,.4]:[.5],missing}));
+ if(fixture){panels.splice(1,1);panels[0].side='fixture';panels[0].opponent_id='1';}
  const cfg={manifest:{fixtures:[{id:'0',label:'Home vs Away'}],maps:[{id:'map',label:'Map'}],teams:{'0':{name:'Home'},'1':{name:'Away'}},cache_size:8,included_fixtures:1,total_fixtures:1},pairs:{'0':{map:{panels,scale:[0,1]}}}};
  const els={};for(const name of ['spec','fixture','feature','status','search','panels','download'])els['.spatial-'+name]=new Element();
  els['.spatial-spec'].textContent=JSON.stringify(cfg);
@@ -84,7 +90,8 @@ async function run(kind,missing=false){
  const root={dataset:{},querySelector:key=>els[key],querySelectorAll:key=>key==='.spatial-panel'?hosts:[]};
  initializeSpatial(root);
  await new Promise(resolve=>setImmediate(resolve));
- assert.equal(calls.length,2);
+ assert.equal(calls.length,fixture?1:2);
+ assert.equal(hosts[1].hidden,fixture);
  for(const call of calls){
   if(missing)assert.equal(call.layout.annotations[0].text,'Feature unavailable');
   else if(kind==='grid'){assert.equal(call.traces[0].type,'heatmap');assert.deepEqual(call.traces[0].z,[[.1,.2],[.3,.4]]);}
@@ -92,7 +99,7 @@ async function run(kind,missing=false){
  }
  root.spatialDispose();
 }
-(async()=>{for(const kind of ['grid','region','scalar']){await run(kind);await run(kind,true);}console.log('All renderer branches passed');})().catch(e=>{console.error(e);process.exitCode=1;});
+(async()=>{for(const kind of ['grid','region','scalar']){await run(kind);await run(kind,true);}await run('scalar',false,true);await run('scalar',true,true);console.log('All renderer branches passed');})().catch(e=>{console.error(e);process.exitCode=1;});
 '''
     result=subprocess.run([node,'-'],input=JS+harness,text=True,capture_output=True,timeout=30)
     assert result.returncode==0,result.stdout+result.stderr

@@ -9,6 +9,8 @@ See [exact point summaries](spatial_point_summaries.md) for historical mean
 longitudinal position and longitudinal/lateral spatial standard deviations.
 See [regional shares and spatial distributions](spatial_distributions.md) for
 thirds/channels/rectangles, entropy and concentration summaries.
+See [spatial distances and fitted map representations](spatial_extensions.md)
+for Phase C/D features and configurable grid resolution.
 `Lag`, `RollingMean`, `RollingStd`, `RollingSkewness`, `RollingZScore` and `EMA` accept
 `venue="all"` or `venue="same"` for both ordinary and spatial team histories.
 

@@ -17,9 +17,11 @@ from .preparation import NumericFeatures, IdentityFeatureSpec
 from .spatial import Heatmap, RegionMass, heatmap_grid
 from .point_geometry import SpatialPointSummary
 from .spatial_distribution import SpatialEntropy, SpatialConcentration
+from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance
 from .movement import TeamMovement
 
 __all__ = [
+    "SpatialHistoricalDeviation", "SpatialFixtureDistance",
     "TeamMovement",
     "RegionMass", "SpatialPointSummary", "SpatialEntropy", "SpatialConcentration",
     "Stat", "MatchScore", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",

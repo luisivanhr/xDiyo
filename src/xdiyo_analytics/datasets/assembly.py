@@ -229,10 +229,11 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
         X, y, meta = [frame.loc[keep].reset_index(drop=True) for frame in (X, y, meta)]
     spatial = {}
     for name, spec in features.attrs.get('spatial_features', {}).items():
-        for side in (('home', 'away') if layout == 'match' else (None,)):
+        fixture_spatial = all(scopes.get(c) == 'fixture' for c in spec['columns'])
+        for side in (('fixture',) if layout == 'match' and fixture_spatial else ('home', 'away') if layout == 'match' else (None,)):
             prefix = f'{side}::' if side else ''
             spatial[prefix+name] = {**deepcopy(spec), 'columns':[prefix+c for c in spec['columns']],
-                                  'fixture_side':side, 'family':name}
+                                  'fixture_side':side, 'family':name, **({'scope':'fixture'} if fixture_spatial else {})}
     return ModelDataset(
         X=X, y=y, metadata=meta, layout=layout, identity_columns=identities,
         match_columns=match_keys, target_perspective=label.perspective,
@@ -243,7 +244,7 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
                      }),
                      "label": deepcopy(label.definition), "spatial_features":spatial,
                      **{key: deepcopy(features.attrs[key]) for key in
-                        ('warm_start_input_hash', 'warm_start_audit', 'movement_evidence', 'spatial_point_audit', 'spatial_distribution_audit')
+                        ('warm_start_input_hash', 'warm_start_audit', 'movement_evidence', 'spatial_point_audit', 'spatial_distribution_audit', 'spatial_distance_audit')
                         if features.attrs.get(key)}},
     )
 
@@ -259,8 +260,11 @@ def _fixture_cutoffs(features, feature_ids, required):
     records = pd.DataFrame(provenance.get("records", []), columns=[*required, "cutoff"])
     if records[required].isna().any().any() or records.duplicated(required).any():
         raise ValueError("Fixture prediction cutoff metadata needs unique, nonmissing match/team/side identities.")
-    positions = pd.MultiIndex.from_frame(records[required]).get_indexer(
-        pd.MultiIndex.from_frame(feature_ids[required]))
+    # Match Python scalar tuples exactly. Mixed Arrow/NumPy uint64 levels may
+    # otherwise coerce to float and lose fixture identifiers above 2**53.
+    lookup = {key:i for i,key in enumerate(records[required].itertuples(index=False, name=None))}
+    import numpy as np
+    positions = np.asarray([lookup.get(key, -1) for key in feature_ids[required].itertuples(index=False, name=None)], dtype=int)
     if (positions < 0).any():
         raise ValueError("Fixture prediction cutoff metadata is missing feature identities.")
     try:

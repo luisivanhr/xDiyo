@@ -4,7 +4,7 @@ from html import escape
 from uuid import uuid4
 
 CSS = """
-.spatial-controls{display:flex;gap:12px;flex-wrap:wrap;margin:15px 0}.spatial-controls label{display:flex;flex-direction:column;gap:5px;min-width:180px;max-width:100%}.spatial-controls select{max-width:100%;width:360px}.spatial-controls input{width:220px;max-width:100%}.spatial-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.spatial-panel{min-width:0;border:1px solid var(--border);border-radius:8px;padding:10px}.spatial-team{display:flex;align-items:center;gap:10px;font-weight:600;min-height:45px}.spatial-team img{height:38px;width:38px;object-fit:contain}.spatial-chart{height:390px;min-width:0}.spatial-detail{font-size:12px;color:var(--muted)}.spatial-status{font-size:13px;color:var(--muted)}@media(max-width:1150px){.spatial-panels{grid-template-columns:1fr}}@media(max-width:600px){.spatial-controls select{width:100%}}
+.spatial-controls{display:flex;gap:12px;flex-wrap:wrap;margin:15px 0}.spatial-controls label{display:flex;flex-direction:column;gap:5px;min-width:180px;max-width:100%}.spatial-controls select{max-width:100%;width:360px}.spatial-controls input{width:220px;max-width:100%}.spatial-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.spatial-panels:has(>.spatial-panel[hidden]){grid-template-columns:1fr}.spatial-panel{min-width:0;border:1px solid var(--border);border-radius:8px;padding:10px}.spatial-team{display:flex;align-items:center;gap:10px;font-weight:600;min-height:45px}.spatial-team img{height:38px;width:38px;object-fit:contain}.spatial-chart{height:390px;min-width:0}.spatial-detail{font-size:12px;color:var(--muted)}.spatial-status{font-size:13px;color:var(--muted)}@media(max-width:1150px){.spatial-panels{grid-template-columns:1fr}}@media(max-width:600px){.spatial-controls select{width:100%}}
 """
 
 
@@ -51,11 +51,14 @@ function initializeSpatial(root){
    const pair=await retrieve(fixture.value,feature.value);if(ticket!==revision)return;current=pair;root.querySelector('.spatial-panels').hidden=false;
    const minimum=pair.scale[0],maximum=pair.scale[1],extent=Math.max(Math.abs(minimum),Math.abs(maximum))||1;
    for(let i=0;i<2;i++){
+    root.querySelectorAll('.spatial-panel')[i].hidden=i>=pair.panels.length;
+    if(i>=pair.panels.length)continue;
     if(ticket!==revision)return;
     const panel=pair.panels[i],host=root.querySelectorAll('.spatial-panel')[i],team=m.teams[panel.team_id],spec=panel.spec||{};
     const heading=host.querySelector('.spatial-team');heading.replaceChildren();
     if(team.badge){const img=document.createElement('img');img.src=team.badge;img.alt='';heading.append(img);}
-    heading.append(document.createTextNode(team.name+' · '+(panel.side==='home'?'Home':'Away')));
+    heading.append(document.createTextNode(team.name+' · '+(panel.side==='fixture'?'Fixture comparison':panel.side==='home'?'Home':'Away')));
+    if(panel.side==='fixture'){const other=m.teams[panel.opponent_id];if(other.badge){const img=document.createElement('img');img.src=other.badge;img.alt='';heading.append(img);}heading.append(document.createTextNode(' · '+other.name));}
     host.querySelector('.spatial-detail').textContent=spec.derived?'Derived spatial expression · '+(spec.calculation_label||''):(spec.side==='against'?'Opponents historically faced by this team':'This team’s historical activity')+' · '+(spec.orientation==='home'?'shared home-oriented pitch':'team-relative pitch');
     if(spec.units)host.querySelector('.spatial-detail').textContent+=' · '+spec.units;
     const annotations=[],shapes=pitch(),traces=[];

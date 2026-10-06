@@ -1,0 +1,309 @@
+{
+  "league": "Premier_League",
+  "season": "23_24",
+  "points": 598825,
+  "matches": 380,
+  "columns": [
+    "home::activity_deviation_from_prior_r20",
+    "home::keeper_mean_x_r20",
+    "home::keeper_depth80_r20",
+    "home::keeper_entropy_r20",
+    "away::activity_deviation_from_prior_r20",
+    "away::keeper_mean_x_r20",
+    "away::keeper_depth80_r20",
+    "away::keeper_entropy_r20",
+    "fixture::style_distance_r20",
+    "fixture::home_context_distance_r20",
+    "fixture::away_context_distance_r20"
+  ],
+  "feature_sha256": "17f886083da4eb8aad39655fef770afea9381df9fe32a0a8bd2e7eb2b01ba5da",
+  "timing_sha256": "6c46e740bc965df01049cb00b87e10f909888c375b394872c85349968528f59e",
+  "sources": [
+    {
+      "source_sha256": "bdbf42f18efa42e2e35b44de8f94cb2b2fc3933fd80a00e1c521cf90cd480406",
+      "provenance": {
+        "seasons": [
+          "23_24"
+        ],
+        "leagues": [
+          "Premier_League"
+        ],
+        "tables": [
+          "matches",
+          "statistics",
+          "heatmap_points"
+        ],
+        "sources": [
+          {
+            "season": "Premier_League_23_24",
+            "version": "a13ab544b9ea4f0e82bfbc8969a3ed83",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\a13ab544b9ea4f0e82bfbc8969a3ed83\\manifest.json",
+            "tables": [
+              "matches",
+              "statistics",
+              "heatmap_points"
+            ],
+            "include_awarded": false,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": false
+      },
+      "configuration": "Heatmap(grid_size=6, method='grid', normalization='mass', side='for', sigma=2.6, resolution=100, kinds=('player',), use_weights=False, orientation='team')"
+    },
+    {
+      "source_sha256": "bdbf42f18efa42e2e35b44de8f94cb2b2fc3933fd80a00e1c521cf90cd480406",
+      "provenance": {
+        "seasons": [
+          "23_24"
+        ],
+        "leagues": [
+          "Premier_League"
+        ],
+        "tables": [
+          "matches",
+          "statistics",
+          "heatmap_points"
+        ],
+        "sources": [
+          {
+            "season": "Premier_League_23_24",
+            "version": "a13ab544b9ea4f0e82bfbc8969a3ed83",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\a13ab544b9ea4f0e82bfbc8969a3ed83\\manifest.json",
+            "tables": [
+              "matches",
+              "statistics",
+              "heatmap_points"
+            ],
+            "include_awarded": false,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": false
+      },
+      "configuration": "Heatmap(grid_size=6, method='grid', normalization='mass', side='against', sigma=2.6, resolution=100, kinds=('player',), use_weights=False, orientation='team')"
+    },
+    {
+      "source_sha256": "bdbf42f18efa42e2e35b44de8f94cb2b2fc3933fd80a00e1c521cf90cd480406",
+      "provenance": {
+        "seasons": [
+          "23_24"
+        ],
+        "leagues": [
+          "Premier_League"
+        ],
+        "tables": [
+          "matches",
+          "statistics",
+          "heatmap_points"
+        ],
+        "sources": [
+          {
+            "season": "Premier_League_23_24",
+            "version": "a13ab544b9ea4f0e82bfbc8969a3ed83",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\a13ab544b9ea4f0e82bfbc8969a3ed83\\manifest.json",
+            "tables": [
+              "matches",
+              "statistics",
+              "heatmap_points"
+            ],
+            "include_awarded": false,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": false
+      },
+      "configuration": "Heatmap(grid_size=6, method='grid', normalization='mass', side='for', sigma=2.6, resolution=100, kinds=('goalkeeper',), use_weights=False, orientation='team')"
+    }
+  ],
+  "load_seconds": 0.46820309991016984,
+  "prepare_seconds": 5.886424000142142,
+  "peak_process_working_set_bytes": 579194880,
+  "missing_feature_cells": 132,
+  "recipe_features": {
+    "activity_deviation_from_prior_r20": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.SpatialHistoricalDeviation",
+          "params": {
+            "source": {
+              "component": "features.Heatmap",
+              "params": {
+                "grid_size": 6,
+                "method": "grid",
+                "normalization": "mass",
+                "side": "for",
+                "sigma": 2.6,
+                "resolution": 100,
+                "kinds": [
+                  "player"
+                ],
+                "use_weights": false,
+                "orientation": "team"
+              }
+            },
+            "window": 20,
+            "min_periods": 1,
+            "venue": "all",
+            "mass_tolerance": 1e-10
+          }
+        },
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all"
+      }
+    },
+    "style_distance_r20": {
+      "component": "features.SpatialFixtureDistance",
+      "params": {
+        "source": {
+          "component": "features.Heatmap",
+          "params": {
+            "grid_size": 6,
+            "method": "grid",
+            "normalization": "mass",
+            "side": "for",
+            "sigma": 2.6,
+            "resolution": 100,
+            "kinds": [
+              "player"
+            ],
+            "use_weights": false,
+            "orientation": "team"
+          }
+        },
+        "comparison": "style",
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all",
+        "mass_tolerance": 1e-10
+      }
+    },
+    "home_context_distance_r20": {
+      "component": "features.SpatialFixtureDistance",
+      "params": {
+        "source": {
+          "component": "features.Heatmap",
+          "params": {
+            "grid_size": 6,
+            "method": "grid",
+            "normalization": "mass",
+            "side": "for",
+            "sigma": 2.6,
+            "resolution": 100,
+            "kinds": [
+              "player"
+            ],
+            "use_weights": false,
+            "orientation": "team"
+          }
+        },
+        "comparison": "home_context",
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all",
+        "mass_tolerance": 1e-10
+      }
+    },
+    "away_context_distance_r20": {
+      "component": "features.SpatialFixtureDistance",
+      "params": {
+        "source": {
+          "component": "features.Heatmap",
+          "params": {
+            "grid_size": 6,
+            "method": "grid",
+            "normalization": "mass",
+            "side": "for",
+            "sigma": 2.6,
+            "resolution": 100,
+            "kinds": [
+              "player"
+            ],
+            "use_weights": false,
+            "orientation": "team"
+          }
+        },
+        "comparison": "away_context",
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all",
+        "mass_tolerance": 1e-10
+      }
+    },
+    "keeper_mean_x_r20": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.SpatialPointSummary",
+          "params": {
+            "field": "mean_x",
+            "kinds": [
+              "goalkeeper"
+            ],
+            "side": "for",
+            "min_points": 1
+          }
+        },
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all"
+      }
+    },
+    "keeper_depth80_r20": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.SpatialPointSummary",
+          "params": {
+            "field": "depth_80",
+            "kinds": [
+              "goalkeeper"
+            ],
+            "side": "for",
+            "min_points": 1
+          }
+        },
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all"
+      }
+    },
+    "keeper_entropy_r20": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.SpatialEntropy",
+          "params": {
+            "source": {
+              "component": "features.Heatmap",
+              "params": {
+                "grid_size": 6,
+                "method": "grid",
+                "normalization": "mass",
+                "side": "for",
+                "sigma": 2.6,
+                "resolution": 100,
+                "kinds": [
+                  "goalkeeper"
+                ],
+                "use_weights": false,
+                "orientation": "team"
+              }
+            },
+            "normalized": true,
+            "base": 2.718281828459045,
+            "mass_tolerance": 1e-10
+          }
+        },
+        "window": 20,
+        "min_periods": 1,
+        "venue": "all"
+      }
+    }
+  }
+}
