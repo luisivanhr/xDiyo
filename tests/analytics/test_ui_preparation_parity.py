@@ -9,7 +9,7 @@ import pytest
 from test_ui_workflow import ui_recipe
 from xdiyo_analytics.ui import prepare_recipe, run_recipe, predict_recipe, catalog_for_ui
 from xdiyo_analytics.ui.recipe import node, _grid_candidates
-from xdiyo_analytics.features import SeededEMA, Hard, Column, Sum, Difference, Ratio, Constant, combine_features
+from xdiyo_analytics.features import SeededEMA, Hard, Column, Sum, Product, Difference, Ratio, Constant, combine_features
 from xdiyo_analytics.features.contextual import CalendarFeature, evaluate_context_features
 from xdiyo_analytics.training import save_model, load_model, EstimatorAdapter
 
@@ -62,6 +62,7 @@ def test_explicit_postassembly_arithmetic_and_calendar_match_public_helpers(ui_r
     home, away = node('prepared.Column', name='home::corners_mean'), node('prepared.Column', name='away::corners_mean')
     recipe['derived_features'] = {
         'sum': node('prepared.Sum', left=home, right=away),
+        'product': node('prepared.Product', left=home, right=away),
         'difference': node('prepared.Difference', left=home, right=away),
         'ratio': node('prepared.Ratio', numerator=home, denominator=away),
         'constant': node('prepared.Constant', value=3.),
@@ -70,7 +71,7 @@ def test_explicit_postassembly_arithmetic_and_calendar_match_public_helpers(ui_r
     recipe['numeric_features'] = node('preparation.NumericFeatures', dtype=dtype, infinities_to_missing=True)
     actual = prepare_recipe(recipe).dataset.X
     h, a = Column('home::corners_mean'), Column('away::corners_mean')
-    expected = combine_features(original.dataset.X, {'sum': Sum(h, a), 'difference': Difference(h, a),
+    expected = combine_features(original.dataset.X, {'sum': Sum(h, a), 'product': Product(h, a), 'difference': Difference(h, a),
         'ratio': Ratio(h, a), 'constant': Constant(3.), 'large': Constant(1e40)})
     expected = pd.concat([expected, evaluate_context_features(original.dataset.metadata, {'weekday': CalendarFeature('weekday')})], axis=1)
     expected = expected.astype(dtype).replace([np.inf, -np.inf], np.nan)
@@ -88,6 +89,28 @@ def expanded_holdout(recipe, season='24_25'):
     extra['group_name'], extra['key'] = 'Shots', 'shotsOnGoal'
     data.tables['statistics'] = pd.concat([data.statistics, extra], ignore_index=True)
     return data
+
+
+def test_product_recipe_roundtrip_and_export(ui_recipe):
+    from xdiyo_analytics.ui.recipe import export_python, export_notebook
+    from xdiyo_analytics.ui.inventory import inventory
+    from xdiyo_analytics.features import RollingMean, Stat
+    cat = catalog_for_ui()
+    expr = Product(RollingMean(Stat('ALL', 'Match overview', 'cornerKicks'), 3), Constant(2))
+    assert cat.build(cat.encode(expr)) == expr
+    ui_recipe['features']['scaled'] = node('features.Product', left=ui_recipe['features']['corners_mean'],
+                                         right=node('features.Constant', value=2))
+    ui_recipe['derived_features'] = {'interaction': node('prepared.Product',
+        left=node('prepared.Column', name='home::scaled'),
+        right=node('prepared.Column', name='away::corners_mean'))}
+    expected = prepare_recipe(ui_recipe).dataset.X
+    sources = [export_python(ui_recipe).split('result = run_recipe', 1)[0],
+               ''.join(export_notebook(ui_recipe)['cells'][1]['source'])]
+    for source in sources:
+        namespace = {}
+        exec(compile(source, '<export>', 'exec'), namespace)
+        pd.testing.assert_frame_equal(namespace['prepared'].dataset.X, expected)
+    assert {'features.Product', 'prepared.Product'} <= set(inventory()['components'])
 
 
 def test_heldout_only_stat_and_league_cannot_expand_discovered_schema(ui_recipe, monkeypatch):

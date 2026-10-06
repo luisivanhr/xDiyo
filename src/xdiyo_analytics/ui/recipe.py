@@ -99,10 +99,10 @@ def catalog_for_ui():
     from ..features.presets import FeatureBankPreset
     from ..features.contextual import RestDays, CalendarFeature
     from ..features.preparation import IdentityFeatureSpec, NumericFeatures
-    from ..features.composition import Column, Constant, Sum, Difference, Ratio
+    from ..features.composition import Column, Constant, Sum, Product, Difference, Ratio
     from ..experiments.exports import ArtifactExport
     catalog.register('experiments.ArtifactExport', ArtifactExport, category='export')
-    for name, constructor in [('Column', Column), ('Constant', Constant), ('Sum', Sum), ('Difference', Difference), ('Ratio', Ratio)]:
+    for name, constructor in [('Column', Column), ('Constant', Constant), ('Sum', Sum), ('Product', Product), ('Difference', Difference), ('Ratio', Ratio)]:
         catalog.register('prepared.' + name, constructor, category='derived_feature')
     catalog.register('features.RestDays', RestDays, category='feature')
     catalog.register('context.CalendarFeature', CalendarFeature, category='context_feature')

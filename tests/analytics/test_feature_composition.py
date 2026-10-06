@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from xdiyo_analytics.features import (Column, Constant, Sum, Difference, Ratio,
+from xdiyo_analytics.features import (Column, Constant, Sum, Product, Difference, Ratio,
     combine_features, IdentityIndicators, Lag, RollingMean, ForAgainst, Stat,
     evaluate_features)
 from xdiyo_analytics.labels import MatchTotal, create_labels
@@ -42,15 +42,32 @@ def test_ratio_zero_policy_does_not_impute_missing_or_nonfinite_inputs():
     assert pd.isna(overflow['sum'].iloc[0])
 
 
+def test_product_nested_constants_missing_overflow_and_alignment():
+    from xdiyo_analytics.features.composition import arithmetic_frame
+    frame = pd.DataFrame({'a': [2., -3., 0., np.nan, np.inf, 1e308],
+                          'b': [4., 2., 5., 0., 0., 2.]}, index=[9, 2, 2, 7, 4, 3])
+    before = frame.copy(deep=True)
+    product = Product(Column('a'), Column('b'))
+    actual = combine_features(frame, {'p': product, 'scaled': Product(product, Constant(-2))})
+    np.testing.assert_allclose(actual.p, [8, -6, 0, np.nan, np.nan, np.nan], equal_nan=True)
+    np.testing.assert_allclose(actual.scaled, [-16, 12, 0, np.nan, np.nan, np.nan], equal_nan=True)
+    assert actual.index.equals(frame.index)
+    pd.testing.assert_frame_equal(frame, before)
+    with pytest.raises(ValueError, match='identical row indices'):
+        arithmetic_frame(product, frame[['a']], frame[['b']].reset_index(drop=True))
+
+
 def test_temporal_arithmetic_keeps_cutoffs_and_rejects_raw_or_multicolumn_operands():
     history = history_from_games(warm_games())
     own, against = RollingMean(STAT, 2), RollingMean(ForAgainst(STAT, 'against'), 2)
     expressions = {'total': Sum(own, against), 'difference': Difference(own, against),
-        'ratio': Ratio(own, against), 'nested': RollingMean(Difference(Lag(STAT), 1), 2)}
+        'ratio': Ratio(own, against), 'product': Product(own, against),
+        'nested': RollingMean(Difference(Lag(STAT), 1), 2)}
     actual = evaluate_features(history, expressions)
     assert actual.total.iloc[4] == 10
     assert actual.difference.iloc[4] == -4
     assert actual.ratio.iloc[4] == pytest.approx(3 / 7)
+    assert actual['product'].iloc[4] == 21
     assert actual.nested.iloc[4] == 1
     changed = history.copy()
     changed.loc[4:, [OWN, OTHER]] = 99999.
@@ -61,6 +78,10 @@ def test_temporal_arithmetic_keeps_cutoffs_and_rejects_raw_or_multicolumn_operan
         evaluate_features(history, {'raw': Sum(STAT, Constant(0))})
     with pytest.raises((ValueError, TypeError)):
         evaluate_features(history, {'ambiguous': Sum(RollingMean(Stat(None, 'Match overview', 'cornerKicks'), 2), 1)})
+    with pytest.raises(ValueError, match='Observed Stat'):
+        evaluate_features(history, {'raw': Product(STAT, Constant(0))})
+    with pytest.raises(ValueError, match='one output column'):
+        evaluate_features(history, {'ambiguous': Product(RollingMean(Stat(None, 'Match overview', 'cornerKicks'), 2), 1)})
 
 
 def test_composed_keyed_frames_still_join_by_ids_after_shuffle():

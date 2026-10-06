@@ -1,19 +1,19 @@
 # Arithmetic features and fitted identity indicators
 
-The public feature library provides `Column`, `Constant`, `Sum`, `Difference`,
+The public feature library provides `Column`, `Constant`, `Sum`, `Product`, `Difference`,
 `Ratio`, `combine_features` and `IdentityIndicators` for reusable numeric
 combinations and categorical team/league indicators.
 
-The experiment builder's feature catalog exposes `Constant`, `Sum`, `Difference`
+The experiment builder's feature catalog exposes `Constant`, `Sum`, `Product`, `Difference`
 and `Ratio`, including nested operands and a numeric zero-denominator fallback.
-`Column`, `combine_features` and `IdentityIndicators` remain Python APIs for
-prepared-column/metadata workflows; the UI does not silently add identity columns.
+The builder also exposes `Column` and arithmetic under **Derived match features**
+for prepared columns. It does not silently add identity columns.
 
 ## Historical expressions
 
 ```python
 from xdiyo_analytics.features import (
-    Stat, ForAgainst, RollingMean, Constant, Sum, Difference, Ratio,
+    Stat, ForAgainst, RollingMean, Constant, Sum, Product, Difference, Ratio,
     evaluate_features,
 )
 
@@ -22,6 +22,7 @@ own = RollingMean(corners, window=5)
 conceded = RollingMean(ForAgainst(corners, side="against"), window=5)
 features = evaluate_features(history, {
     "combined_level": Sum(own, conceded),
+    "interaction": Product(own, conceded),
     "balance": Difference(own, conceded),
     "for_against_ratio": Ratio(own, conceded),
     "recent_minus_long": Difference(own, RollingMean(corners, window=20)),
@@ -51,6 +52,12 @@ c,&a_i,b_i\text{ finite and }b_i=0\text{ with finite fallback }c,\\
 A finite fallback replaces only that case; it does not fill missing/infinite
 observations. Nonfinite results, including overflow, also become missing.
 Constants and explicit fallbacks must be finite.
+
+`Product(left, right)` multiplies row-aligned values: `a[i] * b[i]`.
+Use `Product(own, 2)` to scale a feature or `Product(Product(a, b), c)` for
+three factors. Missing/nonfinite inputs remain missing even when the other
+factor is zero; overflow becomes missing. Both the named-feature and derived
+match-feature UI catalogs expose Product, with normal JSON/Python/notebook exports.
 
 Each operand must produce exactly one column. Choose an explicit period,
 perspective and rating field rather than implicitly combining expanded outputs.

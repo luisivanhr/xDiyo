@@ -27,6 +27,17 @@ class Sum(Expr):
 
 
 @dataclass(frozen=True)
+class Product(Expr):
+    """Multiply two single-output expressions or finite numeric constants.
+
+    Missing/nonfinite operands and overflow produce missing values, including
+    when the other operand is zero. Nest Product for more than two factors.
+    """
+    left: Expr
+    right: Expr
+
+
+@dataclass(frozen=True)
 class Difference(Expr):
     """Subtract right from left; e.g. recent average minus long-run average."""
     left: Expr
@@ -45,7 +56,7 @@ class Ratio(Expr):
     zero_value: float | None = None
 
 
-ARITHMETIC = (Sum, Difference, Ratio)
+ARITHMETIC = (Sum, Product, Difference, Ratio)
 
 
 def operands(node):
@@ -76,6 +87,8 @@ def arithmetic_frame(node, left, right):
     with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
         if isinstance(node, Sum):
             values[valid] = a[valid] + b[valid]
+        elif isinstance(node, Product):
+            values[valid] = a[valid] * b[valid]
         elif isinstance(node, Difference):
             values[valid] = a[valid] - b[valid]
         else:
@@ -95,7 +108,7 @@ def combine_features(frame, definitions, *, keep_existing=True):
     """Add named arithmetic features to a prepared frame without mutating it.
 
     Column reads only the supplied feature frame, never labels or metadata.
-    Definitions can nest Sum/Difference/Ratio and constants. References address
+    Definitions can nest Sum/Product/Difference/Ratio and constants. References address
     original columns; use nested expressions rather than forward references.
     This function does not establish temporal eligibility: its inputs must already
     be legitimate prediction features. Index, including keyed identities, survives.
