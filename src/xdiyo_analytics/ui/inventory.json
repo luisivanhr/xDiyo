@@ -1486,6 +1486,37 @@
       ],
       "accepts_extra": false
     },
+    "features.Product": {
+      "id": "features.Product",
+      "title": "Product",
+      "category": "feature",
+      "description": "Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.",
+          "primary": true
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.Difference": {
       "id": "features.Difference",
       "title": "Difference",
@@ -12381,6 +12412,39 @@
       "title": "Sum",
       "category": "derived_feature",
       "description": "Add two single-output expressions or finite numeric constants.",
+      "fields": [
+        {
+          "name": "left",
+          "title": "Left",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        },
+        {
+          "name": "right",
+          "title": "Right",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "derived_feature"
+          ],
+          "help": "Choose an assembled column, constant or nested arithmetic expression.",
+          "primary": true,
+          "initial_component": "prepared.Column"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "prepared.Product": {
+      "id": "prepared.Product",
+      "title": "Product",
+      "category": "derived_feature",
+      "description": "Multiply two single-output expressions or finite numeric constants.",
       "fields": [
         {
           "name": "left",

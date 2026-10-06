@@ -288,7 +288,7 @@ Under **Features & ratings**:
   folds. Explicit discovery seasons are available. Only statistic availability
   is discovered here; no model is fitted. Disjoint training populations require
   an explicit development scope for preset discovery.
-- **Derived match features** uses Column, Sum, Difference and Ratio after
+- **Derived match features** uses Column, Sum, Product, Difference and Ratio after
   home/away assembly. Click **Discover assembled columns** even while an expression
   is unfinished. Nest expressions to combine more than two operands. A derived
   expression reads the assembled inputs, not another derived name.

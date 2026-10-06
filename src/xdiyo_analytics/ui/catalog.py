@@ -172,7 +172,7 @@ class Catalog:
 def default_catalog():
     catalog = Catalog()
     groups = {
-        'features': ('feature', 'Stat MatchScore Heatmap RegionMass ForAgainst H2H IsHome SeasonProgress TeamMovement NormalizedStanding Lag RollingMean RollingStd RollingSkewness RollingZScore EMA Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Sum Difference Ratio'),
+        'features': ('feature', 'Stat MatchScore Heatmap RegionMass ForAgainst H2H IsHome SeasonProgress TeamMovement NormalizedStanding Lag RollingMean RollingStd RollingSkewness RollingZScore EMA Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Sum Product Difference Ratio'),
         'labels': ('label', 'TeamValue MatchTotal MatchGoals Outcome Above BetOption'),
         'ratings': ('rating', 'Glicko2 GlickoTransition BayesianParameters BayesianConfig BayesianModel'),
         'splits': ('split', 'TemporalSplit MatchKFold GroupKFold CPCV Fold SplitPlan'),

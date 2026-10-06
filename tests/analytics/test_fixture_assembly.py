@@ -8,7 +8,7 @@ import pytest
 
 from xdiyo_analytics.datasets import assemble_dataset
 from xdiyo_analytics.features import (
-    BayesianFixture, BayesianRating, Constant, Difference, IsHome, Lag, Ratio,
+    BayesianFixture, BayesianRating, Constant, Product, Difference, IsHome, Lag, Ratio,
     evaluate_features,
 )
 from xdiyo_analytics.histories import build_team_history
@@ -166,7 +166,7 @@ def test_scope_through_arithmetic_but_not_team_history(prepared):
     history, _, label = prepared
     draw = BayesianFixture(fields=('p_draw',))
     features = evaluate_features(history, {
-        'twice': Ratio(draw, .5), 'difference': Difference(draw, draw),
+        'twice': Product(draw, 2), 'difference': Difference(draw, draw),
         'team_history': Lag(draw), 'mixed': Difference(draw, IsHome()),
     }, keyed=True)
     assert features.attrs['feature_scopes'] == {
