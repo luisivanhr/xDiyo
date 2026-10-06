@@ -25,6 +25,8 @@ POINT_FIELDS = {
     'minor_spread': ('Principal minor spread', 'normalized coordinate units'),
     'anisotropy': ('Shape anisotropy', 'dimensionless'),
     'axis_angle': ('Principal-axis angle', 'radians modulo pi'),
+    'axis_cos2': ('Principal-axis cosine (double angle)', 'dimensionless; axis period pi radians'),
+    'axis_sin2': ('Principal-axis sine (double angle)', 'dimensionless; axis period pi radians'),
 }
 
 
@@ -54,7 +56,9 @@ def geometry_extensions(xy, mean):
                 major_variance=float(major), minor_variance=float(minor),
                 major_spread=float(np.sqrt(major)), minor_spread=float(np.sqrt(minor)),
                 anisotropy=float((major-minor)/(major+minor)) if major+minor > 0 else np.nan,
-                axis_angle=angle if identifiable else np.nan)
+                axis_angle=angle if identifiable else np.nan,
+                axis_cos2=float(np.cos(2*angle)) if identifiable else np.nan,
+                axis_sin2=float(np.sin(2*angle)) if identifiable else np.nan)
 
 
 @dataclass(frozen=True)

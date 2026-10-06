@@ -512,10 +512,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         scope = "fixture" if output_scope(node) == "fixture" else "team"
         feature_scopes.update(dict.fromkeys(names, scope))
         if 'point_map_coverage' in frame.attrs:
+            usable_output = np.isfinite(frame.to_numpy(dtype=float, na_value=np.nan))
             point_audits[name] = dict(maps=frame.attrs['point_map_coverage'],
                                      history=frame.attrs.get('point_history_coverage', []),
                                      outputs=[{**identity, 'column':names[col],
-                                               'usable_output':bool(np.isfinite(frame.iloc[row, col]))}
+                                               'usable_output':bool(usable_output[row, col])}
                                               for row, identity in enumerate(history[
                                                   [c for c in ('source_league','source_season','event_id','team_id') if c in history]
                                               ].to_dict('records')) for col in range(len(names))])

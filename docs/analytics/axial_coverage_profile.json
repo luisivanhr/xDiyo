@@ -1,0 +1,227 @@
+{
+  "python": "3.14.0",
+  "pandas": "2.3.3",
+  "numpy": "2.4.6",
+  "rows": 200,
+  "fields": [
+    "mean_x",
+    "sd_x",
+    "sd_y",
+    "mean_y",
+    "depth_80",
+    "width_80",
+    "cov_xy",
+    "corr_xy",
+    "major_variance",
+    "minor_variance",
+    "major_spread",
+    "minor_spread",
+    "anisotropy"
+  ],
+  "reference": {
+    "elapsed_seconds": 11.573424899950624,
+    "spatial_scalar_reads": 2600,
+    "hotspots": [
+      {
+        "file": "scalar_coverage_reference.py",
+        "line": 22,
+        "function": "evaluate_features",
+        "calls": 1,
+        "total_seconds": 0.0191208,
+        "cumulative_seconds": 11.5730266
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\examples\\profile_spatial_coverage.py",
+        "line": 54,
+        "function": "tracked",
+        "calls": 3431,
+        "total_seconds": 0.0084866,
+        "cumulative_seconds": 11.135039500000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\indexing.py",
+        "line": 1177,
+        "function": "__getitem__",
+        "calls": 3431,
+        "total_seconds": 0.055635800000000006,
+        "cumulative_seconds": 11.122894
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 110,
+        "function": "deepcopy",
+        "calls": 31252781,
+        "total_seconds": 4.6940036,
+        "cumulative_seconds": 10.999737900000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\frame.py",
+        "line": 3994,
+        "function": "_ixs",
+        "calls": 3072,
+        "total_seconds": 0.005341500000000001,
+        "cumulative_seconds": 10.9934428
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\frame.py",
+        "line": 4202,
+        "function": "_get_value",
+        "calls": 2600,
+        "total_seconds": 0.0039759,
+        "cumulative_seconds": 10.9918574
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 198,
+        "function": "_deepcopy_dict",
+        "calls": 1066183,
+        "total_seconds": 4.3212676000000005,
+        "cumulative_seconds": 10.985634200000002
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\generic.py",
+        "line": 6258,
+        "function": "__finalize__",
+        "calls": 4045,
+        "total_seconds": 0.028218600000000003,
+        "cumulative_seconds": 10.985518800000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\frame.py",
+        "line": 4619,
+        "function": "_box_col_values",
+        "calls": 3055,
+        "total_seconds": 0.0043352,
+        "cumulative_seconds": 10.954266800000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 172,
+        "function": "_deepcopy_list",
+        "calls": 541008,
+        "total_seconds": 0.5218193,
+        "cumulative_seconds": 10.888862600000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 212,
+        "function": "_keep_alive",
+        "calls": 1607191,
+        "total_seconds": 0.4468531,
+        "cumulative_seconds": 0.7069110000000001
+      },
+      {
+        "file": "scalar_coverage_reference.py",
+        "line": 186,
+        "function": "evaluate",
+        "calls": 26,
+        "total_seconds": 0.0234425,
+        "cumulative_seconds": 0.3908243
+      }
+    ]
+  },
+  "optimized": {
+    "elapsed_seconds": 0.5036847998853773,
+    "spatial_scalar_reads": 0,
+    "hotspots": [
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\src\\xdiyo_analytics\\features\\evaluation.py",
+        "line": 22,
+        "function": "evaluate_features",
+        "calls": 1,
+        "total_seconds": 0.0023376,
+        "cumulative_seconds": 0.5036022
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\src\\xdiyo_analytics\\features\\evaluation.py",
+        "line": 186,
+        "function": "evaluate",
+        "calls": 26,
+        "total_seconds": 0.025561,
+        "cumulative_seconds": 0.41150430000000005
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\src\\xdiyo_analytics\\features\\point_geometry.py",
+        "line": 119,
+        "function": "point_summary_source",
+        "calls": 1,
+        "total_seconds": 0.0077622,
+        "cumulative_seconds": 0.1952192
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 110,
+        "function": "deepcopy",
+        "calls": 310181,
+        "total_seconds": 0.052348000000000006,
+        "cumulative_seconds": 0.1243186
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 172,
+        "function": "_deepcopy_list",
+        "calls": 5408,
+        "total_seconds": 0.005873700000000001,
+        "cumulative_seconds": 0.1225548
+      },
+      {
+        "file": "C:\\Users\\luisi\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\copy.py",
+        "line": 198,
+        "function": "_deepcopy_dict",
+        "calls": 10583,
+        "total_seconds": 0.049587000000000006,
+        "cumulative_seconds": 0.1130889
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\frame.py",
+        "line": 4073,
+        "function": "__getitem__",
+        "calls": 695,
+        "total_seconds": 0.0023459,
+        "cumulative_seconds": 0.0888646
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\generic.py",
+        "line": 6258,
+        "function": "__finalize__",
+        "calls": 1426,
+        "total_seconds": 0.0038447000000000004,
+        "cumulative_seconds": 0.06483380000000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\src\\xdiyo_analytics\\features\\spatial.py",
+        "line": 228,
+        "function": "finalize_spatial",
+        "calls": 13,
+        "total_seconds": 9.71e-05,
+        "cumulative_seconds": 0.062310800000000006
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\generic.py",
+        "line": 4164,
+        "function": "_take_with_is_copy",
+        "calls": 672,
+        "total_seconds": 0.0011743,
+        "cumulative_seconds": 0.06179660000000001
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\core\\generic.py",
+        "line": 6684,
+        "function": "copy",
+        "calls": 20,
+        "total_seconds": 4.7900000000000006e-05,
+        "cumulative_seconds": 0.0603758
+      },
+      {
+        "file": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\examples\\profile_spatial_coverage.py",
+        "line": 54,
+        "function": "tracked",
+        "calls": 831,
+        "total_seconds": 0.0008319,
+        "cumulative_seconds": 0.058229500000000003
+      }
+    ]
+  },
+  "speedup": 22.977514712741716,
+  "complete_output_and_metadata_equal": true
+}

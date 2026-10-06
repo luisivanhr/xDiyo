@@ -8,6 +8,24 @@ from .contracts import Artifact, StudyResult
 from .teams import TeamCatalog, team_key
 
 
+def axial_direction_summary(cos2_mean, sin2_mean):
+    """Optional reporting summaries of two already averaged axial channels.
+
+    No normalization or predictor creation. The dimensionless resultant R is
+    retained even at cancellation; mean angle is undefined when R <= 64*eps.
+    This absolute roundoff tolerance assumes means of unit double-angle pairs.
+    Missing either channel makes both summaries missing. Angles use the exported
+    normalized pitch metric and are in radians modulo pi, not physical metres.
+    """
+    c, s = np.broadcast_arrays(np.asarray(cos2_mean, dtype=float), np.asarray(sin2_mean, dtype=float))
+    valid = np.isfinite(c) & np.isfinite(s)
+    resultant = np.where(valid, np.hypot(c, s), np.nan)
+    angle = (.5*np.arctan2(s, c)) % np.pi
+    angle = np.where(angle == np.pi, 0., angle)
+    angle = np.where(valid & (resultant > 64*np.finfo(np.float64).eps), angle, np.nan)
+    return dict(mean_axis=angle, consistency=resultant)
+
+
 def spatial_descriptors(context):
     """Use declared output metadata, not feature-name parsing."""
     specs = deepcopy(context.definitions.get('spatial_features', {}))
