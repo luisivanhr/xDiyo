@@ -36,11 +36,11 @@ def calculation_for(frame, expression):
     return dict(operator='Nonspatial', expression=repr(expression))
 
 
-def compose_spatial_metadata(result, node, *frames):
+def compose_spatial_metadata(result, node, *frames, expressions=None):
     """Called only after ordinary single-column/H2H/numeric validation succeeds."""
     if not any(frame.attrs.get('spatial_features') for frame in frames):
         return
-    children = [calculation_for(frame, child) for frame, child in zip(frames, operands(node))]
+    children = [calculation_for(frame, child) for frame, child in zip(frames, operands(node) if expressions is None else expressions)]
     calculation = (dict(operator='Abs', source=children[0]) if isinstance(node, Abs) else
                    dict(operator=type(node).__name__, left=children[0], right=children[1]))
     if isinstance(node, Ratio):

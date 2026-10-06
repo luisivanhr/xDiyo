@@ -47,6 +47,10 @@ def spatial_calculation_label(calculation):
         return str(calculation['value'])
     if operator == 'Abs':
         return 'Absolute value of ' + spatial_calculation_label(calculation.get('source'))
+    if operator == 'RollingWeightedMean':
+        return (f"Weighted mean ({calculation['window']} matches, min {calculation['min_periods']} positive pairs) of "
+                + spatial_calculation_label(calculation['source']) + '; weights: '
+                + spatial_calculation_label(calculation['weights']))
     if operator == 'Nonspatial':
         return calculation['expression']
     if operator in ('Sum', 'Difference', 'Product', 'Ratio'):
@@ -149,6 +153,20 @@ class SpatialFixtureData:
         manifest = self.manifest(limit)
         return dict(manifest=manifest, pairs={f['id']:{m:self.panel_pair(f['id'], m) for m in self.maps}
                                              for f in manifest['fixtures']})
+
+
+def weighted_coverage_tables(context, positions):
+    audit = context.definitions.get('weighted_history_audit', {})
+    if not audit:
+        return {}
+    keys = [c for c in ('source_league', 'source_season', 'event_id') if c in context.metadata]
+    if context.layout != 'match':
+        keys.append('team_id')
+    allowed = set(context.metadata.iloc[positions][keys].itertuples(index=False, name=None))
+    records = [{'feature':feature, 'expression':entry['definition']['expression'], **record}
+        for feature, entries in audit.items() for entry in entries for record in entry['records']
+        if tuple(record[k] for k in keys) in allowed]
+    return {'weighted_history_coverage':pd.DataFrame(records)}
 
 
 def distance_coverage_tables(context, positions):
@@ -257,7 +275,7 @@ class HeatmapReporter:
         data = SpatialFixtureData(values, fixtures, families, teams, self.cache_size)
         summary = pd.DataFrame([{k:v for k,v in f.items() if k != 'rows'} for f in fixtures])
         return StudyResult('Fixture spatial features', artifacts=[Artifact('spatial', data, title='Select a fixture and spatial feature')],
-                           tables={'fixtures':summary, **point_coverage_tables(context, kept), **distance_coverage_tables(context, kept)}, notes=[
+                           tables={'fixtures':summary, **point_coverage_tables(context, kept), **distance_coverage_tables(context, kept), **weighted_coverage_tables(context, kept)}, notes=[
             'Panels show the exact prepared feature values for this fixture; no additional averaging is applied.',
             'Home-oriented grids share one pitch frame: Home goal left, Away goal right. Against describes opponents historically faced by each focal team.',
             'The displayed feature declares all-venue or same-venue history. Missing values remain unavailable.',

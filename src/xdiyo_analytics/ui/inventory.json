@@ -1082,6 +1082,108 @@
       ],
       "accepts_extra": false
     },
+    "features.RollingWeightedMean": {
+      "id": "features.RollingWeightedMean",
+      "title": "RollingWeightedMean",
+      "category": "feature",
+      "description": "Average one numeric feature using another nonnegative feature as its weight. Uses one fixed eligible-match window and paired available values. Minimum periods counts only finite pairs with positive weights.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Select exactly one numeric output. This value is averaged.",
+          "primary": true,
+          "initial_component": "features.Stat"
+        },
+        {
+          "name": "weights",
+          "title": "Weights",
+          "required": true,
+          "kind": "component",
+          "help": "Select exactly one numeric output. Finite negative weights raise; zero weights occupy slots but do not count toward minimum periods.",
+          "primary": true,
+          "categories": [
+            "feature"
+          ],
+          "initial_component": "features.Stat",
+          "key_discovery": "ranking_metrics"
+        },
+        {
+          "name": "window",
+          "title": "Window",
+          "required": false,
+          "kind": "number",
+          "default": 5,
+          "help": "Number of eligible past observations in the rolling window. Example: 5 uses the last five matches; a League source can use rounds or days.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "min_periods",
+          "title": "Min periods",
+          "required": false,
+          "kind": "number",
+          "default": 1,
+          "help": "Minimum paired finite observations with strictly positive weights, unlike ordinary Rolling mean which counts finite values.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
+          "clear_when_hidden": true,
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            }
+          ],
+          "primary": true,
+          "visible_when_any_contains": {
+            "source": [
+              "features.Heatmap",
+              "features.SpatialPointSummary"
+            ],
+            "weights": [
+              "features.Heatmap",
+              "features.SpatialPointSummary"
+            ]
+          }
+        },
+        {
+          "name": "source_available_at",
+          "title": "Source available at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional UTC datetime column in team history for this input. Missing or late release masks the input within the fixed window. Disabled uses shared fixture availability. The column must already exist in the supplied history.",
+          "primary": false
+        },
+        {
+          "name": "weights_available_at",
+          "title": "Weights available at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional UTC datetime column in team history for this input. Missing or late release masks the input within the fixed window. Disabled uses shared fixture availability. The column must already exist in the supplied history.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.RollingStd": {
       "id": "features.RollingStd",
       "title": "RollingStd",

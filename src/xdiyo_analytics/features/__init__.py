@@ -19,8 +19,10 @@ from .point_geometry import SpatialPointSummary
 from .spatial_distribution import SpatialEntropy, SpatialConcentration
 from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance
 from .movement import TeamMovement
+from .weighted import RollingWeightedMean
 
 __all__ = [
+    "RollingWeightedMean",
     "SpatialHistoricalDeviation", "SpatialFixtureDistance",
     "TeamMovement",
     "RegionMass", "SpatialPointSummary", "SpatialEntropy", "SpatialConcentration",

@@ -18,6 +18,7 @@ from .point_geometry import SpatialPointSummary, point_summary_source, point_sum
 from .spatial_distribution import SpatialEntropy, SpatialConcentration, distribution_values, validate_distribution_source
 from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance, deviation_values, fixture_values
 from .movement import TeamMovement, movement_records, statistical_context
+from .weighted import RollingWeightedMean, weighted_values
 
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
@@ -356,6 +357,16 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 values[valid] = 1 - (position[valid] - 1) / (size[valid] - 1)
                 output[f"{role}_standing"] = values
             result = (pd.DataFrame(output, index=history.index), h2h)
+        elif isinstance(node, RollingWeightedMean):
+            if isinstance(node.source, (League, LeaveOneOut)) or isinstance(node.weights, (League, LeaveOneOut)):
+                raise ValueError('RollingWeightedMean needs paired team observations, not a league population.')
+            source, source_scope = evaluate(node.source, h2h)
+            weights, weight_scope = evaluate(node.weights, h2h)
+            if source_scope != weight_scope:
+                raise ValueError('RollingWeightedMean inputs must use the same H2H scope; wrap the whole expression in H2H.')
+            result = (weighted_values(history, source, weights, history_rows(source_scope, node.venue),
+                                      node, cutoffs=cutoffs, available_at=available_at, group_by=group_by,
+                                      scope=source_scope), source_scope)
         elif isinstance(node, (Lag, RollingMean, RollingStd, RollingSkewness, RollingZScore, EMA)):
             if node.venue not in ('all', 'same'):
                 raise ValueError('Historical venue must be all or same.')
@@ -504,13 +515,29 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return "team"
 
     outputs, spatial_metadata, warm_audits, feature_scopes = [], {}, {}, {}
-    point_audits = {}
+    point_audits, weighted_audits = {}, {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
         if not prediction_safe(node):
             raise ValueError("Observed Stat values need Lag, a rolling operator or EMA before prediction; the same applies to MatchScore, Heatmap and SpatialPointSummary sources.")
         frame, _ = evaluate(node)
+        # Retain paired diagnostics through arbitrary enclosing arithmetic and
+        # historical wrappers, including reused cached descendants, once only.
+        from dataclasses import fields, is_dataclass
+        from .spatial_lineage import distinct_records
+        weighted_descendants = set()
+        def visit_weighted(value):
+            if not is_dataclass(value) or value in weighted_descendants:
+                return
+            weighted_descendants.add(value)
+            for field in fields(value):
+                visit_weighted(getattr(value, field.name))
+        visit_weighted(node)
+        entries = distinct_records(*(value.attrs.get('weighted_history_audit', [])
+            for (child, _, _), (value, _) in cache.items() if child in weighted_descendants))
+        if entries:
+            weighted_audits[name] = entries
         if frame.attrs.get('warm_start_audit') is not None:
             warm_audits[name] = frame.attrs['warm_start_audit']
         else:
@@ -565,6 +592,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     }
     if distance_audits:
         result.attrs['spatial_distance_audit'] = distance_audits
+    if weighted_audits:
+        result.attrs['weighted_history_audit'] = weighted_audits
     if point_sources or validated_grids:
         from .history import aligned_times
         from hashlib import sha256
