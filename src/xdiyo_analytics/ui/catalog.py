@@ -7,9 +7,20 @@ register additional adapters/callables before starting its local UI server.
 from dataclasses import MISSING, fields, is_dataclass
 from importlib import import_module
 from copy import deepcopy
+from functools import lru_cache
 import inspect
 import json
 import math
+
+
+@lru_cache(maxsize=8)
+def _remainder_parameter(constructor):
+    """Resolve this version-dependent sklearn field once per constructor.
+
+    ColumnTransformer removed force_int_remainder_cols in sklearn 1.9. Cache at
+    registration so ordinary form reads keep using the saved presentation schema.
+    """
+    return inspect.signature(constructor).parameters.get('force_int_remainder_cols')
 
 
 class ComponentFactory:
@@ -45,6 +56,8 @@ class Catalog:
         self.entries[key] = dict(constructor=constructor, category=category,
                                  title=title or key.split('.')[-1], overrides=fields or {},
                                  description=description or inspect.getdoc(constructor) or '')
+        if key == 'sklearn.compose.ColumnTransformer':
+            self.entries[key]['remainder_parameter'] = _remainder_parameter(constructor)
         return self
 
     def cache_key(self):
@@ -80,6 +93,20 @@ class Catalog:
                 saved = component_schema(key)
                 if saved is not None:
                     saved = deepcopy(saved)
+                    if key == 'sklearn.compose.ColumnTransformer':
+                        name = 'force_int_remainder_cols'
+                        parameter = item['remainder_parameter']
+                        previous = next((f for f in saved['fields'] if f['name'] == name), None)
+                        if parameter is None:
+                            saved['fields'] = [f for f in saved['fields'] if f['name'] != name]
+                        else:
+                            field = previous if previous is not None else dict(
+                                name=name, title='Force integer remainder columns', required=False,
+                                primary=False, help='Compatibility option from the installed scikit-learn constructor. Keep its default; deprecated releases ignore it.')
+                            field.update(default=self.encode(parameter.default),
+                                         kind='boolean' if isinstance(parameter.default, bool) else 'value')
+                            if previous is None:
+                                saved['fields'].append(field)
                     for field in saved['fields']:
                         field.update(item['overrides'].get(field['name'], {}))
                     result.append(saved)

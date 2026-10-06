@@ -69,3 +69,55 @@ The saved inventory diff is restricted to `SpatialPointSummary` choices/help.
 The viewer's `JS` string also passes `node --check` via standard input. This is a
 source/syntax and generated-artifact validation, not a live browser inspection.
 No external adversarial review suite or full repository test run is claimed.
+
+## Separate catalogue compatibility repair
+
+The spatial repair is commit `bf0307a`. A separate follow-up reconciles only
+`ColumnTransformer.force_int_remainder_cols` with the installed constructor,
+including its actual default. Constructor inspection is cached at registration;
+ordinary saved-schema reads remain cached. Existing field help and unrelated
+catalogue entries remain unchanged. This does not rewrite recipes or remove
+recipe-construction validation, and does not claim that a removed constructor
+argument can still be passed to scikit-learn 1.9.
+
+The installed runtime is scikit-learn 1.9.0. Earlier presence/default contracts
+are tested with synthetic constructors (boolean and `"deprecated"` defaults),
+not by installing 1.8.0. The reported older-runtime failure cannot occur when
+its constructor exposes the field: the schema now includes it. A stale inventory
+cannot expose that removed option on a constructor without it.
+
+```powershell
+& 'C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe' -m pytest tests/analytics/test_ui_catalog_compatibility.py tests/analytics/test_ui_inventory.py tests/analytics/test_ui_workflow.py tests/analytics/test_point_geometry_extensions.py -q -p no:cacheprovider
+```
+
+Same environment variables as above. Result: **64 passed**, no warnings or
+failures. No remaining failures in the executed validation suites.
+
+## Changed files
+
+Spatial implementation and presentation:
+
+- `src/xdiyo_analytics/features/point_geometry.py`
+- `src/xdiyo_analytics/features/spatial_lineage.py`
+- `src/xdiyo_analytics/features/evaluation.py`
+- `src/xdiyo_analytics/reporting/heatmaps.py`
+- `src/xdiyo_analytics/reporting/spatial_view.py`
+- `src/xdiyo_analytics/ui/build_inventory.py`
+- `src/xdiyo_analytics/ui/inventory.json`
+
+Spatial tests and documentation:
+
+- `tests/analytics/test_point_geometry.py`
+- `tests/analytics/test_point_geometry_extensions.py`
+- `tests/analytics/test_spatial_arithmetic.py`
+- `docs/analytics/spatial_point_summaries.md`
+- `docs/analytics/spatial_phase_a_repair_validation.md`
+
+Separate compatibility follow-up:
+
+- `src/xdiyo_analytics/ui/catalog.py`
+- `tests/analytics/test_ui_catalog_compatibility.py`
+- This validation record.
+
+Unrelated collector/data and feature-inventory working-tree changes were not
+included. Only Phase B was pushed; these follow-up commits remain local.
