@@ -178,7 +178,7 @@ HELP = {
     'every': 'Save an adapter checkpoint after this many training steps.',
     'unsupported': 'Skip checkpointing or raise when the selected adapter cannot save resumable state.',
     'reuse': 'Reuse a matching completed fit and its saved models. Post-training reporters are refreshed without fitting again. Disable to deliberately train a fresh run.',
-    'calibration': 'Optional probability calibration fitted on a separate chronological tail of each training fold. These rows are excluded from model/scaler fitting, feature selection and early stopping. Test outcomes are never used. Requires a classifier with class probabilities.',
+    'calibration': 'Optional calibration fitted on a separate chronological training tail, excluded from base model/scaler fitting and feature selection. Choose probability input for existing classifiers, or binary SVC decision margins with internal probabilities disabled and explicit label availability.',
     'save_models': 'Save fitted fold models, final refits and their fitted scalers for automatic restoration. Enabled by default. Load only trusted experiment folders.',
     'name': 'Human-readable name used in the recipe and report.',
     'data_root': 'Folder containing published season manifests and tables. Example: data/xDiyo_data.',
@@ -282,7 +282,7 @@ def build():
             if name in ('metric',) or key == 'evaluation.Metric' and name == 'name': f.update(kind='select', discovery='metrics')
             if name == 'fields' and key.startswith('features.'): f.update(kind='multiselect', choices=['rating','rd','sigma'])
             if name == 'output': f.update(choices=['predict','predict_proba'])
-            if name == 'prediction_methods': f.update(kind='multiselect', choices=['predict','predict_proba'])
+            if name == 'prediction_methods': f.update(kind='multiselect', choices=['predict','predict_proba'] + (['decision_function'] if key == 'training.EstimatorAdapter' else []))
             if name == 'engine': f.update(kind='component', categories=['rating'], components=['ratings.Glicko2'], initial_component='ratings.Glicko2')
             if name in ('stat',): f.update(kind='component', components=['features.Stat'], initial_component='features.Stat')
             if name in ('calibration','early_stopping','scheduler','control','validation','transition','handoff','policy'):
@@ -605,6 +605,7 @@ def build():
         f['primary'] = True
         if f['name'] == 'method':
             f.update(kind='select', choices=['temperature','sigmoid','isotonic'],
+                     choices_by={'response_method': {'decision_function':['sigmoid'], 'predict_proba':['temperature','sigmoid','isotonic']}},
                      help='Temperature adjusts overall confidence with one parameter per target. Sigmoid fits a logistic mapping per class; isotonic fits a more flexible monotone mapping. All return a normalized class distribution.')
         elif f['name'] == 'fraction':
             f.update(kind='number', min=0.001, max=0.999, step='any',
@@ -612,7 +613,23 @@ def build():
         elif f['name'] == 'time_column':
             f.update(kind='select', choices=['kickoff_at'], help='Timestamp used to choose the chronological calibration tail.')
         elif f['name'] == 'update_predict':
-            f.update(help='Use the most probable calibrated class for point predictions. Disable to preserve the original point predictions. Both raw and calibrated probability distributions remain available.')
+            f.update(help='Use calibrated probability argmax for point predictions. Disable to preserve base predictions. Probability mode retains raw probabilities; margin mode retains decision_function instead.')
+        elif f['name'] == 'response_method':
+            f.update(kind='select', choices=['predict_proba','decision_function'],
+                     help='Probability input preserves existing behavior. Decision function fits one sigmoid on binary SVC margins from a later, availability-checked training tail; requires SVC internal probabilities disabled and Method sigmoid.')
+        elif f['name'] in ('availability_column','availability_delay','cutoff_column','prediction_lead','issue_at'):
+            f.update(kind='text', visible_when={'response_method':['decision_function']}, help={
+                'availability_column':'Metadata column with label availability timestamps. Missing availability purges the whole prediction group. Mutually exclusive with delay.',
+                'availability_delay':'Explicit outcome-availability assumption, e.g. 3h after kickoff. A proxy, not a verified release time. Set this or an availability column.',
+                'cutoff_column':'Optional metadata column for prediction cutoffs. Otherwise use first kickoff of each declared group minus Prediction lead.',
+                'prediction_lead':'Duration before the first kickoff of the prediction group, e.g. 1h. Default 1h. Used when no explicit cutoff column is selected.',
+                'issue_at':'Explicit UTC model issue time, required for final refit without an outer fold. An outer fold always uses the earlier of this time and its first prediction cutoff.'}[f['name']])
+        elif f['name'] == 'prediction_group_by':
+            f.update(kind='list', item={'kind':'text','default':'competition_id'}, visible_when={'response_method':['decision_function']},
+                     help='Metadata keys defining indivisible prediction groups, e.g. competition_id, season_id, tournament_id, round. Use the actual columns of your dataset. Empty groups by match; equal-kickoff batches remain intact at tail selection. Boundary-crossing/incomplete groups are purged.')
+        elif f['name'] in ('min_calibration_rows','min_calibration_per_class'):
+            f.update(kind='number', min=1, step=1, visible_when={'response_method':['decision_function']},
+                     help='Required calibration observations after purging; counts dataset rows. Both classes must meet the per-class minimum. No automatic tail expansion or fallback.')
     for c in components.values():
         if c['category'] not in ('preprocessor', 'target_transformer'):
             continue
@@ -918,7 +935,7 @@ def _svm_widgets(components):
             # sklearn 1.9 uses a deprecation sentinel; the effective default is
             # still disabled. Present a real checkbox on all supported versions.
             fields['probability'].update(title='Enable class probabilities', kind='boolean', default=False, primary=True,
-                                         help='Enable before fitting for calibration and probability-based bet reporters. Probabilities are retained automatically. Adds internal five-fold probability estimation and fitting cost; predicted classes can differ from probability argmax. For chronological external calibration, use the separate training calibration layer.')
+                                         help='Enable for libsvm internal five-fold probability estimation; probabilities are retained automatically. For fully chronological margin calibration, leave disabled and select Probability Calibrator: decision_function + sigmoid with an explicit availability policy. Do not combine the two routes.')
             fields['class_weight'].update(primary=True, choices=['balanced'], initial='balanced',
                                           help='Disabled uses equal class weights. Balanced uses inverse class frequencies from fitting rows. For custom weights or partial balancing, use ClassWeightReporter and Weights from instead; do not combine both weighting mechanisms.')
             fields['decision_function_shape'].update(kind='select', choices=['ovr','ovo'])

@@ -46,3 +46,25 @@ for(const name of ['SVR','SVC']) test(name+' editable gamma, conditional fields 
   assert.equal(recipe.params.class_weight,'balanced');
  } else assert.equal(find(root,'Epsilon','input').type,'number');
 });
+
+test('calibrator exposes margin timing controls and sigmoid without enabling SVC probabilities',async()=>{
+ let recipe=makeNode('training.ProbabilityCalibrator');
+ const root=componentEditor(recipe,v=>{recipe=v;},null,['training.ProbabilityCalibrator']);
+ assert.equal(find(root,'Enable Availability delay','input'),undefined);
+ const response=find(root,'Response method','select');
+ response.value='1'; response.onchange(); await Promise.resolve();
+ assert.equal(recipe.params.response_method,'decision_function');
+ const method=find(root,'Method','select');
+ assert.ok(method.children.some(n=>n.textContent==='sigmoid'));
+ method.value='0'; method.onchange(); await Promise.resolve();
+ assert.equal(recipe.params.method,'sigmoid');
+ const enable=find(root,'Enable Availability delay','input');
+ enable.checked=true; enable.events.change({target:enable}); await Promise.resolve();
+ const delay=find(root,'Availability delay','input');
+ delay.value='3h'; delay.events.change({target:delay}); await Promise.resolve();
+ assert.equal(recipe.params.availability_delay,'3h');
+ assert.equal(find(root,'Prediction lead','input').value,'1h');
+ assert.equal(find(root,'Min calibration rows','input').value,10);
+ assert.equal(find(root,'Min calibration per class','input').value,2);
+ assert.deepEqual(makeNode('sklearn.svm.SVC').params,{});
+});
