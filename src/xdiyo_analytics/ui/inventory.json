@@ -230,7 +230,7 @@
       "id": "features.SpatialPointSummary",
       "title": "SpatialPointSummary",
       "category": "feature",
-      "description": "Exact mean longitudinal position or population spatial standard deviation from raw activity points. Uses the team-relative pitch frame and needs a historical wrapper before prediction.",
+      "description": "Exact raw-point means, population spreads, robust widths and covariance geometry. Uses team-relative normalized coordinates and needs a historical wrapper before prediction.",
       "fields": [
         {
           "name": "field",
@@ -238,7 +238,7 @@
           "required": false,
           "kind": "select",
           "default": "mean_x",
-          "help": "Exact raw-point geometry on 0–100 coordinates; population standard deviation. Wrap in Rolling mean, Lag or EMA before prediction.",
+          "help": "Exact geometry on 0–100 coordinates, population moments and linear 10–90% quantile widths. Principal angle is in radians modulo pi, missing for isotropic/zero spread maps; arithmetic rolling averages of angles are not circular averages. Lateral touchline convention is unverified. Wrap in Rolling mean, Lag or EMA before prediction.",
           "choices": [
             {
               "value": "mean_x",
@@ -251,6 +251,50 @@
             {
               "value": "sd_y",
               "label": "Lateral standard deviation"
+            },
+            {
+              "value": "mean_y",
+              "label": "Mean lateral position"
+            },
+            {
+              "value": "depth_80",
+              "label": "Longitudinal 10–90% depth"
+            },
+            {
+              "value": "width_80",
+              "label": "Lateral 10–90% width"
+            },
+            {
+              "value": "cov_xy",
+              "label": "Longitudinal/lateral covariance"
+            },
+            {
+              "value": "corr_xy",
+              "label": "Longitudinal/lateral correlation"
+            },
+            {
+              "value": "major_variance",
+              "label": "Principal major variance"
+            },
+            {
+              "value": "minor_variance",
+              "label": "Principal minor variance"
+            },
+            {
+              "value": "major_spread",
+              "label": "Principal major spread"
+            },
+            {
+              "value": "minor_spread",
+              "label": "Principal minor spread"
+            },
+            {
+              "value": "anisotropy",
+              "label": "Shape anisotropy"
+            },
+            {
+              "value": "axis_angle",
+              "label": "Principal-axis angle"
             }
           ],
           "primary": true

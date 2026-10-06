@@ -8,6 +8,53 @@ import numpy as np
 import pandas as pd
 
 from .expressions import Expr
+from .spatial_lineage import lineage_id
+
+POINT_FIELDS = {
+    'mean_x': ('Mean longitudinal position', 'percent of pitch length'),
+    'sd_x': ('Longitudinal standard deviation', 'percent of pitch length'),
+    'sd_y': ('Lateral standard deviation', 'percent of pitch width'),
+    'mean_y': ('Mean lateral position', 'percent of pitch width'),
+    'depth_80': ('Longitudinal 10–90% depth', 'percent of pitch length'),
+    'width_80': ('Lateral 10–90% width', 'percent of pitch width'),
+    'cov_xy': ('Longitudinal/lateral covariance', 'squared normalized coordinate units'),
+    'corr_xy': ('Longitudinal/lateral correlation', 'dimensionless'),
+    'major_variance': ('Principal major variance', 'squared normalized coordinate units'),
+    'minor_variance': ('Principal minor variance', 'squared normalized coordinate units'),
+    'major_spread': ('Principal major spread', 'normalized coordinate units'),
+    'minor_spread': ('Principal minor spread', 'normalized coordinate units'),
+    'anisotropy': ('Shape anisotropy', 'dimensionless'),
+    'axis_angle': ('Principal-axis angle', 'radians modulo pi'),
+}
+
+
+def geometry_extensions(xy, mean):
+    """Population geometry; quantiles use linear interpolation, angles [0, pi)."""
+    centered = xy - mean
+    # An exactly constant coordinate has zero variance even if its computed
+    # mean differs by one rounding unit after summing repeated decimal points.
+    centered[:, np.ptp(xy, axis=0) == 0] = 0
+    covariance = centered.T @ centered / len(xy)
+    # eigvalsh is symmetric and sign independent. Only roundoff-size negative
+    # eigenvalues may be clamped; a larger negative value signals a defect.
+    eigenvalues = np.linalg.eigvalsh(covariance)
+    tolerance = 64 * np.finfo(float).eps * float(np.trace(covariance))
+    if eigenvalues[0] < -tolerance:
+        raise ValueError('Spatial covariance has a negative eigenvalue beyond roundoff.')
+    minor, major = np.maximum(eigenvalues, 0)
+    depth, width = np.diff(np.quantile(xy, [.1, .9], axis=0, method='linear'), axis=0)[0]
+    cov = covariance[0, 1]
+    identifiable = major - minor > tolerance
+    angle = float((.5*np.arctan2(2*cov, covariance[0,0]-covariance[1,1])) % np.pi)
+    if angle == np.pi:  # Rounding of a tiny negative angle at the wrap boundary.
+        angle = 0.
+    positive_spreads = covariance[0,0] > 0 and covariance[1,1] > 0
+    return dict(mean_y=float(mean[1]), depth_80=float(depth), width_80=float(width),
+                cov_xy=float(cov), corr_xy=float(np.clip(cov / np.sqrt(covariance[0,0]*covariance[1,1]), -1, 1)) if positive_spreads else np.nan,
+                major_variance=float(major), minor_variance=float(minor),
+                major_spread=float(np.sqrt(major)), minor_spread=float(np.sqrt(minor)),
+                anisotropy=float((major-minor)/(major+minor)) if major+minor > 0 else np.nan,
+                axis_angle=angle if identifiable else np.nan)
 
 
 @dataclass(frozen=True)
@@ -25,8 +72,8 @@ class SpatialPointSummary(Expr):
     min_points: int = 1
 
     def __post_init__(self):
-        if self.field not in ('mean_x', 'sd_x', 'sd_y'):
-            raise ValueError('SpatialPointSummary field must be mean_x, sd_x or sd_y.')
+        if self.field not in POINT_FIELDS:
+            raise ValueError(f'SpatialPointSummary field must be one of {tuple(POINT_FIELDS)}.')
         kinds = (self.kinds,) if isinstance(self.kinds, str) else tuple(self.kinds or ())
         if not kinds or len(set(kinds)) != len(kinds) or set(kinds) - {'player', 'goalkeeper'}:
             raise ValueError('Choose distinct point kinds: player and/or goalkeeper.')
@@ -100,12 +147,14 @@ def point_summary_source(history, points, kinds, min_points):
                       valid_map=status == 'ok', mean_x=float(mean[0]), sd_x=float(sd[0]), sd_y=float(sd[1]),
                       x_min=float(xy[:,0].min()) if n else None, x_max=float(xy[:,0].max()) if n else None,
                       y_min=float(xy[:,1].min()) if n else None, y_max=float(xy[:,1].max()) if n else None)
+        record.update(geometry_extensions(xy, mean) if status == 'ok' else
+                      {field: np.nan for field in POINT_FIELDS if field not in ('mean_x', 'sd_x', 'sd_y')})
         for name in ('raw_hash', 'source_key'):
             if name in frame:
                 values = frame[name].dropna()
                 record[name] = str(values.iloc[0]) if len(values) else None
         groups[key] = record
-    return dict(keys=keys, groups=groups, source_sha256=digest, formula_version='point_geometry_v1',
+    return dict(keys=keys, groups=groups, source_sha256=digest, formula_version='point_geometry_v2',
                 kinds=list(kinds), min_points=int(min_points), weighting='unit', ddof=0,
                 observed_kinds=sorted(points.kind.unique()), provenance=deepcopy(points.attrs.get('source', {})),
                 duplicate_detection='point_order' if 'point_order' in points else 'source_version_only')
@@ -116,6 +165,10 @@ def point_summary_values(history, source, spec):
     keys = source['keys']
     identities = history[keys].to_dict('records')
     for side in (('for','against') if spec.side == 'both' else (spec.side,)):
+        selection = dict(side=side, kinds=sorted(spec.kinds), min_points=spec.min_points,
+                         source_sha256=source['source_sha256'], weighting='unit', ddof=0,
+                         formula_version=source['formula_version'])
+        source_id = lineage_id(selection)
         lookup = [*keys[:-1], 'team_id' if side == 'for' else 'opponent_id']
         if history[lookup].isna().any().any():
             raise ValueError('Spatial point lookup identities must be nonmissing.')
@@ -123,11 +176,11 @@ def point_summary_values(history, source, spec):
         for position, key in enumerate(history[lookup].itertuples(index=False, name=None)):
             record = source['groups'].get(key)
             value = record[spec.field] if record is not None else np.nan
-            if side == 'against' and spec.field == 'mean_x':
+            if side == 'against' and spec.field in ('mean_x', 'mean_y'):
                 value = 100-value
             values.append(value)
             diagnostic = identities[position].copy()
-            diagnostic.update(side=side, source_team_id=key[-1], point_count=0 if record is None else record['point_count'],
+            diagnostic.update(source_id=source_id, side=side, source_team_id=key[-1], point_count=0 if record is None else record['point_count'],
                               status='missing_team_map' if record is None else record['status'],
                               valid_map=False if record is None else record['valid_map'])
             if record is not None:
@@ -136,12 +189,14 @@ def point_summary_values(history, source, spec):
         column = f'activity_{side}_{spec.field}'
         outputs[column] = values
         descriptors[column] = dict(kind='scalar', columns=[column], field=spec.field, side=side,
-            field_label={'mean_x':'Mean longitudinal position', 'sd_x':'Longitudinal standard deviation',
-                         'sd_y':'Lateral standard deviation'}[spec.field],
-            orientation='team', units='percent of pitch '+('width' if spec.field == 'sd_y' else 'length'),
+            field_label=POINT_FIELDS[spec.field][0],
+            orientation='team', units=POINT_FIELDS[spec.field][1],
             kinds=list(spec.kinds), weighting='unit', ddof=0, min_points=spec.min_points,
             source='SpatialPointSummary', formula_version=source['formula_version'],
-            source_sha256=source['source_sha256'], operators=[])
+            source_sha256=source['source_sha256'], operators=[],
+            source_id=source_id,
+            calculation=dict(operator='SpatialPointSummary', field=spec.field, source_id=source_id, **selection),
+            quantile_method='linear' if spec.field in ('depth_80', 'width_80') else None)
     result = pd.DataFrame(outputs, index=history.index)
     result.attrs['spatial_features'] = descriptors
     result.attrs['point_map_coverage'] = audits
