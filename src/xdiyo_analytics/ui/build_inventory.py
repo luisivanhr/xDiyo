@@ -880,8 +880,51 @@ def build():
         m['description']={'numeric':'Compares numeric predictions with observed values.','label':'Compares predicted and observed classes.','probability':'Evaluates predicted class probabilities.','uncertainty':'Describes predicted uncertainty; no observed label is required.'}[m['kind']]
         if m['name'] == 'count_ou_brier':
             m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
+    _svm_widgets(components)
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+
+def _svm_widgets(components):
+    """Keep mixed numeric/string SVM parameters usable in the native forms."""
+    for model in ('SVR', 'SVC'):
+        component = components['sklearn.svm.' + model]
+        component['title'] = model + (' — Support vector regression' if model == 'SVR' else ' — Support vector classification')
+        component['description'] = (
+            'Support vector regression for a single numeric target.' if model == 'SVR' else
+            'Support vector classification for a single discrete target; classes are learned from each training fold.'
+        ) + ' Use imputation and feature scaling in Preprocessing. Kernel fitting can be expensive for large datasets.'
+        fields = {f['name']: f for f in component['fields']}
+        fields['C'].update(title='C (inverse regularization)', primary=True, min=1e-300, step='any',
+                           help='Positive penalty for fitting errors. Smaller C gives stronger regularization; larger C fits training observations more closely.')
+        fields['kernel'].update(kind='select', choices=['linear', 'poly', 'rbf', 'sigmoid'], primary=True,
+                                help='Similarity function: linear, polynomial, radial basis (RBF), or sigmoid. Precomputed kernels need a separate Gram-matrix workflow and are not offered by this feature-table builder.')
+        fields['gamma'].pop('choices', None)
+        fields['gamma'].pop('initial', None)
+        fields['gamma'].update(kind='rule_number', rules=['scale', 'auto'], number_default=0.1,
+                               min=0, step='any', primary=True, visible_when={'kernel':['poly','rbf','sigmoid']},
+                               help='Kernel coefficient. Scale uses 1 / (number of features × fitting-input variance); auto uses 1 / number of features. Or enter a nonnegative numeric value. Computed from fitting rows after preprocessing.')
+        fields['degree'].update(min=0, step=1, visible_when={'kernel':['poly']})
+        fields['coef0'].update(visible_when={'kernel':['poly','sigmoid']})
+        fields['tol'].update(min=1e-300, step='any', help='Positive solver stopping tolerance.')
+        fields['cache_size'].update(title='Kernel cache (MB)', min=1e-300, step='any',
+                                    help='Memory in megabytes available for the kernel cache for each fitted estimator.')
+        fields['max_iter'].update(min=-1, step=1, help='Solver iteration limit. -1 means no limit; a finite limit can stop before convergence.')
+        if model == 'SVR':
+            fields['epsilon'].update(primary=True, min=0, step='any',
+                                     help='Width of the error-insensitive tube on each side of the prediction. Errors within epsilon incur no loss. Uses transformed target units if label scaling is enabled.')
+        else:
+            fields['probability'].pop('choices', None)
+            # sklearn 1.9 uses a deprecation sentinel; the effective default is
+            # still disabled. Present a real checkbox on all supported versions.
+            fields['probability'].update(title='Enable class probabilities', kind='boolean', default=False, primary=True,
+                                         help='Enable before fitting for calibration and probability-based bet reporters. Probabilities are retained automatically. Adds internal five-fold probability estimation and fitting cost; predicted classes can differ from probability argmax. For chronological external calibration, use the separate training calibration layer.')
+            fields['class_weight'].update(primary=True, choices=['balanced'], initial='balanced',
+                                          help='Disabled uses equal class weights. Balanced uses inverse class frequencies from fitting rows. For custom weights or partial balancing, use ClassWeightReporter and Weights from instead; do not combine both weighting mechanisms.')
+            fields['decision_function_shape'].update(kind='select', choices=['ovr','ovo'])
+            fields['break_ties'].update(visible_when={'decision_function_shape':['ovr']})
+            fields['random_state'].update(kind='number', step=1, visible_when={'probability':[True]},
+                                          help='Seed for the internal probability-estimation shuffle. Has no effect when class probabilities are disabled.')
 
 
 def _bayesian_widgets(components, stages):
