@@ -107,6 +107,74 @@ def test_invariances_and_extreme_magnitudes():
         if w==[1e308,1e308]:assert audit['total_weight'] is None and audit['total_weight_overflow']
 
 
+@pytest.mark.parametrize('reverse', [False, True])
+@pytest.mark.parametrize('spatial', [False, True])
+def test_shared_ordinary_and_h2h_audits_are_isolated(reverse, spatial):
+    h=history_from_games([dict(home=A,away=B),dict(home=A,away=C),dict(home=A,away=B)])
+    points=maps_for(h,[(10,20),(30,40)]) if spatial else None
+    shared=Weighted(Point() if spatial else STAT,1,3)
+    definitions={'ordinary':shared,'h2h':H2H(shared),
+                 'wrapped':Sum(Lag(shared),1), 'wrapped_h2h':H2H(Sum(Lag(shared),1))}
+    if reverse:definitions=dict(reversed(list(definitions.items())))
+    together=evaluate_features(h,definitions,heatmaps=points,keyed=True)
+    for name,expr in definitions.items():
+        alone=evaluate_features(h,{name:expr},heatmaps=points,keyed=True)
+        np.testing.assert_allclose(together[name],alone[name],equal_nan=True)
+        assert together.attrs['weighted_history_audit'][name]==alone.attrs['weighted_history_audit'][name]
+        entries=together.attrs['weighted_history_audit'][name]
+        assert len(entries)==1 and entries[0]['definition']['h2h']==('h2h' in name)
+        if spatial:
+            assert together.attrs['spatial_point_audit']['features'][name]==alone.attrs['spatial_point_audit']['features'][name]
+    assert together.attrs['weighted_history_audit']['ordinary'][0]['records'][-2]['window_matches']==2
+    assert together.attrs['weighted_history_audit']['h2h'][0]['records'][-2]['window_matches']==1
+    if spatial:
+        table=report(together,h).tables['weighted_history_coverage']
+        for name in definitions:
+            assert len(table[table.feature==name])==len(h)
+
+
+@pytest.mark.parametrize('power', [-300,0,300])
+def test_signed_underflow_retains_representable_mean_under_weight_rescaling(power):
+    from fractions import Fraction
+    z=np.ldexp(np.array([1.,-1.,1.]),[400,400,-400])
+    w=np.ldexp(np.ones(3),np.array([300,300,-300])+power)
+    expected=float(sum((Fraction(float(a))*Fraction(float(b)) for a,b in zip(z,w)),Fraction(0)) /
+                   sum(map(lambda b:Fraction(float(b)),w),Fraction(0)))
+    value,_=final(z,w)
+    assert expected>0 and value==pytest.approx(expected,rel=1e-14,abs=0)
+
+
+@pytest.mark.parametrize('permutation', [(0,1,2),(2,0,1),(1,2,0)])
+@pytest.mark.parametrize('small', [-350,-400])
+def test_scaled_subnormal_terms_and_cancellation_are_order_independent(permutation, small):
+    from fractions import Fraction
+    from xdiyo_analytics.features.weighted import stable_mean
+    z=np.ldexp(np.array([1.,-1.,1.5]),[400,400,small])
+    w=np.ldexp(np.ones(3),[160,160,-160])
+    expected=float(sum((Fraction(float(a))*Fraction(float(b)) for a,b in zip(z,w)),Fraction(0)) /
+                   sum((Fraction(float(b)) for b in w),Fraction(0)))
+    assert expected>0
+    for shift in (-400,0,400):
+        values=z[list(permutation)]
+        weights=np.ldexp(w[list(permutation)],shift)
+        # Powers-of-two rescaling introduces no input rounding in these cases.
+        assert stable_mean(values,weights)==expected
+
+
+def test_ordinary_weighted_fast_path_is_preserved(monkeypatch):
+    import fractions
+    from xdiyo_analytics.features.weighted import stable_mean
+    def fail(*args,**kwargs):raise AssertionError('Ordinary values should not need exact arithmetic')
+    monkeypatch.setattr(fractions,'Fraction',fail)
+    assert stable_mean(np.array([0.,10.]),np.array([1.,3.]))==7.5
+    from math import fsum
+    values,weights=np.array([-10.,10.]),np.array([1.,3.])
+    scaled=weights/weights.max()
+    previous=fsum(float(a)*float(b) for a,b in zip(scaled,values/10))/fsum(scaled)*10
+    assert stable_mean(values,weights)==previous
+    assert previous==pytest.approx(5)
+
+
 def test_scope_identity_shuffles_and_asof_state():
     h=history_from_games([dict(home=A,away=B,values=(2,20)),
         dict(home=B,away=A,values=(30,3)),dict(home=A,away=C,values=(4,40)),dict(home=A,away=B)])

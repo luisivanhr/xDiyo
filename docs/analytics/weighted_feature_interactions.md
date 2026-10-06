@@ -64,8 +64,10 @@ For paired finite values and nonnegative weights in the selected window:
   not trigger that validation. `Abs(signed_feature)` is possible only as an
   explicit transform, with a different interpretation.
 - Normal calculations rescale weights and values before accurate summation.
-  Extreme finite magnitudes use decimal accumulation to retain representable
-  means through overflow-prone products and cancellation. There is no change to
+  Extreme magnitudes, subnormal intermediate contributions and severe signed
+  cancellation use exact integer-ratio accumulation, rounded to float64 only
+  after division. This retains small representable means through underflow,
+  overflow-prone products and cancellation. There is no change to
   the existing `Product` overflow contract.
 - A common positive scale on all weights leaves the result unchanged. A shift
   of all values shifts the mean equally; the result remains within the positive
@@ -169,6 +171,14 @@ shared child lineage is deduplicated. Existing preparation signatures include
 these expression definitions and data fingerprints; local evaluation caches are
 rebuilt for each supplied history.
 
+Formula version 2 fixes extreme signed underflow. Audit collection follows the
+actual scoped evaluation dependencies, including cache hits. Reusing one
+expression for ordinary and H2H histories therefore retains separate records,
+independent of feature order or enclosing arithmetic/historical wrappers. Saved
+version-1 artifacts are not rewritten. Rescaling invariance is subject to
+rounding in the supplied floating-point weights themselves: a rescale that
+already rounds an input to zero or infinity cannot be reversed by the reducer.
+
 The MVP accepts scalar values and scalar weights. Multi-column/grid broadcasting,
 league/LOO population reducers, seeded warm-up, weighted EMA and arbitrary kernels
 are not supplied by this reducer. Use the existing separate APIs for those tasks.
@@ -187,3 +197,10 @@ prepared-frame persistence. The final venue-control change is additionally teste
 against the actual JavaScript visibility function; that final feature/UI/metric
 regression run passed **116 tests**. No research model was fitted
 and no source dataset was refreshed.
+
+The follow-up edge-case repair passed **463 regressions**, covering ordinary/H2H
+audit isolation in either feature order, nested wrappers, spatial report records,
+signed underflow and subnormal contributions under exact power-of-two rescaling,
+and row-order-independent cancellation. Shared evaluator checks also cover rating
+states, seeded warm-up, league reducers, keyed assembly and UI recipes. The normal
+weighted arithmetic path remains in use for ordinary non-cancelling inputs.

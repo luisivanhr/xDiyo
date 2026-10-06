@@ -44,18 +44,29 @@ def stable_mean(values, weights):
     scale = float(np.max(np.abs(values)))
     if scale == 0:
         return 0.
-    # Decimal fallback covers extreme products and cancellation without losing
-    # tiny representable contributions during float64 rescaling. Finite binary64
-    # products span fewer than 1300 decimal places; 1500 retains their support.
+    def exact_mean():
+        # Every finite binary64 has an exact integer ratio. Accumulate products
+        # and the denominator without intermediate rounding; convert only once.
+        from fractions import Fraction
+        pairs = [(Fraction(float(z)), Fraction(float(w))) for z, w in zip(values, weights)]
+        return float(sum((z*w for z, w in pairs), Fraction(0)) / sum((w for _, w in pairs), Fraction(0)))
+
     nonzero = np.abs(values[values != 0])
     if max(scale, float(weights.max())) > 1e150 or min(float(nonzero.min()), float(weights.min())) < 1e-150:
-        from decimal import Decimal, localcontext
-        with localcontext() as context:
-            context.prec = 1500
-            pairs = [(Decimal.from_float(float(z)), Decimal.from_float(float(w))) for z, w in zip(values, weights)]
-            return float(sum((z*w for z, w in pairs), Decimal(0)) / sum((w for _, w in pairs), Decimal(0)))
-    w = weights / weights.max()
-    normalized = fsum(float(a)*float(b) for a, b in zip(w, values / scale)) / fsum(w)
+        return exact_mean()
+    with np.errstate(under='ignore'):
+        w = weights / weights.max()
+        terms = w * (values / scale)
+    # The operands can each look moderate while their scaled product is
+    # subnormal (or zero). Later cancellation can make that contribution matter.
+    if np.any((values != 0) & (np.abs(terms) < np.finfo(float).tiny)):
+        return exact_mean()
+    numerator = fsum(terms)
+    if np.any(values < 0) and np.any(values > 0) and abs(numerator) <= 64*np.finfo(float).eps*fsum(np.abs(terms)):
+        return exact_mean()
+    normalized = numerator / fsum(w)
+    if numerator != 0 and abs(normalized) < np.finfo(float).tiny:
+        return exact_mean()
     return float(np.clip(normalized, -1., 1.) * scale)
 
 
@@ -84,7 +95,7 @@ def weighted_values(history, source, weights, candidates, node, *, cutoffs, avai
                     (r.astype('datetime64[ns, UTC]').astype('int64').to_numpy(), r.notna().to_numpy()) for r in releases]
     output = np.full(len(history), np.nan)
     audit = []
-    definition = dict(operator='RollingWeightedMean', formula_version=1, expression=repr(node),
+    definition = dict(operator='RollingWeightedMean', formula_version=2, expression=repr(node),
         window=int(node.window), min_periods=int(node.min_periods), venue=node.venue, h2h=bool(scope),
         paired_mask='finite_source_and_weight', minimum='strictly_positive_paired_weights',
         availability='input_masks_after_fixed_eligible_window',

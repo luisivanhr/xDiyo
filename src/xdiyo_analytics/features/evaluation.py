@@ -102,6 +102,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     else:
         group_by = tuple(group_by)
     cache, histories, rating_cache = {}, {}, {}
+    evaluation_stack, dependencies = [], {}
     point_sources = {}
     validated_grids = {}
     distance_audits = {}
@@ -187,6 +188,18 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return history[columns].copy()
 
     def evaluate(node, h2h=False, rating_policy=None):
+        # Track actual calls, including cache hits. Expression equality alone
+        # cannot distinguish the same child evaluated in different H2H scopes.
+        key = (node, h2h, rating_policy)
+        if evaluation_stack:
+            dependencies.setdefault(evaluation_stack[-1], {})[key] = None
+        evaluation_stack.append(key)
+        try:
+            return evaluate_node(node, h2h, rating_policy)
+        finally:
+            evaluation_stack.pop()
+
+    def evaluate_node(node, h2h=False, rating_policy=None):
         nonlocal counts, population, movement_evidence
         cache_key = (node, h2h, rating_policy)
         if cache_key in cache:
@@ -524,18 +537,17 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         frame, _ = evaluate(node)
         # Retain paired diagnostics through arbitrary enclosing arithmetic and
         # historical wrappers, including reused cached descendants, once only.
-        from dataclasses import fields, is_dataclass
         from .spatial_lineage import distinct_records
-        weighted_descendants = set()
-        def visit_weighted(value):
-            if not is_dataclass(value) or value in weighted_descendants:
+        weighted_descendants = {}
+        def visit_weighted(key):
+            if key in weighted_descendants:
                 return
-            weighted_descendants.add(value)
-            for field in fields(value):
-                visit_weighted(getattr(value, field.name))
-        visit_weighted(node)
-        entries = distinct_records(*(value.attrs.get('weighted_history_audit', [])
-            for (child, _, _), (value, _) in cache.items() if child in weighted_descendants))
+            weighted_descendants[key] = None
+            for child in dependencies.get(key, {}):
+                visit_weighted(child)
+        visit_weighted((node, False, None))
+        entries = distinct_records(*(cache[key][0].attrs.get('weighted_history_audit', [])
+                                     for key in weighted_descendants))
         if entries:
             weighted_audits[name] = entries
         if frame.attrs.get('warm_start_audit') is not None:
