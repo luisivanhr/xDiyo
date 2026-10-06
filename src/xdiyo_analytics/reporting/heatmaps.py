@@ -23,6 +23,16 @@ def spatial_calculation_label(calculation):
     operator = calculation.get('operator', '')
     if operator == 'Heatmap':
         return f"{calculation['grid_size']}×{calculation['grid_size']} {calculation['method']} grid"
+    if operator == 'SpatialPointSummary':
+        return f"{calculation['side']} {calculation['field'].replace('_', ' ')} ({', '.join(calculation['kinds'])})"
+    if operator == 'Constant':
+        return str(calculation['value'])
+    if operator == 'Nonspatial':
+        return calculation['expression']
+    if operator in ('Sum', 'Difference', 'Product', 'Ratio'):
+        left, right = (spatial_calculation_label(calculation[c]) for c in ('left', 'right'))
+        fallback = f", zero fallback={calculation['zero_value']}" if operator == 'Ratio' else ''
+        return f'{operator}({left}, {right}{fallback})'
     if operator == 'SpatialEntropy':
         label = 'Normalized entropy' if calculation['normalized'] else 'Entropy'
     elif operator == 'SpatialConcentration':
@@ -52,7 +62,8 @@ def point_coverage_tables(context, positions):
         keys.append('team_id')
     allowed = set(metadata[keys].itertuples(index=False, name=None))
     tables = {}
-    for kind, name in (('maps', 'point_map_coverage'), ('history', 'point_history_coverage')):
+    for kind, name in (('maps', 'point_map_coverage'), ('history', 'point_history_coverage'),
+                       ('outputs', 'point_output_coverage')):
         records = []
         for feature, entries in audit.get('features', {}).items():
             for record in entries.get(kind, []):
@@ -61,7 +72,7 @@ def point_coverage_tables(context, positions):
         tables[name] = pd.DataFrame(records)
     maps = tables['point_map_coverage']
     if not maps.empty:
-        scope = [c for c in ('feature', 'source_league', 'source_season', 'side') if c in maps]
+        scope = [c for c in ('feature', 'source_id', 'source_league', 'source_season', 'side') if c in maps]
         fixture = maps.groupby([*scope, 'event_id'], dropna=False).agg(
             teams=('team_id', 'nunique'), usable_teams=('valid_map', 'sum')).reset_index()
         fixture['both_teams_usable'] = (fixture.teams == 2) & (fixture.usable_teams == 2)

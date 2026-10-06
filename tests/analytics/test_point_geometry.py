@@ -57,7 +57,7 @@ def test_translation_scaling_rotation_and_combined_kinds():
     assert observed(h,p,kinds=('player','goalkeeper')).iloc[0,0] == expected
 
 
-@pytest.mark.parametrize('kwargs', [dict(field='mean_y'),dict(kinds=('players',)),dict(kinds=()),
+@pytest.mark.parametrize('kwargs', [dict(field='unknown'),dict(kinds=('players',)),dict(kinds=()),
     dict(kinds=('player','player')),dict(side='home'),dict(min_points=0),dict(min_points=True)])
 def test_invalid_spec(kwargs):
     with pytest.raises(ValueError): SpatialPointSummary(**kwargs)

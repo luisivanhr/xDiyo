@@ -56,7 +56,8 @@ function initializeSpatial(root){
     const heading=host.querySelector('.spatial-team');heading.replaceChildren();
     if(team.badge){const img=document.createElement('img');img.src=team.badge;img.alt='';heading.append(img);}
     heading.append(document.createTextNode(team.name+' · '+(panel.side==='home'?'Home':'Away')));
-    host.querySelector('.spatial-detail').textContent=(spec.side==='against'?'Opponents historically faced by this team':'This team’s historical activity')+' · '+(spec.orientation==='home'?'shared home-oriented pitch':'team-relative pitch');
+    host.querySelector('.spatial-detail').textContent=spec.derived?'Derived spatial expression · '+(spec.calculation_label||''):(spec.side==='against'?'Opponents historically faced by this team':'This team’s historical activity')+' · '+(spec.orientation==='home'?'shared home-oriented pitch':'team-relative pitch');
+    if(spec.units)host.querySelector('.spatial-detail').textContent+=' · '+spec.units;
     const annotations=[],shapes=pitch(),traces=[];
     if(panel.missing)annotations.push({text:'Feature unavailable',x:.5,y:.5,xref:'paper',yref:'paper',showarrow:false});
     else if(spec.kind==='grid'){

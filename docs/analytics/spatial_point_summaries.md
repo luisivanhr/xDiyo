@@ -65,12 +65,50 @@ standard deviations**, with equal weight per usable match. It does not calculate
 the spread of pooled points or the spread of an averaged grid. No grid binning,
 smoothing or spatial normalization is involved in these exact descriptors.
 
+## Optional geometry fields
+
+The original three descriptors and six match columns above remain the baseline.
+Select these additional `SpatialPointSummary(field=...)` values explicitly in
+Python or the builder:
+
+| Field | Per-match calculation |
+|---|---|
+| `mean_y` | Mean lateral position |
+| `depth_80`, `width_80` | 90th minus 10th percentile of x or y; NumPy `method="linear"` |
+| `cov_xy` | Mean of `(x-mean_x)*(y-mean_y)`; population denominator N |
+| `corr_xy` | Covariance divided by `sd_x*sd_y`; missing if either spread is zero |
+| `major_variance`, `minor_variance` | Ordered covariance eigenvalues, largest first |
+| `major_spread`, `minor_spread` | Square roots of those eigenvalues |
+| `anisotropy` | `(major_variance-minor_variance)/(major_variance+minor_variance)`; missing at zero spread |
+| `axis_angle` | `0.5*atan2(2*cov_xy, var_x-var_y)` modulo pi, in `[0,pi)` radians |
+
+Eigenvalues use a symmetric solver; eigenvectors and their arbitrary signs are
+never exposed. Negative eigenvalues within `64*float64_epsilon*trace(covariance)`
+are roundoff and become zero; more negative values raise. Angles are missing
+when the eigenvalue gap is at most that tolerance, including isotropic and
+zero-spread maps. Correlations are bounded to `[-1,1]` against rounding drift.
+A valid map can therefore have an undefined correlation or angle. Its raw-map
+status remains `ok`; usable-value counts reflect the undefined descriptor.
+
+Covariance/eigenvalues have squared normalized-coordinate units. Principal
+spreads have normalized-coordinate units; correlation and anisotropy are
+dimensionless. These axes depend on x/y scaling and are not measured formation
+angles. The lateral touchline convention remains unverified. Ordinary rolling
+operators on angles calculate ordinary scalar statistics, **not circular angle
+statistics**; a mean near the zero/pi wrap can be misleading.
+
+For an alternative robust recipe, replace `sd_x` and `sd_y` with `depth_80` and
+`width_80`; they are not appended to the baseline automatically. Between-match
+variability continues to use `RollingStd(SpatialPointSummary(...), window=...)`.
+
 ## Orientation and timing
 
-All three scalars stay in the focal team's canonical frame: own goal left,
+All point summaries stay in the focal team's canonical frame: own goal left,
 attacking toward increasing x. For `side="against"`, historical opponent points
 are rotated 180 degrees into that frame. Thus against mean x is `100 - opponent
-mean_x`, while both spatial standard deviations are unchanged. `side="both"`
+mean_x`, and against mean y is `100 - opponent mean_y`. All spreads, robust
+widths, covariance, correlation, eigenvalues, anisotropy and axis angle modulo pi
+are unchanged by that 180-degree rotation. `side="both"`
 emits both perspectives. Target Home/Away venue **does not rotate these scalar
 values**. This differs intentionally from final shared-pitch grid visualization.
 
@@ -116,13 +154,14 @@ identity and advertise that limitation in provenance.
 
 - Source/configuration/formula fingerprints, available source versions and hashes,
   point kinds, exact coordinate ranges and per-map counts/status.
-- Per-target historical eligible-match, window-match and usable-map counts.
+- Per-target historical eligible-match, window-match and usable-value counts.
 - Identity-keyed cutoff/availability records, their hash and grouping policy.
 
 The HeatmapReporter adds downloadable `point_map_coverage`,
-`point_history_coverage` and `point_fixture_coverage` tables, scoped to displayed
-fixtures. Both-team map coverage is grouped by feature, league, season and source
-perspective. Counts are diagnostics only, not predictors or automatic cohort
+`point_history_coverage`, `point_output_coverage` and `point_fixture_coverage`
+tables, scoped to displayed fixtures. Both-team map coverage is grouped by
+feature, source selection, league, season and perspective. Counts are diagnostics
+only, not predictors or automatic cohort
 filters. Preserve the incumbent cohort and its train-only imputation policy when
 comparing models; any covered-only subset needs the same baseline comparison.
 
@@ -130,6 +169,50 @@ Within an evaluation, fields and perspectives sharing kinds/minimum count reuse
 one exact map-summary pass. There is no global cache: changed points, history,
 configuration or timing cannot reuse summaries from a previous evaluation.
 Metadata travels through assembly and prepared-feature Parquet round-trips.
+
+## Arithmetic lineage and coverage
+
+Single-output `Sum`, `Difference`, `Product` and `Ratio` preserve spatial
+provenance both inside and outside historical operators, including constants,
+two spatial operands and nested/shared expressions. The reporter shows the exact
+prepared scalar as **Derived spatial value**, with the ordered calculation tree.
+It does not reuse an operand's physical label, units, side or pitch frame.
+Contributing source descriptors retain those properties separately in `sources`.
+For example `RollingMean(Product(mean_x, 2), 20)` and
+`Product(RollingMean(mean_x, 20), 2)` retain different calculation trees even
+when their values coincide. No numerical arithmetic or eligibility rules change.
+
+Coverage is not added across branches:
+
+- Each raw selection has a `source_id` over the source fingerprint, point kinds,
+  minimum count, perspective, unit weighting and formula version. Selecting two
+  fields on the same maps shares that raw selection; a different kind, threshold,
+  side or source fingerprint does not. Repeated references are deduplicated by
+  selection and fixture/team identity **within each output feature**.
+- Each historical stage has a `history_id` over its expression, H2H scope and
+  source selections. Nested stages and distinct windows remain separate records;
+  records also identify the source column and target fixture/team. `source_ids`
+  identifies its contributing point selections. `eligible_matches` and
+  `window_matches` count candidate matches; `usable_values` counts finite inputs
+  in that particular window. The legacy `usable_maps` field remains an alias
+  only for direct point-summary children; it counts usable descriptor values,
+  not every valid raw map. Branch counts must never be summed as disjoint maps.
+- `point_output_coverage.usable_output` reports finiteness of each final named
+  scalar on each target team row. A zero denominator or overflow can yield an
+  unusable derived value while all raw maps remain valid. A finite ratio fallback
+  can be usable; missing operands never trigger that fallback.
+
+`point_map_coverage` describes raw maps attached to displayed fixture identities;
+historical-window counts describe the prior inputs used for those targets. Their
+populations differ intentionally. Full source-map records remain in the audit.
+Both-team usability counts two distinct focal teams per source selection; shared
+operands never multiply those counts. Identity-based filtering also works when
+keyed rows are shuffled or a report displays only a subset of fixtures.
+
+Source/timing fingerprints and the lineage survive native recipe JSON, Python
+export, match assembly, Parquet and recovery bundles. Parquet JSON normalizes
+existing tuple-valued grouping/identity keys into lists; identities and values
+are retained. Cached children are copied when attaching derived metadata.
 
 ## Feature-only reproduction and measured cost
 
@@ -146,7 +229,7 @@ fresh process and compare `feature_sha256`, `source_sha256` and `timing_sha256`.
 `recipe_features()` in the same example supplies the compact serializable UI
 feature mapping; merge it into a recipe to retain existing predictors.
 
-On Windows, Premier League 2023/24, publication
+For the original Phase A implementation, on Windows, Premier League 2023/24, publication
 `a13ab544b9ea4f0e82bfbc8969a3ed83`, two fresh-process runs on 6 October 2026 gave:
 
 | Measure | Result |

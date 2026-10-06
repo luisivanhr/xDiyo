@@ -12,6 +12,7 @@ from pathlib import Path
 from .catalog import _decorate
 from .recipe import catalog_for_ui
 from .schema import stage_schema
+from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
@@ -203,7 +204,7 @@ DESCRIPTIONS = {
     'features.SpatialEntropy': 'Measure how evenly activity is spread across a fixed grid. Rolling mean of entropy describes a typical match; entropy of a rolling-mean grid describes the historical mixture. Missing maps stay missing.',
     'features.SpatialConcentration': 'Choose effective occupied cells, HHI or another concentration summary of a unit-mass grid. Choose one alternative at a time; effective cells is a transform of entropy.',
 
-    'features.SpatialPointSummary': 'Exact mean longitudinal position or population spatial standard deviation from raw activity points. Uses the team-relative pitch frame and needs a historical wrapper before prediction.',
+    'features.SpatialPointSummary': 'Exact raw-point means, population spreads, robust widths and covariance geometry. Uses team-relative normalized coordinates and needs a historical wrapper before prediction.',
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
     'features.Product': 'Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.',
     'features.RollingMean': 'Average the selected statistic over eligible past observations. A window of 5 uses up to five previous matches, excluding the match being predicted.',
@@ -335,7 +336,7 @@ def build():
                 if name == 'mass_tolerance': f.update(kind='number',min=0,max=1e-6,step='any',help='Absolute numerical tolerance around total mass 1. Only floating-point drift is normalized away; this does not smooth or repair corrupt maps.')
                 if name == 'metric': f.update(kind='select', choices=['effective_cells','effective_fraction','hhi','normalized_hhi','largest_cell_share','occupied_fraction'],help='Effective cells = exp(natural entropy). HHI = sum of squared shares. Normalized HHI is 0 for uniform and 1 for a single cell. Occupied fraction is mainly diagnostic and depends on sampling volume.')
             if key == 'features.SpatialPointSummary':
-                if name == 'field': f.update(kind='select', choices=[{'value':'mean_x','label':'Mean longitudinal position'}, {'value':'sd_x','label':'Longitudinal standard deviation'}, {'value':'sd_y','label':'Lateral standard deviation'}], help='Exact raw-point geometry on 0–100 coordinates; population standard deviation. Wrap in Rolling mean, Lag or EMA before prediction.')
+                if name == 'field': f.update(kind='select', choices=[{'value':key,'label':label} for key,(label,unit) in POINT_FIELDS.items()], help='Exact geometry on 0–100 coordinates, population moments and linear 10–90% quantile widths. Principal angle is in radians modulo pi, missing for isotropic/zero spread maps; arithmetic rolling averages of angles are not circular averages. Lateral touchline convention is unverified. Wrap in Rolling mean, Lag or EMA before prediction.')
                 if name == 'kinds': f.update(kind='multiselect', choices=['player','goalkeeper'], help='Player excludes goalkeepers. Each selected exported point has equal weight; repeated coordinates are retained.')
                 if name == 'min_points': f.update(kind='number', min=1, step=1, help='Minimum selected points for a usable match map. Low-count maps remain missing. This is separate from historical Min periods.')
                 if name == 'side': f.update(kind='select', choices=['for','against','both'], help='For summarizes this team. Against rotates historical opponent points 180 degrees into the focal team frame. Scalars are never rotated by the target venue.')

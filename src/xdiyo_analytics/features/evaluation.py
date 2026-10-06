@@ -217,6 +217,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             if a_scope != b_scope:
                 raise ValueError("Arithmetic operands must use the same H2H scope; wrap the combined expression in H2H.")
             result = (arithmetic_frame(node, a, b), a_scope)
+            from .spatial_lineage import compose_spatial_metadata
+            compose_spatial_metadata(result[0], node, a, b)
         elif isinstance(node, WarmStart):
             if node.policy is None:
                 result = evaluate(node.source, h2h)
@@ -409,8 +411,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             result = (pd.DataFrame(output, index=history.index, columns=source.columns), scope)
             if source.attrs.get('point_map_coverage') is not None:
                 from copy import deepcopy
+                from .spatial_lineage import lineage_id, distinct_records
                 result[0].attrs['point_map_coverage'] = deepcopy(source.attrs['point_map_coverage'])
                 audit = []
+                source_ids = sorted({r['source_id'] for r in source.attrs['point_map_coverage']})
+                history_id = lineage_id(dict(expression=repr(node), h2h=bool(scope), source_ids=source_ids))
                 ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
                 identities = history[ids].to_dict('records')
                 for row, positions in enumerate(candidates):
@@ -419,17 +424,29 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                     else:
                         selected = positions if isinstance(node, EMA) else positions[-node.window:]
                     for col, column in enumerate(source.columns):
-                        audit.append({**identities[row], 'column':column,
+                        child_spec = next((s for s in source.attrs.get('spatial_features', {}).values()
+                                           if column in s['columns']), {})
+                        record = {**identities[row], 'column':column, 'history_id':history_id,
+                                      'expression':repr(node),
+                                      'source_ids':[child_spec['source_id']] if 'source_id' in child_spec else source_ids,
                                       'eligible_matches':len(positions), 'window_matches':len(selected),
-                                      'usable_maps':int(np.isfinite(values[selected, col]).sum())})
-                result[0].attrs['point_history_coverage'] = audit
+                                      'usable_values':int(np.isfinite(values[selected, col]).sum())}
+                        # Legacy raw-summary diagnostic: valid maps may still have
+                        # undefined geometry (e.g. a zero-spread correlation).
+                        if isinstance(node.source, SpatialPointSummary):
+                            record['usable_maps'] = record['usable_values']
+                        audit.append(record)
+                result[0].attrs['point_history_coverage'] = distinct_records(
+                    source.attrs.get('point_history_coverage', []), audit)
             if source.attrs.get('spatial_features'):
                 from copy import deepcopy
                 specs = deepcopy(source.attrs['spatial_features'])
                 for spec in specs.values():
                     spec['calculation'] = dict(operator=type(node).__name__, window=getattr(node, 'window', None),
                         periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
-                        min_periods=getattr(node, 'min_periods', None), venue=node.venue, source=spec.get('calculation', {}))
+                        min_periods=getattr(node, 'min_periods', None), venue=node.venue,
+                        ddof=getattr(node, 'ddof', None), h2h=bool(scope), expression=repr(node),
+                        source=spec.get('calculation', {}))
                     spec['operators'].append(dict(operator=type(node).__name__, venue=node.venue,
                                                   window=getattr(node, 'window', None),
                                                   periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
@@ -496,7 +513,12 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         feature_scopes.update(dict.fromkeys(names, scope))
         if 'point_map_coverage' in frame.attrs:
             point_audits[name] = dict(maps=frame.attrs['point_map_coverage'],
-                                     history=frame.attrs.get('point_history_coverage', []))
+                                     history=frame.attrs.get('point_history_coverage', []),
+                                     outputs=[{**identity, 'column':names[col],
+                                               'usable_output':bool(np.isfinite(frame.iloc[row, col]))}
+                                              for row, identity in enumerate(history[
+                                                  [c for c in ('source_league','source_season','event_id','team_id') if c in history]
+                                              ].to_dict('records')) for col in range(len(names))])
         frame, metadata = finalize_spatial(frame, history, names, name)
         spatial_metadata.update(metadata)
         outputs.append(frame)
