@@ -226,6 +226,78 @@
       ],
       "accepts_extra": false
     },
+    "features.SpatialPointSummary": {
+      "id": "features.SpatialPointSummary",
+      "title": "SpatialPointSummary",
+      "category": "feature",
+      "description": "Exact mean longitudinal position or population spatial standard deviation from raw activity points. Uses the team-relative pitch frame and needs a historical wrapper before prediction.",
+      "fields": [
+        {
+          "name": "field",
+          "title": "Field",
+          "required": false,
+          "kind": "select",
+          "default": "mean_x",
+          "help": "Exact raw-point geometry on 0–100 coordinates; population standard deviation. Wrap in Rolling mean, Lag or EMA before prediction.",
+          "choices": [
+            {
+              "value": "mean_x",
+              "label": "Mean longitudinal position"
+            },
+            {
+              "value": "sd_x",
+              "label": "Longitudinal standard deviation"
+            },
+            {
+              "value": "sd_y",
+              "label": "Lateral standard deviation"
+            }
+          ],
+          "primary": true
+        },
+        {
+          "name": "kinds",
+          "title": "Kinds",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "player"
+          ],
+          "help": "Player excludes goalkeepers. Each selected exported point has equal weight; repeated coordinates are retained.",
+          "choices": [
+            "player",
+            "goalkeeper"
+          ],
+          "primary": true
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "select",
+          "default": "for",
+          "choices": [
+            "for",
+            "against",
+            "both"
+          ],
+          "help": "For summarizes this team. Against rotates historical opponent points 180 degrees into the focal team frame. Scalars are never rotated by the target venue.",
+          "primary": true
+        },
+        {
+          "name": "min_points",
+          "title": "Min points",
+          "required": false,
+          "kind": "number",
+          "default": 1,
+          "help": "Minimum selected points for a usable match map. Low-count maps remain missing. This is separate from historical Min periods.",
+          "step": 1,
+          "min": 1,
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.RegionMass": {
       "id": "features.RegionMass",
       "title": "RegionMass",
@@ -284,7 +356,8 @@
           "components": [
             "features.Stat",
             "features.MatchScore",
-            "features.Heatmap"
+            "features.Heatmap",
+            "features.SpatialPointSummary"
           ],
           "initial_component": "features.Stat",
           "primary": true
@@ -496,7 +569,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -561,7 +635,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -636,7 +711,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -702,7 +778,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -789,7 +866,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -854,7 +932,8 @@
           "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
           "visible_when_contains": {
             "source": [
-              "features.Heatmap"
+              "features.Heatmap",
+              "features.SpatialPointSummary"
             ]
           },
           "clear_when_hidden": true,
@@ -4472,7 +4551,7 @@
           "required": false,
           "kind": "multiselect",
           "default": null,
-          "help": "Discover spatial outputs, including Heatmap and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.",
+          "help": "Discover spatial outputs, including Heatmap, SpatialPointSummary and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.",
           "discovery": "heatmaps",
           "primary": true
         },

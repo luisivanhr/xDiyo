@@ -5,6 +5,8 @@ using `RollingMean(MatchScore(...), window=20)` without a statistics table.
 
 See [heatmap features and fixture views](heatmaps.md) for spatial grid pooling,
 Gaussian smoothing, shared pitch orientation and `RegionMass` summaries.
+See [exact point summaries](spatial_point_summaries.md) for historical mean
+longitudinal position and longitudinal/lateral spatial standard deviations.
 `Lag`, `RollingMean`, `RollingStd`, `RollingSkewness`, `RollingZScore` and `EMA` accept
 `venue="all"` or `venue="same"` for both ordinary and spatial team histories.
 
@@ -50,7 +52,7 @@ when a result or statistic was completed or published.
 | `Stat(period, group, key, field="value")` | One exact observed statistic identity, from the team's perspective. Use numeric `value` or an explicitly selected numeric field such as `total`. |
 | `Stat(None, group, key)` | Expand every supplied period separately. `ALL` remains the provider's full-match value; halves are not summed. |
 | `MatchScore(score_field="current", side="for")` | Observed native-current goals; `for`, `against`, or `both`. Requires a historical operator. |
-| `ForAgainst(source, side="for")` | Select team (`for`), opponent (`against`) or both columns for Stat, MatchScore or Heatmap. |
+| `ForAgainst(source, side="for")` | Select team (`for`), opponent (`against`) or both columns for Stat, MatchScore, Heatmap or SpatialPointSummary. |
 | `H2H(expression)` | Restrict historical operations within the expression to the ordered team/opponent pair, respecting venue reversals. |
 | `IsHome()` | Current row's known home context: home 1, away 0; unknown side is missing. |
 | `NormalizedStanding(side="for", missing_value=0.0)` | Current row's supplied pregame standing, normalized using the full league-season team count. Also accepts `against` and `both`. |

@@ -200,6 +200,7 @@ HELP = {
 }
 
 DESCRIPTIONS = {
+    'features.SpatialPointSummary': 'Exact mean longitudinal position or population spatial standard deviation from raw activity points. Uses the team-relative pitch frame and needs a historical wrapper before prediction.',
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
     'features.Product': 'Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.',
     'features.RollingMean': 'Average the selected statistic over eligible past observations. A window of 5 uses up to five previous matches, excluding the match being predicted.',
@@ -311,17 +312,22 @@ def build():
             if name == 'source' and key in ('labels.TeamValue','labels.MatchTotal','labels.Outcome','features.ForAgainst','features.StatGlicko'):
                 f.update(kind='component',components=['features.Stat'],initial_component='features.Stat')
             if name == 'source' and key == 'features.LeaveOneOut':f.update(components=['features.League'],initial_component='features.League')
-            if name == 'source' and key == 'features.ForAgainst': f['components'] = ['features.Stat', 'features.MatchScore', 'features.Heatmap']
+            if name == 'source' and key == 'features.ForAgainst': f['components'] = ['features.Stat', 'features.MatchScore', 'features.Heatmap', 'features.SpatialPointSummary']
             if key == 'features.MatchScore':
                 f['primary'] = True
                 if name == 'score_field': f.update(kind='select', choices=['current'], title='Score basis', help='Native current score from the matches table. It is not universally regulation time. No reconstruction from halves, extra time or penalties, and no fallback to another score field.')
                 if name == 'side': f.update(kind='select', choices=['for','against','both'], help='For is goals scored by the focal team; against is goals conceded; both creates separate scored and conceded columns. Wrap in Rolling mean or Lag to use previous matches only.')
             if name == 'venue' and key.startswith('features.'):
-                f.update(visible_when_contains={'source':['features.Heatmap']}, clear_when_hidden=True)
+                f.update(visible_when_contains={'source':['features.Heatmap','features.SpatialPointSummary']}, clear_when_hidden=True)
                 f.update(kind='select', choices=[{'value':'all','label':'All venues'}, {'value':'same','label':'Same venue as target fixture'}], primary=True, help='All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.')
             if key == 'features.RegionMass':
                 if name == 'region': f.update(kind='select', choices=['own_half','opponent_half'], primary=True, help='Integrate the grid over the focal team’s own or opponent half. A cell crossing halfway contributes proportionally. Density is multiplied by area; mass sums proportions; count sums points.')
                 if name == 'source': f.update(kind='component', components=['features.Heatmap','features.Lag','features.RollingMean','features.EMA'], initial_component='features.RollingMean')
+            if key == 'features.SpatialPointSummary':
+                if name == 'field': f.update(kind='select', choices=[{'value':'mean_x','label':'Mean longitudinal position'}, {'value':'sd_x','label':'Longitudinal standard deviation'}, {'value':'sd_y','label':'Lateral standard deviation'}], help='Exact raw-point geometry on 0–100 coordinates; population standard deviation. Wrap in Rolling mean, Lag or EMA before prediction.')
+                if name == 'kinds': f.update(kind='multiselect', choices=['player','goalkeeper'], help='Player excludes goalkeepers. Each selected exported point has equal weight; repeated coordinates are retained.')
+                if name == 'min_points': f.update(kind='number', min=1, step=1, help='Minimum selected points for a usable match map. Low-count maps remain missing. This is separate from historical Min periods.')
+                if name == 'side': f.update(kind='select', choices=['for','against','both'], help='For summarizes this team. Against rotates historical opponent points 180 degrees into the focal team frame. Scalars are never rotated by the target venue.')
             if key == 'features.Heatmap':
                 f['primary'] = True
                 if name == 'grid_size': f.update(kind='number', min=2, step=1, help='Number of cells along each coordinate axis. 10 creates 100 features per perspective. Squares are in exported 0–100 coordinates, not physical metres.')
@@ -333,7 +339,7 @@ def build():
                 if name == 'use_weights': f.update(help='Disabled counts each exported point once. Enabled uses its supplied weight, with missing weights equal to 1.')
                 if name == 'orientation': f.update(kind='select', choices=[{'value':'home','label':'Shared pitch — Home goal left'}, {'value':'team','label':'Team-relative — own goal left'}], help='Shared pitch rotates final Away grids 180 degrees. Historical opponent points are first rotated into the focal team’s frame; history is averaged before final venue alignment. Both coordinate axes reverse.')
             if key == 'reporting.HeatmapReporter':
-                if name == 'maps': f.update(kind='multiselect', discovery='heatmaps', primary=True, help='Discover spatial outputs, including Heatmap and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.')
+                if name == 'maps': f.update(kind='multiselect', discovery='heatmaps', primary=True, help='Discover spatial outputs, including Heatmap, SpatialPointSummary and RegionMass. Disabled includes all compatible outputs. Select a fixture to inspect its exact prepared Home/Away values.')
                 if name == 'max_fixtures': f.update(kind='number', min=1, step=1, help='Optional cap on fixtures retained in this report scope. Useful for small offline exports. Disabled retains every selected fixture.')
                 if name == 'cache_size': f.update(kind='number', min=1, step=1, help='Maximum recently viewed fixture/feature pairs kept by the live browser. 8 is the default; this does not cap the experiment population.')
                 if name == 'type': f['choices'] = ['overall','per_fold']
@@ -438,7 +444,7 @@ def build():
             if name=='strength':f['help']='Prior effective observation count. EMA weight is strength / (strength + new observations).'
             if name=='start' and c['id']=='features.LinearFade':f['help']='Completed rounds before the gradual fade begins.'
             if name=='rounds' and c['id'] in ('features.Hard','features.LinearFade'):f['help']='Number of completed current-season league rounds before switching (Hard), or duration of the fade after Start (LinearFade). Postponed rounds remain incomplete.'
-            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.RegionMass','features.MatchScore','features.TeamMovement','features.SeededEMA') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
+            f['primary'] = f['name'] in primary or name == 'venue' or c['id'] in ('features.Heatmap','features.SpatialPointSummary','features.RegionMass','features.MatchScore','features.TeamMovement','features.SeededEMA') or (c['id'] == 'reporting.HeatmapReporter' and name == 'maps')
             if f['name']=='type' and c['category'] in ('pre_reporter','post_reporter'):
                 f['choices']=[v for v in ['overall','per_fold','timeline'] if v in f.get('choices', ['overall','per_fold'])]
             if f['name']=='type' and c['id']=='reporting.FeatureTimeline':f['choices']=['overall','per_fold','timeline']

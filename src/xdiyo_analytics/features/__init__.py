@@ -15,11 +15,12 @@ from .contextual import RestDays, CalendarFeature, SeasonProgress, evaluate_cont
 from .presets import FeatureBankPreset
 from .preparation import NumericFeatures, IdentityFeatureSpec
 from .spatial import Heatmap, RegionMass, heatmap_grid
+from .point_geometry import SpatialPointSummary
 from .movement import TeamMovement
 
 __all__ = [
     "TeamMovement",
-    "RegionMass",
+    "RegionMass", "SpatialPointSummary",
     "Stat", "MatchScore", "ForAgainst", "H2H", "IsHome", "NormalizedStanding", "Lag",
     "RollingMean", "RollingStd", "RollingSkewness", "RollingZScore", "EMA", "evaluate_features",
     "eligible_history_rows", "league_season_team_counts",
