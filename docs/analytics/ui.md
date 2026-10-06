@@ -15,6 +15,9 @@ The local experiment builder configures the same `FootballExperiment` pipeline u
 
 ## Probability-driven bets
 
+For SVR and SVC in **Model & training**, see [support vector models](support_vector_models.md),
+including kernel controls, class probabilities, balancing and grid search.
+
 In **Post-training analysis**, add **Bet Outcome Reporter**, configure offered
 BetOptions and choose **Tightest Line** or **Highest Expected Profit**. Upstream
 probabilities are selected automatically. Add **Bet Performance Reporter** afterward

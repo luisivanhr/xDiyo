@@ -8850,6 +8850,364 @@
       ],
       "accepts_extra": false
     },
+    "sklearn.svm.SVR": {
+      "id": "sklearn.svm.SVR",
+      "title": "SVR — Support vector regression",
+      "category": "model",
+      "description": "Support vector regression for a single numeric target. Use imputation and feature scaling in Preprocessing. Kernel fitting can be expensive for large datasets.",
+      "fields": [
+        {
+          "name": "kernel",
+          "title": "Kernel",
+          "required": false,
+          "kind": "select",
+          "default": "rbf",
+          "help": "Similarity function: linear, polynomial, radial basis (RBF), or sigmoid. Precomputed kernels need a separate Gram-matrix workflow and are not offered by this feature-table builder.",
+          "choices": [
+            "linear",
+            "poly",
+            "rbf",
+            "sigmoid"
+          ],
+          "primary": true
+        },
+        {
+          "name": "degree",
+          "title": "Degree",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Degree of the polynomial kernel function ('poly'). Must be non-negative. Ignored by all other kernels.",
+          "step": 1,
+          "primary": false,
+          "min": 0,
+          "visible_when": {
+            "kernel": [
+              "poly"
+            ]
+          }
+        },
+        {
+          "name": "gamma",
+          "title": "Gamma",
+          "required": false,
+          "kind": "rule_number",
+          "default": "scale",
+          "help": "Kernel coefficient. Scale uses 1 / (number of features × fitting-input variance); auto uses 1 / number of features. Or enter a nonnegative numeric value. Computed from fitting rows after preprocessing.",
+          "primary": true,
+          "rules": [
+            "scale",
+            "auto"
+          ],
+          "number_default": 0.1,
+          "min": 0,
+          "step": "any",
+          "visible_when": {
+            "kernel": [
+              "poly",
+              "rbf",
+              "sigmoid"
+            ]
+          }
+        },
+        {
+          "name": "coef0",
+          "title": "Coef0",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Independent term in kernel function. It is only significant in 'poly' and 'sigmoid'.",
+          "step": "any",
+          "primary": false,
+          "visible_when": {
+            "kernel": [
+              "poly",
+              "sigmoid"
+            ]
+          }
+        },
+        {
+          "name": "tol",
+          "title": "Tol",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "Positive solver stopping tolerance.",
+          "step": "any",
+          "primary": false,
+          "min": 1e-300
+        },
+        {
+          "name": "C",
+          "title": "C (inverse regularization)",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Positive penalty for fitting errors. Smaller C gives stronger regularization; larger C fits training observations more closely.",
+          "step": "any",
+          "primary": true,
+          "min": 1e-300
+        },
+        {
+          "name": "epsilon",
+          "title": "Epsilon",
+          "required": false,
+          "kind": "number",
+          "default": 0.1,
+          "help": "Width of the error-insensitive tube on each side of the prediction. Errors within epsilon incur no loss. Uses transformed target units if label scaling is enabled.",
+          "step": "any",
+          "primary": true,
+          "min": 0
+        },
+        {
+          "name": "shrinking",
+          "title": "Shrinking",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Whether to use the shrinking heuristic. See the :ref:`User Guide <shrinking_svm>`.",
+          "primary": false
+        },
+        {
+          "name": "cache_size",
+          "title": "Kernel cache (MB)",
+          "required": false,
+          "kind": "number",
+          "default": 200,
+          "help": "Memory in megabytes available for the kernel cache for each fitted estimator.",
+          "step": "any",
+          "primary": false,
+          "min": 1e-300
+        },
+        {
+          "name": "verbose",
+          "title": "Verbose",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Enable verbose output. Note that this setting takes advantage of a per-process runtime setting in libsvm that, if enabled, may not work properly in a multithreaded context.",
+          "primary": false
+        },
+        {
+          "name": "max_iter",
+          "title": "Max iter",
+          "required": false,
+          "kind": "number",
+          "default": -1,
+          "help": "Solver iteration limit. -1 means no limit; a finite limit can stop before convergence.",
+          "step": 1,
+          "primary": true,
+          "min": -1
+        }
+      ],
+      "accepts_extra": false
+    },
+    "sklearn.svm.SVC": {
+      "id": "sklearn.svm.SVC",
+      "title": "SVC — Support vector classification",
+      "category": "model",
+      "description": "Support vector classification for a single discrete target; classes are learned from each training fold. Use imputation and feature scaling in Preprocessing. Kernel fitting can be expensive for large datasets.",
+      "fields": [
+        {
+          "name": "C",
+          "title": "C (inverse regularization)",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Positive penalty for fitting errors. Smaller C gives stronger regularization; larger C fits training observations more closely.",
+          "step": "any",
+          "primary": true,
+          "min": 1e-300
+        },
+        {
+          "name": "kernel",
+          "title": "Kernel",
+          "required": false,
+          "kind": "select",
+          "default": "rbf",
+          "help": "Similarity function: linear, polynomial, radial basis (RBF), or sigmoid. Precomputed kernels need a separate Gram-matrix workflow and are not offered by this feature-table builder.",
+          "choices": [
+            "linear",
+            "poly",
+            "rbf",
+            "sigmoid"
+          ],
+          "primary": true
+        },
+        {
+          "name": "degree",
+          "title": "Degree",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Degree of the polynomial kernel function ('poly'). Must be non-negative. Ignored by all other kernels.",
+          "step": 1,
+          "primary": false,
+          "min": 0,
+          "visible_when": {
+            "kernel": [
+              "poly"
+            ]
+          }
+        },
+        {
+          "name": "gamma",
+          "title": "Gamma",
+          "required": false,
+          "kind": "rule_number",
+          "default": "scale",
+          "help": "Kernel coefficient. Scale uses 1 / (number of features × fitting-input variance); auto uses 1 / number of features. Or enter a nonnegative numeric value. Computed from fitting rows after preprocessing.",
+          "primary": true,
+          "rules": [
+            "scale",
+            "auto"
+          ],
+          "number_default": 0.1,
+          "min": 0,
+          "step": "any",
+          "visible_when": {
+            "kernel": [
+              "poly",
+              "rbf",
+              "sigmoid"
+            ]
+          }
+        },
+        {
+          "name": "coef0",
+          "title": "Coef0",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Independent term in kernel function. It is only significant in 'poly' and 'sigmoid'.",
+          "step": "any",
+          "primary": false,
+          "visible_when": {
+            "kernel": [
+              "poly",
+              "sigmoid"
+            ]
+          }
+        },
+        {
+          "name": "shrinking",
+          "title": "Shrinking",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Whether to use the shrinking heuristic. See the :ref:`User Guide <shrinking_svm>`.",
+          "primary": false
+        },
+        {
+          "name": "probability",
+          "title": "Enable class probabilities",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Enable before fitting for calibration and probability-based bet reporters. Probabilities are retained automatically. Adds internal five-fold probability estimation and fitting cost; predicted classes can differ from probability argmax. For chronological external calibration, use the separate training calibration layer.",
+          "primary": true
+        },
+        {
+          "name": "tol",
+          "title": "Tol",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "Positive solver stopping tolerance.",
+          "step": "any",
+          "primary": false,
+          "min": 1e-300
+        },
+        {
+          "name": "cache_size",
+          "title": "Kernel cache (MB)",
+          "required": false,
+          "kind": "number",
+          "default": 200,
+          "help": "Memory in megabytes available for the kernel cache for each fitted estimator.",
+          "step": "any",
+          "primary": false,
+          "min": 1e-300
+        },
+        {
+          "name": "class_weight",
+          "title": "Class weight",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Disabled uses equal class weights. Balanced uses inverse class frequencies from fitting rows. For custom weights or partial balancing, use ClassWeightReporter and Weights from instead; do not combine both weighting mechanisms.",
+          "choices": [
+            "balanced"
+          ],
+          "primary": true,
+          "initial": "balanced"
+        },
+        {
+          "name": "verbose",
+          "title": "Verbose",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Enable verbose output. Note that this setting takes advantage of a per-process runtime setting in libsvm that, if enabled, may not work properly in a multithreaded context.",
+          "primary": false
+        },
+        {
+          "name": "max_iter",
+          "title": "Max iter",
+          "required": false,
+          "kind": "number",
+          "default": -1,
+          "help": "Solver iteration limit. -1 means no limit; a finite limit can stop before convergence.",
+          "step": 1,
+          "primary": true,
+          "min": -1
+        },
+        {
+          "name": "decision_function_shape",
+          "title": "Decision function shape",
+          "required": false,
+          "kind": "select",
+          "default": "ovr",
+          "help": "Whether to return a one-vs-rest ('ovr') decision function of shape (n_samples, n_classes) as all other classifiers, or the original one-vs-one ('ovo') decision function of libsvm which has shape (n_samples, n_classes * (n_classes - 1) / 2). However, note that internally, one-vs-one ('ovo') is always used as a multi-class strategy to train models; an ovr matrix is only constructed from the ovo matrix. The parameter is ignored for binary classification.",
+          "choices": [
+            "ovr",
+            "ovo"
+          ],
+          "primary": false
+        },
+        {
+          "name": "break_ties",
+          "title": "Break ties",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "If true, ``decision_function_shape='ovr'``, and number of classes > 2, :term:`predict` will break ties according to the confidence values of :term:`decision_function`; otherwise the first class among the tied classes is returned. Please note that breaking ties comes at a relatively high computational cost compared to a simple predict. See :ref:`sphx_glr_auto_examples_svm_plot_svm_tie_breaking.py` for an example of its usage with ``decision_function_shape='ovr'``.",
+          "primary": false,
+          "visible_when": {
+            "decision_function_shape": [
+              "ovr"
+            ]
+          }
+        },
+        {
+          "name": "random_state",
+          "title": "Random state",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Seed for the internal probability-estimation shuffle. Has no effect when class probabilities are disabled.",
+          "initial": 1,
+          "step": 1,
+          "primary": false,
+          "visible_when": {
+            "probability": [
+              true
+            ]
+          }
+        }
+      ],
+      "accepts_extra": false
+    },
     "sklearn.ensemble.RandomForestRegressor": {
       "id": "sklearn.ensemble.RandomForestRegressor",
       "title": "RandomForestRegressor",

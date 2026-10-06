@@ -229,6 +229,7 @@ def default_catalog():
         catalog.register('features.' + name, getattr(namespace, name), category='warmup')
     for module, names, category in (
         ('sklearn.linear_model', 'Lasso ElasticNet Ridge LinearRegression PoissonRegressor LogisticRegression SGDRegressor SGDClassifier', 'model'),
+        ('sklearn.svm', 'SVR SVC', 'model'),
         ('sklearn.ensemble', 'RandomForestRegressor RandomForestClassifier HistGradientBoostingRegressor HistGradientBoostingClassifier', 'model'),
         ('sklearn.preprocessing', 'StandardScaler MinMaxScaler MaxAbsScaler RobustScaler QuantileTransformer PowerTransformer OneHotEncoder PolynomialFeatures', 'preprocessor'),
         ('sklearn.impute', 'SimpleImputer', 'preprocessor'),
