@@ -171,6 +171,12 @@ def _original_positions(training, positions):
                 setattr(fold, name, positions[values].copy())
         if fold.model is not None and hasattr(fold.model, "calibration_positions_"):
             fold.model.calibration_positions_ = fold.calibration_positions.copy()
+            audit = getattr(fold.model.calibrator, 'split_audit_', {})
+            for record in audit.get('purged', []):
+                record['row_position'] = int(positions[record['row_position']])
+        audit = fold.training_summary.get('calibration', {}).get('temporal_split') or {}
+        for record in audit.get('purged', []):
+            record['row_position'] = int(positions[record['row_position']])
         for frame in [fold.y_true, fold.metadata, *fold.predictions.values()]:
             frame.index = pd.Index(positions[frame.index.to_numpy(dtype=int)], name="row_position")
         if fold.selection is not None:

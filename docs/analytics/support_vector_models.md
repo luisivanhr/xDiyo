@@ -33,6 +33,10 @@ grid = {"C": [0.5, 1.0, 2.0], "gamma": ["scale", 0.1]}
 
 ## Class probabilities and balancing
 
+For binary SVC with fully chronological calibration, use the new
+[decision-margin calibration route](temporal_svc_calibration.md) with
+`probability=False`. The following describes the existing internal-probability route.
+
 For probability-based reporters or the existing `ProbabilityCalibrator`, enable
 SVC's **Enable class probabilities** before fitting. The recipe automatically
 retains `predict_proba` with the original class labels. The default is disabled.

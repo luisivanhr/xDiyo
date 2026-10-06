@@ -318,7 +318,18 @@ class ModelFactory:
         adapter = self.recipe.get('adapter')
         methods = list(self.recipe.get('prediction_methods', ['predict']))
         calibration = self.recipe.get('candidate', {}).get('calibration')
-        if (calibration is not None or callable(getattr(estimator, 'predict_proba', None))) and 'predict_proba' not in methods:
+        response = self.catalog.build(calibration).response_method if calibration is not None else None
+        if response == 'decision_function':
+            if self.recipe.get('target_transformer') is not None:
+                raise ValueError('Decision-margin calibration needs original discrete labels; disable label scaling.')
+            from sklearn.svm import SVC
+            if not isinstance(native_estimator, SVC) or native_estimator.probability not in (False, 'deprecated'):
+                raise ValueError('Decision-margin calibration requires SVC(probability=False).')
+            if 'predict_proba' in methods:
+                raise ValueError('Do not request base predict_proba in decision-margin calibration; calibrated probabilities are returned automatically.')
+            if response not in methods:
+                methods.append(response)
+        elif (calibration is not None or callable(getattr(estimator, 'predict_proba', None))) and 'predict_proba' not in methods:
             methods.append('predict_proba')
         if adapter is not None:
             built = self.catalog.build(adapter, {'estimator': estimator, 'native_estimator': native_estimator,
@@ -330,6 +341,8 @@ class ModelFactory:
             built = EstimatorAdapter(estimator, tuple(methods))
         if 'predict_proba' in methods and adapter is not None and hasattr(built, 'prediction_methods'):
             built.prediction_methods = tuple(dict.fromkeys((*built.prediction_methods, 'predict_proba')))
+        if response == 'decision_function' and adapter is not None and hasattr(built, 'prediction_methods'):
+            built.prediction_methods = tuple(dict.fromkeys((*built.prediction_methods, response)))
         target_transformer = self.recipe.get('target_transformer')
         if target_transformer is not None:
             built = TargetTransformAdapter(built, self.catalog.build(target_transformer))

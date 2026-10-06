@@ -3531,7 +3531,19 @@
             "temperature",
             "sigmoid",
             "isotonic"
-          ]
+          ],
+          "choices_by": {
+            "response_method": {
+              "decision_function": [
+                "sigmoid"
+              ],
+              "predict_proba": [
+                "temperature",
+                "sigmoid",
+                "isotonic"
+              ]
+            }
+          }
         },
         {
           "name": "fraction",
@@ -3563,8 +3575,141 @@
           "required": false,
           "kind": "boolean",
           "default": true,
-          "help": "Use the most probable calibrated class for point predictions. Disable to preserve the original point predictions. Both raw and calibrated probability distributions remain available.",
+          "help": "Use calibrated probability argmax for point predictions. Disable to preserve base predictions. Probability mode retains raw probabilities; margin mode retains decision_function instead.",
           "primary": true
+        },
+        {
+          "name": "response_method",
+          "title": "Response method",
+          "required": false,
+          "kind": "select",
+          "default": "predict_proba",
+          "help": "Probability input preserves existing behavior. Decision function fits one sigmoid on binary SVC margins from a later, availability-checked training tail; requires SVC internal probabilities disabled and Method sigmoid.",
+          "primary": true,
+          "choices": [
+            "predict_proba",
+            "decision_function"
+          ]
+        },
+        {
+          "name": "availability_column",
+          "title": "Availability column",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Metadata column with label availability timestamps. Missing availability purges the whole prediction group. Mutually exclusive with delay.",
+          "primary": true,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "availability_delay",
+          "title": "Availability delay",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Explicit outcome-availability assumption, e.g. 3h after kickoff. A proxy, not a verified release time. Set this or an availability column.",
+          "primary": true,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "cutoff_column",
+          "title": "Cutoff column",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional metadata column for prediction cutoffs. Otherwise use first kickoff of each declared group minus Prediction lead.",
+          "primary": true,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "prediction_group_by",
+          "title": "Prediction group by",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Metadata keys defining indivisible prediction groups, e.g. competition_id, season_id, tournament_id, round. Use the actual columns of your dataset. Empty groups by match; equal-kickoff batches remain intact at tail selection. Boundary-crossing/incomplete groups are purged.",
+          "primary": true,
+          "item": {
+            "kind": "text",
+            "default": "competition_id"
+          },
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "prediction_lead",
+          "title": "Prediction lead",
+          "required": false,
+          "kind": "text",
+          "default": "1h",
+          "help": "Duration before the first kickoff of the prediction group, e.g. 1h. Default 1h. Used when no explicit cutoff column is selected.",
+          "primary": true,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "issue_at",
+          "title": "Issue at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Explicit UTC model issue time, required for final refit without an outer fold. An outer fold always uses the earlier of this time and its first prediction cutoff.",
+          "primary": true,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "min_calibration_rows",
+          "title": "Min calibration rows",
+          "required": false,
+          "kind": "number",
+          "default": 10,
+          "help": "Required calibration observations after purging; counts dataset rows. Both classes must meet the per-class minimum. No automatic tail expansion or fallback.",
+          "step": 1,
+          "primary": true,
+          "min": 1,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
+        },
+        {
+          "name": "min_calibration_per_class",
+          "title": "Min calibration per class",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Required calibration observations after purging; counts dataset rows. Both classes must meet the per-class minimum. No automatic tail expansion or fallback.",
+          "step": 1,
+          "primary": true,
+          "min": 1,
+          "visible_when": {
+            "response_method": [
+              "decision_function"
+            ]
+          }
         }
       ],
       "accepts_extra": false
@@ -3882,7 +4027,8 @@
           "help": "Prediction methods for EstimatorAdapter. Default: ['predict'].",
           "choices": [
             "predict",
-            "predict_proba"
+            "predict_proba",
+            "decision_function"
           ],
           "primary": true
         }
@@ -9104,7 +9250,7 @@
           "required": false,
           "kind": "boolean",
           "default": false,
-          "help": "Enable before fitting for calibration and probability-based bet reporters. Probabilities are retained automatically. Adds internal five-fold probability estimation and fitting cost; predicted classes can differ from probability argmax. For chronological external calibration, use the separate training calibration layer.",
+          "help": "Enable for libsvm internal five-fold probability estimation; probabilities are retained automatically. For fully chronological margin calibration, leave disabled and select Probability Calibrator: decision_function + sigmoid with an explicit availability policy. Do not combine the two routes.",
           "primary": true
         },
         {
@@ -15510,7 +15656,7 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Optional probability calibration fitted on a separate chronological tail of each training fold. These rows are excluded from model/scaler fitting, feature selection and early stopping. Test outcomes are never used. Requires a classifier with class probabilities.",
+          "help": "Optional calibration fitted on a separate chronological training tail, excluded from base model/scaler fitting and feature selection. Choose probability input for existing classifiers, or binary SVC decision margins with internal probabilities disabled and explicit label availability.",
           "components": [
             "training.ProbabilityCalibrator"
           ],

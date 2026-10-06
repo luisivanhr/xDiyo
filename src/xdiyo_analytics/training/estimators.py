@@ -40,8 +40,10 @@ class EstimatorAdapter:
 
     def fit(self, context):
         methods = tuple(self.prediction_methods)
-        if not methods or len(set(methods)) != len(methods) or set(methods) - {"predict", "predict_proba"}:
-            raise ValueError("prediction_methods must select predict and/or predict_proba.")
+        if not methods or len(set(methods)) != len(methods) or set(methods) - {"predict", "predict_proba", "decision_function"}:
+            raise ValueError("prediction_methods must select predict, predict_proba and/or decision_function.")
+        if 'decision_function' in methods and (context.y.shape[1] != 1 or context.y.iloc[:, 0].nunique() != 2):
+            raise ValueError('prediction_methods: decision_function currently requires one binary target with both classes.')
         for method in methods:
             if not callable(getattr(self.estimator, method, None)):
                 raise TypeError(f"Estimator does not expose {method}().")
@@ -74,6 +76,17 @@ class EstimatorAdapter:
                     raise ValueError("predict must return one value per row and selected target.")
                 result[method] = pd.DataFrame(array, index=context.X.index,
                                               columns=list(self.target_columns_))
+            elif method == 'decision_function':
+                classes = getattr(self.estimator, 'classes_', None)
+                array = np.asarray(values, dtype=float)
+                if classes is None or len(classes) != 2 or array.shape != (len(context.X),):
+                    raise ValueError('decision_function requires a binary fitted class order and one margin per row; multiclass/OVO is unsupported.')
+                target = self.target_columns_[0]
+                frame = pd.DataFrame({target: array}, index=context.X.index)
+                frame.attrs['response_schema'] = {target: dict(classes=list(classes), positive_class=classes[1])}
+                from .margins import validate_margins
+                validate_margins(frame)
+                result[method] = frame
             else:
                 classes = getattr(self.estimator, "classes_", None)
                 if classes is None:

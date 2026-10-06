@@ -40,7 +40,7 @@ def _frame(frame, rows):
     return result
 
 
-def split_training_rows(dataset, train_positions, validation=None, calibration=None):
+def split_training_rows(dataset, train_positions, validation=None, calibration=None, *, fold_metadata=None):
     """Return fitting/validation positions within an explicit training population.
 
     validation is None, original dataset positions, or an object such as
@@ -52,8 +52,7 @@ def split_training_rows(dataset, train_positions, validation=None, calibration=N
         from .calibration import ProbabilityCalibrator
         if not isinstance(calibration, ProbabilityCalibrator):
             raise TypeError("calibration must be ProbabilityCalibrator or None.")
-        reserved = calibration.select(dataset, train)
-        train = train[~np.isin(train, reserved)]
+        train, reserved, _ = calibration.partition(dataset, train, fold_metadata)
     chosen = validation.select(dataset, train.copy()) if hasattr(validation, "select") else validation
     valid = _positions([] if chosen is None else chosen, len(dataset.X), "validation", allow_empty=True)
     if not np.isin(valid, train).all():
@@ -71,8 +70,11 @@ def split_training_rows(dataset, train_positions, validation=None, calibration=N
 def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fold_metadata,
                validation=None, control=None, observer=None, execution=None, execution_info=None, calibration=None,
                weighting=None, observation_weights=None):
-    fit, valid = split_training_rows(dataset, train, validation, calibration)
-    if dataset.y[targets].iloc[train].isna().any().any():
+    fit, valid = split_training_rows(dataset, train, validation, calibration, fold_metadata=fold_metadata)
+    reserved, audit = np.array([], dtype=int), {}
+    if calibration is not None:
+        _, reserved, audit = calibration.partition(dataset, train, fold_metadata)
+    if dataset.y[targets].iloc[np.concatenate([fit, valid, reserved])].isna().any().any():
         raise ValueError("Training targets contain missing values; prepare eligible training matches upstream.")
     common = dict(layout=dataset.layout, match_columns=tuple(dataset.match_columns), fold_id=fold_id)
 
@@ -91,6 +93,8 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
     training.validation = context(valid) if len(valid) else None
     training.observer = observer
     model = model_factory()
+    if calibration is not None:
+        calibration.validate_model(model, dataset.y[targets].iloc[fit], dataset.y[targets].iloc[reserved])
     if training.sample_weight is not None and not getattr(model, "supports_sample_weight", False):
         raise TypeError("This adapter must declare supports_sample_weight and consume FitContext.sample_weight.")
     if not callable(getattr(model, "fit", None)) or not callable(getattr(model, "predict", None)):
@@ -119,13 +123,14 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
                                    "weight_mean": float(training.sample_weight.mean())}
     if calibration is not None:
         from .calibration import CalibratedAdapter
-        reserved = calibration.select(dataset, train)
         prediction = PredictionContext(X=_frame(dataset.X[features], reserved), metadata=_frame(dataset.metadata, reserved),
                                        **common, fold_metadata=deepcopy(fold_metadata), definitions=deepcopy(dataset.definitions))
         outputs = model.predict(prediction)
-        if "predict_proba" not in outputs:
-            raise ValueError("Probability calibration requires predict_proba; enable class probabilities on the adapter.")
-        calibrator = deepcopy(calibration).fit(outputs["predict_proba"], _frame(dataset.y[targets], reserved))
+        response = calibration.response_method
+        if response not in outputs:
+            raise ValueError(f'Probability calibration requires {response}; enable the response on the adapter.')
+        calibrator = deepcopy(calibration).fit(outputs[response], _frame(dataset.y[targets], reserved))
+        calibrator.split_audit_ = audit
         model = CalibratedAdapter(model, calibrator, reserved.copy())
     return model, fit, valid
 
@@ -173,8 +178,9 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
         **common, fold_metadata=deepcopy(fold.metadata), definitions=deepcopy(dataset.definitions))
     execution_info = {}
     try:
+        from .calibration_split import fold_boundary
         model, fit, valid = _fit_model(dataset, train, model_factory, features, targets,
-                                      fold_id=fold_id, fold_metadata=fold.metadata,
+                                      fold_id=fold_id, fold_metadata=fold_boundary(calibration, dataset, fold),
                                       validation=validation, control=control, observer=observer,
                                       execution=execution, execution_info=execution_info, calibration=calibration,
                                       weighting=weighting, observation_weights=observation_weights)
@@ -247,7 +253,9 @@ class TrainingRunner:
         """
         folds = []
         for i, fold in enumerate(split_plan.folds):
-            fit, _ = split_training_rows(dataset, fold.train, self._validation_for(i), self.calibration)
+            from .calibration_split import fold_boundary
+            fit, _ = split_training_rows(dataset, fold.train, self._validation_for(i), self.calibration,
+                                          fold_metadata=fold_boundary(self.calibration, dataset, fold))
             folds.append(Fold(fit, fold.test.copy(), fold.score.copy(), deepcopy(fold.metadata)))
         return SplitPlan(folds, split_plan.n_rows, split_plan.row_order.copy(), deepcopy(split_plan.paths))
 
@@ -305,14 +313,18 @@ class TrainingRunner:
                 if len(candidates) != 1 or candidates[0].result.selection is None:
                     raise ValueError("features_from needs one selector result for this fold or overall scope.")
                 selection = candidates[0]
-                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration)
+                from .calibration_split import fold_boundary
+                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration,
+                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold))
                 if selection.layout != dataset.layout or not np.isin(selection.row_positions, fitting_rows).all():
                     raise ValueError("Consumed feature selection must use only this fold's fitting training rows and layout; use selection_plan when reserving validation.")
                 features = selection.result.selection.columns
             weights = None
             if weights_from is not None:
                 from ..weighting import report_weights
-                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration)
+                from .calibration_split import fold_boundary
+                fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration,
+                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold))
                 weights = report_weights(analysis_report, weights_from, fold_id, fitting_rows, dataset.layout)
             jobs.append((fold_id, fold, features, validation, selection, weights))
         targets, control, execution = self.target_columns, self.control, self.execution

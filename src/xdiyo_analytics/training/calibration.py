@@ -33,25 +33,104 @@ class ProbabilityCalibrator:
     The pipeline reserves the latest fraction of training kickoff batches;
     it never uses test labels or the base model's early-stopping population.
     Class weighting is not applied to the calibration labels.
+
+    response_method='decision_function' instead fits one Platt-smoothed sigmoid
+    to binary SVC margins. It requires explicit label availability (column or
+    declared kickoff-plus-delay proxy), preserves prediction groups, and purges
+    labels not known at calibration/issue boundaries. See temporal_svc_calibration.md.
+    Existing serialized instances without response_method use predict_proba.
     """
 
     method: str = "temperature"
     fraction: float = 0.2
     time_column: str = "kickoff_at"
     update_predict: bool = True
+    response_method: str = 'predict_proba'
+    availability_column: object = None
+    availability_delay: object = None
+    cutoff_column: object = None
+    prediction_group_by: tuple = ()
+    prediction_lead: str = '1h'
+    issue_at: object = None
+    min_calibration_rows: int = 10
+    min_calibration_per_class: int = 2
 
     def __post_init__(self):
+        if self.response_method not in {'predict_proba', 'decision_function'}:
+            raise ValueError('Calibration response_method must be predict_proba or decision_function.')
+        if self.response_method == 'decision_function' and self.method != 'sigmoid':
+            raise ValueError('Decision-margin calibration supports only binary sigmoid calibration.')
+        if self.availability_column is not None and self.availability_delay is not None:
+            raise ValueError('Choose availability_column or availability_delay, not both.')
+        for name in ('min_calibration_rows', 'min_calibration_per_class'):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, (int, np.integer)) or value < 1:
+                raise ValueError(f'{name} must be a positive integer.')
         if self.method not in {"temperature", "sigmoid", "isotonic"}:
             raise ValueError("Calibration method must be temperature, sigmoid or isotonic.")
         if isinstance(self.fraction, bool) or not 0 < self.fraction < 1:
             raise ValueError("Calibration fraction must lie strictly between zero and one.")
 
     def select(self, dataset, train_positions):
+        if self.response_method == 'decision_function':
+            return self.partition(dataset, train_positions)[1]
         from .control import ValidationTail
         return ValidationTail(self.fraction, self.time_column).select(dataset, train_positions)
 
+    def partition(self, dataset, train_positions, fold_metadata=None):
+        if self.response_method == 'decision_function':
+            from .calibration_split import temporal_partition
+            return temporal_partition(self, dataset, train_positions, fold_metadata)
+        reserved = self.select(dataset, train_positions)
+        train = np.asarray(train_positions)
+        return train[~np.isin(train, reserved)], reserved, {}
+
+    def validate_model(self, model, fitting_labels, calibration_labels):
+        """Fail incompatible margin configurations before preprocessing/model fitting."""
+        if self.response_method != 'decision_function':
+            return
+        from sklearn.svm import SVC
+        from .estimators import EstimatorAdapter
+        if not isinstance(model, EstimatorAdapter):
+            raise ValueError('Margin calibration requires an EstimatorAdapter with binary SVC.')
+        estimator = model.estimator
+        native = estimator.steps[-1][1] if hasattr(estimator, 'steps') else estimator
+        if not isinstance(native, SVC) or native.probability not in (False, 'deprecated'):
+            raise ValueError('Margin calibration requires SVC(probability=False); no internal probability CV is allowed.')
+        if 'decision_function' not in model.prediction_methods or 'predict_proba' in model.prediction_methods:
+            raise ValueError('Margin calibration requires decision_function, without base predict_proba.')
+        if len(fitting_labels.columns) != 1 or fitting_labels.iloc[:, 0].nunique() != 2:
+            raise ValueError('Margin calibration requires one binary target with both classes in base fitting rows.')
+        self._check_margin_labels(calibration_labels, fitting_labels.columns[0],
+                                  pd.Index(fitting_labels.iloc[:, 0].unique()))
+
+    def _check_margin_labels(self, y, target, classes):
+        if target not in y or y[target].isna().any() or not y[target].isin(classes).all():
+            raise ValueError('Margin calibration labels must be nonmissing known fitted classes.')
+        counts = y[target].value_counts().reindex(classes, fill_value=0)
+        if len(y) < self.min_calibration_rows or (counts < self.min_calibration_per_class).any():
+            raise ValueError('Insufficient calibration rows/per-class observations; both fitted classes are required.')
+
+    def _fit_margins(self, margins, y):
+        from .margins import validate_margins, fit_sigmoid
+        schema = validate_margins(margins)
+        if not isinstance(y, pd.DataFrame) or not margins.index.equals(y.index) or not len(y):
+            raise ValueError('Calibration labels must align exactly with nonempty margin rows.')
+        self.response_schema_ = deepcopy(schema)
+        self.models_, self.diagnostics_ = {}, {}
+        self.columns_ = pd.MultiIndex.from_tuples([(t, c) for t in margins for c in schema[t]['classes']], names=['target', 'class'])
+        for target in margins:
+            classes = pd.Index(schema[target]['classes'])
+            self._check_margin_labels(y, target, classes)
+            self.models_[target], self.diagnostics_[target] = fit_sigmoid(
+                margins[target].to_numpy(dtype=float), (y[target] == classes[1]).to_numpy(dtype=float))
+        self.n_samples_ = len(y)
+        return self
+
     def fit(self, probabilities, y):
         """Fit on held-out/OOF probabilities with exactly aligned observed labels."""
+        if self.response_method == 'decision_function':
+            return self._fit_margins(probabilities, y)
         probabilities = _probabilities(probabilities)
         if not isinstance(y, pd.DataFrame) or not y.index.equals(probabilities.index) or not len(y):
             raise ValueError("Calibration labels need the same nonempty row index as probabilities.")
@@ -99,6 +178,20 @@ class ProbabilityCalibrator:
         return self
 
     def transform(self, probabilities):
+        if self.response_method == 'decision_function':
+            from .margins import validate_margins
+            schema = validate_margins(probabilities)
+            if not hasattr(self, 'models_'):
+                raise RuntimeError('Fit the margin calibrator before prediction.')
+            if schema != self.response_schema_ or list(probabilities) != list(self.models_):
+                raise ValueError('Margin target/class schema and order must match fitted calibration.')
+            frames = []
+            for target, (a, b, scale) in self.models_.items():
+                with np.errstate(over='ignore'):
+                    p = expit((a / scale) * probabilities[target].to_numpy(dtype=float) + b)
+                columns = pd.MultiIndex.from_product([[target], schema[target]['classes']], names=['target', 'class'])
+                frames.append(pd.DataFrame(np.column_stack([1-p, p]), index=probabilities.index, columns=columns))
+            return pd.concat(frames, axis=1)
         probabilities = _probabilities(probabilities)
         if not hasattr(self, "models_"):
             raise RuntimeError("Fit the probability calibrator before transforming predictions.")
@@ -145,11 +238,13 @@ class CalibratedAdapter:
 
     def predict(self, context):
         outputs = dict(self.estimator.predict(context))
-        raw = outputs.get("predict_proba")
+        response = self.calibrator.response_method
+        raw = outputs.get(response)
         if raw is None:
-            raise ValueError("Probability calibration requires the model's predict_proba output.")
+            raise ValueError(f'Calibration requires the model\'s {response} output.')
         calibrated = self.calibrator.transform(raw)
-        outputs["predict_proba_raw"] = raw.copy(deep=True)
+        if response == 'predict_proba':
+            outputs["predict_proba_raw"] = raw.copy(deep=True)
         outputs["predict_proba"] = calibrated
         if self.calibrator.update_predict:
             labels = {}
@@ -167,7 +262,13 @@ class CalibratedAdapter:
     def training_summary_(self):
         return {**deepcopy(getattr(self.estimator, "training_summary_", {})),
                 "calibration": {"method": self.calibrator.method, "n_rows": self.calibrator.n_samples_,
-                                "fraction": self.calibrator.fraction, "time_column": self.calibrator.time_column}}
+                                "fraction": self.calibrator.fraction, "time_column": self.calibrator.time_column,
+                                "response_method": self.calibrator.response_method,
+                                "min_calibration_rows": self.calibrator.min_calibration_rows,
+                                "min_calibration_per_class": self.calibrator.min_calibration_per_class,
+                                "response_schema": deepcopy(getattr(self.calibrator, 'response_schema_', None)),
+                                "sigmoid": deepcopy(getattr(self.calibrator, 'diagnostics_', None)),
+                                "temporal_split": deepcopy(getattr(self.calibrator, 'split_audit_', None))}}
 
     def coefficient_table(self):
         return self.estimator.coefficient_table()
