@@ -5163,6 +5163,19 @@
             "push_void",
             "binary"
           ]
+        },
+        {
+          "name": "quote_availability",
+          "title": "Quote availability",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional explicit quote-evidence contract. Observed remains strict. Research assumed requires separate assumed_available_at timestamps, per-model matching quote provenance and documented justification; results are marked research simulation only.",
+          "primary": true,
+          "components": [
+            "evaluation.QuoteAvailability"
+          ],
+          "initial_component": "evaluation.QuoteAvailability"
         }
       ],
       "accepts_extra": false
@@ -17267,6 +17280,55 @@
           "item": {
             "kind": "text"
           }
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.QuoteAvailability": {
+      "id": "evaluation.QuoteAvailability",
+      "title": "QuoteAvailability",
+      "category": "decision",
+      "description": "Observed by default; research_assumed requires an explicit documented attestation.",
+      "fields": [
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "observed",
+          "help": "Observed is strict. Research assumed requires separate assumed_available_at data, matching model quote references and an explicit justification. It never certifies odds were obtainable.",
+          "primary": true,
+          "choices": [
+            "observed",
+            "research_assumed"
+          ]
+        },
+        {
+          "name": "assumption_id",
+          "title": "Assumption id",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Required for research assumed mode. Stable assumption identity, rationale and attestation reference are retained in exports.",
+          "primary": true
+        },
+        {
+          "name": "rationale",
+          "title": "Rationale",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Required for research assumed mode. Stable assumption identity, rationale and attestation reference are retained in exports.",
+          "primary": true
+        },
+        {
+          "name": "reference",
+          "title": "Reference",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Required for research assumed mode. Stable assumption identity, rationale and attestation reference are retained in exports.",
+          "primary": true
         }
       ],
       "accepts_extra": false

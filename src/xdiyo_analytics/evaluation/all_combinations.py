@@ -1,6 +1,6 @@
 """Whole-group ticket expansion, counted completely before materialization."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from decimal import Decimal, localcontext
 from itertools import combinations
 from math import comb, isfinite
@@ -35,8 +35,15 @@ class AllCombinations:
     probability_columns: dict | None = None
     ticket_gate: object = None
     payoff: str = 'push_void'
+    quote_availability: object = field(default=None, repr=False)
 
     def __post_init__(self):
+        if self.quote_availability is not None:
+            from .quote_availability import QuoteAvailability
+            if not isinstance(self.quote_availability, QuoteAvailability):
+                raise TypeError('Use a typed QuoteAvailability contract.')
+            if self.ticket_gate is None or self.ticket_gate.missing != 'error':
+                raise ValueError('Explicit quote contracts require a ticket gate with missing="error".')
         if self.min_ev is not None:
             try:
                 valid = (not isinstance(self.min_ev, (bool, np.bool_))
@@ -93,6 +100,8 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     if policy.ticket_gate is not None:
         if not policy.probability_columns:
             raise ValueError('Multi-model gates need an explicit probability column mapping.')
+        if set(policy.probability_columns) != set(policy.ticket_gate.models):
+            raise ValueError('Probability columns must match every gate model.')
         if policy.payoff != 'binary':
             raise ValueError('Complete-ticket EV gates require an explicitly binary payoff.')
     keys = list(match_columns)
@@ -117,6 +126,21 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
         raise ValueError('Ticket legs require kickoff times.')
     data['odds'] = pd.to_numeric(data.odds, errors='raise')
     valid_price = data.odds.notna() & np.isfinite(data.odds) & data.odds.gt(1)
+    if policy.quote_availability is not None:
+        from .quote_availability import validate_model_quotes
+        contract = policy.quote_availability
+        data = contract.annotate(data)
+        eligible = data.loc[data['take']]
+        if len(eligible):
+            time = pd.to_datetime(eligible.get('decision_at', pd.Series(pd.NaT, index=eligible.index)), utc=True).max()
+            contract.validate(eligible, time, complete=True)
+            validate_model_quotes(eligible, policy.ticket_gate.models, contract, time)
+            # Preflight every eligible fixture, even undersized pools: an absent
+            # stream must never vanish through combination construction.
+            for model, column in policy.probability_columns.items():
+                p = pd.to_numeric(eligible.get(column, pd.Series(np.nan, index=eligible.index)), errors='raise')
+                if p.isna().any() or not np.isfinite(p).all() or not p.between(0, 1).all():
+                    raise ValueError(f'Complete valid model stream required for every eligible fixture: {model}.')
     # Column iteration preserves uint64 IDs; row-wise apply can coerce mixed
     # signed/unsigned numeric identities to float and merge distinct fixtures.
     data['_group'] = [_identity(r) for r in zip(*(data[k] for k in groups))]

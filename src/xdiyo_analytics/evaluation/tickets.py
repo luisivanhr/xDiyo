@@ -252,7 +252,27 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         # Internal transport only; reporters promote these records to exportable tables.
         tickets.attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
-    return tickets, membership, ticket_metrics(tickets, composition, membership)
+    metrics = ticket_metrics(tickets, composition, membership)
+    declarations = []
+    for name, policy in templates.items():
+        contract = getattr(policy, 'quote_availability', None)
+        if contract is None:
+            continue
+        labels = contract.labels
+        declarations.append(dict(template=name, **labels))
+        for frame, key in ((tickets, 'bet'), (membership, 'template'), (metrics, 'target')):
+            if key in frame:
+                for field, value in labels.items():
+                    frame.loc[frame[key].eq(name), field] = value
+        for key in ('ticket_candidates', 'ticket_selection_summary'):
+            for record in tickets.attrs.get(key, []):
+                if record['template'] == name:
+                    record.update(labels)
+    if declarations:
+        tickets.attrs['quote_assumptions'] = declarations
+        membership.attrs['quote_assumptions'] = declarations
+        metrics.attrs['quote_assumptions'] = declarations
+    return tickets, membership, metrics
 
 
 def _audit_records(records):

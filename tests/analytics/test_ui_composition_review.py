@@ -47,3 +47,27 @@ def test_composition_timing_gates_and_risk_controls_roundtrip(browser_ui):
     page.get_by_text('Recipe opened.',exact=True).wait_for()
     assert save_recipe(page,handle)==recipe
     assert not any(route in ('run','prepare','predict') for route,_ in calls)
+
+
+def test_research_quote_contract_browser_and_exports(browser_ui):
+    page,handle,calls=browser_ui
+    recipe=recipe_fixture()
+    params=recipe['post_reporters']['decisions']['params']
+    contract=node('evaluation.QuoteAvailability',mode='research_assumed',
+        assumption_id='opening-round-v1',rationale='Unverified opening quotes before the round.',reference='protocol/v1')
+    params['composition']=node('evaluation.AllCombinations',legs=2,stage_column='stage',
+        probability_mode='independent',payoff='binary',probability_columns={'a':'a::probability','b':'b::probability'},
+        ticket_gate=node('evaluation.DecisionLayer',models=['a','b'],missing='error'),quote_availability=contract)
+    import_recipe(page,recipe)
+    page.locator('details').evaluate_all('elements => elements.forEach(e => e.open = true)')
+    field=page.get_by_role('textbox',name='Reference',exact=True)
+    field.fill('protocol/v2'); field.blur()
+    contract['params']['reference']='protocol/v2'
+    assert save_recipe(page,handle)==recipe
+    for fmt in ('Python','notebook'):
+        with page.expect_download() as downloading:
+            page.get_by_role('button',name=f'Export {fmt}',exact=True).click()
+        text=Path(downloading.value.path()).read_text()
+        source=text if fmt=='Python' else ''.join(json.loads(text)['cells'][1]['source'])
+        assert export_payload(source)==handle.state.recipe_paths(recipe)
+    assert not any(route in ('run','prepare','predict') for route,_ in calls)

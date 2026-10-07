@@ -69,12 +69,14 @@ class BetPerformanceReporter(PredictionReporter):
             result.tables['metrics'] = metrics
             result.artifacts[1] = Artifact('table', metrics, 'Ticket metrics')
         elif self.source is not None and 'tickets' in previous.tables:
-            for name in ('tickets', 'ticket_legs', 'leg_ledger', 'combination_preview', 'ticket_candidates', 'ticket_selection_summary', 'alternatives', 'allocation_audit', 'decision_policy_audit'):
+            for name in ('tickets', 'ticket_legs', 'leg_ledger', 'combination_preview', 'ticket_candidates', 'ticket_selection_summary', 'alternatives', 'allocation_audit', 'decision_policy_audit', 'quote_assumptions'):
                 if name in previous.tables:
                     result.tables[name] = previous.tables[name].copy()
             result.notes.append('Accounting unit: composed tickets from the source; individual legs are not staked again.')
             if ledger.attrs.get('ticket_ev_enabled'):
                 result.notes.append('Ticket EV filter applied by source; candidate decisions and selection summary retain rejections without charging them.')
+            from .tickets import add_quote_disclosure
+            add_quote_disclosure(result, ledger)
         if len(ledger):
             ledger[self.time_column] = pd.to_datetime(ledger[self.time_column], utc=True, errors="raise")
             if ledger[self.time_column].isna().any():
