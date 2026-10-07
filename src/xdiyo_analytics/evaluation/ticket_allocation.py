@@ -75,6 +75,7 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         gate = getattr(template,'ticket_gate',None)
         if gate is None:
             continue
+        template.validate_probability_columns()
         mapping = template.probability_columns
         if not mapping or set(mapping) != set(gate.models) or template.probability_mode != 'independent':
             raise ValueError('Ticket gates need an explicit model -> leg probability column mapping and independent joint assumption.')

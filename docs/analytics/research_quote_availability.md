@@ -110,6 +110,12 @@ notice, including when no tickets pass. Exported numbers under this mode describ
 a retrospective simulation, not established historical tradability or live
 execution. No source dataset is rewritten.
 
+Retrospectively produced cached forecasts do not establish observed historical
+model issuance. If a replay uses historical `issued_at`, `trained_through` or
+`artifact_vintage` values as simulation-clock declarations, explicitly document
+that interpretation in the study protocol. Quote assumptions do not certify
+model chronology or authenticate supplied evidence.
+
 The declaration also survives Parquet round trips and saved-result reuse by
 `BetPerformanceReporter`. Auxiliary report tables without per-row declaration
 columns carry `quote_availability_declarations` as JSON, so an independently
@@ -121,3 +127,17 @@ The implementation and tests use synthetic evidence only. Independent review is
 required before resuming the three-feature-set/four-season cached-model study.
 No cached model refit, real-data consensus scorecard, dataset mutation, merge or
 publication is part of this extension.
+
+### Follow-up review repairs
+
+Valid empty selections and undersized pools keep their native empty schemas and
+research declarations, including auxiliary report exports. The example validates
+the entire candidate population and both streams before grouping by decision
+time, so missing timestamps cannot silently remove an OR audit row.
+
+Configured `probability_columns` source names pass the existing reserved-outcome
+field check before any ledger values are read or renamed. This applies both at
+construction and use, including mutation of a mapping dictionary after creating
+the template. Legitimate quote metadata such as `quote_status` remains allowed.
+Arbitrary renamed/concealed values and authentication of independently supplied
+model sources remain outside this named-field guarantee.

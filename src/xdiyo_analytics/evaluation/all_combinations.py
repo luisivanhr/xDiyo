@@ -38,6 +38,7 @@ class AllCombinations:
     quote_availability: object = field(default=None, repr=False)
 
     def __post_init__(self):
+        self.validate_probability_columns()
         if self.quote_availability is not None:
             from .quote_availability import QuoteAvailability
             if not isinstance(self.quote_availability, QuoteAvailability):
@@ -54,6 +55,16 @@ class AllCombinations:
                 raise ValueError('Minimum ticket EV (min_ev) must be a finite real number or None to disable.')
             if self.probability_mode != 'independent':
                 raise ValueError('Ticket EV filtering requires explicit probability_mode="independent"; disable min_ev otherwise.')
+
+    def validate_probability_columns(self):
+        """Validate source names before they can be relabelled as probabilities."""
+        if self.probability_columns is not None:
+            from .decision_layer import _safe_columns
+            if not isinstance(self.probability_columns, dict) or any(
+                not isinstance(c, str) or not c.strip() for c in self.probability_columns.values()
+            ):
+                raise ValueError('Probability source names must be nonempty column names.')
+            _safe_columns(self.probability_columns.values())
 
 
 def _identity(values):
@@ -85,6 +96,7 @@ def _stake_preview(terms):
 
 def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     from .tickets import Parlay, _validate
+    policy.validate_probability_columns()
     _validate(Parlay(size=policy.legs, stake=policy.stake, max_tickets=policy.max_tickets,
                      on_push=policy.on_push, on_void=policy.on_void,
                      probability_mode=policy.probability_mode))
