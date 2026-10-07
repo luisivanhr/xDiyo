@@ -117,7 +117,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
     # Complete preflight for every whole-group template before any expansion.
     for name, policy in templates.items():
         if isinstance(policy, AllCombinations):
-            pools, preview = prepare_pools(ledger, policy, match_columns, name)
+            pools, preview = prepare_pools(ledger, policy, match_columns, name, outcome_free=deferred)
             count = sum(int(r['ticket_count']) for r in preview)
             if count > policy.max_tickets:
                 raise ValueError(f'{name}: requested {count} tickets exceeds max_tickets={policy.max_tickets}; '

@@ -31,6 +31,16 @@ class OutputSchema:
             raise ValueError('Classification schemas require explicit distinct class order.')
         if self.kind == 'distribution' and (not self.family or not self.support or not self.parameters):
             raise ValueError('Distribution schema needs family, support and parameter meanings.')
+        if self.kind == 'distribution':
+            self._validate_distribution()
+
+    def _validate_distribution(self):
+        if self.family != 'categorical_pmf':
+            raise ValueError('Unsupported distribution family validator; use a complete categorical_pmf.')
+        if self.parameters != ('mass',) or self.units != 'probability' or self.link != 'identity':
+            raise ValueError('categorical_pmf requires mass parameters, probability units and identity link.')
+        if not self.support or len(set(self.support)) != len(self.support) or any(pd.isna(v) for v in self.support):
+            raise ValueError('PMF support must be distinct and nonmissing.')
 
     def validate(self, frame, context):
         if not isinstance(frame, pd.DataFrame) or not frame.columns.is_unique or frame.empty:
@@ -50,6 +60,13 @@ class OutputSchema:
             a = frame.to_numpy(dtype=float)
             if not np.isfinite(a).all() or (a < 0).any() or (a > 1).any() or not np.allclose(a.sum(axis=1), 1, atol=1e-10, rtol=0):
                 raise ValueError('Invalid probabilities or vote fractions.')
+        elif self.kind == 'distribution':
+            self._validate_distribution()  # also applies to restored pre-validation schemas
+            if list(frame.columns) != list(self.support):
+                raise ValueError('PMF columns must equal the complete declared support in order.')
+            a = frame.to_numpy(dtype=float)
+            if not np.isfinite(a).all() or (a < 0).any() or (a > 1).any() or not np.allclose(a.sum(axis=1), 1, atol=1e-10, rtol=0):
+                raise ValueError('Incomplete or invalid PMF.')
         elif self.kind == 'labels':
             if list(frame.columns) != [self.target] or not frame[self.target].isin(self.classes).all():
                 raise ValueError('Labels differ from target/class schema.')

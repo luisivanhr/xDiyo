@@ -1,5 +1,9 @@
 # Composition and staking implementation status
 
+Follow-up: [independent review repairs for `25eb79a`](composition_repair_25eb79a.md).
+The initial implementation evidence below is retained as a historical checkpoint;
+the linked repair report records the subsequent fixes and validation.
+
 Baseline: `29994933902d213bccd13376bc91ab5af70a481b` (7 October 2026).
 Branch: `codex/model-composition-stake-policy`.
 Worktree: `C:/Users/luisi/.codex/worktrees/composition-stake-policy/xDiyo`.

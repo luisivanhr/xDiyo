@@ -2,7 +2,7 @@
 from dataclasses import dataclass, replace
 import numpy as np
 import pandas as pd
-from .training import TrainingPlan, fit_node, subset
+from .training import TrainingPlan, fit_node, subset, prediction_context
 from .contracts import TargetSpec
 from .graph import ModelNode
 
@@ -48,6 +48,12 @@ class ResidualModel:
         if self.output_ not in self.base.schemas:
             raise ValueError('Residual base lacks the required declared output.')
         schema = self.base.schemas[self.output_]
+        if schema.target != self.target_ or schema.link != 'identity':
+            raise ValueError('Residual base target and link must match the correction target in original units.')
+        if self.output_ == 'predict' and (schema.kind != 'regression' or schema.units in {'probability', 'logit', 'logits'}):
+            raise ValueError('Regression residuals require regression outputs in original target units.')
+        if self.output_ == 'predict_proba' and schema.units != 'probability':
+            raise ValueError('Binary residuals require probability units.')
         self.classes_ = tuple(schema.classes)
         if self.output_=='predict_proba' and (schema.kind!='probability' or len(self.classes_)!=2):
             raise ValueError('Classification correction supports binary probability bases only.')
@@ -110,8 +116,9 @@ class ResidualModel:
     def predict(self,context):
         if not hasattr(self,'base_') or tuple(context.X.columns)!=self.feature_columns_:
             raise ValueError('Fit correction first and preserve feature ordering.')
+        _, issue = self.training.prediction_times(context)
+        context = prediction_context(context)
         if self.requires_inner_preparation:
-            issue=pd.to_datetime(context.metadata[self.training.issue_column or self.training.time_column],utc=True)
             if issue.isna().any() or (issue<pd.to_datetime(self.fit_at_,utc=True)).any():
                 raise ValueError('Prediction issue time precedes correction deployment cutoff.')
         base=self.base_.predict(context)[self.output_]
@@ -120,11 +127,14 @@ class ResidualModel:
         if not correction.index.equals(base.index) or list(correction.columns)!=[self.target_] or not np.isfinite(correction.to_numpy(dtype=float)).all():
             raise ValueError('Correction output does not match target/row contract.')
         if self.output_=='predict':
-            return {'predict':base+self.learning_rate*correction,'base/predict':base,'correction/predict':correction}
+            reconstructed = base+self.learning_rate*correction
+            self.base.schemas[self.output_].validate(reconstructed,context)
+            return {'predict':reconstructed,'base/predict':base,'correction/predict':correction}
         from scipy.special import expit
         p=base.iloc[:,1].clip(self.clip,1-self.clip)
         corrected=expit(np.log(p)-np.log1p(-p)+self.learning_rate*correction.iloc[:,0])
         proba=pd.DataFrame(np.column_stack([1-corrected,corrected]),index=base.index,columns=base.columns)
+        self.base.schemas[self.output_].validate(proba,context)
         labels=np.asarray(self.classes_)[proba.to_numpy().argmax(axis=1)]
         return {'predict_proba':proba,'predict':pd.DataFrame({self.target_:labels},index=base.index),'base/predict_proba':base,'correction/predict':correction}
 

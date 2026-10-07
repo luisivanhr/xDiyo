@@ -9,10 +9,14 @@ _FORBIDDEN = {'y', 'target', 'outcome', 'settlement', 'profit', 'payout', 'resul
 _OUTCOME_FIELDS = {'won','lost','gross_return','return_multiplier','net_return_per_unit','settled_at'}
 
 
+def _outcome_column(column):
+    tokens = str(column).lower().replace('::', '_').split('_')
+    return str(column).lower() in _OUTCOME_FIELDS or any(token in _FORBIDDEN for token in tokens)
+
+
 def _safe_columns(columns):
     for column in columns:
-        tokens = str(column).lower().replace('::', '_').split('_')
-        if str(column).lower() in _OUTCOME_FIELDS or any(token in _FORBIDDEN for token in tokens):
+        if _outcome_column(column):
             raise ValueError(f'Outcome-bearing field {column!r} is forbidden in decision/allocation inputs.')
 
 
@@ -65,6 +69,8 @@ class DecisionContext:
         for column in ('quote_at', 'decision_at'):
             if column not in table or pd.to_datetime(table[column], utc=True).isna().any() or (pd.to_datetime(table[column], utc=True) > time).any():
                 raise ValueError(f'Decision candidates need available {column}.')
+        if (pd.to_datetime(table.quote_at,utc=True) > pd.to_datetime(table.decision_at,utc=True)).any():
+            raise ValueError('Quotes must be available at each candidate decision time.')
 
 
 @dataclass
@@ -113,7 +119,7 @@ class DecisionLayer:
                 if present.any() and not frame.loc[present, key].equals(candidates.loc[present, key]):
                     raise ValueError(f'Model {model} economic identity differs at {key}.')
             p = pd.to_numeric(frame.probability, errors='raise')
-            if (present & (~np.isfinite(p) | ~p.between(0, 1))).any():
+            if (p.notna() & (~np.isfinite(p) | ~p.between(0, 1))).any():
                 raise ValueError('Model probability must be finite and in [0,1].')
             for key in ('artifact_vintage', 'trained_through', 'issued_at'):
                 if key not in frame:

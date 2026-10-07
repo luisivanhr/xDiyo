@@ -52,9 +52,20 @@ weights. `HardVote` yields labels or explicitly typed vote fractions; its output
 cannot masquerade as `predict_proba`. `DistributionMixture` currently supports
 complete finite-support categorical PMFs only. Use existing distribution-to-event
 adapters for NB/Poisson events; averaging their parameter vectors is not a mixture.
+Every distribution edge, including a direct public output or restored schema,
+requires `family='categorical_pmf'`, `parameters=('mass',)`, probability units,
+identity link, distinct nonmissing support, matching column order, and finite
+nonnegative mass summing to one (absolute tolerance `1e-10`). Other distribution
+families require an explicit event adapter and are rejected here.
 
-All child estimators are fresh for each fit. Native adapters are copied; sklearn
-estimators and preprocessing are cloned. Standalone graph transforms are
+Child sklearn estimators and preprocessing are cloned for every fit, including
+inside target-transform and device wrappers. A retained `CalibratedAdapter` is
+rejected for refitting: declare its unfitted base with `ModelNode.calibration`
+to rebuild calibration on each inner population, or explicitly freeze the
+retained artifact with compatible provenance. Other retained native adapters
+with learned attributes need an unfitted specification or a frozen artifact.
+Custom fresh adapters remain responsible for resetting their own internal state.
+Standalone graph transforms are
 stateless `OutputFeatures`; put learned scalers, imputers and selectors inside
 each `Estimator.preprocessors`. A learned combination of predictions is a meta
 model, not a fixed `Mean` with secretly trained weights.
@@ -103,6 +114,12 @@ Meta labels must be available at outer `fit_at`. Bases are then refitted on the
 eligible outer population and the OOF-trained meta model is frozen. This creates
 an OOF-versus-full-refit input-distribution mismatch; the audit records it.
 Prediction requests preceding the deployment fitting cutoff are rejected.
+The same label-free timing validator checks original, outer-test and restored
+predictions: issue cannot follow kickoff, and a declared feature-availability
+timestamp must be present and no later than issue. Test labels and their release
+times are not required for inference. Composition prediction contexts remove
+the library's named settlement/outcome and training-label metadata. This does
+not certify arbitrary custom feature semantics or an adapter's external data use.
 
 Frozen children need `artifact_id`, `artifact_vintage`, `trained_through` and
 matching `training_summary_['frozen_provenance']` retained with the fitted model.
@@ -170,6 +187,13 @@ ticket_gate=DecisionLayer(...), probability_mode='independent', payoff='binary')
 values the same completed tickets under every model and retains a per-model audit.
 It also requires `model::issued_at`, `model::artifact_vintage` and
 `model::trained_through` columns, alongside quote and decision timestamps.
+Each supplied leg valuation is checked before taking any ticket-level maxima:
+`trained_through < issued_at`, `artifact_vintage <= issued_at`, and all evidence
+available at the decision. A later valid leg cannot certify another leg. Missing
+probability rows or an absent model probability column follow the gate's declared
+missing policy. Negative, infinite or out-of-range supplied values still error.
+Quote timestamps cannot follow the candidate's own decision, even when the
+surrounding decision context has a later timestamp.
 `BetOutcomeReporter.probability_outputs` maps model names to retained upstream
 outputs; `model_timing` supplies timestamps or explicit `{column: ...}` mappings.
 
@@ -221,6 +245,15 @@ all caps; stakes are rounded down to a declared quantum. There is no order-drive
 greedy dropping or redistribution of residual cash. Binary floating point near a
 rounding boundary can leave an additional quantum unspent. Per-ticket Kelly on
 overlapping tickets is an approximation, not joint portfolio Kelly.
+Native league and round exposure identities support both competition/season IDs
+and the existing `source_league`/`source_season` fallback. A configured exposure
+cap requires complete, nonempty identities, including outstanding exposure.
+Missing values or empty tuples raise instead of disabling a requested cap.
+
+On the opt-in gate/allocation path, duplicate fixtures are compared using
+decision evidence only. Conflicting retrospective outcome fields do not change
+selection or allocation; contradictory settlement becomes missing for reporting.
+The ordinary no-policy duplicate behavior is preserved.
 
 ## Closed bankroll replay
 
@@ -229,6 +262,8 @@ overlapping tickets is an approximation, not joint portfolio Kelly.
 Placement reserves cash without changing wealth. Settlement releases the original
 stake and realizes `gross_return - original_stake - fee`. Several asynchronous
 tickets can remain open. Fees cannot violate cash solvency.
+Settlement preflights the proposed wealth, reserve and cash before mutating any
+ticket or event. Overflow and invalid settlements leave the ledger unchanged.
 
 `settlements_from_legs` supplies the conservative multiplicative-payoff default:
 wait for the latest required leg result, even if an early loss determines the

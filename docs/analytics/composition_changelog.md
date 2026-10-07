@@ -2,6 +2,27 @@
 
 ## 7 October 2026
 
+### Repairs following the independent review of `25eb79a`
+
+- Reset supported learned wrappers recursively; reject retained calibrators for
+  refitting and retain the explicit fold-local calibration/frozen-artifact paths.
+- Validate feature availability and issue/kickoff timing on outer and restored
+  predictions without requiring test labels; remove named outcome metadata from
+  composition inference.
+- Reject incompatible residual schemas before fitting and validate reconstructed
+  outputs. Validate complete categorical PMFs on every edge, including restored
+  schemas; reject unsupported distribution families explicitly.
+- Validate each model/leg's temporal provenance before aggregating tickets.
+  Preserve missing valuations as declared AND/OR abstentions while rejecting
+  invalid supplied probabilities. Bound quotes by the candidate's own decision.
+- Preserve supported source league/season aliases in risk identities and reject
+  missing exposure dimensions instead of silently bypassing a configured cap.
+- Keep duplicate validation outcome-independent on the new opt-in path;
+  contradictory retrospective settlement evidence becomes unresolved. Preserve
+  the existing no-policy path. Preflight ledger settlement before mutation.
+
+### Initial implementation
+
 - Added typed native prediction graphs, ensembles and one-layer chronological
   stacks with local preparation/calibration, original-row audits and complete
   trusted fitted-model persistence.
