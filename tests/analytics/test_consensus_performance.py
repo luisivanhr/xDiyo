@@ -1,6 +1,8 @@
 """Structural performance regressions; no machine-dependent timing assertions."""
 from pathlib import Path
 import runpy
+from dataclasses import replace
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -87,3 +89,73 @@ def test_index_does_not_hide_conflicting_quote_leg_evidence():
     with pytest.raises(ValueError):
         ticket_allocation.finalize_tickets(tickets, conflicting, {'tickets': policy()},
                                            ('event_id',), None, None, None)
+
+
+def test_ticket_batch_checks_all_original_quote_rows_once(monkeypatch):
+    from xdiyo_analytics.evaluation import QuoteAvailability
+    tickets, members, _, _ = consensus(*population(1))
+    tickets.attrs.clear(); members.attrs.clear()
+    api = runpy.run_path(str(Path(__file__).resolve().parents[2]/'examples/research_quote_consensus.py'))
+    _, _, contract = api['synthetic_example']()
+    p = replace(policy(), quote_availability=contract)
+    original = QuoteAvailability.validate
+    calls = []
+    def validate(self, frame, time, **kwargs):
+        calls.append(len(frame))
+        return original(self, frame, time, **kwargs)
+    monkeypatch.setattr(QuoteAvailability, 'validate', validate)
+    batch = ticket_allocation.ticket_batch(tickets, members, {'tickets': p}, ('event_id',))
+    assert len(batch) == 28 and calls == [56]
+
+
+@pytest.mark.parametrize('size', [2, 3, 5, 8])
+@pytest.mark.parametrize('level', ['full', 'summary'])
+def test_batched_model_product_preserves_original_order_and_bits(size, level):
+    from test_composition_review_staking import offers, gate
+    frame = offers(size)
+    probabilities = np.array([np.nextafter(.2, 1), .9, .03, .78, .123456789, .999, 1., .81])[:size]
+    for model in ('a', 'b'):
+        frame[f'{model}::probability'] = probabilities if model == 'a' else probabilities[::-1]
+        for field, value in [('issued_at','2025-01-01'),('trained_through','2024-12-29'),('artifact_vintage','2024-12-30')]:
+            frame[f'{model}::{field}'] = pd.Timestamp(value, tz='UTC')
+    tickets, _, _ = compose_bets(frame, replace(gate(threshold=-2), legs=size, audit_level=level))
+    assert len(tickets) == 1
+    audit = (pd.DataFrame(tickets.attrs['decision_policy_audit']) if level == 'full' else
+             pd.DataFrame(**tickets.attrs['selected_model_values']))
+    for model in ('a', 'b'):
+        expected = float(np.prod(frame[f'{model}::probability'].astype(float)))
+        ballot = audit.loc[audit.model.eq(model)].iloc[0]
+        assert ballot.probability.hex() == expected.hex()
+        assert ballot.value == expected * float(np.prod(frame.odds)) - 1.
+
+
+def test_batched_model_validation_uses_each_ticket_cutoff():
+    from test_composition_review_staking import offers, gate
+    frame = offers(4)
+    frame['round'] = [1, 1, 2, 2]
+    frame.loc[2:, 'decision_at'] += pd.Timedelta(hours=1)
+    for model in ('a', 'b'):
+        frame[f'{model}::probability'] = .9
+        frame[f'{model}::issued_at'] = pd.Timestamp('2025-01-01', tz='UTC')
+        frame[f'{model}::trained_through'] = pd.Timestamp('2024-12-29', tz='UTC')
+        frame[f'{model}::artifact_vintage'] = pd.Timestamp('2024-12-30', tz='UTC')
+    compose_bets(frame, gate())
+    frame.loc[0, 'a::issued_at'] += pd.Timedelta(minutes=30)
+    with pytest.raises(ValueError, match='provenance'):
+        compose_bets(frame, gate())
+
+
+def test_quote_and_report_serialization_exclude_unused_wide_columns(monkeypatch):
+    from xdiyo_analytics.reporting.tickets import ticket_html
+    tickets, members, _ = compose_bets(research_legs(), policy())
+    expected = ticket_html(tickets, members, {})
+    members['irrelevant_payload'] = ['unused'] * len(members)
+    original = pd.DataFrame.to_dict
+    def to_dict(frame, *args, **kwargs):
+        assert 'irrelevant_payload' not in frame, 'Do not serialize unused membership columns.'
+        return original(frame, *args, **kwargs)
+    monkeypatch.setattr(pd.DataFrame, 'to_dict', to_dict)
+    batch = ticket_allocation.ticket_batch(tickets, members, {'tickets': policy()}, ('event_id',))
+    assert len(batch) == 1
+    assert 'quote_vendor_scheduled_at' in batch.quote_legs.iloc[0]
+    assert ticket_html(tickets, members, {}) == expected

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from .decision_layer import FrozenTable, DecisionContext
 from .stake_policy import allocate_batch
-from .quote_availability import quote_leg_records, ASSUMPTION_FIELDS
+from .quote_availability import QuoteAvailability, quote_leg_records, ASSUMPTION_FIELDS
 
 
 class _MembershipIndex(Mapping):
@@ -32,6 +32,27 @@ def _index_members(members):
 
 def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
     indexed = _index_members(members) if _members_by_ticket is None else _members_by_ticket
+    checked_contracts = set()
+    if isinstance(indexed, _MembershipIndex) and 'decision_at' in members:
+        for name, offered in tickets.groupby('bet', sort=False):
+            contract = getattr(templates[name], 'quote_availability', None)
+            if type(contract) is not QuoteAvailability:
+                continue
+            pieces = [indexed.positions[key] for key in offered.ticket_id if key in indexed]
+            if not pieces:
+                continue
+            evidence = members.iloc[np.concatenate(pieces)]
+            try:
+                time = pd.to_datetime(evidence.decision_at, utc=True).max()
+                # validate compares each quote with its own original decision,
+                # not merely this outer maximum. No deduplication or cross-call
+                # approval cache; every consumed membership row is checked.
+                contract.validate(evidence, time, complete=True)
+            except ValueError:
+                # Preserve per-ticket parsing for differing valid string
+                # formats, and original errors for invalid evidence.
+                continue
+            checked_contracts.add(name)
     records = []
     for row in tickets.to_dict('records'):
         legs = indexed.get(row['ticket_id'])
@@ -54,14 +75,17 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             raise ValueError('Ticket issue time follows a leg kickoff.')
         for key in ('issued_at','quote_at'):
             if key == 'quote_at' and contract is not None:
-                contract.validate(legs, time, complete=True)
+                if row['bet'] not in checked_contracts:
+                    contract.validate(legs, time, complete=True)
                 continue
             if key in legs and (pd.to_datetime(legs[key],utc=True).isna().any() or (pd.to_datetime(legs[key],utc=True)>time).any()):
                 raise ValueError('A leg prediction or quote is unavailable at ticket issue time.')
         fixtures = tuple(sorted((tuple(v) for v in legs[list(match_columns)].itertuples(index=False,name=None)),key=repr))
         identities = []
-        for leg in legs.to_dict('records'):
-            identities.append({k:leg.get(k) for k in (*match_columns,'bet','market','selection','line','odds','quote_id','quote_at')})
+        identity_fields = (*match_columns,'bet','market','selection','line','odds','quote_id','quote_at')
+        identity_columns = list(dict.fromkeys(k for k in identity_fields if k in legs))
+        for leg in legs[identity_columns].to_dict('records'):
+            identities.append({k:leg.get(k) for k in identity_fields})
         record = dict(ticket_id=row['ticket_id'],nominal_stake=row['stake'],odds=row['odds'],probability=row['probability'],
                       decision_at=time,fixture_keys=fixtures,
                       league_keys=tuple(sorted(set(legs.get('competition_id',legs.get('source_league',[]))),key=repr)),
@@ -133,6 +157,9 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         positions = (np.sort(np.concatenate([indexed.positions[key] for key in subset.index]))
                      if len(subset) else np.array([], dtype=np.intp))
         source = members.iloc[positions]
+        source_times = pd.Series(source.ticket_id.map(batch.decision_at).array, index=positions)
+        position_to_source = np.full(len(members), -1, dtype=np.intp)
+        position_to_source[positions] = np.arange(len(positions))
         model_inputs = {}
         for model, column in mapping.items():
             p = pd.to_numeric(source.get(column, pd.Series(np.nan, index=source.index)), errors='raise').astype(float)
@@ -149,8 +176,19 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                     parts = [pd.to_datetime(positional.loc[indexed.positions[key]], utc=True)
                              for key in subset.index]
                     times[field] = pd.concat(parts).loc[positions]
-            model_inputs[model] = (pd.Series(p.array, index=positions),
-                                  {field: pd.Series(values.array, index=positions) for field, values in times.items()})
+            p = pd.Series(p.array, index=positions)
+            times = {field: pd.Series(values.array, index=positions) for field, values in times.items()}
+            present = p.notna()
+            if (present & (~np.isfinite(p) | ~p.between(0,1))).any():
+                raise ValueError('Supplied model leg probabilities must be finite and in [0,1].')
+            for field, values in times.items():
+                if (present & (values.isna() | values.gt(source_times))).any():
+                    raise ValueError(f'Every valued model leg needs nonmissing available {model}::{field} provenance.')
+            if (present & (times['trained_through'].ge(times['issued_at']) | times['artifact_vintage'].gt(times['issued_at']))).any():
+                raise ValueError('Model leg evidence was unavailable at its own prediction issue time.')
+            # Keep ordered original values. Validation remains per original leg
+            # and its own ticket cutoff; only pandas lookup work is batched.
+            model_inputs[model] = (p.to_numpy(), {field: values.array for field, values in times.items()})
         for time,offers in subset.groupby('decision_at',sort=True):
             predictions = {}
             for model,column in mapping.items():
@@ -158,24 +196,13 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 probabilities = []
                 provenance = {field: [] for field in ('issued_at','trained_through','artifact_vintage')}
                 for ticket_id in offers.index:
-                    positions = indexed.positions[ticket_id]
+                    positions = position_to_source[indexed.positions[ticket_id]]
                     model_p, model_times = model_inputs[model]
-                    p = model_p.loc[positions]
-                    present = p.notna()
-                    if (present & (~np.isfinite(p) | ~p.between(0,1))).any():
-                        raise ValueError('Supplied model leg probabilities must be finite and in [0,1].')
-                    times = {}
-                    for field in provenance:
-                        source = f'{model}::{field}'
-                        times[field] = model_times[field].loc[positions]
-                        if (present & (times[field].isna() | times[field].gt(time))).any():
-                            raise ValueError(f'Every valued model leg needs nonmissing available {source} provenance.')
-                    if (present & (times['trained_through'].ge(times['issued_at']) | times['artifact_vintage'].gt(times['issued_at']))).any():
-                        raise ValueError('Model leg evidence was unavailable at its own prediction issue time.')
-                    complete = present.all()
+                    p = model_p[positions]
+                    complete = not np.isnan(p).any()
                     probabilities.append(float(np.prod(p)) if complete else np.nan)
                     for field in provenance:
-                        provenance[field].append(times[field].max() if complete else pd.NaT)
+                        provenance[field].append(model_times[field].take(positions).max() if complete else pd.NaT)
                 valuations['probability'] = probabilities
                 for field, values in provenance.items():
                     valuations[field] = values

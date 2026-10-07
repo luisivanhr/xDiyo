@@ -1,5 +1,21 @@
 # Composition branch changelog
 
+## 8 October 2026
+
+### Further native consensus vectorization (parent `db21b5f`)
+
+- Batch original-leg probability and provenance checks with each ticket's own
+  cutoff; use positional array lookups while preserving ordered products.
+- Validate native quote contracts across consumed membership once per template
+  per call, with legacy parsing/custom-contract fallbacks and no persistent cache.
+- Narrow identity, quote and HTML serialization to their consumed columns;
+  preserve retained tables, metadata and report output.
+- Five-repeat 1,008-candidate native medians improve 39% full / 40% summary;
+  HTML improves 82% / 83%. Full/summary settings and output sizes are unchanged.
+- 464 affected regressions and 179 on each compatibility pandas version passed;
+  exact paired/independent comparisons and bounded 17,024-candidate oracles pass.
+  See [verification and all measurements](strict_consensus_optimization.md#further-vectorization-from-db21b5f-8-october-2026).
+
 ## 7 October 2026
 
 ### Strict speed audit: native batching and explicit summary storage
