@@ -12,7 +12,7 @@ _OUTCOME_FIELDS = {'won','lost','status','is_awarded','gross_return','return_mul
 
 def _outcome_column(column):
     tokens = str(column).lower().replace('::', '_').split('_')
-    return str(column).lower() in _OUTCOME_FIELDS or any(token in _FORBIDDEN for token in tokens)
+    return any(part in _OUTCOME_FIELDS for part in str(column).lower().split('::')) or any(token in _FORBIDDEN for token in tokens)
 
 
 def _safe_columns(columns):

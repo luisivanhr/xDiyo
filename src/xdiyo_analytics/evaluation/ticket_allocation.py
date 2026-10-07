@@ -74,6 +74,17 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
     from .tickets import _settle
     if tickets.empty:
         return tickets,members
+    # This helper is also called directly: do not trust a prior compose_bets
+    # preflight when retained members may have been edited since that call.
+    from .quote_availability import validate_model_quotes
+    for name, template in templates.items():
+        contract = getattr(template, 'quote_availability', None)
+        if contract is not None:
+            legs = members.loc[members.template.eq(name)]
+            if len(legs):
+                time = pd.to_datetime(legs.decision_at, utc=True, errors='raise').max()
+                contract.validate(legs, time, complete=True)
+                validate_model_quotes(legs, template.ticket_gate.models, contract, time)
     indexed = _index_members(members)
     batch = ticket_batch(tickets,members,templates,match_columns,context=context,
                          _members_by_ticket=indexed)
