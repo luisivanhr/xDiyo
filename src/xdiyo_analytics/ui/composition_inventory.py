@@ -22,6 +22,9 @@ def decorate(components):
             continue
         for f in entry['fields']:
             name=f['name']
+            if name == 'audit_level':
+                f.update(kind='select', choices=['full', 'summary'], primary=True,
+                         help='Full retains complete candidate audits. Summary retains selected model values, counts, fingerprints and explicit omissions; all validation still runs. Use the same level for every template in a slip.')
             if name in mappings and (key.startswith('composition.') or name in ('ticket_gate','quote_availability','stake_policy','stake_context','risk_limits','probability_source')):
                 f.update(kind='component',components=mappings[name],initial_component=mappings[name][0])
             if key.startswith('composition.') and name in maps:

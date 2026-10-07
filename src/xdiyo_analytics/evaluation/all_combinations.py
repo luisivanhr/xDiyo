@@ -36,8 +36,11 @@ class AllCombinations:
     ticket_gate: object = None
     payoff: str = 'push_void'
     quote_availability: object = field(default=None, repr=False)
+    audit_level: str = field(default='full', repr=False)
 
     def __post_init__(self):
+        if self.audit_level not in ('full', 'summary'):
+            raise ValueError('audit_level must be full or summary.')
         self.validate_probability_columns()
         if self.quote_availability is not None:
             from .quote_availability import QuoteAvailability
@@ -215,7 +218,7 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     return pools, previews
 
 
-def expand_pools(pools, policy, name, *, settle=True):
+def expand_pools(pools, policy, name, *, settle=True, _summary=None):
     from .tickets import _settle
     rows, members, decisions = [], [], []
     for group_id, groups, offered in pools:
@@ -245,13 +248,17 @@ def expand_pools(pools, policy, name, *, settle=True):
                         raise ValueError('Ticket EV overflow; valuation is unrepresentable.')
                     selected = bool(ev > policy.min_ev)
                     reason = '' if selected else 'ev_not_above_threshold'
-            decisions.append(dict(template=name, group_id=group_id, ticket_id=ticket_id,
+            if _summary is not None:
+                tally = _summary.setdefault(group_id, [0, 0, 0])
+                tally[0 if selected else 2 if reason == 'missing_probability' else 1] += 1
+            else:
+                decisions.append(dict(template=name, group_id=group_id, ticket_id=ticket_id,
                                   event_membership=json.dumps(sorted(legs._event.tolist())),
                                   probability=probability, odds=odds, expected_profit=ev,
                                   min_ev=policy.min_ev, take=selected, rejection_reason=reason,
                                   filter_enabled=policy.min_ev is not None, comparator='>',
                                   probability_assumption=policy.probability_mode,
-                                  **{k: legs[k].iloc[0] for k in groups}))
+                                      **{k: legs[k].iloc[0] for k in groups}))
             if not selected:
                 continue
             state, payout = _settle(legs, policy, policy.stake) if settle else ('missing', np.nan)

@@ -5176,6 +5176,19 @@
             "evaluation.QuoteAvailability"
           ],
           "initial_component": "evaluation.QuoteAvailability"
+        },
+        {
+          "name": "audit_level",
+          "title": "Audit level",
+          "required": false,
+          "kind": "select",
+          "default": "full",
+          "help": "Full retains complete candidate audits. Summary retains selected model values, counts, fingerprints and explicit omissions; all validation still runs. Use the same level for every template in a slip.",
+          "primary": true,
+          "choices": [
+            "full",
+            "summary"
+          ]
         }
       ],
       "accepts_extra": false

@@ -2,6 +2,20 @@
 
 ## 7 October 2026
 
+### Strict speed audit: native batching and explicit summary storage
+
+- Batch nested quote validation within each invocation while retaining original
+  per-leg checks and per-ticket timestamp/parser/product semantics.
+- Retain a positional membership index, parse consumed model streams once, and
+  index selection summaries without changing floating reduction order.
+- Add native/UI/exported `AllCombinations(audit_level="summary")`, keeping full
+  as default. Summary stores selected model values and a fingerprinted manifest
+  with counts and explicit omissions; all computation and guards remain active.
+- Prevent report working copies from propagating large attrs per row.
+- Verification: 453 affected tests, 168 on each of pandas 2.2.3/3.0.6, exact e7
+  comparisons and independent checks through 17,024 synthetic candidates.
+  See [measurements, source pins and private-replay limits](strict_consensus_optimization.md).
+
 ### Strict speed audit: separate guard repairs
 
 - Reject reserved native outcome names in namespace segments, including

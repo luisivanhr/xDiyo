@@ -12,6 +12,19 @@ ASSUMPTION_FIELDS = ('quote_availability_mode', 'assumed_available_at',
 
 
 @dataclass(frozen=True)
+class _QuoteLegEvidence:
+    """Immutable internal evidence, validated normally; never an approval token."""
+    records: tuple
+
+    def __post_init__(self):
+        from .decision_layer import _freeze
+        object.__setattr__(self, 'records', _freeze(self.records))
+
+    def dictionaries(self):
+        return [dict(record) for record in self.records]
+
+
+@dataclass(frozen=True)
 class QuoteAvailability:
     """Observed by default; research_assumed requires an explicit documented attestation.
 
@@ -92,27 +105,7 @@ class QuoteAvailability:
                 raise ValueError('Future or contradictory quote availability assumption.')
             complete = True
         if 'quote_legs' in frame:
-            for row in frame.to_dict('records'):
-                legs = pd.DataFrame(json.loads(row['quote_legs']))
-                from .decision_layer import _safe_columns
-                _safe_columns(legs.columns)
-                if legs.empty or 'quote_legs' in legs or 'fixture_identity' not in legs or legs.fixture_identity.duplicated().any():
-                    raise ValueError('Ticket quote evidence requires distinct unnested fixture legs.')
-                if legs.fixture_identity.isna().any() or legs.fixture_identity.map(lambda v: not isinstance(v, str) or not v.strip()).any():
-                    raise ValueError('Ticket quote evidence requires nonempty fixture identities.')
-                self.validate(legs, pd.Timestamp(row['decision_at']), complete=complete)
-                if not pd.to_datetime(legs.decision_at, utc=True).eq(pd.Timestamp(row['decision_at'])).all():
-                    raise ValueError('Ticket quote decisions differ from their legs.')
-                if float(np.prod(legs.odds)) != row['odds'] or json.dumps(legs.quote_id.tolist()) != row['quote_id']:
-                    raise ValueError('Ticket price or quote identities differ from their legs.')
-                for field in ('quote_at', 'assumed_available_at'):
-                    if field not in legs:
-                        continue
-                    values = pd.to_datetime(legs[field], utc=True)
-                    expected = values.max() if values.notna().all() else pd.NaT
-                    actual = pd.to_datetime(row.get(field), utc=True)
-                    if not (pd.isna(actual) and pd.isna(expected)) and actual != expected:
-                        raise ValueError(f'Ticket {field} differs from its leg evidence.')
+            self._validate_tickets(frame, time, complete=complete)
         elif complete:
             for field in QUOTE_IDENTITY:
                 if field == 'quote_at':
@@ -123,8 +116,83 @@ class QuoteAvailability:
             if not np.isfinite(prices).all() or prices.le(1).any():
                 raise ValueError('Quote prices must be finite decimal odds greater than one.')
 
+    def _validate_tickets(self, frame, time, *, complete):
+        """Flatten once per invocation; retain each ticket's own ordered legs.
 
-def quote_leg_records(legs, contract, match_columns):
+        No cross-call/model/context cache and no evidence deduplication. Raw
+        timezone checks run before normalized timestamps are used below.
+        """
+        from .decision_layer import _safe_columns
+        rows, bounds, records = frame.to_dict('records'), [], []
+        for row in rows:
+            evidence = row['quote_legs']
+            leg_records = evidence.dictionaries() if isinstance(evidence, _QuoteLegEvidence) else json.loads(evidence)
+            if isinstance(leg_records, dict):
+                # Retain the legacy DataFrame constructor's column-oriented
+                # JSON acceptance. Native generated evidence uses record lists.
+                leg_records = pd.DataFrame(leg_records).to_dict('records')
+            if not isinstance(leg_records, list) or not leg_records:
+                raise ValueError('Ticket quote evidence requires distinct unnested fixture legs.')
+            seen = set()
+            columns = set()
+            for leg in leg_records:
+                if not isinstance(leg, dict):
+                    raise ValueError('Ticket quote evidence requires leg records.')
+                _safe_columns(leg)
+                key = leg.get('fixture_identity')
+                if not isinstance(key, str) or not key.strip() or key in seen or 'quote_legs' in leg:
+                    raise ValueError('Ticket quote evidence requires distinct nonempty unnested fixture legs.')
+                seen.add(key)
+                columns.update(leg)
+            bounds.append((len(records), len(records) + len(leg_records), columns))
+            records.extend(leg_records)
+        if not records:
+            return
+        legs = pd.DataFrame(records)
+        if self.mode == 'research_assumed' and 'assumed_available_at' in legs:
+            for value in legs.assumed_available_at:
+                stamp = pd.Timestamp(value)
+                if pd.isna(stamp) or stamp.tzinfo is None:
+                    raise ValueError('Assumed availability needs an explicit timezone and nonmissing timestamp.')
+        for field in ('decision_at', 'quote_at', 'assumed_available_at'):
+            if field not in legs:
+                continue
+            try:
+                normalized = pd.to_datetime(legs[field], utc=True, errors='raise')
+            except ValueError:
+                # Different tickets may legitimately use different string
+                # formats. Preserve the old per-ticket parser acceptance;
+                # never use coercion or a permissive mixed-format fallback.
+                normalized = pd.concat([pd.to_datetime(legs[field].iloc[start:stop], utc=True, errors='raise')
+                                        for start, stop, _ in bounds], ignore_index=True)
+            legs[field] = normalized
+        self.validate(legs, time, complete=complete)
+        decisions = legs.decision_at
+        ticket_decisions = pd.to_datetime(frame.decision_at, utc=True)
+        parsed = {field: legs[field] for field in
+                  ('quote_at', 'assumed_available_at') if field in legs}
+        actuals = {field: pd.to_datetime(frame.get(field, pd.Series(pd.NaT, index=frame.index)), utc=True)
+                   for field in parsed}
+        for i, (row, (start, stop, columns)) in enumerate(zip(rows, bounds)):
+            if not decisions.iloc[start:stop].eq(ticket_decisions.iloc[i]).all():
+                raise ValueError('Ticket quote decisions differ from their legs.')
+            # Preserve the original per-ticket pandas/NumPy product order and
+            # dtype inference; never use a regrouped/reordered reduction.
+            raw = records[start:stop]
+            odds = pd.Series([leg.get('odds', np.nan) for leg in raw])
+            if float(np.prod(odds)) != row['odds'] or json.dumps([leg.get('quote_id') for leg in raw]) != row['quote_id']:
+                raise ValueError('Ticket price or quote identities differ from their legs.')
+            for field, values in parsed.items():
+                if field not in columns:
+                    continue
+                subset = values.iloc[start:stop]
+                expected = subset.max() if subset.notna().all() else pd.NaT
+                actual = actuals[field].iloc[i]
+                if not (pd.isna(actual) and pd.isna(expected)) and actual != expected:
+                    raise ValueError(f'Ticket {field} differs from its leg evidence.')
+
+
+def quote_leg_records(legs, contract, match_columns, *, compact=False):
     """Stable outcome-free membership, including all per-leg source evidence."""
     fields = contract.identities(legs)
     from .decision_layer import _safe_columns
@@ -134,6 +202,14 @@ def quote_leg_records(legs, contract, match_columns):
         record = {field: (None if pd.isna(row.get(field)) else row.get(field)) for field in fields}
         record['fixture_identity'] = json.dumps([row[k] for k in match_columns], default=str)
         records.append(record)
+    if compact:
+        # Match the legacy JSON scalar representation while avoiding repeated
+        # verbose JSON strings. Values remain immutable and independently checked.
+        def scalar(v):
+            if v is None or isinstance(v, (str, int, float, bool)):
+                return v
+            return str(v)
+        return _QuoteLegEvidence(tuple(tuple((key, scalar(value)) for key, value in sorted(record.items())) for record in records))
     return json.dumps(records, sort_keys=True, default=str)
 
 

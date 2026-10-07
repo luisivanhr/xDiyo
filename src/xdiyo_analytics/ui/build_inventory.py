@@ -824,6 +824,7 @@ def build():
                          title='Compose tickets', primary=True,
                          help='Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.')
     ticket_help = {
+        'audit_level': 'Full retains complete candidate audits. Summary retains selected model values, fingerprints, policies, counts and explicit omissions. All validation still runs.',
         'quote_availability': 'Optional explicit quote-evidence contract. Observed remains strict. Research assumed requires separate assumed_available_at timestamps, per-model matching quote provenance and documented justification; results are marked research simulation only.',
         'payoff': 'Declared payoff model for opt-in gates/Kelly. Binary win/loss only; default retains push/void semantics.',
         'probability_columns': 'Explicit model name to retained leg-probability column mapping.',
