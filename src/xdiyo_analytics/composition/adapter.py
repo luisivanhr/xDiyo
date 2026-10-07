@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from .contracts import PredictionBundle, TargetSpec
 from .graph import ModelNode, TransformNode, ReducerNode
-from .training import TrainingPlan, fit_node, subset
+from .training import TrainingPlan, fit_node, subset, prediction_context
 
 
 @dataclass
@@ -83,7 +83,7 @@ class CompositeModelAdapter:
             for name in learned:
                 node = self.graph.nodes[name]
                 frames = [self.oof_[(ref.node,ref.output)].loc[keys] for ref in node.inputs]
-                inputs = node.features.transform(frames,meta_context)
+                inputs = node.features.transform(frames,prediction_context(meta_context))
                 fits += int(not node.frozen)
                 if fits > self.training_plan.max_fits:
                     raise ValueError('Composition fitting budget exceeded.')
@@ -108,6 +108,8 @@ class CompositeModelAdapter:
             child_summaries={name:deepcopy(getattr(m,'training_summary_',{})) for name,m in self.models_.items()})
 
     def _execute(self, context, models, order):
+        self.training_plan.prediction_times(context)
+        context = prediction_context(context)
         frames, schemas = {}, {}
         for name in order:
             node = self.graph.nodes[name]
@@ -135,8 +137,8 @@ class CompositeModelAdapter:
             raise ValueError('Composite model is not fitted.')
         if tuple(context.X.columns) != self.feature_columns_:
             raise ValueError('Composite prediction feature order differs from fit.')
+        _, issue = self.training_plan.prediction_times(context)
         if self.requires_inner_preparation:
-            issue = pd.to_datetime(context.metadata[self.training_plan.issue_column or self.training_plan.time_column],utc=True)
             if issue.isna().any() or (issue < pd.to_datetime(self.fit_at_,utc=True)).any():
                 raise ValueError('Prediction issue time precedes the composite deployment fitting cutoff.')
         return self._execute(context,self.models_,self.order_).public(self.graph.outputs)

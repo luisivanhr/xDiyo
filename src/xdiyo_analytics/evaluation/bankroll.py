@@ -78,8 +78,14 @@ class BankrollLedger:
         if not np.isfinite([gross_return,fee]).all() or gross_return < 0 or fee < 0 or fee > gross_return+self.cash:
             raise ValueError('Invalid gross return or fee exceeds available resources.')
         net = float(gross_return)-record['stake']-float(fee)
+        proposed_pnl = self.realized_net_pnl + net
+        proposed_wealth = self.initial_capital + proposed_pnl
+        proposed_reserve = math.fsum(r['stake'] for k,r in self.open_tickets.items() if k != ticket_id)
+        proposed_cash = proposed_wealth-proposed_reserve
+        if not np.isfinite([net,proposed_pnl,proposed_wealth,proposed_reserve,proposed_cash]).all() or min(proposed_reserve,proposed_cash) < -1e-9:
+            raise ValueError('Settlement would violate finite bankroll conservation or solvency.')
         del self.open_tickets[ticket_id]
-        self.realized_net_pnl += net
+        self.realized_net_pnl = proposed_pnl
         self._record(stamp,'settle',ticket_id,net)
 
     def summary(self):

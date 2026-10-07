@@ -6,13 +6,40 @@ import pandas as pd
 from ..training.contracts import PredictionContext
 
 
+def prediction_context(context):
+    """Remove library-named outcomes from composition inference, including OOF.
+
+    This boundary cannot establish the semantics of arbitrary caller features.
+    """
+    forbidden = {'y', 'settlement', 'outcome', 'result', 'actual', 'label', 'target',
+                 'profit', 'payout', 'won', 'lost', 'gross_return', 'return_multiplier'}
+
+    def outcome(key):
+        name = str(key).lower()
+        return name in {'gross_return', 'return_multiplier', 'net_return_per_unit', 'settled_at'} or bool(set(name.replace('::', '_').split('_')) & forbidden)
+
+    def clean(value):
+        if isinstance(value, dict):
+            return {k: clean(v) for k, v in value.items() if not outcome(k)}
+        if isinstance(value, (list, tuple)):
+            return type(value)(clean(v) for v in value)
+        return deepcopy(value)
+
+    metadata = context.metadata.loc[:, [c for c in context.metadata if not outcome(c)]].copy()
+    metadata.attrs = clean(metadata.attrs)
+    X = context.X.copy()
+    X.attrs = clean(X.attrs)
+    return PredictionContext(X, metadata, context.layout, context.match_columns,
+                             context.fold_id, clean(context.fold_metadata), clean(context.definitions))
+
+
 def subset(context, rows, *, prediction=False):
     rows = np.asarray(rows, dtype=int)
     common = dict(X=context.X.iloc[rows].copy(), metadata=context.metadata.iloc[rows].copy(), layout=context.layout,
                   match_columns=context.match_columns, fold_id=context.fold_id, fold_metadata=deepcopy(context.fold_metadata),
                   definitions=deepcopy(context.definitions))
     if prediction:
-        return PredictionContext(**common)
+        return prediction_context(PredictionContext(**common))
     from ..training.contracts import FitContext
     weights = context.sample_weight.iloc[rows].copy() if context.sample_weight is not None else None
     return FitContext(**common, y=context.y.iloc[rows].copy(), sample_weight=weights)
@@ -47,12 +74,28 @@ class TrainingPlan:
         if pd.Timedelta(self.embargo) < pd.Timedelta(0):
             raise ValueError('embargo cannot be negative.')
 
-    def times(self, context):
+    def prediction_times(self, context):
+        """Validate issue/feature timing without reading labels or their release times."""
         metadata = context.metadata
+        required = [self.time_column, *([self.issue_column] if self.issue_column else []),
+                    *([self.feature_availability_column] if self.feature_availability_column else [])]
+        if not set(required) <= set(metadata):
+            raise ValueError('Missing prediction timing columns.')
         kickoff = pd.to_datetime(metadata[self.time_column], utc=True, errors='raise')
         issue = pd.to_datetime(metadata[self.issue_column], utc=True, errors='raise') if self.issue_column else kickoff
         if kickoff.isna().any() or issue.isna().any() or (issue > kickoff).any():
             raise ValueError('Missing or invalid issue/kickoff timestamps.')
+        if self.feature_availability_column:
+            feature_time = pd.to_datetime(metadata[self.feature_availability_column], utc=True, errors='raise')
+            if feature_time.isna().any() or (feature_time > issue).any():
+                raise ValueError('Features were unavailable at prediction issue time.')
+        elif self.mode in {'chronological', 'honest_error_meta'} and not self.features_as_of_issue:
+            raise ValueError('Declare feature availability timestamps or features_as_of_issue=True for externally audited features.')
+        return kickoff, issue
+
+    def times(self, context):
+        kickoff, issue = self.prediction_times(context)
+        metadata = context.metadata
         if self.label_availability_column and self.availability_delay is not None:
             raise ValueError('Choose an availability column or an explicit delay proxy.')
         if self.label_availability_column:
@@ -66,12 +109,6 @@ class TrainingPlan:
             raise ValueError('Chronological composition needs explicit label availability or a declared delay proxy.')
         if (available.notna() & available.lt(kickoff)).any():
             raise ValueError('Outcome availability cannot precede fixture kickoff.')
-        if self.feature_availability_column:
-            feature_time = pd.to_datetime(metadata[self.feature_availability_column], utc=True, errors='raise')
-            if feature_time.isna().any() or (feature_time > issue).any():
-                raise ValueError('Features were unavailable at prediction issue time.')
-        elif not self.features_as_of_issue:
-            raise ValueError('Declare feature availability timestamps or features_as_of_issue=True for externally audited features.')
         return kickoff, issue, available
 
     def splits(self, context):
@@ -110,17 +147,31 @@ class TrainingPlan:
 
 
 def fresh(model):
-    """Clone sklearn state; native adapters are deep-copied then fitted afresh."""
+    """Reset known wrappers recursively; retained unknown state requires freezing."""
     from ..training.estimators import EstimatorAdapter
+    from ..training.targets import TargetTransformAdapter
+    from ..training.calibration import CalibratedAdapter
+    from ..training.execution import DeviceAdapter
+    from ..training.control import IterativeAdapter
     from sklearn.base import clone
+    if isinstance(model, CalibratedAdapter):
+        raise ValueError('Retained CalibratedAdapter cannot be refitted safely; declare the unfitted base and ModelNode.calibration, or explicitly freeze the artifact.')
+    if isinstance(model, TargetTransformAdapter):
+        return TargetTransformAdapter(fresh(model.estimator), clone(model.transformer))
+    if isinstance(model, DeviceAdapter):
+        return DeviceAdapter(fresh(model.estimator), model.devices, model.configure)
+    if isinstance(model, IterativeAdapter):
+        return IterativeAdapter(deepcopy(model.backend_factory))
     if isinstance(model, EstimatorAdapter):
         return replace(model, estimator=clone(model.estimator))
     if hasattr(model, 'get_params'):
         return EstimatorAdapter(clone(model))
     if hasattr(model, 'build'):
-        return model.build()
+        return fresh(model.build())
     if not callable(getattr(model, 'fit', None)) or not callable(getattr(model, 'predict', None)):
         raise TypeError('A graph model must implement the native ModelAdapter contract.')
+    if any(k.endswith('_') and not k.startswith('__') for k in vars(model)):
+        raise ValueError('Retained native adapter state requires an unfitted specification or an explicitly frozen artifact.')
     return deepcopy(model)
 
 

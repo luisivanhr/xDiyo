@@ -76,7 +76,7 @@ def _stake_preview(terms):
     return number if np.isfinite(number) else total
 
 
-def prepare_pools(ledger, policy, match_columns, name):
+def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     from .tickets import Parlay, _validate
     _validate(Parlay(size=policy.legs, stake=policy.stake, max_tickets=policy.max_tickets,
                      on_push=policy.on_push, on_void=policy.on_void,
@@ -91,8 +91,8 @@ def prepare_pools(ledger, policy, match_columns, name):
         return [], []
     data = ledger.copy()
     if policy.ticket_gate is not None:
-        if not policy.probability_columns or any(column not in data for column in policy.probability_columns.values()):
-            raise ValueError('Multi-model gates need every explicitly mapped probability column.')
+        if not policy.probability_columns:
+            raise ValueError('Multi-model gates need an explicit probability column mapping.')
         if policy.payoff != 'binary':
             raise ValueError('Complete-ticket EV gates require an explicitly binary payoff.')
     keys = list(match_columns)
@@ -148,9 +148,18 @@ def prepare_pools(ledger, policy, match_columns, name):
         # derived accounting values must never choose a leg.
         compare = [c for c in offered if c not in {'row_position', 'stake', 'profit', 'payout',
                                                    'accounting_status', 'cumulative_known_profit'}]
+        if outcome_free or policy.ticket_gate is not None:
+            from .decision_layer import _outcome_column
+            compare = [c for c in compare if not _outcome_column(c)]
         for _, repeated in offered.groupby('_event', sort=False):
             if len(repeated) > 1 and len(repeated[compare].drop_duplicates()) != 1:
                 raise ValueError('Conflicting selections or evidence for one fixture; select exactly one option per event.')
+            if (outcome_free or policy.ticket_gate is not None) and len(repeated) > 1:
+                # Resolve contradictory retrospective evidence as unknown only
+                # after validating decision evidence; never let it choose a leg.
+                for column in [c for c in offered if _outcome_column(c)]:
+                    if repeated[column].nunique(dropna=False) > 1:
+                        offered.loc[offered._event.eq(repeated._event.iloc[0]),column] = 'missing' if column == 'settlement' else np.nan
         duplicates = len(offered) - offered._event.nunique()
         order = ['kickoff_at', '_event', 'bet'] + (['row_position'] if 'row_position' in offered else [])
         offered = offered.sort_values(order, kind='stable').drop_duplicates('_event')

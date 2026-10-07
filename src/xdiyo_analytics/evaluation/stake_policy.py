@@ -211,6 +211,14 @@ class RiskLimits:
         for column, limit in self.exposure_caps:
             if column not in frame or not np.isfinite(limit) or limit < 0:
                 raise ValueError('Invalid exposure cap.')
+            def missing_identity(value):
+                if isinstance(value, tuple):
+                    return not value or any(missing_identity(v) for v in value)
+                return bool(pd.isna(value))
+            if frame[column].map(missing_identity).any():
+                raise ValueError(f'Exposure cap requires complete nonempty {column} identities.')
+            if any(missing_identity(k) for col,k,_ in context.open_exposure if col == column):
+                raise ValueError(f'Open exposure cap requires complete nonempty {column} identities.')
             keys = set(v for values in frame[column] for v in (values if isinstance(values, tuple) else (values,)))
             for key in keys:
                 opened = sum(v for col, k, v in context.open_exposure if col == column and k == key)

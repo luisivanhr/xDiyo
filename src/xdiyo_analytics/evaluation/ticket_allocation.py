@@ -32,8 +32,9 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None):
         for leg in legs.to_dict('records'):
             identities.append({k:leg.get(k) for k in (*match_columns,'bet','market','selection','line','odds','quote_id','quote_at')})
         record = dict(ticket_id=row['ticket_id'],nominal_stake=row['stake'],odds=row['odds'],probability=row['probability'],
-                      decision_at=time,fixture_keys=fixtures,league_keys=tuple(sorted(set(legs.competition_id),key=repr)) if 'competition_id' in legs else (),
-                      round_keys=tuple(sorted(set(zip(legs.get('competition_id',[None]*len(legs)),legs.get('season_id',[None]*len(legs)),legs.get('round',[None]*len(legs)))),key=repr)),
+                      decision_at=time,fixture_keys=fixtures,
+                      league_keys=tuple(sorted(set(legs.get('competition_id',legs.get('source_league',[]))),key=repr)),
+                      round_keys=tuple(sorted(set(zip(legs.get('competition_id',legs.get('source_league',[None]*len(legs))),legs.get('season_id',legs.get('source_season',[None]*len(legs))),legs.get('round',[None]*len(legs)))),key=repr)),
                       payoff=policy.payoff,selection_id=row['bet'],probability_provenance=f"retained_leg_probabilities:{row['probability_assumption']}",
                       economic_key=json.dumps([identities,policy.on_push,policy.on_void],sort_keys=True,default=str))
         if 'quote_id' in legs and 'quote_at' in legs:
@@ -65,20 +66,28 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
             for model,column in mapping.items():
                 valuations = offers.copy()
                 probabilities = []
+                provenance = {field: [] for field in ('issued_at','trained_through','artifact_vintage')}
                 for ticket_id in offers.index:
                     legs = members.loc[members.ticket_id.eq(ticket_id)]
-                    if column not in legs:
-                        raise ValueError(f'Missing model probability column {column}.')
-                    p = pd.to_numeric(legs[column],errors='raise')
-                    if (~np.isfinite(p) | ~p.between(0,1)).any():
-                        raise ValueError('Every model requires one finite probability per leg.')
-                    probabilities.append(float(np.prod(p)))
+                    p = pd.to_numeric(legs.get(column,pd.Series(np.nan,index=legs.index)),errors='raise').astype(float)
+                    present = p.notna()
+                    if (present & (~np.isfinite(p) | ~p.between(0,1))).any():
+                        raise ValueError('Supplied model leg probabilities must be finite and in [0,1].')
+                    times = {}
+                    for field in provenance:
+                        source = f'{model}::{field}'
+                        times[field] = pd.to_datetime(legs.get(source,pd.Series(pd.NaT,index=legs.index)),utc=True)
+                        if (present & (times[field].isna() | times[field].gt(time))).any():
+                            raise ValueError(f'Every valued model leg needs nonmissing available {source} provenance.')
+                    if (present & (times['trained_through'].ge(times['issued_at']) | times['artifact_vintage'].gt(times['issued_at']))).any():
+                        raise ValueError('Model leg evidence was unavailable at its own prediction issue time.')
+                    complete = present.all()
+                    probabilities.append(float(np.prod(p)) if complete else np.nan)
+                    for field in provenance:
+                        provenance[field].append(times[field].max() if complete else pd.NaT)
                 valuations['probability'] = probabilities
-                for field in ('issued_at','trained_through','artifact_vintage'):
-                    source = f'{model}::{field}'
-                    if source not in members:
-                        raise ValueError(f'Ticket model provenance needs {source}.')
-                    valuations[field] = [pd.to_datetime(members.loc[members.ticket_id.eq(k),source],utc=True).max() for k in offers.index]
+                for field, values in provenance.items():
+                    valuations[field] = values
                 predictions[model] = valuations
             result = gate.decide(predictions,DecisionContext(time,FrozenTable(offers)))
             audit.extend(result.audit.to_dict('records'))

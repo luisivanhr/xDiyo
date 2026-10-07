@@ -2,7 +2,7 @@
 from dataclasses import dataclass, replace
 import numpy as np
 import pandas as pd
-from .training import fresh
+from .training import fresh, prediction_context
 
 
 @dataclass
@@ -53,7 +53,7 @@ class LearnedTargetAdapter:
     def predict(self,context):
         if not hasattr(self,'model_'):
             raise ValueError('Learned target adapter is not fitted.')
-        return self.model_.predict(context)
+        return self.model_.predict(prediction_context(context))
 
 
 @dataclass(frozen=True)
