@@ -107,6 +107,7 @@ class HistoricalRateSource:
     lookback: object = None
     learned_selection: bool = True
     exchangeable_within_strata: bool = False
+    history: object = None
 
     def fit(self, history):
         cutoff = pd.to_datetime(self.cutoff, utc=True)
@@ -146,6 +147,10 @@ class HistoricalRateSource:
         return self
 
     def probabilities(self, batch, context):
+        if not hasattr(self, 'rates_') and self.history is not None:
+            # Native recipes may supply an explicit input.Table. The fit still
+            # filters by the fixed cutoff; no decision-batch outcomes are passed.
+            self.fit(self.history)
         if not hasattr(self, 'rates_') or self.cutoff_ > context.time:
             raise ValueError('Historical rate must be fitted and available before this allocation.')
         frame = batch.frame

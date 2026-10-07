@@ -16107,14 +16107,14 @@
           "name": "weights",
           "title": "Weights",
           "required": false,
-          "kind": "map",
+          "kind": "list",
           "default": [],
           "help": "Relative importance of selected metrics. Use nonnegative weights; the scoring rule normalizes them.",
           "key_discovery": "ranking_metrics",
           "item": {
             "kind": "number",
-            "default": 1,
-            "min": 0
+            "min": 0,
+            "default": 1
           },
           "primary": false
         }
@@ -16914,7 +16914,10 @@
           "kind": "list",
           "default": [],
           "help": "Strata for HistoricalRateSource. Default: [].",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
         },
         {
           "name": "prior_probability",
@@ -16962,6 +16965,19 @@
           "default": false,
           "help": "Exchangeable within strata for HistoricalRateSource. Default: False.",
           "primary": false
+        },
+        {
+          "name": "history",
+          "title": "History",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional explicit strategy-selected history table. Only outcomes available by the fixed cutoff are fitted; current batch outcomes are never used.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
         }
       ],
       "accepts_extra": false
@@ -16976,10 +16992,11 @@
           "name": "per_ticket",
           "title": "Per ticket",
           "required": false,
-          "kind": "text",
+          "kind": "number",
           "default": null,
           "help": "Per ticket for RiskLimits. Optional; leave disabled to use the standard behavior.",
-          "primary": false
+          "primary": false,
+          "min": 0
         },
         {
           "name": "exposure_caps",
@@ -16988,7 +17005,25 @@
           "kind": "list",
           "default": [],
           "help": "Exposure caps for RiskLimits. Default: [].",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "0",
+                "title": "Exposure column",
+                "kind": "text",
+                "required": true
+              },
+              {
+                "name": "1",
+                "title": "Maximum outstanding amount",
+                "kind": "number",
+                "min": 0,
+                "required": true
+              }
+            ]
+          }
         },
         {
           "name": "rounding",
@@ -17059,7 +17094,32 @@
           "kind": "list",
           "default": [],
           "help": "Open exposure for StakeContext. Default: [].",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "0",
+                "title": "Exposure column",
+                "kind": "text",
+                "required": true
+              },
+              {
+                "name": "1",
+                "title": "Exposure identity",
+                "kind": "typed_scalar",
+                "initial": 0,
+                "required": true
+              },
+              {
+                "name": "2",
+                "title": "Outstanding amount",
+                "kind": "number",
+                "min": 0,
+                "required": true
+              }
+            ]
+          }
         }
       ],
       "accepts_extra": false
@@ -17086,10 +17146,13 @@
           "name": "feature_columns",
           "title": "Feature columns",
           "required": true,
-          "kind": "multiselect",
+          "kind": "list",
           "help": "Select model input columns. Disabled uses every assembled feature.",
           "discovery": "features",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
         },
         {
           "name": "currency",
@@ -17200,7 +17263,10 @@
             "odds"
           ],
           "help": "Identity columns for DecisionLayer. Default: ['economic_key', 'quote_id', 'quote_at', 'decision_at', 'odds'].",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
         }
       ],
       "accepts_extra": false
@@ -17227,10 +17293,13 @@
           "name": "feature_columns",
           "title": "Feature columns",
           "required": true,
-          "kind": "multiselect",
+          "kind": "list",
           "help": "Select model input columns. Disabled uses every assembled feature.",
           "discovery": "features",
-          "primary": false
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
         },
         {
           "name": "positive_class",

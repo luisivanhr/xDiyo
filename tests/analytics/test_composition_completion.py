@@ -59,6 +59,8 @@ def test_probability_sources_require_time_and_explicit_rate_assumptions():
     source=HistoricalRateSource('chosen','2024-01-02',learned_selection=False).fit(h)
     with pytest.raises(ValueError,match='exchangeable'):
         source.probabilities(FrozenTable(batch()),context)
+    native=HistoricalRateSource('chosen','2024-01-02',learned_selection=False,exchangeable_within_strata=True,history=h)
+    assert native.probabilities(FrozenTable(batch()),context).tolist()==pytest.approx([2/3,2/3])
 
 
 def test_fit_budget_and_invalid_weights_precede_fit(monkeypatch):
@@ -130,3 +132,44 @@ def test_child_weighting_counts_only_each_inner_population():
     node=ModelNode(Estimator(LogisticRegression()),{'predict':OutputSchema('target',kind='labels',classes=('a','b'))},weighting=ObservedWeights())
     fit_node(node,context)
     assert counts==[list(range(6))]
+
+
+def test_calibrated_chronological_stack_restores_every_stage(tmp_path,monkeypatch):
+    from sklearn.svm import SVC
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
+    from xdiyo_analytics.training import ProbabilityCalibrator,save_model,load_model
+    data,plan=setup(True)
+    schema=OutputSchema('target',kind='probability',classes=('a','b'),units='probability')
+    calibration=ProbabilityCalibrator(method='sigmoid',response_method='decision_function',fraction=.4,
+        availability_delay='3h',min_calibration_rows=2,min_calibration_per_class=1)
+    child=ModelNode(Estimator(SVC(probability=False),preprocessors=(StandardScaler(),),prediction_methods=('predict','decision_function')),
+        {'predict_proba':schema},calibration=calibration)
+    stack=ModelStack({'svc':child},Estimator(LogisticRegression(),preprocessors=(StandardScaler(),),prediction_methods=('predict_proba',)),
+        OutputFeatures(('p_a','p_b')),schema,TrainingPlan(mode='chronological',min_train_groups=8,availability_delay='3h',features_as_of_issue=True),output='predict_proba')
+    result=TrainingRunner(stack.build).run(data,plan)
+    path=save_model(result,tmp_path/'calibrated-stack')
+    for cls in (SVC,LogisticRegression,StandardScaler):
+        monkeypatch.setattr(cls,'fit',lambda *a,**k:pytest.fail('restoration cannot refit'))
+    restored=load_model(path).predict(data,positions=np.arange(12,16))['predict_proba']
+    original=result.folds[0].predictions['predict_proba']
+    pd.testing.assert_frame_equal(restored,original)
+    offers=batch().assign(economic_key=['one','two'],quote_id=['a','b'],quote_at='2024-12-31')
+    context=DecisionContext('2025-01-01',FrozenTable(offers))
+    def decide(p):
+        values=offers.assign(probability=p.iloc[:2,1].to_numpy(),issued_at='2024-12-31',artifact_vintage='2024-12-02',trained_through='2024-12-01')
+        return DecisionLayer(('svc',)).decide({'svc':values},context)
+    pd.testing.assert_frame_equal(decide(original).audit,decide(restored).audit)
+
+
+def test_composition_parallel_outer_folds_match_serial():
+    from xdiyo_analytics.training import ExecutionPolicy
+    from xdiyo_analytics.splits import SplitPlan
+    data,plan=setup()
+    plan=SplitPlan([deepcopy(plan.folds[0]),deepcopy(plan.folds[0])],plan.n_rows,plan.row_order)
+    spec=ModelEnsemble({'a':Estimator(Ridge()),'b':Estimator(Ridge(alpha=2))},OutputSchema('target'),Mean())
+    serial=TrainingRunner(spec.build).run(data,plan)
+    parallel=TrainingRunner(spec.build,execution=ExecutionPolicy(2)).run(data,plan)
+    for first,second in zip(serial.folds,parallel.folds):
+        for key in first.predictions:
+            pd.testing.assert_frame_equal(first.predictions[key],second.predictions[key])

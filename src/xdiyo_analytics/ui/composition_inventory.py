@@ -44,8 +44,23 @@ def decorate(components):
                 f.update(kind='list',item={'kind':'text'})
             if key=='composition.OutputSchema' and name in ('classes','support'):
                 f.update(kind='list',item={'kind':'typed_scalar','initial':0},help='Preserve class/support identity: choose Number, Text or Boolean for each value. Numeric 0 and text "0" are different labels.')
-            if key=='composition.Mean' and name=='weights':
+            if key in ('composition.Mean','composition.DistributionMixture') and name=='weights':
                 f.update(kind='list',item={'kind':'number','min':0,'default':1})
+            if key=='evaluation.HistoricalRateSource' and name=='history':
+                f.update(kind='component',components=['input.Table'],initial_component='input.Table',help='Optional explicit strategy-selected history table. Only outcomes available by the fixed cutoff are fitted; current batch outcomes are never used.')
+            if key.startswith('evaluation.') and name in ('feature_columns','strata','identity_columns'):
+                f.update(kind='list',item={'kind':'text'})
+            if key=='evaluation.RiskLimits' and name=='per_ticket':
+                f.update(kind='number',min=0)
+            if key=='evaluation.RiskLimits' and name=='exposure_caps':
+                f.update(kind='list',item={'kind':'record','fields':[
+                    {'name':'0','title':'Exposure column','kind':'text','required':True},
+                    {'name':'1','title':'Maximum outstanding amount','kind':'number','min':0,'required':True}]})
+            if key=='evaluation.StakeContext' and name=='open_exposure':
+                f.update(kind='list',item={'kind':'record','fields':[
+                    {'name':'0','title':'Exposure column','kind':'text','required':True},
+                    {'name':'1','title':'Exposure identity','kind':'typed_scalar','initial':0,'required':True},
+                    {'name':'2','title':'Outstanding amount','kind':'number','min':0,'required':True}]})
             if key=='composition.OutputSchema' and name=='kind':
                 f.update(kind='select',choices=['regression','probability','labels','vote_fraction','distribution','features'])
             if key=='composition.TrainingPlan' and name=='mode':
