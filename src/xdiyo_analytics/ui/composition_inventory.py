@@ -42,6 +42,8 @@ def decorate(components):
                 f.update(kind='list',item={'kind':'component','components':['composition.OutputRef'],'initial_component':'composition.OutputRef'})
             if key.startswith('composition.') and name in ('names','passthrough','row_keys','classes','support','parameters','group_by'):
                 f.update(kind='list',item={'kind':'text'})
+            if key=='composition.OutputSchema' and name in ('classes','support'):
+                f.update(kind='list',item={'kind':'typed_scalar','initial':0},help='Preserve class/support identity: choose Number, Text or Boolean for each value. Numeric 0 and text "0" are different labels.')
             if key=='composition.Mean' and name=='weights':
                 f.update(kind='list',item={'kind':'number','min':0,'default':1})
             if key=='composition.OutputSchema' and name=='kind':

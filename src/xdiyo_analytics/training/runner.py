@@ -277,10 +277,11 @@ class TrainingRunner:
             raise ValueError("Choose features_from or weights_from explicitly when supplying an analysis_report.")
         models, estimators, target_states = [], [], []
         original_factory = self.model_factory
+        outer_learned_preparation = features_from is not None or weights_from is not None or self.weighting is not None
 
         def fresh_model():
             model = original_factory()
-            if getattr(model, 'requires_inner_preparation', False) and (features_from is not None or weights_from is not None or self.weighting is not None):
+            if getattr(model, 'requires_inner_preparation', False) and outer_learned_preparation:
                 raise ValueError('Chronological composition requires selectors/weights inside child fits; outer learned preparation would leak OOF labels.')
             # Factories own construction. Catch accidental state reuse across
             # folds without imposing cloning semantics on arbitrary frameworks.

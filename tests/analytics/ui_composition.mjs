@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {configure, componentEditor, makeNode} from '../../src/xdiyo_analytics/ui/static/forms.js';
+import {configure, componentEditor, makeNode, valueEditor} from '../../src/xdiyo_analytics/ui/static/forms.js';
 class Element {
  constructor(tag){this.tag=tag;this.nodeType=1;this.children=[];this.value='';this.checked=false;this.events={};}
  append(...items){this.children.push(...items);} prepend(...items){this.children.unshift(...items);}
@@ -36,4 +36,19 @@ test('Reporter staking and complete-ticket gates are native component fields',()
  }
  const field=components.find(c=>c.id==='evaluation.AllCombinations').fields.find(f=>f.name==='ticket_gate');
  assert.ok(field.components.includes('evaluation.DecisionLayer'));
+});
+
+test('Classification schema preserves numeric and text labels distinctly',()=>{
+ const field=components.find(c=>c.id==='composition.OutputSchema').fields.find(f=>f.name==='classes');
+ assert.equal(field.item.kind,'typed_scalar');
+ let value=0;
+ const root=valueEditor(value,v=>value=v,field.item);
+ let input=find(root,'Label value','input');
+ input.events.change({target:{value:'2'}});
+ assert.equal(value,2);
+ const type=find(root,'Value type','select');
+ type.value='1';type.onchange();
+ input=find(root,'Label value','input');
+ input.events.change({target:{value:'2'}});
+ assert.equal(value,'2');
 });
