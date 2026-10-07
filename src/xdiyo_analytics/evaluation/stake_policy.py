@@ -214,6 +214,8 @@ class RiskLimits:
             def missing_identity(value):
                 if isinstance(value, tuple):
                     return not value or any(missing_identity(v) for v in value)
+                if isinstance(value, str):
+                    return not value.strip()
                 return bool(pd.isna(value))
             if frame[column].map(missing_identity).any():
                 raise ValueError(f'Exposure cap requires complete nonempty {column} identities.')

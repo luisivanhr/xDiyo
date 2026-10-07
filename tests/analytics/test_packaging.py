@@ -120,7 +120,17 @@ INSTALLED_SMOKE = textwrap.dedent("""
     distribution = importlib.metadata.distribution('xdiyo-analytics')
     commands = {entry.name: entry for entry in distribution.entry_points
                 if entry.group == 'console_scripts'}
-    assert set(commands) == {'xdiyo-ui'}
+    assert set(commands) == {'xdiyo-ui', 'xdiyo-report'}
+    assert commands['xdiyo-report'].value == 'xdiyo_analytics.reporting.templates.__main__:main'
+    sys.argv = ['xdiyo-report', '--help']
+    with contextlib.redirect_stdout(io.StringIO()) as report_help:
+        try:
+            commands['xdiyo-report'].load()()
+        except SystemExit as error:
+            assert error.code == 0
+        else:
+            raise AssertionError('The report entry point did not handle --help.')
+    assert 'usage:' in report_help.getvalue()
     entry = commands['xdiyo-ui']
     assert entry.value == 'xdiyo_analytics.ui.server:main'
     sys.argv = ['xdiyo-ui', '--help']

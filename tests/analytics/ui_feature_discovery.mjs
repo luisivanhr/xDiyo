@@ -62,10 +62,11 @@ async function harness({deferred=false,previewData=preview,foldIds=null}={}){
  const body=new Element('body');
  const context=vm.createContext({location:{hash:'#token'},document:{querySelector:query,querySelectorAll:()=>[],title:'',body},window:{addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},fetch,structuredClone,setTimeout,URL,Blob,console});
  const fakeForm=()=>el('div');
- const exports={el,clone:structuredClone,configure(){},discovered:values=>Object.assign(discovery,structuredClone(values)),fieldsEditor:fakeForm,componentEditor:fakeForm,mapEditor(){seenForms.push(structuredClone(discovery.features||[]));return el('div');},listEditor:fakeForm,valueEditor:fakeForm,spec:()=>({fields:[]}),makeNode:id=>({component:id,params:{}}),featureMapEditor:fakeForm};
+ const exports={el,clone:structuredClone,configure(){},configureOdds(){},discovered:values=>Object.assign(discovery,structuredClone(values)),fieldsEditor:fakeForm,componentEditor:fakeForm,mapEditor(){seenForms.push(structuredClone(discovery.features||[]));return el('div');},listEditor:fakeForm,valueEditor:fakeForm,spec:()=>({fields:[]}),makeNode:id=>({component:id,params:{}}),featureMapEditor:fakeForm};
  const forms=new vm.SyntheticModule(Object.keys(exports),function(){for(const [name,value] of Object.entries(exports))this.setExport(name,value);},{context});
  const app=new vm.SourceTextModule(source+'\nexport {refreshJob,changed,showHtml};export function testState(){return {recipe,stage,preparedColumns,appliedPreviewJob};}',{context});
- await app.link(()=>forms);await app.evaluate();
+ const grid=new vm.SourceTextModule(readFileSync(new URL('../../src/xdiyo_analytics/ui/static/grid-fields.js',import.meta.url),'utf8'),{context});
+ await app.link(name=>{if(name==='./forms.js')return forms;if(name==='./grid-fields.js')return grid;throw new Error(`Unexpected app import: ${name}`);});await app.evaluate();
  const navigate=async title=>{const link=query('#navigation').children.find(item=>item.textContent===title);assert.ok(link);await link.onclick({preventDefault(){}});};
  const findButton=(node,text)=>node?.tag==='button'&&node.text===text?node:(node?.children||[]).map(child=>findButton(child,text)).find(Boolean);
  return {app:app.namespace,discovery,seenForms,calls,navigate,query,body,release:()=>release([...jobs.values()].at(-1)),findButton};
