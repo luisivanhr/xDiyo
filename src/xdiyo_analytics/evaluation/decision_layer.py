@@ -4,7 +4,7 @@ from copy import deepcopy
 from datetime import datetime, date
 import numpy as np
 import pandas as pd
-from .quote_availability import QuoteAvailability, QUOTE_IDENTITY, ASSUMPTION_FIELDS
+from .quote_availability import QuoteAvailability, QUOTE_IDENTITY, ASSUMPTION_FIELDS, _QuoteLegEvidence
 
 _FORBIDDEN = {'y', 'target', 'outcome', 'settlement', 'profit', 'payout', 'result', 'actual', 'label'}
 _OUTCOME_FIELDS = {'won','lost','status','is_awarded','gross_return','return_multiplier','net_return_per_unit','settled_at'}
@@ -22,6 +22,8 @@ def _safe_columns(columns):
 
 
 def _freeze(value):
+    if isinstance(value, _QuoteLegEvidence):
+        return value
     if isinstance(value, tuple):
         return tuple(_freeze(v) for v in value)
     if isinstance(value, np.generic):
@@ -90,7 +92,9 @@ class DecisionLayer:
     missing: str = 'error'
     identity_columns: tuple = ('economic_key', 'quote_id', 'quote_at', 'decision_at', 'odds')
 
-    def decide(self, predictions, context):
+    def decide(self, predictions, context, *, audit_level='full'):
+        if audit_level not in ('full', 'summary'):
+            raise ValueError('audit_level must be full or summary.')
         if not self.models or len(set(self.models)) != len(self.models) or self.gate not in {'and', 'or'} or self.metric not in {'ev', 'probability'} or self.missing not in {'error', 'reject'} or not np.isfinite(self.threshold):
             raise ValueError('Invalid gate configuration.')
         candidates = context.candidates.frame
@@ -153,6 +157,14 @@ class DecisionLayer:
             value = p * odds - 1 if self.metric == 'ev' else p
             take = ((value > self.threshold) if self.strict else (value >= self.threshold)) & present
             approvals.append(take)
+            if audit_level == 'summary':
+                # Compact computational ballots, without per-row provenance
+                # dictionaries. All guards above are identical in both modes.
+                records.append(pd.DataFrame(dict(candidate_id=candidates.index, model=model,
+                    probability=p.to_numpy(), value=value.to_numpy(), take=take.to_numpy(),
+                    reason=np.where(missing, 'missing_model', np.where(take, 'accepted', 'threshold')),
+                    comparator='>' if self.strict else '>=')))
+                continue
             records.extend(dict(candidate_id=k, model=model, probability=p.loc[k], value=value.loc[k], take=bool(take.loc[k]),
                                 reason='missing_model' if missing.loc[k] else 'accepted' if take.loc[k] else 'threshold',
                                 comparator='>' if self.strict else '>=',
@@ -163,7 +175,8 @@ class DecisionLayer:
                                     **({'quote_legs':candidates.loc[k,'quote_legs']} if 'quote_legs' in candidates else {})} if research else {})) for k in candidates.index)
         votes = pd.concat(approvals, axis=1)
         accepted = votes.all(axis=1) if self.gate == 'and' else votes.any(axis=1)
-        return DecisionResult(candidates.loc[accepted].copy(), pd.DataFrame(records))
+        return DecisionResult(candidates.loc[accepted].copy(),
+                              pd.concat(records, ignore_index=True) if audit_level == 'summary' else pd.DataFrame(records))
 
 
 @dataclass(frozen=True)

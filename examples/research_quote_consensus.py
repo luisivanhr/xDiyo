@@ -10,7 +10,7 @@ from xdiyo_analytics.evaluation import (
 )
 
 
-def consensus(legs, pmfs, contract):
+def consensus(legs, pmfs, contract, *, audit_level='full'):
     """Two native DecisionLayer calls: fixture OR, then complete-ticket EV AND.
 
     pmfs[model] uses class labels 'draw' and 'non_draw', indexed by event_id.
@@ -65,11 +65,11 @@ def consensus(legs, pmfs, contract):
     audits = []
     for time, batch in candidates.groupby(decision_times, sort=True, dropna=False):
         result = gate.decide({m: v.loc[batch.index] for m, v in valuations.items()},
-            DecisionContext(time, FrozenTable(batch), quote_availability=contract))
+            DecisionContext(time, FrozenTable(batch), quote_availability=contract), audit_level=audit_level)
         selected.extend(result.selected.index)
         audits.append(result.audit)
     data['take'] = data.index.isin(selected)
-    composition = AllCombinations(legs=2, stake=1., stage_column='stage',
+    composition = AllCombinations(legs=2, stake=1., stage_column='stage', audit_level=audit_level,
         probability_mode='independent', payoff='binary', quote_availability=contract,
         probability_columns={m: f'{m}::probability' for m in models},
         ticket_gate=DecisionLayer(models, gate='and', metric='ev', threshold=0., strict=True, missing='error'))
@@ -77,6 +77,14 @@ def consensus(legs, pmfs, contract):
     audit = pd.concat(audits, ignore_index=True) if audits else pd.DataFrame(columns=[
         'candidate_id', 'model', 'probability', 'value', 'take', 'reason', 'comparator',
         *contract.labels, 'assumed_available_at', 'quote_at', 'quote_id', 'decision_at'])
+    if audit_level == 'summary':
+        from xdiyo_analytics.evaluation.audit_storage import fingerprint
+        tickets.attrs['audit_manifest']['original_pmf_fingerprints'] = {str(model): fingerprint(pmf) for model, pmf in pmfs.items()}
+        tickets.attrs['audit_manifest']['fixture_gate_reasons'] = audit.groupby(['model', 'reason'], sort=False).size().reset_index(name='count').to_dict('records')
+        tickets.attrs['audit_manifest']['fixture_gate'] = dict(models=list(models), gate='or', metric='probability',
+                                                            threshold=1.-.80, strict=False, missing='error')
+        audit.attrs['audit_level'] = 'summary'
+        audit.attrs['omitted_details'] = ['per-ballot quote/timing copies']
     return tickets, members, metrics, audit
 
 

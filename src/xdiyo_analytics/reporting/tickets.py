@@ -48,6 +48,17 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None,
         tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns,
                                                    stake_policy=stake_policy, stake_context=stake_context, risk_limits=risk_limits)
     result.tables.update(leg_ledger=legs, ledger=tickets, tickets=tickets, ticket_legs=membership, bet_metrics=metrics)
+    manifest = tickets.attrs.get('audit_manifest')
+    if manifest is not None:
+        result.tables['audit_manifest'] = pd.DataFrame([{'audit_level': manifest['audit_level'],
+                                                       'manifest': json.dumps(manifest, sort_keys=True)}])
+        result.artifacts.append(Artifact('table', result.tables['audit_manifest'], 'Audit manifest and omissions'))
+        values = tickets.attrs.get('selected_model_values', {'columns': [], 'data': []})
+        result.tables['selected_model_values'] = pd.DataFrame(values['data'], columns=values['columns'])
+        result.tables['gate_summary'] = pd.DataFrame(manifest.get('gate_reasons', []))
+        result.notes.append(f"Summary audit: {manifest['candidate_count']} candidates, {manifest['selected_count']} selected, "
+                            f"{manifest['rejected_count']} rejected. Rejected row-level evidence and repeated quote payloads were omitted. "
+                            'This is compact traceability, not a complete row audit. See the manifest for fingerprints, policies, counts and omissions.')
     for key in ('allocation_audit', 'decision_policy_audit'):
         if key in tickets.attrs:
             result.tables[key] = pd.DataFrame(tickets.attrs[key])
@@ -69,7 +80,9 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None,
     if tickets.attrs.get('ticket_ev_enabled'):
         result.artifacts.append(Artifact('table', result.tables['ticket_selection_summary'], 'Ticket selection: candidates and placed bets'))
         result.notes.append('Ticket EV filter: strict EV > minimum, per unit stake, using independent win/loss probabilities. '
-                            'Rejected candidates are audited separately and incur no stake. Overlapping tickets share risk.')
+                            + ('Rejected candidates are counted in the summary manifest and incur no stake. ' if manifest else
+                               'Rejected candidates are audited separately and incur no stake. ')
+                            + 'Overlapping tickets share risk.')
     from ..evaluation.tickets import Parlay
     preview = preview_combinations(legs, composition or Parlay(size=1), match_columns=context.match_columns)
     if preview.attrs['exceeded_limits']:
@@ -96,6 +109,8 @@ def ticket_html(tickets, membership, teams):
                       + escape(str(r['quote_assumption_reference']))
                       + '. Historical tradability is unverified.</p>'
                       for r in declarations if r['quote_availability_mode'] == 'research_assumed')
+    if tickets.attrs.get('audit_manifest', {}).get('audit_level') == 'summary':
+        warning += '<p><strong>Summary audit.</strong> Detailed rejected-candidate provenance was omitted. Counts and omission declarations are in the audit manifest.</p>'
     def fmt(value):
         return '—' if pd.isna(value) else escape(f'{value:g}' if isinstance(value, (float, int)) else str(value))
 
@@ -109,8 +124,15 @@ def ticket_html(tickets, membership, teams):
 
     if tickets.empty:
         if tickets.attrs.get('ticket_ev_enabled'):
-            return warning + '<p>No tickets placed. The ticket EV filter requires a scorable probability and EV strictly above the minimum. See candidate decisions and selection summary for missing probabilities, rejected EVs, or undersized groups.</p>'
+            evidence = 'audit manifest and selection summary' if tickets.attrs.get('audit_manifest') else 'candidate decisions and selection summary'
+            return warning + f'<p>No tickets placed. The ticket EV filter requires a scorable probability and EV strictly above the minimum. See {evidence} for missing probabilities, rejected EVs, or undersized groups.</p>'
         return warning + '<p>No complete tickets in the selected groups. Reduce the leg count or select more fixtures.</p>'
+    # Only display values are needed below. Preserve caller attrs and copy them
+    # once, rather than propagating a full audit/manifest to every leg slice.
+    tickets = tickets.copy(deep=False)
+    membership = membership.copy(deep=False)
+    tickets.attrs = {}
+    membership.attrs = {}
     panels = []
     membership_positions = membership.groupby('ticket_id', sort=False).indices
     for record in tickets.to_dict('records'):

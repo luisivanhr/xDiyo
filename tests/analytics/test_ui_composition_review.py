@@ -63,6 +63,8 @@ def test_research_quote_contract_browser_and_exports(browser_ui):
     field=page.get_by_role('textbox',name='Reference',exact=True)
     field.fill('protocol/v2'); field.blur()
     contract['params']['reference']='protocol/v2'
+    page.get_by_role('combobox',name='Audit level',exact=True).select_option('summary')
+    params['composition']['params']['audit_level']='summary'
     assert save_recipe(page,handle)==recipe
     for fmt in ('Python','notebook'):
         with page.expect_download() as downloading:

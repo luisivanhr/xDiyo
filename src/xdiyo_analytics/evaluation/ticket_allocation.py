@@ -1,5 +1,7 @@
 """Outcome-free ticket selection/allocation followed by explicit retrospective settlement."""
 import json
+import hashlib
+from collections.abc import Mapping
 import numpy as np
 import pandas as pd
 from .decision_layer import FrozenTable, DecisionContext
@@ -7,14 +9,25 @@ from .stake_policy import allocate_batch
 from .quote_availability import quote_leg_records, ASSUMPTION_FIELDS
 
 
-def _index_members(members):
-    """Index exact ticket IDs once, retaining every row and its original order.
+class _MembershipIndex(Mapping):
+    """One positional index, not a retained DataFrame per candidate ticket."""
+    def __init__(self, members):
+        self.members = members
+        self.positions = members.groupby('ticket_id', sort=False, dropna=False, observed=True).indices
 
-    No fixture/quote deduplication: conflicting leg evidence must still reach
-    the existing validation, and repeated legs must not disappear from checks.
-    """
-    return {key: members.iloc[positions] for key, positions in
-            members.groupby('ticket_id', sort=False, dropna=False, observed=True).indices.items()}
+    def __getitem__(self, key):
+        return self.members.iloc[self.positions[key]]
+
+    def __iter__(self):
+        return iter(self.positions)
+
+    def __len__(self):
+        return len(self.positions)
+
+
+def _index_members(members):
+    """Preserve exact IDs, every conflicting/duplicate row and original order."""
+    return _MembershipIndex(members)
 
 
 def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
@@ -62,8 +75,10 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             record.update(contract.labels)
             if contract.mode == 'research_assumed':
                 record['assumed_available_at'] = pd.to_datetime(legs.assumed_available_at, utc=True).max()
-            record['quote_legs'] = quote_leg_records(legs, contract, match_columns)
-            record['economic_key'] = json.dumps([record['economic_key'], record['quote_legs']], sort_keys=True)
+            compact = getattr(policy, 'audit_level', 'full') == 'summary'
+            record['quote_legs'] = quote_leg_records(legs, contract, match_columns, compact=compact)
+            evidence_key = hashlib.sha256(repr(record['quote_legs'].records).encode()).hexdigest() if compact else record['quote_legs']
+            record['economic_key'] = json.dumps([record['economic_key'], evidence_key], sort_keys=True)
         if 'issued_at' in legs:
             record['probability_issued_at'] = pd.to_datetime(legs.issued_at,utc=True).max()
         records.append(record)
@@ -74,6 +89,10 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
     from .tickets import _settle
     if tickets.empty:
         return tickets,members
+    levels = {getattr(template, 'audit_level', 'full') for template in templates.values()}
+    if len(levels) != 1 or not levels <= {'full', 'summary'}:
+        raise ValueError('All templates in one composition must use the same valid audit_level.')
+    compact = levels == {'summary'}
     # This helper is also called directly: do not trust a prior compose_bets
     # preflight when retained members may have been edited since that call.
     from .quote_availability import validate_model_quotes
@@ -86,6 +105,7 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 contract.validate(legs, time, complete=True)
                 validate_model_quotes(legs, template.ticket_gate.models, contract, time)
     indexed = _index_members(members)
+    settlement_members = members[['settlement', 'odds']]
     batch = ticket_batch(tickets,members,templates,match_columns,context=context,
                          _members_by_ticket=indexed)
     for name, template in templates.items():
@@ -93,6 +113,8 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         if contract is not None:
             selected = tickets.bet.eq(name)
             for field in (*ASSUMPTION_FIELDS, 'quote_at', 'quote_legs'):
+                if compact and field == 'quote_legs':
+                    continue
                 if field in batch:
                     tickets.loc[selected, field] = tickets.loc[selected, 'ticket_id'].map(batch[field])
     audit = []
@@ -106,6 +128,29 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         if not mapping or set(mapping) != set(gate.models) or template.probability_mode != 'independent':
             raise ValueError('Ticket gates need an explicit model -> leg probability column mapping and independent joint assumption.')
         subset = batch.loc[batch.selection_id.eq(name)]
+        # Parse each original model stream once for this template. Keep original
+        # positional keys even when caller-supplied row labels are duplicated.
+        positions = (np.sort(np.concatenate([indexed.positions[key] for key in subset.index]))
+                     if len(subset) else np.array([], dtype=np.intp))
+        source = members.iloc[positions]
+        model_inputs = {}
+        for model, column in mapping.items():
+            p = pd.to_numeric(source.get(column, pd.Series(np.nan, index=source.index)), errors='raise').astype(float)
+            times = {}
+            for field in ('issued_at', 'trained_through', 'artifact_vintage'):
+                raw = source.get(f'{model}::{field}', pd.Series(pd.NaT, index=source.index))
+                try:
+                    times[field] = pd.to_datetime(raw, utc=True)
+                except ValueError:
+                    # A template can contain tickets with different valid
+                    # timestamp string formats. Retain the original per-ticket
+                    # parser in that case, including its rejection behavior.
+                    positional = pd.Series(raw.array, index=positions)
+                    parts = [pd.to_datetime(positional.loc[indexed.positions[key]], utc=True)
+                             for key in subset.index]
+                    times[field] = pd.concat(parts).loc[positions]
+            model_inputs[model] = (pd.Series(p.array, index=positions),
+                                  {field: pd.Series(values.array, index=positions) for field, values in times.items()})
         for time,offers in subset.groupby('decision_at',sort=True):
             predictions = {}
             for model,column in mapping.items():
@@ -113,15 +158,16 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 probabilities = []
                 provenance = {field: [] for field in ('issued_at','trained_through','artifact_vintage')}
                 for ticket_id in offers.index:
-                    legs = indexed[ticket_id]
-                    p = pd.to_numeric(legs.get(column,pd.Series(np.nan,index=legs.index)),errors='raise').astype(float)
+                    positions = indexed.positions[ticket_id]
+                    model_p, model_times = model_inputs[model]
+                    p = model_p.loc[positions]
                     present = p.notna()
                     if (present & (~np.isfinite(p) | ~p.between(0,1))).any():
                         raise ValueError('Supplied model leg probabilities must be finite and in [0,1].')
                     times = {}
                     for field in provenance:
                         source = f'{model}::{field}'
-                        times[field] = pd.to_datetime(legs.get(source,pd.Series(pd.NaT,index=legs.index)),utc=True)
+                        times[field] = model_times[field].loc[positions]
                         if (present & (times[field].isna() | times[field].gt(time))).any():
                             raise ValueError(f'Every valued model leg needs nonmissing available {source} provenance.')
                     if (present & (times['trained_through'].ge(times['issued_at']) | times['artifact_vintage'].gt(times['issued_at']))).any():
@@ -136,13 +182,27 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 predictions[model] = valuations
             contract = getattr(template, 'quote_availability', None)
             kwargs = {'quote_availability':contract} if contract is not None else {}
-            result = gate.decide(predictions,DecisionContext(time,FrozenTable(offers), **kwargs))
-            audit.extend(result.audit.to_dict('records'))
+            result = gate.decide(predictions,DecisionContext(time,FrozenTable(offers), **kwargs),
+                                 **({'audit_level': 'summary'} if compact else {}))
+            if compact:
+                audit.append(result.audit.assign(template=name))
+            else:
+                audit.extend(result.audit.to_dict('records'))
             rejected.update(set(offers.index)-set(result.selected.index))
     tickets = tickets.loc[~tickets.ticket_id.isin(rejected)].copy()
     members = members.loc[~members.ticket_id.isin(rejected)].copy()
     batch = batch.loc[tickets.ticket_id]
-    output_attrs = {'decision_policy_audit': audit}
+    if compact:
+        ballots = pd.concat(audit, ignore_index=True) if audit else pd.DataFrame(columns=[
+            'candidate_id', 'model', 'probability', 'value', 'take', 'reason', 'comparator', 'template'])
+        reasons = ballots.groupby(['template', 'model', 'reason'], sort=False).size().reset_index(name='count')
+        selected_ballots = ballots.loc[ballots.candidate_id.isin(tickets.ticket_id)]
+        output_attrs = {'gate_summary': reasons.to_dict('records'),
+                        'selected_model_values': {'columns': list(selected_ballots), 'data': selected_ballots.values.tolist()},
+                        'gate_counts': {'candidates': ballots.candidate_id.nunique(),
+                                        'selected': selected_ballots.candidate_id.nunique(), 'rejected': len(rejected)}}
+    else:
+        output_attrs = {'decision_policy_audit': audit}
     if policy is not None and len(batch):
         if context is None:
             raise ValueError('Static allocation requires a manually supplied StakeContext; use replay_bankroll for chronological compounding.')
@@ -152,7 +212,7 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         tickets['funded'] = tickets.stake.gt(0)
         output_attrs['allocation_audit'] = allocation.audit.reset_index().to_dict('records')
     for idx,row in tickets.iterrows():
-        legs = indexed[row.ticket_id]
+        legs = settlement_members.iloc[indexed.positions[row.ticket_id]]
         if policy is not None and row.stake == 0:
             tickets.loc[idx,['settlement','payout','profit','accounting_status']] = ['missing',0.,0.,'unfunded']
             continue

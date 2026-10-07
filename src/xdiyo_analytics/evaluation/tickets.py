@@ -112,6 +112,10 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
     deferred = stake_policy is not None or any(getattr(p, 'ticket_gate', None) is not None for p in templates.values())
     if not isinstance(templates, dict) or not templates:
         raise ValueError("A BetSlip needs at least one named ticket template.")
+    levels = {getattr(p, 'audit_level', 'full') for p in templates.values()}
+    if len(levels) != 1 or not levels <= {'full', 'summary'}:
+        raise ValueError('All templates in one composition must use the same valid audit_level.')
+    compact = levels == {'summary'}
     rows, members = [], []
     prepared, decisions, summaries = {}, [], []
     # Complete preflight for every whole-group template before any expansion.
@@ -129,11 +133,12 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
             raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
         if isinstance(policy, AllCombinations):
             pools, preview = prepared[name]
-            new_rows, new_members, audit = expand_pools(pools, policy, name, settle=not deferred)
+            compact_counts = {} if compact else None
+            new_rows, new_members, audit = expand_pools(pools, policy, name, settle=not deferred, _summary=compact_counts)
             rows.extend(new_rows)
             members.extend(new_members)
             decisions.extend(audit)
-            counts = {}
+            counts = compact_counts if compact else {}
             for candidate in audit:
                 tally = counts.setdefault(candidate['group_id'], [0, 0, 0])
                 tally[0 if candidate['take'] else 2 if candidate['rejection_reason'] == 'missing_probability' else 1] += 1
@@ -240,10 +245,16 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                                                stake_policy, stake_context, risk_limits, _audit_sink=output_attrs)
     if prepared:
         if deferred:
+            # Group positions once; preserve each original ordered Series.sum
+            # instead of changing floating-point reduction order via groupby.sum.
+            summary_groups = {name: frame.groupby('group_id', sort=False).indices
+                              for name, frame in tickets.groupby('bet', sort=False)
+                              if 'group_id' in frame}
+            summary_templates = {name: frame for name, frame in tickets.groupby('bet', sort=False)}
             for record in summaries:
-                selected = tickets.loc[tickets.bet.eq(record['template'])]
+                selected = summary_templates.get(record['template'], tickets.iloc[:0])
                 if 'group_id' in selected:
-                    selected = selected.loc[selected.group_id.eq(record['group_id'])]
+                    selected = selected.iloc[summary_groups.get(record['template'], {}).get(record['group_id'], [])]
                 else:
                     for key in ('fold_id','competition_id','source_league','season_id','source_season','round','tournament_id','stage_id','stage'):
                         if key in record and key in selected:
@@ -251,7 +262,9 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                 record.update(selected_tickets=len(selected), selected_stake=float(selected.stake.sum()),
                               funded_tickets=int(selected.stake.gt(0).sum()), unfunded_tickets=int(selected.stake.eq(0).sum()))
         # Internal transport only; reporters promote these records to exportable tables.
-        output_attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
+        if not compact:
+            output_attrs['ticket_candidates'] = _audit_records(decisions)
+        output_attrs.update(ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
     metrics = ticket_metrics(tickets, composition, membership)
     declarations = []
@@ -275,6 +288,13 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         output_attrs['quote_assumptions'] = declarations
         membership.attrs['quote_assumptions'] = declarations
         metrics.attrs['quote_assumptions'] = declarations
+    if compact:
+        from .audit_storage import summary_manifest
+        manifest = summary_manifest(ledger, templates, tickets, output_attrs.get('ticket_selection_summary', []),
+                                    output_attrs, stake_policy, stake_context, risk_limits)
+        output_attrs['audit_manifest'] = manifest
+        membership.attrs['audit_manifest'] = manifest
+        metrics.attrs['audit_manifest'] = manifest
     tickets.attrs.update(output_attrs)
     return tickets, membership, metrics
 
