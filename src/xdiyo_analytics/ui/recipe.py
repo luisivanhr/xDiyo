@@ -140,6 +140,8 @@ def catalog_for_ui():
     for name in ('FixedStake', 'FixedFraction', 'FractionalKelly', 'ModelProbabilitySource', 'HistoricalRateSource', 'RiskLimits', 'StakeContext', 'LearnedAllocation'):
         catalog.register('evaluation.' + name, getattr(stakes,name), category='allocation')
     catalog.register('evaluation.DecisionLayer', DecisionLayer, category='decision')
+    from ..evaluation.quote_availability import QuoteAvailability
+    catalog.register('evaluation.QuoteAvailability', QuoteAvailability, category='decision')
     catalog.register('evaluation.LearnedGate', LearnedGate, category='decision')
     from ..reporting.composition import CompositionReporter
     catalog.register('reporting.CompositionReporter', CompositionReporter, category='post_reporter')

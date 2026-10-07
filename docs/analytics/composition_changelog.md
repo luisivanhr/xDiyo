@@ -2,6 +2,18 @@
 
 ## 7 October 2026
 
+### Explicit research quote availability (separate extension branch)
+
+- Add the opt-in `QuoteAvailability` contract, retaining observed and assumed
+  timestamps separately with a stable identity, rationale and attestation.
+- Validate complete matching per-model quote/provenance evidence on every
+  eligible leg before native AllCombinations expansion; preserve strict observed
+  defaults and missing-stream failure behavior.
+- Retain per-leg evidence, research declarations and disclosures in native
+  reports, Parquet storage, downstream performance reuse and UI recipe exports.
+- Include an exact two-stage OR/AND consensus example and boundary tests.
+  See [usage and review boundary](research_quote_availability.md).
+
 ### Follow-up to independent verification of `0d50956`
 
 - Reject empty or whitespace-only strings recursively in configured selected and

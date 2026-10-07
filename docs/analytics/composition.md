@@ -1,5 +1,9 @@
 # Model composition and optional research staking
 
+For explicitly assumed historical quote times, see
+[research quote availability](research_quote_availability.md). Observed evidence
+remains the default; the opt-in contract retains a separate timestamp and audit.
+
 This addition uses the existing `ModelAdapter`, `TrainingRunner`, dictionary
 recipe, catalog, ticket and report contracts. It lives on
 `codex/model-composition-stake-policy` for review. It does not change existing

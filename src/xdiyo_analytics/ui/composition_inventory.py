@@ -8,6 +8,7 @@ def decorate(components):
         'transform':['composition.OutputFeatures'], 'calibration':['training.ProbabilityCalibrator'],
         'weighting':['weighting.ClassWeightPolicy'],
         'base':['composition.ModelNode'], 'ticket_gate':['evaluation.DecisionLayer'],
+        'quote_availability':['evaluation.QuoteAvailability'],
         'stake_policy':['evaluation.FixedStake','evaluation.FixedFraction','evaluation.FractionalKelly','evaluation.LearnedAllocation'],
         'stake_context':['evaluation.StakeContext'], 'risk_limits':['evaluation.RiskLimits'],
         'probability_source':['evaluation.ModelProbabilitySource','evaluation.HistoricalRateSource'],
@@ -21,7 +22,7 @@ def decorate(components):
             continue
         for f in entry['fields']:
             name=f['name']
-            if name in mappings and (key.startswith('composition.') or name in ('ticket_gate','stake_policy','stake_context','risk_limits','probability_source')):
+            if name in mappings and (key.startswith('composition.') or name in ('ticket_gate','quote_availability','stake_policy','stake_context','risk_limits','probability_source')):
                 f.update(kind='component',components=mappings[name],initial_component=mappings[name][0])
             if key.startswith('composition.') and name in maps:
                 f.update(kind='map',item={'kind':'component','components':maps[name],'initial_component':maps[name][0]})
@@ -77,6 +78,12 @@ def decorate(components):
                 f.update(kind='map',item={'kind':'map','item':{'kind':'text'}},help='Per model: issued_at, artifact_vintage and trained_through UTC timestamps. Programmatic recipes may supply {column: name} for row-specific metadata.')
             if key=='evaluation.DecisionLayer' and name=='models':
                 f.update(kind='list',item={'kind':'text'})
+            if key=='evaluation.QuoteAvailability' and name=='mode':
+                f.update(kind='select',choices=['observed','research_assumed'],primary=True,
+                         help='Observed is strict. Research assumed requires separate assumed_available_at data, matching model quote references and an explicit justification. It never certifies odds were obtainable.')
+            if key=='evaluation.QuoteAvailability' and name in ('assumption_id','rationale','reference'):
+                f.update(kind='text',primary=True,help='Required for research assumed mode. Stable assumption identity, rationale and attestation reference are retained in exports.')
+                f.pop('categories', None)
             if key=='evaluation.DecisionLayer' and name in ('gate','metric','missing'):
                 f.update(kind='select',choices={'gate':['and','or'],'metric':['ev','probability'],'missing':['error','reject']}[name])
             if name=='serializer' and key=='experiments.ArtifactExport':

@@ -1,11 +1,26 @@
 """Ticket presentation layered on the retained selected-leg ledger."""
 
 from html import escape
+import json
 import pandas as pd
 
 from ..evaluation.tickets import compose_bets, preview_combinations
 from .contracts import Artifact
 from .teams import team_key
+
+
+def add_quote_disclosure(result, tickets):
+    """Carry the declaration into saved/reused reports and independent table exports."""
+    declarations = tickets.attrs.get('quote_assumptions')
+    if not declarations:
+        return
+    result.tables['quote_assumptions'] = pd.DataFrame(declarations)
+    result.artifacts.append(Artifact('table', result.tables['quote_assumptions'], 'Quote availability declarations'))
+    for name, table in result.tables.items():
+        if name != 'quote_assumptions' and 'quote_availability_mode' not in table:
+            table['quote_availability_declarations'] = json.dumps(declarations, sort_keys=True)
+    if any(r['quote_availability_mode'] == 'research_assumed' for r in declarations):
+        result.notes.append('Research simulation only: quote availability is assumed, not observed or certified historically tradable. See quote availability declarations and per-leg evidence.')
 
 
 def add_tickets(result, composition, context, *, fixture_table=None, teams=None, stake_policy=None, stake_context=None, risk_limits=None, single_payoff='push_void'):
@@ -69,10 +84,18 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None,
         'All leg predictions must be available before the first kickoff for prospective use. Groups stay within fold occurrences; calendar days use UTC.',
     ])
     result.artifacts.insert(0, Artifact('html', ticket_html(tickets, membership, teams or {}), 'Bet tickets'))
+    add_quote_disclosure(result, tickets)
     return result
 
 
 def ticket_html(tickets, membership, teams):
+    declarations = tickets.attrs.get('quote_assumptions', [])
+    warning = ''.join('<p><strong>Research simulation only: assumed quote availability.</strong> '
+                      + escape(str(r['quote_assumption_id'])) + ' · '
+                      + escape(str(r['quote_assumption_rationale'])) + ' · Reference: '
+                      + escape(str(r['quote_assumption_reference']))
+                      + '. Historical tradability is unverified.</p>'
+                      for r in declarations if r['quote_availability_mode'] == 'research_assumed')
     def fmt(value):
         return '—' if pd.isna(value) else escape(f'{value:g}' if isinstance(value, (float, int)) else str(value))
 
@@ -86,8 +109,8 @@ def ticket_html(tickets, membership, teams):
 
     if tickets.empty:
         if tickets.attrs.get('ticket_ev_enabled'):
-            return '<p>No tickets placed. The ticket EV filter requires a scorable probability and EV strictly above the minimum. See candidate decisions and selection summary for missing probabilities, rejected EVs, or undersized groups.</p>'
-        return '<p>No complete tickets in the selected groups. Reduce the leg count or select more fixtures.</p>'
+            return warning + '<p>No tickets placed. The ticket EV filter requires a scorable probability and EV strictly above the minimum. See candidate decisions and selection summary for missing probabilities, rejected EVs, or undersized groups.</p>'
+        return warning + '<p>No complete tickets in the selected groups. Reduce the leg count or select more fixtures.</p>'
     panels = []
     membership_positions = membership.groupby('ticket_id', sort=False).indices
     for record in tickets.to_dict('records'):
@@ -117,4 +140,4 @@ def ticket_html(tickets, membership, teams):
                       f'<summary>{header}</summary><div class="table-scroll"><table><thead><tr>'
                       + ''.join(f'<th>{label}</th>' for label in ('Home','Away','Selected bet','Probability','Actual result','Settlement','Odds'))
                       + '</tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div></details>')
-    return ''.join(panels)
+    return warning + ''.join(panels)

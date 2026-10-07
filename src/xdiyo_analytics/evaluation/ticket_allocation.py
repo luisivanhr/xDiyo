@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from .decision_layer import FrozenTable, DecisionContext
 from .stake_policy import allocate_batch
+from .quote_availability import quote_leg_records, ASSUMPTION_FIELDS
 
 
 def ticket_batch(tickets, members, templates, match_columns, *, context=None):
@@ -11,6 +12,7 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None):
     for row in tickets.to_dict('records'):
         legs = members.loc[members.ticket_id.eq(row['ticket_id'])]
         policy = templates[row['bet']]
+        contract = getattr(policy, 'quote_availability', None)
         if policy.payoff == 'binary' and 'p_push' in legs and legs.p_push.fillna(0).ne(0).any():
             raise ValueError('Binary ticket valuation cannot include nonzero push probability.')
         if 'decision_at' in legs:
@@ -25,6 +27,9 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None):
         if time > pd.to_datetime(legs.kickoff_at,utc=True).min():
             raise ValueError('Ticket issue time follows a leg kickoff.')
         for key in ('issued_at','quote_at'):
+            if key == 'quote_at' and contract is not None:
+                contract.validate(legs, time, complete=True)
+                continue
             if key in legs and (pd.to_datetime(legs[key],utc=True).isna().any() or (pd.to_datetime(legs[key],utc=True)>time).any()):
                 raise ValueError('A leg prediction or quote is unavailable at ticket issue time.')
         fixtures = tuple(sorted((tuple(v) for v in legs[list(match_columns)].itertuples(index=False,name=None)),key=repr))
@@ -39,7 +44,13 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None):
                       economic_key=json.dumps([identities,policy.on_push,policy.on_void],sort_keys=True,default=str))
         if 'quote_id' in legs and 'quote_at' in legs:
             record['quote_id'] = json.dumps(legs.quote_id.tolist(),default=str)
-            record['quote_at'] = pd.to_datetime(legs.quote_at,utc=True).max()
+            record['quote_at'] = pd.to_datetime(legs.quote_at,utc=True).max() if legs.quote_at.notna().all() else pd.NaT
+        if contract is not None:
+            record.update(contract.labels)
+            if contract.mode == 'research_assumed':
+                record['assumed_available_at'] = pd.to_datetime(legs.assumed_available_at, utc=True).max()
+            record['quote_legs'] = quote_leg_records(legs, contract, match_columns)
+            record['economic_key'] = json.dumps([record['economic_key'], record['quote_legs']], sort_keys=True)
         if 'issued_at' in legs:
             record['probability_issued_at'] = pd.to_datetime(legs.issued_at,utc=True).max()
         records.append(record)
@@ -51,6 +62,13 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
     if tickets.empty:
         return tickets,members
     batch = ticket_batch(tickets,members,templates,match_columns,context=context)
+    for name, template in templates.items():
+        contract = getattr(template, 'quote_availability', None)
+        if contract is not None:
+            selected = tickets.bet.eq(name)
+            for field in (*ASSUMPTION_FIELDS, 'quote_at', 'quote_legs'):
+                if field in batch:
+                    tickets.loc[selected, field] = tickets.loc[selected, 'ticket_id'].map(batch[field])
     audit = []
     rejected = set()
     for name,template in templates.items():
@@ -89,7 +107,9 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 for field, values in provenance.items():
                     valuations[field] = values
                 predictions[model] = valuations
-            result = gate.decide(predictions,DecisionContext(time,FrozenTable(offers)))
+            contract = getattr(template, 'quote_availability', None)
+            kwargs = {'quote_availability':contract} if contract is not None else {}
+            result = gate.decide(predictions,DecisionContext(time,FrozenTable(offers), **kwargs))
             audit.extend(result.audit.to_dict('records'))
             rejected.update(set(offers.index)-set(result.selected.index))
     tickets = tickets.loc[~tickets.ticket_id.isin(rejected)].copy()

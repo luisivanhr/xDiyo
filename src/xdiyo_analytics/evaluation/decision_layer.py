@@ -4,9 +4,10 @@ from copy import deepcopy
 from datetime import datetime, date
 import numpy as np
 import pandas as pd
+from .quote_availability import QuoteAvailability, QUOTE_IDENTITY, ASSUMPTION_FIELDS
 
 _FORBIDDEN = {'y', 'target', 'outcome', 'settlement', 'profit', 'payout', 'result', 'actual', 'label'}
-_OUTCOME_FIELDS = {'won','lost','gross_return','return_multiplier','net_return_per_unit','settled_at'}
+_OUTCOME_FIELDS = {'won','lost','status','is_awarded','gross_return','return_multiplier','net_return_per_unit','settled_at'}
 
 
 def _outcome_column(column):
@@ -59,6 +60,7 @@ class DecisionContext:
     time: object
     candidates: FrozenTable
     features: FrozenTable | None = None
+    quote_availability: QuoteAvailability = QuoteAvailability()
 
     def __post_init__(self):
         time = pd.to_datetime(self.time, utc=True, errors='raise')
@@ -66,11 +68,9 @@ class DecisionContext:
             raise ValueError('Decision contexts require a time and copied safe tables.')
         object.__setattr__(self, 'time', time)
         table = self.candidates.frame
-        for column in ('quote_at', 'decision_at'):
-            if column not in table or pd.to_datetime(table[column], utc=True).isna().any() or (pd.to_datetime(table[column], utc=True) > time).any():
-                raise ValueError(f'Decision candidates need available {column}.')
-        if (pd.to_datetime(table.quote_at,utc=True) > pd.to_datetime(table.decision_at,utc=True)).any():
-            raise ValueError('Quotes must be available at each candidate decision time.')
+        if not isinstance(self.quote_availability, QuoteAvailability):
+            raise TypeError('Use a typed QuoteAvailability contract.')
+        self.quote_availability.validate(table, time)
 
 
 @dataclass
@@ -94,9 +94,20 @@ class DecisionLayer:
         if not self.models or len(set(self.models)) != len(self.models) or self.gate not in {'and', 'or'} or self.metric not in {'ev', 'probability'} or self.missing not in {'error', 'reject'} or not np.isfinite(self.threshold):
             raise ValueError('Invalid gate configuration.')
         candidates = context.candidates.frame
-        if not set(self.identity_columns) <= set(candidates):
+        contract = context.quote_availability
+        research = contract.mode == 'research_assumed'
+        if research and self.missing != 'error':
+            raise ValueError('Research quote decisions require missing="error" for complete model preflight.')
+        extra = contract.identities(candidates)
+        identity_columns = tuple(dict.fromkeys((*self.identity_columns, *(c for c in extra if research or c in candidates))))
+        mandatory = set(QUOTE_IDENTITY) | set(self.identity_columns) | {'quote_legs'}
+        if research:
+            mandatory.update(ASSUMPTION_FIELDS)
+            mandatory.discard('quote_at')
+        nonmissing = [c for c in identity_columns if c in mandatory]
+        if not set(identity_columns) <= set(candidates):
             raise ValueError('Candidates lack economic/quote/time identities.')
-        if candidates[list(self.identity_columns)].isna().any().any():
+        if candidates[nonmissing].isna().any().any():
             raise ValueError('Candidate economic identities must be nonmissing.')
         approvals, records = [], []
         for model in self.models:
@@ -104,19 +115,23 @@ class DecisionLayer:
             if frame is None:
                 if self.missing == 'error':
                     raise ValueError(f'Missing model {model}.')
-                frame = pd.DataFrame(index=candidates.index, columns=[*self.identity_columns, 'probability', 'artifact_vintage', 'trained_through', 'issued_at'])
+                frame = pd.DataFrame(index=candidates.index, columns=[*identity_columns, 'probability', 'artifact_vintage', 'trained_through', 'issued_at'])
             if not frame.index.is_unique or len(frame.index.difference(candidates.index)):
                 raise ValueError('Duplicate or unexpected prediction event keys.')
             frame = frame.reindex(candidates.index)
-            required = [*self.identity_columns, 'probability', 'artifact_vintage', 'trained_through', 'issued_at']
+            required = [*identity_columns, 'probability', 'artifact_vintage', 'trained_through', 'issued_at']
             if not set(required) <= set(frame):
                 raise ValueError('Model valuations lack economic identities, probability or timing provenance.')
-            missing = frame[required].isna().any(axis=1)
+            missing = frame[[*nonmissing, 'probability', 'artifact_vintage', 'trained_through', 'issued_at']].isna().any(axis=1)
             if missing.any() and self.missing == 'error':
                 raise ValueError('Exactly one available model prediction is required for every candidate.')
             present = ~missing
-            for key in self.identity_columns:
-                if present.any() and not frame.loc[present, key].equals(candidates.loc[present, key]):
+            if research:
+                contract.validate(frame, context.time, complete=True)
+            for key in identity_columns:
+                left, right = frame.loc[present, key], candidates.loc[present, key]
+                same = (left.eq(right) | (left.isna() & right.isna())).fillna(False).all() if research else left.equals(right)
+                if present.any() and not same:
                     raise ValueError(f'Model {model} economic identity differs at {key}.')
             p = pd.to_numeric(frame.probability, errors='raise')
             if (p.notna() & (~np.isfinite(p) | ~p.between(0, 1))).any():
@@ -140,7 +155,12 @@ class DecisionLayer:
             approvals.append(take)
             records.extend(dict(candidate_id=k, model=model, probability=p.loc[k], value=value.loc[k], take=bool(take.loc[k]),
                                 reason='missing_model' if missing.loc[k] else 'accepted' if take.loc[k] else 'threshold',
-                                comparator='>' if self.strict else '>=') for k in candidates.index)
+                                comparator='>' if self.strict else '>=',
+                                **({**contract.labels, 'assumed_available_at':pd.Timestamp(candidates.loc[k,'assumed_available_at']).isoformat(),
+                                    'quote_at':None if pd.isna(candidates.loc[k,'quote_at']) else pd.Timestamp(candidates.loc[k,'quote_at']).isoformat(),
+                                    'quote_id':candidates.loc[k,'quote_id'],
+                                    'decision_at':pd.Timestamp(candidates.loc[k,'decision_at']).isoformat(),
+                                    **({'quote_legs':candidates.loc[k,'quote_legs']} if 'quote_legs' in candidates else {})} if research else {})) for k in candidates.index)
         votes = pd.concat(approvals, axis=1)
         accepted = votes.all(axis=1) if self.gate == 'and' else votes.any(axis=1)
         return DecisionResult(candidates.loc[accepted].copy(), pd.DataFrame(records))
