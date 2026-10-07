@@ -1,5 +1,9 @@
 # Independent branch review repairs
 
+Subsequent findings and test-harness fixes are recorded in the
+[verification follow-up for `0d50956`](composition_followup_0d50956.md).
+The results below describe this earlier checkpoint.
+
 Review baseline: `25eb79a34a657d813467d881674c7dcfbad29164`.
 Branch: `codex/model-composition-stake-policy`.
 Date: 7 October 2026.

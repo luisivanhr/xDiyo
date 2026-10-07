@@ -2,6 +2,18 @@
 
 ## 7 October 2026
 
+### Follow-up to independent verification of `0d50956`
+
+- Reject empty or whitespace-only strings recursively in configured selected and
+  outstanding exposure identities, including source league/season fallbacks.
+- Remove native retrospective `status` and `is_awarded` from composition
+  prediction metadata while retaining the source dataset for reporters.
+- Update the packaging smoke test to verify both existing command entry points
+  and their help paths. Update the discovery harness with the existing odds
+  configuration export and the real grid-fields module, preserving its assertions.
+- Add native label-to-assembly-to-OOF/outer/restored inference tests and blank
+  exposure regressions. See [the verification follow-up](composition_followup_0d50956.md).
+
 ### Repairs following the independent review of `25eb79a`
 
 - Reset supported learned wrappers recursively; reject retained calibrators for

@@ -1,5 +1,7 @@
 # Composition and staking implementation status
 
+Latest: [verification follow-up for `0d50956`](composition_followup_0d50956.md).
+
 Follow-up: [independent review repairs for `25eb79a`](composition_repair_25eb79a.md).
 The initial implementation evidence below is retained as a historical checkpoint;
 the linked repair report records the subsequent fixes and validation.

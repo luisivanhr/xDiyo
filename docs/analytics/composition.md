@@ -120,6 +120,11 @@ timestamp must be present and no later than issue. Test labels and their release
 times are not required for inference. Composition prediction contexts remove
 the library's named settlement/outcome and training-label metadata. This does
 not certify arbitrary custom feature semantics or an adapter's external data use.
+Native retrospective `status` and `is_awarded` are also removed, since native
+bet-label construction uses them for void/award outcomes. The original dataset
+metadata remains available to reporting. Deliberate status-derived predictors
+must use separately audited as-of features and the normal feature-availability
+contract; changing a metadata field's name does not establish that it is safe.
 
 Frozen children need `artifact_id`, `artifact_vintage`, `trained_through` and
 matching `training_summary_['frozen_provenance']` retained with the fitted model.
@@ -249,6 +254,9 @@ Native league and round exposure identities support both competition/season IDs
 and the existing `source_league`/`source_season` fallback. A configured exposure
 cap requires complete, nonempty identities, including outstanding exposure.
 Missing values or empty tuples raise instead of disabling a requested cap.
+Empty and whitespace-only strings also raise, recursively inside selected and
+outstanding exposure identities. Nonblank identifiers are preserved exactly;
+allocation does not silently trim or otherwise remap them.
 
 On the opt-in gate/allocation path, duplicate fixtures are compared using
 decision evidence only. Conflicting retrospective outcome fields do not change

@@ -16,7 +16,7 @@ def prediction_context(context):
 
     def outcome(key):
         name = str(key).lower()
-        return name in {'gross_return', 'return_multiplier', 'net_return_per_unit', 'settled_at'} or bool(set(name.replace('::', '_').split('_')) & forbidden)
+        return name in {'status', 'is_awarded', 'gross_return', 'return_multiplier', 'net_return_per_unit', 'settled_at'} or bool(set(name.replace('::', '_').split('_')) & forbidden)
 
     def clean(value):
         if isinstance(value, dict):
