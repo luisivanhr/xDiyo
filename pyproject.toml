@@ -21,7 +21,7 @@ xdiyo-ui = "xdiyo_analytics.ui.server:main"
 xdiyo-report = "xdiyo_analytics.reporting.templates.__main__:main"
 
 [tool.setuptools]
-packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting", "xdiyo_analytics.reporting.templates", "xdiyo_analytics.training", "xdiyo_analytics.evaluation", "xdiyo_analytics.experiments", "xdiyo_analytics.selection", "xdiyo_analytics.ui", "xdiyo_analytics.odds"]
+packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.composition", "xdiyo_analytics.data", "xdiyo_analytics.histories", "xdiyo_analytics.features", "xdiyo_analytics.ratings", "xdiyo_analytics.labels", "xdiyo_analytics.datasets", "xdiyo_analytics.splits", "xdiyo_analytics.analysis", "xdiyo_analytics.reporting", "xdiyo_analytics.reporting.templates", "xdiyo_analytics.training", "xdiyo_analytics.evaluation", "xdiyo_analytics.experiments", "xdiyo_analytics.selection", "xdiyo_analytics.ui", "xdiyo_analytics.odds"]
 package-dir = {"xdiyo_analytics" = "src/xdiyo_analytics"}
 
 [tool.setuptools.package-data]

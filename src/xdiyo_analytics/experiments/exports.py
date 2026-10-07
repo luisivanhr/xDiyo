@@ -20,6 +20,7 @@ class ArtifactExport:
     predictions: bool = True
     save_models: bool = True
     verify_reload: bool = True
+    serializer: object = None
 
     def run(self, result):
         from ..training import save_model, load_model
@@ -55,9 +56,9 @@ class ArtifactExport:
             table(pd.DataFrame({"feature": fold.feature_columns}), "selected_features", fold_id=fold.fold_id)
             if self.save_models:
                 path = destination / f"model_{len(manifest['models']):03d}"
-                save_model(result.training, path, fold_id=fold.fold_id)
+                save_model(result.training, path, fold_id=fold.fold_id, serializer=self.serializer)
                 if self.verify_reload:
-                    outputs = load_model(path).predict(result.dataset, positions=fold.test_positions)
+                    outputs = load_model(path, serializer=self.serializer).predict(result.dataset, positions=fold.test_positions)
                     if set(outputs) != set(fold.predictions):
                         raise AssertionError("Reloaded model prediction outputs differ.")
                     for key, frame in outputs.items():

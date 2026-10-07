@@ -126,6 +126,25 @@ def catalog_for_ui():
     catalog.register('features.TeamSeasons', build_team_seasons, category='input')
     catalog.register('training.JoblibSerializer', JoblibSerializer, category='training')
     catalog.register('training.BoostingAdapter', BoostingAdapter, category='training')
+    from .. import composition as comp
+    from ..composition.persistence import CompositeSerializer
+    for name in ('Estimator', 'OutputSchema', 'OutputRef', 'TargetSpec', 'ModelNode', 'TransformNode', 'ReducerNode',
+                 'PredictionGraphSpec', 'TrainingPlan', 'Mean', 'HardVote', 'DistributionMixture', 'OutputFeatures', 'UtilityTarget', 'SavedUtilityModel'):
+        catalog.register('composition.' + name, getattr(comp, name), category='composition')
+    for name in ('CompositeModelAdapter', 'ModelEnsemble', 'ModelStack', 'ResidualModel', 'LearnedTargetAdapter'):
+        catalog.register('composition.' + name, getattr(comp, name), category='model',
+                         description='Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.')
+    catalog.register('composition.CompositeSerializer', CompositeSerializer, category='training')
+    from ..evaluation import stake_policy as stakes
+    from ..evaluation.decision_layer import DecisionLayer, LearnedGate
+    for name in ('FixedStake', 'FixedFraction', 'FractionalKelly', 'ModelProbabilitySource', 'HistoricalRateSource', 'RiskLimits', 'StakeContext', 'LearnedAllocation'):
+        catalog.register('evaluation.' + name, getattr(stakes,name), category='allocation')
+    catalog.register('evaluation.DecisionLayer', DecisionLayer, category='decision')
+    catalog.register('evaluation.LearnedGate', LearnedGate, category='decision')
+    from ..reporting.composition import CompositionReporter
+    catalog.register('reporting.CompositionReporter', CompositionReporter, category='post_reporter')
+    from ..weighting import ClassWeightPolicy
+    catalog.register('weighting.ClassWeightPolicy', ClassWeightPolicy, category='weighting')
     return catalog
 
 
@@ -305,6 +324,16 @@ class ModelFactory:
         from ..ratings import BayesianScoreAdapter
         from ..training import EstimatorAdapter, TargetTransformAdapter
         estimator = self.catalog.build(self.recipe['model'])
+        from ..composition import CompositeModelAdapter, ModelEnsemble, ModelStack, ResidualModel, LearnedTargetAdapter
+        if isinstance(estimator, (CompositeModelAdapter, ModelEnsemble, ModelStack, ResidualModel, LearnedTargetAdapter)):
+            if self.recipe.get('preprocessors') or self.recipe.get('adapter') is not None or self.recipe.get('target_transformer') is not None:
+                raise ValueError('Composition owns child preprocessing/adapters/target transforms; disable top-level wrappers.')
+            if self.recipe.get('candidate', {}).get('calibration') is not None:
+                raise ValueError('Configure calibration inside composition children.')
+            built = estimator.build() if hasattr(estimator, 'build') else estimator
+            if hasattr(built, 'graph'):
+                built.graph.order()
+            return built
         if isinstance(estimator, BayesianScoreAdapter):
             if self.recipe.get('preprocessors') or self.recipe.get('target_transformer') is not None:
                 raise ValueError('Bayesian goal-score training requires untransformed scores and match metadata; disable preprocessors and target_transformer.')

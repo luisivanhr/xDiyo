@@ -1,6 +1,7 @@
 """Optional allocation on a final selected batch, with independent hard limits."""
 from dataclasses import dataclass, field
 from typing import Protocol
+from math import fsum
 import numpy as np
 import pandas as pd
 from .decision_layer import FrozenTable
@@ -77,6 +78,8 @@ class FixedFraction:
 class ModelProbabilitySource:
     column: str = 'probability'
     provenance_column: str = 'probability_provenance'
+    issued_at_column: str = 'probability_issued_at'
+    assume_available_at_decision: bool = False
 
     def probabilities(self, batch, context):
         frame = batch.frame
@@ -84,6 +87,12 @@ class ModelProbabilitySource:
             raise ValueError('Model probabilities require explicit provenance.')
         if self.column not in frame:
             raise ValueError('Model probability output is unavailable.')
+        if self.issued_at_column in frame:
+            issued = pd.to_datetime(frame[self.issued_at_column], utc=True)
+            if issued.isna().any() or (issued > context.time).any():
+                raise ValueError('Model probabilities were unavailable at allocation time.')
+        elif not self.assume_available_at_decision:
+            raise ValueError('Provide probability issue timestamps or explicitly attest decision-time availability.')
         return pd.to_numeric(frame[self.column], errors='raise')
 
 
@@ -97,6 +106,7 @@ class HistoricalRateSource:
     prior_strength: float = 2.
     lookback: object = None
     learned_selection: bool = True
+    exchangeable_within_strata: bool = False
 
     def fit(self, history):
         cutoff = pd.to_datetime(self.cutoff, utc=True)
@@ -139,6 +149,8 @@ class HistoricalRateSource:
         if not hasattr(self, 'rates_') or self.cutoff_ > context.time:
             raise ValueError('Historical rate must be fitted and available before this allocation.')
         frame = batch.frame
+        if not self.exchangeable_within_strata:
+            raise ValueError('Declare exchangeable_within_strata=True only when the fitted strategy rate is applicable to these offers and odds.')
         if 'selection_id' not in frame or not frame.selection_id.eq(self.selection_id).all():
             raise ValueError('Historical rate selection identity differs.')
         keys = list(frame[list(self.strata)].itertuples(index=False, name=None)) if self.strata else [()] * len(frame)
@@ -201,7 +213,7 @@ class RiskLimits:
                 caps.append((mask, max(0., limit-opened), f'{column}:{key}'))
         scale, reasons = 1., []
         for mask, limit, reason in caps:
-            total = float(amounts.iloc[np.flatnonzero(mask)].sum())
+            total = fsum(amounts.iloc[np.flatnonzero(mask)])
             if not np.isfinite(total):
                 raise ValueError('Allocation total overflow.')
             if total > limit:
@@ -209,7 +221,7 @@ class RiskLimits:
                 reasons.append(reason)
         actual = np.floor((amounts*scale)/self.rounding)*self.rounding
         for mask, limit, _ in caps:
-            if float(actual.iloc[np.flatnonzero(mask)].sum()) > limit + 1e-10:
+            if fsum(actual.iloc[np.flatnonzero(mask)]) > limit + 1e-10:
                 raise ValueError('Projected allocation violates risk limits.')
         return actual, scale, tuple(sorted(set(reasons)))
 
@@ -229,3 +241,29 @@ def allocate_batch(batch, policy, context, limits=None):
     audit['binding_caps'] = [caps]*len(frame)
     audit['funded'] = actual.gt(0)
     return AllocationResult(actual, audit)
+
+
+@dataclass(frozen=True)
+class LearnedAllocation:
+    """Fitted native allocation-target adapter, predicting a bounded capital fraction."""
+    model: object
+    feature_columns: tuple
+    currency: str
+    basis: str = 'realized_wealth'
+
+    def allocate(self, selected_tickets, context):
+        if self.currency!=context.currency or self.basis!=context.basis or getattr(getattr(self.model,'target_spec',None),'kind',None)!='allocation':
+            raise ValueError('LearnedAllocation requires matching currency/basis and a declared allocation target adapter.')
+        cutoff=getattr(self.model,'training_cutoff_',None)
+        if cutoff is None or cutoff>=context.time:
+            raise ValueError('Allocation model must be fitted strictly before the batch.')
+        frame=selected_tickets.frame
+        from ..training.contracts import PredictionContext
+        prediction=PredictionContext(frame[list(self.feature_columns)].copy(),frame.copy(),'match',('economic_key',),0)
+        output=self.model.predict(prediction)['predict']
+        if output.shape!=(len(frame),1) or not output.index.equals(frame.index):
+            raise ValueError('Allocation model must predict one identity-aligned fraction.')
+        values=output.iloc[:,0]
+        if not np.isfinite(values).all() or not values.between(0,1).all():
+            raise ValueError('Learned allocation fractions must be finite and in [0,1]; no silent clipping.')
+        return _amounts(selected_tickets,context.capital*values,'learned_fraction')

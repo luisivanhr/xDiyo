@@ -17,8 +17,9 @@ from .match_results import MatchResultReporter
 from .teams import TeamCatalog
 from .heatmaps import HeatmapReporter, axial_direction_summary
 from .ratings import RatingReporter
+from .composition import CompositionReporter
 
-__all__ = ["ClassWeightReporter", "Artifact", "StudyResult", "AnalysisContext", "Reporter", "StudyRun", "AnalysisReport",
+__all__ = ["CompositionReporter", "ClassWeightReporter", "Artifact", "StudyResult", "AnalysisContext", "Reporter", "StudyRun", "AnalysisReport",
            "RatingReporter", "HeatmapReporter", "axial_direction_summary", "FeatureDistributionReporter", "CorrelationAnalysis", "FeatureTimeline",
            "FeatureSelection", "FeatureSelector", "vote_selections", "resolve_selection_count", "TopKCorrelationSelector",
            "PostTrainingContext", "PredictionReporter", "PerformanceReporter", "ResidualAnalysisReporter",

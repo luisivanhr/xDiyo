@@ -4784,6 +4784,19 @@
           "step": 1,
           "primary": true,
           "min": 1
+        },
+        {
+          "name": "payoff",
+          "title": "Payoff",
+          "required": false,
+          "kind": "select",
+          "default": "push_void",
+          "help": "Kelly and binary EV gates require an explicitly declared binary payoff. Push/void/partial-return valuations are unsupported by those policies.",
+          "primary": true,
+          "choices": [
+            "push_void",
+            "binary"
+          ]
         }
       ],
       "accepts_extra": false
@@ -4930,6 +4943,19 @@
           "step": 1,
           "primary": true,
           "min": 1
+        },
+        {
+          "name": "payoff",
+          "title": "Payoff",
+          "required": false,
+          "kind": "select",
+          "default": "push_void",
+          "help": "Kelly and binary EV gates require an explicitly declared binary payoff. Push/void/partial-return valuations are unsupported by those policies.",
+          "primary": true,
+          "choices": [
+            "push_void",
+            "binary"
+          ]
         },
         {
           "name": "sizes",
@@ -5099,6 +5125,44 @@
           "step": "any",
           "nullable": true,
           "initial": 0.0
+        },
+        {
+          "name": "probability_columns",
+          "title": "Probability columns",
+          "required": false,
+          "kind": "map",
+          "default": null,
+          "help": "Model name to retained leg-probability column. Each model also needs issued_at, artifact_vintage and trained_through provenance.",
+          "primary": true,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "ticket_gate",
+          "title": "Ticket gate",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional AND/OR complete-ticket gate, independently valuing the same economic ticket under each model.",
+          "primary": true,
+          "components": [
+            "evaluation.DecisionLayer"
+          ],
+          "initial_component": "evaluation.DecisionLayer"
+        },
+        {
+          "name": "payoff",
+          "title": "Payoff",
+          "required": false,
+          "kind": "select",
+          "default": "push_void",
+          "help": "Kelly and binary EV gates require an explicitly declared binary payoff. Push/void/partial-return valuations are unsupported by those policies.",
+          "primary": true,
+          "choices": [
+            "push_void",
+            "binary"
+          ]
         }
       ],
       "accepts_extra": false
@@ -6603,6 +6667,61 @@
             "evaluation.BetSlip"
           ],
           "initial_component": "evaluation.Parlay"
+        },
+        {
+          "name": "stake_policy",
+          "title": "Stake policy",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Stake policy for BetPerformanceReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.FixedStake",
+            "evaluation.FixedFraction",
+            "evaluation.FractionalKelly",
+            "evaluation.LearnedAllocation"
+          ],
+          "initial_component": "evaluation.FixedStake"
+        },
+        {
+          "name": "stake_context",
+          "title": "Stake context",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Stake context for BetPerformanceReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.StakeContext"
+          ],
+          "initial_component": "evaluation.StakeContext"
+        },
+        {
+          "name": "risk_limits",
+          "title": "Risk limits",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Risk limits for BetPerformanceReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.RiskLimits"
+          ],
+          "initial_component": "evaluation.RiskLimits"
+        },
+        {
+          "name": "single_payoff",
+          "title": "Single payoff",
+          "required": false,
+          "kind": "select",
+          "default": "push_void",
+          "help": "Kelly and binary EV gates require an explicitly declared binary payoff. Push/void/partial-return valuations are unsupported by those policies.",
+          "primary": false,
+          "choices": [
+            "push_void",
+            "binary"
+          ]
         }
       ],
       "accepts_extra": false
@@ -6758,6 +6877,88 @@
             "evaluation.BetSlip"
           ],
           "initial_component": "evaluation.Parlay"
+        },
+        {
+          "name": "stake_policy",
+          "title": "Stake policy",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Stake policy for BetOutcomeReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.FixedStake",
+            "evaluation.FixedFraction",
+            "evaluation.FractionalKelly",
+            "evaluation.LearnedAllocation"
+          ],
+          "initial_component": "evaluation.FixedStake"
+        },
+        {
+          "name": "stake_context",
+          "title": "Stake context",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Stake context for BetOutcomeReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.StakeContext"
+          ],
+          "initial_component": "evaluation.StakeContext"
+        },
+        {
+          "name": "risk_limits",
+          "title": "Risk limits",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Risk limits for BetOutcomeReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "evaluation.RiskLimits"
+          ],
+          "initial_component": "evaluation.RiskLimits"
+        },
+        {
+          "name": "single_payoff",
+          "title": "Single payoff",
+          "required": false,
+          "kind": "select",
+          "default": "push_void",
+          "help": "Kelly and binary EV gates require an explicitly declared binary payoff. Push/void/partial-return valuations are unsupported by those policies.",
+          "primary": false,
+          "choices": [
+            "push_void",
+            "binary"
+          ]
+        },
+        {
+          "name": "probability_outputs",
+          "title": "Probability outputs",
+          "required": false,
+          "kind": "map",
+          "default": null,
+          "help": "Model name to upstream named probability output. Produces model::probability leg columns for ticket gates.",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "model_timing",
+          "title": "Model timing",
+          "required": false,
+          "kind": "map",
+          "default": null,
+          "help": "Per model: issued_at, artifact_vintage and trained_through UTC timestamps. Programmatic recipes may supply {column: name} for row-specific metadata.",
+          "primary": false,
+          "item": {
+            "kind": "map",
+            "item": {
+              "kind": "text"
+            }
+          }
         },
         {
           "name": "catalog",
@@ -13619,6 +13820,20 @@
           "default": true,
           "help": "Reload each exported model and check its test predictions against the retained values. This predicts again without fitting.",
           "primary": true
+        },
+        {
+          "name": "serializer",
+          "title": "Serializer",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional trusted native serializer, forwarded unchanged to model save and reload verification.",
+          "primary": true,
+          "components": [
+            "training.JoblibSerializer",
+            "composition.CompositeSerializer",
+            "training.BayesianScoreSerializer"
+          ]
         }
       ],
       "accepts_extra": false
@@ -15091,6 +15306,2039 @@
           "default": false,
           "help": "For exact-count classifiers: require finite nonnegative integer labels. XGBoost uses multiclass probabilities and discovers its classes from fitting rows only.",
           "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.Estimator": {
+      "id": "composition.Estimator",
+      "title": "Estimator",
+      "category": "composition",
+      "description": "Estimator(estimator: object, preprocessors: tuple = (), prediction_methods: tuple = ('predict',), target_transformer: object = None)",
+      "fields": [
+        {
+          "name": "estimator",
+          "title": "Estimator",
+          "required": true,
+          "kind": "component",
+          "help": "The estimator selected in Model & training, supplied automatically by the experiment.",
+          "primary": false,
+          "categories": [
+            "model"
+          ],
+          "initial_component": "sklearn.linear_model.Ridge"
+        },
+        {
+          "name": "preprocessors",
+          "title": "Preprocessors",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Preprocessors for Estimator. Default: [].",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "categories": [
+              "preprocessor"
+            ]
+          }
+        },
+        {
+          "name": "prediction_methods",
+          "title": "Prediction methods",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "predict"
+          ],
+          "help": "Prediction methods for Estimator. Default: ['predict'].",
+          "choices": [
+            "predict",
+            "predict_proba",
+            "decision_function"
+          ],
+          "primary": true
+        },
+        {
+          "name": "target_transformer",
+          "title": "Target transformer",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Target transformer for Estimator. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "categories": [
+            "target_transformer"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.OutputSchema": {
+      "id": "composition.OutputSchema",
+      "title": "OutputSchema",
+      "category": "composition",
+      "description": "OutputSchema(target: str, kind: str = 'regression', perspective: str = 'match', row_keys: tuple = ('event_id',), classes: tuple = (), units: str = 'count', link: str = 'identity', horizon: str = 'full_match', family: str | None = None, support: tuple = (), parameters: tuple = (), conditioning: str = 'decision_features', availability_column: str = 'kickoff_at')",
+      "fields": [
+        {
+          "name": "target",
+          "title": "Target",
+          "required": true,
+          "kind": "select",
+          "help": "Observed label to analyze. Disabled uses all available labels.",
+          "discovery": "targets",
+          "primary": false
+        },
+        {
+          "name": "kind",
+          "title": "Kind",
+          "required": false,
+          "kind": "select",
+          "default": "regression",
+          "help": "Kind for OutputSchema. Default: regression.",
+          "primary": false,
+          "choices": [
+            "regression",
+            "probability",
+            "labels",
+            "vote_fraction",
+            "distribution",
+            "features"
+          ]
+        },
+        {
+          "name": "perspective",
+          "title": "Perspective",
+          "required": false,
+          "kind": "text",
+          "default": "match",
+          "choices": [
+            "team",
+            "home",
+            "away"
+          ],
+          "help": "Express the outcome from the team, home team or away team perspective.",
+          "primary": false
+        },
+        {
+          "name": "row_keys",
+          "title": "Row keys",
+          "required": false,
+          "kind": "list",
+          "default": [
+            "event_id"
+          ],
+          "help": "Row keys for OutputSchema. Default: ['event_id'].",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "classes",
+          "title": "Classes",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Observed class values, in the order expected by the estimator or probability output.",
+          "discovery": "classes",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "units",
+          "title": "Units",
+          "required": false,
+          "kind": "text",
+          "default": "count",
+          "help": "Units for OutputSchema. Default: count.",
+          "primary": false
+        },
+        {
+          "name": "link",
+          "title": "Link",
+          "required": false,
+          "kind": "text",
+          "default": "identity",
+          "help": "Link for OutputSchema. Default: identity.",
+          "primary": false
+        },
+        {
+          "name": "horizon",
+          "title": "Horizon",
+          "required": false,
+          "kind": "text",
+          "default": "full_match",
+          "help": "Horizon for OutputSchema. Default: full_match.",
+          "primary": false
+        },
+        {
+          "name": "family",
+          "title": "Family",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Family for OutputSchema. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "support",
+          "title": "Support",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Support for OutputSchema. Default: [].",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "parameters",
+          "title": "Parameters",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Parameters for OutputSchema. Default: [].",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "conditioning",
+          "title": "Conditioning",
+          "required": false,
+          "kind": "text",
+          "default": "decision_features",
+          "help": "Conditioning for OutputSchema. Default: decision_features.",
+          "primary": false
+        },
+        {
+          "name": "availability_column",
+          "title": "Availability column",
+          "required": false,
+          "kind": "text",
+          "default": "kickoff_at",
+          "help": "Availability column for OutputSchema. Default: kickoff_at.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.OutputRef": {
+      "id": "composition.OutputRef",
+      "title": "OutputRef",
+      "category": "composition",
+      "description": "OutputRef(node: str, output: str = 'predict')",
+      "fields": [
+        {
+          "name": "node",
+          "title": "Node",
+          "required": true,
+          "kind": "text",
+          "help": "Node for OutputRef. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "output",
+          "title": "Output",
+          "required": false,
+          "kind": "text",
+          "default": "predict",
+          "help": "Prediction output to analyze: point/class predictions or class probabilities.",
+          "choices": [
+            "predict",
+            "predict_proba"
+          ],
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.TargetSpec": {
+      "id": "composition.TargetSpec",
+      "title": "TargetSpec",
+      "category": "composition",
+      "description": "TargetSpec(kind: str = 'ordinary', loss: str = 'squared_error', link: str = 'identity')",
+      "fields": [
+        {
+          "name": "kind",
+          "title": "Kind",
+          "required": false,
+          "kind": "select",
+          "default": "ordinary",
+          "help": "Kind for TargetSpec. Default: ordinary.",
+          "primary": false,
+          "choices": [
+            "ordinary",
+            "residual",
+            "oof_error",
+            "take_skip",
+            "allocation"
+          ]
+        },
+        {
+          "name": "loss",
+          "title": "Loss",
+          "required": false,
+          "kind": "text",
+          "default": "squared_error",
+          "help": "Loss for TargetSpec. Default: squared_error.",
+          "primary": false
+        },
+        {
+          "name": "link",
+          "title": "Link",
+          "required": false,
+          "kind": "text",
+          "default": "identity",
+          "help": "Link for TargetSpec. Default: identity.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.ModelNode": {
+      "id": "composition.ModelNode",
+      "title": "ModelNode",
+      "category": "composition",
+      "description": "ModelNode(model: object, schemas: dict, inputs: tuple = (), features: object = None, calibration: object = None, frozen: bool = False, artifact_vintage: object = None, trained_through: object = None, artifact_id: str | None = None, weighting: object = None)",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": true,
+          "kind": "component",
+          "help": "Model for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Estimator",
+            "composition.LearnedTargetAdapter"
+          ],
+          "initial_component": "composition.Estimator"
+        },
+        {
+          "name": "schemas",
+          "title": "Schemas",
+          "required": true,
+          "kind": "map",
+          "help": "Schemas for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.OutputSchema"
+            ],
+            "initial_component": "composition.OutputSchema"
+          }
+        },
+        {
+          "name": "inputs",
+          "title": "Inputs",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Inputs for ModelNode. Default: [].",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.OutputRef"
+            ],
+            "initial_component": "composition.OutputRef"
+          }
+        },
+        {
+          "name": "features",
+          "title": "Features",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Disabled includes all eligible predictors. When enabled, select at least one checkbox; an empty selection does not mean all. Discover feature columns first if no choices are shown. This reporter setting does not change the model inputs.",
+          "discovery": "features",
+          "primary": true,
+          "components": [
+            "composition.OutputFeatures"
+          ],
+          "initial_component": "composition.OutputFeatures"
+        },
+        {
+          "name": "calibration",
+          "title": "Calibration",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional calibration fitted on a separate chronological training tail, excluded from base model/scaler fitting and feature selection. Choose probability input for existing classifiers, or binary SVC decision margins with internal probabilities disabled and explicit label availability.",
+          "components": [
+            "training.ProbabilityCalibrator"
+          ],
+          "initial_component": "training.ProbabilityCalibrator",
+          "primary": false
+        },
+        {
+          "name": "frozen",
+          "title": "Frozen",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Frozen for ModelNode. Default: False.",
+          "primary": false
+        },
+        {
+          "name": "artifact_vintage",
+          "title": "Artifact vintage",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Artifact vintage for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "trained_through",
+          "title": "Trained through",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Trained through for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "artifact_id",
+          "title": "Artifact id",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Artifact id for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "weighting",
+          "title": "Weighting",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Weighting for ModelNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "weighting.ClassWeightPolicy"
+          ],
+          "initial_component": "weighting.ClassWeightPolicy"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.TransformNode": {
+      "id": "composition.TransformNode",
+      "title": "TransformNode",
+      "category": "composition",
+      "description": "TransformNode(transform: object, inputs: tuple, schema: xdiyo_analytics.composition.contracts.OutputSchema)",
+      "fields": [
+        {
+          "name": "transform",
+          "title": "Transform",
+          "required": true,
+          "kind": "component",
+          "help": "Transform for TransformNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputFeatures"
+          ],
+          "initial_component": "composition.OutputFeatures"
+        },
+        {
+          "name": "inputs",
+          "title": "Inputs",
+          "required": true,
+          "kind": "list",
+          "help": "Inputs for TransformNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.OutputRef"
+            ],
+            "initial_component": "composition.OutputRef"
+          }
+        },
+        {
+          "name": "schema",
+          "title": "Schema",
+          "required": true,
+          "kind": "component",
+          "help": "Schema for TransformNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputSchema"
+          ],
+          "initial_component": "composition.OutputSchema"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.ReducerNode": {
+      "id": "composition.ReducerNode",
+      "title": "ReducerNode",
+      "category": "composition",
+      "description": "ReducerNode(reducer: object, inputs: tuple, schema: xdiyo_analytics.composition.contracts.OutputSchema)",
+      "fields": [
+        {
+          "name": "reducer",
+          "title": "Reducer",
+          "required": true,
+          "kind": "component",
+          "help": "Reducer for ReducerNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Mean",
+            "composition.HardVote",
+            "composition.DistributionMixture"
+          ],
+          "initial_component": "composition.Mean"
+        },
+        {
+          "name": "inputs",
+          "title": "Inputs",
+          "required": true,
+          "kind": "list",
+          "help": "Inputs for ReducerNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.OutputRef"
+            ],
+            "initial_component": "composition.OutputRef"
+          }
+        },
+        {
+          "name": "schema",
+          "title": "Schema",
+          "required": true,
+          "kind": "component",
+          "help": "Schema for ReducerNode. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputSchema"
+          ],
+          "initial_component": "composition.OutputSchema"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.PredictionGraphSpec": {
+      "id": "composition.PredictionGraphSpec",
+      "title": "PredictionGraphSpec",
+      "category": "composition",
+      "description": "PredictionGraphSpec(nodes: dict, outputs: dict, version: int = 1)",
+      "fields": [
+        {
+          "name": "nodes",
+          "title": "Nodes",
+          "required": true,
+          "kind": "map",
+          "help": "Nodes for PredictionGraphSpec. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.ModelNode",
+              "composition.TransformNode",
+              "composition.ReducerNode"
+            ],
+            "initial_component": "composition.ModelNode"
+          }
+        },
+        {
+          "name": "outputs",
+          "title": "Outputs",
+          "required": true,
+          "kind": "map",
+          "help": "Outputs for PredictionGraphSpec. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.OutputRef"
+            ],
+            "initial_component": "composition.OutputRef"
+          }
+        },
+        {
+          "name": "version",
+          "title": "Version",
+          "required": false,
+          "kind": "number",
+          "default": 1,
+          "help": "Version for PredictionGraphSpec. Default: 1.",
+          "step": 1,
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.TrainingPlan": {
+      "id": "composition.TrainingPlan",
+      "title": "TrainingPlan",
+      "category": "composition",
+      "description": "TrainingPlan(mode: str = 'parallel', n_splits: int = 3, min_train_groups: int = 2, group_by: tuple = (), time_column: str = 'kickoff_at', issue_column: str | None = None, label_availability_column: str | None = None, availability_delay: object = None, feature_availability_column: str | None = None, features_as_of_issue: bool = False, embargo: str = '0h', uncovered: str = 'drop', repeated: str = 'error', deployment: str = 'refit_bases', max_fits: int = 1000)",
+      "fields": [
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "parallel",
+          "help": "Mode for TrainingPlan. Default: parallel.",
+          "primary": false,
+          "choices": [
+            "parallel",
+            "chronological",
+            "algorithmic_residual",
+            "honest_error_meta"
+          ]
+        },
+        {
+          "name": "n_splits",
+          "title": "N splits",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Number of held-out folds. More folds require more model fits.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "min_train_groups",
+          "title": "Min train groups",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Min train groups for TrainingPlan. Default: 2.",
+          "step": 1,
+          "primary": false
+        },
+        {
+          "name": "group_by",
+          "title": "Group by",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Rows with the same selected metadata identifiers stay together.",
+          "choices": [
+            "team_id",
+            "opponent_id",
+            "competition_id",
+            "season_id",
+            "round",
+            "source_league",
+            "source_season"
+          ],
+          "primary": true,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "time_column",
+          "title": "Time column",
+          "required": false,
+          "kind": "text",
+          "default": "kickoff_at",
+          "help": "Time column for TrainingPlan. Default: kickoff_at.",
+          "primary": false
+        },
+        {
+          "name": "issue_column",
+          "title": "Issue column",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Issue column for TrainingPlan. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "label_availability_column",
+          "title": "Label availability column",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Label availability column for TrainingPlan. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "availability_delay",
+          "title": "Availability delay",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Availability delay for TrainingPlan. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "feature_availability_column",
+          "title": "Feature availability column",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Feature availability column for TrainingPlan. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "features_as_of_issue",
+          "title": "Features as of issue",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Features as of issue for TrainingPlan. Default: False.",
+          "primary": false
+        },
+        {
+          "name": "embargo",
+          "title": "Embargo",
+          "required": false,
+          "kind": "text",
+          "default": "0h",
+          "help": "Time excluded after held-out information intervals, for example 2D. This reduces overlap between fitting and evaluation.",
+          "primary": false
+        },
+        {
+          "name": "uncovered",
+          "title": "Uncovered",
+          "required": false,
+          "kind": "text",
+          "default": "drop",
+          "help": "Uncovered for TrainingPlan. Default: drop.",
+          "primary": false
+        },
+        {
+          "name": "repeated",
+          "title": "Repeated",
+          "required": false,
+          "kind": "text",
+          "default": "error",
+          "help": "Repeated for TrainingPlan. Default: error.",
+          "primary": false
+        },
+        {
+          "name": "deployment",
+          "title": "Deployment",
+          "required": false,
+          "kind": "text",
+          "default": "refit_bases",
+          "help": "Deployment for TrainingPlan. Default: refit_bases.",
+          "primary": false
+        },
+        {
+          "name": "max_fits",
+          "title": "Max fits",
+          "required": false,
+          "kind": "number",
+          "default": 1000,
+          "help": "Max fits for TrainingPlan. Default: 1000.",
+          "step": 1,
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.Mean": {
+      "id": "composition.Mean",
+      "title": "Mean",
+      "category": "composition",
+      "description": "Mean(weights: tuple = (), kind: str = 'regression')",
+      "fields": [
+        {
+          "name": "weights",
+          "title": "Weights",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Relative importance of selected metrics. Use nonnegative weights; the scoring rule normalizes them.",
+          "key_discovery": "ranking_metrics",
+          "item": {
+            "kind": "number",
+            "min": 0,
+            "default": 1
+          },
+          "primary": false
+        },
+        {
+          "name": "kind",
+          "title": "Kind",
+          "required": false,
+          "kind": "text",
+          "default": "regression",
+          "help": "Kind for Mean. Default: regression.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.HardVote": {
+      "id": "composition.HardVote",
+      "title": "HardVote",
+      "category": "composition",
+      "description": "HardVote(fractions: bool = False)",
+      "fields": [
+        {
+          "name": "fractions",
+          "title": "Fractions",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Fractions for HardVote. Default: False.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.DistributionMixture": {
+      "id": "composition.DistributionMixture",
+      "title": "DistributionMixture",
+      "category": "composition",
+      "description": "Complete finite-support PMF mixture; parameter distributions need an event adapter.",
+      "fields": [
+        {
+          "name": "weights",
+          "title": "Weights",
+          "required": false,
+          "kind": "map",
+          "default": [],
+          "help": "Relative importance of selected metrics. Use nonnegative weights; the scoring rule normalizes them.",
+          "key_discovery": "ranking_metrics",
+          "item": {
+            "kind": "number",
+            "default": 1,
+            "min": 0
+          },
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.OutputFeatures": {
+      "id": "composition.OutputFeatures",
+      "title": "OutputFeatures",
+      "category": "composition",
+      "description": "OutputFeatures(names: tuple, passthrough: tuple = (), mode: str = 'identity', clip: float = 1e-08)",
+      "fields": [
+        {
+          "name": "names",
+          "title": "Names",
+          "required": true,
+          "kind": "list",
+          "help": "Names for OutputFeatures. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "passthrough",
+          "title": "Passthrough",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Passthrough for OutputFeatures. Default: [].",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "text",
+          "default": "identity",
+          "help": "Mode for OutputFeatures. Default: identity.",
+          "primary": false
+        },
+        {
+          "name": "clip",
+          "title": "Clip",
+          "required": false,
+          "kind": "number",
+          "default": 1e-08,
+          "help": "Clip for OutputFeatures. Default: 1e-08.",
+          "step": "any",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.UtilityTarget": {
+      "id": "composition.UtilityTarget",
+      "title": "UtilityTarget",
+      "category": "composition",
+      "description": "Explicit retrospective label rule, evaluated only after official availability.",
+      "fields": [
+        {
+          "name": "kind",
+          "title": "Kind",
+          "required": false,
+          "kind": "text",
+          "default": "take_skip",
+          "help": "Kind for UtilityTarget. Default: take_skip.",
+          "primary": false
+        },
+        {
+          "name": "threshold",
+          "title": "Threshold",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Numeric decision boundary. For probability predictions use a value between 0 and 1.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "scale",
+          "title": "Scale",
+          "required": false,
+          "kind": "number",
+          "default": 0.01,
+          "help": "Scale for UtilityTarget. Default: 0.01.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "max_fraction",
+          "title": "Max fraction",
+          "required": false,
+          "kind": "number",
+          "default": 0.05,
+          "help": "Max fraction for UtilityTarget. Default: 0.05.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "name",
+          "title": "Name",
+          "required": false,
+          "kind": "text",
+          "default": "utility",
+          "help": "Human-readable name used in the recipe and report.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.SavedUtilityModel": {
+      "id": "composition.SavedUtilityModel",
+      "title": "SavedUtilityModel",
+      "category": "composition",
+      "description": "Load an explicitly trusted, hash-pinned local utility artifact for decisions.",
+      "fields": [
+        {
+          "name": "path",
+          "title": "Path",
+          "required": true,
+          "kind": "text",
+          "help": "Local file or saved-model directory to load. Relative paths are resolved from the experiment workspace.",
+          "primary": false
+        },
+        {
+          "name": "manifest_sha256",
+          "title": "Manifest sha256",
+          "required": true,
+          "kind": "text",
+          "help": "Manifest sha256 for SavedUtilityModel. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "serializer",
+          "title": "Serializer",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Serialization backend for reading a previously saved model. The default reads the library’s ordinary saved-model format.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.CompositeModelAdapter": {
+      "id": "composition.CompositeModelAdapter",
+      "title": "CompositeModelAdapter",
+      "category": "model",
+      "description": "Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.",
+      "fields": [
+        {
+          "name": "graph",
+          "title": "Graph",
+          "required": true,
+          "kind": "component",
+          "help": "Graph for CompositeModelAdapter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.PredictionGraphSpec"
+          ],
+          "initial_component": "composition.PredictionGraphSpec"
+        },
+        {
+          "name": "training_plan",
+          "title": "Training plan",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "composition.TrainingPlan",
+            "params": {
+              "mode": "parallel",
+              "n_splits": 3,
+              "min_train_groups": 2,
+              "group_by": [],
+              "time_column": "kickoff_at",
+              "issue_column": null,
+              "label_availability_column": null,
+              "availability_delay": null,
+              "feature_availability_column": null,
+              "features_as_of_issue": false,
+              "embargo": "0h",
+              "uncovered": "drop",
+              "repeated": "error",
+              "deployment": "refit_bases",
+              "max_fits": 1000
+            }
+          },
+          "help": "Training plan for CompositeModelAdapter. Default: {'component': 'composition.TrainingPlan', 'params': {'mode': 'parallel', 'n_splits': 3, 'min_train_groups': 2, 'group_by': [], 'time_column': 'kickoff_at', 'issue_column': None, 'label_availability_column': None, 'availability_delay': None, 'feature_availability_column': None, 'features_as_of_issue': False, 'embargo': '0h', 'uncovered': 'drop', 'repeated': 'error', 'deployment': 'refit_bases', 'max_fits': 1000}}.",
+          "primary": false,
+          "components": [
+            "composition.TrainingPlan"
+          ],
+          "initial_component": "composition.TrainingPlan"
+        },
+        {
+          "name": "target_spec",
+          "title": "Target spec",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "composition.TargetSpec",
+            "params": {
+              "kind": "ordinary",
+              "loss": "squared_error",
+              "link": "identity"
+            }
+          },
+          "help": "Target spec for CompositeModelAdapter. Default: {'component': 'composition.TargetSpec', 'params': {'kind': 'ordinary', 'loss': 'squared_error', 'link': 'identity'}}.",
+          "primary": false,
+          "components": [
+            "composition.TargetSpec"
+          ],
+          "initial_component": "composition.TargetSpec"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.ModelEnsemble": {
+      "id": "composition.ModelEnsemble",
+      "title": "ModelEnsemble",
+      "category": "model",
+      "description": "Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.",
+      "fields": [
+        {
+          "name": "models",
+          "title": "Models",
+          "required": true,
+          "kind": "map",
+          "help": "Models for ModelEnsemble. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.ModelNode",
+              "composition.Estimator"
+            ],
+            "initial_component": "composition.ModelNode"
+          }
+        },
+        {
+          "name": "schema",
+          "title": "Schema",
+          "required": true,
+          "kind": "component",
+          "help": "Schema for ModelEnsemble. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputSchema"
+          ],
+          "initial_component": "composition.OutputSchema"
+        },
+        {
+          "name": "reducer",
+          "title": "Reducer",
+          "required": true,
+          "kind": "component",
+          "help": "Reducer for ModelEnsemble. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Mean",
+            "composition.HardVote",
+            "composition.DistributionMixture"
+          ],
+          "initial_component": "composition.Mean"
+        },
+        {
+          "name": "output",
+          "title": "Output",
+          "required": false,
+          "kind": "text",
+          "default": "predict",
+          "help": "Prediction output to analyze: point/class predictions or class probabilities.",
+          "choices": [
+            "predict",
+            "predict_proba"
+          ],
+          "primary": false
+        },
+        {
+          "name": "retain_children",
+          "title": "Retain children",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Retain children for ModelEnsemble. Default: True.",
+          "primary": false
+        },
+        {
+          "name": "training",
+          "title": "Training",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "composition.TrainingPlan",
+            "params": {
+              "mode": "parallel",
+              "n_splits": 3,
+              "min_train_groups": 2,
+              "group_by": [],
+              "time_column": "kickoff_at",
+              "issue_column": null,
+              "label_availability_column": null,
+              "availability_delay": null,
+              "feature_availability_column": null,
+              "features_as_of_issue": false,
+              "embargo": "0h",
+              "uncovered": "drop",
+              "repeated": "error",
+              "deployment": "refit_bases",
+              "max_fits": 1000
+            }
+          },
+          "help": "Training for ModelEnsemble. Default: {'component': 'composition.TrainingPlan', 'params': {'mode': 'parallel', 'n_splits': 3, 'min_train_groups': 2, 'group_by': [], 'time_column': 'kickoff_at', 'issue_column': None, 'label_availability_column': None, 'availability_delay': None, 'feature_availability_column': None, 'features_as_of_issue': False, 'embargo': '0h', 'uncovered': 'drop', 'repeated': 'error', 'deployment': 'refit_bases', 'max_fits': 1000}}.",
+          "primary": false,
+          "components": [
+            "composition.TrainingPlan"
+          ],
+          "initial_component": "composition.TrainingPlan"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.ModelStack": {
+      "id": "composition.ModelStack",
+      "title": "ModelStack",
+      "category": "model",
+      "description": "Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.",
+      "fields": [
+        {
+          "name": "base_models",
+          "title": "Base models",
+          "required": true,
+          "kind": "map",
+          "help": "Base models for ModelStack. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "component",
+            "components": [
+              "composition.ModelNode"
+            ],
+            "initial_component": "composition.ModelNode"
+          }
+        },
+        {
+          "name": "meta_model",
+          "title": "Meta model",
+          "required": true,
+          "kind": "component",
+          "help": "Meta model for ModelStack. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Estimator",
+            "composition.LearnedTargetAdapter"
+          ],
+          "initial_component": "composition.Estimator"
+        },
+        {
+          "name": "meta_features",
+          "title": "Meta features",
+          "required": true,
+          "kind": "component",
+          "help": "Meta features for ModelStack. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputFeatures"
+          ],
+          "initial_component": "composition.OutputFeatures"
+        },
+        {
+          "name": "schema",
+          "title": "Schema",
+          "required": true,
+          "kind": "component",
+          "help": "Schema for ModelStack. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.OutputSchema"
+          ],
+          "initial_component": "composition.OutputSchema"
+        },
+        {
+          "name": "training",
+          "title": "Training",
+          "required": true,
+          "kind": "component",
+          "help": "Training for ModelStack. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.TrainingPlan"
+          ],
+          "initial_component": "composition.TrainingPlan"
+        },
+        {
+          "name": "output",
+          "title": "Output",
+          "required": false,
+          "kind": "text",
+          "default": "predict",
+          "help": "Prediction output to analyze: point/class predictions or class probabilities.",
+          "choices": [
+            "predict",
+            "predict_proba"
+          ],
+          "primary": false
+        },
+        {
+          "name": "target_spec",
+          "title": "Target spec",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "composition.TargetSpec",
+            "params": {
+              "kind": "ordinary",
+              "loss": "squared_error",
+              "link": "identity"
+            }
+          },
+          "help": "Target spec for ModelStack. Default: {'component': 'composition.TargetSpec', 'params': {'kind': 'ordinary', 'loss': 'squared_error', 'link': 'identity'}}.",
+          "primary": false,
+          "components": [
+            "composition.TargetSpec"
+          ],
+          "initial_component": "composition.TargetSpec"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.ResidualModel": {
+      "id": "composition.ResidualModel",
+      "title": "ResidualModel",
+      "category": "model",
+      "description": "Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.",
+      "fields": [
+        {
+          "name": "base",
+          "title": "Base",
+          "required": true,
+          "kind": "component",
+          "help": "Base for ResidualModel. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.ModelNode"
+          ],
+          "initial_component": "composition.ModelNode"
+        },
+        {
+          "name": "correction",
+          "title": "Correction",
+          "required": true,
+          "kind": "component",
+          "help": "Correction for ResidualModel. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Estimator",
+            "composition.LearnedTargetAdapter"
+          ],
+          "initial_component": "composition.Estimator"
+        },
+        {
+          "name": "training",
+          "title": "Training",
+          "required": true,
+          "kind": "component",
+          "help": "Training for ResidualModel. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.TrainingPlan"
+          ],
+          "initial_component": "composition.TrainingPlan"
+        },
+        {
+          "name": "target_spec",
+          "title": "Target spec",
+          "required": true,
+          "kind": "component",
+          "help": "Target spec for ResidualModel. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.TargetSpec"
+          ],
+          "initial_component": "composition.TargetSpec"
+        },
+        {
+          "name": "learning_rate",
+          "title": "Learning rate",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Learning rate for ResidualModel. Default: 1.0.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "clip",
+          "title": "Clip",
+          "required": false,
+          "kind": "number",
+          "default": 1e-08,
+          "help": "Clip for ResidualModel. Default: 1e-08.",
+          "step": "any",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.LearnedTargetAdapter": {
+      "id": "composition.LearnedTargetAdapter",
+      "title": "LearnedTargetAdapter",
+      "category": "model",
+      "description": "Native composition. Put preprocessing and calibration inside each child; disable top-level preprocessors and adapter overrides.",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": true,
+          "kind": "component",
+          "help": "Model for LearnedTargetAdapter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.Estimator",
+            "composition.LearnedTargetAdapter"
+          ],
+          "initial_component": "composition.Estimator"
+        },
+        {
+          "name": "target_spec",
+          "title": "Target spec",
+          "required": true,
+          "kind": "component",
+          "help": "Target spec for LearnedTargetAdapter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.TargetSpec"
+          ],
+          "initial_component": "composition.TargetSpec"
+        },
+        {
+          "name": "availability_column",
+          "title": "Availability column",
+          "required": true,
+          "kind": "text",
+          "help": "Availability column for LearnedTargetAdapter. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "selection_id",
+          "title": "Selection id",
+          "required": true,
+          "kind": "text",
+          "help": "Selection id for LearnedTargetAdapter. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "origin_column",
+          "title": "Origin column",
+          "required": false,
+          "kind": "text",
+          "default": "prediction_origin",
+          "help": "Origin column for LearnedTargetAdapter. Default: prediction_origin.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "composition.CompositeSerializer": {
+      "id": "composition.CompositeSerializer",
+      "title": "CompositeSerializer",
+      "category": "training",
+      "description": "Uses trusted joblib state, never imports registrations named by an artifact.",
+      "fields": [
+        {
+          "name": "format_id",
+          "title": "Format id",
+          "required": false,
+          "kind": "text",
+          "default": "xdiyo.composition.joblib.v1",
+          "help": "Format id for CompositeSerializer. Default: xdiyo.composition.joblib.v1.",
+          "primary": false
+        },
+        {
+          "name": "required_components",
+          "title": "Required components",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Required components for CompositeSerializer. Default: [].",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.FixedStake": {
+      "id": "evaluation.FixedStake",
+      "title": "FixedStake",
+      "category": "allocation",
+      "description": "FixedStake(amount: float, currency: str)",
+      "fields": [
+        {
+          "name": "amount",
+          "title": "Amount",
+          "required": true,
+          "kind": "number",
+          "help": "Amount for FixedStake. Optional; leave disabled to use the standard behavior.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "currency",
+          "title": "Currency",
+          "required": true,
+          "kind": "text",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.FixedFraction": {
+      "id": "evaluation.FixedFraction",
+      "title": "FixedFraction",
+      "category": "allocation",
+      "description": "FixedFraction(fraction: float, currency: str, basis: str = 'realized_wealth')",
+      "fields": [
+        {
+          "name": "fraction",
+          "title": "Fraction",
+          "required": true,
+          "kind": "number",
+          "help": "Fraction of fitting population reserved for internal validation. Example: 0.2 reserves the latest 20%.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "currency",
+          "title": "Currency",
+          "required": true,
+          "kind": "text",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        },
+        {
+          "name": "basis",
+          "title": "Basis",
+          "required": false,
+          "kind": "text",
+          "default": "realized_wealth",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.FractionalKelly": {
+      "id": "evaluation.FractionalKelly",
+      "title": "FractionalKelly",
+      "category": "allocation",
+      "description": "FractionalKelly(currency: str, alpha: float = 0.25, max_fraction: float = 0.05, probability_source: object = <factory>, basis: str = 'realized_wealth')",
+      "fields": [
+        {
+          "name": "currency",
+          "title": "Currency",
+          "required": true,
+          "kind": "text",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        },
+        {
+          "name": "alpha",
+          "title": "Alpha",
+          "required": false,
+          "kind": "number",
+          "default": 0.25,
+          "help": "Alpha for FractionalKelly. Default: 0.25.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "max_fraction",
+          "title": "Max fraction",
+          "required": false,
+          "kind": "number",
+          "default": 0.05,
+          "help": "Max fraction for FractionalKelly. Default: 0.05.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "probability_source",
+          "title": "Probability source",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "evaluation.ModelProbabilitySource",
+            "params": {
+              "column": "probability",
+              "provenance_column": "probability_provenance",
+              "issued_at_column": "probability_issued_at",
+              "assume_available_at_decision": false
+            }
+          },
+          "help": "Probability source for FractionalKelly. Default: {'component': 'evaluation.ModelProbabilitySource', 'params': {'column': 'probability', 'provenance_column': 'probability_provenance', 'issued_at_column': 'probability_issued_at', 'assume_available_at_decision': False}}.",
+          "primary": false,
+          "components": [
+            "evaluation.ModelProbabilitySource",
+            "evaluation.HistoricalRateSource"
+          ],
+          "initial_component": "evaluation.ModelProbabilitySource"
+        },
+        {
+          "name": "basis",
+          "title": "Basis",
+          "required": false,
+          "kind": "text",
+          "default": "realized_wealth",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.ModelProbabilitySource": {
+      "id": "evaluation.ModelProbabilitySource",
+      "title": "ModelProbabilitySource",
+      "category": "allocation",
+      "description": "ModelProbabilitySource(column: str = 'probability', provenance_column: str = 'probability_provenance', issued_at_column: str = 'probability_issued_at', assume_available_at_decision: bool = False)",
+      "fields": [
+        {
+          "name": "column",
+          "title": "Column",
+          "required": false,
+          "kind": "text",
+          "default": "probability",
+          "help": "Column to read from the auxiliary input table; disabled loads the complete table.",
+          "primary": false
+        },
+        {
+          "name": "provenance_column",
+          "title": "Provenance column",
+          "required": false,
+          "kind": "text",
+          "default": "probability_provenance",
+          "help": "Provenance column for ModelProbabilitySource. Default: probability_provenance.",
+          "primary": false
+        },
+        {
+          "name": "issued_at_column",
+          "title": "Issued at column",
+          "required": false,
+          "kind": "text",
+          "default": "probability_issued_at",
+          "help": "Issued at column for ModelProbabilitySource. Default: probability_issued_at.",
+          "primary": false
+        },
+        {
+          "name": "assume_available_at_decision",
+          "title": "Assume available at decision",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Assume available at decision for ModelProbabilitySource. Default: False.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.HistoricalRateSource": {
+      "id": "evaluation.HistoricalRateSource",
+      "title": "HistoricalRateSource",
+      "category": "allocation",
+      "description": "Fit on eligible strategy-selected outcomes; never an unconditional match rate.",
+      "fields": [
+        {
+          "name": "selection_id",
+          "title": "Selection id",
+          "required": true,
+          "kind": "text",
+          "help": "Selection id for HistoricalRateSource. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "cutoff",
+          "title": "Cutoff",
+          "required": true,
+          "kind": "text",
+          "help": "Cutoff for HistoricalRateSource. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "strata",
+          "title": "Strata",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Strata for HistoricalRateSource. Default: [].",
+          "primary": false
+        },
+        {
+          "name": "prior_probability",
+          "title": "Prior probability",
+          "required": false,
+          "kind": "number",
+          "default": 0.5,
+          "help": "Prior probability for HistoricalRateSource. Default: 0.5.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "prior_strength",
+          "title": "Prior strength",
+          "required": false,
+          "kind": "number",
+          "default": 2.0,
+          "help": "Prior strength for HistoricalRateSource. Default: 2.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "lookback",
+          "title": "Lookback",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Lookback for HistoricalRateSource. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "learned_selection",
+          "title": "Learned selection",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Learned selection for HistoricalRateSource. Default: True.",
+          "primary": false
+        },
+        {
+          "name": "exchangeable_within_strata",
+          "title": "Exchangeable within strata",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Exchangeable within strata for HistoricalRateSource. Default: False.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.RiskLimits": {
+      "id": "evaluation.RiskLimits",
+      "title": "RiskLimits",
+      "category": "allocation",
+      "description": "One conservative global scale obeys every cap; floor rounding leaves residual cash.",
+      "fields": [
+        {
+          "name": "per_ticket",
+          "title": "Per ticket",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Per ticket for RiskLimits. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "exposure_caps",
+          "title": "Exposure caps",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Exposure caps for RiskLimits. Default: [].",
+          "primary": false
+        },
+        {
+          "name": "rounding",
+          "title": "Rounding",
+          "required": false,
+          "kind": "number",
+          "default": 0.01,
+          "help": "Rounding for RiskLimits. Default: 0.01.",
+          "step": "any",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.StakeContext": {
+      "id": "evaluation.StakeContext",
+      "title": "StakeContext",
+      "category": "allocation",
+      "description": "StakeContext(bankroll: float, available_cash: float, currency: str, time: object, basis: str = 'realized_wealth', open_exposure: tuple = ())",
+      "fields": [
+        {
+          "name": "bankroll",
+          "title": "Bankroll",
+          "required": true,
+          "kind": "number",
+          "help": "Bankroll for StakeContext. Optional; leave disabled to use the standard behavior.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "available_cash",
+          "title": "Available cash",
+          "required": true,
+          "kind": "number",
+          "help": "Available cash for StakeContext. Optional; leave disabled to use the standard behavior.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "currency",
+          "title": "Currency",
+          "required": true,
+          "kind": "text",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        },
+        {
+          "name": "time",
+          "title": "Time",
+          "required": true,
+          "kind": "text",
+          "help": "Time for StakeContext. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "basis",
+          "title": "Basis",
+          "required": false,
+          "kind": "text",
+          "default": "realized_wealth",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        },
+        {
+          "name": "open_exposure",
+          "title": "Open exposure",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Open exposure for StakeContext. Default: [].",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.LearnedAllocation": {
+      "id": "evaluation.LearnedAllocation",
+      "title": "LearnedAllocation",
+      "category": "allocation",
+      "description": "Fitted native allocation-target adapter, predicting a bounded capital fraction.",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": true,
+          "kind": "component",
+          "help": "Model for LearnedAllocation. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.SavedUtilityModel"
+          ],
+          "initial_component": "composition.SavedUtilityModel"
+        },
+        {
+          "name": "feature_columns",
+          "title": "Feature columns",
+          "required": true,
+          "kind": "multiselect",
+          "help": "Select model input columns. Disabled uses every assembled feature.",
+          "discovery": "features",
+          "primary": false
+        },
+        {
+          "name": "currency",
+          "title": "Currency",
+          "required": true,
+          "kind": "text",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        },
+        {
+          "name": "basis",
+          "title": "Basis",
+          "required": false,
+          "kind": "text",
+          "default": "realized_wealth",
+          "help": "Declare stable research currency/units and either realized_wealth or available_cash as the sizing basis. Illustrative settings are not real-money instructions.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.DecisionLayer": {
+      "id": "evaluation.DecisionLayer",
+      "title": "DecisionLayer",
+      "category": "decision",
+      "description": "Gate identical candidates with each model's probability or complete-ticket EV.",
+      "fields": [
+        {
+          "name": "models",
+          "title": "Models",
+          "required": true,
+          "kind": "list",
+          "help": "Models for DecisionLayer. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "gate",
+          "title": "Gate",
+          "required": false,
+          "kind": "select",
+          "default": "and",
+          "help": "Gate for DecisionLayer. Default: and.",
+          "primary": false,
+          "choices": [
+            "and",
+            "or"
+          ]
+        },
+        {
+          "name": "metric",
+          "title": "Metric",
+          "required": false,
+          "kind": "select",
+          "default": "ev",
+          "help": "Metric used to compare candidates. The registered direction determines whether smaller or larger is better.",
+          "discovery": "metrics",
+          "primary": false,
+          "choices": [
+            "ev",
+            "probability"
+          ]
+        },
+        {
+          "name": "threshold",
+          "title": "Threshold",
+          "required": false,
+          "kind": "number",
+          "default": 0.0,
+          "help": "Numeric decision boundary. For probability predictions use a value between 0 and 1.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "strict",
+          "title": "Strict",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Strict for DecisionLayer. Default: True.",
+          "primary": false
+        },
+        {
+          "name": "missing",
+          "title": "Missing",
+          "required": false,
+          "kind": "select",
+          "default": "error",
+          "help": "Missing for DecisionLayer. Default: error.",
+          "primary": false,
+          "choices": [
+            "error",
+            "reject"
+          ]
+        },
+        {
+          "name": "identity_columns",
+          "title": "Identity columns",
+          "required": false,
+          "kind": "list",
+          "default": [
+            "economic_key",
+            "quote_id",
+            "quote_at",
+            "decision_at",
+            "odds"
+          ],
+          "help": "Identity columns for DecisionLayer. Default: ['economic_key', 'quote_id', 'quote_at', 'decision_at', 'odds'].",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "evaluation.LearnedGate": {
+      "id": "evaluation.LearnedGate",
+      "title": "LearnedGate",
+      "category": "decision",
+      "description": "A fitted take/skip adapter with a declared cutoff and safe feature columns.",
+      "fields": [
+        {
+          "name": "model",
+          "title": "Model",
+          "required": true,
+          "kind": "component",
+          "help": "Model for LearnedGate. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "components": [
+            "composition.SavedUtilityModel"
+          ],
+          "initial_component": "composition.SavedUtilityModel"
+        },
+        {
+          "name": "feature_columns",
+          "title": "Feature columns",
+          "required": true,
+          "kind": "multiselect",
+          "help": "Select model input columns. Disabled uses every assembled feature.",
+          "discovery": "features",
+          "primary": false
+        },
+        {
+          "name": "positive_class",
+          "title": "Positive class",
+          "required": false,
+          "kind": "select",
+          "default": 1,
+          "help": "Class treated as the positive outcome for a probability threshold.",
+          "step": 1,
+          "discovery": "classes",
+          "primary": false
+        },
+        {
+          "name": "threshold",
+          "title": "Threshold",
+          "required": false,
+          "kind": "number",
+          "default": 0.5,
+          "help": "Numeric decision boundary. For probability predictions use a value between 0 and 1.",
+          "step": "any",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.CompositionReporter": {
+      "id": "reporting.CompositionReporter",
+      "title": "CompositionReporter",
+      "category": "post_reporter",
+      "description": "CompositionReporter(type: str, partition: str)",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Overall combines the selected evaluation rows in one study. Per fold provides a separate view of each split. Timeline preserves chronological order.",
+          "primary": true
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": true,
+          "kind": "text",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "weighting.ClassWeightPolicy": {
+      "id": "weighting.ClassWeightPolicy",
+      "title": "ClassWeightPolicy",
+      "category": "weighting",
+      "description": "Compute weights from one fitting population, never from evaluation rows.",
+      "fields": [
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "text",
+          "default": "balanced",
+          "help": "Mode for ClassWeightPolicy. Default: balanced.",
+          "primary": false
+        },
+        {
+          "name": "power",
+          "title": "Power",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Power for ClassWeightPolicy. Default: 1.0.",
+          "step": "any",
+          "primary": false
+        },
+        {
+          "name": "class_weights",
+          "title": "Class weights",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Class weights for ClassWeightPolicy. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "calculator",
+          "title": "Calculator",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Calculator for ClassWeightPolicy. Optional; leave disabled to use the standard behavior.",
+          "primary": false
+        },
+        {
+          "name": "target",
+          "title": "Target",
+          "required": false,
+          "kind": "select",
+          "default": null,
+          "help": "Observed label to analyze. Disabled uses all available labels.",
+          "discovery": "targets",
+          "primary": false
         }
       ],
       "accepts_extra": false

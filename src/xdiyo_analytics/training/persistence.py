@@ -97,7 +97,13 @@ def save_model(model, path, *, fold_id=None, serializer=None):
     if isinstance(adapter, _CheckpointAdapter):
         adapter = adapter.estimator
     if serializer is None:
-        if not isinstance(adapter, (EstimatorAdapter, TargetTransformAdapter, CalibratedAdapter)):
+        from ..composition.adapter import CompositeModelAdapter
+        if isinstance(adapter, CompositeModelAdapter):
+            from ..composition.persistence import CompositeSerializer
+            serializer = CompositeSerializer()
+    if serializer is None:
+        from ..composition import ResidualModel, LearnedTargetAdapter
+        if not isinstance(adapter, (EstimatorAdapter, TargetTransformAdapter, CalibratedAdapter, ResidualModel, LearnedTargetAdapter)):
             raise TypeError("Supply a native serializer for this custom model adapter.")
         serializer = JoblibSerializer()
     format_id = getattr(serializer, "format_id", None)
@@ -141,6 +147,10 @@ def load_model(path, *, serializer=None):
     manifest = json.loads((folder / "model.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != 1:
         raise ValueError("Unsupported model artifact schema.")
+    if serializer is None:
+        from ..composition.persistence import CompositeSerializer
+        if manifest.get('format_id') == CompositeSerializer.format_id:
+            serializer = CompositeSerializer()
     if serializer is None:
         if manifest.get("format_id") != JoblibSerializer.format_id:
             raise ValueError("Pass the native serializer used to save this model.")

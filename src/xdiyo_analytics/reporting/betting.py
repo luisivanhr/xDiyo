@@ -25,6 +25,10 @@ class BetPerformanceReporter(PredictionReporter):
     time_column: str = "kickoff_at"
     source: str | None = None
     composition: object = None
+    stake_policy: object = None
+    stake_context: object = None
+    risk_limits: object = None
+    single_payoff: str = 'push_void'
 
     def run(self, context):
         if self.source is not None:
@@ -34,7 +38,7 @@ class BetPerformanceReporter(PredictionReporter):
             if previous is None or 'alternatives' not in previous.tables or 'ledger' not in previous.tables:
                 raise ValueError(f"Bet source {self.source!r} needs an earlier BetOutcomeReporter with identical scope, partition and pooling.")
             ledger, metrics = previous.tables['ledger'].copy(), previous.tables['bet_metrics'].copy()
-            if self.composition is not None and 'tickets' in previous.tables:
+            if (self.composition is not None or self.stake_policy is not None) and 'tickets' in previous.tables:
                 raise ValueError("The source already contains tickets; configure composition on only one reporter.")
             if ledger.loc[ledger['take'], 'odds'].isna().any():
                 raise ValueError("Bet performance needs odds for selected bets. Add quotes or explicit default_odds to the source reporter.")
@@ -55,16 +59,17 @@ class BetPerformanceReporter(PredictionReporter):
             from ..odds.selection import TIMING_NOTE
             result.notes.append(TIMING_NOTE)
             result.tables['odds_provenance'] = previous.tables['odds_provenance'].copy()
-        if self.composition is not None:
+        if self.composition is not None or self.stake_policy is not None:
             from .tickets import add_tickets
             if self.source is not None:
                 result.tables['alternatives'] = previous.tables['alternatives'].copy()
-            add_tickets(result, self.composition, context)
+            add_tickets(result, self.composition, context,
+                        stake_policy=self.stake_policy, stake_context=self.stake_context, risk_limits=self.risk_limits, single_payoff=self.single_payoff)
             ledger, metrics = result.tables['ledger'], result.tables['bet_metrics']
             result.tables['metrics'] = metrics
             result.artifacts[1] = Artifact('table', metrics, 'Ticket metrics')
         elif self.source is not None and 'tickets' in previous.tables:
-            for name in ('tickets', 'ticket_legs', 'leg_ledger', 'combination_preview', 'ticket_candidates', 'ticket_selection_summary', 'alternatives'):
+            for name in ('tickets', 'ticket_legs', 'leg_ledger', 'combination_preview', 'ticket_candidates', 'ticket_selection_summary', 'alternatives', 'allocation_audit', 'decision_policy_audit'):
                 if name in previous.tables:
                     result.tables[name] = previous.tables[name].copy()
             result.notes.append('Accounting unit: composed tickets from the source; individual legs are not staked again.')

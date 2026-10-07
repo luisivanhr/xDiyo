@@ -8,7 +8,7 @@ from .contracts import Artifact
 from .teams import team_key
 
 
-def add_tickets(result, composition, context, *, fixture_table=None, teams=None):
+def add_tickets(result, composition, context, *, fixture_table=None, teams=None, stake_policy=None, stake_context=None, risk_limits=None, single_payoff='push_void'):
     legs = result.tables['ledger']
     alternatives = result.tables.get('alternatives')
     if alternatives is not None:
@@ -26,8 +26,17 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
         display = fixture_table[fields]
         legs = legs.drop(columns=[f for f in fields[2:] if f in legs]).merge(
             display, on=fields[:2], how='left', validate='many_to_one')
-    tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns)
+    if composition is None:
+        from ..evaluation.ticket_allocation import allocate_singles
+        tickets, membership, metrics = allocate_singles(legs, stake_policy, stake_context, risk_limits, match_columns=context.match_columns, payoff=single_payoff)
+    else:
+        tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns,
+                                                   stake_policy=stake_policy, stake_context=stake_context, risk_limits=risk_limits)
     result.tables.update(leg_ledger=legs, ledger=tickets, tickets=tickets, ticket_legs=membership, bet_metrics=metrics)
+    for key in ('allocation_audit', 'decision_policy_audit'):
+        if key in tickets.attrs:
+            result.tables[key] = pd.DataFrame(tickets.attrs[key])
+            result.artifacts.append(Artifact('table', result.tables[key], key.replace('_',' ').title()))
     empty_columns = {
         'ticket_candidates': ['template', 'group_id', 'ticket_id', 'event_membership', 'probability', 'odds',
                               'expected_profit', 'min_ev', 'take', 'rejection_reason', 'filter_enabled',
@@ -46,7 +55,8 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None)
         result.artifacts.append(Artifact('table', result.tables['ticket_selection_summary'], 'Ticket selection: candidates and placed bets'))
         result.notes.append('Ticket EV filter: strict EV > minimum, per unit stake, using independent win/loss probabilities. '
                             'Rejected candidates are audited separately and incur no stake. Overlapping tickets share risk.')
-    preview = preview_combinations(legs, composition, match_columns=context.match_columns)
+    from ..evaluation.tickets import Parlay
+    preview = preview_combinations(legs, composition or Parlay(size=1), match_columns=context.match_columns)
     if preview.attrs['exceeded_limits']:
         result.tables['combination_preview'] = preview
         result.artifacts.append(Artifact('table', preview, 'Candidate combinations before ticket EV filtering'))

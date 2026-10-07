@@ -576,7 +576,8 @@ def build():
             'report_tables': 'Export every retained study table to CSV with its name, fold and partition in a manifest.',
             'predictions': 'Export observed labels, match metadata and all prediction outputs for each evaluated fold.',
             'save_models': 'Save a separately loadable prediction model for each evaluated fold, including fitted preprocessing.',
-            'verify_reload': 'Reload each exported model and check its test predictions against the retained values. This predicts again without fitting.'
+            'verify_reload': 'Reload each exported model and check its test predictions against the retained values. This predicts again without fitting.',
+            'serializer': 'Optional trusted native serializer, forwarded unchanged to model save and reload verification.'
         }[f['name']]
     for f in components['training.BoostingAdapter']['fields']:
         if f['name'] == 'exact_counts':
@@ -823,6 +824,9 @@ def build():
                          title='Compose tickets', primary=True,
                          help='Parlay uses disjoint batches; MultiBet combines within batches; AllCombinations uses every k-event combination in each whole stage-round. BetSlip names independent templates. Counts appear in reports once eligible predictions/quotes exist; data preparation alone cannot determine filtered counts. Disabled keeps singles. Configure composition on only one reporter.')
     ticket_help = {
+        'payoff': 'Declared payoff model for opt-in gates/Kelly. Binary win/loss only; default retains push/void semantics.',
+        'probability_columns': 'Explicit model name to retained leg-probability column mapping.',
+        'ticket_gate': 'Optional AND/OR complete-ticket gate, independently valuing the same economic ticket under each model.',
         'min_ev': 'Optional ticket EV per unit stake. Accepts strictly greater EV; equality rejects. Requires explicit Independent probability mode and win/loss probabilities. Candidate exposure is counted before filtering; only selected tickets are staked.',
         'size': 'Number of distinct fixtures per batch. Parlay makes one ticket; MultiBet makes the selected combinations from this pool. Incomplete batches are omitted. Use 1 for singles.',
         'grouping': 'Same league and round; same round across leagues (within a common season); or same UTC calendar day. Fold occurrences always stay separate.',
@@ -899,6 +903,8 @@ def build():
             m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
     _svm_widgets(components)
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
+    from .composition_inventory import decorate as composition_widgets
+    composition_widgets(components)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 
 
