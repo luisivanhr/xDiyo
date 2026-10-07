@@ -76,7 +76,8 @@ def test_ineligible_fixture_bad_time_cannot_disappear_before_or(field, value):
     with pytest.raises(ValueError): api['consensus'](data, pmfs, contract)
 
 
-@pytest.mark.parametrize('field', ['won', 'outcome', 'profit', 'payout', 'actual', 'settlement', 'model::target'])
+@pytest.mark.parametrize('field', ['won', 'outcome', 'profit', 'payout', 'actual', 'settlement', 'model::target',
+                                  'a::won', 'a::settled_at', 'nested::a::gross_return'])
 @pytest.mark.parametrize('research', [False, True])
 def test_reserved_probability_source_names_rejected_before_reading(field, research):
     p = policy() if research else gate()
@@ -105,3 +106,13 @@ def test_finalization_rechecks_mutated_source_mapping():
     members['won'] = 1.
     with pytest.raises(ValueError, match='Outcome-bearing'):
         finalize_tickets(tickets, members, {'tickets':p}, ('event_id',), None, None, None)
+
+
+@pytest.mark.parametrize('model', ['a', 'b'])
+def test_direct_finalization_revalidates_original_model_quote(model):
+    from xdiyo_analytics.evaluation.ticket_allocation import finalize_tickets
+    p = policy()
+    tickets, members, _ = compose_bets(research_legs(), p)
+    members.loc[members.index[0], f'{model}::quote_id'] = 'wrong'
+    with pytest.raises(ValueError, match='quote identity differs'):
+        finalize_tickets(tickets, members, {'tickets': p}, ('event_id',), None, None, None)

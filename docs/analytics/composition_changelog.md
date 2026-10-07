@@ -2,6 +2,15 @@
 
 ## 7 October 2026
 
+### Strict speed audit: separate guard repairs
+
+- Reject reserved native outcome names in namespace segments, including
+  `a::won` and `a::settled_at`; ordinary `quote_status` metadata remains valid.
+- Revalidate original per-model quote references at direct ticket finalization
+  for explicit quote contracts, even after a previously valid composition.
+- These intentionally reject inherited malformed paths; they are separate from
+  behavior-preserving speed changes. Quote and performance regressions: 120 passed.
+
 ### Native consensus performance (parent `c31f215`)
 
 - Publish complete audit metadata after internal settlement and summaries to
