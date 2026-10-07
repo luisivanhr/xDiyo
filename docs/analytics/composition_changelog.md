@@ -2,6 +2,15 @@
 
 ## 7 October 2026
 
+### Native consensus performance (parent `c31f215`)
+
+- Publish complete audit metadata after internal settlement and summaries to
+  avoid pandas copying it for every row/slice.
+- Index ticket membership once and reuse all original ordered leg rows across
+  model valuation and settlement, preserving validation and provenance.
+- Add structural regressions and a bounded before/after synthetic profile with
+  exact output/audit comparisons. See [verification and study replay limitation](consensus_performance_verification.md).
+
 ### Quote-contract review repairs (parent `b2a9927`)
 
 - Initialize disclosure columns on the existing frame index before masked

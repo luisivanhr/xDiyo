@@ -233,10 +233,11 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                'stake', 'odds', 'probability', 'probability_assumption', 'settlement', 'accounting_status', 'payout', 'profit']
     tickets = pd.DataFrame(rows) if rows else pd.DataFrame(columns=columns)
     membership = pd.DataFrame(members) if members else pd.DataFrame(columns=[*ledger.columns, 'ticket_id', 'leg_number', 'template'])
+    output_attrs = {}
     if deferred:
         from .ticket_allocation import finalize_tickets
         tickets, membership = finalize_tickets(tickets, membership, templates, match_columns,
-                                               stake_policy, stake_context, risk_limits)
+                                               stake_policy, stake_context, risk_limits, _audit_sink=output_attrs)
     if prepared:
         if deferred:
             for record in summaries:
@@ -250,7 +251,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                 record.update(selected_tickets=len(selected), selected_stake=float(selected.stake.sum()),
                               funded_tickets=int(selected.stake.gt(0).sum()), unfunded_tickets=int(selected.stake.eq(0).sum()))
         # Internal transport only; reporters promote these records to exportable tables.
-        tickets.attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
+        output_attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
     metrics = ticket_metrics(tickets, composition, membership)
     declarations = []
@@ -267,13 +268,14 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                         frame[field] = pd.Series(index=frame.index, dtype=object)
                     frame.loc[frame[key].eq(name), field] = value
         for key in ('ticket_candidates', 'ticket_selection_summary'):
-            for record in tickets.attrs.get(key, []):
+            for record in output_attrs.get(key, []):
                 if record['template'] == name:
                     record.update(labels)
     if declarations:
-        tickets.attrs['quote_assumptions'] = declarations
+        output_attrs['quote_assumptions'] = declarations
         membership.attrs['quote_assumptions'] = declarations
         metrics.attrs['quote_assumptions'] = declarations
+    tickets.attrs.update(output_attrs)
     return tickets, membership, metrics
 
 

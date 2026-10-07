@@ -7,10 +7,23 @@ from .stake_policy import allocate_batch
 from .quote_availability import quote_leg_records, ASSUMPTION_FIELDS
 
 
-def ticket_batch(tickets, members, templates, match_columns, *, context=None):
+def _index_members(members):
+    """Index exact ticket IDs once, retaining every row and its original order.
+
+    No fixture/quote deduplication: conflicting leg evidence must still reach
+    the existing validation, and repeated legs must not disappear from checks.
+    """
+    return {key: members.iloc[positions] for key, positions in
+            members.groupby('ticket_id', sort=False, dropna=False, observed=True).indices.items()}
+
+
+def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
+    indexed = _index_members(members) if _members_by_ticket is None else _members_by_ticket
     records = []
     for row in tickets.to_dict('records'):
-        legs = members.loc[members.ticket_id.eq(row['ticket_id'])]
+        legs = indexed.get(row['ticket_id'])
+        if legs is None:
+            legs = members.iloc[:0]
         policy = templates[row['bet']]
         contract = getattr(policy, 'quote_availability', None)
         if policy.payoff == 'binary' and 'p_push' in legs and legs.p_push.fillna(0).ne(0).any():
@@ -57,11 +70,13 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None):
     return pd.DataFrame(records).set_index('ticket_id') if records else pd.DataFrame(columns=['nominal_stake','decision_at'])
 
 
-def finalize_tickets(tickets,members,templates,match_columns,policy,context,limits):
+def finalize_tickets(tickets,members,templates,match_columns,policy,context,limits, *, _audit_sink=None):
     from .tickets import _settle
     if tickets.empty:
         return tickets,members
-    batch = ticket_batch(tickets,members,templates,match_columns,context=context)
+    indexed = _index_members(members)
+    batch = ticket_batch(tickets,members,templates,match_columns,context=context,
+                         _members_by_ticket=indexed)
     for name, template in templates.items():
         contract = getattr(template, 'quote_availability', None)
         if contract is not None:
@@ -87,7 +102,7 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
                 probabilities = []
                 provenance = {field: [] for field in ('issued_at','trained_through','artifact_vintage')}
                 for ticket_id in offers.index:
-                    legs = members.loc[members.ticket_id.eq(ticket_id)]
+                    legs = indexed[ticket_id]
                     p = pd.to_numeric(legs.get(column,pd.Series(np.nan,index=legs.index)),errors='raise').astype(float)
                     present = p.notna()
                     if (present & (~np.isfinite(p) | ~p.between(0,1))).any():
@@ -116,7 +131,7 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
     tickets = tickets.loc[~tickets.ticket_id.isin(rejected)].copy()
     members = members.loc[~members.ticket_id.isin(rejected)].copy()
     batch = batch.loc[tickets.ticket_id]
-    tickets.attrs['decision_policy_audit'] = audit
+    output_attrs = {'decision_policy_audit': audit}
     if policy is not None and len(batch):
         if context is None:
             raise ValueError('Static allocation requires a manually supplied StakeContext; use replay_bankroll for chronological compounding.')
@@ -124,14 +139,17 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         tickets['nominal_stake'] = tickets.stake
         tickets['stake'] = tickets.ticket_id.map(allocation.amounts)
         tickets['funded'] = tickets.stake.gt(0)
-        tickets.attrs['allocation_audit'] = allocation.audit.reset_index().to_dict('records')
+        output_attrs['allocation_audit'] = allocation.audit.reset_index().to_dict('records')
     for idx,row in tickets.iterrows():
-        legs = members.loc[members.ticket_id.eq(row.ticket_id)]
+        legs = indexed[row.ticket_id]
         if policy is not None and row.stake == 0:
             tickets.loc[idx,['settlement','payout','profit','accounting_status']] = ['missing',0.,0.,'unfunded']
             continue
         state,payout = _settle(legs,templates[row.bet],row.stake)
         tickets.loc[idx,['settlement','payout','profit','accounting_status']] = [state,payout,payout-row.stake,'unresolved' if pd.isna(payout) else 'settled']
+    # pandas propagates attrs to row Series and slices via deepcopy. Publish
+    # complete audits only after internal settlement and caller summaries.
+    (tickets.attrs if _audit_sink is None else _audit_sink).update(output_attrs)
     return tickets,members
 
 
@@ -154,6 +172,10 @@ def allocate_singles(ledger,policy,context,limits=None,*,match_columns=('event_i
             kind='single',n_legs=1,last_kickoff_at=record['kickoff_at'],probability=record.get('p_win',np.nan),
             probability_assumption='single',settlement='missing',accounting_status='unresolved',payout=np.nan,profit=np.nan))
     members=selected.assign(leg_number=1,template=selected.bet)
-    tickets,members=finalize_tickets(pd.DataFrame(rows),members,templates,match_columns,policy,context,limits)
+    output_attrs = {}
+    tickets,members=finalize_tickets(pd.DataFrame(rows),members,templates,match_columns,policy,context,limits,
+                                   _audit_sink=output_attrs)
     from .tickets import BetSlip
-    return tickets,members,ticket_metrics(tickets,BetSlip(templates),members)
+    metrics = ticket_metrics(tickets,BetSlip(templates),members)
+    tickets.attrs.update(output_attrs)
+    return tickets,members,metrics
