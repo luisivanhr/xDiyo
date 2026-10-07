@@ -36,6 +36,10 @@ test('Reporter staking and complete-ticket gates are native component fields',()
  }
  const field=components.find(c=>c.id==='evaluation.AllCombinations').fields.find(f=>f.name==='ticket_gate');
  assert.ok(field.components.includes('evaluation.DecisionLayer'));
+ const limits=components.find(c=>c.id==='evaluation.RiskLimits');
+ assert.equal(limits.fields.find(f=>f.name==='exposure_caps').item.kind,'record');
+ const history=components.find(c=>c.id==='evaluation.HistoricalRateSource').fields.find(f=>f.name==='history');
+ assert.ok(history.components.includes('input.Table'));
 });
 
 test('Classification schema preserves numeric and text labels distinctly',()=>{
