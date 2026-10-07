@@ -212,3 +212,106 @@ Local plans, logs, trusted output pickles and measurements live under
 `%TEMP%/xdiyo-strict-speed`. The private real slice and prior 24 saved-model
 replays are excluded from the supplied packet and were not rerun. No refits,
 dataset edits, full research resumption or merge are part of this patch.
+
+## Further vectorization from db21b5f (8 October 2026)
+
+The follow-up uses `db21b5f` as its control, rather than attributing the previous
+e7 speedup to the new changes. The ticket membership index was already backed by
+a hash map; introducing another hash table would not remove the dominant work.
+The profile instead showed repeated wide-frame dictionary conversion, per-ticket
+pandas model lookups/checks, and repeated native quote validation.
+
+- Serialize only the columns consumed by economic identity, quote evidence and
+  HTML presentation. Retained output tables still contain every original column.
+  Dynamic `quote_*` fields remain included in quote evidence.
+- Validate the native quote contract once over all consumed membership rows
+  for each template inside `ticket_batch`. The validator still compares each
+  original row with its own decision time. No duplicate rows are discarded, no
+  model stream is replaced, and no approval persists across calls. Per-ticket
+  timestamp parsing is retained as a fallback; custom contract subclasses keep
+  their original per-ticket hook behavior.
+- Validate original model probability ranges and provenance in vectorized
+  batches with an explicit mapping to each ticket's own cutoff. Use integer
+  array positions for subsequent lookup. Ordered per-ticket NumPy products are
+  unchanged, with bitwise regressions for two, three, five and eight legs. No
+  regrouped product, probability normalization, fast-math or new parallel
+  floating reduction is used near the strict EV boundary.
+- The benchmark oracle also now strips attrs only on a temporary working copy.
+  Both control and optimized runs use this same revised worker. This removes
+  the prior diagnostic-only manifest copying cost; it is not attributed to the
+  library's native-call speedup. Output HTML hashes are checked separately.
+
+The initial 504-candidate diagnostic profile was 14.06s native; after the first
+two changes it was 8.87s. Profile overhead is substantial; the fresh-process
+measurements below are the speed evidence. This follow-up retains full and
+summary modes, recipe/API settings, all guards and output metadata contracts.
+
+### Follow-up verification
+
+- **464 affected regressions passed** (45.17s; seven dependency warnings),
+  including browser and isolated-wheel checks. **179 passed on pandas 2.2.3**
+  (12.64s; 194 dependency warnings) and **179 on pandas 3.0.6** (17.26s).
+- **22 same-mode paired outputs and HTML hashes match exactly**: five repeats
+  at 84 and 1,008 candidates in each mode, plus one paired 5,040-candidate run
+  per mode. Full metadata matches exactly. For summary metadata, only the
+  expected `runtime_source_sha256` change is excluded from equality.
+- The supplied independent harness preserves all **13 supported outputs**
+  exactly and all **32 acceptance/rejection outcomes**. There are no new
+  intentional behavior changes in this follow-up.
+- Both 17,024-candidate optimized runs pass the independent pair/probability/EV
+  oracle. Their computational outputs match across modes. The full output also
+  matches the retained large full output from the previous audit exactly.
+  This is correctness evidence, not a fresh large baseline timing.
+- New structural tests require one native quote check over all original rows
+  during ticket-batch preparation, preserve each ticket's own cutoff and exact
+  product bits, and prohibit serializing unrelated wide columns for quotes or
+  HTML. Original tables, ordering and caller attrs are preserved.
+
+### Follow-up timings
+
+Same Windows/Python 3.12.6/pandas 2.2.3/NumPy 2.5.3 environment and fixed thread
+limits as above. Five randomized serial fresh-process runs per modest arm;
+one bounded run per large arm. A warm-up per arm and four separate allocation
+probes are excluded from ordinary timing medians. There were no timeouts.
+All **54 raw records**, including imports, input construction, independent
+verification, native wall/CPU, HTML, serialization and memory, are retained in
+[consensus_vectorized_timings.csv](consensus_vectorized_timings.csv).
+
+| Candidates | Source / mode | Repeats | Native wall s | Native CPU s | HTML s | Native peak MiB | Serialized MB |
+|---:|---|---:|---:|---:|---:|---:|---:|
+| 84 | db21 full | 5 | 0.928 | 0.938 | 0.185 | 91.3 | 0.268 |
+| 84 | optimized full | 5 | 0.589 | 0.594 | 0.072 | 90.9 | 0.268 |
+| 84 | db21 summary | 5 | 0.993 | 0.984 | 0.186 | 91.5 | 0.121 |
+| 84 | optimized summary | 5 | 0.664 | 0.656 | 0.070 | 91.4 | 0.121 |
+| 1,008 | db21 full | 5 | 10.773 | 10.750 | 1.553 | 120.4 | 3.069 |
+| 1,008 | optimized full | 5 | 6.549 | 6.500 | 0.275 | 119.6 | 3.069 |
+| 1,008 | db21 summary | 5 | 11.022 | 10.969 | 1.520 | 118.4 | 1.242 |
+| 1,008 | optimized summary | 5 | 6.606 | 6.609 | 0.255 | 118.7 | 1.242 |
+| 5,040 | db21 full | 1 | 54.322 | 54.109 | 8.844 | 238.4 | 15.316 |
+| 5,040 | optimized full | 1 | 37.061 | 36.938 | 1.084 | 237.9 | 15.316 |
+| 5,040 | db21 summary | 1 | 61.726 | 61.516 | 7.584 | 232.6 | 6.135 |
+| 5,040 | optimized summary | 1 | 37.323 | 36.984 | 1.104 | 231.6 | 6.135 |
+| 17,024 | optimized full | 1 | 128.330 | 127.922 | 4.155 | 554.4 | 51.789 |
+| 17,024 | optimized summary | 1 | 124.285 | 124.000 | 3.765 | 547.3 | 20.682 |
+
+At 1,008 candidates, native medians improve **39% full / 40% summary** relative
+to db21; HTML improves **82% / 83%**. Serialized bytes are unchanged within each
+mode. Memory is broadly unchanged. Native + HTML + serialization at 17,024 is
+132.63s full and 128.11s summary; no fresh db21 control was timed at that size.
+These synthetic measurements do not certify a universal speedup or authorize
+resuming the private saved-model study.
+
+Separate 84-candidate tracked-allocation peaks are 3.258 MB db21 full versus
+3.233 MB optimized full, and 3.245 MB db21 summary versus 3.241 MB optimized
+summary. Instrumented times are excluded from ordinary timing comparisons.
+
+Source reference: `db21b5f`. Runtime snapshot hashes (raw file bytes, including
+line endings) are `fb43a9167f8e3a66d2c7750c76eb189b78f6a62cc07ed161109fb6acedce90cd`
+for the archived baseline and
+`7bb1d47db0fd116f85cbd4d33a0ec79bfdc855ecd72d33b790f47fa496edce36` for the optimized
+source. Git archive normalizes the baseline's line endings, so its runtime hash
+differs from the earlier Windows working-copy hash without implying another
+behavioral change. The final runtime source matches the measured snapshot.
+Plans, profiles and trusted local output pickles are under
+`%TEMP%/xdiyo-consensus-faster-db21`. Private cached-data/model replays remain
+unavailable; no dataset, model, frozen experiment, main or parent branch changed.

@@ -109,7 +109,11 @@ def main():
         np.testing.assert_array_equal(subset.probability, np.full(len(subset), probability*probability))
         np.testing.assert_array_equal(subset.value, np.full(len(subset), probability*probability*16.-1.))
     from itertools import combinations
-    actual = {tuple(sorted(group)) for group in m.groupby('ticket_id', sort=False).event_id.agg(list)}
+    # The independent oracle needs row values, not repeated copies of the
+    # retained manifest. Preserve the result and strip only a working copy.
+    oracle_members = m.copy(deep=False)
+    oracle_members.attrs = {}
+    actual = {tuple(sorted(group)) for group in oracle_members.groupby('ticket_id', sort=False).event_id.agg(list)}
     oracle = {pair for g in range(args.groups) for pair in combinations(range(g*args.fixtures+1, (g+1)*args.fixtures+1), 2)}
     assert actual == oracle and len(actual) == len(t)
     verification = time.perf_counter() - started
@@ -137,6 +141,7 @@ def main():
         peak_rss_call=rss_call, peak_rss_pre_call=rss_before, peak_rss_report=rss_report,
         traced_allocation_peak=allocation_peak, trace=args.trace, serialized_bytes=len(payload),
         report_html_bytes=len(html.encode()), audit_rows=len(t.attrs.get('decision_policy_audit', [])),
+        report_html_sha256=hashlib.sha256(html.encode()).hexdigest(),
         candidate_rows=len(t.attrs.get('ticket_candidates', [])),
         input_sha256=input_hash.hexdigest(),
         python=sys.version, pandas=pd.__version__, numpy=np.__version__)

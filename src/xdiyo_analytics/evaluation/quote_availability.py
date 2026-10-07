@@ -198,7 +198,8 @@ def quote_leg_records(legs, contract, match_columns, *, compact=False):
     from .decision_layer import _safe_columns
     _safe_columns(fields)
     records = []
-    for row in legs.to_dict('records'):
+    columns = list(dict.fromkeys(c for c in (*fields, *match_columns) if c in legs))
+    for row in legs[columns].to_dict('records'):
         record = {field: (None if pd.isna(row.get(field)) else row.get(field)) for field in fields}
         record['fixture_identity'] = json.dumps([row[k] for k in match_columns], default=str)
         records.append(record)

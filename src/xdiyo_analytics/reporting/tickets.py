@@ -133,6 +133,9 @@ def ticket_html(tickets, membership, teams):
     membership = membership.copy(deep=False)
     tickets.attrs = {}
     membership.attrs = {}
+    display_fields = ('ticket_id', 'home_id', 'home', 'home_name', 'away_id', 'away',
+                      'away_name', 'bet', 'description', 'p_win', 'result', 'settlement', 'odds')
+    membership = membership[[c for c in display_fields if c in membership]]
     panels = []
     membership_positions = membership.groupby('ticket_id', sort=False).indices
     for record in tickets.to_dict('records'):
