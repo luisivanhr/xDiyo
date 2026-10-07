@@ -24,6 +24,11 @@ def consensus(legs, pmfs, contract):
     if data.event_id.duplicated().any():
         raise ValueError('Supply one original quote and probability record per fixture.')
     data.index = pd.Index(data.event_id, name='fixture')
+    if 'decision_at' not in data:
+        raise ValueError('Every fixture requires a decision timestamp before grouping.')
+    decision_times = pd.to_datetime(data.decision_at, utc=True, errors='raise')
+    if decision_times.isna().any():
+        raise ValueError('Every fixture requires a nonmissing decision timestamp before grouping.')
     fields = contract.identities(data)
     candidates = data[list(fields)].copy()
     candidates['economic_key'] = data.event_id.map(lambda k: f'fixture:{k}')
@@ -48,11 +53,17 @@ def consensus(legs, pmfs, contract):
         valuations[model] = v
         # Original draw probabilities remain unchanged for complete-ticket EV.
         data[f'{model}::probability'] = aligned['draw']
+    # Validate the entire source and both model streams before groupby can drop
+    # rows or any OR rejection can hide unavailable evidence.
+    context = DecisionContext(decision_times.max(), FrozenTable(candidates), quote_availability=contract) if len(candidates) else None
+    if context is not None:
+        from xdiyo_analytics.evaluation.quote_availability import validate_model_quotes
+        validate_model_quotes(data, models, contract, context.time)
     gate = DecisionLayer(models, gate='or', metric='probability', threshold=1. - .80,
                          strict=False, missing='error')
     selected = []
     audits = []
-    for time, batch in candidates.groupby('decision_at', sort=True):
+    for time, batch in candidates.groupby(decision_times, sort=True, dropna=False):
         result = gate.decide({m: v.loc[batch.index] for m, v in valuations.items()},
             DecisionContext(time, FrozenTable(batch), quote_availability=contract))
         selected.extend(result.selected.index)
@@ -63,7 +74,10 @@ def consensus(legs, pmfs, contract):
         probability_columns={m: f'{m}::probability' for m in models},
         ticket_gate=DecisionLayer(models, gate='and', metric='ev', threshold=0., strict=True, missing='error'))
     tickets, members, metrics = compose_bets(data.reset_index(drop=True), composition)
-    return tickets, members, metrics, pd.concat(audits, ignore_index=True)
+    audit = pd.concat(audits, ignore_index=True) if audits else pd.DataFrame(columns=[
+        'candidate_id', 'model', 'probability', 'value', 'take', 'reason', 'comparator',
+        *contract.labels, 'assumed_available_at', 'quote_at', 'quote_id', 'decision_at'])
+    return tickets, members, metrics, audit
 
 
 def synthetic_example():

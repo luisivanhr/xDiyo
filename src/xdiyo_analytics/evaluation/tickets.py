@@ -263,6 +263,8 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         for frame, key in ((tickets, 'bet'), (membership, 'template'), (metrics, 'target')):
             if key in frame:
                 for field, value in labels.items():
+                    if field not in frame:
+                        frame[field] = pd.Series(index=frame.index, dtype=object)
                     frame.loc[frame[key].eq(name), field] = value
         for key in ('ticket_candidates', 'ticket_selection_summary'):
             for record in tickets.attrs.get(key, []):

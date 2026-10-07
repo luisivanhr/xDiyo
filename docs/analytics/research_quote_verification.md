@@ -1,5 +1,9 @@
 # Research quote extension verification
 
+Subsequent review repairs and compatibility checks are recorded in
+[quote-contract review repairs](quote_contract_review_repairs.md). Results below
+describe the original extension checkpoint.
+
 Date: 7 October 2026.
 Parent: `f76edff8b2e42c7966a8e55c36e6076c8af32011`.
 Branch: `codex/research-quote-availability`.

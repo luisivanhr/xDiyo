@@ -284,7 +284,20 @@ def test_report_parquet_and_performance_reuse_preserve_research_disclosure(tmp_p
         path = tmp_path / f'{name}.parquet'
         table.to_parquet(path)
         restored[name] = pd.read_parquet(path)
-        pd.testing.assert_frame_equal(table, restored[name])
+        expected = table.copy()
+        comparable = restored[name].copy()
+        # Parquet has no seconds timestamp unit. pandas 3 can infer seconds
+        # for constructed report columns; Arrow stores those as milliseconds.
+        # Compare exact instants in nanoseconds, including missing masks, and
+        # normalize pandas 3's string inference without touching numerical types
+        # or changing the reloaded report data.
+        for column in table:
+            if pd.api.types.is_datetime64_any_dtype(table[column]):
+                expected[column] = expected[column].dt.as_unit('ns')
+                comparable[column] = comparable[column].dt.as_unit('ns')
+            elif table[column].dtype == object and isinstance(comparable[column].dtype, pd.StringDtype):
+                comparable[column] = comparable[column].astype(object)
+        pd.testing.assert_frame_equal(expected, comparable)
         assert table.attrs == restored[name].attrs
     context.previous_results = {'cached':StudyResult('Restored', tables=restored)}
     def forbidden(*args, **kwargs): raise AssertionError('Saved report must not recompose or refit.')

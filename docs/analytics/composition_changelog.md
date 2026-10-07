@@ -2,6 +2,19 @@
 
 ## 7 October 2026
 
+### Quote-contract review repairs (parent `b2a9927`)
+
+- Initialize disclosure columns on the existing frame index before masked
+  assignment, preserving valid empty/undersized research outputs on pandas 2.2
+  and 3.x.
+- Preflight all example candidate and model timestamps before grouping, retaining
+  a complete audit even when OR rejects every fixture; support empty input.
+- Reject configured reserved outcome names as probability sources before reading
+  or relabelling ledger values, including mutations after template construction.
+  Keep ordinary quote metadata allowed and concealed aliases outside the guarantee.
+- Add review regressions and isolated pandas 2.2.3/3.0.6 checks. See
+  [verification](quote_contract_review_repairs.md).
+
 ### Explicit research quote availability (separate extension branch)
 
 - Add the opt-in `QuoteAvailability` contract, retaining observed and assumed
