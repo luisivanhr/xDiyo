@@ -15440,11 +15440,12 @@
           "required": false,
           "kind": "list",
           "default": [],
-          "help": "Observed class values, in the order expected by the estimator or probability output.",
+          "help": "Preserve class/support identity: choose Number, Text or Boolean for each value. Numeric 0 and text \"0\" are different labels.",
           "discovery": "classes",
           "primary": false,
           "item": {
-            "kind": "text"
+            "kind": "typed_scalar",
+            "initial": 0
           }
         },
         {
@@ -15489,10 +15490,11 @@
           "required": false,
           "kind": "list",
           "default": [],
-          "help": "Support for OutputSchema. Default: [].",
+          "help": "Preserve class/support identity: choose Number, Text or Boolean for each value. Numeric 0 and text \"0\" are different labels.",
           "primary": false,
           "item": {
-            "kind": "text"
+            "kind": "typed_scalar",
+            "initial": 0
           }
         },
         {
