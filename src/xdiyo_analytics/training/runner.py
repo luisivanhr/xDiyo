@@ -280,6 +280,8 @@ class TrainingRunner:
 
         def fresh_model():
             model = original_factory()
+            if getattr(model, 'requires_inner_preparation', False) and (features_from is not None or weights_from is not None or self.weighting is not None):
+                raise ValueError('Chronological composition requires selectors/weights inside child fits; outer learned preparation would leak OOF labels.')
             # Factories own construction. Catch accidental state reuse across
             # folds without imposing cloning semantics on arbitrary frameworks.
             from .estimators import EstimatorAdapter

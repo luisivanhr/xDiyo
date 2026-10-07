@@ -32,6 +32,9 @@ class AllCombinations:
     on_void: str = 'remove'
     probability_mode: str = 'none'
     min_ev: float | None = None
+    probability_columns: dict | None = None
+    ticket_gate: object = None
+    payoff: str = 'push_void'
 
     def __post_init__(self):
         if self.min_ev is not None:
@@ -87,6 +90,11 @@ def prepare_pools(ledger, policy, match_columns, name):
     if ledger.empty:
         return [], []
     data = ledger.copy()
+    if policy.ticket_gate is not None:
+        if not policy.probability_columns or any(column not in data for column in policy.probability_columns.values()):
+            raise ValueError('Multi-model gates need every explicitly mapped probability column.')
+        if policy.payoff != 'binary':
+            raise ValueError('Complete-ticket EV gates require an explicitly binary payoff.')
     keys = list(match_columns)
     if not keys or any(k not in data for k in keys):
         raise ValueError('AllCombinations needs the full fixture identity columns.')
@@ -162,7 +170,7 @@ def prepare_pools(ledger, policy, match_columns, name):
     return pools, previews
 
 
-def expand_pools(pools, policy, name):
+def expand_pools(pools, policy, name, *, settle=True):
     from .tickets import _settle
     rows, members, decisions = [], [], []
     for group_id, groups, offered in pools:
@@ -201,7 +209,7 @@ def expand_pools(pools, policy, name):
                                   **{k: legs[k].iloc[0] for k in groups}))
             if not selected:
                 continue
-            state, payout = _settle(legs, policy, policy.stake)
+            state, payout = _settle(legs, policy, policy.stake) if settle else ('missing', np.nan)
             rows.append(dict(ticket_id=ticket_id, bet=name, kind='single' if policy.legs == 1 else 'parlay',
                              n_legs=policy.legs, kickoff_at=legs.kickoff_at.min(), last_kickoff_at=legs.kickoff_at.max(),
                              take=True, stake=policy.stake, odds=odds, probability=probability,

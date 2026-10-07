@@ -32,6 +32,12 @@ class BetOutcomeReporter(PredictionReporter):
     history: object = None
     default_odds: float | None = None
     composition: object = None
+    stake_policy: object = None
+    stake_context: object = None
+    risk_limits: object = None
+    single_payoff: str = 'push_void'
+    probability_outputs: dict | None = None
+    model_timing: dict | None = None
     catalog: object = None
     show_badges: bool = True
     page_size: int = 25
@@ -55,6 +61,24 @@ class BetOutcomeReporter(PredictionReporter):
         specs, alternatives = prepare_bets(context, self.offers, self.policy, target=target,
                                            output=output, default_odds=self.default_odds)
         ledger, metrics = evaluate_bets(context, specs, labels=self.labels, history=self.history)
+        if self.probability_outputs:
+            keys = ['fold_id','row_position','bet']
+            for model, source in self.probability_outputs.items():
+                _, evidence = prepare_bets(context, self.offers, self.policy, target=target,
+                                          output=source, default_odds=self.default_odds)
+                if evidence.p_push.fillna(0).ne(0).any():
+                    raise ValueError('Multi-model binary ticket gates do not support push probabilities.')
+                ledger = ledger.merge(evidence[keys+['p_win']].rename(columns={'p_win':model+'::probability'}),
+                                      on=keys,how='left',validate='one_to_one')
+                timing = (self.model_timing or {}).get(model, {})
+                for field in ('issued_at','artifact_vintage','trained_through'):
+                    value = timing.get(field)
+                    if value is None:
+                        raise ValueError(f'Multi-model reporter needs explicit {model} {field} provenance.')
+                    if isinstance(value,dict) and set(value)=={'column'}:
+                        ledger[model+'::'+field] = ledger[value['column']]
+                    else:
+                        ledger[model+'::'+field] = pd.to_datetime(value,utc=True)
         base, teams, notes = fixture_rows(context, self)
         lookup = ledger.set_index(['fold_id', 'row_position', 'bet'])
         groups = dict(tuple(alternatives.groupby(['fold_id', 'row_position'], sort=False)))
@@ -86,13 +110,15 @@ class BetOutcomeReporter(PredictionReporter):
             result.tables['odds_provenance'] = ledger[[c for c in ledger if c.startswith('quote_') or c in ('vendor_match_id','source_column')]].drop_duplicates()
         if self.default_odds is not None:
             result.notes.append(f'Explicit fallback decimal odds: {self.default_odds}. This is a fixed-odds scenario where quotes are absent.')
-        display_title = f'{target}: selected legs' if self.composition is not None else f'{target}: bet decisions'
+        has_tickets = self.composition is not None or self.stake_policy is not None
+        display_title = f'{target}: selected legs' if has_tickets else f'{target}: bet decisions'
         result.artifacts.append(Artifact('match_results', table, display_title, dict(
             teams=teams, layout=context.layout, page_size=self.page_size, bets=True,
             numeric=False, probabilities=False, odds=bool(table.odds.notna().any()),
-            profit=self.composition is None and bool(table.profit.notna().any()),
+            profit=not has_tickets and bool(table.profit.notna().any()),
             initial={key:None if getattr(self,key) is None else team_key(getattr(self,key)) for key in ('league','season','team','round')})))
-        if self.composition is not None:
+        if self.composition is not None or self.stake_policy is not None:
             from .tickets import add_tickets
-            add_tickets(result, self.composition, context, fixture_table=table, teams=teams)
+            add_tickets(result, self.composition, context, fixture_table=table, teams=teams,
+                        stake_policy=self.stake_policy, stake_context=self.stake_context, risk_limits=self.risk_limits, single_payoff=self.single_payoff)
         return result

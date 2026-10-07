@@ -9,16 +9,19 @@ class Mean:
     weights: tuple = ()
     kind: str = 'regression'
 
+    def validate_weights(self, count):
+        w = np.asarray(self.weights if self.weights else [1.] * count, dtype=float)
+        if not count or w.shape != (count,) or not np.isfinite(w).all() or (w < 0).any() or not w.max() > 0:
+            raise ValueError('Weights must be finite, nonnegative and have positive total.')
+        w = w / w.max()
+        return w / w.sum()
+
     def reduce(self, frames, schemas):
         if not frames or any(s != schemas[0] for s in schemas):
             raise ValueError('Mean requires identical targets, classes, units, timing and conditioning schemas.')
         if self.kind not in {'regression', 'probability'} or schemas[0].kind != self.kind:
             raise ValueError('Mean supports regression values or event probabilities, not distribution parameters.')
-        w = np.asarray(self.weights if self.weights else [1.] * len(frames), dtype=float)
-        if w.shape != (len(frames),) or not np.isfinite(w).all() or (w < 0).any() or not w.max() > 0:
-            raise ValueError('Weights must be finite, nonnegative and have positive total.')
-        w = w / w.max()
-        w /= w.sum()
+        w = self.validate_weights(len(frames))
         first = frames[0]
         if any(not f.index.equals(first.index) or not f.columns.equals(first.columns) for f in frames):
             raise ValueError('Mean needs exactly aligned rows and columns.')

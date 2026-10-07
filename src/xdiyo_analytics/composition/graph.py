@@ -14,6 +14,7 @@ class ModelNode:
     artifact_vintage: object = None
     trained_through: object = None
     artifact_id: str | None = None
+    weighting: object = None
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,23 @@ class PredictionGraphSpec:
                 raise ValueError('Meta models need explicit OutputFeatures.')
             if isinstance(node, ModelNode) and (not node.schemas or any(not isinstance(s, OutputSchema) for s in node.schemas.values())):
                 raise ValueError('Each model output requires an OutputSchema.')
+            if isinstance(node, ReducerNode):
+                source_schemas = [self.schemas(r.node)[r.output] for r in node.inputs]
+                if not source_schemas or any(s != source_schemas[0] for s in source_schemas):
+                    raise ValueError('Reducer edges require identical schemas before fitting.')
+                from .reducers import Mean, HardVote, DistributionMixture
+                if isinstance(node.reducer, (Mean, DistributionMixture)):
+                    Mean(node.reducer.weights).validate_weights(len(node.inputs))
+                if isinstance(node.reducer, DistributionMixture) and (source_schemas[0].family != 'categorical_pmf' or node.schema != source_schemas[0]):
+                    raise ValueError('Distribution mixtures require a complete common PMF schema.')
+                if isinstance(node.reducer, Mean) and (source_schemas[0].kind != node.reducer.kind or node.schema != source_schemas[0]):
+                    raise ValueError('Mean output/input schema mismatch.')
+                if isinstance(node.reducer, HardVote) and (source_schemas[0].kind != 'labels' or node.schema.kind != ('vote_fraction' if node.reducer.fractions else 'labels')):
+                    raise ValueError('Hard votes must remain labels or explicitly typed vote fractions.')
+            if isinstance(node, TransformNode):
+                from .transforms import OutputFeatures
+                if not isinstance(node.transform, OutputFeatures):
+                    raise ValueError('Graph transforms support stateless OutputFeatures; put learned transforms inside child pipelines.')
             active.remove(name)
             ordered.append(name)
         for name in self.nodes:

@@ -28,6 +28,7 @@ class Parlay:
     on_void: str = "remove"
     probability_mode: str = "none"
     max_tickets: int = 1000
+    payoff: str = 'push_void'
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -100,7 +101,7 @@ def _settle(legs, policy, stake):
     return "win", payout
 
 
-def compose_bets(ledger, composition, *, match_columns=("event_id",)):
+def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_policy=None, stake_context=None, risk_limits=None):
     """Return ticket ledger, ticket-leg membership and ticket-level metrics.
 
     Only selected legs enter composition. Grouping/ranking never consults
@@ -108,6 +109,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
     available together to interpret tickets as a prospective betting simulation.
     """
     templates = composition.tickets if isinstance(composition, BetSlip) else {"tickets": composition}
+    deferred = stake_policy is not None or any(getattr(p, 'ticket_gate', None) is not None for p in templates.values())
     if not isinstance(templates, dict) or not templates:
         raise ValueError("A BetSlip needs at least one named ticket template.")
     rows, members = [], []
@@ -127,7 +129,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
             raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
         if isinstance(policy, AllCombinations):
             pools, preview = prepared[name]
-            new_rows, new_members, audit = expand_pools(pools, policy, name)
+            new_rows, new_members, audit = expand_pools(pools, policy, name, settle=not deferred)
             rows.extend(new_rows)
             members.extend(new_members)
             decisions.extend(audit)
@@ -201,7 +203,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
                         odds = float(np.prod(legs.odds)) if legs.odds.notna().all() else np.nan
                         if not pd.isna(odds) and not np.isfinite(odds):
                             raise ValueError("Combined odds overflow; reduce ticket size.")
-                        state, payout = _settle(legs, policy, stake)
+                        state, payout = _settle(legs, policy, stake) if not deferred else ('missing', np.nan)
                         probability = np.nan
                         if policy.probability_mode == "independent" and 'p_win' in legs and legs.p_win.notna().all():
                             if (~np.isfinite(legs.p_win) | ~legs.p_win.between(0, 1)).any():
@@ -231,7 +233,22 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",)):
                'stake', 'odds', 'probability', 'probability_assumption', 'settlement', 'accounting_status', 'payout', 'profit']
     tickets = pd.DataFrame(rows) if rows else pd.DataFrame(columns=columns)
     membership = pd.DataFrame(members) if members else pd.DataFrame(columns=[*ledger.columns, 'ticket_id', 'leg_number', 'template'])
+    if deferred:
+        from .ticket_allocation import finalize_tickets
+        tickets, membership = finalize_tickets(tickets, membership, templates, match_columns,
+                                               stake_policy, stake_context, risk_limits)
     if prepared:
+        if deferred:
+            for record in summaries:
+                selected = tickets.loc[tickets.bet.eq(record['template'])]
+                if 'group_id' in selected:
+                    selected = selected.loc[selected.group_id.eq(record['group_id'])]
+                else:
+                    for key in ('fold_id','competition_id','source_league','season_id','source_season','round','tournament_id','stage_id','stage'):
+                        if key in record and key in selected:
+                            selected = selected.loc[selected[key].eq(record[key])]
+                record.update(selected_tickets=len(selected), selected_stake=float(selected.stake.sum()),
+                              funded_tickets=int(selected.stake.gt(0).sum()), unfunded_tickets=int(selected.stake.eq(0).sum()))
         # Internal transport only; reporters promote these records to exportable tables.
         tickets.attrs.update(ticket_candidates=_audit_records(decisions), ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
@@ -262,11 +279,13 @@ def ticket_metrics(tickets, composition, membership):
         settled = group.accounting_status.eq('settled')
         stakes = float(group.loc[settled, 'stake'].sum())
         profit = float(group.loc[settled, 'profit'].sum())
-        pending = int((~settled).sum())
+        pending = int(group.accounting_status.eq('unresolved').sum())
         values = dict(profit=profit, roi=profit/stakes if stakes else np.nan, bets_placed=len(group),
                       settled_bets=int(settled.sum()), unresolved_bets=pending, settled_stakes=stakes,
                       payout=float(group.loc[settled, 'payout'].sum()))
         values.update({f'{s}_count': int((settled & group.settlement.eq(s)).sum()) for s in ('win','loss','push','void')})
+        if 'funded' in group:
+            values.update(selected_tickets=len(group), funded_tickets=int(group.funded.sum()), unfunded_tickets=int((~group.funded).sum()))
         evidence = membership.loc[membership.template.eq(name)].drop(columns=['profit', 'payout'], errors='ignore')
         digest = hashlib.sha256(evidence.to_json(date_format='iso').encode()).hexdigest()
         for metric, value in values.items():
