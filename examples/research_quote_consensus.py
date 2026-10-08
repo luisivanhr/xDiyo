@@ -10,7 +10,7 @@ from xdiyo_analytics.evaluation import (
 )
 
 
-def consensus(legs, pmfs, contract, *, audit_level='full'):
+def consensus(legs, pmfs, contract, *, audit_level='full', ticket_legs=2, max_tickets=100000):
     """Two native DecisionLayer calls: fixture OR, then complete-ticket EV AND.
 
     pmfs[model] uses class labels 'draw' and 'non_draw', indexed by event_id.
@@ -69,7 +69,7 @@ def consensus(legs, pmfs, contract, *, audit_level='full'):
         selected.extend(result.selected.index)
         audits.append(result.audit)
     data['take'] = data.index.isin(selected)
-    composition = AllCombinations(legs=2, stake=1., stage_column='stage', audit_level=audit_level,
+    composition = AllCombinations(legs=ticket_legs, max_tickets=max_tickets, stake=1., stage_column='stage', audit_level=audit_level,
         probability_mode='independent', payoff='binary', quote_availability=contract,
         probability_columns={m: f'{m}::probability' for m in models},
         ticket_gate=DecisionLayer(models, gate='and', metric='ev', threshold=0., strict=True, missing='error'))

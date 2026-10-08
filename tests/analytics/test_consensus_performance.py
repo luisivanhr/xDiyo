@@ -52,6 +52,8 @@ def test_compose_publishes_audits_after_internal_pandas_operations(monkeypatch, 
 
 
 def test_membership_is_indexed_once_and_not_rescanned_per_ticket(monkeypatch):
+    from xdiyo_analytics.evaluation import bulk_tickets
+    monkeypatch.setattr(bulk_tickets, 'supports_bulk', lambda *a: False)
     original_index = ticket_allocation._index_members
     original_eq = pd.Series.eq
     calls = []

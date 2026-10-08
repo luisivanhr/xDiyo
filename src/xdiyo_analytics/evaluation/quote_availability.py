@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 import json
 import numpy as np
+from .ticket_numeric import checked_product
 import pandas as pd
 from .timestamps import timestamps
 
@@ -189,7 +190,7 @@ class QuoteAvailability:
             # dtype inference; never use a regrouped/reordered reduction.
             raw = records[start:stop]
             odds = pd.Series([leg.get('odds', np.nan) for leg in raw])
-            if float(np.prod(odds)) != row['odds'] or json.dumps([leg.get('quote_id') for leg in raw]) != row['quote_id']:
+            if float(checked_product(odds)) != row['odds'] or json.dumps([leg.get('quote_id') for leg in raw]) != row['quote_id']:
                 raise ValueError('Ticket price or quote identities differ from their legs.')
             for field, values in parsed.items():
                 if field not in columns:
