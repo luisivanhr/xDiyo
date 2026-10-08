@@ -2,6 +2,20 @@
 
 ## 8 October 2026
 
+### Guarded bulk execution and quote-contract repairs (parent `5785800`)
+
+- Require each nested ticket leg's own quote schema; bind direct-finalization
+  validation to consumed ticket/member identities and their original cutoffs.
+- Preserve mixed ISO timestamp parsing, optional template columns, and orphan-row
+  compatibility; correct independent summary timestamp inventory.
+- Add explicit capability-based native bulk execution for full-audit, fixed 1u,
+  two-model AND EV tickets, with repaired reference fallback for other settings.
+- Preserve native full outputs, sparse membership indices, quote JSON, report and
+  serialized artifact contracts. Reject integer/accounting overflow explicitly.
+- Three-repeat synthetic native medians improve about 6.8x at 504 and 2,016
+  candidates. Full HTML/CSV bytes are identical; real-stream acceptance is pending.
+- See [repair, compatibility and benchmark report](guarded_bulk_consensus.md).
+
 ### Further native consensus vectorization (parent `db21b5f`)
 
 - Batch original-leg probability and provenance checks with each ticket's own
