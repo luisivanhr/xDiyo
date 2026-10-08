@@ -354,3 +354,77 @@ bulk HTML/CSV stages alone took 1.021/0.588 seconds. Median process peak RSS
 after reporting was 622.9 MiB for reference and 603.2 MiB for bulk; it includes
 the interpreter, loaded data and report. All matched HTML/CSV hashes agree.
 Report costs and full-audit memory remain substantial despite faster execution.
+
+## Compatibility repairs following the 166196c audit
+
+The identity guard now preserves three additional boundaries:
+
+1. **Lossless nullable Float32 boxing.** Native `Float32(1.1)` can contribute
+   the string `1.1` to a canonical ID, then become the Python float
+   `1.100000023841858` in an ordinary membership table. The guard first checks
+   the ordinary canonical hash. On mismatch, it considers column-wide
+   binary32/widened spellings only for finite floating columns whose values
+   round-trip to binary32 **exactly**. A candidate must reproduce the original
+   ticket hash, with one consistent spelling choice for any column shared by
+   group and fixture identity. It does not round arbitrary binary64 numbers,
+   parse string identifiers, change source dtypes, rewrite IDs or skip guards.
+   Nonidentical numerical values still reject. This compatibility path is
+   needed because legacy membership tables do not retain original dtype
+   provenance; it is not a reusable validation cache.
+2. **Generic fixture equality.** `Parlay` and `MultiBet` check duplicates using
+   the same pandas multi-column equality as their native constructor.
+   Integer `1` and text `"1"` remain distinct; boolean `True` and integer `1`
+   in the same other key context remain duplicates. Canonical string hashes
+   are reserved for `AllCombinations`. Reusing a leg across different system
+   tickets remains valid.
+3. **Partial grouping assertions.** Each supplied fold, league, season, stage
+   and round field is checked independently against consumed membership.
+   Correct partial or absent legacy metadata remains supported. Dropping
+   `stage` no longer allows an inaccurate retained `round` to survive.
+
+### Existing canonical type-equivalence boundary
+
+Native `AllCombinations._identity` deliberately stringifies key components.
+Its existing hash alone therefore cannot distinguish an integer key from the
+same decimal text. Summary publication omits full nested quote JSON, so that
+hash is not a stronger typed binding. Full retained quote JSON distinguishes
+those key types. Public ID construction remains unchanged.
+
+Optional model-prefixed fixture keys are checked by the model-evidence
+validation in composition and `finalize_tickets`. The low-level `ticket_batch`
+helper does not independently validate model streams; merely supplying those
+columns to it does not strengthen its canonical-hash check. No new typed-key
+storage contract or source-authentication claim is introduced here.
+
+### Verification and scope
+
+- **1,167 passed** in the affected Windows pandas 2.2.3 suite, including
+  browser and installed-wheel checks; **940 passed** in the overlapping pandas
+  3.0.6 suite. Neither suite had failures or skips. The 93 new regression cases
+  exercise both engines, both audit modes, helpers, allocation, serialization,
+  original native IDs and negative mutations.
+- All 20 independent nullable-Float32 grouping reproductions now compose;
+  all eight retained-output helper checks pass. The four generic composition /
+  allocation reproductions pass. All four partial-group contradictions reject.
+- Prior composite **90/90**, dtype **50/50**, forged membership **6/6 rejected**,
+  nested-schema **30/30 rejected**, timestamp **18/18 rejected**, adversarial
+  **103 with no findings**, and finite-accounting probes retain their repairs.
+  The additional categorical adapter checks pass **24/24** unchanged.
+- The independent 219-case investigation now matches 207 raw expectations.
+  The remaining nine cases illustrate the documented canonical type-alias
+  boundary (including low-level helper calls); three float16 categorical
+  constructions fail inside pandas before calling the library. These are
+  recorded separately, not presented as new regression failures or passes.
+- Original hash-pinned five-key XGB/LGBM replay on 30/100 fixtures still gives
+  109/386 candidates and 73/96 selected tickets, with actual bulk dispatch.
+  Reference and automatic frames/dtypes/indices/attrs, IDs, quote JSON, native
+  HTML/CSV and pickle round trips agree exactly. All 4,767 PMFs per model remain
+  unchanged, as do original unknown quote timestamps and the research clock.
+
+[Verification and bounded timing evidence](guarded_bulk_identity_verification.json)
+records source hashes, independent classifications, report/export overhead and
+process peak RSS. Fresh serial single-thread timings are separate from the
+correctness runs. The user authorized publishing this repair branch, not a
+merge. No model fitting, regenerated forecasts, strategy search or full-study
+run is involved. Full-audit storage remains O(candidates × legs), with the
+existing expansion cap and 4096 numerical chunk bound.
