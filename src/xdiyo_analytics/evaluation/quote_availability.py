@@ -228,6 +228,19 @@ def validate_model_quotes(legs, models, contract, time):
     """Require independently supplied per-model quote references, never fabricate them."""
     fields = contract.identities(legs)
     for model in models:
+        # Older callers bind fixture identity through their retained quote IDs.
+        # If a stream also supplies explicit native keys, they must agree;
+        # silently ignoring contradictory join evidence would hide a bad join.
+        for key in ('source_league', 'source_season', 'competition_id', 'season_id', 'event_id'):
+            source = f'{model}::{key}'
+            if source in legs:
+                def typed(value):
+                    value = value.item() if isinstance(value, np.generic) else value
+                    return type(value), value
+                # Python scalar tokens avoid uint64/float comparison promotion.
+                if (key not in legs or legs[source].isna().any() or legs[key].isna().any()
+                        or any(typed(a) != typed(b) for a, b in zip(legs[source], legs[key]))):
+                    raise ValueError(f'Model {model} fixture identity differs at {key}.')
         sources = {field: f'{model}::{field}' for field in fields}
         if any(source not in legs for source in sources.values()):
             raise ValueError(f'Model {model} must reference every quote identity and availability field.')

@@ -61,14 +61,17 @@ Bulk capabilities:
 - Full audit, fixed 1u stake, independent binary probabilities, AND EV strictly
   greater than zero, disabled min_ev prefilter, default identities and remove
   push/void rules, configurable positive integer leg count.
-- Unique nonmissing event_id fixtures and a RangeIndex. uint64 fixture identities,
-  including adjacent values above 2**53 and values above 2**63, remain exact.
+- Nonmissing event_id keys, or the complete ordered source_league/source_season/
+  competition_id/season_id/event_id key. Caller indices may be arbitrary or
+  duplicated. Native preflight still validates conflicts and deduplicates
+  identical fixture evidence before call-local positions are assigned. uint64
+  keys, including adjacent values above 2**53 and near 2**64, remain exact.
 - Float64 or integral original odds; integral products must fit signed int64.
   No conversion of float32/object/numeric-string odds to qualify for bulk.
 
 Other valid configurations use the repaired reference: summary mode, other gate
-settings/custom hooks, multiple or differently named templates, duplicate-row
-indices, alternative payoff/price representations, static allocations, bankroll
+settings/custom hooks, multiple or differently named templates, unsupported or
+mixed key types, alternative payoff/price representations, static allocations, bankroll
 and zero funding. Invalid input is not caught and retried through another engine.
 Original quote/model guards run before rejection/caps can conceal evidence.
 
@@ -183,3 +186,85 @@ Raw measurements: [guarded_bulk_timings.csv](guarded_bulk_timings.csv). Full med
 The measured runtime was unchanged while benchmarking. Subsequent changes only
 record these findings in documentation. This development branch is pushed under
 the user's explicit instruction and remains unmerged; main is unchanged.
+
+## Follow-up repairs to the 39aba81 audit
+
+The following changes were verified on the same branch, with publishing
+subsequently authorized by the user. The results above describe the initial revision; this section
+supersedes its real-input limitation and event-only dispatch restriction.
+
+1. **Original timestamps:** empty/whitespace strings reject for object, pandas
+   StringDtype, Arrow strings and categorical columns, including before a pool
+   is rejected or found undersized. Genuine null research observations remain
+   null; required model timestamps still reject. Inventory coercion preserves
+   the missing/unparseable distinction.
+2. **Composite fixture identities:** both engines use native validated pools,
+   native `_event` identities and stable candidate ordering. The bulk engine
+   assigns dense positions independently of DataFrame labels, and serializes
+   every supplied fixture key in quote evidence. It neither projects the study
+   to event-only keys nor converts integer keys through floating point.
+   Explicit model-prefixed native fixture keys, when supplied, must match the
+   canonical keys in type and value. Older callers retain their quote-ID binding.
+3. **Native-precision PMFs:** the example validates finite bounded channels
+   with per-column unit-roundoff budgets (`eps(dtype)/2 * abs(value)`, summed
+   across channels), retaining the existing 1e-12 binary64 floor. Both channels
+   remain unchanged. No normalization, complementary replacement or model
+   averaging is performed; gate arithmetic and boundaries are unchanged.
+4. **Finite accounting publication:** ordinary pandas reductions retain their
+   existing rounding. A nonfinite reduction uses checked `math.fsum`; an
+   unrepresentable total or ROI raises before publication. This also covers
+   selected-stake summaries.
+
+### Verification
+
+- **921 passed** in the affected Windows suite on pandas 2.2.3, including the
+  two previously blocked composition-browser tests, odds browser round trips,
+  and isolated installed-wheel checks. No failures or skips.
+- **694 passed** in the focused pandas 3.0.6 compatibility suite. This overlaps
+  the affected suite; these numbers are not a combined unique-test count.
+- The independent timestamp reproduction now rejects all 18 invalid cases.
+  The native-precision reproduction accepts the three unchanged saved float32
+  pairs, and all 4,767 retained PMFs from each model pass unchanged.
+- A1–A4, native/prototype comparisons and independent differential probes are
+  recorded in [the verification record](guarded_bulk_repair_verification.json).
+  A temporary Windows probe copy moves the Unix-only `resource` import into
+  its unused timing worker; correctness assertions are unchanged.
+
+The first broad run exposed missing test-environment dependencies and joblib
+1.6's removed vendored cloudpickle import. The successful run uses joblib 1.5.2,
+setuptools and Playwright 1.55.0 with the existing Chromium installation. No
+library dependency constraints or unrelated persistence behavior were changed.
+
+### Unchanged five-key study replay
+
+`examples/verify_guarded_repair_evidence.py` verifies the supplied archive hashes,
+loads the original hash-pinned XGB/LGBM streams and opening quotes, and executes
+only the recovered adapter's `keyframe`, `leg_gate`, `specification` and
+`native_select` functions. Its environment mutation and full-study runner never
+execute. Complete outputs are captured before the adapter removes report attrs.
+
+| Bounded fixtures | Candidates | Selected | Automatic dispatch |
+|---:|---:|---:|---|
+| 30 | 109 | 73 | bulk, original five-key identity |
+| 100 | 386 | 96 | bulk, original five-key identity |
+
+Repaired reference and automatic execution agree exactly on frames, indices,
+column order, dtypes, recursive attrs, IDs, quote JSON, native AnalysisReport
+HTML, CSVs and pickle round trips. Original PMFs remain unchanged; original
+scalar probability oracles agree. Input immutability and outcome-mutation
+decision invariance also pass. No identity or metadata fields are excluded.
+
+Run from the checkout with its `src` and root on `PYTHONPATH`:
+
+```powershell
+python examples/verify_guarded_repair_evidence.py `
+  --evidence <extracted-audit-root> --output <verification.json>
+```
+
+This is a bounded correctness diagnostic, not a new repeated speed benchmark.
+The separately labelled original event-only benchmark is not evidence for the
+unchanged study caller. No models were refitted, predictions regenerated,
+strategies searched or full study rerun. The original retrospective research
+clock and unknown observed quote timestamps remain explicit; these checks do
+not establish historical tradability. Numerical chunks remain capped at 4096;
+complete audit storage still grows with candidates times leg count.

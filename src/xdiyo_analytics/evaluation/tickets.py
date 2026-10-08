@@ -131,7 +131,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
             prepared[name] = (pools, preview)
     from .bulk_tickets import supports_bulk, execute_bulk
     if supports_bulk(ledger, templates, match_columns, stake_policy, stake_context, risk_limits):
-        tickets, membership, decisions, summaries, output_attrs = execute_bulk(ledger, prepared, templates['tickets'])
+        tickets, membership, decisions, summaries, output_attrs = execute_bulk(ledger, prepared, templates['tickets'], match_columns)
         return _finish_composition(tickets, membership, composition, templates, prepared, decisions,
                                    summaries, output_attrs, True, False, ledger,
                                    stake_policy, stake_context, risk_limits)
@@ -274,7 +274,7 @@ def _finish_composition(tickets, membership, composition, templates, prepared, d
                     for key in ('fold_id','competition_id','source_league','season_id','source_season','round','tournament_id','stage_id','stage'):
                         if key in record and key in selected:
                             selected = selected.loc[selected[key].eq(record[key])]
-                record.update(selected_tickets=len(selected), selected_stake=float(selected.stake.sum()),
+                record.update(selected_tickets=len(selected), selected_stake=_finite_accounting_sum(selected.stake),
                               funded_tickets=int(selected.stake.gt(0).sum()), unfunded_tickets=int(selected.stake.eq(0).sum()))
         # Internal transport only; reporters promote these records to exportable tables.
         if not compact:
@@ -329,6 +329,21 @@ def _audit_records(records):
     return [{key: scalar(value) for key, value in record.items()} for record in records]
 
 
+def _finite_accounting_sum(values):
+    # Retain pandas' ordinary reduction and rounding. Only repair a nonfinite
+    # reduction of finite amounts; fsum can represent totals pandas overflows.
+    with np.errstate(over='ignore', invalid='ignore'):
+        total = float(values.sum())
+    if not np.isfinite(total):
+        try:
+            total = fsum(float(v) for v in values if pd.notna(v))
+        except (OverflowError, ValueError) as exc:
+            raise ValueError('Selected ticket metric total overflow.') from exc
+        if not np.isfinite(total):
+            raise ValueError('Selected ticket metric total overflow.')
+    return total
+
+
 def ticket_metrics(tickets, composition, membership):
     """Same metric contract as single bets; each ticket counts once."""
     result = []
@@ -336,12 +351,15 @@ def ticket_metrics(tickets, composition, membership):
     for name in templates:
         group = tickets.loc[tickets.bet.eq(name)]
         settled = group.accounting_status.eq('settled')
-        stakes = float(group.loc[settled, 'stake'].sum())
-        profit = float(group.loc[settled, 'profit'].sum())
+        stakes = _finite_accounting_sum(group.loc[settled, 'stake'])
+        profit = _finite_accounting_sum(group.loc[settled, 'profit'])
+        roi = profit/stakes if stakes else np.nan
+        if stakes and not np.isfinite(roi):
+            raise ValueError('Selected ticket ROI overflow.')
         pending = int(group.accounting_status.eq('unresolved').sum())
-        values = dict(profit=profit, roi=profit/stakes if stakes else np.nan, bets_placed=len(group),
+        values = dict(profit=profit, roi=roi, bets_placed=len(group),
                       settled_bets=int(settled.sum()), unresolved_bets=pending, settled_stakes=stakes,
-                      payout=float(group.loc[settled, 'payout'].sum()))
+                      payout=_finite_accounting_sum(group.loc[settled, 'payout']))
         values.update({f'{s}_count': int((settled & group.settlement.eq(s)).sum()) for s in ('win','loss','push','void')})
         if 'funded' in group:
             values.update(selected_tickets=len(group), funded_tickets=int(group.funded.sum()), unfunded_tickets=int((~group.funded).sum()))

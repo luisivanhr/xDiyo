@@ -10,6 +10,25 @@ from xdiyo_analytics.evaluation import (
 )
 
 
+def _validate_pmf(aligned):
+    """Check original probabilities without changing either stored channel.
+
+    Each floating channel contributes its native unit roundoff times magnitude
+    to the sum tolerance. Mixed float32/float64 columns keep separate budgets;
+    the existing 1e-12 binary64 floor remains. This only permits representation
+    rounding, never normalization or repair of a materially incomplete PMF.
+    """
+    values = aligned.to_numpy(dtype=float, na_value=np.nan)
+    budgets = []
+    for dtype in aligned.dtypes:
+        native = np.dtype(getattr(dtype, 'numpy_dtype', dtype))
+        budgets.append(np.finfo(native).eps / 2 if native.kind == 'f' else 0.)
+    tolerance = np.maximum(1e-12, np.abs(values) @ np.asarray(budgets))
+    if (not np.isfinite(values).all() or (values < 0).any() or (values > 1).any()
+            or (np.abs(values.sum(axis=1) - 1.) > tolerance).any()):
+        raise ValueError('Both complete valid cached model streams are required before selection.')
+
+
 def consensus(legs, pmfs, contract, *, audit_level='full', ticket_legs=2, max_tickets=100000):
     """Two native DecisionLayer calls: fixture OR, then complete-ticket EV AND.
 
@@ -39,9 +58,7 @@ def consensus(legs, pmfs, contract, *, audit_level='full', ticket_legs=2, max_ti
         if not pmf.index.is_unique or set(pmf.columns) != {'draw', 'non_draw'}:
             raise ValueError('Use unique fixture keys and explicitly labelled draw/non_draw classes.')
         aligned = pmf.reindex(data.index)[['draw', 'non_draw']]
-        values = aligned.to_numpy(dtype=float)
-        if not np.isfinite(values).all() or (values < 0).any() or (values > 1).any() or not np.allclose(values.sum(axis=1), 1., atol=1e-12, rtol=0):
-            raise ValueError('Both complete valid cached model streams are required before selection.')
+        _validate_pmf(aligned)
         v = candidates.copy()
         for field in fields:
             v[field] = data[f'{model}::{field}']
