@@ -1,0 +1,814 @@
+{
+  "source_commit": "ea622d2",
+  "base_commit": "5785800",
+  "reference_repairs": "e5151cc",
+  "protocol": {
+    "plan": [
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 1,
+        "repeat": -1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 1,
+        "repeat": -1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 1,
+        "repeat": -1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 1,
+        "repeat": -1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 1,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 72,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 72,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "reference",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 2,
+        "source": "C:\\Users\\luisi\\.codex\\worktrees\\composition-stake-policy\\xDiyo"
+      },
+      {
+        "backend": "auto",
+        "mode": "full",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-consolidated-5785800\\baseline578",
+        "baseline": true
+      },
+      {
+        "backend": "auto",
+        "mode": "summary",
+        "groups": 18,
+        "repeat": 0,
+        "source": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-consolidated-5785800\\baseline578",
+        "baseline": true
+      }
+    ],
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 16,
+    "python": "C:/Users/luisi/AppData/Local/Temp/xdiyo-quote-review-matrix/pandas22/Scripts/python.exe",
+    "seed": 81058,
+    "threads": 1,
+    "hash_seed": 0
+  },
+  "results": {
+    "summary": [
+      {
+        "candidates": 504,
+        "mode": "full",
+        "backend": "reference",
+        "repeats": 3,
+        "wall": {
+          "median": 3.5483041999395937,
+          "minimum": 3.505060900002718,
+          "maximum": 3.5943108999636024
+        },
+        "cpu": {
+          "median": 3.53125,
+          "minimum": 3.484375,
+          "maximum": 3.53125
+        },
+        "report_html": {
+          "median": 0.29278440005145967,
+          "minimum": 0.29203200014308095,
+          "maximum": 0.3150041000917554
+        },
+        "csv_seconds": {
+          "median": 0.1113803000189364,
+          "minimum": 0.1099388999864459,
+          "maximum": 0.11168850003741682
+        },
+        "serialization": {
+          "median": 0.00580909987911582,
+          "minimum": 0.005744999973103404,
+          "maximum": 0.006087400019168854
+        },
+        "peak_rss_call": {
+          "median": 109850624,
+          "minimum": 109846528,
+          "maximum": 109862912
+        },
+        "peak_rss_report": {
+          "median": 182943744,
+          "minimum": 182083584,
+          "maximum": 183021568
+        },
+        "report_html_bytes": {
+          "median": 9366074,
+          "minimum": 9366074,
+          "maximum": 9366074
+        },
+        "csv_bytes": {
+          "median": 6747794,
+          "minimum": 6747794,
+          "maximum": 6747794
+        },
+        "serialized_bytes": {
+          "median": 1539955,
+          "minimum": 1539955,
+          "maximum": 1539955
+        }
+      },
+      {
+        "candidates": 504,
+        "mode": "full",
+        "backend": "auto",
+        "repeats": 3,
+        "wall": {
+          "median": 0.5227045000065118,
+          "minimum": 0.5215557999908924,
+          "maximum": 0.5293123999144882
+        },
+        "cpu": {
+          "median": 0.53125,
+          "minimum": 0.515625,
+          "maximum": 0.53125
+        },
+        "report_html": {
+          "median": 0.3000290000345558,
+          "minimum": 0.2960446998476982,
+          "maximum": 0.33952239993959665
+        },
+        "csv_seconds": {
+          "median": 0.12164350016973913,
+          "minimum": 0.10881470004096627,
+          "maximum": 0.1337341999169439
+        },
+        "serialization": {
+          "median": 0.005911799846217036,
+          "minimum": 0.0057981000281870365,
+          "maximum": 0.006071999901905656
+        },
+        "peak_rss_call": {
+          "median": 105529344,
+          "minimum": 105529344,
+          "maximum": 105549824
+        },
+        "peak_rss_report": {
+          "median": 178921472,
+          "minimum": 178348032,
+          "maximum": 178937856
+        },
+        "report_html_bytes": {
+          "median": 9366074,
+          "minimum": 9366074,
+          "maximum": 9366074
+        },
+        "csv_bytes": {
+          "median": 6747794,
+          "minimum": 6747794,
+          "maximum": 6747794
+        },
+        "serialized_bytes": {
+          "median": 1546759,
+          "minimum": 1546759,
+          "maximum": 1546759
+        }
+      },
+      {
+        "candidates": 504,
+        "mode": "summary",
+        "backend": "reference",
+        "repeats": 3,
+        "wall": {
+          "median": 3.600332000060007,
+          "minimum": 3.5410774000920355,
+          "maximum": 3.7347276001237333
+        },
+        "cpu": {
+          "median": 3.5625,
+          "minimum": 3.5,
+          "maximum": 3.65625
+        },
+        "report_html": {
+          "median": 0.19555140007287264,
+          "minimum": 0.1909235999919474,
+          "maximum": 0.1964638999197632
+        },
+        "csv_seconds": {
+          "median": 0.054615499917417765,
+          "minimum": 0.05419809999875724,
+          "maximum": 0.055451400112360716
+        },
+        "serialization": {
+          "median": 0.003873900044709444,
+          "minimum": 0.003481299849227071,
+          "maximum": 0.004256899934262037
+        },
+        "peak_rss_call": {
+          "median": 108785664,
+          "minimum": 108658688,
+          "maximum": 108965888
+        },
+        "peak_rss_report": {
+          "median": 129679360,
+          "minimum": 129216512,
+          "maximum": 130240512
+        },
+        "report_html_bytes": {
+          "median": 2617846,
+          "minimum": 2617846,
+          "maximum": 2617846
+        },
+        "csv_bytes": {
+          "median": 1686784,
+          "minimum": 1686784,
+          "maximum": 1686784
+        },
+        "serialized_bytes": {
+          "median": 630821,
+          "minimum": 630821,
+          "maximum": 630821
+        }
+      },
+      {
+        "candidates": 504,
+        "mode": "summary",
+        "backend": "auto",
+        "repeats": 3,
+        "wall": {
+          "median": 3.747107099974528,
+          "minimum": 3.5487944001797587,
+          "maximum": 3.8890421001706272
+        },
+        "cpu": {
+          "median": 3.6875,
+          "minimum": 3.5,
+          "maximum": 3.796875
+        },
+        "report_html": {
+          "median": 0.20676460000686347,
+          "minimum": 0.20562119991518557,
+          "maximum": 0.22311700019054115
+        },
+        "csv_seconds": {
+          "median": 0.05972159979864955,
+          "minimum": 0.05643949983641505,
+          "maximum": 0.062414499931037426
+        },
+        "serialization": {
+          "median": 0.004237300017848611,
+          "minimum": 0.004158600000664592,
+          "maximum": 0.004273299826309085
+        },
+        "peak_rss_call": {
+          "median": 108867584,
+          "minimum": 108859392,
+          "maximum": 108879872
+        },
+        "peak_rss_report": {
+          "median": 128700416,
+          "minimum": 128565248,
+          "maximum": 129544192
+        },
+        "report_html_bytes": {
+          "median": 2617846,
+          "minimum": 2617846,
+          "maximum": 2617846
+        },
+        "csv_bytes": {
+          "median": 1686784,
+          "minimum": 1686784,
+          "maximum": 1686784
+        },
+        "serialized_bytes": {
+          "median": 630821,
+          "minimum": 630821,
+          "maximum": 630821
+        }
+      },
+      {
+        "candidates": 2016,
+        "mode": "full",
+        "backend": "reference",
+        "repeats": 3,
+        "wall": {
+          "median": 13.591917999787256,
+          "minimum": 13.486707400064915,
+          "maximum": 15.632529499940574
+        },
+        "cpu": {
+          "median": 13.515625,
+          "minimum": 13.359375,
+          "maximum": 15.546875
+        },
+        "report_html": {
+          "median": 1.0816093999892473,
+          "minimum": 1.0651650000363588,
+          "maximum": 1.0862941001541913
+        },
+        "csv_seconds": {
+          "median": 0.441280199913308,
+          "minimum": 0.4411792999599129,
+          "maximum": 0.45026230020448565
+        },
+        "serialization": {
+          "median": 0.017686899984255433,
+          "minimum": 0.017286600079387426,
+          "maximum": 0.01798110012896359
+        },
+        "peak_rss_call": {
+          "median": 153952256,
+          "minimum": 153903104,
+          "maximum": 154365952
+        },
+        "peak_rss_report": {
+          "median": 421916672,
+          "minimum": 421912576,
+          "maximum": 423415808
+        },
+        "report_html_bytes": {
+          "median": 37363672,
+          "minimum": 37363672,
+          "maximum": 37363672
+        },
+        "csv_bytes": {
+          "median": 27004460,
+          "minimum": 27004460,
+          "maximum": 27004460
+        },
+        "serialized_bytes": {
+          "median": 6127803,
+          "minimum": 6127803,
+          "maximum": 6127803
+        }
+      },
+      {
+        "candidates": 2016,
+        "mode": "full",
+        "backend": "auto",
+        "repeats": 3,
+        "wall": {
+          "median": 2.001470800023526,
+          "minimum": 1.9344727001152933,
+          "maximum": 2.0374095998704433
+        },
+        "cpu": {
+          "median": 2.0,
+          "minimum": 1.90625,
+          "maximum": 2.03125
+        },
+        "report_html": {
+          "median": 1.108280299929902,
+          "minimum": 1.0791097998153418,
+          "maximum": 1.242221900029108
+        },
+        "csv_seconds": {
+          "median": 0.4509336999617517,
+          "minimum": 0.4381878999993205,
+          "maximum": 0.45753029990009964
+        },
+        "serialization": {
+          "median": 0.015001799911260605,
+          "minimum": 0.014853099826723337,
+          "maximum": 0.015050100162625313
+        },
+        "peak_rss_call": {
+          "median": 137891840,
+          "minimum": 137814016,
+          "maximum": 137895936
+        },
+        "peak_rss_report": {
+          "median": 415588352,
+          "minimum": 413151232,
+          "maximum": 415723520
+        },
+        "report_html_bytes": {
+          "median": 37363672,
+          "minimum": 37363672,
+          "maximum": 37363672
+        },
+        "csv_bytes": {
+          "median": 27004460,
+          "minimum": 27004460,
+          "maximum": 27004460
+        },
+        "serialized_bytes": {
+          "median": 6154272,
+          "minimum": 6154272,
+          "maximum": 6154272
+        }
+      },
+      {
+        "candidates": 2016,
+        "mode": "summary",
+        "backend": "reference",
+        "repeats": 3,
+        "wall": {
+          "median": 13.755780200008303,
+          "minimum": 13.641210800036788,
+          "maximum": 14.067676300182939
+        },
+        "cpu": {
+          "median": 13.625,
+          "minimum": 13.59375,
+          "maximum": 14.0
+        },
+        "report_html": {
+          "median": 0.7076888999436051,
+          "minimum": 0.6996042998507619,
+          "maximum": 0.7082595000974834
+        },
+        "csv_seconds": {
+          "median": 0.22250230005010962,
+          "minimum": 0.22228059987537563,
+          "maximum": 0.22750689997337759
+        },
+        "serialization": {
+          "median": 0.008847200078889728,
+          "minimum": 0.008562800008803606,
+          "maximum": 0.009145800024271011
+        },
+        "peak_rss_call": {
+          "median": 155082752,
+          "minimum": 154710016,
+          "maximum": 155631616
+        },
+        "peak_rss_report": {
+          "median": 216162304,
+          "minimum": 215531520,
+          "maximum": 217591808
+        },
+        "report_html_bytes": {
+          "median": 10245234,
+          "minimum": 10245234,
+          "maximum": 10245234
+        },
+        "csv_bytes": {
+          "median": 6665792,
+          "minimum": 6665792,
+          "maximum": 6665792
+        },
+        "serialized_bytes": {
+          "median": 2465527,
+          "minimum": 2465527,
+          "maximum": 2465527
+        }
+      },
+      {
+        "candidates": 2016,
+        "mode": "summary",
+        "backend": "auto",
+        "repeats": 3,
+        "wall": {
+          "median": 13.779756200034171,
+          "minimum": 13.758238399866968,
+          "maximum": 13.904898599954322
+        },
+        "cpu": {
+          "median": 13.703125,
+          "minimum": 13.65625,
+          "maximum": 13.71875
+        },
+        "report_html": {
+          "median": 0.6826091001275927,
+          "minimum": 0.6815714999102056,
+          "maximum": 0.6905670999549329
+        },
+        "csv_seconds": {
+          "median": 0.21730380016379058,
+          "minimum": 0.2170975999906659,
+          "maximum": 0.22935779998078942
+        },
+        "serialization": {
+          "median": 0.009088499937206507,
+          "minimum": 0.00842620013281703,
+          "maximum": 0.00912240007892251
+        },
+        "peak_rss_call": {
+          "median": 153907200,
+          "minimum": 153894912,
+          "maximum": 154951680
+        },
+        "peak_rss_report": {
+          "median": 215834624,
+          "minimum": 215810048,
+          "maximum": 217051136
+        },
+        "report_html_bytes": {
+          "median": 10245234,
+          "minimum": 10245234,
+          "maximum": 10245234
+        },
+        "csv_bytes": {
+          "median": 6665792,
+          "minimum": 6665792,
+          "maximum": 6665792
+        },
+        "serialized_bytes": {
+          "median": 2465527,
+          "minimum": 2465527,
+          "maximum": 2465527
+        }
+      }
+    ],
+    "parity": [
+      {
+        "index": 4,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 6,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 17,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 18,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 20,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 26,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 11,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 16,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 19,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 21,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 25,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 27,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 5,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 8,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 9,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 13,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 15,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 22,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 7,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 10,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 12,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 14,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 23,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 24,
+        "frames_attrs_html_csv_exact": true
+      },
+      {
+        "index": 28,
+        "baseline_valid_exact": true,
+        "manifest_code_identity_excluded": false
+      },
+      {
+        "index": 29,
+        "baseline_valid_exact": true,
+        "manifest_code_identity_excluded": true
+      }
+    ]
+  },
+  "runtime_source_sha256": "115fad2692caa201dc0bf58e6de85789b12a4ec8760b86a429e5921aaab89080",
+  "tests": {
+    "affected": {
+      "passed": 604,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 59.26
+    },
+    "pandas22": {
+      "passed": 319,
+      "failed": 0,
+      "seconds": 26.46
+    },
+    "pandas3": {
+      "passed": 319,
+      "failed": 0,
+      "seconds": 40.12
+    },
+    "nested_malformed_rejected": 30,
+    "independent_adversarial_cases": 103,
+    "independent_findings": 0,
+    "prototype_qa_passed": 204,
+    "prototype_exact_output_passed": 14,
+    "prototype_report_passed": 14,
+    "real_data_replay": "pending: original paired model/quote inputs unavailable"
+  }
+}
