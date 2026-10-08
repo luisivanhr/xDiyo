@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import datetime, date
 import numpy as np
 import pandas as pd
+from .timestamps import timestamps
 from .quote_availability import QuoteAvailability, QUOTE_IDENTITY, ASSUMPTION_FIELDS, _QuoteLegEvidence
 
 _FORBIDDEN = {'y', 'target', 'outcome', 'settlement', 'profit', 'payout', 'result', 'actual', 'label'}
@@ -65,7 +66,7 @@ class DecisionContext:
     quote_availability: QuoteAvailability = QuoteAvailability()
 
     def __post_init__(self):
-        time = pd.to_datetime(self.time, utc=True, errors='raise')
+        time = timestamps(self.time, utc=True, errors='raise')
         if pd.isna(time) or not isinstance(self.candidates, FrozenTable) or (self.features is not None and not isinstance(self.features, FrozenTable)):
             raise ValueError('Decision contexts require a time and copied safe tables.')
         object.__setattr__(self, 'time', time)
@@ -143,11 +144,11 @@ class DecisionLayer:
             for key in ('artifact_vintage', 'trained_through', 'issued_at'):
                 if key not in frame:
                     raise ValueError(f'Model valuations require {key} provenance.')
-                t = pd.to_datetime(frame[key], utc=True, errors='raise')
-                if (present & (t.isna() | (t > context.time) | (t > pd.to_datetime(candidates.decision_at, utc=True)))).any():
+                t = timestamps(frame[key], utc=True, errors='raise')
+                if (present & (t.isna() | (t > context.time) | (t > timestamps(candidates.decision_at, utc=True)))).any():
                     raise ValueError('Model evidence was unavailable at decision time.')
-            issued = pd.to_datetime(frame.issued_at, utc=True)
-            if (present & ((pd.to_datetime(frame.trained_through, utc=True) >= issued) | (pd.to_datetime(frame.artifact_vintage, utc=True) > issued))).any():
+            issued = timestamps(frame.issued_at, utc=True)
+            if (present & ((timestamps(frame.trained_through, utc=True) >= issued) | (timestamps(frame.artifact_vintage, utc=True) > issued))).any():
                 raise ValueError('Model evidence was unavailable at its prediction issue time.')
             odds = pd.to_numeric(candidates.odds, errors='raise')
             if not np.isfinite(odds).all() or (odds <= 1).any():

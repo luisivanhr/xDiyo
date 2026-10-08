@@ -8,6 +8,7 @@ import platform
 import subprocess
 
 import pandas as pd
+from .timestamps import timestamps
 
 
 def fingerprint(frame):
@@ -60,7 +61,7 @@ def summary_manifest(ledger, templates, tickets, summaries, attrs, stake_policy,
                                       'issued_at', 'trained_through', 'artifact_vintage'):
             # Inventory unconsumed rows too, without adding new validation to
             # rows the native policy intentionally excludes. Guards ran earlier.
-            times = pd.to_datetime(ledger[c], utc=True, errors='coerce')
+            times = timestamps(ledger[c], utc=True, errors='coerce')
             bounds[str(c)] = {'minimum': None if times.isna().all() else times.min().isoformat(),
                               'maximum': None if times.isna().all() else times.max().isoformat(),
                               'missing': int(ledger[c].isna().sum()),

@@ -4,6 +4,7 @@ import hashlib
 from collections.abc import Mapping
 import numpy as np
 import pandas as pd
+from .timestamps import timestamps
 from .decision_layer import FrozenTable, DecisionContext
 from .stake_policy import allocate_batch
 from .quote_availability import QuoteAvailability, quote_leg_records, ASSUMPTION_FIELDS
@@ -18,6 +19,9 @@ class _MembershipIndex(Mapping):
     def __getitem__(self, key):
         return self.members.iloc[self.positions[key]]
 
+    def __contains__(self, key):
+        return key in self.positions
+
     def __iter__(self):
         return iter(self.positions)
 
@@ -30,8 +34,36 @@ def _index_members(members):
     return _MembershipIndex(members)
 
 
+def _validate_relationships(tickets, indexed, templates):
+    if not {'ticket_id', 'bet'} <= set(tickets) or tickets.ticket_id.isna().any() or tickets.ticket_id.duplicated().any():
+        raise ValueError('Tickets require distinct nonmissing ticket_id and bet columns.')
+    for key, name in zip(tickets.ticket_id, tickets.bet):
+        if name not in templates or key not in indexed:
+            raise ValueError('Ticket lacks a template or consumed membership.')
+        legs = indexed[key]
+        if 'template' in legs and not legs.template.eq(name).fillna(False).all():
+            raise ValueError('Consumed membership template differs from its ticket bet.')
+
+
+def _validate_consumed_quotes(tickets, indexed, templates):
+    from .quote_availability import validate_model_quotes
+    _validate_relationships(tickets, indexed, templates)
+    for name, offered in tickets.groupby('bet', sort=False):
+        contract = getattr(templates[name], 'quote_availability', None)
+        if contract is None:
+            continue
+        positions = np.concatenate([indexed.positions[key] for key in offered.ticket_id])
+        legs = indexed.members.iloc[positions]
+        if 'decision_at' not in legs:
+            raise ValueError('Consumed quote evidence requires decision_at.')
+        time = timestamps(legs.decision_at).max()
+        contract.validate(legs, time, complete=True)
+        validate_model_quotes(legs, templates[name].ticket_gate.models, contract, time)
+
+
 def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
     indexed = _index_members(members) if _members_by_ticket is None else _members_by_ticket
+    _validate_relationships(tickets, indexed, templates)
     checked_contracts = set()
     if isinstance(indexed, _MembershipIndex) and 'decision_at' in members:
         for name, offered in tickets.groupby('bet', sort=False):
@@ -43,7 +75,7 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
                 continue
             evidence = members.iloc[np.concatenate(pieces)]
             try:
-                time = pd.to_datetime(evidence.decision_at, utc=True).max()
+                time = timestamps(evidence.decision_at, utc=True).max()
                 # validate compares each quote with its own original decision,
                 # not merely this outer maximum. No deduplication or cross-call
                 # approval cache; every consumed membership row is checked.
@@ -63,7 +95,7 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
         if policy.payoff == 'binary' and 'p_push' in legs and legs.p_push.fillna(0).ne(0).any():
             raise ValueError('Binary ticket valuation cannot include nonzero push probability.')
         if 'decision_at' in legs:
-            stamps = pd.to_datetime(legs.decision_at,utc=True)
+            stamps = timestamps(legs.decision_at,utc=True)
             if stamps.nunique() != 1 or stamps.isna().any():
                 raise ValueError('Every ticket leg must share one decision timestamp.')
             time = stamps.iloc[0]
@@ -71,14 +103,14 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             time = context.time
         else:
             raise ValueError('Ticket decisions need explicit decision_at or a manual StakeContext.')
-        if time > pd.to_datetime(legs.kickoff_at,utc=True).min():
+        if time > timestamps(legs.kickoff_at,utc=True).min():
             raise ValueError('Ticket issue time follows a leg kickoff.')
         for key in ('issued_at','quote_at'):
             if key == 'quote_at' and contract is not None:
                 if row['bet'] not in checked_contracts:
                     contract.validate(legs, time, complete=True)
                 continue
-            if key in legs and (pd.to_datetime(legs[key],utc=True).isna().any() or (pd.to_datetime(legs[key],utc=True)>time).any()):
+            if key in legs and (timestamps(legs[key],utc=True).isna().any() or (timestamps(legs[key],utc=True)>time).any()):
                 raise ValueError('A leg prediction or quote is unavailable at ticket issue time.')
         fixtures = tuple(sorted((tuple(v) for v in legs[list(match_columns)].itertuples(index=False,name=None)),key=repr))
         identities = []
@@ -94,17 +126,17 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
                       economic_key=json.dumps([identities,policy.on_push,policy.on_void],sort_keys=True,default=str))
         if 'quote_id' in legs and 'quote_at' in legs:
             record['quote_id'] = json.dumps(legs.quote_id.tolist(),default=str)
-            record['quote_at'] = pd.to_datetime(legs.quote_at,utc=True).max() if legs.quote_at.notna().all() else pd.NaT
+            record['quote_at'] = timestamps(legs.quote_at,utc=True).max() if legs.quote_at.notna().all() else pd.NaT
         if contract is not None:
             record.update(contract.labels)
             if contract.mode == 'research_assumed':
-                record['assumed_available_at'] = pd.to_datetime(legs.assumed_available_at, utc=True).max()
+                record['assumed_available_at'] = timestamps(legs.assumed_available_at, utc=True).max()
             compact = getattr(policy, 'audit_level', 'full') == 'summary'
             record['quote_legs'] = quote_leg_records(legs, contract, match_columns, compact=compact)
             evidence_key = hashlib.sha256(repr(record['quote_legs'].records).encode()).hexdigest() if compact else record['quote_legs']
             record['economic_key'] = json.dumps([record['economic_key'], evidence_key], sort_keys=True)
         if 'issued_at' in legs:
-            record['probability_issued_at'] = pd.to_datetime(legs.issued_at,utc=True).max()
+            record['probability_issued_at'] = timestamps(legs.issued_at,utc=True).max()
         records.append(record)
     return pd.DataFrame(records).set_index('ticket_id') if records else pd.DataFrame(columns=['nominal_stake','decision_at'])
 
@@ -117,18 +149,9 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
     if len(levels) != 1 or not levels <= {'full', 'summary'}:
         raise ValueError('All templates in one composition must use the same valid audit_level.')
     compact = levels == {'summary'}
-    # This helper is also called directly: do not trust a prior compose_bets
-    # preflight when retained members may have been edited since that call.
-    from .quote_availability import validate_model_quotes
-    for name, template in templates.items():
-        contract = getattr(template, 'quote_availability', None)
-        if contract is not None:
-            legs = members.loc[members.template.eq(name)]
-            if len(legs):
-                time = pd.to_datetime(legs.decision_at, utc=True, errors='raise').max()
-                contract.validate(legs, time, complete=True)
-                validate_model_quotes(legs, template.ticket_gate.models, contract, time)
+    # Bind validation to the exact ticket/member relation consumed below.
     indexed = _index_members(members)
+    _validate_consumed_quotes(tickets, indexed, templates)
     settlement_members = members[['settlement', 'odds']]
     batch = ticket_batch(tickets,members,templates,match_columns,context=context,
                          _members_by_ticket=indexed)
@@ -167,13 +190,13 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
             for field in ('issued_at', 'trained_through', 'artifact_vintage'):
                 raw = source.get(f'{model}::{field}', pd.Series(pd.NaT, index=source.index))
                 try:
-                    times[field] = pd.to_datetime(raw, utc=True)
+                    times[field] = timestamps(raw, utc=True)
                 except ValueError:
                     # A template can contain tickets with different valid
                     # timestamp string formats. Retain the original per-ticket
                     # parser in that case, including its rejection behavior.
                     positional = pd.Series(raw.array, index=positions)
-                    parts = [pd.to_datetime(positional.loc[indexed.positions[key]], utc=True)
+                    parts = [timestamps(positional.loc[indexed.positions[key]], utc=True)
                              for key in subset.index]
                     times[field] = pd.concat(parts).loc[positions]
             p = pd.Series(p.array, index=positions)
