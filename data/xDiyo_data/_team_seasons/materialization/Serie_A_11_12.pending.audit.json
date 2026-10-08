@@ -1,0 +1,9 @@
+{
+  "season": "Serie_A_11_12",
+  "old_manifest_sha256": "af542e4014e4591dfcbdae0e6f15ed1018d9e35ebe62e26a1c3cfb60c8d596a4",
+  "old_publication_sha256": "6ab455bfd155d9fd4db61ec7b13fce80bc003ee8298611d522a50633d111024b",
+  "new_manifest_sha256": "fcc3c535d2f1018503f8052eb54c9d7998360fd535e3e3fbb35527b27d8aa80c",
+  "new_publication_sha256": "cca5ab993e7f7c3367085557d2a28fdfd2e902639f7ac0bc29e6c87ce706b06f",
+  "matches_sha256": "945f14a3d8ccc485cf2d2390f1f4d2f1afecee203976c35ae3a2e418e4dc5af7",
+  "season_sha256": "d4133e3a07808a81f03aa04c2927f16604269e42bf5f3a58bf56c913ac856682"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Pro_League_14_15",
+  "old_manifest_sha256": "37638ec1dd0d5d4cb0b79beef19e8dbd3c8af396f4bfaa1ce27b582343d7c9f6",
+  "old_publication_sha256": "13a37297998881a444c566aa384aef0a1c0c1d59f3d54a07c1e6004d82884a6f",
+  "new_manifest_sha256": "ba9d08d8ad12b20f6028feb6055fa7754030ec072d531a0c6259701691185fc3",
+  "new_publication_sha256": "3ec7203e6c92055b95c7969bfaf1a6d953fadd8a9b639fabb200077d78a63668",
+  "matches_sha256": "3e58a2a5d3ef03830b41faf878053801b279fc4e02692fc3ce1b5d547f6785dd",
+  "season_sha256": "ed8d510ac134700431b0cc69bd2904fde5d85e34f1623f85fa05b633ced09ad3"
+}

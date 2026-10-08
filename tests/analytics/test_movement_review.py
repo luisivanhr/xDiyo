@@ -89,6 +89,40 @@ def test_boundary_id_normalization_and_duplicates():
         derive_movements(rows,COMPETITIONS,boundaries=[boundary,boundary])
 
 
+@pytest.mark.parametrize('string_type', [pa.string(), pa.large_string()])
+def test_existing_flag_schema_survives_pandas_string_width_changes(export, string_type):
+    """Revisiting old publications must retain their exact Arrow field types."""
+    from xdiyo_analytics.data.movements import attach_movement_flags, assert_movement_parity
+    table = export.table('matches')
+    ids = sorted(set(table['home_id'].to_pylist()) | set(table['away_id'].to_pylist()))
+    flags = derive_movements([dict(stem=STEM, league='A', year=2024,
+        competition_id=17, season_id=61627, teams={str(i): str(i) for i in ids})],
+        {'A': dict(tier=1, system='A')}, boundaries=[dict(stem=STEM,
+            promoted_ids=[ids[0]], complete_review=True, sources=['reviewed entry'])])
+    enriched = attach_movement_flags(table.to_pandas(), flags)
+    for name in enriched.columns:
+        if name not in table.column_names:
+            dtype = string_type if name.endswith('season_entry') else pa.bool_()
+            field = pa.field(name, dtype, metadata={b'purpose': b'season-entry'})
+            table = table.append_column(field, pa.array(enriched[name], type=dtype))
+    export.replace('matches', table)
+    nested = export.root / f'{STEM}.parquet'
+    pq.write_table(table, nested, compression='zstd')
+    paths = [export.version / 'matches.parquet', nested]
+    before = {p: p.read_bytes() for p in paths}
+    save_movement_enrichment(export.root, STEM, flags)
+    materialize_movement_flags(export.root, STEM, reviewed_flags=flags)
+    # Evidence-only refresh follows the same path used for the 2015 boundary.
+    corrected = flags.copy()
+    corrected['evidence'] = 'Reviewed predecessor evidence'
+    materialize_movement_flags(export.root, STEM, reviewed_flags=corrected)
+    for path in paths:
+        assert path.read_bytes() == before[path]
+        assert pq.ParquetFile(path).read().equals(table, check_metadata=True)
+    loaded = load_season(export.root, STEM, tables='team_seasons', verify_hashes=True)
+    assert_movement_parity(corrected, loaded['team_seasons'], season=STEM)
+
+
 def test_builder_checks_persisted_evidence_before_replacing_audit(export,tmp_path):
     build=runpy.run_path(str(Path(__file__).resolve().parents[2]/'examples/build_team_movements.py'))['build']
     table=export.table('matches')

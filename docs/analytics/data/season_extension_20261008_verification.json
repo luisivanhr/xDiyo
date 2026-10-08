@@ -1,0 +1,703 @@
+{
+  "seasons": 65,
+  "matches": 23658,
+  "team_seasons": 1250,
+  "verified_parquet_files": 801,
+  "parquet_codecs": {
+    "ZSTD": 801
+  },
+  "unknown_entries": 0,
+  "missing_movement_flags": 0,
+  "regression_tests_passed": 54,
+  "seasons_verified": {
+    "Bundesliga_10_11": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "d0af9cd6bee6eacd27ca1dd8b64d5709faa126e012e51b6ea8597bda5783d26e",
+      "season_sha256": "d841369dcd8f73203a79e93a97caa9b689e121d80060eb85ce3c6935762bdaee"
+    },
+    "Bundesliga_11_12": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "f587841eaf8a84b413d5d09319ddbf2ab84d240a0e018e7eaeafb2eafd2f0e5f",
+      "season_sha256": "aacfb8318b1e9993ec8d8229e878afb1fc84d92e6fb0b0c34cbde74a1abe551d"
+    },
+    "Bundesliga_12_13": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 3
+      },
+      "manifest_sha256": "23cdbbe6ecb762734c2afec01339300d58c5356b32185f295ff0b833e2f20bd5",
+      "season_sha256": "7f27c7d440fb96462256e0a07f83d885e26f956236faa736c0dd209a2f88a814"
+    },
+    "Bundesliga_13_14": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "b760c9bb78a659a3e6e97d787eca04068fc9d4055f69e9afbc78da3d3283174a",
+      "season_sha256": "37ab4e912040f03e878a02474ae9243da2b40a4ab98d761460b38348d645e664"
+    },
+    "Bundesliga_14_15": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "3c0ea7f563ab0beb681151a70ae1ec4a751b8ecfcc0d00a27fe1975f370f4d9f",
+      "season_sha256": "dd071ed7ca2b72474bc940915ce2b377c577aa91af1954bfbe329e9dc97db710"
+    },
+    "Bundesliga_2_10_11": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 13,
+        "promoted": 3,
+        "relegated": 2
+      },
+      "manifest_sha256": "8891ac8bb24166fd6158f1a571d18a9415992899ab65d53525038de615540594",
+      "season_sha256": "8fa6a59477b3d1b6060b9a05bf1ac52f62df64a1d80414e62309e3e15f8ea68e"
+    },
+    "Bundesliga_2_11_12": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 13,
+        "promoted": 3,
+        "relegated": 2
+      },
+      "manifest_sha256": "621460e4c6ada60603dc797aaad273e223a0beeab316e510eff1e16b36b2a1c1",
+      "season_sha256": "b1cdcf7e113d26c850af8e0ba26f7be686c89a6df010872471b8abb678eef007"
+    },
+    "Bundesliga_2_12_13": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 12,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "79d5a5b32e5936269158946325b3d07b449fbb0c36315de3a4d72ccf779ccff3",
+      "season_sha256": "b9d5791ef1c15234870b30b43c8a8092fea44cdc14330ba1e94afb4cf8aca720"
+    },
+    "Bundesliga_2_13_14": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 2,
+        "relegated": 2
+      },
+      "manifest_sha256": "46cc491b1cb7658f95dee8f2aaf5fbc03ded8c1101081746d947b3ae24bedd8d",
+      "season_sha256": "52aa88bfd9d1cf5a89e0bd7dba33d8f78f1d116a82f6d368079b3e19f85c9272"
+    },
+    "Bundesliga_2_14_15": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 13,
+        "promoted": 3,
+        "relegated": 2
+      },
+      "manifest_sha256": "bf91f31a377c71b68cb23d857ba3730325826db908bbca4b0193322e2d69aabe",
+      "season_sha256": "ce3fb39f8624b5c8acafa6a38e0522a628acdeafbe3366d997f03be2c439aa46"
+    },
+    "Championship_10_11": {
+      "matches": 552,
+      "team_seasons": 24,
+      "movement_counts": {
+        "retained": 18,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "b4ceb5e7320511a147938ee4ff5f445c50b3c7890d03f23cd652d8b83a0d1c60",
+      "season_sha256": "5693505fc635a9a2fbf1add93aaf5578569aac30317e2e297fe97d5fbb505995"
+    },
+    "Championship_11_12": {
+      "matches": 552,
+      "team_seasons": 24,
+      "movement_counts": {
+        "retained": 18,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "ad65d00c0812360bf16b6958e78e6f6e0ba02ca9a5d188d28e3dbf4b2ec7a2a6",
+      "season_sha256": "a199e8b7467e5a1363c93f53fe89fc69f7982698f01bc8009677780cdc78de45"
+    },
+    "Championship_12_13": {
+      "matches": 552,
+      "team_seasons": 24,
+      "movement_counts": {
+        "retained": 18,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "12c8970dd4a0901655f6fd4666df8d53fe1ebaf44ba1e7572e07dc6df6ca0e14",
+      "season_sha256": "d7b8792af22ae8f6dc62ccfda8e09f2a8abc9946749ae54cfd4e5572ef86809c"
+    },
+    "Championship_13_14": {
+      "matches": 552,
+      "team_seasons": 24,
+      "movement_counts": {
+        "retained": 18,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "a7218ea47d69927c5ff557bf4249750584713f2966dfafb609d3692a39c5fc31",
+      "season_sha256": "f4daea965bc58b6aed65d578f3c7c06d992c0878806030c2743ef6975b18d4c7"
+    },
+    "Championship_14_15": {
+      "matches": 551,
+      "team_seasons": 24,
+      "movement_counts": {
+        "retained": 18,
+        "promoted": 3,
+        "relegated": 3
+      },
+      "manifest_sha256": "7059d01e404511a75de6022c57a11edd5124523e43590aef6a8e4ba8127bc9ba",
+      "season_sha256": "b52e7bf74e2e6b3402596b7c1216a317b39e1ee877ef32d478e45c4e886b4d2f"
+    },
+    "Eredivisie_10_11": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "dbaa5143ea6503cfb8da529699422d3575074095863644377d28240ce1c7b9cb",
+      "season_sha256": "2e74320387ff6fd518507ecbeeb90ad36770ddcb25efcb49b6224912c696dcf5"
+    },
+    "Eredivisie_11_12": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 1
+      },
+      "manifest_sha256": "af593b53db8dc14dfde4cde5596aa80755a21017de8d4b1b0fc5b2d2d9ce9837",
+      "season_sha256": "00629ad39f87ca6b0ba2eb2df6c4fa61cd7f4634e1f71e57c125b58f7b95d787"
+    },
+    "Eredivisie_12_13": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "ae7c27ece0b9952abe425b3dae49b4e86161b1e8b7f9673cb0c3be0338fc2e77",
+      "season_sha256": "0e14b488453ecd25540f37c42e5975f270f30eb70f1421750b48f8c576aa5002"
+    },
+    "Eredivisie_13_14": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 2
+      },
+      "manifest_sha256": "b4fc378a3be266435a57bc4f297a7279bb68f29a82cbb203b0c50bbba270e144",
+      "season_sha256": "09f024fd656cb782298e803083d05a6651797971fdb9aca6b711b73fe8269054"
+    },
+    "Eredivisie_14_15": {
+      "matches": 306,
+      "team_seasons": 18,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 3
+      },
+      "manifest_sha256": "066a0607b2fdcc15c699c10d357119c11cbd070024e2fcf5827f2e263031e326",
+      "season_sha256": "b2f88fed542524d14a27237a623d05e774b00cae107d0007b855ecfca04b30d5"
+    },
+    "La_Liga_10_11": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "71e0303c291fdffa78019dd72b92524b27fd4e0e44b91193a6e3817c1ed279a4",
+      "season_sha256": "630f5eaa5cec4e9cde5f937238dd4ab8882512b2733f78a81787a93a0fa8832f"
+    },
+    "La_Liga_11_12": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "e94a8030c9e222156c565d8d3975f03aaf880614af53f3c29897be5b0fc0c223",
+      "season_sha256": "2615e3e7221628511ba195e8f2d8aa9afe57942052e63348198ba4fa94120640"
+    },
+    "La_Liga_12_13": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "fbe0dc95d6fcc34e5df5e03c67f13871f55c7b89b508bf65115594f4219e3e2b",
+      "season_sha256": "866418c578ace19392c2a9508de837e7fc264039d959ffe5ee69460f30d51ebf"
+    },
+    "La_Liga_13_14": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "08e2d2330580f9e73b3cd84a990a40ab9ec0ade08961c2fe6e7cc6d36de206bf",
+      "season_sha256": "f052ab48e9243cec4b62c5b485bf2f8a56613878534283b6674037201bc0e16c"
+    },
+    "La_Liga_14_15": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "da211d85e82afb1889127620cc0e904f537ef72c2c85cb22f682497f5344eeee",
+      "season_sha256": "b7a89d16a00ad2d47db5f852d299bf4152f505b9e91f64fc9b313167283ae72e"
+    },
+    "La_Liga_2_10_11": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "9d506a5eb01a63ea5e46ff4890f6e0c787e9671c48151f49b3065babdb23642a",
+      "season_sha256": "da3aea35e47feaa3f86399b99a4fd7f14b129346b324aee03d7a9a9b8431b1cf"
+    },
+    "La_Liga_2_11_12": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "afc7856c520101cf1c01537091faded441f74f05f8986f292cb52a4fc4ed2af3",
+      "season_sha256": "26bc8d48efe763ac02c9f93852705daf4878e2d7b5cd27f80038aa2f91a252bc"
+    },
+    "La_Liga_2_12_13": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "c6dfb3e964afa41cf5854a03dacc53ec3d4f8e00c3fc9ee1d4418fd11415f901",
+      "season_sha256": "4a6abd26df37054c64ab8f7ef28415311941bbcc2a7a16141baf4389d158397a"
+    },
+    "La_Liga_2_13_14": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "c465838f64a9f047312b10c10df7611692b1938ef919f292594b20a49e56719d",
+      "season_sha256": "20023693fe4ef2ab2c69d0fb247645e045ccbad59d535b246d53314b13aa0952"
+    },
+    "La_Liga_2_14_15": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "f90ee223111907c15f902a401f6feb707b2bcc2c8105ae590378c50470eb9136",
+      "season_sha256": "a23552b00e96903dfe9c19f251286375af93a4dda3c3da039b2c52b9d6fc1432"
+    },
+    "Ligue_1_10_11": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "3c37d2d548f8d5df494d4202e307cd2e6a1e6823c9296876e0ea92d8198b9fb5",
+      "season_sha256": "97da7e154310feec2a2cf0cbcf6d4f9a615749b5689c359cb848f5d8e08a4e36"
+    },
+    "Ligue_1_11_12": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "93d97babce1a31a6a63228bc6f1f6e6ef7f57bbf6d1a37871cc474e5b4203b55",
+      "season_sha256": "3fd070f3bfab7dd467841362e817531d8e1880a10de9cb85920f3930e873a881"
+    },
+    "Ligue_1_12_13": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "eda4daadec927b4375109b99db2faa89f358d4ff16c531973d91cd3d7c9802b9",
+      "season_sha256": "089dc3815016675b03a5ffc829cf77f3e1377aee2a6fd51cda1a628d7e592f93"
+    },
+    "Ligue_1_13_14": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "7086b535afc1dd77d5858d74359809fd6f1cd88ee3cf9d56029770ec795011d2",
+      "season_sha256": "185043bbda6eb38fbbbe54e1f0832659bafec18c1c1a26035e192aa10a466e80"
+    },
+    "Ligue_1_14_15": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "f45bb4dc4f1117bfcd4b20907219296627a9ff8b25f044f3412a6474117640a4",
+      "season_sha256": "d08f519f5cb5fcb670067b21295b44d6bdde45e3d4fca5ee6951bad2ae6e3d5f"
+    },
+    "Ligue_2_10_11": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 3,
+        "relegated": 3
+      },
+      "manifest_sha256": "18c3afd712f5173d9538bdbfda2e895799039dcb76dd188ab8d7244fd0692a06",
+      "season_sha256": "a402e2563493a60ffab02289360f69cd25b49eb971020eb406cd93ac52c3f426"
+    },
+    "Ligue_2_11_12": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 14,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "ff4bea95227c437bf44773288c088add8d1a10243cbe909407660d0b1b767754",
+      "season_sha256": "12fcf462b44bed740ec7dd5d36edfde3b26b5d01c251d6d50dc21f4016f8eb9b"
+    },
+    "Ligue_2_12_13": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 14,
+        "relegated": 3,
+        "promoted": 3
+      },
+      "manifest_sha256": "eba7ffbcb82b1a6d8b5500463486de8f27f7cb8ee43c0acc2e83602a681d5ffd",
+      "season_sha256": "9a8f2b3c3c476a6e7403ab6a7897ddfcb87b6ce54d8074209294c793b8178822"
+    },
+    "Ligue_2_13_14": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 3,
+        "relegated": 3
+      },
+      "manifest_sha256": "249670f60e394fc2c3412df63d37fe621772546024e8fc4db15a25c9d340e204",
+      "season_sha256": "94e0ae9b0f43cd1110457dc86c2bad5907adb0f31930268cc441c2f569ce74b0"
+    },
+    "Ligue_2_14_15": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 15,
+        "relegated": 3,
+        "promoted": 2
+      },
+      "manifest_sha256": "7ca7f7857f22bbc264f26a5ce2a6a491faa2a78dc5a0c8dd367e987b870a4f4b",
+      "season_sha256": "b048300d8b2a01be7baa6aa689d8524c593da215cc4cba54ceeb7dc65ef4916c"
+    },
+    "Premier_League_10_11": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "145b945c3e8c7d89ffa5a2af417544d6c888e5af0f7d65baae691b79fecd264b",
+      "season_sha256": "1d3c819d70cda084cfa571a76670afe65a0c6f0d37c815384827544d27acf7b3"
+    },
+    "Premier_League_11_12": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "7239b1b5c3ec8859203bfdfe2bc13e894bb5efdc5ee9d1ac525f2f33b64b02f2",
+      "season_sha256": "ba60e9ace70d8525ab8fb62a9b4c612893283f6fb68b06e42b32da7153d77386"
+    },
+    "Premier_League_12_13": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "a6e20840aabb0867215d089db81cab69dd94ac23ada64481b68b3d3616f1807d",
+      "season_sha256": "96e535f2c4b083cdbf1a199936e6c14480d413276544a503d9cb58e99195c7b3"
+    },
+    "Premier_League_13_14": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "faad1156cc87a73d007bbbb2b060773254d9af493626c8dcaa933509908a3af6",
+      "season_sha256": "e409a0fed4d35c8bcc968cee7bb8f456b1022daa64ba73a543a9eeb71ec99a81"
+    },
+    "Premier_League_14_15": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "ea9c7d582c2f571f6e20f5e63147cea97ba0d6f848a3942fd17ba74b6e83d04c",
+      "season_sha256": "2454947b16ff6557505b319e091c9b704df09cb9b0663845a346e16825986c2c"
+    },
+    "Premiership_10_11": {
+      "matches": 198,
+      "team_seasons": 12,
+      "movement_counts": {
+        "retained": 11,
+        "promoted": 1
+      },
+      "manifest_sha256": "d3127371c5ef26ddfc1eefb70a06288060c17b00b760b02a96fd6ac521596ccf",
+      "season_sha256": "5cb4d34457bcd0835f2cbf2d0fe8c6da46980b154bf820e11a6dc38eb2818c6c"
+    },
+    "Premiership_11_12": {
+      "matches": 198,
+      "team_seasons": 12,
+      "movement_counts": {
+        "retained": 11,
+        "promoted": 1
+      },
+      "manifest_sha256": "18c139ae9d5fdbef6e12fac55fa58db372455aef4379ae950446de9bff285ae7",
+      "season_sha256": "56c11ddb156e91b58dfac10870d5fc690432c7c2f765d74e67b78231c1f454ea"
+    },
+    "Premiership_12_13": {
+      "matches": 198,
+      "team_seasons": 12,
+      "movement_counts": {
+        "retained": 10,
+        "promoted": 2
+      },
+      "manifest_sha256": "519052659c6f98b898160ffedbd59725693192fb87e74e9f8b48c53a15c187ae",
+      "season_sha256": "0076a1f3c0eef8fee707a194a868c17996fe118887c813824853a3edd9880673"
+    },
+    "Premiership_13_14": {
+      "matches": 198,
+      "team_seasons": 12,
+      "movement_counts": {
+        "retained": 11,
+        "promoted": 1
+      },
+      "manifest_sha256": "918dcc80488148bc97fc6a07bd6aeb3db3818ba35233d79eb3670b2e1160bc56",
+      "season_sha256": "74a788535ab6c9dd62d834f9b651f07fbecc97748cc0b13a49c104f8ed3436cd"
+    },
+    "Premiership_14_15": {
+      "matches": 198,
+      "team_seasons": 12,
+      "movement_counts": {
+        "retained": 10,
+        "promoted": 2
+      },
+      "manifest_sha256": "84fa56abf99feeaae907056dd706b1d74fff89dd8acb4bef6e83e66b26cc90b1",
+      "season_sha256": "4600a323794643fc1c25ef8555b010c891b67ab733858b2841482dd6dd6e65f5"
+    },
+    "Pro_League_10_11": {
+      "matches": 240,
+      "team_seasons": 16,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 2
+      },
+      "manifest_sha256": "f55f682a7637326d08c694e8178b01929b5c099a8c56185e9e538a30310c22d8",
+      "season_sha256": "aa0447203ba8d957007dd5b021e9ef8025654f5d40be25da2c30e89ad862db0b"
+    },
+    "Pro_League_11_12": {
+      "matches": 240,
+      "team_seasons": 16,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 2
+      },
+      "manifest_sha256": "d07fcbeca45b7f4cb8c6cd1acdae5da76ac5874624fbba611c04dbacda3f8121",
+      "season_sha256": "61a54a1e54daf39a0753ec424caa91e5fac07009b7f6ea66a856d490897432d2"
+    },
+    "Pro_League_12_13": {
+      "matches": 240,
+      "team_seasons": 16,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 2
+      },
+      "manifest_sha256": "51c277e7be797c5da4276064dae5275750863b52b643ffde9b3e94da5b0278d5",
+      "season_sha256": "cc02011aedc2f7bcbcc2d598131a58fbea68584e9ae288110602fa2948c3ee54"
+    },
+    "Pro_League_13_14": {
+      "matches": 240,
+      "team_seasons": 16,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 1
+      },
+      "manifest_sha256": "69046d69dc4b9354d365d77289b45c139c509b54681fee5bee2d406ca72d69b5",
+      "season_sha256": "b965699616f11192779514eafc563e034a554780114d5e67cb2800b605b007bb"
+    },
+    "Pro_League_14_15": {
+      "matches": 239,
+      "team_seasons": 16,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 2
+      },
+      "manifest_sha256": "ba9d08d8ad12b20f6028feb6055fa7754030ec072d531a0c6259701691185fc3",
+      "season_sha256": "ed8d510ac134700431b0cc69bd2904fde5d85e34f1623f85fa05b633ced09ad3"
+    },
+    "Serie_A_10_11": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "0746e6224d18406886c7f02b6cd2c7d74e32aab980af09ff3178a2c6e8d34bf4",
+      "season_sha256": "9054c4f4a80459cc7babced1188af14dc2faee3e1df6c35c928b458019f6a353"
+    },
+    "Serie_A_11_12": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "fcc3c535d2f1018503f8052eb54c9d7998360fd535e3e3fbb35527b27d8aa80c",
+      "season_sha256": "d4133e3a07808a81f03aa04c2927f16604269e42bf5f3a58bf56c913ac856682"
+    },
+    "Serie_A_12_13": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "cc46ab97fd1c74a8110b98fef503ec58c81b96a50c445c0c9721bc19d7ffdcca",
+      "season_sha256": "60a8765f650ee2232c1674e630604df60f626f761be71bff83fb71c96d6cb5ed"
+    },
+    "Serie_A_13_14": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "8ae0b581b99baf8bc0a1a8068494898fa5353407e739b1d8d07d59e9e40054ca",
+      "season_sha256": "63f36ddfa237afa03d15da39a9fae807759f902cf1f9976e3ee929cfeca88b87"
+    },
+    "Serie_A_14_15": {
+      "matches": 380,
+      "team_seasons": 20,
+      "movement_counts": {
+        "retained": 17,
+        "promoted": 3
+      },
+      "manifest_sha256": "9fb75378ec7bf369f61e900464519ebf1cc7ee994bdc3df82dedb6d819fc768f",
+      "season_sha256": "6268883d862d256115cf045de85e774ee74d45df4210fd5fa7ca17207c823a2b"
+    },
+    "Serie_B_10_11": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "f3e59ed760e64c6224a45fb3c0a8f17b95432f5c547b94ef66f6f6bdd1d26fbd",
+      "season_sha256": "d2d26f1fadff3e620071da9125baeca6eb8d55d2e0692dffb05ca59a99768550"
+    },
+    "Serie_B_11_12": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "29d81c0004c8da03d1344aae0f418d3467f81870f149ef7e4d2406d97ad4dc8d",
+      "season_sha256": "4253794cb1e120c438aedd7bd02314999b851554ee7923120c50c2b0c84b95e2"
+    },
+    "Serie_B_12_13": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 16,
+        "promoted": 4,
+        "relegated": 2
+      },
+      "manifest_sha256": "33b49cd036b50517faee5aca71885daec28af5574327d0bd131689bedcfdaa80",
+      "season_sha256": "a128a2fde43b6f81844913a211d2a3cb43a02f1e46b359a09e1f5e4f280c156f"
+    },
+    "Serie_B_13_14": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 15,
+        "promoted": 4,
+        "relegated": 3
+      },
+      "manifest_sha256": "765fd6cd1ff5426601fbaa37d8cf4052916f8dd29337340aeb8cd1c2244d1e28",
+      "season_sha256": "4d434d08d2f8df0a662d28575f71df8c89d192fd890645b204a53e60f67a52bd"
+    },
+    "Serie_B_14_15": {
+      "matches": 462,
+      "team_seasons": 22,
+      "movement_counts": {
+        "retained": 14,
+        "promoted": 4,
+        "relegated": 3,
+        "other_entry": 1
+      },
+      "manifest_sha256": "341227ad070708b12c3f88aacf97dcff7212c54686f3268af578c8762012e05a",
+      "season_sha256": "d2e3927d58ea6706e04fb3179427b27e7deacc3901d0388cef90597148c4745d"
+    }
+  },
+  "pipeline_preparation": {
+    "matches": 23658,
+    "history_rows": 47316,
+    "columns": [
+      "home::was_promoted",
+      "home::was_relegated",
+      "away::was_promoted",
+      "away::was_relegated"
+    ],
+    "folds": 3,
+    "null_feature_values": 0,
+    "model_fitted": false
+  }
+}

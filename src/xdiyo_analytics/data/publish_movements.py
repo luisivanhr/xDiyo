@@ -96,12 +96,15 @@ def materialize_movement_flags(data_root, season_stem, *, reviewed_flags=None, c
         for name in enriched.columns:
             if name in keys:
                 continue
-            values = pa.array(enriched[name])
             if name in table.column_names:
                 index = table.column_names.index(name)
-                table = table.set_column(index, table.schema.field(index), values)
+                field = table.schema.field(index)
+                # pandas 3 uses large_string for its string dtype; older
+                # publications use string. Preserve the stored Arrow field.
+                values = pa.array(enriched[name], type=field.type)
+                table = table.set_column(index, field, values)
             else:
-                table = table.append_column(name, values)
+                table = table.append_column(name, pa.array(enriched[name]))
         # Existing Arrow fields (including nested observations) stay unchanged.
         # Updating predecessor evidence alone must not rewrite observation files.
         if compression is None and table.equals(original_table, check_metadata=True):

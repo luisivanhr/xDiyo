@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_2_13_14",
+  "old_manifest_sha256": "e91d77f4d57628d6060f9c0fa0a2a26e24f29b69d70fe359711cc52daa83abf5",
+  "old_publication_sha256": "300cfaa565d9f05609fac17a0d95a7185e9e528a528d26c85681c1be03e9b84b",
+  "new_manifest_sha256": "46cc491b1cb7658f95dee8f2aaf5fbc03ded8c1101081746d947b3ae24bedd8d",
+  "new_publication_sha256": "868e7fb4f12afe4253fcc09b8f632157a7c89158c2464224c588dbc355181f89",
+  "matches_sha256": "81fd5433168056982c5f8a92cb228786bd4b967b3311d928ed13cc5e597fc69e",
+  "season_sha256": "52aa88bfd9d1cf5a89e0bd7dba33d8f78f1d116a82f6d368079b3e19f85c9272"
+}

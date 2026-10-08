@@ -1,5 +1,31 @@
 [
   {
+    "stem": "Bundesliga_10_11",
+    "promoted_ids": [
+      2675,
+      2526
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 58: Kaiserslautern and St Pauli promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2675": "1. FC Kaiserslautern",
+      "2526": "FC St. Pauli"
+    },
+    "observed_member_count": 18
+  },
+  {
     "stem": "Bundesliga_15_16",
     "promoted_ids": [
       5880,
@@ -24,6 +50,45 @@
     "observed_team_names": {
       "5880": "FC Ingolstadt 04",
       "2576": "Darmstadt 98"
+    },
+    "observed_member_count": 18
+  },
+  {
+    "stem": "Bundesliga_2_10_11",
+    "promoted_ids": [
+      2581,
+      2566,
+      5880
+    ],
+    "relegated_ids": [
+      2542,
+      2528
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesd/duit2010.html",
+        "title": "RSSSF Germany 2009/10",
+        "scope": "Osnabruck and Aue promoted directly; Ingolstadt won the promotion playoff.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 58: Bochum and Hertha relegated; Nurnberg survived the playoff.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2581": "VfL Osnabrück",
+      "2566": "Erzgebirge Aue",
+      "5880": "FC Ingolstadt 04",
+      "2542": "VfL Bochum 1848",
+      "2528": "Hertha BSC"
     },
     "observed_member_count": 18
   },
@@ -104,6 +169,47 @@
       "2576": "Darmstadt 98"
     },
     "observed_member_count": 18
+  },
+  {
+    "stem": "Championship_10_11",
+    "promoted_ids": [
+      263,
+      34,
+      25
+    ],
+    "relegated_ids": [
+      6,
+      96,
+      2
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/2010%E2%80%9311_Football_League_Championship",
+        "title": "2010/11 Championship: changes from last season",
+        "scope": "Norwich, Leeds and Millwall arrived from League One; Burnley, Hull and Portsmouth from above.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://www.rsssf.org/tablese/eng2010.html",
+        "title": "RSSSF England 2009/10",
+        "scope": "Previous-season standings and promotion playoffs.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "263": "Norwich City",
+      "34": "Leeds United",
+      "25": "Millwall",
+      "6": "Burnley",
+      "96": "Hull City",
+      "2": "Portsmouth"
+    },
+    "observed_member_count": 24
   },
   {
     "stem": "Championship_15_16",
@@ -202,6 +308,32 @@
     "observed_member_count": 24
   },
   {
+    "stem": "Eredivisie_10_11",
+    "promoted_ids": [
+      2949,
+      2967
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 99: De Graafschap and Excelsior promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2949": "De Graafschap",
+      "2967": "Excelsior"
+    },
+    "observed_member_count": 18
+  },
+  {
     "stem": "Eredivisie_15_16",
     "promoted_ids": [
       2962,
@@ -266,6 +398,34 @@
     "observed_member_count": 18
   },
   {
+    "stem": "La_Liga_10_11",
+    "promoted_ids": [
+      2824,
+      2877,
+      2849
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 136: Real Sociedad, Hercules and Levante promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2824": "Real Sociedad",
+      "2877": "Hércules CF",
+      "2849": "Levante UD"
+    },
+    "observed_member_count": 20
+  },
+  {
     "stem": "La_Liga_15_16",
     "promoted_ids": [
       2816,
@@ -304,6 +464,49 @@
       "2839": "Eibar"
     },
     "observed_member_count": 20
+  },
+  {
+    "stem": "La_Liga_2_10_11",
+    "promoted_ids": [
+      33779,
+      6195,
+      24343,
+      24322
+    ],
+    "relegated_ids": [
+      2831,
+      2822,
+      2838
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/2010%E2%80%9311_Segunda_Divisi%C3%B3n",
+        "title": "2010/11 Segunda Division: teams",
+        "scope": "Granada, Ponferradina, Barcelona B and Alcorcon entered from below.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 136: Valladolid, Tenerife and Xerez relegated.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "33779": "Granada",
+      "6195": "SD Ponferradina",
+      "24343": "Barcelona Atlètic",
+      "24322": "AD Alcorcón",
+      "2831": "Real Valladolid",
+      "2822": "CD Tenerife",
+      "2838": "Xerez CD"
+    },
+    "observed_member_count": 22
   },
   {
     "stem": "La_Liga_2_15_16",
@@ -403,6 +606,34 @@
     "observed_member_count": 22
   },
   {
+    "stem": "Ligue_1_10_11",
+    "promoted_ids": [
+      1667,
+      1715,
+      7721
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 53: Caen, Brest and Arles-Avignon promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "1667": "Stade Malherbe Caen",
+      "1715": "Stade Brestois",
+      "7721": "Arles"
+    },
+    "observed_member_count": 20
+  },
+  {
     "stem": "Ligue_1_15_16",
     "promoted_ids": [
       1684,
@@ -429,6 +660,47 @@
       "1684": "Angers",
       "7924": "GFC Ajaccio",
       "1652": "Troyes"
+    },
+    "observed_member_count": 20
+  },
+  {
+    "stem": "Ligue_2_10_11",
+    "promoted_ids": [
+      21800,
+      1652,
+      1682
+    ],
+    "relegated_ids": [
+      1672,
+      1711,
+      1671
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://www.rsssf.org/tablesf/fran2010.html",
+        "title": "RSSSF France 2009/10",
+        "scope": "Evian, Troyes and Reims promoted from National.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 53: Le Mans, Boulogne and Grenoble relegated.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "21800": "Thonon Evian Grand Genève F.C",
+      "1652": "Troyes",
+      "1682": "Stade de Reims",
+      "1672": "Le Mans",
+      "1711": "US Boulogne Côte-d'Opale",
+      "1671": "Grenoble Foot 38"
     },
     "observed_member_count": 20
   },
@@ -517,6 +789,34 @@
     "observed_member_count": 20
   },
   {
+    "stem": "Premier_League_10_11",
+    "promoted_ids": [
+      39,
+      8,
+      67
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 43: Newcastle, West Brom and Blackpool promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "39": "Newcastle United",
+      "8": "West Bromwich Albion",
+      "67": "Blackpool"
+    },
+    "observed_member_count": 20
+  },
+  {
     "stem": "Premier_League_15_16",
     "promoted_ids": [
       60,
@@ -551,6 +851,56 @@
       "263": "Norwich City"
     },
     "observed_member_count": 20
+  },
+  {
+    "stem": "Premiership_10_11",
+    "promoted_ids": [
+      2362
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 125: Inverness promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2362": "Inverness Caledonian Thistle"
+    },
+    "observed_member_count": 12
+  },
+  {
+    "stem": "Premiership_12_13",
+    "promoted_ids": [
+      2357
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": false,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/0201-0f842817135c-7850e9be42b3-1000/first_division_clubs_in_europe_2012_13.pdf",
+        "title": "UEFA first division clubs 2012/13",
+        "scope": "Scotland lists Dundee and Ross County as promoted clubs; Rangers voted out of SPL.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Dundee entered by invitation following Rangers exclusion; UEFA explicitly classifies it as promoted."
+    ],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2357": "Dundee FC"
+    },
+    "observed_member_count": 12
   },
   {
     "stem": "Premiership_15_16",
@@ -621,6 +971,34 @@
     "observed_member_count": 12
   },
   {
+    "stem": "Pro_League_10_11",
+    "promoted_ids": [
+      116075,
+      2926
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 22: Lierse and Eupen promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Provider historical club IDs/names are preserved, including Lierse and Beerschot."
+    ],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "116075": "Koninklijke Lierse Sportkring",
+      "2926": "KAS Eupen"
+    },
+    "observed_member_count": 16
+  },
+  {
     "stem": "Pro_League_15_16",
     "promoted_ids": [
       2895,
@@ -685,6 +1063,34 @@
     "observed_member_count": 18
   },
   {
+    "stem": "Serie_A_10_11",
+    "promoted_ids": [
+      2689,
+      2742,
+      2691
+    ],
+    "relegated_ids": [],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://editorial.uefa.com/resources/025d-0f8426e39406-2c0d6ce46092-1000/2010_11_clubs_de_premiere_division_en_europe.pdf",
+        "title": "UEFA first division clubs 2010/11",
+        "scope": "Page 73: Lecce, Cesena and Brescia promoted.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2689": "Lecce",
+      "2742": "Cesena",
+      "2691": "Brescia"
+    },
+    "observed_member_count": 20
+  },
+  {
     "stem": "Serie_A_15_16",
     "promoted_ids": [
       43685,
@@ -713,6 +1119,79 @@
       "2685": "Bologna"
     },
     "observed_member_count": 20
+  },
+  {
+    "stem": "Serie_B_10_11",
+    "promoted_ids": [
+      2767,
+      5316,
+      2743,
+      7935
+    ],
+    "relegated_ids": [
+      2686,
+      170650,
+      2726
+    ],
+    "other_entry_ids": [],
+    "complete_review": true,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/2010%E2%80%9311_Serie_B",
+        "title": "2010/11 Serie B: teams",
+        "scope": "Novara, Portogruaro, Varese and Pescara promoted; Atalanta, Siena and Livorno relegated. Triestina reinstated.",
+        "kind": "secondary"
+      }
+    ],
+    "notes": [
+      "Triestina is retained: it already played Serie B in 2009/10 and was reinstated after Ancona exclusion.",
+      "Modern provider names and IDs (including Siena and Reggina) are preserved; no identity remapping."
+    ],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2767": "Novara",
+      "5316": "Portogruaro",
+      "2743": "Varese",
+      "7935": "Pescara",
+      "2686": "Atalanta",
+      "170650": "ACR Siena 1904",
+      "2726": "US Livorno 1915"
+    },
+    "observed_member_count": 22
+  },
+  {
+    "stem": "Serie_B_14_15",
+    "promoted_ids": [],
+    "relegated_ids": [],
+    "other_entry_ids": [
+      2722
+    ],
+    "complete_review": false,
+    "sources": [
+      {
+        "url": "https://www.ansa.it/sito/notizie/sport/2014/08/29/vicenza-ripescato-in-serie-b_acfbe120-f343-419d-aeb3-e792a5c64160.html",
+        "title": "ANSA: Vicenza ripescato in Serie B, 29 August 2014",
+        "scope": "Vicenza admitted administratively to replace Siena after the latter failed to register.",
+        "kind": "secondary"
+      },
+      {
+        "url": "https://files.figc.it/version/c%3AMWI2ZDhkMjMtNTczNC00%3AODU0MTM0MDgtODZmOC00/C_2_ContenutoGenerico_2525403_DettaglioAreaStampa_lstAllegati_0_upfAllegato.pdf",
+        "title": "FIGC youth sector notice, September 2014",
+        "scope": "Confirms Vicenza inclusion in Serie B by federal notice 59/A of 29 August 2014.",
+        "kind": "primary"
+      }
+    ],
+    "notes": [
+      "Vicenza did not win sporting promotion in 2013/14: classify the 2014 ripescaggio as other_entry.",
+      "Its 2012/13 entry remains retained, since it played Serie B in 2011/12."
+    ],
+    "reviewed_on": "2026-10-08",
+    "uncertainty": [],
+    "observed_team_names": {
+      "2722": "L.R. Vicenza"
+    },
+    "observed_member_count": 22
   },
   {
     "stem": "Serie_B_15_16",

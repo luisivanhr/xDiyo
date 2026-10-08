@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_10_11",
+  "old_manifest_sha256": "e3d2ba48c68780c2af33f760d0151be43b01578f42dd202b90c8c408ce04c166",
+  "old_publication_sha256": "4c4273c3afa2fe371d5dba87bb869299303f4258228c08e413f22d94bf51e788",
+  "new_manifest_sha256": "d0af9cd6bee6eacd27ca1dd8b64d5709faa126e012e51b6ea8597bda5783d26e",
+  "new_publication_sha256": "7a2a23c94db74f9c7e05f0e9a07221ca1fbf84adab7cfb7887536837e523c781",
+  "matches_sha256": "0f6c01904987b82696ab0b3dea8d1d6424b4a398d2364af518e5c9127c0cab4b",
+  "season_sha256": "d841369dcd8f73203a79e93a97caa9b689e121d80060eb85ce3c6935762bdaee"
+}

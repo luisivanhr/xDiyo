@@ -67,12 +67,41 @@ Derivation uses the full reviewed source population. Roster completeness is
 distinct from match completion: a live season can already contain all its teams.
 No end-of-current-season result is used to classify current-season entry.
 
-As of 5 October 2026, the review covers 156 league-seasons and 2,975 team-seasons:
-2,388 retained, 422 promoted, 164 relegated and one administrative entrant. 214
-of the promotions use rule 3. The 21 boundary reviews retain historical source
-evidence even where this extension now supplies a predecessor season. Paris FC's
-2017 Ligue 2 admission is `other_entry`; Eibar 2015, Venezia 2019 and
-Waasland-Beveren 2020 are retained with administrative notes.
+As of 8 October 2026, the review covers 221 league-seasons and 4,225 team-seasons:
+3,387 retained, 602 promoted, 234 relegated and two administrative entrants.
+The 2010/11–2014/15 extension adds 65 league-seasons, 23,658 match records and
+1,250 team-season entries: 999 retained, 180 promoted, 70 relegated and one
+administrative entrant. All entry classifications are resolved. The 36 boundary
+reviews retain historical sources even where an adjacent season is now present.
+The extension also supplies predecessor IDs for the thirteen 2015/16 seasons;
+their existing classifications and observation files are unchanged.
+
+Vicenza's 2014 Serie B admission and Paris FC's 2017 Ligue 2 admission are
+`other_entry`. Dundee's 2012 entry is `promoted`, following UEFA's explicit
+classification, with its invitation after Rangers' exclusion documented in
+the evidence. Triestina 2010, Vicenza 2012, Eibar 2015, Venezia 2019 and
+Waasland-Beveren 2020 remain retained under prior-season membership semantics.
+
+The new extension's native tables, season exports and movement tables all use
+**ZSTD**, never Snappy. Older observation files retain their existing compression
+when only predecessor evidence changes. Source statistics coverage gaps remain
+missing; this processing does not invent observations or fill optional tables.
+The collection excluded one abandoned fixture in each of Championship 2014/15
+and Pro League 2014/15, leaving 551 and 239 records respectively. Manifest
+completion refers to the collected selection, not every scheduled fixture.
+
+The reproducible preflight/publication script is
+[`prepare_season_extension_20261008.py`](../../examples/prepare_season_extension_20261008.py)
+(`--apply` to write); its table fingerprints, counts and verification record are
+in [the extension audit](data/season_extension_20261008.json). Existing fields,
+nested observations and unrelated tables are checked for preservation, and
+manifests contain the actual updated hashes. Current movement publication also
+preserves existing Arrow string widths when run under pandas 2 or 3.
+The [final verification](data/season_extension_20261008_verification.json)
+checks all 801 current extension Parquet files and records successful native UI
+recipe preparation of 23,658 matches, 47,316 team-history rows, four movement
+predictors and three temporal folds. It performs no model fitting. The movement,
+recipe-refresh and loader regression suite passed all 54 tests.
 
 Sources, exact IDs and exceptions are in
 [boundary evidence](data/team_movement_boundary_evidence.json). The exact roster

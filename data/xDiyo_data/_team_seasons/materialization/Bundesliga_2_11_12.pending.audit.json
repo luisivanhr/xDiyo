@@ -1,0 +1,9 @@
+{
+  "season": "Bundesliga_2_11_12",
+  "old_manifest_sha256": "8bb52b650047c343a49b876a6a595eb0cbb18890b71300f7679f4727724e0409",
+  "old_publication_sha256": "17d781f5e3b35f794e156b31fa8a3f43ecb35bfb0c3dc352e877cbef1802b0a7",
+  "new_manifest_sha256": "621460e4c6ada60603dc797aaad273e223a0beeab316e510eff1e16b36b2a1c1",
+  "new_publication_sha256": "b4b87911155bb988b165b332d79c783d6305d6c8587821957256cfdf4a6c4076",
+  "matches_sha256": "9b2574c3eeeac7c753c69d9ea0286edbdc19a3c90c45688d501d187be08f6392",
+  "season_sha256": "b1cdcf7e113d26c850af8e0ba26f7be686c89a6df010872471b8abb678eef007"
+}

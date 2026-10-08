@@ -1,0 +1,9 @@
+{
+  "season": "Eredivisie_13_14",
+  "old_manifest_sha256": "364dfd5d72a6284f93f5a11f627830a0134c1314fa850791532a04045bb14a02",
+  "old_publication_sha256": "c5bc5ce6a4acb6e0375b6bc15a6aab6007cc594b7eaf8eac4f1e66be3ecfdd89",
+  "new_manifest_sha256": "b4fc378a3be266435a57bc4f297a7279bb68f29a82cbb203b0c50bbba270e144",
+  "new_publication_sha256": "2fd5c614000d69962915d0251b8acde083235f9f8b5b38b9badf588fabe8928f",
+  "matches_sha256": "fd3f051f9cc419e380464cb14a439c01a71feb6caede0dd6896af37b1db6bd4b",
+  "season_sha256": "09f024fd656cb782298e803083d05a6651797971fdb9aca6b711b73fe8269054"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Ligue_1_10_11",
+  "old_manifest_sha256": "c46e1b2dd68fe2afc49f1f49940a4999af19c2d94fa9db397d5adbf1b10fca32",
+  "old_publication_sha256": "72242f4621062644581cff78aecca873c1868cd0de05e402d63ea7d0834279eb",
+  "new_manifest_sha256": "3c37d2d548f8d5df494d4202e307cd2e6a1e6823c9296876e0ea92d8198b9fb5",
+  "new_publication_sha256": "197f9965c21b933891d25f9cdbc779f06bb13b208362289b520a0de9560cdfd2",
+  "matches_sha256": "629914e4fff4069227caf271f0389925c21dbe28fb86cb1c8c70f230d4d6c0ad",
+  "season_sha256": "97da7e154310feec2a2cf0cbcf6d4f9a615749b5689c359cb848f5d8e08a4e36"
+}

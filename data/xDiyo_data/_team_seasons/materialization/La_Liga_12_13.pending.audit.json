@@ -1,0 +1,9 @@
+{
+  "season": "La_Liga_12_13",
+  "old_manifest_sha256": "3b3d6aa2cb76dd9c64c68572829eec1e5595439c4769183e9378b1ef398bfbe4",
+  "old_publication_sha256": "b2212403a5d1cb2f67fc6b700b455593aa03edfdc81d6136cd11557064d97167",
+  "new_manifest_sha256": "fbe0dc95d6fcc34e5df5e03c67f13871f55c7b89b508bf65115594f4219e3e2b",
+  "new_publication_sha256": "06509352901b89af53fcf5cdc7098ffceb9d95252a836930c18f441fd9bba1d6",
+  "matches_sha256": "e9ee10489be5959f3f6d36d9ea8796233d2b33049c12b896bad1ab0b7034c3d9",
+  "season_sha256": "866418c578ace19392c2a9508de837e7fc264039d959ffe5ee69460f30d51ebf"
+}

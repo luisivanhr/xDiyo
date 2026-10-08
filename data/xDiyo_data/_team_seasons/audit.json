@@ -1,20 +1,50 @@
 {
-  "team_seasons": 2975,
-  "seasons": 156,
+  "team_seasons": 4225,
+  "seasons": 221,
   "movement_counts": {
-    "retained": 2388,
-    "promoted": 422,
-    "relegated": 164,
-    "other_entry": 1
+    "retained": 3387,
+    "promoted": 602,
+    "relegated": 234,
+    "other_entry": 2
   },
-  "original_files_verified_unchanged": 468,
-  "inferred_promotions": 214,
+  "original_files_verified_unchanged": 663,
+  "inferred_promotions": 300,
   "outputs": {
+    "Bundesliga_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7752,
+      "sha256": "ef7fccd9955bc0f2b66c3a0b4d03b489aeb9129c4ad229d8aca843430bf3b24b"
+    },
+    "Bundesliga_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7453,
+      "sha256": "edf04c1a4e60f20c0f1d3425b523babe5aaa5a205d6531de02f5f39a9e661e5e"
+    },
+    "Bundesliga_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7461,
+      "sha256": "8a08c27820383a95dd46731cbce7d61246e7a4114b7cd09d32da13411f747ede"
+    },
+    "Bundesliga_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7449,
+      "sha256": "81a492680cca682628d1e71e92082152e55acbc25f6c3f27dd67775b6cc00c42"
+    },
+    "Bundesliga_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7446,
+      "sha256": "c7961bd084a16b41eee7a8231b64f978dd04070e7248d13106d4575bf46e2fd0"
+    },
     "Bundesliga_15_16": {
       "file": "team_seasons.parquet",
       "rows": 18,
-      "bytes": 8888,
-      "sha256": "9294376cbc05db1b48b05e74ed8353815ac217974774f876b9e651cee86b2f5c"
+      "bytes": 7840,
+      "sha256": "0ac3b09949f62649db959de9db37a78bc4a918ef1f4e7658934968186bd48ead"
     },
     "Bundesliga_16_17": {
       "file": "team_seasons.parquet",
@@ -82,11 +112,41 @@
       "bytes": 8620,
       "sha256": "d4ab9b1d68f97c81afe39742acbad38d533b79aff0efcfc04f76576cc73fa136"
     },
+    "Bundesliga_2_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 8012,
+      "sha256": "52be0a3bcb42c09d3d11fbfb538d487bcbe875be6f17439d2f4ae5865020f944"
+    },
+    "Bundesliga_2_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7626,
+      "sha256": "62f6b23d9250730c30ddef991a7cb1c65ab2aeb31b1c7b18dd3495d3028f363f"
+    },
+    "Bundesliga_2_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7609,
+      "sha256": "2381eef2c12f2ec392aa8d27a0a08a2abf2988f1b2df318635eac2f6795c5b3e"
+    },
+    "Bundesliga_2_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7613,
+      "sha256": "6904b639c6f2771ea92173e152a43830ff667a0d85251f5664a60c1269949f42"
+    },
+    "Bundesliga_2_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7603,
+      "sha256": "f649cc8eda7172c7ef150b26b63bd0a1f780b78455cd968d9c488fa3eb11fbe8"
+    },
     "Bundesliga_2_15_16": {
       "file": "team_seasons.parquet",
       "rows": 18,
-      "bytes": 7453,
-      "sha256": "e21720b02f5fec486f682975a8ad6c626e55133a3be959418b994ab55f840bfa"
+      "bytes": 7547,
+      "sha256": "f36965041453d5fbf4208e660a00562cd0cd8682ab0ae4e2787e453cb61663fe"
     },
     "Bundesliga_2_16_17": {
       "file": "team_seasons.parquet",
@@ -154,11 +214,41 @@
       "bytes": 8832,
       "sha256": "a778d00feccb48f640a5a671de91543a4bef92045f5ae705ada1f6fab0e86119"
     },
+    "Championship_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 24,
+      "bytes": 7735,
+      "sha256": "9fa1ffaa4ec6ac36c0dae17f7f6f7f2b15894cda9f979062db26060c041aa0c4"
+    },
+    "Championship_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 24,
+      "bytes": 7603,
+      "sha256": "3c3253555351cfa54c96fb1dcdd3cc341baef83e7481187896dd94c6a45a8999"
+    },
+    "Championship_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 24,
+      "bytes": 7613,
+      "sha256": "9ecce8fd1e12ec97a5e9cc099b00c7744b66e712378361e5e0f686d6fbe5cbab"
+    },
+    "Championship_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 24,
+      "bytes": 7607,
+      "sha256": "09a6364c0f4474c3eeb0ca138efe5238bec4c7d3d0da9d24936aee5f3b2565cb"
+    },
+    "Championship_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 24,
+      "bytes": 7633,
+      "sha256": "c264321513d510f03cb13e7df3642aa64d3460d51d677668f03fe2cc9f43e391"
+    },
     "Championship_15_16": {
       "file": "team_seasons.parquet",
       "rows": 24,
-      "bytes": 7654,
-      "sha256": "a08352206d9fe92bdecf940176ef8ccc2dfd3f08db195ced65c06128f948b5bb"
+      "bytes": 7754,
+      "sha256": "7e0b939d1d8f342b5a13af5f06acff7f63e3ff36a694af4c3ccac1b424119f0c"
     },
     "Championship_16_17": {
       "file": "team_seasons.parquet",
@@ -226,11 +316,41 @@
       "bytes": 8937,
       "sha256": "0d9789b9164cc858b95a3d672bfe015d4607b08b571e596dfcf12000c53d9e17"
     },
+    "Eredivisie_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7690,
+      "sha256": "d34dce02dbde3f525a3e6a96a1e7312c0330f8ecf7ea1e70ccd46ae369980b60"
+    },
+    "Eredivisie_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7440,
+      "sha256": "1a809e44060eae89d2879c71569047d273261f92621bddd0615074e063854aa9"
+    },
+    "Eredivisie_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7461,
+      "sha256": "4ffe004314c3350151ebe8f0d3307fa7281b07f7ea71a4ba7ea527dc9a7be513"
+    },
+    "Eredivisie_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7436,
+      "sha256": "402914f722f15d5686280fc0f027db082f8a1a7e6f37dfaf753a5619fe920379"
+    },
+    "Eredivisie_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 18,
+      "bytes": 7458,
+      "sha256": "13979dc0cd9d7db66df00f35af1f11e31d949585bddf04a9e9abe75c7158c74e"
+    },
     "Eredivisie_15_16": {
       "file": "team_seasons.parquet",
       "rows": 18,
-      "bytes": 8797,
-      "sha256": "2a97c4b427051383a15d011e8eabec2d147c446cb5b403b4e04e9d75068aed7d"
+      "bytes": 7735,
+      "sha256": "f20caaa235d829edaf111d6639044378775ddb3389ebcb48551d000d2908ccaf"
     },
     "Eredivisie_16_17": {
       "file": "team_seasons.parquet",
@@ -298,11 +418,41 @@
       "bytes": 8663,
       "sha256": "823faf851f86e8eee63f9b908b409deca6c5960be7809e1eb1a960d0c8749c08"
     },
+    "La_Liga_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7671,
+      "sha256": "76cc1d28ad2d0959f4f05999e09efaed7003dbdad1dc8b894312ada65a5e6163"
+    },
+    "La_Liga_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7387,
+      "sha256": "2f5d9b055f265c38b319bf5b1305b092c87f67102ebfed32a024154757d44f4e"
+    },
+    "La_Liga_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7380,
+      "sha256": "925297d5c80be61e17c0f5a03ee62bd79f8681bd30f87cee663fa192fb2a6eab"
+    },
+    "La_Liga_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7364,
+      "sha256": "adc18d14a182c2b4e5722b76f5cd4d612af83cf2ef4a554de0b703d27b8dc92d"
+    },
+    "La_Liga_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7383,
+      "sha256": "dcc2c40c4f2f972535524008802b5021a5bf5fa8bba6671cb5587b941a5cf6ae"
+    },
     "La_Liga_15_16": {
       "file": "team_seasons.parquet",
       "rows": 20,
-      "bytes": 8889,
-      "sha256": "6a96a859784e4dd827359abcd636e071089256cd1f584b18a1c5d324ca8f9fa1"
+      "bytes": 7844,
+      "sha256": "ef2d0eeb982593ef03852d6be2d9a35525d1d8fbec32e68b4b314ce8651bb3a6"
     },
     "La_Liga_16_17": {
       "file": "team_seasons.parquet",
@@ -370,11 +520,41 @@
       "bytes": 8577,
       "sha256": "056bcde2a6d5c65b99c2e680b7b847bd1cc00418fad87952474ba3809b56f576"
     },
+    "La_Liga_2_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 8105,
+      "sha256": "14c8165c08947b4dabac47bb6807f1751764c2e772f3a0486dd703c6b3296741"
+    },
+    "La_Liga_2_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7598,
+      "sha256": "0f56f46ed5924d58044576aff7cd9f3f53c10309002213806a8dc8c2cc2441e5"
+    },
+    "La_Liga_2_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7592,
+      "sha256": "a73e9e92af426ab7eb73f769e65758e9e2e3f90081d36d2c4aaca265db9c3d21"
+    },
+    "La_Liga_2_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7608,
+      "sha256": "5fc264e9f57779223122b165e711bc6822d29c2f1041b62527d4e4845f6bfc85"
+    },
+    "La_Liga_2_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7611,
+      "sha256": "139dcb3fb70300edcdb09a0c04a823d656d0cf0fa1ac98d6613e9d84ea1fcc61"
+    },
     "La_Liga_2_15_16": {
       "file": "team_seasons.parquet",
       "rows": 22,
-      "bytes": 7775,
-      "sha256": "6644d88d6af651b8a9a572792763d14d4ae9beb37256e767876fa0f6d42056b9"
+      "bytes": 7871,
+      "sha256": "e6976a3a05405948763806b70437634c9b99e1f06d9e427a1d97180ccd05ea34"
     },
     "La_Liga_2_16_17": {
       "file": "team_seasons.parquet",
@@ -442,11 +622,41 @@
       "bytes": 8796,
       "sha256": "f2409bde3fe7f30639d279937f04060fcb4338ba7338370ed1a1a2bf636b2356"
     },
+    "Ligue_1_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7665,
+      "sha256": "f3291185e0c5774bb1c7e22f37f1969a0c9c6223ab2465bdfbe7d1cbfe87ffd9"
+    },
+    "Ligue_1_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7400,
+      "sha256": "8ce1b4b223f6c20ee307bcc72d6ec91d8a26ca24ad67088ca96d949a4979404a"
+    },
+    "Ligue_1_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7391,
+      "sha256": "bd76c069498d731221c8b939e0643d390591676e36b1b9ddd9f1207a0d3b8fec"
+    },
+    "Ligue_1_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7400,
+      "sha256": "dc932d34f9d9c9db84bef0c64eb6e8b7c664dfbac31820099832e43d04e11047"
+    },
+    "Ligue_1_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7389,
+      "sha256": "4e7031a259f64d441133364031da36e4665a78cd368e32c2efe5e2ceffdb456f"
+    },
     "Ligue_1_15_16": {
       "file": "team_seasons.parquet",
       "rows": 20,
-      "bytes": 8710,
-      "sha256": "f3c135f321162110de1f7577579935897562d27908ea5e6edeb9dbff698e5c13"
+      "bytes": 7662,
+      "sha256": "e12af5358a62b4db3055e3d951f8daad4653ba343be1098fd8253fb2dc15057c"
     },
     "Ligue_1_16_17": {
       "file": "team_seasons.parquet",
@@ -514,11 +724,41 @@
       "bytes": 8504,
       "sha256": "ae629bd307a714e238b33bd6a4ea1f1e97b511ffb679259c4c035b6b595bcd14"
     },
+    "Ligue_2_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7913,
+      "sha256": "d6d454c778dfddaa4ec842eff5db97cd41328f037c2cd150f453278400aa1ec1"
+    },
+    "Ligue_2_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7535,
+      "sha256": "32db181106b5cd44ff44d2aa98b01850992b4b50006bd20348b6cd5a3156fd4b"
+    },
+    "Ligue_2_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7501,
+      "sha256": "f045be81b4bd4a87cd328e75ec3e28c0e27a9a8773101b5b5c9953042d4436e5"
+    },
+    "Ligue_2_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7528,
+      "sha256": "45b4a0170e25b6819911e8123e159fd4ea81ebe4b9bb64b5e93b28d7e24d2892"
+    },
+    "Ligue_2_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7523,
+      "sha256": "d77adb7f4d29dd3862b2012d090c576c02303c94677594c6104eb79cab2e2532"
+    },
     "Ligue_2_15_16": {
       "file": "team_seasons.parquet",
       "rows": 20,
-      "bytes": 7385,
-      "sha256": "06c377649353dcc12ab8ea0bd7e8674855f26ea2b1bccb8704ac45e3e97871c9"
+      "bytes": 7485,
+      "sha256": "2dbee2053d3283925746cec712b1a9d037842d0447dcbb03d7b19c8dd07c953c"
     },
     "Ligue_2_16_17": {
       "file": "team_seasons.parquet",
@@ -586,11 +826,41 @@
       "bytes": 8711,
       "sha256": "157a1576d74cd53f439e5f5d541329f9ea94685034e60ae3bc3c9ef3b6da8b7c"
     },
+    "Premier_League_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7707,
+      "sha256": "54c3c40946e32ee5d3becdd27e46ff155c42ebd492aef70abb12db6af3eaa067"
+    },
+    "Premier_League_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7436,
+      "sha256": "7de48a5e68500f172811be2be0bfc9b1d63e75973118433a6a1da956d0ea26bc"
+    },
+    "Premier_League_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7417,
+      "sha256": "9bca28e4d39879e5a4d72dbea2e4b9c01a02aed61d16e201f565e674a6b2b7e4"
+    },
+    "Premier_League_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7422,
+      "sha256": "1aa01cb650cfa4b4ce7670844ed80275127955bde2b594c63030f10db93b061a"
+    },
+    "Premier_League_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7418,
+      "sha256": "011535db8ac038ee0fd02d114ef1663a814fa4ded04b41000752bf4168c23e4d"
+    },
     "Premier_League_15_16": {
       "file": "team_seasons.parquet",
       "rows": 20,
-      "bytes": 8861,
-      "sha256": "3200f74fe44174554a2b99083e1c67b0d448574c8ff87232f1f2acf33452db10"
+      "bytes": 7774,
+      "sha256": "8cb892c6dec36fa79466c4fbb434669ac5c3f6aa12723b669b8967dc297de8bc"
     },
     "Premier_League_16_17": {
       "file": "team_seasons.parquet",
@@ -658,11 +928,41 @@
       "bytes": 8657,
       "sha256": "3ff5c0d2fa662025516ae11b4261a7f4e2214a5ae33b258a6f6b4bf82904c900"
     },
+    "Premiership_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 12,
+      "bytes": 7581,
+      "sha256": "1380046ec78fd3640f08c8f3405cec61a14da8e830e52ee2f0383e2529db27f9"
+    },
+    "Premiership_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 12,
+      "bytes": 7348,
+      "sha256": "dc7aa673b899f34916b2a0268b416709f03637fd468ea0dc4f7d6d47469e6a38"
+    },
+    "Premiership_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 12,
+      "bytes": 7566,
+      "sha256": "ea73cb75e568bd64e25be49ac1f4324a2028768b2ea9f48564210cfdadd57f7a"
+    },
+    "Premiership_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 12,
+      "bytes": 7352,
+      "sha256": "2c85b4016580bb3ae60f68d8a022dc708dbcf23076cbf6682cd650330b4398b6"
+    },
+    "Premiership_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 12,
+      "bytes": 7344,
+      "sha256": "d4cd8bad6ef111ab129ce74ef64fdd0ceea5cf18199737695b1093161d23048a"
+    },
     "Premiership_15_16": {
       "file": "team_seasons.parquet",
       "rows": 12,
-      "bytes": 7504,
-      "sha256": "16721e5e33177cfa15df3ba067561354356acabbde01baff93036016ffcb7216"
+      "bytes": 7578,
+      "sha256": "d4595f38af1568c26d17e04d1fd29b3b2e5360b4d01cc96bad0de139747fe7bd"
     },
     "Premiership_16_17": {
       "file": "team_seasons.parquet",
@@ -730,11 +1030,41 @@
       "bytes": 8499,
       "sha256": "c6669969b7b9b8cdd139d6e21a8ff6c778e284374c6a6b60f4001ffe7ffde2ce"
     },
+    "Pro_League_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 16,
+      "bytes": 7697,
+      "sha256": "c897cc46ba91179be5f25137636fbeb7384900606528766513925c8e2e36c6a9"
+    },
+    "Pro_League_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 16,
+      "bytes": 7472,
+      "sha256": "4092640e97c9ac4bb51a423e6472a4ef513fbeb8da64591da4f856ef1fd36dba"
+    },
+    "Pro_League_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 16,
+      "bytes": 7468,
+      "sha256": "b9a9944642fde11ecf94749fb194b59a2a4ee6bdc3d36fb402ddb39a36e74740"
+    },
+    "Pro_League_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 16,
+      "bytes": 7463,
+      "sha256": "8ac7a5f75c00a2c26c1aab85c1fbf0a02f6fcb589fca5ad32e56035818bddef9"
+    },
+    "Pro_League_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 16,
+      "bytes": 7462,
+      "sha256": "cea1f74a2ef78ae4ba55aecc55cba94c1b0f34b4a9fa32297ab65d50b8b7f50e"
+    },
     "Pro_League_15_16": {
       "file": "team_seasons.parquet",
       "rows": 16,
-      "bytes": 7358,
-      "sha256": "5fb1650046f12174a3565835f70c5c5445845e7048ebd25497318ad1b33ed2b4"
+      "bytes": 7432,
+      "sha256": "a30253f0d5a1543f0410bc45ef1f72492b8ab78c724671373dcd7e2cb0561761"
     },
     "Pro_League_16_17": {
       "file": "team_seasons.parquet",
@@ -802,11 +1132,41 @@
       "bytes": 8709,
       "sha256": "61a179afc14287895e945a9b1480a0ca66d22f484d5c15cd93684f5d02fe7d1b"
     },
+    "Serie_A_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7605,
+      "sha256": "621ae6c434c0d037d659360c1d5cdafe73f40ce020d590b785785d265ab227ef"
+    },
+    "Serie_A_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7331,
+      "sha256": "7d5cb4c17b2d4a73f4bc32b808dd3998c7bb2b8916911b9390ef6e9011df01ff"
+    },
+    "Serie_A_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7329,
+      "sha256": "35299ace582ce6bb3eab3c8b476a4cd451faace40f57f8446e141c763263d586"
+    },
+    "Serie_A_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7331,
+      "sha256": "a926d63b02930ce792c0036a81a25972f115603f4293acb6bb4e45c4bc2cea4b"
+    },
+    "Serie_A_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 20,
+      "bytes": 7318,
+      "sha256": "515b2b26541d7be8bcfcdd4d82f51cabb00f7d2abfcad144782c709ed137806c"
+    },
     "Serie_A_15_16": {
       "file": "team_seasons.parquet",
       "rows": 20,
-      "bytes": 8658,
-      "sha256": "88f7acdc1ff471411e54259b44987261727af66b80940d0104734bac311a268e"
+      "bytes": 7614,
+      "sha256": "524b8e29d4750fafce48463c871d69d76e44e82b65c8a27f7bb2de37a6070c54"
     },
     "Serie_A_16_17": {
       "file": "team_seasons.parquet",
@@ -874,11 +1234,41 @@
       "bytes": 8491,
       "sha256": "826a12e2d7d1a1c406076db2ac6e2771e52ab4db3519f46704058dc4c9165a39"
     },
+    "Serie_B_10_11": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7370,
+      "sha256": "46efb7ba53049111bd1b76774c5603503546479bb7dd7407d484043bd1ea4bd6"
+    },
+    "Serie_B_11_12": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7502,
+      "sha256": "f17e9d8308c2f05442c0763dce86a3bd256b4b8cf41ab508521314029ca8a065"
+    },
+    "Serie_B_12_13": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7496,
+      "sha256": "e04278fbdbce5879bc110efe7f6eff595e3fd43d9897d49dc1faf0a48e22b576"
+    },
+    "Serie_B_13_14": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 7511,
+      "sha256": "f8ba3e3de56c200a3dc678513f5ac33a31f8db4b83b795f1f5de31a036085c9d"
+    },
+    "Serie_B_14_15": {
+      "file": "team_seasons.parquet",
+      "rows": 22,
+      "bytes": 8201,
+      "sha256": "629fd5212342f785ccb3fa0f69ae6305b1c3c4d83835f70838d51ef99aef4fb3"
+    },
     "Serie_B_15_16": {
       "file": "team_seasons.parquet",
       "rows": 22,
-      "bytes": 8371,
-      "sha256": "ad32fd757009aafa715b12a2c8eaccbfa42b8226eb076062a9265e990fc7177c"
+      "bytes": 8467,
+      "sha256": "caf76f78aa0c085726cab92f97a908c25591f3d0d26116d78c541d7962d65c32"
     },
     "Serie_B_16_17": {
       "file": "team_seasons.parquet",

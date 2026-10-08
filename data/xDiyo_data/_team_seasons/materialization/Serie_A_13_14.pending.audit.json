@@ -1,0 +1,9 @@
+{
+  "season": "Serie_A_13_14",
+  "old_manifest_sha256": "b0a8c4893668b5595be72c360dd300ba8794834de760beae8fcd5eaf9ae5ab9c",
+  "old_publication_sha256": "91ea84626794e0db464856c063e551d6a733228286c001cfb1244f8bc5de37c0",
+  "new_manifest_sha256": "8ae0b581b99baf8bc0a1a8068494898fa5353407e739b1d8d07d59e9e40054ca",
+  "new_publication_sha256": "82b69172a8b743aca173b86203dfdeb0516c31e77f0e0e262781447536652a67",
+  "matches_sha256": "5580f569c759dbcd53acaada5f22b7bdaf5d09c847e2e6511a05492d19e2f2b8",
+  "season_sha256": "63f36ddfa237afa03d15da39a9fae807759f902cf1f9976e3ee929cfeca88b87"
+}

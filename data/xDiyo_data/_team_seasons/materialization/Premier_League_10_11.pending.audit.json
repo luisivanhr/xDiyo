@@ -1,0 +1,9 @@
+{
+  "season": "Premier_League_10_11",
+  "old_manifest_sha256": "9e63b256107c8e43b3088750e5da5104fcbf6371618f8235bdfb5ec7770bb097",
+  "old_publication_sha256": "aa54eb6281658c4bb9cbb4c37f1d491bc6190972fbc5f3fcfc76b69c33810808",
+  "new_manifest_sha256": "145b945c3e8c7d89ffa5a2af417544d6c888e5af0f7d65baae691b79fecd264b",
+  "new_publication_sha256": "94042d0940530b866ef076f2d925150ccc77e75d8505948c6176a8dc2e1d63df",
+  "matches_sha256": "970c500c98f5b3e0e4e9828e29e83db0bd7f7ca6b9aba3a04c04fe865c9a9ea5",
+  "season_sha256": "1d3c819d70cda084cfa571a76670afe65a0c6f0d37c815384827544d27acf7b3"
+}
