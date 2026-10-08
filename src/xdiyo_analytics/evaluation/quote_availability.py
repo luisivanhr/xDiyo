@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import json
 import numpy as np
 import pandas as pd
+from .timestamps import timestamps
 
 
 QUOTE_IDENTITY = ('quote_id', 'quote_at', 'decision_at', 'odds', 'market', 'selection',
@@ -76,8 +77,8 @@ class QuoteAvailability:
         for field in ('decision_at', 'quote_at'):
             if field not in frame:
                 raise ValueError(f'Decision candidates need available {field}.')
-        decision = pd.to_datetime(frame.decision_at, utc=True, errors='raise')
-        observed = pd.to_datetime(frame.quote_at, utc=True, errors='raise')
+        decision = timestamps(frame.decision_at, utc=True, errors='raise')
+        observed = timestamps(frame.quote_at, utc=True, errors='raise')
         if decision.isna().any() or decision.gt(time).any():
             raise ValueError('Decision candidates need available decision_at.')
         if (observed.notna() & observed.gt(decision)).any():
@@ -100,7 +101,7 @@ class QuoteAvailability:
                 stamp = pd.Timestamp(value)
                 if pd.isna(stamp) or stamp.tzinfo is None:
                     raise ValueError('Assumed availability needs an explicit timezone and nonmissing timestamp.')
-            assumed = pd.to_datetime(frame.assumed_available_at, utc=True, errors='raise')
+            assumed = timestamps(frame.assumed_available_at, utc=True, errors='raise')
             if assumed.gt(decision).any() or (observed.notna() & observed.gt(assumed)).any():
                 raise ValueError('Future or contradictory quote availability assumption.')
             complete = True
@@ -139,6 +140,14 @@ class QuoteAvailability:
                 if not isinstance(leg, dict):
                     raise ValueError('Ticket quote evidence requires leg records.')
                 _safe_columns(leg)
+                required = {'decision_at', 'quote_at'}
+                if complete or self.mode == 'research_assumed':
+                    required.update(QUOTE_IDENTITY)
+                if self.mode == 'research_assumed':
+                    required.update(ASSUMPTION_FIELDS)
+                absent = required.difference(leg)
+                if absent:
+                    raise ValueError(f'Ticket leg evidence lacks required keys: {sorted(absent)}.')
                 key = leg.get('fixture_identity')
                 if not isinstance(key, str) or not key.strip() or key in seen or 'quote_legs' in leg:
                     raise ValueError('Ticket quote evidence requires distinct nonempty unnested fixture legs.')
@@ -158,20 +167,20 @@ class QuoteAvailability:
             if field not in legs:
                 continue
             try:
-                normalized = pd.to_datetime(legs[field], utc=True, errors='raise')
+                normalized = timestamps(legs[field], utc=True, errors='raise')
             except ValueError:
                 # Different tickets may legitimately use different string
                 # formats. Preserve the old per-ticket parser acceptance;
                 # never use coercion or a permissive mixed-format fallback.
-                normalized = pd.concat([pd.to_datetime(legs[field].iloc[start:stop], utc=True, errors='raise')
+                normalized = pd.concat([timestamps(legs[field].iloc[start:stop], utc=True, errors='raise')
                                         for start, stop, _ in bounds], ignore_index=True)
             legs[field] = normalized
         self.validate(legs, time, complete=complete)
         decisions = legs.decision_at
-        ticket_decisions = pd.to_datetime(frame.decision_at, utc=True)
+        ticket_decisions = timestamps(frame.decision_at, utc=True)
         parsed = {field: legs[field] for field in
                   ('quote_at', 'assumed_available_at') if field in legs}
-        actuals = {field: pd.to_datetime(frame.get(field, pd.Series(pd.NaT, index=frame.index)), utc=True)
+        actuals = {field: timestamps(frame.get(field, pd.Series(pd.NaT, index=frame.index)), utc=True)
                    for field in parsed}
         for i, (row, (start, stop, columns)) in enumerate(zip(rows, bounds)):
             if not decisions.iloc[start:stop].eq(ticket_decisions.iloc[i]).all():
@@ -233,8 +242,8 @@ def validate_model_quotes(legs, models, contract, time):
             source = f'{model}::{field}'
             if source not in legs:
                 raise ValueError(f'Missing model timing evidence: {source}.')
-            times[field] = pd.to_datetime(legs[source], utc=True, errors='raise')
-            if times[field].isna().any() or times[field].gt(pd.to_datetime(legs.decision_at, utc=True)).any():
+            times[field] = timestamps(legs[source], utc=True, errors='raise')
+            if times[field].isna().any() or times[field].gt(timestamps(legs.decision_at, utc=True)).any():
                 raise ValueError('Every model leg must be available at its own decision time.')
         if (times['trained_through'].ge(times['issued_at']) | times['artifact_vintage'].gt(times['issued_at'])).any():
             raise ValueError('Model evidence was unavailable at its own prediction issue time.')

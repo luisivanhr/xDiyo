@@ -10,6 +10,7 @@ import json
 
 import numpy as np
 import pandas as pd
+from .timestamps import timestamps
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -136,7 +137,7 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
                          'supply stage_column, or explicitly set None for single-stage seasons.')
     if data['take'].isna().any() or not data['take'].map(lambda v: isinstance(v, (bool, np.bool_))).all():
         raise ValueError('Ticket decisions must be explicit booleans.')
-    data['kickoff_at'] = pd.to_datetime(data.kickoff_at, utc=True, errors='raise')
+    data['kickoff_at'] = timestamps(data.kickoff_at, utc=True, errors='raise')
     if data.kickoff_at.isna().any():
         raise ValueError('Ticket legs require kickoff times.')
     data['odds'] = pd.to_numeric(data.odds, errors='raise')
@@ -147,7 +148,7 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
         data = contract.annotate(data)
         eligible = data.loc[data['take']]
         if len(eligible):
-            time = pd.to_datetime(eligible.get('decision_at', pd.Series(pd.NaT, index=eligible.index)), utc=True).max()
+            time = timestamps(eligible.get('decision_at', pd.Series(pd.NaT, index=eligible.index)), utc=True).max()
             contract.validate(eligible, time, complete=True)
             validate_model_quotes(eligible, policy.ticket_gate.models, contract, time)
             # Preflight every eligible fixture, even undersized pools: an absent
