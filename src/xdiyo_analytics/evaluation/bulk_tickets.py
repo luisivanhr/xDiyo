@@ -92,14 +92,17 @@ _EMPTY_TICKET_COLUMNS = [
 
 def _source_records(pools, policy, contract, match_columns):
     """Box each participating fixture once, as native iterrows/to_dict does."""
-    records, events, group_for_position, quote_json = {}, {}, {}, {}
+    from .ticket_identity import OriginalIdentity
+    records, events, group_for_position, quote_json, originals = {}, {}, {}, {}, {}
     for group_id, columns, offered in pools:
         if len(offered) < policy.legs:
             continue
         # Native ticket rows use Series scalars, while memberships deliberately
         # use boxed row dictionaries. Keep these two inference contracts apart.
         grouping = {column: offered[column].iloc[0] for column in columns}
-        for position, leg in offered.iterrows():
+        original = OriginalIdentity(offered, columns, match_columns)
+        for local, (position, leg) in enumerate(offered.iterrows()):
+            originals[position] = (original, local)
             record = leg.drop(labels=['_group', '_event', '_price_valid']).to_dict()
             records[position] = record
             events[position] = leg['_event']
@@ -118,7 +121,7 @@ def _source_records(pools, policy, contract, match_columns):
         # exactly, without reserializing each repeated fixture occurrence.
         quote_json[position] = json.dumps(evidence, sort_keys=True, default=str)
         quote_ids[position] = record['quote_id']
-    return records, events, group_for_position, quote_json, quote_ids, prototype
+    return records, events, group_for_position, quote_json, quote_ids, prototype, originals
 
 
 def _membership(prototype, member_positions, selected, ticket_ids, data):
@@ -154,7 +157,7 @@ def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
         pools.append((group_id, columns, positioned))
         offset += len(offered) if len(offered) >= policy.legs else 0
     # Box once with exactly the reference's membership inference/order.
-    records, events, group_for_position, quote_json, quote_ids, source = _source_records(pools, policy, contract, match_columns)
+    records, events, group_for_position, quote_json, quote_ids, source, originals = _source_records(pools, policy, contract, match_columns)
     keys = list(records)
     position = {key: i for i, key in enumerate(keys)}
     fields = contract.identities(source)
@@ -227,6 +230,8 @@ def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
                          probability_assumption=policy.probability_mode,
                          settlement='missing', accounting_status='unresolved',
                          payout=np.nan, profit=np.nan, **grouping))
+        original = originals[positions[0]][0]
+        rows[-1].update(original.evidence([originals[p][1] for p in positions]))
         candidate_audit.append(dict(template='tickets', group_id=group_id, ticket_id=ticket_id,
                                     event_membership=json.dumps(event_membership),
                                     probability=probability, odds=odds, expected_profit=np.nan,

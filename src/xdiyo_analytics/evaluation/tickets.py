@@ -141,7 +141,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         if isinstance(policy, AllCombinations):
             pools, preview = prepared[name]
             compact_counts = {} if compact else None
-            new_rows, new_members, audit = expand_pools(pools, policy, name, settle=not deferred, _summary=compact_counts)
+            new_rows, new_members, audit = expand_pools(pools, policy, name, settle=not deferred, _summary=compact_counts, match_columns=match_columns)
             rows.extend(new_rows)
             members.extend(new_members)
             decisions.extend(audit)
