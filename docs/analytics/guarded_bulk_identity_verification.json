@@ -1,0 +1,1117 @@
+{
+  "base_commit": "166196c438fd6df339ab5bf01c2535c7c279dccc",
+  "branch": "codex/guarded-bulk-consensus",
+  "status": "Verification complete; publishing authorized by user; merge not authorized",
+  "tested_files_sha256": {
+    "src/xdiyo_analytics/evaluation/ticket_allocation.py": "f411b95d009b4b1424834bcb67f8d50ebe1921f9099661f9bcdfead65997525d",
+    "tests/analytics/test_ticket_identity_compatibility.py": "a428e5f13c162ba9deaf9f3065ae7db7c1487e7c957ed99309ac75626043153e"
+  },
+  "evidence_archive_members_verified": 619,
+  "suites": {
+    "windows_pandas_2_2_3": {
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 169.51
+    },
+    "windows_pandas_3_0_6": {
+      "passed": 940,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 159.47
+    }
+  },
+  "suites_overlap": true,
+  "new_regression_cases": 93,
+  "official_coverage": "Affected source-snapshot suite plus new compatibility regressions; Windows browser and installed-wheel checks included",
+  "original_reproductions": [
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "fold_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 1
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "fold_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "competition_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "competition_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "season_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "season_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "round",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 1
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "round",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "stage",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 1
+    },
+    {
+      "case": "float32_group",
+      "level": "full",
+      "column": "stage",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "fold_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "fold_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "competition_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "competition_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "season_id",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "season_id",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "round",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "round",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "stage",
+      "engine": "auto",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "float32_group",
+      "level": "summary",
+      "column": "stage",
+      "engine": "reference",
+      "input_dtype": "Float32",
+      "input_scalar_type": "float32",
+      "input_scalar_str": "1.1",
+      "status": "accepted",
+      "tickets": 3,
+      "membership_scalar_type": "float",
+      "membership_scalar_str": "1.100000023841858",
+      "bulk_calls": 0
+    },
+    {
+      "case": "generic_mixed_keys",
+      "kind": "Parlay",
+      "allocation": false,
+      "status": "accepted",
+      "tickets": 1,
+      "ids": "[1, '1']"
+    },
+    {
+      "case": "generic_mixed_keys",
+      "kind": "Parlay",
+      "allocation": true,
+      "status": "accepted",
+      "tickets": 1,
+      "ids": "[1, '1']"
+    },
+    {
+      "case": "generic_mixed_keys",
+      "kind": "MultiBet",
+      "allocation": false,
+      "status": "accepted",
+      "tickets": 4,
+      "ids": "[1, '1', 1, 3, '1', 3, 1, '1', 3]"
+    },
+    {
+      "case": "generic_mixed_keys",
+      "kind": "MultiBet",
+      "allocation": true,
+      "status": "accepted",
+      "tickets": 4,
+      "ids": "[1, '1', 1, 3, '1', 3, 1, '1', 3]"
+    },
+    {
+      "case": "partly_retained_group",
+      "level": "full",
+      "helper": "batch",
+      "status": "rejected",
+      "exception": "ValueError",
+      "message": "Ticket grouping differs from its consumed membership at round."
+    },
+    {
+      "case": "partly_retained_group",
+      "level": "full",
+      "helper": "finalize",
+      "status": "rejected",
+      "exception": "ValueError",
+      "message": "Ticket grouping differs from its consumed membership at round."
+    },
+    {
+      "case": "partly_retained_group",
+      "level": "summary",
+      "helper": "batch",
+      "status": "rejected",
+      "exception": "ValueError",
+      "message": "Ticket grouping differs from its consumed membership at round."
+    },
+    {
+      "case": "partly_retained_group",
+      "level": "summary",
+      "helper": "finalize",
+      "status": "rejected",
+      "exception": "ValueError",
+      "message": "Ticket grouping differs from its consumed membership at round."
+    }
+  ],
+  "retained_float32": [
+    {
+      "key": "fold_id",
+      "compose": "accepted",
+      "batch": "accepted",
+      "finalize": "accepted"
+    },
+    {
+      "key": "round",
+      "compose": "accepted",
+      "batch": "accepted",
+      "finalize": "accepted"
+    },
+    {
+      "key": "stage",
+      "compose": "accepted",
+      "batch": "accepted",
+      "finalize": "accepted"
+    },
+    {
+      "key": "event_id",
+      "compose": "accepted",
+      "batch": "accepted",
+      "finalize": "accepted"
+    }
+  ],
+  "independent_boundary": {
+    "total": 219,
+    "raw_expected_matches": 207,
+    "known_canonical_type_aliases": 9,
+    "pandas_float16_construction_limits": 3,
+    "remaining_classified_cases": [
+      {
+        "name": "changed_key_type/summary/False/batch/event_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/False/batch/competition_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/False/batch/season_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/False/finalize/event_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/False/finalize/competition_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/False/finalize/season_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/True/batch/event_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/True/batch/competition_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "changed_key_type/summary/True/batch/season_id",
+        "expected": "rejected",
+        "actual": "accepted",
+        "pass": false
+      },
+      {
+        "name": "pmf/float16/('draw',)",
+        "expected": "accepted",
+        "actual": "rejected",
+        "exception": "NotImplementedError",
+        "message": "float16 indexes are not supported",
+        "pass": false
+      },
+      {
+        "name": "pmf/float16/('non_draw',)",
+        "expected": "accepted",
+        "actual": "rejected",
+        "exception": "NotImplementedError",
+        "message": "float16 indexes are not supported",
+        "pass": false
+      },
+      {
+        "name": "pmf/float16/('draw', 'non_draw')",
+        "expected": "accepted",
+        "actual": "rejected",
+        "exception": "NotImplementedError",
+        "message": "float16 indexes are not supported",
+        "pass": false
+      }
+    ]
+  },
+  "categorical_adapter": {
+    "total": 24,
+    "passed": 24
+  },
+  "prior_repair_probes": {
+    "composite_exact": 90,
+    "group_dtypes_exact": 50,
+    "forged_memberships_rejected": 6,
+    "outcome_mutation_passed": true,
+    "nested_schema_rejected": 30,
+    "empty_timestamps_rejected": 18,
+    "adversarial_cases": 103,
+    "adversarial_findings": 0,
+    "original_pmf_compatibility": "preserved",
+    "extreme_accounting": "finite in both engines"
+  },
+  "original_cached_replay": {
+    "status": "PASS",
+    "archive_members_verified": 619,
+    "checks": [
+      {
+        "fixtures": 30,
+        "candidates": 109,
+        "selected": 73,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 1.0252503999508917,
+          "auto": 0.13760100002400577
+        },
+        "html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "html_bytes": 4247958,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      },
+      {
+        "fixtures": 100,
+        "candidates": 386,
+        "selected": 96,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 3.2563040000386536,
+          "auto": 0.2548024000134319
+        },
+        "html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "html_bytes": 12395935,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      }
+    ],
+    "all_retained_pmf_rows": {
+      "xgb": 4767,
+      "lgbm": 4767
+    },
+    "pandas": "2.2.3",
+    "numpy": "2.5.3",
+    "historical_availability_verified": false,
+    "new_model_fits": 0,
+    "research_clock": "Recovered original hypothetical clock; observed quote_at remains NaT"
+  },
+  "timings": {
+    "method": "Fresh serial single-thread workers; 3 repetitions per backend; alternating order; medians; correctness measured separately",
+    "samples": [
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.9306242000311613,
+        "cpu": 0.9375,
+        "report_html": 0.07883170014247298,
+        "csv_seconds": 0.03925659996457398,
+        "serialization": 0.003912899876013398,
+        "load_inputs_excluded": 0.6045240999665111,
+        "peak_rss_pre_call": 135421952,
+        "peak_rss_call": 135421952,
+        "peak_rss_report": 163512320,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.10566550004296005,
+        "cpu": 0.109375,
+        "report_html": 0.07889499980956316,
+        "csv_seconds": 0.03887020004913211,
+        "serialization": 0.0036347999703139067,
+        "load_inputs_excluded": 0.577443900052458,
+        "peak_rss_pre_call": 136200192,
+        "peak_rss_call": 136200192,
+        "peak_rss_report": 163381248,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.10673640016466379,
+        "cpu": 0.109375,
+        "report_html": 0.07848330005072057,
+        "csv_seconds": 0.03959030006080866,
+        "serialization": 0.003818000201135874,
+        "load_inputs_excluded": 0.5940191000699997,
+        "peak_rss_pre_call": 136175616,
+        "peak_rss_call": 136175616,
+        "peak_rss_report": 163917824,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.9343701000325382,
+        "cpu": 0.9375,
+        "report_html": 0.07810009992681444,
+        "csv_seconds": 0.03940070001408458,
+        "serialization": 0.004009400028735399,
+        "load_inputs_excluded": 0.5938333000522107,
+        "peak_rss_pre_call": 135426048,
+        "peak_rss_call": 135426048,
+        "peak_rss_report": 164896768,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.9529428000096232,
+        "cpu": 0.953125,
+        "report_html": 0.0798518001101911,
+        "csv_seconds": 0.03830529982224107,
+        "serialization": 0.003935100045055151,
+        "load_inputs_excluded": 0.5835259999148548,
+        "peak_rss_pre_call": 135741440,
+        "peak_rss_call": 135741440,
+        "peak_rss_report": 163278848,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.10778960003517568,
+        "cpu": 0.09375,
+        "report_html": 0.07986910012550652,
+        "csv_seconds": 0.03817080007866025,
+        "serialization": 0.0038228000048547983,
+        "load_inputs_excluded": 0.5827189001720399,
+        "peak_rss_pre_call": 135827456,
+        "peak_rss_call": 135827456,
+        "peak_rss_report": 162918400,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 3.0836337998043746,
+        "cpu": 3.09375,
+        "report_html": 0.1958947000093758,
+        "csv_seconds": 0.1076898998580873,
+        "serialization": 0.005565600004047155,
+        "load_inputs_excluded": 0.5875810000579804,
+        "peak_rss_pre_call": 136302592,
+        "peak_rss_call": 140091392,
+        "peak_rss_report": 230375424,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.2058186000213027,
+        "cpu": 0.203125,
+        "report_html": 0.18725590012036264,
+        "csv_seconds": 0.11505539994686842,
+        "serialization": 0.0053587001748383045,
+        "load_inputs_excluded": 0.5792041998356581,
+        "peak_rss_pre_call": 136904704,
+        "peak_rss_call": 136904704,
+        "peak_rss_report": 226861056,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.2023302000015974,
+        "cpu": 0.1875,
+        "report_html": 0.1869200998917222,
+        "csv_seconds": 0.1247475000564009,
+        "serialization": 0.0055333999916911125,
+        "load_inputs_excluded": 0.5959125999361277,
+        "peak_rss_pre_call": 136511488,
+        "peak_rss_call": 136511488,
+        "peak_rss_report": 226713600,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 2.9988517998717725,
+        "cpu": 3.0,
+        "report_html": 0.20643760007806122,
+        "csv_seconds": 0.10542279994115233,
+        "serialization": 0.005411500111222267,
+        "load_inputs_excluded": 0.6071699000895023,
+        "peak_rss_pre_call": 136470528,
+        "peak_rss_call": 139735040,
+        "peak_rss_report": 229400576,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 3.063282100018114,
+        "cpu": 3.046875,
+        "report_html": 0.19480150006711483,
+        "csv_seconds": 0.10375580005347729,
+        "serialization": 0.00538389990106225,
+        "load_inputs_excluded": 0.6007052999921143,
+        "peak_rss_pre_call": 136503296,
+        "peak_rss_call": 138735616,
+        "peak_rss_report": 228478976,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.20673419977538288,
+        "cpu": 0.203125,
+        "report_html": 0.18815739988349378,
+        "csv_seconds": 0.11581679992377758,
+        "serialization": 0.005400400143116713,
+        "load_inputs_excluded": 0.5871431000996381,
+        "peak_rss_pre_call": 136683520,
+        "peak_rss_call": 136683520,
+        "peak_rss_report": 226586624,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      }
+    ],
+    "summary": [
+      {
+        "fixtures": 30,
+        "reference": {
+          "wall": 0.9343701000325382,
+          "cpu": 0.9375,
+          "report_html": 0.07883170014247298,
+          "csv_seconds": 0.03925659996457398,
+          "serialization": 0.003935100045055151,
+          "peak_rss_call": 135426048,
+          "peak_rss_report": 163512320,
+          "inclusive": 1.0558803000021726
+        },
+        "auto": {
+          "wall": 0.10673640016466379,
+          "cpu": 0.109375,
+          "report_html": 0.07889499980956316,
+          "csv_seconds": 0.03887020004913211,
+          "serialization": 0.003818000201135874,
+          "peak_rss_call": 136175616,
+          "peak_rss_report": 163381248,
+          "inclusive": 0.2286280004773289
+        },
+        "speedup_native": 8.753996748916695,
+        "speedup_inclusive": 4.618333265381794,
+        "html_csv_hashes_exact": true
+      },
+      {
+        "fixtures": 100,
+        "reference": {
+          "wall": 3.063282100018114,
+          "cpu": 3.046875,
+          "report_html": 0.1958947000093758,
+          "csv_seconds": 0.10542279994115233,
+          "serialization": 0.005411500111222267,
+          "peak_rss_call": 139735040,
+          "peak_rss_report": 229400576,
+          "inclusive": 3.367223300039768
+        },
+        "auto": {
+          "wall": 0.2058186000213027,
+          "cpu": 0.203125,
+          "report_html": 0.18725590012036264,
+          "csv_seconds": 0.11581679992377758,
+          "serialization": 0.005400400143116713,
+          "peak_rss_call": 136683520,
+          "peak_rss_report": 226713600,
+          "inclusive": 0.516108799725771
+        },
+        "speedup_native": 14.883407523426246,
+        "speedup_inclusive": 6.524250897928707,
+        "html_csv_hashes_exact": true
+      }
+    ]
+  },
+  "limitations": [
+    "Original AllCombinations canonical hashes stringify keys; summary hash alone does not distinguish integer from equal decimal text",
+    "ticket_batch is a low-level quote/membership helper; model-stream validation belongs to composition/finalize_tickets",
+    "Float32 compatibility allows only exact lossless column-wide binary32 boxing spellings that match the original hash; no ID rewrite or arbitrary rounding",
+    "No model refit, regenerated forecasts, strategy search or full-study run",
+    "Research-only retrospective clock; observed opening quote_at remains unknown; no historical tradability claim",
+    "Numerical chunks limited to 4096; full audit storage remains O(candidates * legs), expansion cap retained"
+  ],
+  "harness_adaptations": [
+    "Windows peak working-set API replaces Unix resource for timing RSS",
+    "Copied probes point at current checkout; source archive remains unchanged",
+    "Existing original-data verifier points at the newer archive folder; assertions unchanged"
+  ],
+  "local_evidence_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-boundary-repair-166196c"
+}
