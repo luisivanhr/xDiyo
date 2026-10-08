@@ -93,7 +93,7 @@ def test_independent_ordered_probability_and_ev_oracle(k,monkeypatch):
             expected.append(probability*odds-1.>0)
         assert (candidate['ticket_id'] in set(t.ticket_id)) == all(expected)
 
-@pytest.mark.parametrize('change', ['summary','float32','object','strings','stake','threshold','push','or','index','custom','identity','allocation','slip'])
+@pytest.mark.parametrize('change', ['summary','float32','object','strings','stake','threshold','push','or','custom','identity','allocation','slip'])
 def test_capability_fallback_is_predictable(change,monkeypatch):
     data=population(4); p=policy(); kwargs={}
     if change=='summary': p=replace(p,audit_level='summary')
@@ -105,7 +105,6 @@ def test_capability_fallback_is_predictable(change,monkeypatch):
     elif change=='threshold': p=replace(p,ticket_gate=replace(p.ticket_gate,threshold=.1))
     elif change=='push': p=replace(p,on_push='refund')
     elif change=='or': p=replace(p,ticket_gate=replace(p.ticket_gate,gate='or'))
-    elif change=='index': data.index=[7,7,2,3]
     elif change=='identity': p=replace(p,ticket_gate=replace(p.ticket_gate,identity_columns=(*p.ticket_gate.identity_columns,'payoff')))
     elif change=='custom':
         class Custom(type(p.ticket_gate)): pass

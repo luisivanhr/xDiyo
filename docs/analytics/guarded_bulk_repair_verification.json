@@ -1,0 +1,148 @@
+{
+  "base_commit": "39aba816da57786ba080b524ad3979915221e7c4",
+  "branch": "codex/guarded-bulk-consensus",
+  "status": "verified patch; branch publishing subsequently authorized; merge not requested",
+  "tested_files_sha256": {
+    "examples/research_quote_consensus.py": "4a4353082c45a1f51071aff2bb1e378c1dcaf3ba3d429d8422412be96c5520c1",
+    "examples/verify_guarded_repair_evidence.py": "a7c171eb8a4657a5f80a13f0300e66990694f364bbc0289bc1487ac3da5e776e",
+    "src/xdiyo_analytics/evaluation/bulk_tickets.py": "4da5b4afc3227e78f827283ea3eb4ab50c739bc6548103187d1032e0fc7951b6",
+    "src/xdiyo_analytics/evaluation/quote_availability.py": "f576229a599d6c44cacaefeb3da1f5b5a4dc334b7f784ed3117efd2bf219aa77",
+    "src/xdiyo_analytics/evaluation/tickets.py": "8937874eaa1a968534bd0873e008f3bc604241c5b2900f554b67c6c77c08c3ec",
+    "src/xdiyo_analytics/evaluation/timestamps.py": "f5bc5cfa00741a478d9a047da82c79b17643d3fd5c8f1afd917d603df178c2c4",
+    "tests/analytics/test_guarded_bulk.py": "d6a37390c311e837f3b1f4647576e660111b9fe0c3ad11f328233e5544010423",
+    "tests/analytics/test_guarded_repairs.py": "0302f6fe1e379a3ea7e2502c07f8ab49f9e5a83fd0b67ebc04a30673f2c82556"
+  },
+  "suites": {
+    "windows_pandas_2_2_3": {
+      "passed": 921,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 109.27,
+      "coverage": "All test files in supplied affected-source snapshot plus test_guarded_repairs.py; includes browser and isolated wheel",
+      "joblib": "1.5.2",
+      "playwright": "1.55.0"
+    },
+    "windows_pandas_3_0_6": {
+      "passed": 694,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 67.54,
+      "files": [
+        "test_guarded_repairs",
+        "test_guarded_bulk",
+        "test_quote_repaired_reference",
+        "test_quote_contract_review",
+        "test_quote_availability",
+        "test_summary_audit",
+        "test_consensus_performance",
+        "test_all_combinations",
+        "test_ticket_ev",
+        "test_bet_tickets"
+      ]
+    }
+  },
+  "suite_counts_overlap": true,
+  "probes": {
+    "nested_malformed_rejected": 30,
+    "adversarial_cases": 103,
+    "adversarial_findings": 0,
+    "direct_timestamp_cases_rejected": 18,
+    "additional_float32_reproduction": "accepted unchanged",
+    "matrix_exact": 24,
+    "matrix_matching_rejections": 3,
+    "random_and_large_k_exact": 67,
+    "matrix_rejection_notes": "Null event keys and two RangeIndex labels beyond signed int64 reject in native preflight on both engines.",
+    "prototype_qa": 204,
+    "prototype_exact": 14,
+    "prototype_report_exact": 14,
+    "overflow_metrics_both_engines": "finite and status ok"
+  },
+  "original_cached_replay": {
+    "status": "PASS",
+    "archive_members_verified": 376,
+    "checks": [
+      {
+        "fixtures": 30,
+        "candidates": 109,
+        "selected": 73,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 0.8990846001543105,
+          "auto": 0.11856659990735352
+        },
+        "html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "html_bytes": 4247958,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      },
+      {
+        "fixtures": 100,
+        "candidates": 386,
+        "selected": 96,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 3.235171200009063,
+          "auto": 0.22691830014809966
+        },
+        "html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "html_bytes": 12395935,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      }
+    ],
+    "all_retained_pmf_rows": {
+      "xgb": 4767,
+      "lgbm": 4767
+    },
+    "pandas": "2.2.3",
+    "numpy": "2.5.3",
+    "historical_availability_verified": false,
+    "new_model_fits": 0,
+    "research_clock": "Recovered original hypothetical clock; observed quote_at remains NaT"
+  },
+  "setup_notes": [
+    "First broad run: setuptools/playwright/optional estimators absent and joblib 1.6 has no joblib.externals.cloudpickle.",
+    "Installed test dependencies in existing isolated pandas22 environment; successful final suite has no skips.",
+    "Windows-only temporary prototype benchmark copy moves import resource into unused timing worker; no oracle assertions changed.",
+    "Archive originals were hash-verified and remain unchanged; only disposable probe copies were adapted."
+  ],
+  "limitations": [
+    "No refit, forecast regeneration, full-study run or strategy search.",
+    "Cached retrospective research clock does not establish historical tradability.",
+    "Replay timings are single-process correctness diagnostics, not repeated performance estimates.",
+    "4096-sized numerical chunks; full audit memory still scales with candidates times legs."
+  ],
+  "local_evidence_root": "C:/Users/luisi/AppData/Local/Temp/xdiyo-guarded-repair-20261008-39aba81"
+}

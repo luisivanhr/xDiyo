@@ -12,11 +12,17 @@ import pandas as pd
 
 def timestamps(values, *, utc=True, errors='raise'):
     if isinstance(values, pd.Series):
-        if values.dtype == object or pd.api.types.is_numeric_dtype(values.dtype):
-            invalid = values.map(lambda v: not pd.isna(v) and (
-                isinstance(v, Number) or (isinstance(v, str) and not v.strip()) or not isinstance(v, (str, date, datetime, np.datetime64))))
-            if invalid.any():
-                if errors == 'raise':
-                    raise ValueError('Timestamps require date/time values or strings, not numeric epochs or objects.')
-                values = values.mask(invalid)
+        # Extension strings and categoricals need the same preflight as object
+        # columns: to_datetime would silently turn an empty string into NaT.
+        def invalid_value(value):
+            if pd.api.types.is_scalar(value) and pd.isna(value):
+                return False
+            return (isinstance(value, Number)
+                    or (isinstance(value, str) and not value.strip())
+                    or not isinstance(value, (str, date, datetime, np.datetime64)))
+        invalid = np.fromiter((invalid_value(v) for v in values), dtype=bool, count=len(values))
+        if invalid.any():
+            if errors == 'raise':
+                raise ValueError('Timestamps require date/time values or strings, not numeric epochs or objects.')
+            values = values.mask(invalid)
     return pd.to_datetime(values, utc=utc, errors=errors, format='mixed')

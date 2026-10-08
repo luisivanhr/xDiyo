@@ -30,12 +30,21 @@ def supports_bulk(ledger, templates, match_columns, stake_policy=None, stake_con
         or gate.strict is not True or gate.missing != 'error'
         or gate.identity_columns != DecisionLayer.__dataclass_fields__['identity_columns'].default
         or len(gate.models) != 2 or len(set(gate.models)) != 2
-        or tuple(match_columns) != ('event_id',) or 'quote_legs' in ledger):
+        or tuple(match_columns) not in {('event_id',),
+            ('source_league', 'source_season', 'competition_id', 'season_id', 'event_id')}
+        or 'quote_legs' in ledger):
         return False
-    if not {'event_id','odds','decision_at','settlement'} <= set(ledger):
+    if not {*match_columns,'odds','decision_at','settlement'} <= set(ledger):
         return False
-    if ledger.event_id.duplicated().any() or ledger.event_id.isna().any() or not isinstance(ledger.index, pd.RangeIndex):
-        return False
+    for key in match_columns:
+        values = ledger[key]
+        if values.isna().any():
+            return False
+        # No coercion of mixed identity types (especially uint64 through float).
+        # Other representations retain the validated reference path.
+        if not (pd.api.types.is_integer_dtype(values.dtype)
+                or all(isinstance(v, str) for v in values)):
+            return False
     dtype = ledger.odds.to_numpy().dtype
     return dtype == np.dtype('float64') or dtype.kind in 'iu'
 
@@ -81,7 +90,7 @@ _EMPTY_TICKET_COLUMNS = [
 ]
 
 
-def _source_records(pools, policy, contract):
+def _source_records(pools, policy, contract, match_columns):
     """Box each participating fixture once, as native iterrows/to_dict does."""
     records, events, group_for_position, quote_json = {}, {}, {}, {}
     for group_id, columns, offered in pools:
@@ -101,7 +110,7 @@ def _source_records(pools, policy, contract):
     for position, record in zip(records, prototype.to_dict('records')):
         evidence = {field: None if pd.isna(record.get(field)) else record.get(field)
                     for field in fields}
-        evidence['fixture_identity'] = json.dumps([record['event_id']], default=str)
+        evidence['fixture_identity'] = json.dumps([record[key] for key in match_columns], default=str)
         # Joining these once-serialized records reproduces json.dumps(list)
         # exactly, without reserializing each repeated fixture occurrence.
         quote_json[position] = json.dumps(evidence, sort_keys=True, default=str)
@@ -127,13 +136,22 @@ def _membership(prototype, member_positions, selected, ticket_ids, data):
     return members
 
 
-def execute_bulk(data, prepared, policy):
+def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
     # Called only after native preflight in this invocation. Its private
     # intermediate arrays never leave the call or act as reusable credentials.
     contract, models = policy.quote_availability, policy.ticket_gate.models
-    pools, previews = prepared['tickets']
+    original_pools, previews = prepared['tickets']
+    # Caller index labels are bookkeeping, never fixture identity. Assign dense
+    # call-local positions after native validation/deduplication/stable sorting.
+    # Keep _event untouched: it owns native composite membership and ticket IDs.
+    pools, offset = [], 0
+    for group_id, columns, offered in original_pools:
+        positioned = offered.copy(deep=False)
+        positioned.index = pd.RangeIndex(offset, offset + len(offered))
+        pools.append((group_id, columns, positioned))
+        offset += len(offered) if len(offered) >= policy.legs else 0
     # Box once with exactly the reference's membership inference/order.
-    records, events, group_for_position, quote_json, quote_ids, source = _source_records(pools, policy, contract)
+    records, events, group_for_position, quote_json, quote_ids, source = _source_records(pools, policy, contract, match_columns)
     keys = list(records)
     position = {key: i for i, key in enumerate(keys)}
     fields = contract.identities(source)
