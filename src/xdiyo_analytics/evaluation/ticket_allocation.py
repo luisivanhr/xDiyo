@@ -61,6 +61,75 @@ def _validate_consumed_quotes(tickets, indexed, templates):
         validate_model_quotes(legs, templates[name].ticket_gate.models, contract, time)
 
 
+def _validate_membership_binding(row, legs, policy, match_columns):
+    """Check retained identity on every call, before rebuilding any evidence.
+
+    Native AllCombinations IDs bind the original group and full fixture keys.
+    Legacy manual tickets without this ID or retained quote_legs declare their
+    fixture join on each call; quote IDs alone cannot authenticate that join.
+    """
+    from .all_combinations import AllCombinations, _identity
+    keys = list(match_columns)
+    if not keys or any(k not in legs for k in keys) or legs[keys].isna().any().any():
+        raise ValueError('Consumed membership requires nonmissing full fixture identities.')
+    events = [_identity(v) for v in zip(*(legs[k] for k in keys))]
+    if len(set(events)) != len(events) or ('n_legs' in row and row['n_legs'] != len(events)):
+        raise ValueError('Consumed membership has duplicate fixtures or a different leg count.')
+    if isinstance(policy, AllCombinations):
+        groups = ['fold_id']
+        for options in [('competition_id', 'source_league'), ('season_id', 'source_season')]:
+            key = next((k for k in options if k in legs), None)
+            if key is None:
+                raise ValueError('Consumed membership lacks league/season grouping identities.')
+            groups.append(key)
+        if policy.stage_column is not None:
+            groups.append(policy.stage_column)
+        groups.append('round')
+        if any(k not in legs for k in groups) or legs[groups].isna().any().any():
+            raise ValueError('Consumed membership lacks nonmissing grouping identities.')
+        group_ids = {_identity(v) for v in zip(*(legs[k] for k in groups))}
+        if len(group_ids) != 1:
+            raise ValueError('Consumed membership crosses ticket grouping identities.')
+        group_id = next(iter(group_ids))
+        identity = json.dumps([row['bet'], group_id, sorted(events)], separators=(',', ':'))
+        expected = row['bet'] + ':' + hashlib.sha256(identity.encode()).hexdigest()
+        if row['ticket_id'] != expected:
+            raise ValueError('Consumed membership differs from the original ticket identity.')
+        if all(k in row for k in groups) and _identity(row[k] for k in groups) != group_id:
+            raise ValueError('Ticket grouping differs from its consumed membership.')
+
+
+def _validate_retained_quote_legs(original, current):
+    """Retained nested evidence is an input assertion, never silently replaced."""
+    from .quote_availability import _QuoteLegEvidence
+    def records(value):
+        try:
+            value = value.dictionaries() if isinstance(value, _QuoteLegEvidence) else json.loads(value)
+            if isinstance(value, dict):  # legacy column-oriented JSON
+                value = pd.DataFrame(value).to_dict('records')
+            if not isinstance(value, list) or not value or any(not isinstance(v, dict) for v in value):
+                raise ValueError('Expected nonempty leg records.')
+            return value
+        except (TypeError, ValueError) as exc:
+            raise ValueError('Invalid retained ticket quote membership.') from exc
+    # Current records use the same stable scalar representation as publication.
+    # An ordered comparison also binds quote choice to each full fixture key.
+    before, after = records(original), records(current)
+    if before == after:
+        return
+    # Older callers legitimately re-express timestamps with an equivalent
+    # ISO spelling/offset. Compare instants using the existing strict parser;
+    # never normalize fixture keys, quote values or missing evidence fields.
+    for entries in (before, after):
+        for entry in entries:
+            for field in ('decision_at', 'quote_at', 'assumed_available_at'):
+                if field in entry:
+                    value = timestamps(pd.Series([entry[field]], dtype=object), utc=True).iloc[0]
+                    entry[field] = None if pd.isna(value) else value
+    if before != after:
+        raise ValueError('Retained ticket quote evidence differs from consumed membership.')
+
+
 def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
     indexed = _index_members(members) if _members_by_ticket is None else _members_by_ticket
     _validate_relationships(tickets, indexed, templates)
@@ -92,6 +161,7 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             legs = members.iloc[:0]
         policy = templates[row['bet']]
         contract = getattr(policy, 'quote_availability', None)
+        _validate_membership_binding(row, legs, policy, match_columns)
         if policy.payoff == 'binary' and 'p_push' in legs and legs.p_push.fillna(0).ne(0).any():
             raise ValueError('Binary ticket valuation cannot include nonzero push probability.')
         if 'decision_at' in legs:
@@ -133,6 +203,8 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
                 record['assumed_available_at'] = timestamps(legs.assumed_available_at, utc=True).max()
             compact = getattr(policy, 'audit_level', 'full') == 'summary'
             record['quote_legs'] = quote_leg_records(legs, contract, match_columns, compact=compact)
+            if 'quote_legs' in row:
+                _validate_retained_quote_legs(row['quote_legs'], record['quote_legs'])
             evidence_key = hashlib.sha256(repr(record['quote_legs'].records).encode()).hexdigest() if compact else record['quote_legs']
             record['economic_key'] = json.dumps([record['economic_key'], evidence_key], sort_keys=True)
         if 'issued_at' in legs:

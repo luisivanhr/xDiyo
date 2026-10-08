@@ -1,0 +1,1151 @@
+{
+  "base_commit": "771457951496acff88294bb88104f3c1e663d358",
+  "branch": "codex/guarded-bulk-consensus",
+  "status": "Verified working patch; not pushed or merged",
+  "tested_files_sha256": {
+    "examples/research_quote_consensus.py": "96d6f4bf81832e16a654684efc2c437d4b3e56d60420a0d1d46a1ae67235c92f",
+    "src/xdiyo_analytics/evaluation/bulk_tickets.py": "de1ea89b72f0d578e38c0021fda35c44da1befb1fc9e8bfff941080ddcfd74e3",
+    "src/xdiyo_analytics/evaluation/quote_availability.py": "b1d85f6eaeb389d8beecee87f88fa2a2d03bf56249e65932ec993181a82b131c",
+    "src/xdiyo_analytics/evaluation/ticket_allocation.py": "f7560756795df18f7c8db23b6f80cb5e8e19bb919a885891fe945631162aa3f2",
+    "tests/analytics/test_guarded_boundaries.py": "346aec0cd02ba31f96905bb02000fee1ebea0833b6f7370b12e10ecb45e270a1"
+  },
+  "suites": {
+    "windows_pandas_2_2_3": {
+      "passed": 1074,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 138.07,
+      "coverage": "Affected-source snapshot test files plus 153 boundary regression cases; browser and installed-wheel included"
+    },
+    "windows_pandas_3_0_6": {
+      "passed": 847,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 119.03,
+      "coverage": "Previous ten focused test files plus test_guarded_boundaries.py"
+    }
+  },
+  "suite_counts_overlap": true,
+  "probes": {
+    "composite_cases": 90,
+    "composite_failures": 0,
+    "group_dtypes_exact": 50,
+    "helper_forged_cases_rejected": 6,
+    "helper_outcome_mutation_passed": true,
+    "malformed_nested_rejected": 30,
+    "timestamp_rejected": 18,
+    "adversarial_cases": 103,
+    "adversarial_findings": 0,
+    "pmf_compatibility": [
+      {
+        "case": "float32",
+        "api": "prior_example",
+        "status": "raised",
+        "error": "Both complete valid cached model streams are required before selection.",
+        "type": "ValueError"
+      },
+      {
+        "case": "float32",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "Float32",
+        "api": "prior_example",
+        "status": "raised",
+        "error": "Both complete valid cached model streams are required before selection.",
+        "type": "ValueError"
+      },
+      {
+        "case": "Float32",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "float[pyarrow]",
+        "api": "prior_example",
+        "status": "raised",
+        "error": "Both complete valid cached model streams are required before selection.",
+        "type": "ValueError"
+      },
+      {
+        "case": "float[pyarrow]",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "float64",
+        "api": "prior_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "float64",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "Float64",
+        "api": "prior_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "Float64",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "double[pyarrow]",
+        "api": "prior_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "double[pyarrow]",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "category_draw",
+        "api": "prior_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "category_draw",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "object_draw",
+        "api": "prior_example",
+        "status": "returned",
+        "tickets": 1
+      },
+      {
+        "case": "object_draw",
+        "api": "new_example",
+        "status": "returned",
+        "tickets": 1
+      }
+    ],
+    "accounting_overflow": {
+      "prices": [
+        7.39709913948858e+307,
+        8.505824920175633e+307,
+        2.0740072889589442e+307
+      ],
+      "exact_fsum": 1.7976931348623157e+308,
+      "numpy_sum": "Infinity (original NumPy overflow reproduction only)",
+      "auto": {
+        "tickets": 3,
+        "ticket_payouts": [
+          7.39709913948858e+307,
+          8.505824920175633e+307,
+          2.0740072889589442e+307
+        ],
+        "metrics": [
+          {
+            "metric": "profit",
+            "value": 1.7976931348623157e+308,
+            "status": "ok"
+          },
+          {
+            "metric": "roi",
+            "value": 5.992310449541053e+307,
+            "status": "ok"
+          },
+          {
+            "metric": "bets_placed",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "settled_bets",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "unresolved_bets",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "settled_stakes",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "payout",
+            "value": 1.7976931348623157e+308,
+            "status": "ok"
+          },
+          {
+            "metric": "win_count",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "loss_count",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "push_count",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "void_count",
+            "value": 0.0,
+            "status": "ok"
+          }
+        ]
+      },
+      "reference": {
+        "tickets": 3,
+        "ticket_payouts": [
+          7.39709913948858e+307,
+          8.505824920175633e+307,
+          2.0740072889589442e+307
+        ],
+        "metrics": [
+          {
+            "metric": "profit",
+            "value": 1.7976931348623157e+308,
+            "status": "ok"
+          },
+          {
+            "metric": "roi",
+            "value": 5.992310449541053e+307,
+            "status": "ok"
+          },
+          {
+            "metric": "bets_placed",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "settled_bets",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "unresolved_bets",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "settled_stakes",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "payout",
+            "value": 1.7976931348623157e+308,
+            "status": "ok"
+          },
+          {
+            "metric": "win_count",
+            "value": 3.0,
+            "status": "ok"
+          },
+          {
+            "metric": "loss_count",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "push_count",
+            "value": 0.0,
+            "status": "ok"
+          },
+          {
+            "metric": "void_count",
+            "value": 0.0,
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  },
+  "original_cached_replay": {
+    "status": "PASS",
+    "archive_members_verified": 376,
+    "checks": [
+      {
+        "fixtures": 30,
+        "candidates": 109,
+        "selected": 73,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 1.015954300062731,
+          "auto": 0.12077629985287786
+        },
+        "html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "html_bytes": 4247958,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      },
+      {
+        "fixtures": 100,
+        "candidates": 386,
+        "selected": 96,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 4.70937000005506,
+          "auto": 0.3212898999918252
+        },
+        "html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "html_bytes": 12395935,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      }
+    ],
+    "all_retained_pmf_rows": {
+      "xgb": 4767,
+      "lgbm": 4767
+    },
+    "pandas": "2.2.3",
+    "numpy": "2.5.3",
+    "historical_availability_verified": false,
+    "new_model_fits": 0,
+    "research_clock": "Recovered original hypothetical clock; observed quote_at remains NaT"
+  },
+  "benchmark": {
+    "method": "Fresh serial single-thread workers; 3 repetitions per backend; alternating order; medians; correctness measured separately",
+    "summaries": [
+      {
+        "fixtures": 30,
+        "reference": {
+          "wall": 0.9203905998729169,
+          "cpu": 0.921875,
+          "report_html": 0.08027240005321801,
+          "csv_seconds": 0.039610400097444654,
+          "serialization": 0.003642899915575981,
+          "peak_rss_call": 136265728,
+          "peak_rss_report": 164524032,
+          "inclusive": 1.044327899813652
+        },
+        "auto": {
+          "wall": 0.10300419991835952,
+          "cpu": 0.109375,
+          "report_html": 0.07888980000279844,
+          "csv_seconds": 0.039227900095283985,
+          "serialization": 0.0037090000696480274,
+          "peak_rss_call": 136130560,
+          "peak_rss_report": 162861056,
+          "inclusive": 0.22459730016998947
+        },
+        "speedup_native": 8.935466714972911,
+        "speedup_inclusive": 4.649779400835355,
+        "html_csv_hashes_exact": true
+      },
+      {
+        "fixtures": 100,
+        "reference": {
+          "wall": 3.102897400036454,
+          "cpu": 3.09375,
+          "report_html": 0.18812449998222291,
+          "csv_seconds": 0.10732279997318983,
+          "serialization": 0.005331299966201186,
+          "peak_rss_call": 139403264,
+          "peak_rss_report": 229126144,
+          "inclusive": 3.403932899935171
+        },
+        "auto": {
+          "wall": 0.20451670000329614,
+          "cpu": 0.203125,
+          "report_html": 0.18461440014652908,
+          "csv_seconds": 0.1136805999558419,
+          "serialization": 0.005176199832931161,
+          "peak_rss_call": 136777728,
+          "peak_rss_report": 226222080,
+          "inclusive": 0.5089898002333939
+        },
+        "speedup_native": 15.17185344759839,
+        "speedup_inclusive": 6.687624974752579,
+        "html_csv_hashes_exact": true
+      },
+      {
+        "fixtures": 500,
+        "reference": {
+          "wall": 15.20260820002295,
+          "cpu": 15.15625,
+          "report_html": 1.0545750998426229,
+          "csv_seconds": 0.570781399961561,
+          "serialization": 0.0192138000857085,
+          "peak_rss_call": 198164480,
+          "peak_rss_report": 653180928,
+          "inclusive": 16.90713019995019
+        },
+        "auto": {
+          "wall": 0.7501715000253171,
+          "cpu": 0.75,
+          "report_html": 1.0205176998861134,
+          "csv_seconds": 0.5877835999708623,
+          "serialization": 0.019884000066667795,
+          "peak_rss_call": 165236736,
+          "peak_rss_report": 632487936,
+          "inclusive": 2.377246299991384
+        },
+        "speedup_native": 20.265510219343028,
+        "speedup_inclusive": 7.112064997224505,
+        "html_csv_hashes_exact": true
+      }
+    ],
+    "samples": [
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.9203905998729169,
+        "cpu": 0.921875,
+        "report_html": 0.08068399992771447,
+        "csv_seconds": 0.039610400097444654,
+        "serialization": 0.003642899915575981,
+        "load_inputs_excluded": 0.613953199936077,
+        "peak_rss_pre_call": 136372224,
+        "peak_rss_call": 136372224,
+        "peak_rss_report": 164524032,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.10972779989242554,
+        "cpu": 0.109375,
+        "report_html": 0.08100619981996715,
+        "csv_seconds": 0.039227900095283985,
+        "serialization": 0.0033183000050485134,
+        "load_inputs_excluded": 0.6253384000156075,
+        "peak_rss_pre_call": 136130560,
+        "peak_rss_call": 136130560,
+        "peak_rss_report": 160260096,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.10300419991835952,
+        "cpu": 0.109375,
+        "report_html": 0.07801569998264313,
+        "csv_seconds": 0.03921309998258948,
+        "serialization": 0.0037090000696480274,
+        "load_inputs_excluded": 0.5842379000969231,
+        "peak_rss_pre_call": 136011776,
+        "peak_rss_call": 136011776,
+        "peak_rss_report": 162861056,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.918169500073418,
+        "cpu": 0.90625,
+        "report_html": 0.08027240005321801,
+        "csv_seconds": 0.039653300074860454,
+        "serialization": 0.0031854999251663685,
+        "load_inputs_excluded": 0.581410099985078,
+        "peak_rss_pre_call": 136265728,
+        "peak_rss_call": 136265728,
+        "peak_rss_report": 164454400,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.9523549000732601,
+        "cpu": 0.9375,
+        "report_html": 0.07957859989255667,
+        "csv_seconds": 0.038735799957066774,
+        "serialization": 0.004033699864521623,
+        "load_inputs_excluded": 0.6189458000008017,
+        "peak_rss_pre_call": 135995392,
+        "peak_rss_call": 135995392,
+        "peak_rss_report": 164958208,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609552,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 30,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 109,
+        "selected": 73,
+        "members": 146,
+        "fixture_audit_rows": 60,
+        "wall": 0.1026959998998791,
+        "cpu": 0.109375,
+        "report_html": 0.07888980000279844,
+        "csv_seconds": 0.039276800118386745,
+        "serialization": 0.003734700148925185,
+        "load_inputs_excluded": 0.5848379000090063,
+        "peak_rss_pre_call": 136310784,
+        "peak_rss_call": 136310784,
+        "peak_rss_report": 163127296,
+        "input_sha256": "d179208511ff62c888972b269daf0ab8b6b87339c56c866477e3fa81fe623a6f",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 4247958,
+        "report_html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "csv_bytes": 3119227,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "serialized_bytes": 609524,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 3.0555088999681175,
+        "cpu": 3.015625,
+        "report_html": 0.18812449998222291,
+        "csv_seconds": 0.1055296000558883,
+        "serialization": 0.005080799805000424,
+        "load_inputs_excluded": 0.594570399960503,
+        "peak_rss_pre_call": 136667136,
+        "peak_rss_call": 139403264,
+        "peak_rss_report": 228626432,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.20451670000329614,
+        "cpu": 0.203125,
+        "report_html": 0.18461440014652908,
+        "csv_seconds": 0.11436720006167889,
+        "serialization": 0.005491500021889806,
+        "load_inputs_excluded": 0.6259407999459654,
+        "peak_rss_pre_call": 136777728,
+        "peak_rss_call": 136777728,
+        "peak_rss_report": 226594816,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.2071950000245124,
+        "cpu": 0.21875,
+        "report_html": 0.18739029997959733,
+        "csv_seconds": 0.1136805999558419,
+        "serialization": 0.005176199832931161,
+        "load_inputs_excluded": 0.5923939999192953,
+        "peak_rss_pre_call": 136609792,
+        "peak_rss_call": 136609792,
+        "peak_rss_report": 226222080,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 3.18731170007959,
+        "cpu": 3.1875,
+        "report_html": 0.22775770002044737,
+        "csv_seconds": 0.10732279997318983,
+        "serialization": 0.005331299966201186,
+        "load_inputs_excluded": 0.586919300025329,
+        "peak_rss_pre_call": 136900608,
+        "peak_rss_call": 139042816,
+        "peak_rss_report": 229126144,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 3.102897400036454,
+        "cpu": 3.09375,
+        "report_html": 0.1876240000128746,
+        "csv_seconds": 0.1079490000847727,
+        "serialization": 0.005462499801069498,
+        "load_inputs_excluded": 0.612098699901253,
+        "peak_rss_pre_call": 136626176,
+        "peak_rss_call": 139886592,
+        "peak_rss_report": 230096896,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857896,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 100,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 386,
+        "selected": 96,
+        "members": 192,
+        "fixture_audit_rows": 200,
+        "wall": 0.20127999992109835,
+        "cpu": 0.203125,
+        "report_html": 0.1825699000619352,
+        "csv_seconds": 0.11336049996316433,
+        "serialization": 0.005161599954590201,
+        "load_inputs_excluded": 0.5870878000278026,
+        "peak_rss_pre_call": 136790016,
+        "peak_rss_call": 136790016,
+        "peak_rss_report": 225607680,
+        "input_sha256": "40e666146c83a271f11bb2e1be03ac89fbf577099b2d18b19573b587c2e75e5c",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 12395935,
+        "report_html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "csv_bytes": 9218493,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "serialized_bytes": 1857917,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 15.20260820002295,
+        "cpu": 15.15625,
+        "report_html": 1.0545750998426229,
+        "csv_seconds": 0.6297357999719679,
+        "serialization": 0.020211100112646818,
+        "load_inputs_excluded": 0.6158247999846935,
+        "peak_rss_pre_call": 137490432,
+        "peak_rss_call": 198590464,
+        "peak_rss_report": 652115968,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9517157,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 0.7501715000253171,
+        "cpu": 0.75,
+        "report_html": 1.0054973999504,
+        "csv_seconds": 0.5607761000283062,
+        "serialization": 0.01664880011230707,
+        "load_inputs_excluded": 0.5947500998154283,
+        "peak_rss_pre_call": 137674752,
+        "peak_rss_call": 165040128,
+        "peak_rss_report": 633737216,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9515876,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 0.7490610000677407,
+        "cpu": 0.75,
+        "report_html": 1.0205176998861134,
+        "csv_seconds": 0.5877835999708623,
+        "serialization": 0.019884000066667795,
+        "load_inputs_excluded": 0.5984120999928564,
+        "peak_rss_pre_call": 137613312,
+        "peak_rss_call": 165236736,
+        "peak_rss_report": 632487936,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9515876,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 15.104889299953356,
+        "cpu": 15.078125,
+        "report_html": 1.1223045999649912,
+        "csv_seconds": 0.5629072000738233,
+        "serialization": 0.0192138000857085,
+        "load_inputs_excluded": 0.5843954998999834,
+        "peak_rss_pre_call": 137736192,
+        "peak_rss_call": 197832704,
+        "peak_rss_report": 653180928,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9517157,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "reference",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "reference"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 16.694254599977285,
+        "cpu": 16.625,
+        "report_html": 0.9858393000904471,
+        "csv_seconds": 0.570781399961561,
+        "serialization": 0.01851969980634749,
+        "load_inputs_excluded": 0.6131645001005381,
+        "peak_rss_pre_call": 137596928,
+        "peak_rss_call": 198164480,
+        "peak_rss_report": 653508608,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9517157,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      },
+      {
+        "fixtures": 500,
+        "identity": "full",
+        "backend": "auto",
+        "dispatch": [
+          {
+            "capable": true,
+            "selected": "bulk"
+          }
+        ],
+        "candidates": 1928,
+        "selected": 672,
+        "members": 1344,
+        "fixture_audit_rows": 1000,
+        "wall": 0.8604866999667138,
+        "cpu": 0.859375,
+        "report_html": 1.0385418999940157,
+        "csv_seconds": 0.6107463000807911,
+        "serialization": 0.02441880013793707,
+        "load_inputs_excluded": 0.7109030999708921,
+        "peak_rss_pre_call": 137838592,
+        "peak_rss_call": 165347328,
+        "peak_rss_report": 632483840,
+        "input_sha256": "d154bd0413a7297f827a152c42a7ecef4f5b0abbcfaf7fc5628c770bdf4acb69",
+        "input_unchanged": true,
+        "oracle_candidate_ids_and_selected_exact": true,
+        "report_html_bytes": 64595562,
+        "report_html_sha256": "8758760596edaca243da4154714eab5b25f560510baaf4ed92278e2a5fb8ff1d",
+        "csv_bytes": 48077299,
+        "csv_sha256": "f38236d6f90fade1f7d87b634cf35249f2dbc91fc63691178b903260d6ec4b6b",
+        "serialized_bytes": 9515876,
+        "diagnostic": false,
+        "diagnostic_inclusive_stages": {},
+        "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+        "pandas": "2.2.3",
+        "numpy": "2.5.3",
+        "historical_availability_verified": false,
+        "research_clock": "Original recovered 5785800 retrospective simulation clock; opening quote_at remains NaT"
+      }
+    ],
+    "windows_adaptation": "Read-only original input paths; resource replaced by GetProcessMemoryInfo peak working set; no timing/correctness algorithm changes"
+  },
+  "limits": [
+    "No model refit, forecast regeneration, strategy search or full-study run",
+    "Original hypothetical research clock and unknown observed quote_at preserved; no historical tradability claim",
+    "Numerical chunks capped at 4096; full audit storage remains O(candidates * legs)",
+    "Manually assembled non-AllCombinations tickets without retained fixture binding declare their initial join; quote IDs alone cannot authenticate it",
+    "Native canonical hashes and retained quote evidence check consistency, not source authentication"
+  ],
+  "evidence_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-guarded-boundaries-7714579"
+}

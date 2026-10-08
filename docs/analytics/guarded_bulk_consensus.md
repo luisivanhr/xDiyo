@@ -204,7 +204,9 @@ supersedes its real-input limitation and event-only dispatch restriction.
    every supplied fixture key in quote evidence. It neither projects the study
    to event-only keys nor converts integer keys through floating point.
    Explicit model-prefixed native fixture keys, when supplied, must match the
-   canonical keys in type and value. Older callers retain their quote-ID binding.
+   canonical keys in type and value. Older callers may omit those optional keys;
+   their quote IDs alone do not independently authenticate a fixture join (see
+   the direct-helper contract below).
 3. **Native-precision PMFs:** the example validates finite bounded channels
    with per-column unit-roundoff budgets (`eps(dtype)/2 * abs(value)`, summed
    across channels), retaining the existing 1e-12 binary64 floor. Both channels
@@ -268,3 +270,87 @@ strategies searched or full study rerun. The original retrospective research
 clock and unknown observed quote timestamps remain explicit; these checks do
 not establish historical tradability. Numerical chunks remain capped at 4096;
 complete audit storage still grows with candidates times leg count.
+
+## Remaining boundaries from the 7714579 review
+
+These repairs remain on `codex/guarded-bulk-consensus`, without a merge.
+
+- Bulk ticket grouping columns now use the original typed Series scalars,
+  matching reference inference for narrow signed/unsigned integers, float32,
+  categorical and extension representations. Membership inference is unchanged;
+  outputs are not blanket-cast to the input schema.
+- Numeric categorical PMFs use the category dtype's existing precision budget.
+  The example also supports a categorical non-draw channel by unboxing it only
+  for gate arithmetic. Original input channels remain unchanged; no
+  renormalization or wider tolerance is introduced. Unsupported representations
+  raise a deliberate `ValueError`.
+- `ticket_batch` and `finalize_tickets` verify consumed fixture membership
+  against native `AllCombinations` ticket IDs, including all supplied fixture
+  keys and league/season/stage/round/fold grouping. Duplicate fixtures, changed
+  leg counts and inconsistent ticket grouping reject before publication.
+  Under a quote-availability contract, available retained `quote_legs` must
+  match the newly consumed ordered evidence; stale evidence cannot be silently
+  replaced.
+
+### Direct-helper compatibility contract
+
+For native `AllCombinations`, the canonical ticket hash provides the original
+fixture/group binding in both full and summary audit modes, even when callers
+omit optional model-prefixed fixture keys. A valid re-finalization remains
+supported, including outcome-only changes for retrospective settlement.
+Existing ordered nested quote records, compact evidence and legacy
+column-oriented JSON are checked when present. Equivalent timestamp spellings
+are compared as instants using the existing strict parser; fixture identities
+and exact quote values must agree. This is not a quote refresh operation.
+
+Legacy manually assembled, non-`AllCombinations` tickets with neither a
+canonical fixture hash nor original nested evidence have no prior full-key
+binding to verify. A helper call in that state treats supplied membership as
+the caller's declared fixture join. Quote IDs alone do not prove that join.
+Use native `AllCombinations` for retained full-key checks; with a quote contract,
+also retain the emitted nested evidence for subsequent checks. These are
+consistency checks on supplied records, not
+cryptographic authentication of an external source. No reusable approval token
+or cross-call validation cache is introduced.
+
+### Verification of these boundaries
+
+- **1,074 passed**, no skips or failures, in the affected Windows pandas 2.2.3
+  suite, including browser and installed-wheel checks.
+- **847 passed**, no skips or failures, in the focused pandas 3.0.6 suite.
+  Counts overlap; 153 new regression cases cover these repairs.
+- The supplied independent composite matrix is **90/90 exact**, the grouping
+  dtype matrix is **50/50 exact**, all six forged-membership/nested-evidence
+  probes reject, and the outcome-mutation probe passes.
+- Original malformed nested-evidence, timestamp, adversarial and accounting
+  overflow probes retain their repairs. Numeric categorical draw compatibility
+  is restored alongside float32, nullable/Arrow floats and object inputs.
+- Repeating the hash-pinned original five-key adapter on 30 and 100 fixtures
+  gives respectively 109/386 candidates and 73/96 selected tickets. Automatic
+  execution actually dispatches to bulk. Reference/bulk frames, dtypes,
+  indices, recursive attrs, IDs, quote JSON, native HTML, CSV and pickle output
+  agree exactly; original PMFs and input tables are unchanged.
+
+Detailed evidence and separate fresh-process timing results are recorded in
+[the boundary verification record](guarded_bulk_boundary_verification.json).
+No model refit, forecast regeneration, strategy search or full-study run was
+performed. Unknown quote timestamps and the explicitly simulated research
+clock are preserved. The 4096 numerical chunk limit and expansion cap remain;
+full audit memory still grows with candidates times leg count.
+
+Fresh serial timing workers used one numerical thread, three repetitions per
+backend and alternating backend order. These are bounded retained-data
+measurements, separate from correctness instrumentation:
+
+| Fixtures | Reference native (s) | Bulk native (s) | Reference including reports/exports (s) | Bulk including reports/exports (s) |
+|---:|---:|---:|---:|---:|
+| 30 | 0.920 | 0.103 | 1.044 | 0.225 |
+| 100 | 3.103 | 0.205 | 3.404 | 0.509 |
+| 500 | 15.203 | 0.750 | 16.907 | 2.377 |
+
+Values are medians; inclusive time includes native execution, HTML, CSV and
+local serialization, excluding imports/input loading. At 500 fixtures the
+bulk HTML/CSV stages alone took 1.021/0.588 seconds. Median process peak RSS
+after reporting was 622.9 MiB for reference and 603.2 MiB for bulk; it includes
+the interpreter, loaded data and report. All matched HTML/CSV hashes agree.
+Report costs and full-audit memory remain substantial despite faster execution.
