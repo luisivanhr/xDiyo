@@ -1,0 +1,9 @@
+{
+  "season": "Premiership_12_13",
+  "old_manifest_sha256": "9b81b2919af88472f74dadad33484fe19a95d15cf8bbd1ed88e95bcc45f2db4f",
+  "old_publication_sha256": "d4c58e8f27ccbd9077694d9982f9428686337444e93feebaee729ed33dd3785d",
+  "new_manifest_sha256": "519052659c6f98b898160ffedbd59725693192fb87e74e9f8b48c53a15c187ae",
+  "new_publication_sha256": "de91410933b8705b90dd16d9d0409ca2ab732cbf7b5228d9151a5b1bfd236240",
+  "matches_sha256": "193fae25deb773b32810300c879bc6fe07e10e06c291c4784fb519ea335b5373",
+  "season_sha256": "0076a1f3c0eef8fee707a194a868c17996fe118887c813824853a3edd9880673"
+}

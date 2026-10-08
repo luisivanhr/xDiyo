@@ -1,0 +1,9 @@
+{
+  "season": "Premier_League_14_15",
+  "old_manifest_sha256": "b294da468028b53a2ab911281f1530644c7af6215c048e0d97e12c92c8c22afc",
+  "old_publication_sha256": "da39f88475df506b17fca844f71a89bb31226fc78f554dae1a8e5e099695cf84",
+  "new_manifest_sha256": "ea9c7d582c2f571f6e20f5e63147cea97ba0d6f848a3942fd17ba74b6e83d04c",
+  "new_publication_sha256": "503d1d3d79bd9244e30af75652ed947b7183dd8d6bcd52cdde5414ea9872dc0c",
+  "matches_sha256": "50ea10ccff97c06144bfe2e32e4657e3fb7671d9cae5e26400e0f13d7a4e45c4",
+  "season_sha256": "2454947b16ff6557505b319e091c9b704df09cb9b0663845a346e16825986c2c"
+}

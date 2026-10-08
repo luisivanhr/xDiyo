@@ -1,0 +1,9 @@
+{
+  "season": "Championship_11_12",
+  "old_manifest_sha256": "1e52e9c6acc2486afeb5f0f13bcdbdac8c66c5a34c77a90b4ef3fdab18097700",
+  "old_publication_sha256": "a306db5648afe3a5dfdfd3f4bfd395e1ff93ff64ce3d73744f93d7e8e8acf839",
+  "new_manifest_sha256": "ad65d00c0812360bf16b6958e78e6f6e0ba02ca9a5d188d28e3dbf4b2ec7a2a6",
+  "new_publication_sha256": "31447c16687dd101d6207f6366457538c7ca50d7a6a07d7493c33d5da4b039c5",
+  "matches_sha256": "168d402b2251108a520b77d5f0b5ce5f03a89f0ce10f529c8603650d482f14c9",
+  "season_sha256": "a199e8b7467e5a1363c93f53fe89fc69f7982698f01bc8009677780cdc78de45"
+}

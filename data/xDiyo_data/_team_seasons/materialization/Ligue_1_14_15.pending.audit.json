@@ -1,0 +1,9 @@
+{
+  "season": "Ligue_1_14_15",
+  "old_manifest_sha256": "dc6e4e37d814ad67108bb509a9fff245abf575ca2c6bd0d1a5bc94f0cc7fd20b",
+  "old_publication_sha256": "139fc3c8e90e9f86bd0f9773a5915f294652c12a6cec5b4bb4e68dabc1104047",
+  "new_manifest_sha256": "f45bb4dc4f1117bfcd4b20907219296627a9ff8b25f044f3412a6474117640a4",
+  "new_publication_sha256": "56598bce7ca9a75391b3e0185efe4abeff727ed65f9caf7f670f67fdc9a24136",
+  "matches_sha256": "8bb9cbd4eecba5c2f629d4489e2e1275b33e425d740685be4629d43267d57c28",
+  "season_sha256": "d08f519f5cb5fcb670067b21295b44d6bdde45e3d4fca5ee6951bad2ae6e3d5f"
+}

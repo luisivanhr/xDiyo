@@ -1,9 +1,9 @@
 {
   "season": "Ligue_1_15_16",
-  "old_manifest_sha256": "70dcd003dbd3e40e1061e16f855564702cf01aace17a3761326119edba58ac53",
-  "old_publication_sha256": "9898392ca47135c1d0b704b7dbb06e96c4e97f64377f64f4509a3ae879db0dbc",
-  "new_manifest_sha256": "cccbe544392a257a345599beaafbfb6aa854caba5b1fb5e6748b7e4e6e0864ac",
-  "new_publication_sha256": "1792cb0f79587e4e5e4563c6a38445ac7c73fb0e55edfd7da60e6969f1620bc6",
-  "matches_sha256": "26f2cabbf8f5f17e5c4d928fe81e6d04a49e2be406e0f188a3ab0d7967cc87fe",
-  "season_sha256": "d0fb178b49e473db2e4723d979ddc770ddc6df9f3c5623833bdafaace4d2b01e"
+  "old_manifest_sha256": "d0bfe5a12e052fba6b204ba49876a10ca1eca4a9f192bb9bbdf6108bf7072c18",
+  "old_publication_sha256": "206293f530e807dc77cadd8ea1a97d6e2e3cc6437a0b9a1a888107031ee8b03a",
+  "new_manifest_sha256": "535404e0c52ccfbfb9cdcf63863582481072e690ef479a047fb4970f3071aad3",
+  "new_publication_sha256": "6845eb0332be4e5af0fcf2673916c95949a00d3300c65dfc0b0623897fcd8dc6",
+  "matches_sha256": "f1efa446be39eab5eed3ce74f82dcc080fc6ffe0c71eb1dac58ff64c891de194",
+  "season_sha256": "468fe7fd3e17090938dd105ce5d1bcfbea62dde3cf84931e13325432b5146b95"
 }

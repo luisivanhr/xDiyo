@@ -1,0 +1,9 @@
+{
+  "season": "Serie_B_13_14",
+  "old_manifest_sha256": "6a2bee8ac75d1b53705167672146fba4a46c0e65c692751f4c1d31af9f2e8a6c",
+  "old_publication_sha256": "8a48aaf104dfb4ed5db35289db1ceffee51691daffc3d9e4931d7c9a12301bff",
+  "new_manifest_sha256": "765fd6cd1ff5426601fbaa37d8cf4052916f8dd29337340aeb8cd1c2244d1e28",
+  "new_publication_sha256": "811835d4a67e0e2e2f07cbbab9dfd1c0136d00f8a584649cc73ce75cc7a2879f",
+  "matches_sha256": "da5c580f6e2c36b410dfb8ec63c4114302488817e1526e250bca72b7783a9153",
+  "season_sha256": "4d434d08d2f8df0a662d28575f71df8c89d192fd890645b204a53e60f67a52bd"
+}

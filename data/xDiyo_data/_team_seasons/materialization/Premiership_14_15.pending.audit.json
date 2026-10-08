@@ -1,0 +1,9 @@
+{
+  "season": "Premiership_14_15",
+  "old_manifest_sha256": "55984a11ce25f0a7bf20292e819008ee0723c84f438a570b5f128df0e7de871a",
+  "old_publication_sha256": "2509907a69aa80c0afd1d510cbdd4943fd590d5d77260f8ed9c1078e2bbd71b4",
+  "new_manifest_sha256": "84fa56abf99feeaae907056dd706b1d74fff89dd8acb4bef6e83e66b26cc90b1",
+  "new_publication_sha256": "5f83538cca01d504dea7b1d76eae754e5db71ffc32ff45f273b3868ccdffb4f9",
+  "matches_sha256": "cc2562df6a4a3e0f2d9928678aee0c83664f2814cfeefc5e7de26159e6196b47",
+  "season_sha256": "4600a323794643fc1c25ef8555b010c891b67ab733858b2841482dd6dd6e65f5"
+}

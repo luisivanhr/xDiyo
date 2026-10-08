@@ -1,0 +1,9 @@
+{
+  "season": "Championship_13_14",
+  "old_manifest_sha256": "bd034eb3ea0b63c0a11d454ea5fd9e2154fd98aaa657c3c18477aa661c65b3f5",
+  "old_publication_sha256": "2079aee3d39def4a8dad1753bb73fcae8a336946e3a7e81fa39aa4eb86aa0998",
+  "new_manifest_sha256": "a7218ea47d69927c5ff557bf4249750584713f2966dfafb609d3692a39c5fc31",
+  "new_publication_sha256": "0274656324963d00c528119a4849d72401335223c202ed6fede28d9fe7c219ed",
+  "matches_sha256": "b8f9b051c45e9cdce497dacc75712364cd13cffd17cbbae2843bf401532e3313",
+  "season_sha256": "f4daea965bc58b6aed65d578f3c7c06d992c0878806030c2743ef6975b18d4c7"
+}

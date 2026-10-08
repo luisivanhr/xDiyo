@@ -1,0 +1,9 @@
+{
+  "season": "Pro_League_11_12",
+  "old_manifest_sha256": "7ca1408b06f466d4a809ec68fc8e9bbc10379163bb38f1ad9bc564c7bfa3e4e1",
+  "old_publication_sha256": "2d10c612e8cf09c87597de42a89baddcfb291c0014d6deaac71ad3a94e04ab55",
+  "new_manifest_sha256": "d07fcbeca45b7f4cb8c6cd1acdae5da76ac5874624fbba611c04dbacda3f8121",
+  "new_publication_sha256": "0acbd5a49d53b35db21e0cd159668f2d474a7e3ce41618566602a85a0069592d",
+  "matches_sha256": "a6c7804ba13508e99574b58376ee7c55f35c721676901c6fa5a68b006f5787b2",
+  "season_sha256": "61a54a1e54daf39a0753ec424caa91e5fac07009b7f6ea66a856d490897432d2"
+}
