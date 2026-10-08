@@ -1,4 +1,6 @@
 """Paired scalar historical reductions, sharing native eligible-match windows."""
+
+from .history import availability_times
 from dataclasses import dataclass
 from numbers import Integral
 from math import fsum, log
@@ -111,7 +113,7 @@ def weighted_values(history, source, weights, candidates, node, *, cutoffs, avai
     evidence = history[[c for c in dict.fromkeys([*keys, *group_by, 'status', 'side', 'opponent_id']) if c in history]].copy()
     evidence['value'], evidence['weight'] = z, w
     evidence['kickoff'], evidence['cutoff'] = history.kickoff_at, times
-    evidence['fixture_available'] = aligned_times(history, available_at, default='kickoff_at')
+    evidence['fixture_available'] = availability_times(history, available_at)
     for name, release in zip(('value_available', 'weight_available'), releases):
         if release is not None:
             evidence[name] = release

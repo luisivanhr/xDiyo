@@ -1,5 +1,7 @@
 """Replay match results or statistic comparisons into independent rating streams."""
 
+from ..features.history import availability_times
+
 from collections import defaultdict
 from itertools import groupby
 from urllib.parse import quote
@@ -78,7 +80,7 @@ def build_ratings(history, *, stat=None, engine=None, higher_is_better=True,
     if history[list(dict.fromkeys([*scope, *match_keys, "team_id", "opponent_id"]))].isna().any().any():
         raise ValueError("Rating match, team and scope identifiers must be nonmissing.")
     kickoff = aligned_times(history, None, default="kickoff_at")
-    available = aligned_times(history, available_at, default="kickoff_at")
+    available = availability_times(history, available_at)
     if (available < kickoff).any():
         raise ValueError("Results cannot be available before their match kickoff.")
     timing = history[match_keys].copy()

@@ -241,7 +241,7 @@ def create_labels(history, labels):
 
     results = {}
     context_columns = list(dict.fromkeys([*match_keys, *[c for c in (
-        "kickoff_at", "round", "stage", "tournament_id", "stage_id", "status", "is_awarded", "team_id", "opponent_id", "side",
+        "kickoff_at", "round", "stage", "tournament_id", "stage_id", "status", "is_awarded", "play_status", "completion_date", "result_available_at", "team_id", "opponent_id", "side",
     ) if c in history]]))
     for name, node in labels.items():
         if not isinstance(name, str) or not name:

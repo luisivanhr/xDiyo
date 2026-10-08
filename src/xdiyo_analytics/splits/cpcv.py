@@ -57,6 +57,8 @@ class CPCV(Splitter):
             information_start, "information_start", "min")
         ends = kicks if available_at is None else matches.times(
             available_at, "available_at", "max")
+        from .core import _respect_result_bounds
+        ends = _respect_result_bounds(matches, ends)
         if (starts > ends).any():
             raise ValueError("Information interval starts must not exceed their ends.")
         if (ends < kicks).any():

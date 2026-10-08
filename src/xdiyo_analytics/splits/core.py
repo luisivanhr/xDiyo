@@ -243,3 +243,11 @@ class GroupKFold(Splitter):
                       {"scheme": "group_kfold", "retrospective": True,
                        "test_groups": tuple(keys[allocation == i])})
                 for i in range(self.n_splits)]
+
+
+def _respect_result_bounds(matches, times):
+    from ..data.availability import respect_result_availability
+    expanded = pd.Series(times[matches.codes], index=matches.dataset.metadata.index)
+    bounded = respect_result_availability(matches.dataset.metadata, expanded)
+    return pd.DatetimeIndex([bounded.iloc[r].max() if bounded.iloc[r].notna().all() else pd.NaT
+                             for r in matches.positions])

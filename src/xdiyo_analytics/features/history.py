@@ -22,6 +22,12 @@ def aligned_times(history, values, *, default):
     return pd.to_datetime(values, utc=True, errors="raise")
 
 
+def availability_times(history, values=None):
+    """Resolve the selected release policy and honor reviewed completion bounds."""
+    from ..data.availability import respect_result_availability
+    return respect_result_availability(history, aligned_times(history, values, default="kickoff_at"))
+
+
 def league_season_team_counts(history):
     """Count distinct participating team IDs from the complete loaded history.
 
@@ -63,7 +69,7 @@ def eligible_history_rows(history, *, group_by=("team_id", "competition_id"),
         keys.append("opponent_id")
     cutoff = aligned_times(history, cutoffs, default="kickoff_at")
     kickoff = aligned_times(history, None, default="kickoff_at")
-    available = aligned_times(history, available_at, default="kickoff_at")
+    available = availability_times(history, available_at)
     if (cutoff > kickoff).any():
         raise ValueError("Prediction cutoffs must not follow the target kickoff.")
     if history[keys].isna().any().any():

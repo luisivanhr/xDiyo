@@ -107,6 +107,8 @@ class TrainingPlan:
             available = kickoff + delay
         else:
             raise ValueError('Chronological composition needs explicit label availability or a declared delay proxy.')
+        from ..data.availability import respect_result_availability
+        available = respect_result_availability(metadata, available)
         if (available.notna() & available.lt(kickoff)).any():
             raise ValueError('Outcome availability cannot precede fixture kickoff.')
         return kickoff, issue, available

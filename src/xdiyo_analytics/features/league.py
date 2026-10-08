@@ -1,5 +1,7 @@
 """League populations: choose a window, exclude contributions, then aggregate."""
 
+from .history import availability_times
+
 from dataclasses import dataclass
 from numbers import Integral
 
@@ -47,7 +49,7 @@ class LeaguePopulation:
         self.history = history
         self.cutoff = aligned_times(history, cutoffs, default="kickoff_at").reset_index(drop=True)
         self.kickoff = aligned_times(history, None, default="kickoff_at").reset_index(drop=True)
-        self.available = aligned_times(history, available_at, default="kickoff_at").reset_index(drop=True)
+        self.available = availability_times(history, available_at).reset_index(drop=True)
         if (self.cutoff > self.kickoff).any():
             raise ValueError("Prediction cutoffs must not follow target kickoff.")
         self.finished = history["status"].eq("finished").fillna(False).to_numpy(dtype=bool)

@@ -1,0 +1,132 @@
+{
+  "evidence_sha256": "e1de363db92b34758343519364205655a38b7425f3d71ae5e1f219b4e52532af",
+  "files": [
+    {
+      "path": "_tables/competition=23/season=5145/versions/9a50a649310c475b968629749f44f682/matches.parquet",
+      "previous_sha256": "158ec3ac1b530b1afe614f0766de3c250aec74f3b19ed73ca205fbd5d27c0ec3",
+      "sha256": "220eecac35c69f77d7d265d8ad024ee8642de58cccc0d7238648307fdb595abf"
+    },
+    {
+      "path": "Serie_A_12_13.parquet",
+      "previous_sha256": "60a8765f650ee2232c1674e630604df60f626f761be71bff83fb71c96d6cb5ed",
+      "sha256": "64fac44bc3d01215c875f7fc51c717faf2555ba22e78b590edee5da903be0f24"
+    },
+    {
+      "path": "_tables/competition=23/season=5145/versions/9a50a649310c475b968629749f44f682/manifest.json",
+      "previous_sha256": "cc46ab97fd1c74a8110b98fef503ec58c81b96a50c445c0c9721bc19d7ffdcca",
+      "sha256": "e7ee778b0a97dd81bb18ba7854a6b91c240f0dc78065b4c8a4140d5b6aa7918a"
+    },
+    {
+      "path": "Serie_A_12_13.manifest.json",
+      "previous_sha256": "2da01b44fa1f428c01d6a0532fb8a6add0b21615e0d3d56bcb87fe4070a439b8",
+      "sha256": "eacb44fb5d19f61f8bf542b33a22bd3fe3a9adc555a34fcc268f0f739c354f6e"
+    },
+    {
+      "path": "_tables/competition=35/season=2811/versions/13c7c59d957047f28ded22ceb36d4584/matches.parquet",
+      "previous_sha256": "0f6c01904987b82696ab0b3dea8d1d6424b4a398d2364af518e5c9127c0cab4b",
+      "sha256": "e827d13b03eabbba5c040abd8ad50be8578700a030335bd36cf8de08f9a1bd67"
+    },
+    {
+      "path": "Bundesliga_10_11.parquet",
+      "previous_sha256": "d841369dcd8f73203a79e93a97caa9b689e121d80060eb85ce3c6935762bdaee",
+      "sha256": "fd6af30b64c5b2dc0247f1b3544c2f7b8f46ef45819a2b3d47fc09018345c4e0"
+    },
+    {
+      "path": "_tables/competition=35/season=2811/versions/13c7c59d957047f28ded22ceb36d4584/manifest.json",
+      "previous_sha256": "d0af9cd6bee6eacd27ca1dd8b64d5709faa126e012e51b6ea8597bda5783d26e",
+      "sha256": "ce24da1b350c2deb0f46fcfb1ebd718f48f8f33c17fbe8cb9ed2ae7b1d4c5170"
+    },
+    {
+      "path": "Bundesliga_10_11.manifest.json",
+      "previous_sha256": "7a2a23c94db74f9c7e05f0e9a07221ca1fbf84adab7cfb7887536837e523c781",
+      "sha256": "7fc684d25444a5614b6a735ae17222fd8ef8b5243723ee22ab88e45cf8367020"
+    },
+    {
+      "path": "_tables/competition=34/season=6271/versions/5e6c014056224abf91ac4ce290d44b98/matches.parquet",
+      "previous_sha256": "420d25c6f797863592585ffd256ef65b608aa5ad6ba8589e854a7009cef249aa",
+      "sha256": "b182d91d527e0b69ffd63511255bb3da152cbbeec7a938b28643301c36601ac0"
+    },
+    {
+      "path": "Ligue_1_13_14.parquet",
+      "previous_sha256": "185043bbda6eb38fbbbe54e1f0832659bafec18c1c1a26035e192aa10a466e80",
+      "sha256": "5835623ef4f15df31c7ddd163f947c171f4214f5d47a41e9ddc04428e6a0fc0f"
+    },
+    {
+      "path": "_tables/competition=34/season=6271/versions/5e6c014056224abf91ac4ce290d44b98/manifest.json",
+      "previous_sha256": "7086b535afc1dd77d5858d74359809fd6f1cd88ee3cf9d56029770ec795011d2",
+      "sha256": "5f5d17d47848a95515e7750d7ed4768a3e254fdb8576d67c026e2ed70178dcdb"
+    },
+    {
+      "path": "Ligue_1_13_14.manifest.json",
+      "previous_sha256": "66cf01cb408a5cc0636e648dd1d237bfcaf4af95f4ce7c99e0c129afca52ae8c",
+      "sha256": "4b0e7e82c41170292fd39b4946f390f91f422ffe464ee34609d0b1530c28a3e8"
+    },
+    {
+      "path": "_tables/competition=53/season=3667/versions/42e8dc1bf9a642a2a1228dbc921f7dad/matches.parquet",
+      "previous_sha256": "3cad866e41c2558920ea6ab88ce82297feac1e001ba9dfbc8a7db994976e8951",
+      "sha256": "3731e0849db02231407e718f264f513092120370294d5ab26aa2a7315723ae9f"
+    },
+    {
+      "path": "Serie_B_11_12.parquet",
+      "previous_sha256": "4253794cb1e120c438aedd7bd02314999b851554ee7923120c50c2b0c84b95e2",
+      "sha256": "d5738e204568752c634b78b212a9f36c570bc842729d36e30cb6e08833c4bdcc"
+    },
+    {
+      "path": "_tables/competition=53/season=3667/versions/42e8dc1bf9a642a2a1228dbc921f7dad/manifest.json",
+      "previous_sha256": "29d81c0004c8da03d1344aae0f418d3467f81870f149ef7e4d2406d97ad4dc8d",
+      "sha256": "d5d3ff337d7afcc5cfa32134d28d1e7b523a6949c43debe8861ea6872d4aafbe"
+    },
+    {
+      "path": "Serie_B_11_12.manifest.json",
+      "previous_sha256": "d6576f92045512dd1a29d033a518cf264fcbe64fbb59a2b5bf27f297b493cf90",
+      "sha256": "f7286ae8e37d3e23e50388d124121f1366fb4ea6b636c858fadaa6e45b62656c"
+    },
+    {
+      "path": "_tables/competition=8/season=3502/versions/e1b88af86c7b49f4b65c78727195037f/matches.parquet",
+      "previous_sha256": "31ff6b7ec01fe32a19bbfb887c7584d2ba5eceb6e594233a4ab690fff4ecc7a7",
+      "sha256": "794107f3bf862677af2f3f63ad00fd99aff2f184146a9c34a7ef8029d5e96eba"
+    },
+    {
+      "path": "La_Liga_11_12.parquet",
+      "previous_sha256": "2615e3e7221628511ba195e8f2d8aa9afe57942052e63348198ba4fa94120640",
+      "sha256": "f39084f8a91a69630e00b3569485f3320f6396e212f35d0d6988af8860a0b108"
+    },
+    {
+      "path": "_tables/competition=8/season=3502/versions/e1b88af86c7b49f4b65c78727195037f/manifest.json",
+      "previous_sha256": "e94a8030c9e222156c565d8d3975f03aaf880614af53f3c29897be5b0fc0c223",
+      "sha256": "119c91d93dd7b36ff859a441b8ddc67927072f251792c72672758a2fbc72bfcd"
+    },
+    {
+      "path": "La_Liga_11_12.manifest.json",
+      "previous_sha256": "053869e266eef128a2d89fa024ffae1801ecf7b7d5474bf0856b61e744263842",
+      "sha256": "4e19fa3f3532492b3d386777d1f2b1947afd5791e5706fe287b13c3ebd97aaf0"
+    }
+  ],
+  "seasons": [
+    {
+      "season": "Serie_A_12_13",
+      "event_id": 2893007,
+      "changed": true
+    },
+    {
+      "season": "Bundesliga_10_11",
+      "event_id": 1399769,
+      "changed": true
+    },
+    {
+      "season": "Ligue_1_13_14",
+      "event_id": 3944327,
+      "changed": true
+    },
+    {
+      "season": "Serie_B_11_12",
+      "event_id": 1861771,
+      "changed": true
+    },
+    {
+      "season": "La_Liga_11_12",
+      "event_id": 1795067,
+      "changed": true
+    }
+  ]
+}
