@@ -340,50 +340,47 @@ def _refilter_versions(history, model, events, all_events, entries, frontier, da
     empty = _replay_in_order(_event_history([], model.config.score_basis), model=model,
                              _entries=[], _predict=False)
     payload = dict(checkpoint.checkpoint) if checkpoint is not None else empty.checkpoint
-    times = sorted({*(event["available_at"] for event in events),
-                    *(r["entry_at"] for r in entries if frontier is None or r["entry_at"] > frontier)})
-    for time in times:
-        current_entries = [r for r in entries if r["entry_at"] <= time]
-        # Scores kicking off exactly now remain unavailable to any forecast at
-        # this cutoff, even with the documented kickoff-availability proxy.
-        for order, include_equal in ((0, False), (2, True)):
-            if include_equal and not any(r["available_at"] <= time and r["kickoff_at"] == time for r in all_events):
+    from .bayesian_calibration import _versions, _suffix_versions, _kernel_payload
+    versions = _versions(all_events, entries)
+    for time, schedule, canonical, state in _suffix_versions(history.iloc[:0], model, versions):
+        if frontier is not None and time <= frontier:
+            continue
+        if pd.notna(data_frontier) and time <= data_frontier:
+            usage.update(state["usage"])
+        diagnostics.append({"recorded_at": time.isoformat(), "method": "kickoff_refilter",
+                            "match_count": len(state["seen_events"]), "converged": True,
+                            "iterations": state["iterations"]})
+        # Preserve the original canonical first-appearance ordering, including
+        # states in other leagues whose later bridge depends on this suffix.
+        for key in state["states"]:
+            if key not in canonical.teams:
                 continue
-            eligible = [r for r in all_events if r["available_at"] <= time
-                        and (r["kickoff_at"] <= time if include_equal else r["kickoff_at"] < time)]
-            canonical = _replay_in_order(_event_history(eligible, model.config.score_basis),
-                                         model=model, _entries=current_entries,
-                                         _capture_at=time, _predict=False)
-            if pd.notna(data_frontier) and time <= data_frontier:
-                usage.update(_entry_usage(canonical, current_entries, time))
-            diagnostics.append({"recorded_at": time.isoformat(), "method": "kickoff_refilter",
-                                "match_count": len(eligible), "converged": True,
-                                "iterations": sum(int(d["iterations"]) for d in canonical.metadata["diagnostics"])})
-            # Every dependent state is republished if it changed, including
-            # teams in other competitions reached through a later bridge.
-            for _, group in canonical.snapshots.groupby(["competition_id", "team_id"], sort=False):
-                record = group.iloc[-1].to_dict()
-                key = (record["competition_id"], record["team_id"])
-                old = previous_teams.get(key)
-                compare = (*TEAM_FIELDS, "games_seen", "latest_kickoff_at")
-                same = old is not None and all((pd.isna(record[n]) and pd.isna(old[n])) or record[n] == old[n] for n in compare)
-                if same:
-                    continue
-                record.update(recorded_at=time, snapshot_order=order)
+            _, latest, value, count = canonical.teams[key][-1]
+            record = {"competition_id": key[0], "team_id": key[1], "stream": "score",
+                      "latest_kickoff_at": state["latest"].get(key, pd.NaT),
+                      "games_seen": count, "snapshot_kind": canonical.kinds[key], **team_summary(value)}
+            old = previous_teams.get(key)
+            compare = (*TEAM_FIELDS, "games_seen", "latest_kickoff_at")
+            same = old is not None and all((pd.isna(record[n]) and pd.isna(old[n])) or record[n] == old[n] for n in compare)
+            if not same:
+                record.update(recorded_at=time, snapshot_order=schedule.order)
                 snapshots.append(record)
                 previous_teams[key] = record
-            for competition, group in canonical.league_snapshots.groupby("competition_id", sort=False):
-                record = group.iloc[-1].to_dict()
-                old = previous_leagues.get(competition)
-                compare = ("home_shape", "home_rate", "latest_kickoff_at")
-                same = old is not None and all((pd.isna(record[n]) and pd.isna(old[n])) or record[n] == old[n] for n in compare)
-                if same:
-                    continue
-                record.update(recorded_at=time, snapshot_order=order)
+        for competition in state["home_states"]:
+            if competition not in canonical.leagues:
+                continue
+            _, latest, value = canonical.leagues[competition][-1]
+            record = {"competition_id": competition, "home_shape": value.shape, "home_rate": value.rate,
+                      "latest_kickoff_at": state["home_latest"].get(competition, pd.NaT)}
+            old = previous_leagues.get(competition)
+            compare = ("home_shape", "home_rate", "latest_kickoff_at")
+            same = old is not None and all((pd.isna(record[n]) and pd.isna(old[n])) or record[n] == old[n] for n in compare)
+            if not same:
+                record.update(recorded_at=time, snapshot_order=schedule.order)
                 leagues.append(record)
                 previous_leagues[competition] = record
-            if pd.notna(data_frontier) and time == data_frontier:
-                payload = canonical.checkpoint
+        if pd.notna(data_frontier) and time == data_frontier:
+            payload = _kernel_payload(state, time)
     columns = ["competition_id", "team_id", "stream", "recorded_at", "latest_kickoff_at", "games_seen",
                "snapshot_order", "snapshot_kind", *TEAM_FIELDS]
     table = pd.DataFrame(snapshots, columns=columns)
@@ -427,7 +424,7 @@ def _populate_predictions(run, history, events, keys, cutoffs, previous_predicti
 
 def _replay_in_order(history, *, model, available_at=None, team_seasons=None, season_starts=None,
                      cutoffs=None, checkpoint=None, _entries=None, _capture_at=None,
-                     _predict=True, _plan=None, _sink=None):
+                     _predict=True, _plan=None, _sink=None, _resume=None, _remember=None):
     import numpy as np
     import pandas as pd
     from ..features.transitions import TransitionContext
@@ -451,6 +448,14 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
     frontier = None
     seen_events, closed_sources = set(), set()
     previous_predictions = None
+    if _resume is not None:
+        if checkpoint is not None or _plan is None or _sink is None:
+            raise ValueError("Internal suffix replay requires a plan and sink, without a public checkpoint.")
+        states, home_states, team_season, home_season = (_resume[name] for name in (
+            "states", "home_states", "team_season", "home_season"))
+        latest, home_latest, last_kick = (_resume[name] for name in ("latest", "home_latest", "last_kick"))
+        counts, processed_entries, seen_events, closed_sources = (_resume[name] for name in (
+            "counts", "processed_entries", "seen_events", "closed_sources"))
     if checkpoint is not None:
         if not isinstance(checkpoint, BayesianRatingRun) or checkpoint.model != model:
             raise ValueError("A checkpoint must belong to the same frozen Bayesian model.")
@@ -545,6 +550,8 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
         if _sink is not None:
             _sink.team(key, time, latest.get(key), states[key], counts[key], kind,
                        team_season[key])
+            if _resume is not None and kind in ("initial", "retained", "bridge", "mirrored"):
+                _resume["usage"].add((key[0], team_season[key], key[1], kind))
             return
         snapshots.append({"competition_id": key[0], "team_id": key[1], "stream": "score",
                           "recorded_at": time, "latest_kickoff_at": latest.get(key, pd.NaT),
@@ -600,6 +607,8 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
                                                      tolerance=config.tolerance, max_iterations=config.max_iterations)
             if not diagnostic["converged"]:
                 raise RuntimeError(f"Bayesian {config.method} did not converge at {time}: {diagnostic}")
+            if _resume is not None:
+                _resume["iterations"] += int(diagnostic["iterations"])
             if _sink is None:
                 diagnostic = {**diagnostic, "competition_id": _identifier(competition), "recorded_at": time.isoformat()}
                 diagnostics.append(diagnostic)
@@ -688,6 +697,8 @@ def _replay_in_order(history, *, model, available_at=None, team_seasons=None, se
 
         process_batch(after_entries, time, 1)
         process_batch(equal_releases, time, 2)
+        if _remember is not None:
+            _remember(time, _resume)
         if _sink is None and pd.notna(data_frontier) and time == data_frontier:
             payload = capture(time)
 

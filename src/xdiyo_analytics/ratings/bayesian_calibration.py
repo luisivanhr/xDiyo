@@ -88,15 +88,15 @@ def _tree_get(node, low, high, index):
     return node
 
 
-def _tree_leaves(node, low, high):
-    if node is None:
+def _tree_leaves(node, low, high, start=0):
+    if node is None or high <= start:
         return
     if high - low == 1:
         yield low, node
         return
     middle = (low + high) // 2
-    yield from _tree_leaves(node[0], low, middle)
-    yield from _tree_leaves(node[1], middle, high)
+    yield from _tree_leaves(node[0], low, middle, start)
+    yield from _tree_leaves(node[1], middle, high, start)
 
 
 class _TreeField:
@@ -129,12 +129,14 @@ class _CanonicalSchedule:
     def __init__(self, root, keys, positions, size, batches, frontier):
         self.root, self.keys, self.positions, self.size = root, keys, positions, size
         self.batches, self.frontier = batches, frontier
+        self.start = 0
+        self.changed = 0
         self.steps = _TreeField(self, "steps")
         self.entry_events = _TreeField(self, "entry_events")
 
     @property
     def times(self):
-        return (self.keys[index] for index, _ in _tree_leaves(self.root, 0, self.size))
+        return (self.keys[index] for index, _ in _tree_leaves(self.root, 0, self.size, self.start))
 
 
 def _versions(events, entries):
@@ -171,7 +173,10 @@ def _versions(events, entries):
                 leaf = _Schedule(list(known_events[kickoff]), list(known_entries[kickoff]))
                 batches.update(leaf.batches)
                 root = _tree_set(root, 0, size, positions[kickoff], leaf)
-            yield time, _CanonicalSchedule(root, keys, positions, size, batches, time)
+            schedule = _CanonicalSchedule(root, keys, positions, size, batches, time)
+            schedule.changed = min((positions[k] for k in changed), default=len(keys))
+            schedule.order = 2 if include_equal else 0
+            yield time, schedule
 
 
 class _States:
@@ -181,9 +186,11 @@ class _States:
         self.keep_history = history
         self.teams, self.leagues = defaultdict(list), defaultdict(list)
         self.usage = set()
+        self.kinds = {}
 
     def team(self, key, time, latest, state, count, kind, season):
         item = (_ns(time), _ns(latest), state, count)
+        self.kinds[key] = kind
         if self.keep_history:
             self.teams[key].append(item)
         else:
@@ -275,9 +282,7 @@ class CalibrationReplay:
             raise ValueError("Calibration configuration changed; rebuild the replay plan.")
         states = _States()
         if self.refilter:
-            for time, schedule in self.versions:
-                canonical = _replay_in_order(self.history, model=model, _plan=schedule,
-                                             _predict=False, _sink=_States(history=False))
+            for time, schedule, canonical, _ in _suffix_versions(self.history, model, self.versions):
                 states.publish(canonical, time)
         else:
             _replay_in_order(self.history, model=model, _plan=self.schedule,
@@ -314,3 +319,72 @@ class CalibrationEvidence:
         self.probabilities, self.score_log = probabilities, score_log
         self.states = states
         self.entry_counts = Counter(item[-1] for item in states.usage)
+
+
+def _empty_kernel():
+    return dict(states={}, home_states={}, team_season={}, home_season={}, latest={},
+                home_latest={}, last_kick={}, counts=Counter(), processed_entries=set(),
+                seen_events=set(), closed_sources=set(), usage=set(), iterations=0)
+
+
+def _copy_kernel(state):
+    # Gamma/TeamState values are immutable. Copies isolate each rollback point;
+    # no mutable fitted state survives across parameter evaluations.
+    return {key: value.copy() if isinstance(value, (dict, set)) else value
+            for key, value in state.items()}
+
+
+def _suffix_versions(history, model, versions, *, stride=128):
+    """Resume unchanged prefixes; rewind before the earliest changed leaf.
+
+    Global chronological checkpoints intentionally preserve cross-league bridge
+    dependencies, frozen simultaneous entries and shared league clocks. A late
+    insertion replays the entire affected suffix, not just its participating teams.
+    Only one checkpoint per stride of schedule positions is retained.
+    """
+    from copy import copy
+    from .bayesian_replay import _replay_in_order
+    state = _empty_kernel()
+    checkpoints = {}
+    last = -1
+    for time, original in versions:
+        schedule = copy(original)  # plan is reusable and immutable across trials
+        if schedule.changed <= last:
+            for position in list(checkpoints):
+                if position >= schedule.changed:
+                    del checkpoints[position]
+            last = max(checkpoints, default=-1)
+            state = _copy_kernel(checkpoints[last]) if last >= 0 else _empty_kernel()
+        schedule.start = last + 1
+        saved_block = max(checkpoints, default=-1) // stride
+        def remember(kickoff, current):
+            nonlocal last, saved_block
+            last = schedule.positions[kickoff]
+            if last // stride > saved_block:
+                checkpoints[last] = _copy_kernel(current)
+                saved_block = last // stride
+        sink = _replay_in_order(history, model=model, _plan=schedule, _predict=False,
+                                _sink=_States(history=False), _resume=state, _remember=remember)
+        # Canonical usage includes the restored prefix as well as this suffix.
+        sink.usage.update(state["usage"])
+        yield time, schedule, sink, state
+
+
+def _kernel_payload(state, boundary):
+    """Serialize a current mathematical checkpoint using the native schema."""
+    from .bayesian import _identifier
+    from .bayesian_replay import _team_payload
+    def date(value):
+        return None if value is None or pd.isna(value) else value.isoformat()
+    return dict(processed_through=date(boundary),
+        teams=[dict(competition_id=_identifier(key[0]), team_id=_identifier(key[1]),
+                    season_id=_identifier(state["team_season"][key]), state=_team_payload(value),
+                    latest_kickoff_at=date(state["latest"].get(key)),
+                    last_kickoff_at=date(state["last_kick"].get(key)), games_seen=state["counts"][key])
+               for key, value in sorted(state["states"].items(), key=lambda x: repr(x[0]))],
+        leagues=[dict(competition_id=_identifier(key), season_id=_identifier(state["home_season"][key]),
+                      state=[value.shape, value.rate], latest_kickoff_at=date(state["home_latest"].get(key)))
+                 for key, value in sorted(state["home_states"].items(), key=lambda x: repr(x[0]))],
+        **{target: [list(map(_identifier, item)) for item in sorted(state[source], key=repr)]
+           for target, source in (("entries", "processed_entries"), ("event_ids", "seen_events"),
+                                  ("closed_sources", "closed_sources"))})
