@@ -1,0 +1,19 @@
+{
+  "REPORT.md": {
+    "source_file": "Early history repair audit 8207e29.md",
+    "sha256": "1a8d5d6534142e146c5ace598e504db29a5f6f42f235958b2813e35ea83bd78c"
+  },
+  "FROZEN_CALIBRATION_SPEC.json": {
+    "source_file": "Frozen early Bayesian calibration spec 8207e29.json",
+    "sha256": "b73b7f8164177b7d5c10f5da149912ccb8eb9c494aab681a285a779ab83d0480"
+  },
+  "league_season_counts.csv": {
+    "source_file": "Repaired early history counts 8207e29.csv",
+    "sha256": "fecabd81cebe841c2146d34157e34f33c23b2a28ba11072d1413e75b5428c51d"
+  },
+  "external_evidence_archive": {
+    "source_file": "Early history repair evidence 8207e29.zip",
+    "sha256": "82705d48b2f57931b22421d687bb21c48b179b2e0e6581bf3d2bef8558d39626",
+    "vendored": false
+  }
+}
