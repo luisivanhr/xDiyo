@@ -80,3 +80,40 @@ resumed matches with completion bounds. Ayre's stricter five-case quarantine
 contains 23,653 candidates; that separate research mask remains valid. Native
 availability remains inclusive at the bound; the audit's stricter `< cutoff`
 research protocol still requires its explicit prefilter.
+
+
+## Re-audit of 8207e29 and API boundary repairs
+
+Ayre cleared the five-fixture repair hold for the specifically audited native
+pooled-Bayesian workflow with explicit kickoff +3h, clamped to reviewed bounds.
+The eligible early-history count is 23,655. This is scoped clearance, not approval
+of every research route. The original audit, frozen pre-fit specification and
+65-partition counts are retained under `audits/early_history_8207e29/`, with source
+hashes. The original commit pins in that specification are historical evidence;
+this maintenance patch does not run calibration or alter the frozen specification.
+
+Three API findings from that re-audit are repaired:
+
+- **Glicko exact-time release ties:** when a delayed prior result and a current
+  kickoff-proxy result share a release, an additional boundary snapshot contains
+  only the prior results, using the same pre-batch opponent states. Exact-boundary
+  predictions use it; later predictions use the unchanged full simultaneous
+  update. Season transitions still precede equal-time result releases. Boundary
+  snapshots survive native save/load and do not change the ongoing replay state.
+- **Probability calibration:** `predict_proba` now uses the guarded chronological
+  partition when nonmissing reviewed bounds or an explicit availability policy
+  are present. It purges whole matches whose labels are unavailable at the first
+  calibration prediction boundary or outer issue time. Without explicit timing,
+  legacy kickoff-proxy/zero-lead semantics remain. Explicit availability, missing
+  releases, prediction groups and configured cutoffs are respected. With no bounds
+  or explicit timing, legacy selection is unchanged. Direct guarded partitioning
+  or refitting requires `issue_at` or fold `fit_at`; the runner supplies the outer
+  test boundary. Missing issue time raises instead of assuming future knowledge.
+- **Match-label metadata:** the latest known `result_available_at` bound from
+  either team row survives match-level assembly. A sparse null bound is absence
+  of an additional constraint; two null bounds remain null. Team-level metadata
+  remains unchanged. This reduction does not impute explicitly unknown release
+  times in the availability policy.
+
+No fixture data, hashes, population selections, Bayesian parameters, research
+recipes or previous experiment artifacts are changed by these API repairs.

@@ -6,6 +6,28 @@ import pandas as pd
 from ..splits.core import _Matches, _times, _duration
 
 
+def guarded_policy(policy, dataset):
+    """Use legacy kickoff semantics unless explicit timing was requested.
+
+    Completion bounds activate purging for predict_proba too. Legacy recipes
+    retain their kickoff proxy/zero lead; margin recipes still require an
+    explicit availability policy. Sparse all-null bounds change nothing.
+    """
+    from dataclasses import replace
+    if policy is None:
+        return None
+    if getattr(policy, 'response_method', 'predict_proba') == 'decision_function':
+        return policy
+    explicit = policy.availability_column is not None or policy.availability_delay is not None
+    bounded = ('result_available_at' in dataset.metadata and
+               dataset.metadata['result_available_at'].notna().any())
+    if explicit:
+        return policy
+    if bounded:
+        return replace(policy, availability_delay='0h', prediction_lead='0h')
+    return None
+
+
 def timing(policy, dataset):
     matches = _Matches(dataset)
     kicks = matches.times(policy.time_column, policy.time_column)
@@ -25,7 +47,8 @@ def timing(policy, dataset):
 def fold_boundary(policy, dataset, fold):
     """Use the earliest actual outer prediction boundary, never a later issue time."""
     metadata = dict(fold.metadata)
-    if getattr(policy, 'response_method', 'predict_proba') != 'decision_function':
+    policy = guarded_policy(policy, dataset)
+    if policy is None:
         return metadata
     matches, _, _, cutoffs = timing(policy, dataset)
     boundary = cutoffs[np.unique(matches.codes[fold.test])].min()
@@ -51,7 +74,7 @@ def temporal_partition(policy, dataset, train_positions, fold_metadata=None):
         raise ValueError('Temporal calibration training population must retain whole matches.')
     issue = (fold_metadata or {}).get('fit_at', policy.issue_at)
     if issue is None:
-        raise ValueError('Margin calibration needs an outer fit_at or explicit issue_at for refit.')
+        raise ValueError('Temporal calibration needs an outer fit_at or explicit issue_at for refit.')
     issue = pd.to_datetime(issue, utc=True, errors='raise')
     if pd.isna(issue):
         raise ValueError('Calibration issue_at must be nonmissing.')

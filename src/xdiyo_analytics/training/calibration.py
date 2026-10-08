@@ -39,6 +39,10 @@ class ProbabilityCalibrator:
     declared kickoff-plus-delay proxy), preserves prediction groups, and purges
     labels not known at calibration/issue boundaries. See temporal_svc_calibration.md.
     Existing serialized instances without response_method use predict_proba.
+    For predict_proba, reviewed completion bounds also activate chronological
+    label purging. With no explicit availability policy, its legacy kickoff
+    proxy and zero prediction lead are retained. Direct partition/refit then
+    needs issue_at (or fold fit_at); the runner supplies the outer boundary.
     """
 
     method: str = "temperature"
@@ -72,15 +76,17 @@ class ProbabilityCalibrator:
             raise ValueError("Calibration fraction must lie strictly between zero and one.")
 
     def select(self, dataset, train_positions):
-        if self.response_method == 'decision_function':
+        from .calibration_split import guarded_policy
+        if guarded_policy(self, dataset) is not None:
             return self.partition(dataset, train_positions)[1]
         from .control import ValidationTail
         return ValidationTail(self.fraction, self.time_column).select(dataset, train_positions)
 
     def partition(self, dataset, train_positions, fold_metadata=None):
-        if self.response_method == 'decision_function':
-            from .calibration_split import temporal_partition
-            return temporal_partition(self, dataset, train_positions, fold_metadata)
+        from .calibration_split import guarded_policy, temporal_partition
+        policy = guarded_policy(self, dataset)
+        if policy is not None:
+            return temporal_partition(policy, dataset, train_positions, fold_metadata)
         reserved = self.select(dataset, train_positions)
         train = np.asarray(train_positions)
         return train[~np.isin(train, reserved)], reserved, {}

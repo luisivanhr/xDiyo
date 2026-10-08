@@ -31,6 +31,9 @@ def build_ratings(history, *, stat=None, engine=None, higher_is_better=True,
     and match identity. Both perspectives must agree on result availability.
     Source frames are unchanged; returned snapshots can be saved and reused.
     New/revised histories are replayed; incremental appending is not implemented.
+    A mixed release/kickoff tie additionally saves a strictly-prior boundary
+    view for exact-time queries. The full simultaneous batch remains the state
+    used afterward; the boundary view never updates the ongoing replay state.
 
     transition=None retains the original replay unchanged. An explicit adapter
     applies once to full team state at each season entry, before equal-time
@@ -147,6 +150,32 @@ def build_ratings(history, *, stat=None, engine=None, higher_is_better=True,
             # Commit only after every team has read the same pre-batch states.
             updated = {key: engine.update_period(dict(states.get(key, initial)), observations)
                        for key, observations in games.items()}
+            # A kickoff-proxy result can share a release boundary with an older
+            # delayed result. Retain the strictly-prior subset for queries AT
+            # this boundary, without changing the full simultaneous update used
+            # AFTER it. Both views read the same pre-batch opponent states.
+            prior_games, prior_latest = defaultdict(list), {}
+            if any(kicks.iloc[i] == time for i in batch):
+                for i in batch:
+                    if kicks.iloc[i] >= time:
+                        continue
+                    home_key, away_key = (*scopes[i], teams[i]), (*scopes[i], opponents[i])
+                    for key, other, score in ((home_key, away_key, outcomes[i]), (away_key, home_key, 1-outcomes[i])):
+                        prior_games[key].append((float(score), dict(states.get(other, initial))))
+                        prior_latest[key] = max(kicks.iloc[i], prior_latest.get(key, kicks.iloc[i]),
+                                                latest_contributing.get(key, kicks.iloc[i]),
+                                                latest_contributing.get(other, kicks.iloc[i]))
+                for key, observations in prior_games.items():
+                    if latest[key] < time:
+                        continue
+                    state = engine.update_period(dict(states.get(key, initial)), observations)
+                    if set(state) != set(initial) or not all(np.isfinite(x) for x in state.values()):
+                        raise ValueError("Engine updates must retain finite numeric state fields.")
+                    records.append({**dict(zip(scope, key[:-1])), "team_id": key[-1],
+                                    "stream": stream, "recorded_at": time,
+                                    "latest_kickoff_at": prior_latest[key],
+                                    "games_seen": games_seen[key] + len(observations),
+                                    "snapshot_order": .5, "snapshot_kind": "boundary", **state})
             for key, state in updated.items():
                 if set(state) != set(initial) or not all(np.isfinite(x) for x in state.values()):
                     raise ValueError("Engine updates must retain finite numeric state fields.")
@@ -157,8 +186,13 @@ def build_ratings(history, *, stat=None, engine=None, higher_is_better=True,
                                 **({"snapshot_order": 1, "snapshot_kind": "result"} if transition_replay is not None else {}), **state})
             states.update(updated)
             latest_contributing.update(latest)
+    ordered = transition_replay is not None or any(r.get("snapshot_kind") == "boundary" for r in records)
+    if ordered:
+        for record in records:
+            record.setdefault("snapshot_order", 1)
+            record.setdefault("snapshot_kind", "result")
     columns = [*scope, "team_id", "stream", "recorded_at", "latest_kickoff_at", "games_seen",
-               *(["snapshot_order", "snapshot_kind"] if transition_replay is not None else []), *initial]
+               *(["snapshot_order", "snapshot_kind"] if ordered else []), *initial]
     snapshots = pd.DataFrame.from_records(records, columns=columns)
     for name in ("recorded_at", "latest_kickoff_at"):
         snapshots[name] = pd.to_datetime(snapshots[name], utc=True)

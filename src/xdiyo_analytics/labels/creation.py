@@ -254,6 +254,14 @@ def create_labels(history, labels):
         identity_columns = tuple(match_keys)
         if unit == "match":
             metadata = metadata.rename(columns={"team_id": "home_id", "opponent_id": "away_id"}).drop(columns="side")
+            if "result_available_at" in history:
+                # Sparse bounds are constraints: retain the later known bound
+                # from either perspective, including away-only annotations.
+                from ..data.availability import result_availability_bounds
+                bound = result_availability_bounds(history)
+                paired = pd.concat([bound.iloc[home].reset_index(drop=True),
+                                    bound.iloc[away].reset_index(drop=True)], axis=1).max(axis=1)
+                metadata["result_available_at"] = paired.array
         else:
             identity_columns += ("team_id",)
         results[name] = LabelData(

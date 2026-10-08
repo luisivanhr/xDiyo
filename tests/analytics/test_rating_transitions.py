@@ -161,7 +161,9 @@ def test_same_time_prior_release_is_not_used_by_transition_but_is_used_afterward
     history = history_from_games(games)
     run = build_ratings(history, engine=VectorEngine(), transition=VectorTransition(), available_at='available_at')
     assert at_entry(run, A, 10).wins == 21  # Delayed prior game is released after the entry event.
-    assert run.features(history, side='for', fields=('wins',)).iloc[4, 0] == 21
+    # Entry itself remains frozen at 21, but the boundary forecast can consume
+    # the released prior game (22), without consuming the current kickoff.
+    assert run.features(history, side='for', fields=('wins',)).iloc[4, 0] == 22
 
 
 def test_earlier_evaluator_cutoffs_and_explicit_direct_replay_boundaries():

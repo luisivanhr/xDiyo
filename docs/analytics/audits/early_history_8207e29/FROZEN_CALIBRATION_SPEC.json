@@ -1,0 +1,150 @@
+{
+  "status": "FROZEN_SPEC_READY_FOR_PARENT_COORDINATED_RUN_NOT_EXECUTED",
+  "code_commit": "8207e29c49bfa20e09c75be16105d8847b0eef3a",
+  "data_commit": "8207e29c49bfa20e09c75be16105d8847b0eef3a",
+  "mode": "pooled",
+  "seasons": [
+    "10_11",
+    "11_12",
+    "12_13",
+    "13_14",
+    "14_15"
+  ],
+  "competition_ids": [
+    8,
+    17,
+    18,
+    23,
+    34,
+    35,
+    36,
+    37,
+    38,
+    44,
+    53,
+    54,
+    182
+  ],
+  "raw_matches": 23658,
+  "eligible_matches": 23655,
+  "excluded_ids": [
+    1399769,
+    2893007,
+    3944327
+  ],
+  "cutoff": "2015-07-24T17:30:00Z",
+  "score_basis": "provider_current",
+  "include_awarded": false,
+  "availability": "max(kickoff_at + 3h, sparse reviewed result_available_at); explicit missing release remains unknown",
+  "calibration_gate": "kickoff_at < cutoff AND effective_available_at < cutoff, whole matched pairs",
+  "later_feature_cutoffs": "original league/season/stage/round first kickoff minus one hour",
+  "native_config": {
+    "bivariate": true,
+    "method": "vb",
+    "tolerance": 1e-09,
+    "max_iterations": 500,
+    "clock": "days",
+    "time_unit_days": 7,
+    "score_basis": "provider_current",
+    "transition": "mirrored",
+    "bridge_gaps": [],
+    "bridge_discount": 0.8,
+    "tail_tolerance": 1e-10,
+    "max_total_goals": 10000
+  },
+  "objective": "outcome_log_loss",
+  "regularization": 0.01,
+  "fit_fields": [
+    "team_discount",
+    "season_discount",
+    "home_discount",
+    "home_season_discount",
+    "kappa",
+    "entry_attack_shift",
+    "entry_defence_shift",
+    "entry_attack_shape",
+    "entry_defence_shape"
+  ],
+  "minimum_observed_seasons": 3,
+  "initial_parameters_status": "verified original pre-fit defaults from archived original launcher and pinned source; no later fitted coefficients used",
+  "optimizer_max_iterations_status": "verified maxiter100 ftol1e-8 from original launcher and source",
+  "frozen_original_predictions_and_recipes": "preserve unchanged; refresh only new copies; no new XGB model selection",
+  "native_population_sha256": "0cc205b60c27eafefd83c39dacadda743bf37f7b9cb5ea0a5c652a69d7dff2a8",
+  "matches_raw_file_sha256": "3fa45485a6f43ce14ff82c557cd6502436ae7f4dc6da5739318eb88eb9f79491",
+  "history_default_file_sha256": "f665816f719095d511fc77a85836fdc8ca409bc50f07c55b61bc4b9ba74ede3c",
+  "initial_parameters": {
+    "team_discount": 0.987,
+    "season_discount": 0.737,
+    "home_discount": 0.999,
+    "home_season_discount": 0.911,
+    "kappa": 6.323,
+    "attack_mean": 1.0,
+    "defence_mean": 1.0,
+    "home_mean": 1.0,
+    "attack_shape": 10.0,
+    "defence_shape": 10.0,
+    "home_shape": 10.0,
+    "entry_attack_shift": 0.2,
+    "entry_defence_shift": 0.13,
+    "entry_attack_shape": 20.0,
+    "entry_defence_shape": 30.0
+  },
+  "optimizer": {
+    "method": "L-BFGS-B",
+    "explicit_options": {
+      "maxiter": 100,
+      "ftol": 1e-08
+    },
+    "unspecified_options": "No additional scipy options supplied in original launcher/native source; do not infer explicitly configured limits"
+  },
+  "bounds": {
+    "team_discount": [
+      0.8,
+      1.0
+    ],
+    "season_discount": [
+      0.2,
+      1.0
+    ],
+    "home_discount": [
+      0.8,
+      1.0
+    ],
+    "home_season_discount": [
+      0.2,
+      1.0
+    ],
+    "kappa": [
+      0.1,
+      100.0
+    ],
+    "entry_attack_shift": [
+      0.0,
+      1.5
+    ],
+    "entry_defence_shift": [
+      0.0,
+      1.5
+    ],
+    "entry_attack_shape": [
+      0.2,
+      100.0
+    ],
+    "entry_defence_shape": [
+      0.2,
+      100.0
+    ]
+  },
+  "log_fields": [
+    "entry_attack_shape",
+    "entry_defence_shape",
+    "kappa"
+  ],
+  "original_prefit_provenance": {
+    "original_launcher_sha256": "4105eaf148c352a34a7e8c9f04d6e27fdd8e41de14f5a295e8a21e34a626a93c",
+    "original_source_archive_sha256": "250c512b3002f5ff58e2b8960e6462532da02e29bdcdc593e60a2832b857842e",
+    "original_recovery_part01_sha256": "6e66a33a4a5bc813b26af4491dc1abe4420afadce95aa72c3c8f88e42d84e192"
+  },
+  "movement_metadata": "1250 unchanged reviewed team-season rows; explicitly pass filtered early-cohort team_seasons; mirrored priors, no bridges",
+  "season_starts": "Preserve original calibration convention; before later pre-match feature preparation, verify native season transitions/anchors against first round-decision time. Do not silently alter original feature definitions."
+}
