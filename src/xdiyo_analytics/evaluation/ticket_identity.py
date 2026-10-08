@@ -5,6 +5,7 @@ Public ticket hashes retain their existing canonical string representation.
 """
 import hashlib
 import json
+from datetime import datetime
 import numpy as np
 import pandas as pd
 
@@ -12,7 +13,16 @@ import pandas as pd
 FIELD = 'identity_evidence'
 
 
+def _datetime_scalar(value):
+    # Deliberately exclude arbitrary datetime subclasses and string parsing.
+    return type(value) in (datetime, pd.Timestamp)
+
+
 def _scalar(value):
+    if _datetime_scalar(value):
+        zone = value.tzinfo
+        zone = None if zone is None else [type(zone).__module__ + '.' + type(zone).__qualname__, str(zone)]
+        return ['datetime', str(value), json.dumps(zone, separators=(',', ':')), str(value.fold)]
     if isinstance(value, (float, np.floating)):
         kind = str(value.dtype) if isinstance(value, np.floating) else 'float'
         if kind not in ('float', 'float16', 'float32', 'float64') or not np.isfinite(value):
@@ -32,6 +42,15 @@ def _token(cell):
     if not isinstance(cell, list) or len(cell) < 2 or not all(isinstance(v, str) for v in cell):
         raise ValueError('Malformed original identity scalar.')
     kind = cell[0]
+    if kind == 'datetime' and len(cell) == 4:
+        # Parse only the retained encoding, never a caller's text fixture key.
+        value, zone = pd.Timestamp(cell[1]), json.loads(cell[2])
+        valid_zone = zone is None or (isinstance(zone, list) and len(zone) == 2
+                                     and all(isinstance(v, str) and v for v in zone))
+        if (not valid_zone or pd.isna(value) or str(value) != cell[1]
+                or (zone is None) != (value.tzinfo is None) or cell[3] not in ('0', '1')):
+            raise ValueError('Invalid original datetime identity.')
+        return cell[1]
     if kind in ('float', 'float16', 'float32', 'float64') and len(cell) == 2:
         value = float.fromhex(cell[1])
         if kind != 'float':
@@ -54,6 +73,10 @@ def _token(cell):
 def _same(cell, value):
     """Accept exact numeric boxing, never rounding or parsing text keys."""
     current = _scalar(value)
+    if cell[0] == 'other' and _datetime_scalar(value):
+        # Old v1 artifacts used class-specific cells. Preserve their exact
+        # existing contract, without granting new cross-class/string aliases.
+        return cell == ['other', type(value).__module__ + '.' + type(value).__qualname__, str(value)]
     numeric = ('float', 'float16', 'float32', 'float64', 'int')
     if cell[0] in numeric and current[0] in numeric:
         original = int(cell[1]) if cell[0] == 'int' else float.fromhex(cell[1])
@@ -69,7 +92,8 @@ class OriginalIdentity:
         columns = list(dict.fromkeys([*groups, *keys]))
         values = [list(offered[k]) for k in columns]
         self.cells = None
-        if any(isinstance(v, (float, np.floating)) for values_ in values for v in values_):
+        if any(isinstance(v, (float, np.floating)) or _datetime_scalar(v)
+               for values_ in values for v in values_):
             self.cells = [[_scalar(v) for v in row] for row in zip(*values)]
             self.dtypes = [str(offered[k].dtype) for k in columns]
 

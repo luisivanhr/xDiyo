@@ -467,8 +467,11 @@ number of retained membership cells. Validation uses linear cell traversal
 and one canonical hash, rather than an exponential product of spellings.
 
 This evidence detects inconsistent retained inputs; it is not a cryptographic
-signature or authentication of a ledger whose ticket, evidence and membership
-were all rewritten together. The previously documented legacy integer/text
+signature or independent source authentication. Treat it as trusted retained
+artifact metadata. Replacing evidence together with membership can yield a
+mutually consistent record under an unchanged canonical ticket ID (and, for
+summary fixture identities, without changing the other ticket fields).
+The previously documented legacy integer/text
 canonical aliases and the low-level `ticket_batch` model-stream limitation
 remain separate from the repaired numeric inequality.
 
@@ -513,3 +516,86 @@ samples, compatibility limits and the research-clock qualification are in
 [the numeric identity verification record](guarded_bulk_numeric_identity_verification.json).
 This work publishes only the development branch; no merge, model refit,
 forecast regeneration or full research run is performed.
+
+## Datetime boxing repair following the 837ac69 audit
+
+Native construction can convert an object-column Python `datetime.datetime`
+fixture key into a pandas `Timestamp`. Version 1 identity evidence now encodes
+these two known scalar wrappers as a `datetime` cell. It retains the original
+canonical time string, timezone implementation/name (or explicit naivety),
+and fold. Both wrappers must produce the same complete encoding. The public
+canonical hash still uses the original time string, so ticket IDs do not change.
+Nanosecond precision is retained for original pandas timestamps.
+
+Evidence is now emitted for pools containing either floating or these known
+datetime identities. This also protects newly constructed datetime-only
+tickets from text substitution in summary mode. Ordinary integer/text five-key
+inputs remain unchanged. Object datetime fixture keys continue using guarded
+reference fallback; this repair does not broaden bulk eligibility.
+
+Changed times, naive/aware substitutions, changed timezone names or offsets,
+and text keys reject. Caller strings are never parsed into datetime keys.
+Only the retained datetime encoding is parsed during schema validation.
+Arbitrary objects and datetime subclasses receive no new string-equality or
+boxing exception. Older class-specific `other` cells keep their existing
+strict same-class contract; they are not upgraded by guessing omitted timezone
+provenance. Re-compose from the original ledger to produce the new encoding.
+
+### Storage and supported scalar limits
+
+Persistence of `identity_evidence` JSON does **not** make schema-free CSV
+lossless. For example, an original Float32 grouping value may be written as
+`1.1`; default `read_csv` loads a numerically different binary64 value. Even
+`float_precision='round_trip'` cannot infer the original Float32 dtype from
+that short text. Preserve the ticket grouping schema explicitly:
+
+```python
+tickets = pd.read_csv("tickets.csv", dtype={"round": "Float32"},
+                      float_precision="round_trip")
+members = pd.read_csv("members.csv", float_precision="round_trip")
+```
+
+This example applies to an otherwise ordinary fixture schema whose only
+Float32 group assertion is `round`. Supply every relevant original grouping
+dtype in your actual schema, and restore the existing timestamp columns from
+their saved schema as well (for example, `pd.to_datetime` with the appropriate
+timezone). In pandas 3, an inferred string column cannot receive native
+timestamp values during re-finalization. Do not narrow membership values to repair a
+failed guard: that could round genuinely changed data. Datetime fixture keys
+also require explicit schema restoration, including their original timezone
+representation, which CSV does not preserve. Prefer a dtype-preserving
+retained artifact such as the existing pickle round trip when these keys are
+present. Keep the original evidence rather than reconstructing it from boxed
+memberships.
+
+Floating identity support remains finite binary16/32/64. Extended-precision
+`longdouble` (such as Linux float128) is explicitly rejected rather than rounded
+to binary64. Legacy floating membership without original evidence still fails
+with the explicit original-ledger recovery instruction. The independent
+numeric-inequality guards and single-hash bound are unchanged.
+
+### Datetime repair verification
+
+- **1,279 passed** in the affected Windows pandas 2.2.3 suite, including browser
+  and installed-wheel checks; **1,052 passed** in the overlapping pandas 3.0.6
+  suite. No final failures or skips. All 33 new datetime/CSV cases also passed
+  after the CSV test fixture explicitly restored its timestamp schema.
+- All eight independent naive/UTC × full/summary × auto/reference
+  reproductions compose and pass both helpers. These object-key cases record
+  zero bulk calls, as expected for guarded fallback.
+- The eight minimal numeric mutations and 88 directional mutations still
+  reject. All 76 malformed/missing identity-evidence cases reject. Each valid
+  or stale 4/6/8/32-key probe computes exactly one hash. Valid Float32, generic
+  mixed-key and partial-group cases retain their established behavior.
+- Prior 90-case composite and 50-case dtype comparisons remain exact; six
+  forged memberships, 30 malformed nested records and 18 invalid timestamps
+  reject. All 103 prior adversarial statuses are unchanged.
+- Original 30/100-fixture replay retains 109/386 candidates and 73/96 selected
+  tickets with actual bulk dispatch, exact reference tables/dtypes/attrs,
+  quote evidence, native HTML/CSV and pickle. Published HTML/CSV hashes match
+  the previous repair. Original inputs and all 4,767 PMFs per model are unchanged.
+
+[Datetime verification record](guarded_bulk_datetime_verification.json) records
+the source hashes, independent reproductions, suite results and storage limits.
+No new performance claim, model refit, forecast regeneration, research study
+or merge accompanies this compatibility repair.

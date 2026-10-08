@@ -1,0 +1,412 @@
+{
+  "base_commit": "837ac69dbd19810e6b23257abbda85fc1fdfe17f",
+  "branch": "codex/guarded-bulk-consensus",
+  "status": "Verified; push authorized by user; no merge",
+  "archive_verified_files": 655,
+  "tested_files_sha256": {
+    "src/xdiyo_analytics/evaluation/ticket_identity.py": "25f0b22a78bd89255e7373a454eaf94c3cf2036abd3a8e37c7dfe43bc5ae84e0",
+    "tests/analytics/test_ticket_datetime_identity.py": "bcec15315e2717a653e68c8ea30a28e3dc02c68685d231d7bb9429f76d8207fb"
+  },
+  "suites": {
+    "windows_pandas_2_2_3": {
+      "passed": 1279,
+      "warnings": 4557,
+      "seconds": 257.38,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windows_pandas_3_0_6": {
+      "passed": 1052,
+      "warnings": 1,
+      "seconds": 259.39,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windows_final_datetime_tests": {
+      "passed": 33,
+      "warnings": 267,
+      "seconds": 24.61,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "suites_overlap": true,
+  "new_cases": 33,
+  "csv_test_correction": "Initial pandas 3 run: 1051 passed, one CSV fixture failed because inferred timestamp strings were not restored. Test now restores original timestamp schema; final focused and full pandas 3 results above. No runtime validation bypass.",
+  "datetime_contract": "Known exact Python datetime.datetime and pandas.Timestamp wrappers share a typed cell preserving original canonical string, timezone implementation/name, and fold. New evidence also covers datetime-only pools. Existing other cells keep strict same-class compatibility. No caller date-string parsing or arbitrary object aliasing.",
+  "original_datetime_repro": [
+    {
+      "level": "full",
+      "tz": "None",
+      "engine": "auto",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "full",
+      "tz": "None",
+      "engine": "reference",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "full",
+      "tz": "UTC",
+      "engine": "auto",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "full",
+      "tz": "UTC",
+      "engine": "reference",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "summary",
+      "tz": "None",
+      "engine": "auto",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "summary",
+      "tz": "None",
+      "engine": "reference",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00",
+        "2020-01-02 00:00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "summary",
+      "tz": "UTC",
+      "engine": "auto",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    },
+    {
+      "level": "summary",
+      "tz": "UTC",
+      "engine": "reference",
+      "input_dtype": "object",
+      "input_types": [
+        "datetime.datetime",
+        "datetime.datetime"
+      ],
+      "input_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "compose": "accepted",
+      "retained_types": [
+        "pandas._libs.tslibs.timestamps.Timestamp",
+        "pandas._libs.tslibs.timestamps.Timestamp"
+      ],
+      "retained_values": [
+        "2020-01-01 00:00:00+00:00",
+        "2020-01-02 00:00:00+00:00"
+      ],
+      "batch": "accepted",
+      "finalize": "accepted",
+      "bulk_calls": 0
+    }
+  ],
+  "independent_guards": {
+    "minimal_numeric_mutations_rejected": 8,
+    "directional_numeric_mutations_rejected": 88,
+    "valid_float32_compositions": 20,
+    "retained_float32_helper_calls": 8,
+    "generic_mixed_keys_cases": 4,
+    "partial_group_contradictions_rejected": 4,
+    "malformed_identity_evidence_rejected": 76,
+    "hash_work": [
+      {
+        "width": 4,
+        "stale": false,
+        "hashes": 1,
+        "actual": "accepted"
+      },
+      {
+        "width": 4,
+        "stale": true,
+        "hashes": 1,
+        "actual": "rejected"
+      },
+      {
+        "width": 6,
+        "stale": false,
+        "hashes": 1,
+        "actual": "accepted"
+      },
+      {
+        "width": 6,
+        "stale": true,
+        "hashes": 1,
+        "actual": "rejected"
+      },
+      {
+        "width": 8,
+        "stale": false,
+        "hashes": 1,
+        "actual": "accepted"
+      },
+      {
+        "width": 8,
+        "stale": true,
+        "hashes": 1,
+        "actual": "rejected"
+      },
+      {
+        "width": 32,
+        "stale": false,
+        "hashes": 1,
+        "actual": "accepted"
+      },
+      {
+        "width": 32,
+        "stale": true,
+        "hashes": 1,
+        "actual": "rejected"
+      }
+    ]
+  },
+  "prior_guards": {
+    "composite_passed": 90,
+    "group_dtypes_exact": 50,
+    "forged_membership_rejected": 6,
+    "outcome_independence_passed": true,
+    "nested_schema_rejected": 30,
+    "empty_timestamps_rejected": 18,
+    "adversarial_cases": 103,
+    "adversarial_status_changes": 0,
+    "extreme_accounting_finite": true
+  },
+  "real_replay": {
+    "status": "PASS",
+    "archive_members_verified": 655,
+    "checks": [
+      {
+        "fixtures": 30,
+        "candidates": 109,
+        "selected": 73,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 1.3893830999732018,
+          "auto": 0.16184809990227222
+        },
+        "html_sha256": "24032cb87b615f93331d193a372b1602f9adbf40d41468a48cb3c81c9bc469fa",
+        "html_bytes": 4247958,
+        "csv_sha256": "e21c7817a3aa7bab1c336aa0e24492eaf72ed0194c0280910f6f6a9c1fc89123",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      },
+      {
+        "fixtures": 100,
+        "candidates": 386,
+        "selected": 96,
+        "dispatch": [
+          {
+            "engine": "reference",
+            "capable": true,
+            "bulk": false
+          },
+          {
+            "engine": "auto",
+            "capable": true,
+            "bulk": true
+          }
+        ],
+        "diagnostic_seconds": {
+          "reference": 4.676757599925622,
+          "auto": 0.2705444998573512
+        },
+        "html_sha256": "ca44aa4513c5193cac015795132f3d9f3eddffe9b7e797cd0499179005602a82",
+        "html_bytes": 12395935,
+        "csv_sha256": "b3515c39132a0770eac270c540f9d2028f95a6b0da0eceefa7c14601b0839522",
+        "exact_frames_attrs_pickle_html_csv": true,
+        "exact_original_adapter": true,
+        "scalar_probability_oracle": true,
+        "original_pmfs_unchanged": true,
+        "inputs_unchanged": true,
+        "outcome_mutation_invariant": true
+      }
+    ],
+    "all_retained_pmf_rows": {
+      "xgb": 4767,
+      "lgbm": 4767
+    },
+    "pandas": "2.2.3",
+    "numpy": "2.5.3",
+    "historical_availability_verified": false,
+    "new_model_fits": 0,
+    "research_clock": "Recovered original hypothetical clock; observed quote_at remains NaT"
+  },
+  "ordinary_html_csv_match_previous_published_repair": true,
+  "limitations": [
+    "Identity evidence is trusted consistency metadata; coordinated replacement with membership can retain the same canonical ticket ID.",
+    "CSV requires original grouping dtypes and timestamp schemas. Exact JSON persistence does not ensure schema-free reload.",
+    "Legacy floating membership without evidence requires original-ledger reconstruction.",
+    "Finite binary16/32/64 only; Linux extended-precision longdouble rejected. Arbitrary object boxing remains unsupported.",
+    "Datetime object fixture keys use reference fallback, not bulk. Ordinary five-key replay verifies actual bulk dispatch.",
+    "Full audit/report memory remains proportional to candidates times legs; existing limits and chunks unchanged.",
+    "No model fits, regenerated forecasts, strategy search, full-study rerun, merge or new timing claim. Replay times are correctness diagnostics only."
+  ],
+  "local_evidence_sha256": {
+    "full-tests.log": "8d41ba982cc011c06533a1879bedfaf864398f80835174df107eace45c564910",
+    "pandas3-final.log": "c0f406ce4ad1aa34cc387a70a75f39c8c3b5c92c3ad625e49b5ec74e880dc7c2",
+    "focused-final.log": "8d9135f0795d400af254e9143c31c8d1c6e94fcf1c81e01564b23f6b082d466e",
+    "real-qa.json": "2dc0c1a218b09ab02d754e987cfc6ac02d508a917b1ad625ecfa096e90f16ec7",
+    "repro_datetime_boxing.log": "7d38adec55199d1101004be84ce0704eb1449f4fe821e84d6270d767b9f66484",
+    "repro_value_rebinding.log": "cf30c1d4f263d0874cfc8c2db8673c1f4924417a85bc2b063a1cd6919c470e9d",
+    "probe_identity_aliases.log": "748a84b573b3a4dc7d1586b57a533e185a461bc6683d34d05b8b49484a48e35c",
+    "probe_evidence_boundaries.json": "c32ca7169828d93f53ecabc339996a9893ec387a8c0f4e439f1c55a63f88e310"
+  }
+}
