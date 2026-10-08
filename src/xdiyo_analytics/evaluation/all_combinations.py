@@ -9,6 +9,7 @@ import hashlib
 import json
 
 import numpy as np
+from .ticket_numeric import checked_product
 import pandas as pd
 from .timestamps import timestamps
 
@@ -146,10 +147,24 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
         from .quote_availability import validate_model_quotes
         contract = policy.quote_availability
         data = contract.annotate(data)
-        eligible = data.loc[data['take']]
+        from .decision_layer import _safe_columns, _freeze
+        identity_fields = contract.identities(data)
+        _safe_columns(identity_fields)
+        for field in identity_fields:
+            if field in data:
+                for value in data[field]:
+                    _freeze(value)
+        eligible = data
         if len(eligible):
             time = timestamps(eligible.get('decision_at', pd.Series(pd.NaT, index=eligible.index)), utc=True).max()
             contract.validate(eligible, time, complete=True)
+            decisions = timestamps(eligible.decision_at)
+            if decisions.gt(eligible.kickoff_at).any():
+                raise ValueError('Fixture decision follows kickoff.')
+            if 'issued_at' in eligible:
+                issued = timestamps(eligible.issued_at)
+                if issued.isna().any() or issued.gt(decisions).any():
+                    raise ValueError('Original prediction unavailable at its own decision.')
             validate_model_quotes(eligible, policy.ticket_gate.models, contract, time)
             # Preflight every eligible fixture, even undersized pools: an absent
             # stream must never vanish through combination construction.
@@ -228,7 +243,7 @@ def expand_pools(pools, policy, name, *, settle=True, _summary=None):
             identity = json.dumps([name, group_id, sorted(legs._event.tolist())], separators=(',', ':'))
             ticket_id = name + ':' + hashlib.sha256(identity.encode()).hexdigest()
             with np.errstate(over='ignore'):
-                odds = float(np.prod(legs.odds))
+                odds = float(checked_product(legs.odds))
             if not np.isfinite(odds):
                 raise ValueError('Combined odds overflow; reduce ticket size.')
             probability = np.nan

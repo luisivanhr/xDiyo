@@ -268,6 +268,8 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
             continue
         state,payout = _settle(legs,templates[row.bet],row.stake)
         tickets.loc[idx,['settlement','payout','profit','accounting_status']] = [state,payout,payout-row.stake,'unresolved' if pd.isna(payout) else 'settled']
+    from .ticket_numeric import check_accounting
+    check_accounting(tickets)
     # pandas propagates attrs to row Series and slices via deepcopy. Publish
     # complete audits only after internal settlement and caller summaries.
     (tickets.attrs if _audit_sink is None else _audit_sink).update(output_attrs)

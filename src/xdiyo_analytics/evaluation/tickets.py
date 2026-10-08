@@ -8,6 +8,7 @@ import hashlib
 import json
 
 import numpy as np
+from .ticket_numeric import checked_product
 import pandas as pd
 from .all_combinations import AllCombinations, prepare_pools, expand_pools, preview_combinations
 
@@ -95,7 +96,7 @@ def _settle(legs, policy, stake):
         return ("void" if all(s == "void" for s in states) else "push"), stake
     if active.isna().any():
         return "win", np.nan
-    payout = stake * float(np.prod(active))
+    payout = stake * float(checked_product(active))
     if not np.isfinite(payout):
         raise ValueError("Ticket payout overflow; inspect quotes and ticket size.")
     return "win", payout
@@ -128,6 +129,12 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                                  'reduce the eligible population/legs or deliberately increase max_tickets. '
                                  'Use preview_combinations to inspect group counts.')
             prepared[name] = (pools, preview)
+    from .bulk_tickets import supports_bulk, execute_bulk
+    if supports_bulk(ledger, templates, match_columns, stake_policy, stake_context, risk_limits):
+        tickets, membership, decisions, summaries, output_attrs = execute_bulk(ledger, prepared, templates['tickets'])
+        return _finish_composition(tickets, membership, composition, templates, prepared, decisions,
+                                   summaries, output_attrs, True, False, ledger,
+                                   stake_policy, stake_context, risk_limits)
     for name, policy in templates.items():
         if not isinstance(name, str) or not name or not isinstance(policy, (Parlay, MultiBet, AllCombinations)):
             raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
@@ -205,7 +212,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                         legs = batch.iloc[list(positions)]
                         count += 1
                         ticket_id = f"{name}:{count}"
-                        odds = float(np.prod(legs.odds)) if legs.odds.notna().all() else np.nan
+                        odds = float(checked_product(legs.odds)) if legs.odds.notna().all() else np.nan
                         if not pd.isna(odds) and not np.isfinite(odds):
                             raise ValueError("Combined odds overflow; reduce ticket size.")
                         state, payout = _settle(legs, policy, stake) if not deferred else ('missing', np.nan)
@@ -243,6 +250,14 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         from .ticket_allocation import finalize_tickets
         tickets, membership = finalize_tickets(tickets, membership, templates, match_columns,
                                                stake_policy, stake_context, risk_limits, _audit_sink=output_attrs)
+    return _finish_composition(tickets, membership, composition, templates, prepared, decisions,
+                               summaries, output_attrs, deferred, compact, ledger,
+                               stake_policy, stake_context, risk_limits)
+
+
+def _finish_composition(tickets, membership, composition, templates, prepared, decisions,
+                        summaries, output_attrs, deferred, compact, ledger,
+                        stake_policy, stake_context, risk_limits):
     if prepared:
         if deferred:
             # Group positions once; preserve each original ordered Series.sum
