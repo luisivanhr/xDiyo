@@ -1,5 +1,7 @@
 """Evaluate feature expressions using shared history eligibility and alignment."""
 
+from .history import availability_times
+
 from numbers import Integral, Real
 
 from .expressions import (
@@ -612,7 +614,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
         times = history[ids].copy()
         times['cutoff'] = aligned_times(history, cutoffs, default='kickoff_at')
-        times['available_at'] = aligned_times(history, available_at, default='kickoff_at')
+        times['available_at'] = availability_times(history, available_at)
         timing = dict(group_by=group_by,
             timing_sha256=sha256(pd.util.hash_pandas_object(times, index=False).to_numpy().tobytes()).hexdigest(),
             timing=times.assign(cutoff=times.cutoff.map(str), available_at=times.available_at.map(str)).to_dict('records'),

@@ -1,5 +1,7 @@
 """Score-aware chronological state producer behind the RatingRun adapter."""
 
+from ..features.history import availability_times
+
 from collections import Counter, defaultdict
 from collections.abc import Mapping
 from dataclasses import replace
@@ -44,7 +46,7 @@ def _events(history, available_at):
         for value in history[name].unique():
             _identifier(value)
     kickoff = aligned_times(history, None, default="kickoff_at")
-    available = aligned_times(history, available_at, default="kickoff_at")
+    available = availability_times(history, available_at)
     if (available < kickoff).any():
         raise ValueError("Results cannot be available before kickoff.")
     numbered = history.reset_index(drop=True)

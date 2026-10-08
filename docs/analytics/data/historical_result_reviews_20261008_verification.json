@@ -1,0 +1,76 @@
+{
+  "baseline": "4e4b951",
+  "seasons": 65,
+  "raw_matches": 23658,
+  "default_matches": 23655,
+  "codecs": {
+    "ZSTD": 801
+  },
+  "changed_fixtures": [
+    {
+      "event_id": 1399769,
+      "is_awarded": true,
+      "play_status": "abandoned",
+      "completion_date": null,
+      "release": null,
+      "manifest_sha256": "ce24da1b350c2deb0f46fcfb1ebd718f48f8f33c17fbe8cb9ed2ae7b1d4c5170",
+      "matches_sha256": "e827d13b03eabbba5c040abd8ad50be8578700a030335bd36cf8de08f9a1bd67",
+      "season_sha256": "fd6af30b64c5b2dc0247f1b3544c2f7b8f46ef45819a2b3d47fc09018345c4e0"
+    },
+    {
+      "event_id": 1795067,
+      "is_awarded": false,
+      "play_status": "resumed",
+      "completion_date": "2011-12-07",
+      "release": "2011-12-07 23:00:00+00:00",
+      "manifest_sha256": "119c91d93dd7b36ff859a441b8ddc67927072f251792c72672758a2fbc72bfcd",
+      "matches_sha256": "794107f3bf862677af2f3f63ad00fd99aff2f184146a9c34a7ef8029d5e96eba",
+      "season_sha256": "f39084f8a91a69630e00b3569485f3320f6396e212f35d0d6988af8860a0b108"
+    },
+    {
+      "event_id": 3944327,
+      "is_awarded": true,
+      "play_status": "completed",
+      "completion_date": "2013-08-10",
+      "release": null,
+      "manifest_sha256": "5f5d17d47848a95515e7750d7ed4768a3e254fdb8576d67c026e2ed70178dcdb",
+      "matches_sha256": "b182d91d527e0b69ffd63511255bb3da152cbbeec7a938b28643301c36601ac0",
+      "season_sha256": "5835623ef4f15df31c7ddd163f947c171f4214f5d47a41e9ddc04428e6a0fc0f"
+    },
+    {
+      "event_id": 2893007,
+      "is_awarded": true,
+      "play_status": "not_played",
+      "completion_date": null,
+      "release": null,
+      "manifest_sha256": "e7ee778b0a97dd81bb18ba7854a6b91c240f0dc78065b4c8a4140d5b6aa7918a",
+      "matches_sha256": "220eecac35c69f77d7d265d8ad024ee8642de58cccc0d7238648307fdb595abf",
+      "season_sha256": "64fac44bc3d01215c875f7fc51c717faf2555ba22e78b590edee5da903be0f24"
+    },
+    {
+      "event_id": 1861771,
+      "is_awarded": false,
+      "play_status": "resumed",
+      "completion_date": "2011-12-14",
+      "release": "2011-12-14 23:00:00+00:00",
+      "manifest_sha256": "d5d3ff337d7afcc5cfa32134d28d1e7b523a6949c43debe8861ea6872d4aafbe",
+      "matches_sha256": "3731e0849db02231407e718f264f513092120370294d5ab26aa2a7315723ae9f",
+      "season_sha256": "d5738e204568752c634b78b212a9f36c570bc842729d36e30cb6e08833c4bdcc"
+    }
+  ],
+  "unchanged_native_tables": 731,
+  "nested_original_fields_preserved": true,
+  "charleroi_unchanged": true,
+  "calibration_run": false,
+  "pandas22_tests": 650,
+  "pandas3_tests": 192,
+  "handoff_sha256": "75ecf2e49368539c32fe2dde807db7ebe185c0809483203871d9174274692b5d",
+  "final_pandas3_publisher_and_bounds_tests": 12,
+  "no_awards_excluded_event_ids": [
+    2893007,
+    1399769,
+    3944327
+  ],
+  "research_five_case_quarantine_count": 23653,
+  "publication_status": "Repair verified; calibration held pending independent re-audit of the published commit"
+}

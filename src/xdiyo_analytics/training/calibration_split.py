@@ -65,6 +65,8 @@ def temporal_partition(policy, dataset, train_positions, fold_metadata=None):
         availability = {'kind': 'kickoff_plus_delay_proxy', 'delay': str(policy.availability_delay)}
     else:
         raise ValueError('Margin calibration requires availability_column or an explicit availability_delay proxy.')
+    from ..splits.core import _respect_result_bounds
+    available = _respect_result_bounds(matches, available)
     reserved = ValidationTail(policy.fraction, policy.time_column).select(dataset, train)
     tail = set(matches.codes[reserved])
     base = set(codes) - tail

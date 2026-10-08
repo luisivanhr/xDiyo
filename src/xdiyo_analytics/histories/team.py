@@ -59,7 +59,8 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
 
     context = keys + [name for name in (
         "competition_id", "tournament_id", "season_id", "season_year", "round",
-        "status", "status_code", "is_awarded",
+        "status", "status_code", "is_awarded", "provider_is_awarded",
+        "play_status", "completion_date", "result_available_at", "result_review_json",
     ) if name in matches]
     seconds = matches["kickoff_utc"]
     # Arrow floats can overflow before pandas applies errors='coerce'. Mask

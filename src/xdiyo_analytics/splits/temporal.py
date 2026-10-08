@@ -93,13 +93,12 @@ class TemporalSplit(Splitter):
         predict = kicks if cutoffs is None else matches.times(cutoffs, "cutoffs", "min")
         if (predict > kicks).any():
             raise ValueError("Prediction cutoffs cannot be later than kickoff.")
-        if available_at is None:
-            available = kicks
-        else:
-            raw = _times(dataset, available_at, "available_at")
-            available = pd.to_datetime([
-                raw.iloc[rows].max() if raw.iloc[rows].notna().all() else pd.NaT
-                for rows in matches.positions], utc=True)
+        from ..data.availability import respect_result_availability
+        raw = _times(dataset, "kickoff_at" if available_at is None else available_at, "available_at")
+        raw = respect_result_availability(dataset.metadata, raw)
+        available = pd.to_datetime([
+            raw.iloc[rows].max() if raw.iloc[rows].notna().all() else pd.NaT
+            for rows in matches.positions], utc=True)
         observed = np.array([dataset.y.iloc[rows].notna().all().all()
                              for rows in matches.positions])
         calendar_by = self.calendar_by

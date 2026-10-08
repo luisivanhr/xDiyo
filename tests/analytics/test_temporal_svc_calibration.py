@@ -266,7 +266,7 @@ def test_selection_weights_and_preprocessing_see_only_earlier_fit(monkeypatch):
     from xdiyo_analytics.weighting import ClassWeightPolicy
     data = sample()
     # Numeric binary labels for correlation selection; response identities remain 2/7.
-    data.y.iloc[:,0] = np.where(data.metadata.case % 2 == 0,2,7)
+    data.y[data.y.columns[0]] = np.where(data.metadata.case % 2 == 0,2,7)
     data.y = data.y.astype(int)
     runner = TrainingRunner(factory,calibration=policy())
     scopes=[]

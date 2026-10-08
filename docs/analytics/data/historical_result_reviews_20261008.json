@@ -1,0 +1,148 @@
+{
+  "reviewed_on": "2026-10-08",
+  "records": [
+    {
+      "season": "Serie_A_12_13",
+      "event_id": 2893007,
+      "home_id": 2719,
+      "away_id": 2702,
+      "expected_score": [
+        0,
+        3
+      ],
+      "is_awarded": true,
+      "play_status": "not_played",
+      "played_score": [
+        null,
+        null
+      ],
+      "awarded_score": [
+        0,
+        3
+      ],
+      "completion_date": null,
+      "result_available_at": null,
+      "notes": "Unplayed fixture; administrative 0-3. Provider status and scores retained as provenance, not a played observation.",
+      "sources": [
+        "https://www.figc.it/it/federazione/news/cgf-respinto-il-ricorso-del-cagliari-contro-lo-0-3-a-tavolino-con-la-roma-re8y5u7o",
+        "https://www.coni.it/images/ACGS/decisione_7-2013_-_ricorso_32-2012-_Cagliari-_Roma-_FIGC_-_con_correzione_materiale_11.11.2013.pdf",
+        "https://img.legaseriea.it/vimages/16fdc36c555d909d/cu_51.pdf"
+      ],
+      "classification": "unplayed_award"
+    },
+    {
+      "season": "Bundesliga_10_11",
+      "event_id": 1399769,
+      "home_id": 2526,
+      "away_id": 2530,
+      "expected_score": [
+        0,
+        2
+      ],
+      "is_awarded": true,
+      "play_status": "abandoned",
+      "played_score": [
+        0,
+        2
+      ],
+      "awarded_score": [
+        0,
+        2
+      ],
+      "completion_date": null,
+      "result_available_at": null,
+      "notes": "Played score at abandonment, not a completed 90-minute observation. Abandoned late on 1 April; administratively confirmed 0-2 on 5 April.",
+      "sources": [
+        "https://de.uefa.com/news-media/news/01f0-0f8626904786-4709edc4dc66-1000--entscheidung-am-grunen-tisch/",
+        "https://www.n-tv.de/sport/fussball/Schalker-gewinnen-mit-2-0-article3027141.html"
+      ],
+      "classification": "abandoned_award"
+    },
+    {
+      "season": "Ligue_1_13_14",
+      "event_id": 3944327,
+      "home_id": 1647,
+      "away_id": 1655,
+      "expected_score": [
+        2,
+        0
+      ],
+      "is_awarded": true,
+      "play_status": "completed",
+      "played_score": [
+        2,
+        0
+      ],
+      "awarded_score": [
+        null,
+        null
+      ],
+      "completion_date": "2013-08-10",
+      "result_available_at": null,
+      "notes": "Played 2-0; subsequently declared lost by penalty. Ruling flagged separately. No administrative goal score inferred from a points penalty; provider and played 2-0 retained.",
+      "sources": [
+        "https://www.fcnantes.com/articles/article2809.php?num=9525"
+      ],
+      "classification": "played_later_forfeited"
+    },
+    {
+      "season": "Serie_B_11_12",
+      "event_id": 1861771,
+      "home_id": 2741,
+      "away_id": 2696,
+      "expected_score": [
+        1,
+        0
+      ],
+      "is_awarded": false,
+      "play_status": "resumed",
+      "played_score": [
+        1,
+        0
+      ],
+      "awarded_score": [
+        null,
+        null
+      ],
+      "completion_date": "2011-12-14",
+      "result_available_at": "2011-12-14T23:00:00Z",
+      "notes": "Started 3 December; completed 14 December, played 1-0. End-of-day Europe/Rome availability bound, not exact whistle/publication time. Subsequent temporary 0-3 ruling was reversed, restoring played 1-0.",
+      "sources": [
+        "https://www.coni.it/images/ACGS/decisione_16-2012-_ricorso_12-2012_-_Torino-FIGC-Padova.pdf",
+        "https://www.gazzetta.it/Calcio/Squadre/SerieB/2011-12-14/toro-niente-rimonta-padova-campo-16-finita-1-0--804031206575.shtml",
+        "https://www.gazzetta.it/Calcio/Squadre/SerieB/2012-04-27/aula-rivince-padova-ripristinato-1-0-campo-911061167718.shtml"
+      ],
+      "classification": "resumed_completed"
+    },
+    {
+      "season": "La_Liga_11_12",
+      "event_id": 1795067,
+      "home_id": 33779,
+      "away_id": 2826,
+      "expected_score": [
+        2,
+        2
+      ],
+      "is_awarded": false,
+      "play_status": "resumed",
+      "played_score": [
+        2,
+        2
+      ],
+      "awarded_score": [
+        null,
+        null
+      ],
+      "completion_date": "2011-12-07",
+      "result_available_at": "2011-12-07T23:00:00Z",
+      "notes": "Started 20 November; completed 7 December, played 2-2. End-of-day Europe/Madrid availability bound, not exact whistle/publication time. Original round and kickoff retained.",
+      "sources": [
+        "https://www.rtve.es/deportes/20111207/mallorca-consigue-empatar-2-2-con-granada-partido-aplazado-por-paragueazo/480694.shtml"
+      ],
+      "classification": "resumed_completed"
+    }
+  ],
+  "supplied_source_notes": {
+    "https://img.legaseriea.it/vimages/16fdc36c555d909d/cu_51.pdf": "Supplied primary reference; retrieval unavailable during local review. FIGC and CONI support the ruling."
+  }
+}

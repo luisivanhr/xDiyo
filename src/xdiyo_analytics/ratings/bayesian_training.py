@@ -5,6 +5,8 @@ The returned parameter bundle records its cutoff; filtered state is separately
 retained by the adapter and exported by its native, non-pickle serializer.
 """
 
+from ..features.history import availability_times
+
 from dataclasses import dataclass, field, replace
 from collections import Counter
 from collections.abc import Mapping
@@ -131,7 +133,7 @@ def _training_history(history, cutoff, available_at):
     if not history.groupby(keys, dropna=False).size().eq(2).all():
         raise ValueError("Bayesian training requires both perspectives of every match.")
     kickoff = aligned_times(history, None, default="kickoff_at")
-    available = aligned_times(history, available_at, default="kickoff_at")
+    available = availability_times(history, available_at)
     if (available < kickoff).any():
         raise ValueError("Result availability cannot precede kickoff.")
     goals = history[["goals_for", "goals_against"]].apply(pd.to_numeric, errors="coerce")
@@ -358,7 +360,7 @@ def _match_history(metadata, *, goals=None, home_target=None, away_target=None):
     required = {"competition_id", "season_id", "event_id", "home_id", "away_id", "kickoff_at"}
     if required - set(metadata):
         raise KeyError(f"Bayesian match metadata is missing: {sorted(required - set(metadata))}")
-    columns = [name for name in (*_MATCH_FIELDS, "kickoff_at", "round", "season_year", "available_at") if name in metadata]
+    columns = [name for name in (*_MATCH_FIELDS, "kickoff_at", "round", "season_year", "available_at", "result_available_at") if name in metadata]
     parts = []
     for side, other in (("home", "away"), ("away", "home")):
         part = metadata[columns].copy()
@@ -426,7 +428,7 @@ class BayesianScoreAdapter:
         if self.history is None:
             history = _match_history(context.metadata, goals=context.y,
                                      home_target=targets[0], away_target=targets[1])
-            release = aligned_times(context.metadata, self.available_at, default="kickoff_at")
+            release = availability_times(context.metadata, self.available_at)
             available = pd.concat([release, release], ignore_index=True)
         else:
             if set(keys) - set(self.history):
@@ -440,7 +442,7 @@ class BayesianScoreAdapter:
             release = self.available_at
             if release is not None and not isinstance(release, str) and not np.isscalar(release):
                 release = pd.Series(release, index=self.history.index).loc[mask]
-            available = aligned_times(history, release, default="kickoff_at")
+            available = availability_times(history, release)
             history["_bayesian_available_at"] = available.to_numpy()
             if "is_awarded" in history and history["is_awarded"].fillna(False).astype(bool).any():
                 raise ValueError("Remove awarded matches from the Bayesian adapter fit population.")
