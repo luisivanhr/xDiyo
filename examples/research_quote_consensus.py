@@ -18,11 +18,22 @@ def _validate_pmf(aligned):
     the existing 1e-12 binary64 floor remains. This only permits representation
     rounding, never normalization or repair of a materially incomplete PMF.
     """
-    values = aligned.to_numpy(dtype=float, na_value=np.nan)
     budgets = []
     for dtype in aligned.dtypes:
-        native = np.dtype(getattr(dtype, 'numpy_dtype', dtype))
+        categorical = isinstance(dtype, pd.CategoricalDtype)
+        if categorical:
+            dtype = dtype.categories.dtype
+        try:
+            native = np.dtype(getattr(dtype, 'numpy_dtype', dtype))
+        except TypeError as exc:
+            raise ValueError('PMF channels need supported numeric values and precision.') from exc
+        if native.kind not in 'fiubO' or (categorical and native.kind == 'O'):
+            raise ValueError('PMF channels need supported numeric values and precision.')
         budgets.append(np.finfo(native).eps / 2 if native.kind == 'f' else 0.)
+    try:
+        values = aligned.to_numpy(dtype=float, na_value=np.nan)
+    except (TypeError, ValueError) as exc:
+        raise ValueError('PMF channels need supported numeric values and precision.') from exc
     tolerance = np.maximum(1e-12, np.abs(values) @ np.asarray(budgets))
     if (not np.isfinite(values).all() or (values < 0).any() or (values > 1).any()
             or (np.abs(values.sum(axis=1) - 1.) > tolerance).any()):
@@ -66,7 +77,10 @@ def consensus(legs, pmfs, contract, *, audit_level='full', ticket_legs=2, max_ti
             v[field] = data[f'{model}::{field}']
         # Declared complement of the ORIGINAL non-draw output for the OR gate.
         # Do not substitute the independently stored draw column here.
-        v['probability'] = 1. - aligned['non_draw']
+        non_draw = aligned['non_draw']
+        if isinstance(non_draw.dtype, pd.CategoricalDtype):
+            non_draw = non_draw.astype(non_draw.cat.categories.dtype)
+        v['probability'] = 1. - non_draw
         valuations[model] = v
         # Original draw probabilities remain unchanged for complete-ticket EV.
         data[f'{model}::probability'] = aligned['draw']

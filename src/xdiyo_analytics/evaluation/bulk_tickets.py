@@ -96,11 +96,14 @@ def _source_records(pools, policy, contract, match_columns):
     for group_id, columns, offered in pools:
         if len(offered) < policy.legs:
             continue
+        # Native ticket rows use Series scalars, while memberships deliberately
+        # use boxed row dictionaries. Keep these two inference contracts apart.
+        grouping = {column: offered[column].iloc[0] for column in columns}
         for position, leg in offered.iterrows():
             record = leg.drop(labels=['_group', '_event', '_price_valid']).to_dict()
             records[position] = record
             events[position] = leg['_event']
-            group_for_position[position] = (group_id, columns)
+            group_for_position[position] = (group_id, grouping)
     # Native membership construction re-infers dtypes from the boxed records.
     # Quote evidence is serialized from that inferred table, not original rows:
     # e.g. an object column containing integer 1 and float 1.5 becomes 1.0/1.5.
@@ -206,7 +209,7 @@ def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
     for i, positions in enumerate(member_positions):
         legs = [records[p] for p in positions]
         first = legs[0]
-        group_id, columns = group_for_position[positions[0]]
+        group_id, grouping = group_for_position[positions[0]]
         event_membership = sorted(events[p] for p in positions)
         identity = json.dumps(['tickets', group_id, event_membership], separators=(',', ':'))
         ticket_id = 'tickets:' + hashlib.sha256(identity.encode()).hexdigest()
@@ -216,7 +219,6 @@ def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
         probability = np.nan
         if 'p_win' in first and all(pd.notna(leg['p_win']) for leg in legs):
             probability = float(np.prod([float(leg['p_win']) for leg in legs]))
-        grouping = {column: first[column] for column in columns}
         rows.append(dict(ticket_id=ticket_id, bet='tickets',
                          kind='single' if policy.legs == 1 else 'parlay', n_legs=policy.legs,
                          kickoff_at=min(leg['kickoff_at'] for leg in legs),

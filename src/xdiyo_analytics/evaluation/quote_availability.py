@@ -228,7 +228,9 @@ def validate_model_quotes(legs, models, contract, time):
     """Require independently supplied per-model quote references, never fabricate them."""
     fields = contract.identities(legs)
     for model in models:
-        # Older callers bind fixture identity through their retained quote IDs.
+        # Older callers supply quote references without explicit native keys;
+        # quote IDs alone do not authenticate that join. Native ticket IDs and
+        # retained nested evidence are checked separately by ticket_batch.
         # If a stream also supplies explicit native keys, they must agree;
         # silently ignoring contradictory join evidence would hide a bad join.
         for key in ('source_league', 'source_season', 'competition_id', 'season_id', 'event_id'):
