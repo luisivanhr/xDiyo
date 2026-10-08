@@ -2,7 +2,6 @@
 import json
 import hashlib
 from collections.abc import Mapping
-from itertools import product
 import numpy as np
 import pandas as pd
 from .timestamps import timestamps
@@ -62,49 +61,6 @@ def _validate_consumed_quotes(tickets, indexed, templates):
         validate_model_quotes(legs, templates[name].ticket_gate.models, contract, time)
 
 
-def _identity_spellings(values):
-    """Native strings plus lossless nullable-Float32 boxing representations.
-
-    Only uniformly floating, exactly binary32-representable columns qualify.
-    No rounding of arbitrary binary64 numbers or parsing of text identifiers.
-    Column-wide alternatives reflect the original Float32 dtype contract.
-    """
-    ordinary = tuple(str(v) for v in values)
-    if not all(isinstance(v, (float, np.floating)) and np.isfinite(v) for v in values):
-        return (ordinary,)
-    with np.errstate(over='ignore', under='ignore'):
-        narrow = np.asarray(values, dtype=np.float32)
-    if any(float(a) != float(b) for a, b in zip(values, narrow)):
-        return (ordinary,)
-    return tuple(dict.fromkeys((ordinary, tuple(str(v) for v in narrow),
-                               tuple(str(float(v)) for v in values))))
-
-
-def _matches_native_identity(row, legs, groups, keys):
-    from .all_combinations import _identity
-    columns = list(dict.fromkeys(groups + keys))
-    values = {k: list(legs[k]) for k in columns}
-
-    def matches(tokens):
-        group_id = _identity(tokens[k][0] for k in groups)
-        events = sorted(_identity(v) for v in zip(*(tokens[k] for k in keys)))
-        identity = json.dumps([row['bet'], group_id, events], separators=(',', ':'))
-        return row['ticket_id'] == row['bet'] + ':' + hashlib.sha256(identity.encode()).hexdigest()
-
-    ordinary = {k: tuple(str(v) for v in values[k]) for k in columns}
-    if matches(ordinary):
-        return True
-    # Legacy outputs do not retain dtype provenance. Try only exact binary32
-    # boxing alternatives, and require the unchanged original hash to match.
-    # Shared fixture/group columns always use the same choice in both places.
-    options = [_identity_spellings(values[k]) for k in columns]
-    for choice in product(*options):
-        tokens = dict(zip(columns, choice))
-        if tokens != ordinary and matches(tokens):
-            return True
-    return False
-
-
 def _validate_membership_binding(row, legs, policy, match_columns):
     """Check retained identity on every call, before rebuilding any evidence.
 
@@ -136,12 +92,8 @@ def _validate_membership_binding(row, legs, policy, match_columns):
         group_ids = {_identity(v) for v in zip(*(legs[k] for k in groups))}
         if len(group_ids) != 1:
             raise ValueError('Consumed membership crosses ticket grouping identities.')
-        if not _matches_native_identity(row, legs, groups, keys):
-            raise ValueError('Consumed membership differs from the original ticket identity.')
-        for k in groups:
-            if k in row and not set(_identity_spellings([row[k]])).intersection(
-                    _identity_spellings([next(iter(legs[k]))])):
-                raise ValueError(f'Ticket grouping differs from its consumed membership at {k}.')
+        from .ticket_identity import validate_identity
+        validate_identity(row, legs, groups, keys)
 
 
 def _validate_retained_quote_legs(original, current):

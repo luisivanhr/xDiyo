@@ -12,7 +12,7 @@ from test_guarded_repairs import ID, composite_population
 from test_guarded_boundaries import retained, invoke
 from test_quote_availability import policy
 from xdiyo_analytics.evaluation import compose_bets, Parlay, MultiBet, bulk_tickets
-from xdiyo_analytics.evaluation.ticket_allocation import ticket_batch, finalize_tickets, _identity_spellings
+from xdiyo_analytics.evaluation.ticket_allocation import ticket_batch, finalize_tickets
 from xdiyo_analytics.evaluation.stake_policy import FixedStake, StakeContext
 from xdiyo_analytics.reporting.tickets import ticket_html
 
@@ -51,12 +51,7 @@ def test_nullable_float32_native_identity_survives_boxing(value, column, level, 
             with pytest.raises(ValueError): invoke(helper, t.copy(), changed, p)
 
 
-def test_float32_compatibility_is_exact_and_column_wide(monkeypatch):
-    wide = float(np.float32(1.1))
-    assert _identity_spellings([wide]) == ((str(wide),), ('1.1',))
-    assert _identity_spellings([1.1]) == (('1.1',),)  # binary64 is NOT binary32(1.1)
-    assert _identity_spellings(['1.100000023841858']) == (('1.100000023841858',),)
-    assert len(_identity_spellings([wide, 1.1])) == 1
+def test_original_float32_evidence_supports_multiple_columns(monkeypatch):
     data = composite_population().iloc[:2].copy()
     for field in ['fold_id', 'competition_id', 'season_id', 'round', 'stage']:
         data[field] = pd.Series([1.1]*2, dtype='Float32')

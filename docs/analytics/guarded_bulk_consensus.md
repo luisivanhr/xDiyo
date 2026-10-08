@@ -359,18 +359,12 @@ Report costs and full-audit memory remain substantial despite faster execution.
 
 The identity guard now preserves three additional boundaries:
 
-1. **Lossless nullable Float32 boxing.** Native `Float32(1.1)` can contribute
-   the string `1.1` to a canonical ID, then become the Python float
-   `1.100000023841858` in an ordinary membership table. The guard first checks
-   the ordinary canonical hash. On mismatch, it considers column-wide
-   binary32/widened spellings only for finite floating columns whose values
-   round-trip to binary32 **exactly**. A candidate must reproduce the original
-   ticket hash, with one consistent spelling choice for any column shared by
-   group and fixture identity. It does not round arbitrary binary64 numbers,
-   parse string identifiers, change source dtypes, rewrite IDs or skip guards.
-   Nonidentical numerical values still reject. This compatibility path is
-   needed because legacy membership tables do not retain original dtype
-   provenance; it is not a reusable validation cache.
+1. **Nullable Float32 boxing (superseded).** Commit 2144ddc tried alternate
+   binary32/widened spellings after a hash mismatch. The later audit proved
+   that this could accept a different numerical value: the current value's
+   representability cannot establish the original value. That fallback and
+   its exponential spelling search have been removed. See the versioned
+   identity-evidence repair below for the current contract.
 2. **Generic fixture equality.** `Parlay` and `MultiBet` check duplicates using
    the same pandas multi-column equality as their native constructor.
    Integer `1` and text `"1"` remain distinct; boolean `True` and integer `1`
@@ -393,8 +387,9 @@ those key types. Public ID construction remains unchanged.
 Optional model-prefixed fixture keys are checked by the model-evidence
 validation in composition and `finalize_tickets`. The low-level `ticket_batch`
 helper does not independently validate model streams; merely supplying those
-columns to it does not strengthen its canonical-hash check. No new typed-key
-storage contract or source-authentication claim is introduced here.
+columns to it does not strengthen its canonical-hash check. At 2144ddc no new typed-key
+storage contract was introduced; the repair below adds conditional numeric
+identity evidence without claiming source authentication.
 
 ### Verification and scope
 
@@ -428,3 +423,93 @@ correctness runs. The user authorized publishing this repair branch, not a
 merge. No model fitting, regenerated forecasts, strategy search or full-study
 run is involved. Full-audit storage remains O(candidates × legs), with the
 existing expansion cap and 4096 numerical chunk bound.
+
+## Numeric identity repair following the 2144ddc audit
+
+`AllCombinations` captures original group and full fixture identities before
+pandas boxes membership rows. If any identity value in a pool is floating
+point, its tickets carry an `identity_evidence` JSON column (version 1):
+
+- Ordered grouping/key column names and source dtype descriptors.
+- Original scalar kinds and exact hexadecimal binary floating-point values,
+  with integer, text and other scalar representations retained separately.
+- Ordered membership cells, allowing the original public canonical hash to
+  be reconstructed once and checked on every helper call.
+
+Both native construction paths use the same capture. Float32 values remain
+usable after ordinary boxing, allocation and pickle. Evidence stays in the
+ticket table, standalone CSV and downloadable report CSV in full and summary
+audit modes. Preserve it when saving or selecting ticket columns. Exact
+numeric boxing is accepted; rounding and converting text keys to numbers are
+not. The source dtype descriptors must parse, and encoded floating kinds must
+round-trip to their exact recorded values. The current membership dtype may
+legitimately differ after boxing; it is not used to guess the original value.
+
+For example, binary64 `1.1` and binary32 `1.1` widened to binary64
+(`1.100000023841858`) are different values. Mutating either into the other
+rejects, even if their short canonical spelling happens to match. Retained
+group assertions are checked independently; correct partial/absent group
+columns remain supported. Full nested quote and model-evidence validation
+remain in place. Generic `Parlay`/`MultiBet` retain pandas duplicate semantics.
+
+**Legacy recovery:** floating identity membership without original evidence
+fails explicitly with “rebuild from the original ledger.” A string hash alone
+cannot determine whether an original token came from binary32 or binary64.
+Re-compose with the original ledger, original dtypes, grouping, match columns
+and policy, then retain the generated evidence. Do not synthesize provenance
+from an already boxed legacy membership table. Nonfloating legacy tickets
+retain the existing hash checks and optional grouping-column compatibility.
+
+Public ticket IDs and round keys are unchanged. The ordinary integer/text
+five-key workflow gains no column or attrs and retains its exact tables and
+reports. New floating-identity evidence adds storage proportional to the
+number of retained membership cells. Validation uses linear cell traversal
+and one canonical hash, rather than an exponential product of spellings.
+
+This evidence detects inconsistent retained inputs; it is not a cryptographic
+signature or authentication of a ledger whose ticket, evidence and membership
+were all rewritten together. The previously documented legacy integer/text
+canonical aliases and the low-level `ticket_batch` model-stream limitation
+remain separate from the repaired numeric inequality.
+
+### Verification of the numeric repair
+
+- **1,246 passed** on Windows with pandas 2.2.3, including browser and
+  installed-wheel checks; **1,019 passed** in the overlapping pandas 3.0.6
+  suite. No failures or skips. The 79 new cases cover value changes in both
+  directions, adjacent values, text keys, persistence, allocation, grouping
+  assertions, malformed evidence and bounded hash work at 4/6/8/32 keys.
+- All **8** independent minimal numeric-rebinding cases and **88** directional
+  mutations reject. The original 20 Float32 composition cases, eight retained
+  helper calls, four generic allocation cases and four partial-group
+  contradictions retain their expected behavior.
+- Prior 90-case composite and 50-case dtype matrices pass; six forged
+  membership cases, 30 malformed nested-evidence cases and 18 invalid
+  timestamps reject. The 103 adversarial statuses are unchanged. Categorical
+  adapter cases pass 24/24. The 219-case legacy investigation still has the
+  separately documented nine canonical aliases and three pandas float16
+  construction limitations; 207 raw expectations are met.
+- Original cached five-key replay remains 109/386 candidates and 73/96
+  selections at 30/100 fixtures, with actual bulk dispatch, exact reference
+  tables/dtypes/attrs/IDs/quote JSON/pickle/report parity, unchanged original
+  PMFs and outcome-independent decisions. Native HTML/CSV hashes also match
+  the previously published repair's retained verification.
+
+Fresh serial single-thread workers, three repetitions per backend, alternating
+order after correctness QA finished, gave the following medians. Inclusive
+times include native execution, HTML, CSV and serialization; imports/input
+loading are excluded. These compare backends at this repair, not controlled
+cross-commit performance.
+
+| Fixtures | Reference native (s) | Bulk native (s) | Reference inclusive (s) | Bulk inclusive (s) |
+|---:|---:|---:|---:|---:|
+| 30 | 0.927 | 0.113 | 1.050 | 0.247 |
+| 100 | 3.297 | 0.209 | 3.617 | 0.518 |
+
+At 100 fixtures median peak process RSS after reporting was 219.0 MiB for
+reference and 215.3 MiB for bulk, including interpreter and loaded inputs.
+All matched HTML/CSV hashes agree. Detailed counts, source hashes, raw timing
+samples, compatibility limits and the research-clock qualification are in
+[the numeric identity verification record](guarded_bulk_numeric_identity_verification.json).
+This work publishes only the development branch; no merge, model refit,
+forecast regeneration or full research run is performed.

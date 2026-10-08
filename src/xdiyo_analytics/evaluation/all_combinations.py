@@ -234,10 +234,12 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     return pools, previews
 
 
-def expand_pools(pools, policy, name, *, settle=True, _summary=None):
+def expand_pools(pools, policy, name, *, settle=True, _summary=None, match_columns=('event_id',)):
     from .tickets import _settle
+    from .ticket_identity import OriginalIdentity
     rows, members, decisions = [], [], []
     for group_id, groups, offered in pools:
+        original = OriginalIdentity(offered, groups, match_columns)
         for positions in combinations(range(len(offered)), policy.legs):
             legs = offered.iloc[list(positions)]
             identity = json.dumps([name, group_id, sorted(legs._event.tolist())], separators=(',', ':'))
@@ -286,6 +288,7 @@ def expand_pools(pools, policy, name, *, settle=True, _summary=None):
                              payout=payout, profit=payout-policy.stake,
                              **({'expected_profit': ev} if policy.min_ev is not None else {}),
                              **{k: legs[k].iloc[0] for k in groups}))
+            rows[-1].update(original.evidence(positions))
             for position, (_, leg) in enumerate(legs.iterrows(), 1):
                 member = leg.drop(labels=['_group', '_event', '_price_valid']).to_dict()
                 members.append(dict(member, ticket_id=ticket_id, leg_number=position, template=name))
