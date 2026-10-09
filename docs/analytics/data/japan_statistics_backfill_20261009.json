@@ -1,0 +1,384 @@
+{
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "applied": true,
+  "publications": 35,
+  "mapping": {
+    "matched": 2623,
+    "unmatched": 20
+  },
+  "rejected_values": 0,
+  "filled_cells": 37040,
+  "affected_matches": 2572,
+  "seasons": [
+    {
+      "season": "J1_10_10",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_11_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_12_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_13_13",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_14_14",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_15_15",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_16_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_17_17",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_18_18",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J1_19_19",
+      "source_candidates": 18360,
+      "filled_cells": 4998,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1704,
+        "expectedGoals": 1836,
+        "yellowCards": 228,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1256,
+        "1ST": 1872,
+        "2ND": 1870
+      }
+    },
+    {
+      "season": "J1_20_20",
+      "source_candidates": 18360,
+      "filled_cells": 5088,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1716,
+        "expectedGoals": 1836,
+        "yellowCards": 306,
+        "goalkeeperSaves": 6,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1288,
+        "1ST": 1900,
+        "2ND": 1900
+      }
+    },
+    {
+      "season": "J1_21_21",
+      "source_candidates": 22740,
+      "filled_cells": 6360,
+      "affected_matches": 379,
+      "by_statistic": {
+        "redCards": 2100,
+        "expectedGoals": 2274,
+        "yellowCards": 452,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 12,
+        "fouls": 1516
+      },
+      "by_period": {
+        "ALL": 1614,
+        "1ST": 2372,
+        "2ND": 2374
+      }
+    },
+    {
+      "season": "J1_22_22",
+      "source_candidates": 18360,
+      "filled_cells": 4912,
+      "affected_matches": 306,
+      "by_statistic": {
+        "expectedGoals": 1836,
+        "redCards": 1584,
+        "yellowCards": 244,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 18,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 1228,
+        "1ST": 1842,
+        "2ND": 1842
+      }
+    },
+    {
+      "season": "J1_23_23",
+      "source_candidates": 18340,
+      "filled_cells": 4168,
+      "affected_matches": 306,
+      "by_statistic": {
+        "redCards": 1608,
+        "yellowCards": 102,
+        "goalkeeperSaves": 24,
+        "expectedGoals": 1210,
+        "fouls": 1224
+      },
+      "by_period": {
+        "ALL": 578,
+        "1ST": 1794,
+        "2ND": 1796
+      }
+    },
+    {
+      "season": "J1_24_24",
+      "source_candidates": 21512,
+      "filled_cells": 4334,
+      "affected_matches": 380,
+      "by_statistic": {
+        "yellowCards": 140,
+        "redCards": 2010,
+        "goalkeeperSaves": 6,
+        "fouls": 1520,
+        "expectedGoals": 658
+      },
+      "by_period": {
+        "ALL": 718,
+        "1ST": 1806,
+        "2ND": 1810
+      }
+    },
+    {
+      "season": "J1_25_25",
+      "source_candidates": 22800,
+      "filled_cells": 5156,
+      "affected_matches": 380,
+      "by_statistic": {
+        "redCards": 2112,
+        "yellowCards": 210,
+        "goalkeeperSaves": 6,
+        "expectedGoals": 1520,
+        "fouls": 1308
+      },
+      "by_period": {
+        "ALL": 776,
+        "1ST": 2190,
+        "2ND": 2190
+      }
+    },
+    {
+      "season": "J1_26_27",
+      "source_candidates": 4800,
+      "filled_cells": 770,
+      "affected_matches": 80,
+      "by_statistic": {
+        "redCards": 408,
+        "goalkeeperSaves": 12,
+        "yellowCards": 30,
+        "expectedGoals": 320
+      },
+      "by_period": {
+        "ALL": 150,
+        "1ST": 310,
+        "2ND": 310
+      }
+    },
+    {
+      "season": "J1_Transition_26_26",
+      "source_candidates": 7740,
+      "filled_cells": 1254,
+      "affected_matches": 129,
+      "by_statistic": {
+        "redCards": 678,
+        "yellowCards": 54,
+        "goalkeeperSaves": 6,
+        "expectedGoals": 516
+      },
+      "by_period": {
+        "ALL": 246,
+        "1ST": 504,
+        "2ND": 504
+      }
+    },
+    {
+      "season": "J2_10_10",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_11_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_12_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_13_13",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_14_14",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_15_15",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_16_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_17_17",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_18_18",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_19_19",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_20_20",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_21_21",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_22_22",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_23_23",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_24_24",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_25_25",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "J2_26_27",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    }
+  ]
+}

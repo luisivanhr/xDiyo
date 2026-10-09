@@ -1,0 +1,13 @@
+{
+  "matches": 991,
+  "features": [
+    "home::corners_mean",
+    "home::is_home",
+    "home::cards_mean",
+    "away::corners_mean",
+    "away::is_home",
+    "away::cards_mean"
+  ],
+  "folds": 1,
+  "fitting_performed": false
+}

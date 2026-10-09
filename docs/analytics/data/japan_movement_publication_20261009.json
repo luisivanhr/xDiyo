@@ -1,0 +1,3373 @@
+{
+  "publications": 35,
+  "matches": 12494,
+  "team_seasons": 697,
+  "movements": {
+    "retained": 575,
+    "promoted": 78,
+    "relegated": 44
+  },
+  "original_observations_preserved": true,
+  "seasons": {
+    "J1_10_10": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3060,
+          "sha256": "41242eab55e4031cf30b32a8d30a9d7eef67cba5ed7978818be0da00777bdd4a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 612,
+          "sha256": "e107ae3932f888753af23a035e21a562bd5b1ec66de29f7a81ce9ea698806ec5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "75261cfa7672652cfd40a14e124f7b97a3df204940b66e02ade7b9fbef2bea67",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 612,
+          "sha256": "310531414bec2cb76a4adab81aaf65019fbab1cf7b109df8ee945250d14f66f6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "8aad82cb3af13086cd70d976222674a7765ace0746a0c0db7e3c5ddb3fcce855",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "0f9bb9d503983cd77cc2105b2305412477c0fa715b3905f2e099e19ea69c44a7",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_11_11": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3060,
+          "sha256": "7ebc0066fdca08bd5d626c3c40e6a019bb520e3ef2685b5824bfba76b4fabdd8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 612,
+          "sha256": "3910df7fec3c8a4d4f17f91081cb2411ca3f4d31849b3aee37a3ce359b5e79bc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "dc4e0842c3d1de28616f6f253ebb2973d9dfd224a334ffa03c6c622393462a4c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 612,
+          "sha256": "0417fae1640e62e6da9a97b82a101a013aed056825807c1267ed776c7d28b071",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "8f507f86b0baafaa9712805a523cf08d843045b51fce4ba401c51a43ec59719a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "e04a1ff22869ab15984dc9ff927d61839c4541be436f3be977f7e0bc8c251d2b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_12_12": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3060,
+          "sha256": "c962c7567a64242049d32cd930ec041e9b0696e49872775438df6f4c40f0d9bb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 612,
+          "sha256": "9c1648bd49c7409254b13289b95c9980f6f8bdbba35f0a123550369e16c93110",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "3eee3007e75852058b2473b8aaeb2eae273ba82ba936ee47dae62d2fadfeb138",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 612,
+          "sha256": "e3871ede9a5fd23fcf2c2f2c14b1789a47970d02907d27f57f7f959439d868fa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "d4984cb62b949d416e3598d08357c06ad72ad1095ec0ac64c93580d4d7ed9c45",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "03dcfc64c58bed777a59ef79257092918e678283ccb0da84e6cdc51c9e5959fa",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_13_13": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3072,
+          "sha256": "21cd3cfbd3059cb6db932b8510a8245496b20e20782559ba1beb9894fe1b497b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 878,
+          "sha256": "4c29696289080c57601926498ecf211f0d9e63810f82e9585ee4e2045cbd9493",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4128,
+          "sha256": "5025a70b0136996f73236e16daef466260e16a8cd82096cc624396b93736e4ea",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 108,
+          "sha256": "07c83150533b6a58861e5c7c06445ac80b068227103d08f8c1a6f6729f23eb2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 6,
+          "sha256": "8928b964f5e64ead3e2b00379054a80569327ab38beae26225c383575ae1eae6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "07c9d9b5c9ee7fe173b3d7e7013495db4f5813879f162730b0366dc1cb30c95e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 52,
+          "sha256": "90c2ed7196dda43ee6e4798be75e2fc8ea735a630cc9257667604646d902e7e0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 612,
+          "sha256": "159e4e308f048880764d7b8a90070f12d6ecde59c2af2de29cecc1065a950b80",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "6930e80eb100ff8e168545e018413a7d2e260dc25068f0c26a488f21d98fe2f9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "6bfe584a8803a2016ac5a66b78d3e629cca650d29f7864640e8fb21fe5d63ef8",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_14_14": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3132,
+          "sha256": "d4f2a82634578018b57f37d96101d4822805ab18879e0903f2a53350c14e13e5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 749,
+          "sha256": "9cd21da6a1c4b35055e127fbfb15742efea27c2250f8ab2fbbb566fddd012d4f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3914,
+          "sha256": "7ada3e40e2ce2ce46cadef096c4deda3cf740fe80adbce05a976d898198b908d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 648,
+          "sha256": "2feae37e06e25030b5f75f52c6b79c59a8c17b72e0f17c19319ddb53ad7f45f8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 36,
+          "sha256": "ac3f47e892a53dfe0e4930471231b2ea2566f7ee6da1847863ad0654fcc759d1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "2e8e4353cbc50305d98256b8cee9f9b463e307c7a40ecca2c486159825fc4fa6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 490,
+          "sha256": "83441013ff58ea9b03a74521d07d93c17a56f876b50395c61cb4c3c06320f992",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1338,
+          "sha256": "080d546d8b5529865ad5d3665a073a535cfffddc1f78aa6b8f112e0026aa3618",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "5971ff24038f2dd12978f9f4875bb814bd03337f7db688bfa1bebe258a96f9b0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "3bd3d3c20084c565257ed5c9fa0dfa469ac53f0fff1a1d45f4ceffe314552f4f",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_15_15": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4280,
+          "sha256": "87a22de687ac9f1af0ab1af1f3b4c88e1e0beb20195fc18414bca0c9c337cf59",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 820,
+          "sha256": "21bcea5dda3421fa2d567f3b3442dd09550c340879b06f909d6b7f2df939cf73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4337,
+          "sha256": "2bc5169387db9914f2eb56f7541c15a9928892f1b4074123a3f73573b51abc2c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 10980,
+          "sha256": "83903781b55f16016f7cc9ea32b1e08dddba8df0c98079e536252d2b4cc4299d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 610,
+          "sha256": "aa86fbf643f20b2ec7044eb6362c16ab34f3dfdfc77d59e24b91738291b2592e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "cb377511ddfe1f0e22193c51401d17ffaec143bee2150d0dcf97fd2aa4a48b00",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 1183,
+          "sha256": "08f7848a4826a48c46e6b0302335a8da6dc9f34fbed21d94905d4593c117fa0e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 8936,
+          "sha256": "0ab2040147aeccbfb76c0156936c2e3047bc709e758685997912b50619d3831c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1502,
+          "sha256": "caf5ff8ebe178586d8758cd41b18fbacc88e03e578a030cbfb22815b8de45bfc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "4d773763e41e720d93cb1cd10775c3dd31020b62e4b661c7056140c6895fc490",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "c4de332211fe27a106679239af237f2f95d36751986b34e948e40da8c0e053e0",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_16_16": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4284,
+          "sha256": "fcf7430e2344503b4505ea1a41b91004d784efbf4a44cfae463b48d61fb4283b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 805,
+          "sha256": "493637d09931ef707eb0383649a576990956146dcc6d5ddb91c3d6b7a7e4a980",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4481,
+          "sha256": "4e8fd2313474a93b03e89029a6cda28375e946f94510d91979b9ffdc76aa1e68",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11009,
+          "sha256": "95736dec0dcadc40404155ffdafe216aa5009acfc915046ae567c70100763a2d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "240dd884b487b29fdb09aea4d8abe751bd48dbb492dc4d7a810473b3f18c527d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "c596e417012d6b5cf386732423210cc89c074c6fd9ab44154bfede74663496cd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 20836,
+          "sha256": "f514b73a4f45863573a59769c6965266d78e24b631c0eb95d1dc090bd9e4f3f2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 13584,
+          "sha256": "20aed49b5bc2c3c5b18a19ab4b596e489603d9f6cd2bdb6f9f4350cc426ef085",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1536,
+          "sha256": "c2537cfb55a88095332c05ef1a888f0706ef394f7332196437d8e80565a2b97d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "0b47460a01992434dbcab6540b396a1f4280ad9b92560450d1e22b9bffa1eb22",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "d55b238bea267708c0ad8e5552c430e54d8e1bfd64bd6e0b712caa7ae017cacd",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_17_17": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4284,
+          "sha256": "294207d9279d644deed796a10f49bd17460225068ee018cfa286e7ed25b14910",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 793,
+          "sha256": "b1b206f75697bc1f1a105e9051f0a0997f7f490ef59dafc6560f83c61c359b84",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4501,
+          "sha256": "fb0dfa83aad2573d21971a065ee938febd0e2cd0366fda1a0295256c3d99bbd6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11014,
+          "sha256": "3d9366be5a07a2075759ed6edf7d47e7d106cb5b406252766fc5fe3048d43a7c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "9d91875e840e026fda2fc402aa2359b166a748422a82a95e7c641d86b7cac363",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "39cf5e51a6bd3f4a4e74c6b1f412c55320e362464dd5663c97ae4c4b0b089621",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 209046,
+          "sha256": "96f40db16466d2e448abde9b54b57a7dedd4fdca0b35c42292f32c32f9b7897b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 41562,
+          "sha256": "0aab1ac3b484baf2ac84166b28ca9cb86fe239370bcf4f43612b588e5eadfad8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1751,
+          "sha256": "787a4f00c428ca2f9d819a4c1b50e4518013c373253fd0cf08e73cae88bedbcd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "73e6c1ca92e045bb7f6abc75ec68103c12d4a1999bfd128542a668dee4a53086",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "1cf3813bbdb90cf655a00e324c3806c4b94a23dd18bc2e03e3c2cbaf34b6acd1",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_18_18": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4286,
+          "sha256": "3b5aee8fd273e77b095a4ce0bc0bf149146c78aa6df6ef37b47eb636f222059e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 813,
+          "sha256": "04e6f27e7c1fa0786243f928c5b6b8cc8482a3ee0a30bf7c6ba6131e3c8f31a2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 1635,
+          "sha256": "64b4b09acdf64045d09f6db045aa273db366313f0ed275118dbbfef41f86dd6a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4539,
+          "sha256": "0b757d5b98fba6c9d45801ada039a3b0a6102e94e9364d692a9807a9e39b8962",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11013,
+          "sha256": "703d4f73fdee29b02ef632c14332138fa54fc1fc8a23685fdb99a05af2427a79",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "33e9432d55960815c83c3fb436c1463449c6795ce12dc5c2eaaf34f23789046b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "6bc1eae74eac36ad3e0c6043899f95425e408fdfd58f9e7edb0b680e46fc3300",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 215907,
+          "sha256": "67bea6435bea00176b7cbc43c4d5098509f7ff1d12360b308c7195842d95bd3e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 17,
+          "sha256": "e1dbee95334794767b496736411e3907fa253a7703394c43d05bbff101d15332",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 67498,
+          "sha256": "e04bb4c3e36ffebf4da10d06402a177805a7bfab4c0feeb5ef9d0020c4624c3a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1806,
+          "sha256": "343654da7282b389dbc17e353b467e1fb05d485e453ac1fe55713b5596ab8397",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "ce7e2da3a8a0645fe28e4d2412b4162cd3a6c64827e1a50fe9e41bb3328c90e2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "bb5f088476fdddd2c923bf682b6da65a35ce56aa0d8ef77e71b6ac39bda67f56",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_19_19": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4284,
+          "sha256": "e9e619c8db1ea601ddf76d42fd86b61600ba8e0a7446f837fe8a8e7a5ea8463c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 797,
+          "sha256": "88d144fe00f34790d82d19cccc55f8037f5bc262bdeea090a7bbb98b5070e750",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4457,
+          "sha256": "3ff24b7bed9244bc8f3b8e6103b096fe127b0a5af25cf0d895dd7fd87d85ed52",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11006,
+          "sha256": "cb563a853145f9e826d9a6e268c1152e185ef663db63f44d969302243ddf3cd6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "1061541ae7fe7afe277782e76550720c0afa038d691a95c9f81cf1b6197fe911",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "43e8b465957183bd7ba75ab62a99d3dd33eed1a4098c0715f5b18e7f70f10ace",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 213387,
+          "sha256": "aa46c5c9680f943bf4949a260f99b938cf49d24b3e3efd3bef0f4f0ea1681a08",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 594,
+          "sha256": "822c6be441121aef809f24fa8bb7b1fb3eb18bbc6afb701b44114f7e56ae211f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 70590,
+          "sha256": "1dc943da192ea16263d67381da2096528353e2f292f5076eeef472ed0f1ac3f6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1790,
+          "sha256": "7e40ce46e87fa26df29e79c52ca31696518f9cc65a8093e80a4806fa010ef2df",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "9d5479100c2eb94eea0b29aca481f19a1e9589c15a3d2f159a1a40f7b5f8d9ad",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "8f0837890afa5411f6404ce5ac0cb06d0aa550a0788b19f8ca9bce1fc7fe263e",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_20_20": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4878,
+          "sha256": "c73e99f1651832889f7a244946a8b82f000faed2eb34ce767f4cb0d2c9683f2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 866,
+          "sha256": "ed875645e1d1bd375645994fea7c40b1f2c7b89d4c299571286e5fd629a7804e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 468017,
+          "sha256": "c4846547345ff012d05fc04e5015d4e9480898c853c41055208f7468f7dfd36c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 5424,
+          "sha256": "20394e7ca20675998acda33a1c5e1d0b3c77aaa66c1ae183b8780721af8b0d46",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11013,
+          "sha256": "6077abc44ba210b728c48e4a6ea3a80a042c48e0750936e037569586dbcff83c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "4561b1df4a0c19795874ccc62c9a003dea6146730f0d5c5d76f92c99b2b9baf2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "efa3273ee053d7b7ea749836a25dd75c93c15b6c52095bbe4a48488eefb3bdd8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 225799,
+          "sha256": "7ee0ed658d20b60ed425b7436b5af9907d2ae772b4fdc8583850f609b9a18c07",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 594,
+          "sha256": "cfdfc7279872c1cdbf6e4ada8cfb6284ed8bbb2553387e0d57808e5d5c7f5edb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 7772,
+          "sha256": "94854009202c757add534c51a72898b322ba51a8170265b5eaaadf57d2d70f39",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 70548,
+          "sha256": "774df66678a47fb7a18ad06c406a60ef0fc95bc937bcf7be3bd11edb9f876fcc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1827,
+          "sha256": "12e09c196cd6927de2726382d3e36167bf93422c121937a76ca4d62415a486a2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "91bb865c79a6e3baef73bac889caf8ea2364786b59dc266741d29a1dd1afda4a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "43c3cf64e54aeed9bb2008407133ed1736c573117bfee34b4e52cb9fce363fe0",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_21_21": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6074,
+          "sha256": "614a0dba7aad8a68eebef00316e366c079fb26418588838f7601e87e82ebe4f7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 917,
+          "sha256": "0a6602787dfc186918f2a9466f37a4f0c61d42d011513c7da0917e4120b39c46",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 587834,
+          "sha256": "7182ebf775f55d0363470f84756b1f70c941aee2bd96112113795b7aee011cb6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6601,
+          "sha256": "b4c32373530794ed7fbabfdd0439d7ef91bd6470ddf3d6a84a8326ca9646693e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 13640,
+          "sha256": "83e07f1933d8e6d6139532618d10585cd63e73fe28fb3801f495391880ffc972",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 758,
+          "sha256": "aafc1e0abb9688b2ead81dae03dd23881a6e65e4b92413d12ae6e8d26f852c82",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "a9167cbc94984066ed39020b0fe50b8f094922a885fc69d8ee990493b71fe08b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 279554,
+          "sha256": "27eed61d7a3bc8f5b1f4f20a8ca38f1d9b20a199504b562f7194c6c472cf8c09",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 740,
+          "sha256": "5753db7c7ac34d83e878161502f3abd363c99d7181fe3e7c24b068fdb8158ee9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 8867,
+          "sha256": "88157c537fc323694b835796050bcef38a90fa7073232748bea87f14c106bf57",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 86976,
+          "sha256": "800b9f0f7108dbb227686cbf3d4859c061d014c682b1c6d0737f2938b381b2fb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2265,
+          "sha256": "b69e39049b6a8f0224e422b998527a36fe420594ffaa921148abf323eb290816",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "9e178b54453aa204245b821e7a0cf33c6ff35b7586806b1207dffc96dab51758",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "caf01b3c69a435e30faa03810616717eb275b981133509af831650deed5739b6",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_22_22": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4896,
+          "sha256": "515f398b141394c7f3ded6a5268dd31bb9adde3cb70f6134d88a9d287f6c5bfb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 771,
+          "sha256": "a63b0af88244b5727694a2f89dc34429a14bda05b9a5c0b247e89490bbcb0857",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 462283,
+          "sha256": "25b1a1449dc0e543e500fbec36cadf11c8233f686f62cea5abb708f0ab4e06a4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 5516,
+          "sha256": "ba7aa3f2f202db041802309cc2a87346d652ff648eb33a5432e6fc5de1860361",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11011,
+          "sha256": "b7d90920fa672531365cc5b84fb4913a8b2a39cf5d00979bd4bbfd6b25952b13",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "07a8191b1b1c8ee3460b25ae5eab25e11913e1268f5d960c3be1950340b4ea0d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "42d93341dc5efa0fe50644809b71a4434c314d6c47eeb01100ddb72dc4114e8d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 227420,
+          "sha256": "c4564a271575a069b47d2be5cd3418676f14aa92a1da3b6bc023fd5f6fdc273c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 594,
+          "sha256": "67974ea6f6fa317e1b41cd30a06424c2754594531492bf5269895264ccf18c6d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 7505,
+          "sha256": "aee268c0dc8a150dfb663e3ee21564e2af1cdac58dfabc78993bc205bb7bb0a5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 70734,
+          "sha256": "6db020dab6679280c2852fb48f065aa044ea52688deb8c5b558665524cc516d3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1808,
+          "sha256": "5d6a30f581dd0836098031fd707b66a7cb2b827d9eb1d949803a9adfd6a351ad",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "41249dc93ad19bbcd39d5ae05171e93d32010bb936fb22aa8ee598add5f50b00",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "2451872db45b76a53dc84d4fae2fb9a493ceacc09fc569bbec5952036f2babb6",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_23_23": {
+      "matches": 306,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 1,
+          "sha256": "1f7c4a8e81f152fc9244c6fce76d4dd0d46cc41c5190424f884b029c9ba4aba1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 4896,
+          "sha256": "a6af0b9bdffe3c803f28880eff42086d3398b365ebca4dccd3e45d1e366f0dfd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 777,
+          "sha256": "f10544e86b53b5a2548de8e64493741ca725a8e111772b69fcb987cb40a52e44",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 462878,
+          "sha256": "7b81aa3f241dd96efbe263da8d7a344eb04d5de699f61cafe1a995e9cf45028f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 5734,
+          "sha256": "3c346484a1002d19ccb1f8ea28ae6f92470ae40425d0296fa331ca10cc1f79f1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 11013,
+          "sha256": "3d15bac412d7b8573ea275966c4772da26b4287621c3b7b039e935d59d1c28a0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 612,
+          "sha256": "8cf99e046c34a0936578323c94e627b344076f5f5ae6d857bff3d37cdf6bc794",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 306,
+          "sha256": "54598681fae317e11e8160055618ff110d9384d990cc72208e21092ad1d11b00",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 239033,
+          "sha256": "30ec1405dc53cdaf5cb34d5bedbfceee1395ff83db2935df075ac3954ca62c72",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 594,
+          "sha256": "a52cb670ae46db745ecac3ac72903b259593f37bd349142665577cd5b64e1fb7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 7566,
+          "sha256": "ac1e20b7f4b5fed64b7857575e8c81bdc273bbca7df1e79a6b53476dcd62c9fa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 72828,
+          "sha256": "4c101d490a0095ad3dd55e96ec2d1c62abcba8411fa763ea51daac135051f847",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1804,
+          "sha256": "b25150992d0d89b31fbcccce80e1d74c4eb749119b26daf02bde4aa5c6f65c3d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "3d53c70a149cdae4f7d0b822417b29a1b91caa9c3ff5777575cf9d1dae79f515",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 306,
+          "sha256": "840bf0d4d241159d8078ac9bbcdf412af35a6937bb1a54a46f134dfc75f1e160",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_24_24": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6076,
+          "sha256": "2914388e5fd9eb9408e871532217c2214337d7f98f422f5a8622f9205804df8c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 2169,
+          "sha256": "0f512bdee9f4ad6cb9fec6f4cc59ee8b734555e2a52bd8fdc951b5611e894191",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1013,
+          "sha256": "8b1c11c9f79a6ec5f13c1d30600545f550c7c9a55c78f7910c360bf677ab27b2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 554630,
+          "sha256": "8a4ad48ea492618f957d56f578d37d01a7fcfb48bfa172390f46c5cf8217dbae",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7119,
+          "sha256": "4bcbec07cc4bfba8075a00ed3882915fa972e955e1d880c02990300f2990581d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 13682,
+          "sha256": "57fc29171d0270b42e104848ec3796f3a5f5060bea595df7bb232bddae34ea74",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 760,
+          "sha256": "de51e94dccc786ac0edbaea61433d7597e24134f589e0b7313335c1dee3b983d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "3dabb2d7bebd64e23312fbef65d5fc82de3ff361bfbe8af82c72c5eb7baeb49b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 307,
+          "sha256": "cce110f137968c1cf16129ec7dd6462564ba802fb2d5963ece3f9d33d0cd7f91",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 343043,
+          "sha256": "695b233e47f1e8db6e7b0872c913f7692edbde7a2b4384a33bd965d01ebf1077",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 740,
+          "sha256": "d8c29107aa7821bcd9006c33846bfacab8248cbd2c9d7878947ad5637eff080a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 9925,
+          "sha256": "352409e33f120a6447be089098f78539cafd370639c1df0b3f89391c2ad18d57",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 93668,
+          "sha256": "906518490dae409c037eb257b2f2277faf3afa9e98a6e57fc18e668b24067999",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2271,
+          "sha256": "5cd6b17f89c677349a5633977b169ac50a37afc904dcb98eb3c2c905a9f7fb4a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "1747a098c6affaef9e3b85cf941d03e25aef0cbb88caacc420573c3735d719bb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "3433ee500c7ff9cf02bf60f99dfc11e59cecf9177d36af10c1f8f9d3f8382134",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_25_25": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 11,
+          "sha256": "a52051449617e8fff795e874f2e7ae4cd3932201b06f878051bcf000ea29e67b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 6080,
+          "sha256": "022b5a3c6ce01aaf89146b30cdc230f3ae5043fd62ea43c755d1862af922b0a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 3205,
+          "sha256": "e4fe90f5003a4558218e652a329fc22b161adecbba4d7f170c577964f8a84f87",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 911,
+          "sha256": "6111f319e6aaec4fbe0a6fda28be3032749852c6c2e19d7185c141ab58847a79",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 566404,
+          "sha256": "dccb8ce24f771aa3faf687edfb2573aee90b644a6919a21f8801e7f531f4ad00",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7087,
+          "sha256": "f311abb5e52e9dc386cb94d70f08107aedc2aef28abdf0d8ee0fb68b014f22bf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 15193,
+          "sha256": "0252a2277720bfeed9b2c9d6ff75b882c2654f82361c0748fd4759751f5e14b1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 760,
+          "sha256": "1a535eafcd20e38b35fe17313e001fae5a516623f6d3a5e94ab4e5ed625392b9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "b945357ab15fdc12663da2e1e179314741f0a74c6d000f53240c953ccaff2ce9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 507,
+          "sha256": "ffc585c4d6d080af684a4ab4413fda8b7b006e267157625371e52fb4bbe399b5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 380502,
+          "sha256": "61a37ed736e91d3226df6adffaecc63a30d9a5d1a2cb9f66c97d3fb941407e6a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 740,
+          "sha256": "81508ae0760360bcbe66565a1ab60244bc2f6529415d29a7e7294210500f508f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 9192,
+          "sha256": "c9f919137b18ebf669b0adc50ef9e6d5b83b0118a14a2d0b81bb58590680af68",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 95884,
+          "sha256": "7bbd5f29cf0b8470094c79d6ed6541cb52c8017b76bba68a379c1642d2e09d67",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2273,
+          "sha256": "926c0008182c5879b0da769814c741a1e93fcd0ad80259c5e387d632a8c10b77",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "74754691d7dc752f3bba2fe7e1eb50b860438d3d750563ebf56ce3f84ba2fdd5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "3509229b6901db45406327a1f3bb9c09511affa65f5adedcff1a7982246ec9b8",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_26_27": {
+      "matches": 80,
+      "teams": 20,
+      "snapshot": true,
+      "files": {
+        "availability": {
+          "rows": 7,
+          "sha256": "81be93a92104eddad7923c3cbe4ea1317446dae799d6befad3c5b73834d49b87",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 1280,
+          "sha256": "ef62f538ed448b57cb564339693b5ff5833f5b2f2dde5a8da32da0f9152f3cb7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 823,
+          "sha256": "e7a60b8df8bc68bf29b7fe5c0232ae1f725c20a122f76f5a4418cc06497bf659",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 237,
+          "sha256": "eef964439920e3882da5148a8c597036f6a03dde809d49f8d554eed6c965a54f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 119729,
+          "sha256": "18d10f07d08d3c71de3bce82bf698b0b24f8dcc15a7690baf2e28628f106baa0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 1584,
+          "sha256": "c3391a5679eed28cca437a4b9201058ebbfb667faa8badd8ebb62d6526afb148",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 3199,
+          "sha256": "e52345250dfbc63f8421606c60ead70be95e6817005e4bf6dbec0c6edd0a3829",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 160,
+          "sha256": "a8561789fcd21f74cf4dc3bd10ae2c0295ac54cf8653a10d74e32780cf067fa1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 80,
+          "sha256": "e82df020aa3f739016d984ebe05064cd208ac0b274d6911f4abf9fa54c2f84a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 91,
+          "sha256": "7f70cf13c00fca1cc794380a8e3d21fe801cf27dbf2c5dfbe53e68a7beea6476",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 102302,
+          "sha256": "1daaf9f207345d3e15997855e1187d14f6beaf17f986e6a2d9308602681a4de6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 140,
+          "sha256": "43b056abb67c1ea33a0340ee316de9d01d06d3f37b54e49a5b77daa0db23f11c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 2181,
+          "sha256": "907c9f6569437f03ae6a606c691e90bee2e31b0893f12c34e3274821aea638ec",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 20458,
+          "sha256": "6a1865fcb12aca1e80144ddee3b94141cfe5fffbf0f691468dacf180d48e0057",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 480,
+          "sha256": "b3deb905656691705235ccd84d84201c1f1d36a6027b8f0c5fb9e0d8715ad3c4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "bb9fbcbecb9e2408eebe550d4159b1df8b8e98cc88c7f1e9861c7ef763f072f2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 80,
+          "sha256": "d4111c82416b99a05bf558e13b19f58f7665246db957bb0638c1b1022442fb4d",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J1_Transition_26_26": {
+      "matches": 180,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 10,
+          "sha256": "6410162563630d7a79b2238a847322499524de7b1a80baa7548cb72343bd6f15",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2880,
+          "sha256": "9719391cc14f08d7da98f8ab685c7841d0f23fde7826b3703be8c74973ceb7bb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 1565,
+          "sha256": "341124e692685642fe75ed5932d713cb5099646e9011f1ae75d53493abc6f421",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 471,
+          "sha256": "9c6601204763a19ac9c8d4f7e8e08123b613ef940d3a05b1fc35dbe1739d116d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 263367,
+          "sha256": "38bb1ab01f38d0d1f20557acc3d330a2c1fef903cce6e174ea1e53825ac56e74",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4057,
+          "sha256": "79bd27850a883928ad310ecca8d7946536b8e8921c2fd6816190ddfe2e8d527c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 7196,
+          "sha256": "3f82dac54770ade4499bcd70852a4137189fc6e707d3def7990a79832f82cee2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 360,
+          "sha256": "f557cbdfcff3052b6d734c5de3ff8868f0f9e070a209c799b785a5bf69da4fbb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 180,
+          "sha256": "70f775b6e46549ec488dd1fdb5c0a64f9e37f0ebf651cdcb5261c9e06ab54310",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 182,
+          "sha256": "87f02125ce7f851c3a5b82695a20c8f96c398c3b609ea732f988c2c5aa039732",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 217771,
+          "sha256": "bb18911337a3881c276f57f35a7f6bd0144edf00087dfaed1c2e194b2dfcfb97",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 340,
+          "sha256": "483b9d133171b7c7cc0765d32093702f043ac53b3d9df9e122432aa817233342",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 5016,
+          "sha256": "e8974986ce9e37780cebdee5f8e11eda68db1b4ea240c940fb389ef7643d01e5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 44956,
+          "sha256": "de8e08d52c05c537e5219ace67621d2f25c71f0473b5e5e2c106966707803c7c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1128,
+          "sha256": "a7d249651dc82c5a7a8978aa0410f2dadeca80a62f3cb0ceee8e18e35036f4b3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "898f6b06a504cb416d98865d6fa3ce4932194d76207b2a418ef4ed67de9da149",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 180,
+          "sha256": "8bdf24068fa7387b003f6f783ae52c70f266b82ff23f8c8e5734736b55e4e72a",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_10_10": {
+      "matches": 342,
+      "teams": 19,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3420,
+          "sha256": "1bb05879098b07216f2569ce374c4dce0c09e5607c752452aee7716a0c36f416",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 684,
+          "sha256": "542fc3121c181d96765f279811edc73cb19f036e8fb1d3bae8c8627e09f927e6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 342,
+          "sha256": "ea1a083b783b09d3f0f4530f9339c5bbe36d18f53ae89d741bf940918a523961",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 684,
+          "sha256": "039f30dd94f6f023f561b1d5059ea75cf69f51452a240698b923a347f4d7d84c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 19,
+          "sha256": "0187064aa5e894e3e56aa40417a593cf606bc6d9fc5114d1fd01076eb176e02d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 342,
+          "sha256": "833821fafd94f2a7c1230eacf48dfe122d6ffb67d541daabc175c914822f92f7",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_11_11": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 3800,
+          "sha256": "7653bcefadacb1b9a645c280487cb6899566e1aee13ed7c90c072cab8b525929",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 760,
+          "sha256": "ddc6bea6da5cb48fd99d584ddaf78355a9a91d06e1909e4cdd260b49520e8bc1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "e868796fdb648a0f75b340f13352bad5e0d6803e58e94f77b0086e01c2f60c4f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 760,
+          "sha256": "f126b886e3f9f2362d97edfef05a49bf9a141ffa732d430f9657247c8fb71960",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "c38e45a63a3d9c886e448a6a0cba7f6e66cb69eb25232fef95be5e03429c2d5f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "6ef09e4c93fc14fd7bba23d679899e42cfde59281780740424401e145a9f40e9",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_12_12": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "a5ed7e1047d429556eba36eb4b564c647d9aaf4ba13935b2ff5531d2e65264d5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 7,
+          "sha256": "1c1d998c409782a9c553cb5c9e17fc9b92087a474c76aae6580c72d3bd248d8f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 931,
+          "sha256": "9d7e48afb02c60c10f5c388f5ea3cd8bd6c3b957457bdcc9a909e02baa96d4db",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "2ed2e2ed1c413432573e3f37a583660558ddce75eddf8b4cdf58df3b0f4c95a9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 924,
+          "sha256": "851bc66d4e980203b7af64deaa50d61b88f1471a625a4f71fa8d968cc573f258",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "69421a83f880b896ca17e1b2f7f35d0f80ffb08ac00e1dc4437afd5807a3d4b2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "7f1bd981aa0e4565582e9801efda4d8a7685d7ba7ea765f262768b604b5b0a1d",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_13_13": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "18f989e80c9ae3b760b405e1fcabbb9fd1ed1b597488038f45c8ee4aece00ff8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1200,
+          "sha256": "6aebf1e1151d012adb0d90480963d1343072798963f88f0a98719875144900a4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2187,
+          "sha256": "4faa63440bd39f6014ad94533363daee5b3438c8acab66e5b615aa34d3e75240",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "813d0cc6be65a7127d32c9400cd6dfe3dbf52b1bff6624f6e7bf2c499ef99e4b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 924,
+          "sha256": "e907bdc8db7fe51f81f37589ee7485f0b109ceae3c9d7f9a6cc36e7ac3134269",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "8972a26f90038b08829931e9c4fd7d3a9a6dafbfc028327d284b1630693161a0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "f3d11a1996c1d1e4a64891ea3e54473d769d5767be8e75c8f89c1a1ad19b6272",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_14_14": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "0c9be6afd198b97b0b4706b33863a70dc1a06093d1e514c76ecc2b87a76f5a1b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1121,
+          "sha256": "a52628e1a446ac68818c6d6808a85883a9fa16e0947c3eb092169cd40a36547c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2616,
+          "sha256": "48e7de61ffe2aa9950d80b74e5d9b9f95ecabbeb51470ea8c6bdd6d580c31423",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "59abb3f691ea607e3e8774145e1f58e6962fe46c57e21f933640d136152afe1e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1652,
+          "sha256": "73723ab3c7fe2b4a2e30c786ab1e5afee2f4396eab57781041c31cdff7642112",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "8bf0a1d913cb9de0b53200bc0075cd797a15d8031f58c0b59870c30f18a3e6a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "872ea29408736672a8bbeb27b38800ea26d1c2c5b3f1db401b3ee497a9cdfa1b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_15_15": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 5292,
+          "sha256": "d66c313c0e995b231f8c6e73cd16e14ecb0bc4ecadffbfa62b1ef1ae44e0f952",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1014,
+          "sha256": "38412e9ee5e90d39deca02569429cf0a9003bb1c8ed9947b0a8863af5124135c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 4454,
+          "sha256": "136a4fb8ddcf779afa3e87fb56a825cdeaf5528a00960c0d73a8ff554e706f15",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6045,
+          "sha256": "22e3aa2386d44aabf8b94511862afd92e3ff3192bba9826e9bd81794f427fdff",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 336,
+          "sha256": "0df34f66b6167aef8814a749bf9b9100ec266e0fe95faeea41b72a3bb2549641",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "407576595d5aca13bdd1212b124766a1e9af7a7bf81cdab0a5f065e885e6f52d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 4828,
+          "sha256": "cda20c1b083af948e65196fd84e4937dceb3014e94dc678ef9a614d894fd66a4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2379,
+          "sha256": "9653d5af434da124e29f0ae032b533af43b667f03dd446335a5cdf50e2b45ec5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "d34e680d18972b73142465afc209f5d02066fb8397f7bc8a60e9d52ba9a9db6c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "0badf54d03a941de29ecfc20ffb65bdabe478f9f0090b79c19deed306e50441b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_16_16": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "5f26f22dd7308d4a1cdef1122bf799fc8312398dd0c3b75aaf68e988ba8c8c76",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1108,
+          "sha256": "87494983fe874d2cd10d782d6d3574518beb76a27e587fd8592a62fd34b465c5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3953,
+          "sha256": "935eb42a43b2a52b15ee02054f34823f6551f9b2bb4ad62e4a65e277faaad621",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "0c06d11c753413cd6d9327832d46b3023cadb12d2ec69d2a3e744f76910b21ea",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 30,
+          "sha256": "d7e74d6e5c9281888e8c4bbd2210fbcd7f34680556695be08904b6d2b2637d2d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2476,
+          "sha256": "57e7bc962a672fab204e12fe7e5674b8125bb99697508fe828ac96e64bda9c8c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "59cf902fb3205243726b32e24126970e3b488befd97a4a46d5c86cbd428625e2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "7acc703f262bd853b24f24f6a9c20575b1280e97e2a57c58e79f84f0db9d0bdc",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_17_17": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "f2a75bf2d610ebb5633628c7d90575d7874fc8cd6c8445a38cbb53f9ad89b2a4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1196,
+          "sha256": "94c9a05af1a540f9145b275cb5b8b852b23aaa1f3f4dc18f79faeef56ea82b9b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6292,
+          "sha256": "1996cfc82f8786329a6720678062603a39e3b9cc4d5b67f4b41b83c3260848e6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "e970e311bce8fd9130dbd994737b6431d7d31e5f85ad618e1b261fc1d9195e68",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2691,
+          "sha256": "41b4e3d2102a93bca05593906dcb44674f5f44740f40c9aa31a16ba42d5a50b3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "690a7b683f58c23b160f4adde35198cff65ebfec273bb01127a435d5c1b82787",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "1d08fd3a423fcf1b435c5ea50583f5c1a729b4c83ef26e10988b997d03a9763b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_18_18": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "9ce56b62af45c8fcf6bf12fd9e019707db118eb85e0e6a03b37d2b70f6d880b4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1144,
+          "sha256": "f3cabaa57b480e36ab3539486105276b7371e1c6707143ddabf73d34cc5f1f3c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6670,
+          "sha256": "f14219a4d00f11f6d267d8ab6053085244a838956ee9b9fb8d6baa969211f81b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "98d4978936e4e4fd5b7d071d1b91c0d86c2e4bf46a5e16a77181389f9e4b9c7c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2660,
+          "sha256": "019e8202aed3d74f073d909b2ad2c800e919c21fb92682d84162a6ad1ad3ad91",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "c82118111d98979e73b509615d8dd82699d9b453834e582d8d83624e823268c9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "61c3bfdb391714e6124e0ba4757648e4226dd44e09eb3d6a85947acfd2c03568",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_19_19": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 4620,
+          "sha256": "5af061a98cb0a2a0d759f91306c4a7eccbe6ffcd0be5787f2fa2b1cc5aa529b7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1197,
+          "sha256": "9e7daf3818f04df3ba9b4350ffa5354ee0d25d203f42ed3cd7d7267e2353fc9a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6674,
+          "sha256": "77460220261c5935f6d2510f4bf20b6478bd32cea69ac2e0289237a0169be73e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "3f49d45cea8b1de982a8e81346e3992a5680f09cbec0a419fa10a5f48d6d8ae0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 902,
+          "sha256": "504c15082188c0e3d52377d1a10dfb074dc1c2c0a90b721bb4bc1be6394829ff",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2661,
+          "sha256": "1eecf639b2ec5b9bdcc06b78ad749829e8b3e10a318ff1da736303ef69b4579b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "1dbee7cd1f1145710c4d6213794802f61e7fd530a319a635e84bdf5ef6c1c028",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "b5fccbae8f36a0127e5f6fb225ed230e0372ea6463aa0f8a616f084c5107b08c",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_20_20": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6396,
+          "sha256": "da79c468f4bee6c298e5e5c3f032020e3297d2fa70fb5edc0257842f7d752c1b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1119,
+          "sha256": "ba93da24ac679bbde4aa63d0560cce24ed503bd81cdc417b74a46833ca459a4e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7846,
+          "sha256": "11ca8ca6984ec2de29a65d7d0f11ca9905bd0e1eef72e521ae57a7b7d4205207",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 15961,
+          "sha256": "87c56a9da3eb5ae1ec4d9abf21e9502b66b9f26214f82a38d93b4d186c810d54",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 888,
+          "sha256": "3d8404728b580d90a6d831d881810b1684c920c0337ab86438457a55546b53a1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "91694721b5ce45653450a465e7b0761504cfbf8975b8ee4c2becc442f27c54c0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 902,
+          "sha256": "0df85a53fb8275a00f380b9e71c362ade0e8231ef0909030c1e326840a8ec108",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2707,
+          "sha256": "09dd41afee9d797d1543e896303d85742c439210581216aa0d3c9b2a65654b2c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "86b04b91c5aec9213c5665f87a6d8b9f18dfb77bb1dd1618abcce5ec79591368",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "1126cd2159f24bf2a9228b4c663ee94ded1d0a9e00fd7ebf2e24f24f404464b5",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_21_21": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6464,
+          "sha256": "48108310ad32048a9fb4a1d94a8247f754b82851d6b758a81862d583165178b1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1102,
+          "sha256": "33f1f54f643c736dafb28f51bbd3c17c2c300f2b660c36d25527f82eb0b4a077",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7580,
+          "sha256": "ad17037ee7f5fb811880780c8277c3056db5e55b76de545d32ef62ec4c05b39e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 16588,
+          "sha256": "f1379901286f5ece458b2d64ca165274481c403796e2bcb1f374c2d128b39dfe",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 922,
+          "sha256": "95253569059e3749f6858f4a0d16ba860573066083aa3fe7038ed195ad625ee6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "f6cd973697b6ac066cc35544ee402ea4bab41586ff23db941ea0f4b51a3b31eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 902,
+          "sha256": "6b5d49371d1a3cb84462e5a81443fd09c8c74353fb74f6faa86612ec42c3b211",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2403,
+          "sha256": "5ccdb9adbbbf07b46b2f51aaf3324ac4cb03eca03a6decb4aa72095c735fa9c1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "3b73a13ee716695a4b8c62fe782488dafba4b7b2984458c8c3a79abbcaf7a3d3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "17789989a23a53942fbb063c52c6f7a559b50fd39a4eeb492aeb8961be2fe50c",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_22_22": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6468,
+          "sha256": "869e914ebdf4590836ec37e7c7505be5bae2c61bad27102e8fb30446c2163c5c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1136,
+          "sha256": "4025e6fec33d062029c8ead1966d9fca26c3613141dca24dc66f6790b5025fe6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 7981,
+          "sha256": "2a9b343993cd71cbf6023666b7c708948d60d37b8f20bf376ac46257e60683b3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 16623,
+          "sha256": "95cdbf2981b0f9be3dd030428b77cd1e298c5656361fe7959152363412c7fbdd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "dfad513cfc7bf98c7d55510415c52f5bfe57356c0cbd3abb90770834dcc77d2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "4fcff175cc0765b80772d801da0eb7f5c5301d94aea467a7f86a1d2f3a7cb16f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 900,
+          "sha256": "c0dc6544d1ddf7f55a3c39f24ae2ba4cd8135918edb13f89d76daffc6ab6a2eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 1496,
+          "sha256": "61eb8b158e198d034f3763a2ecedb742d6109138c8eaf462a42b8b40b33cd3ef",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2469,
+          "sha256": "f89bdee5b5483b437c791425c3096f65a95ec7d642af10399a39e77eb70ba9fb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "9effea8dfd78b6324434ce056d9f7818b4f9ac5aa182a1347937a46502fb4e0a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "66f4dd694123806bb6de1e35a9c44b4b1931fe036848cd97ba6d914c3afff2b8",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_23_23": {
+      "matches": 462,
+      "teams": 22,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6468,
+          "sha256": "89a3fad6467161eca19d37b254580b01e02effe152aaa6b0e7c391ca8883308c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 1177,
+          "sha256": "e6f980eb9f10137376f004a7d7a9860535e43e3673d6dd65c7410ef950e0866a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 8366,
+          "sha256": "8dff135758dacf7a4679f5bdb2306433ab5eded3f482afd91f5e2e986e196b5a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 16632,
+          "sha256": "c9c9dcf25c6da13cc6cd0ff052a2895c29101984d010dc063d348ae109a8283c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 924,
+          "sha256": "c4e9eed5a958a4e603f9086fafb4730aa399f7072d705a4099ba7231835812a4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 462,
+          "sha256": "36f872b5f1c773bf8856779fa436feec60e59e8f20e05cee2417b9e117641c96",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 902,
+          "sha256": "d505476008e05f688fd8245bfe9d2eb63f6a19bdb14857937f2cfeb55688a124",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 378,
+          "sha256": "9c0268bcb29c5ccf288be1627ba1c4de43f25287db326f9ac05e0dfeb88ac72f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2334,
+          "sha256": "a379f6d104f439c17ede1e7ca95b644b7fc50782a7082c6098e7b13c169b4190",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 22,
+          "sha256": "c71517e825a2d75b0b7e660b455fdd0961f2ecccea0d75dccb9a609e9075a663",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 462,
+          "sha256": "6eb1a1186622cca6db6e62e16a2222e23b98007da189bc591624f98fafa904d3",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_24_24": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 6080,
+          "sha256": "fa29f073c81ccd8944c08978e1707d2ffda472a2624e37f6a2ad798f23eafabf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 946,
+          "sha256": "4105c893fdff2baac1e23d2850c8166e887f6cf73b27ac5b477d09f6e7793b44",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 555266,
+          "sha256": "2e4981a07a4f12c89e7c73e9d361b3e7bc4f6338de067e75f7d8851e25dcd5bd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6835,
+          "sha256": "e6687de2e2429e18e539ddcfaa2fb1df5934a297b0df896d40b4226a20b10da2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 13675,
+          "sha256": "84887d841502cfd4d3440ee0ce7bf123cb7c887547bafbfcf041771585b4426f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 760,
+          "sha256": "e28702b502ae841ebcd796e3a0e9f18a6b1bd4ec1176396d6fc2fcfefe00dd55",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "dc260c01f184413beacfc5066a3dc34ac70c7b7c4093637f1090c17dc12341c7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 536163,
+          "sha256": "b88efdf222e24b59bc241edcfd5a406a68338588258e5887b99bed91aae1c12e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 740,
+          "sha256": "9ade838d350c9dd7e885ecafa9e7273100a29047c8612842d3a744e40cba2243",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 8935,
+          "sha256": "7ab0aa66cf9c72dcaa5bb4636c808756f7b84e3cb08c980fcb0ecc8db6e5df0c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 30136,
+          "sha256": "fdff880d1a7fe1fe4d19772329c8c6abcfc230e1b6d6e982c1f47415e82bc6d8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 1863,
+          "sha256": "7ab94b695f9b97de8cc3cc68ccb63d93bd5af30d4d4a3e5d021281fc13b54b60",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "dc4f2fc2ff667b15762b54f76fd30cac21774d2a959e295e369e8ab86d1b48ec",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "76087d4eb659658593f029348a4eecc605ce81e438927e5a89a7a62a661afb65",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_25_25": {
+      "matches": 380,
+      "teams": 20,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 3,
+          "sha256": "7956c5d1f480f2597f78a0b03d5d1c55b970a723e4651bb560850bacb0b870ae",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 6080,
+          "sha256": "2301e7ab32f386e8b1641b75a90bde4b91cfafe472d323276981ae742185f8e1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 934,
+          "sha256": "8ff74a7ece1c49dda1f6e08188e3f4f8066a8fb2d169cd28b404a6eb1bc5ff4e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 557117,
+          "sha256": "76d03846a2f416383d31c085903a9f7d89ffa202344fa4ada48e1469631bed3d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 6984,
+          "sha256": "34145f418032623b7e059f00bac08dc9bbd9367dcc7c2dbab69084d0140793a1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 15078,
+          "sha256": "6f15b1189b34b8ae798d43d2dd262af99ae944dd63cabf444bc9860acf3e8103",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 760,
+          "sha256": "deca68768f907028c3fd773690ebdf336fb82c22fd45cfce277dc675010c4221",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 380,
+          "sha256": "b3935143f6a67c6abe8ad544a4d3ad8a5042944252948aea3f42803650401342",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 562130,
+          "sha256": "174f29b389379c87165f295ef6cf7a6eec28133966c58838a6f2374e40262d75",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 740,
+          "sha256": "beab44bb1be66a6f36fd9f2a2ded710f5383e37c7dc1fd01def3f755d24ca567",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 8837,
+          "sha256": "b8959d0204e843808fc48f8523ed4e1028b02d9af77cbb147209907e24cfe663",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 30766,
+          "sha256": "93019c6a1dc69d88cca8b999f5f1c857c9710d67d057fe78a16ea6ae065638e0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 2036,
+          "sha256": "a32a6fbbfffca7b19969b78b4c229bb963c4a8b64fe300be1da3cd329130f35b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "1b5a143f7aa78d408b6087a78ced7da29a5065bd05e5fddae0df02a5b520d7bb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 380,
+          "sha256": "728392c7f7e8f82034666b3c17407353a5171e25af1ebe28c6667da85869433c",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "J2_26_27": {
+      "matches": 90,
+      "teams": 20,
+      "snapshot": true,
+      "files": {
+        "coverage": {
+          "rows": 1440,
+          "sha256": "c0e109cd049795c04d687e1ac2f829d29eefbef5bf66a84701729e38f462757c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 239,
+          "sha256": "82df70aa72dbbf11bebaa415b70df1f09075140700cd1a9e2b1e385b192dc418",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 137065,
+          "sha256": "9d364cfa15bd57217a6b3d72be1c1a3db7152d11e5deb6b92645cdd454cacc72",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 1540,
+          "sha256": "c748d49f98938ac6ce8b64fec3d188df0c03c51c8074a1929b72fe8981d35af5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 3594,
+          "sha256": "1a82a22a53f5d1286bb72253d1f2b1a41a645ebf418e4c0c0e665d4b8c8cb00a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 180,
+          "sha256": "fc1c5a2c92974ac4962c5ba542e8f647a1fd3996735cb29340b16254ce623a85",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 90,
+          "sha256": "d4d1ed5536c9141699d5cf8e6c74747a27cb318a140558cc661dc8aba3f9a179",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 143711,
+          "sha256": "18f59dc7f0b27041b842d1065850093c67e2663707513f5229f0e95785c29ff5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 160,
+          "sha256": "026b98d6e59e3d92dfa94d401b789396e77c47dab005444ee1d8eb54539764d7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 2283,
+          "sha256": "ed5388450c063df0a149c6810bb9a348deff34379b99f6b62f24ae58849c0805",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 7394,
+          "sha256": "02b95987f5df5d5f0faee47ecf000947e577f347733206677aa8cac40c184d85",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 180,
+          "sha256": "6967ea253dcae96546f98f20eb4bd6ed849f435668ae877ddd286512cd9f31eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 20,
+          "sha256": "b8fa3f552e0642ff80b3c9caf0a5d94434c6b5f45b12e911263de4c230ee27eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 90,
+          "sha256": "c01c9d17190c02840d1e5540f9c047ce1a90d908e2aed8dc0bba9b388ae87dfb",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    }
+  }
+}

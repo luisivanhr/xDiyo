@@ -12,6 +12,10 @@ examples, override precedence, and statistical transition policies.
 
 ## Loading
 
+Japan's 2010–2026/27 publications also carry these fields. See the
+[Japan enrichment](japan_enrichment.md) for boundary evidence and the special
+handling of the 2026 transition tournament.
+
 ```python
 from xdiyo_analytics.data import load_seasons
 from xdiyo_analytics.histories import build_team_history

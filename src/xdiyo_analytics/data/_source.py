@@ -94,7 +94,8 @@ def _open_source(data_root, season_stem, record_path=None, *, existing_record=Fa
     league, start, end = season_stem.rsplit("_", 2)
     if (any(type(scope.get(k)) is not int or scope[k] <= 0 for k in ("league_id", "season_id", "season_start", "season_end"))
             or scope.get("league_name") != league or scope["season_start"] % 100 != int(start)
-            or scope["season_end"] % 100 != int(end) or scope["season_end"] != scope["season_start"] + 1):
+            or scope["season_end"] % 100 != int(end)
+            or scope["season_end"] not in (scope["season_start"], scope["season_start"] + 1)):
         raise ValueError("Manifest competition/season does not match the requested season")
     version = manifest.get("version")
     if not isinstance(version, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", version):

@@ -1,0 +1,15 @@
+{
+  "matches": 12494,
+  "default_excludes_one_native_awarded_match": true,
+  "features": [
+    "home::promoted",
+    "home::relegated",
+    "home::goals_mean",
+    "away::promoted",
+    "away::relegated",
+    "away::goals_mean"
+  ],
+  "folds": 16,
+  "fitting_performed": false,
+  "all_movement_predictors_present": true
+}

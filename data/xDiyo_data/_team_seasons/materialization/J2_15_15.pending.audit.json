@@ -1,0 +1,9 @@
+{
+  "season": "J2_15_15",
+  "old_manifest_sha256": "ac474007469747e8cd512e6fd571b2c2440479c33f5afcc5620bed42910a5865",
+  "old_publication_sha256": "8980268f0b6bbfe1967ffee054a6d4e6f038e6fc1854b301264ef1a44a163a51",
+  "new_manifest_sha256": "df326c6abf1d2aac7d128960ae06b44799d373b64f18a00dbc00843488c2476f",
+  "new_publication_sha256": "b5510cd757089d3513c9953b5693a9a4f607adb3a95a30680f3594a8dcb3753b",
+  "matches_sha256": "407576595d5aca13bdd1212b124766a1e9af7a7bf81cdab0a5f065e885e6f52d",
+  "season_sha256": "0badf54d03a941de29ecfc20ffb65bdabe478f9f0090b79c19deed306e50441b"
+}

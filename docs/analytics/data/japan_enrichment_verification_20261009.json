@@ -1,0 +1,42 @@
+{
+  "filled_values_verified_against_workbook_extract": 37040,
+  "by_statistic": {
+    "redCards": 13920,
+    "expectedGoals": 12006,
+    "yellowCards": 1766,
+    "goalkeeperSaves": 96,
+    "fouls": 9240,
+    "shotsOnGoal": 12
+  },
+  "by_period": {
+    "ALL": 7854,
+    "1ST": 14590,
+    "2ND": 14596
+  },
+  "nested_long_parity_matches": 7158,
+  "history_rows": 24988,
+  "all_movement_flags_present": true,
+  "unrelated_files_unchanged": 3752,
+  "parquet_files_verified": 445,
+  "compression": "ZSTD",
+  "publications": 35,
+  "matches": 12494,
+  "regression_tests": {
+    "pandas_2_2": 147,
+    "pandas_3": 62
+  },
+  "idempotent_backfill_filled_cells": 0,
+  "preserved_native_awarded_fixtures": [
+    {
+      "event_id": 9309221,
+      "home_name": "Urawa Red Diamonds",
+      "away_name": "Shonan Bellmare",
+      "status": "finished",
+      "status_code": 100
+    }
+  ],
+  "final_score_crosscheck": {
+    "checked": 2572,
+    "discrepancies": []
+  }
+}
