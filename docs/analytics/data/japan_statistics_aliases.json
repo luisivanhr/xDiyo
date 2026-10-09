@@ -1,0 +1,223 @@
+[
+  {
+    "league": "J1",
+    "name": "Chiba",
+    "team_id": 3144,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 8,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348591,
+      16348584,
+      16348570
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Iwata",
+    "team_id": 3132,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 106,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      12004604,
+      12004451,
+      12831405
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Kyoto",
+    "team_id": 3149,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 152,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348594,
+      16348586,
+      16348574
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Machida",
+    "team_id": 44409,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 84,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348601,
+      16348581,
+      16348576
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Mito",
+    "team_id": 21901,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 8,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348599,
+      16348582,
+      16348580
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Okayama",
+    "team_id": 34034,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 46,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348594,
+      16348585,
+      16348578
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Tokushima",
+    "team_id": 21907,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 38,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      9309667,
+      9309666,
+      9309652
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Urawa Reds",
+    "team_id": 3145,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 257,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348589,
+      16348585,
+      16348572
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Verdy",
+    "team_id": 3139,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 84,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      16348589,
+      16348584,
+      16348575
+    ]
+  },
+  {
+    "league": "J1",
+    "name": "Yamaga",
+    "team_id": 26011,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 34,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      8236507,
+      8236497,
+      8236494
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Chiba",
+    "team_id": 3144,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345959,
+      15345961,
+      15345951
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Kyoto",
+    "team_id": 3149,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345871,
+      15345877,
+      15342059
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Machida",
+    "team_id": 44409,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345966,
+      15345954,
+      15345935
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Mito",
+    "team_id": 21901,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345955,
+      15345956,
+      15345941
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Okayama",
+    "team_id": 34034,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345869,
+      15345870,
+      15345872
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Urawa Reds",
+    "team_id": 3145,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345966,
+      15345953,
+      15345941
+    ]
+  },
+  {
+    "league": "J1_Transition",
+    "name": "Verdy",
+    "team_id": 3139,
+    "reviewed_on": "2026-10-09",
+    "matched_fixtures": 18,
+    "evidence": "Reviewed abbreviated club name; unique ordered-team and same-calendar-date fixtures.",
+    "example_event_ids": [
+      15345960,
+      15345956,
+      15345935
+    ]
+  }
+]

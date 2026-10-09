@@ -215,7 +215,7 @@ def _validate_season_options(seasons, leagues, tables, include_awarded):
         seasons = [seasons]
     if (not isinstance(seasons, (list, tuple)) or not seasons
             or any(not isinstance(s, str) or not re.fullmatch(r"[0-9]{2}_[0-9]{2}", s)
-                   or (int(s[:2]) + 1) % 100 != int(s[3:]) for s in seasons)):
+                   or int(s[3:]) not in (int(s[:2]), (int(s[:2]) + 1) % 100) for s in seasons)):
         raise ValueError("Choose seasons such as ['22_23', '23_24', '24_25']")
     if len(set(seasons)) != len(seasons):
         raise ValueError("Choose each season only once")

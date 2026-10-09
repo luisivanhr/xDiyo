@@ -1,0 +1,1313 @@
+{
+  "notes": "Entry into the season, not end-of-season relegation. Full observed ID rosters reviewed against J.League tournament-history membership counts. Same/adjacent-division comparison for known history; primary-source reviews for 2010 and entrants from uncollected JFL/J3. 2026 transition and 2026/27 share the 2025 entry changes, with 2025 predecessor IDs. Modern native team names are preserved. Membership complete does not imply completed match schedule.",
+  "seasons": [
+    {
+      "stem": "J1_10_10",
+      "matches_sha256": "43f60554299b80496e3b90fa26e8fbf104d6bf3d46a7b89a31e654f894313559",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3141,
+        3145,
+        3146,
+        3147,
+        3148,
+        3149,
+        5127,
+        5128,
+        5130,
+        21902,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_11_11",
+      "matches_sha256": "42c32f751191c874b09f0fc68a9e6e6c84507c5bcfd2c637339827eed52c91ba",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3143,
+        3145,
+        3146,
+        3148,
+        5127,
+        5128,
+        5130,
+        5762,
+        21902
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_12_12",
+      "matches_sha256": "912b30d26bd6ab48090ad1cd8874235f400c4803a83e61ea335f1e8fb78e4592",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5128,
+        5130,
+        21904
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_13_13",
+      "matches_sha256": "d874ddbda9c177937f6adf76f15cefdcaca08133f6b957c1f4e58887c07bd845",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3140,
+        3141,
+        3145,
+        3147,
+        3148,
+        5127,
+        5128,
+        5129,
+        5130,
+        5762,
+        21904,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_14_14",
+      "matches_sha256": "e345cad34d6ea47340431b3f8a4d75ccbdf6ba42a86d07b2ab7cb1cd1329eaea",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5128,
+        5130,
+        5762,
+        21904,
+        21907
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_15_15",
+      "matches_sha256": "96f83bcd6e06784a51420c1dcc61bc8bf0b86fec00fd8478c7b64de32f2e1309",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5128,
+        5762,
+        21902,
+        21904,
+        21905,
+        26011
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_16_16",
+      "matches_sha256": "82803ef6d50bf52960cca83d53e7028f81b2614cc4d078a2e2e0f88f5fc1b248",
+      "team_ids": [
+        3132,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3143,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5128,
+        5130,
+        5762,
+        21904,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_17_17",
+      "matches_sha256": "db5d33c2d12b16a98462c44a3fc3a4be03d2e6c887dc4fcd58d5a9c48bdd5df9",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5128,
+        5130,
+        5762,
+        21904
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_18_18",
+      "matches_sha256": "b8a46554cc8e7ed2d7f1f52996a43c2c1927039ec060c1b618168eebe9a136ee",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        21904,
+        21905,
+        38154
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_19_19",
+      "matches_sha256": "79276f1580a5fdf45694670e092f86f6bf7594d35b77e2896bdbfa39c42e1948",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3141,
+        3142,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5129,
+        21904,
+        21905,
+        26011
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_20_20",
+      "matches_sha256": "3eec666e55caa0461dfbe6c0de3255462c643cacf8f717240f2cc7a195c8da7c",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5129,
+        7061,
+        21904,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_21_21",
+      "matches_sha256": "067ad37026c9aceab2a9c02aa2999bead7361f77a686a3e3dd0e8b6bbbc3958b",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3143,
+        3145,
+        3146,
+        3147,
+        3148,
+        5127,
+        5129,
+        7061,
+        21904,
+        21905,
+        21907
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_22_22",
+      "matches_sha256": "8f28e4e3bf4cfa4e434ebd79497568a124985d7f0f8a98f9b2085c260cde8db0",
+      "team_ids": [
+        3132,
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3143,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        21904,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_23_23",
+      "matches_sha256": "489c5dc0ae1010fb0866f5333798066765a613608f68f70651e8c0958eee549a",
+      "team_ids": [
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3140,
+        3141,
+        3142,
+        3143,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        5128,
+        7061,
+        21904,
+        21905
+      ],
+      "member_count": 18,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_24_24",
+      "matches_sha256": "6fabeadbd64a85b1295cc6bf8b8eaf73faf4ada571e92ab3d8ea9b90b9b38271",
+      "team_ids": [
+        3132,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3139,
+        3140,
+        3141,
+        3142,
+        3143,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        5128,
+        21904,
+        21905,
+        44409
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_25_25",
+      "matches_sha256": "e2623c7daa88fa83f0997227933857d0c31ea31b9cdd1de5c5161149b982acde",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3139,
+        3140,
+        3141,
+        3143,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        5128,
+        7061,
+        21905,
+        34034,
+        44409
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J1_26_27",
+      "matches_sha256": "e1ee16588f802a88450325ac933b34d753c66cf056b09bdf3ed104d975b0cfed",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3139,
+        3140,
+        3141,
+        3143,
+        3144,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        21901,
+        34034,
+        38154,
+        44409
+      ],
+      "member_count": 20,
+      "snapshot": true
+    },
+    {
+      "stem": "J1_Transition_26_26",
+      "matches_sha256": "03cdbf7fafe9bb47320791f8081ffda180b5c56baaf9d05fdda3bbf5909bea6b",
+      "team_ids": [
+        3133,
+        3134,
+        3135,
+        3136,
+        3137,
+        3138,
+        3139,
+        3140,
+        3141,
+        3143,
+        3144,
+        3145,
+        3146,
+        3147,
+        3149,
+        5127,
+        21901,
+        34034,
+        38154,
+        44409
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_10_10",
+      "matches_sha256": "850932a239bc655a0cbcfcf2a8b877082e86da320c105020430386576a14c8cb",
+      "team_ids": [
+        3139,
+        3140,
+        3142,
+        3143,
+        3144,
+        5129,
+        5762,
+        7061,
+        8060,
+        21900,
+        21901,
+        21903,
+        21904,
+        21906,
+        21907,
+        26009,
+        34034,
+        34035,
+        40029
+      ],
+      "member_count": 19,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_11_11",
+      "matches_sha256": "01156903c035e0df328fa9aad896c1da01aaa3becbbd9b831b47ebb0e4e9e7c5",
+      "team_ids": [
+        3139,
+        3142,
+        3144,
+        3147,
+        3149,
+        5129,
+        7061,
+        8060,
+        21900,
+        21901,
+        21903,
+        21904,
+        21905,
+        21906,
+        21907,
+        26009,
+        34034,
+        34035,
+        38141,
+        40029
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_12_12",
+      "matches_sha256": "17337317d85f1409d16f97a56e5eb64a550b722d772925d19107a69a9c3fb68a",
+      "team_ids": [
+        3139,
+        3143,
+        3144,
+        3149,
+        5129,
+        5762,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21905,
+        21906,
+        21907,
+        26009,
+        26011,
+        34034,
+        34035,
+        38141,
+        40029,
+        44409
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_13_13",
+      "matches_sha256": "0687a7b17d9bb39c27d211273ee8fb21ec183f068007b4144f03d93bed009333",
+      "team_ids": [
+        3138,
+        3139,
+        3142,
+        3143,
+        3144,
+        3146,
+        3149,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21906,
+        21907,
+        26009,
+        26011,
+        34034,
+        34035,
+        38141,
+        38154,
+        40029
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_14_14",
+      "matches_sha256": "4ad93314bb886eb5f21796c4492fe105d35539e02ed203155e3c79e57f3e01c8",
+      "team_ids": [
+        3132,
+        3139,
+        3142,
+        3143,
+        3144,
+        3149,
+        5129,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21905,
+        21906,
+        26009,
+        26011,
+        34034,
+        34035,
+        38154,
+        38157,
+        40029
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_15_15",
+      "matches_sha256": "dfaa0d4ca9c7e9e42cf4b35255be4cd0bac226747d8e694f0282202979b6e765",
+      "team_ids": [
+        3132,
+        3139,
+        3141,
+        3142,
+        3143,
+        3144,
+        3149,
+        5129,
+        5130,
+        7061,
+        8060,
+        21900,
+        21901,
+        21903,
+        21906,
+        21907,
+        26009,
+        34034,
+        38138,
+        38154,
+        38157,
+        40029
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_16_16",
+      "matches_sha256": "c1330fad2eb4ac3d819c6cd80dc5242abda8c0a8e6f10054483f02bb78c2a5b7",
+      "team_ids": [
+        3133,
+        3139,
+        3141,
+        3142,
+        3144,
+        3149,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21906,
+        21907,
+        26011,
+        34034,
+        38138,
+        38146,
+        38154,
+        38157,
+        40029,
+        44409
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_17_17",
+      "matches_sha256": "fac5bbd8e28a3d241721075424b01aba9ef9613220ca87e6fd4a0a49b45c603d",
+      "team_ids": [
+        3136,
+        3139,
+        3143,
+        3144,
+        3149,
+        5129,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21905,
+        21906,
+        21907,
+        26011,
+        34034,
+        38138,
+        38146,
+        38154,
+        38157,
+        44409
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_18_18",
+      "matches_sha256": "52c3a9e1cc4788af38057100cf3633710853d33e8f93209aba4b6397b05b2dc9",
+      "team_ids": [
+        3139,
+        3143,
+        3144,
+        3149,
+        5128,
+        5129,
+        5130,
+        5762,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21903,
+        21907,
+        26009,
+        26011,
+        34034,
+        38138,
+        38146,
+        38157,
+        44409
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_19_19",
+      "matches_sha256": "e4865f29678d509275f5b195b12909cf532f5531153251cb41fbfcca35f6ea78",
+      "team_ids": [
+        3139,
+        3140,
+        3143,
+        3144,
+        3149,
+        5128,
+        5130,
+        5762,
+        7061,
+        8060,
+        21900,
+        21901,
+        21902,
+        21907,
+        26009,
+        34034,
+        38138,
+        38146,
+        38154,
+        44409,
+        44528,
+        162632
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_20_20",
+      "matches_sha256": "01c87f6b1f9e26928403516a34ba4fe56768bdd56934700ed1f58f411f9d5725",
+      "team_ids": [
+        3132,
+        3139,
+        3143,
+        3144,
+        3149,
+        5128,
+        5130,
+        5762,
+        8060,
+        21901,
+        21902,
+        21906,
+        21907,
+        26009,
+        26011,
+        34034,
+        38138,
+        38146,
+        38154,
+        40029,
+        44409,
+        44528
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_21_21",
+      "matches_sha256": "00db2e0d6cec897de3385f0a368b778d05926ea34d54cfd2cd55f45df94f2176",
+      "team_ids": [
+        3132,
+        3139,
+        3144,
+        3149,
+        5128,
+        5130,
+        5762,
+        8060,
+        21901,
+        21902,
+        21906,
+        26009,
+        26011,
+        34034,
+        38138,
+        38146,
+        38154,
+        40029,
+        44409,
+        44523,
+        44528,
+        189234
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_22_22",
+      "matches_sha256": "89edc969c5185b2b685fd2f1e3a566a382f12c9de3eac0fff55348f6bf13a17e",
+      "team_ids": [
+        3139,
+        3144,
+        3148,
+        5128,
+        5129,
+        5130,
+        5762,
+        7061,
+        21901,
+        21902,
+        21903,
+        21906,
+        21907,
+        26009,
+        34034,
+        38138,
+        38146,
+        38154,
+        44409,
+        44519,
+        44523,
+        44528
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_23_23",
+      "matches_sha256": "106c579008c87197261b31fe525d05a0419f473eba1e8d1cb9a4529a8d36a381",
+      "team_ids": [
+        3132,
+        3133,
+        3139,
+        3144,
+        3148,
+        5129,
+        5130,
+        5762,
+        21901,
+        21902,
+        21903,
+        21906,
+        21907,
+        26009,
+        34034,
+        38138,
+        38146,
+        38154,
+        44409,
+        44523,
+        118500,
+        256899
+      ],
+      "member_count": 22,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_24_24",
+      "matches_sha256": "2c9a953cadb9b2e223d2eba2030ac4cd7dc1ddcfe7bf6fd3beec0ea9a8f04022",
+      "team_ids": [
+        3133,
+        3144,
+        3148,
+        5129,
+        5762,
+        7061,
+        8060,
+        21901,
+        21902,
+        21903,
+        21906,
+        21907,
+        26009,
+        34034,
+        38146,
+        38154,
+        44523,
+        118500,
+        162632,
+        256899
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_25_25",
+      "matches_sha256": "08f6dc19262163137fe811e1fccaee16e1b93a78c58532da6f0ebec600e8a6ea",
+      "team_ids": [
+        3132,
+        3142,
+        3144,
+        3148,
+        5129,
+        5130,
+        5762,
+        8060,
+        21901,
+        21902,
+        21903,
+        21904,
+        21907,
+        34035,
+        38146,
+        38154,
+        44523,
+        79907,
+        118500,
+        256899
+      ],
+      "member_count": 20,
+      "snapshot": false
+    },
+    {
+      "stem": "J2_26_27",
+      "matches_sha256": "8a6200ac399c44858a03810b0778d438e80684a131dc245569461470ec4f268e",
+      "team_ids": [
+        3132,
+        3142,
+        3148,
+        5128,
+        5129,
+        5130,
+        5762,
+        7061,
+        21902,
+        21904,
+        21905,
+        21907,
+        34035,
+        44523,
+        56419,
+        79907,
+        118478,
+        118500,
+        256899,
+        287058
+      ],
+      "member_count": 20,
+      "snapshot": true
+    }
+  ],
+  "boundaries": [
+    {
+      "stem": "J1_10_10",
+      "promoted_ids": [
+        3148,
+        3141,
+        21905
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": true,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2010 J1 entry: Sendai, Cerezo Osaka, Shonan promoted from J2."
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_10_10",
+      "promoted_ids": [
+        40029
+      ],
+      "relegated_ids": [
+        3140,
+        5129,
+        3144
+      ],
+      "other_entry_ids": [],
+      "complete_review": true,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2010 J2 entry: Kitakyushu from JFL; Kashiwa, Oita, Chiba relegated from J1."
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_11_11",
+      "promoted_ids": [
+        38141
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2011 J2 entry from JFL/J3: Gainare Tottori"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_12_12",
+      "promoted_ids": [
+        26011,
+        44409
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2012 J2 entry from JFL/J3: Matsumoto Yamaga FC, Machida Zelvia"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_13_13",
+      "promoted_ids": [
+        38154
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2013 J2 entry from JFL/J3: V-Varen Nagasaki"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_14_14",
+      "promoted_ids": [
+        38157
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2014 J2 entry from JFL/J3: Kamatamare Sanuki"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_15_15",
+      "promoted_ids": [
+        38138
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2015 J2 entry from JFL/J3: Zweigen Kanazawa"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_16_16",
+      "promoted_ids": [
+        38146,
+        44409
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2016 J2 entry from JFL/J3: Renofa Yamaguchi FC, Machida Zelvia"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_17_17",
+      "promoted_ids": [
+        5129
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2017 J2 entry from JFL/J3: Oita Trinita"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_18_18",
+      "promoted_ids": [
+        26009
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2018 J2 entry from JFL/J3: Tochigi SC"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_19_19",
+      "promoted_ids": [
+        44528,
+        162632
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2019 J2 entry from JFL/J3: FC Ryukyu, Kagoshima United"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_20_20",
+      "promoted_ids": [
+        40029,
+        21906
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2020 J2 entry from JFL/J3: Giravanz Kitakyushu, Thespa Gunma"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_21_21",
+      "promoted_ids": [
+        44523,
+        189234
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2021 J2 entry from JFL/J3: Blaublitz Akita, SC Sagamihara"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_22_22",
+      "promoted_ids": [
+        21903,
+        44519
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2022 J2 entry from JFL/J3: Roasso Kumamoto, Iwate Grulla Morioka"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_23_23",
+      "promoted_ids": [
+        256899,
+        118500
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2023 J2 entry from JFL/J3: Iwaki FC, Fujieda MYFC"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_24_24",
+      "promoted_ids": [
+        8060,
+        162632
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2024 J2 entry from JFL/J3: Ehime FC, Kagoshima United"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_25_25",
+      "promoted_ids": [
+        5130,
+        79907,
+        34035
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+          "kind": "primary",
+          "scope": "2025 J2 entry from JFL/J3: RB Omiya Ardija, FC Imabari, Kataller Toyama"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    },
+    {
+      "stem": "J2_26_27",
+      "promoted_ids": [
+        118478,
+        56419,
+        287058
+      ],
+      "relegated_ids": [],
+      "other_entry_ids": [],
+      "complete_review": false,
+      "sources": [
+        {
+          "url": "https://www.jleague.jp/news/article/32852/",
+          "kind": "primary",
+          "scope": "2026 J2 entry from JFL/J3: Vanraure Hachinohe, Tochigi City FC, Tegevajaro Miyazaki"
+        }
+      ],
+      "reviewed_on": "2026-10-09"
+    }
+  ],
+  "sources": [
+    "https://www.jleague.jp/corporate/about_competitions/tournament_history/",
+    "https://www.jleague.jp/news/article/32852/",
+    "https://www.jleague.jp/news/article/31576/"
+  ]
+}

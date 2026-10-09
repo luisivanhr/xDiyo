@@ -36,6 +36,10 @@ and Premiership 2015/16.
 
 ## Matching and field mapping
 
+The [Japan extension](japan_enrichment.md) adds calendar-year J1 imports and an
+explicit `--leagues` scope. Its 2026 transition tournament is kept separate from
+2026/27. The earlier European publications are unchanged by that scoped import.
+
 Fixtures are matched using league, season, ordered home/away team identities and
 calendar date. Provider match IDs are never treated as native event IDs. Existing
 reviewed aliases and schedule exceptions are reused. The supplementary aliases in

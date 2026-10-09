@@ -1,0 +1,9 @@
+{
+  "season": "J1_24_24",
+  "old_manifest_sha256": "69de6f44ea218e5f2d9b02797ee71df74a78fb38791fb4ceefaa66f87bf37720",
+  "old_publication_sha256": "81c8a8807f0fddebf623ac1ccdb6a35cdfab87d2fe44b3a81a1cf140071e8e8f",
+  "new_manifest_sha256": "b66e82342daef5763bdb14ac3a567444fc8deb3a18628d7373192ddc9e827507",
+  "new_publication_sha256": "c7db3e47fde18df073788facf598d22e173bf2bdbcffa217f086a99d26c12517",
+  "matches_sha256": "3dabb2d7bebd64e23312fbef65d5fc82de3ff361bfbe8af82c72c5eb7baeb49b",
+  "season_sha256": "3433ee500c7ff9cf02bf60f99dfc11e59cecf9177d36af10c1f8f9d3f8382134"
+}

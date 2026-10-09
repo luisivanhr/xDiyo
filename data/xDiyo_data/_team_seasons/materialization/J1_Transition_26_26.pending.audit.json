@@ -1,0 +1,9 @@
+{
+  "season": "J1_Transition_26_26",
+  "old_manifest_sha256": "f6da86ae0a4ab008ae27dcd8398e2d76ad4424bb65f79442decb39f63c902cd8",
+  "old_publication_sha256": "9eefe0cecd8db3e0f50b0dc332a9aaac9126c375e00664222ab9b98d7e9fb3b8",
+  "new_manifest_sha256": "f1e3bdb38e82fbdabcd24ef92cba9860dca4670d9517499a79dcbb761763fa8e",
+  "new_publication_sha256": "bdb4ed066b623cb982361acf5d9cc3fadc899e17d55f3ee1e1a0b2a1f613cc0e",
+  "matches_sha256": "70f775b6e46549ec488dd1fdb5c0a64f9e37f0ebf651cdcb5261c9e06ab54310",
+  "season_sha256": "8bdf24068fa7387b003f6f783ae52c70f266b82ff23f8c8e5734736b55e4e72a"
+}

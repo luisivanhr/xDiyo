@@ -8,6 +8,7 @@ from collections import Counter, defaultdict
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import time
 import unicodedata
@@ -34,9 +35,21 @@ def dump(path, value):
     Path(path).write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
 
+def statistics_scope(row):
+    """Resolve calendar seasons and the distinct Japanese transition tournament."""
+    if (row['country'], row['league']) == ('Japan', 'J1 League'):
+        year = str(row['season'])
+        if re.fullmatch(r'20\d{2}', year):
+            suffix = f'{int(year) % 100:02}'
+            return ('J1_Transition' if year == '2026' else 'J1'), f'{suffix}_{suffix}'
+        return 'J1', _season(year)
+    return LEAGUES.get((row['country'], row['league'])), _season(row['season'])
+
+
 def extract(workbook, directory):
     fingerprint = digest(workbook)
-    directory = directory / fingerprint[:20]
+    # Extraction identity includes the mapping revision, not only workbook bytes.
+    directory = directory / 'calendar-seasons-v2' / fingerprint[:20]
     directory.mkdir(parents=True, exist_ok=True)
     marker = directory / 'extract.json'
     if marker.exists():
@@ -61,8 +74,7 @@ def extract(workbook, directory):
                 if number == 1:
                     continue
                 row = {name: book.decode(cells.get(col)) for col, name in headers.items()}
-                league = LEAGUES.get((row['country'], row['league']))
-                season = _season(row['season'])
+                league, season = statistics_scope(row)
                 if league is None or season is None:
                     continue
                 row.update(source_league=league, source_season=season, source_row=number)
@@ -270,6 +282,9 @@ def run(args):
     sources, native, pairs = {}, [], set()
     for path in sorted(root.glob('*.manifest.json')):
         stem = path.name.removesuffix('.manifest.json')
+        league, a, b = stem.rsplit('_', 2)
+        if getattr(args, 'leagues', None) and league not in args.leagues:
+            continue
         source = _open_source(root, stem)
         match_path = source.table_path('matches')
         if digest(match_path) != source.manifest['tables']['matches']['sha256']:
@@ -378,4 +393,5 @@ if __name__ == '__main__':
     p.add_argument('--mapping-root', default='data/odds')
     p.add_argument('--team-aliases', default='docs/analytics/data/statistics_backfill_aliases.json')
     p.add_argument('--apply', action='store_true')
+    p.add_argument('--leagues', nargs='+', help='Only inspect/publish these native league names.')
     run(p.parse_args())

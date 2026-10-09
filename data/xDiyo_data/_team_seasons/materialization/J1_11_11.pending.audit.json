@@ -1,0 +1,9 @@
+{
+  "season": "J1_11_11",
+  "old_manifest_sha256": "74850d36efacc42b895954c5ba22f5f9232b80acbfdc472b4584d661e6f79afe",
+  "old_publication_sha256": "df9b5a9aae83c42f32357583d057e0fa189a70e6d7701d36c32f2d86ab2b93d6",
+  "new_manifest_sha256": "d805ae9a1c7bdb7f8446d916ce7dfdddcdfd5231de898e96ccbc1b913f9c3ca8",
+  "new_publication_sha256": "ab110b9afb16d969498261e487faaf1b6c7ba71493f89436c8cf0643ef1c4236",
+  "matches_sha256": "dc4e0842c3d1de28616f6f253ebb2973d9dfd224a334ffa03c6c622393462a4c",
+  "season_sha256": "e04a1ff22869ab15984dc9ff927d61839c4541be436f3be977f7e0bc8c251d2b"
+}
