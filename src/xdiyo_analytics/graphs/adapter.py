@@ -9,6 +9,7 @@ import pandas as pd
 from .config import CLASS_ORDER, MATCH_KEYS
 from .preprocessing import GraphPreprocessor
 from .store import _ids, _times
+from .streaming import GroupPlan, PreparedGroups, release_temporary_frames
 from ..training.control import TrainingControl, run_iterations
 
 
@@ -167,52 +168,13 @@ class _Backend:
                 raise ValueError("Fixture features must use the same previous-day cutoff as graph inputs.")
         return issue
 
-    def _raw_groups(self, context):
-        issue = self._validate(context)
-        groups, numeric_all = [], np.empty((len(context.X), 5+len(self.config.fixture_features)))
-        for time, positions in issue.groupby(issue, sort=True).indices.items():
-            meta = context.metadata.iloc[positions]
-            teams = set(meta.home_id.tolist()) | set(meta.away_id.tolist())
-            snap = self.store.snapshot(time, self.config, teams)
-            indices = {t: i for i, t in enumerate(snap.teams)}
-            home = np.array([indices[t] for t in meta.home_id], dtype=np.int64)
-            away = np.array([indices[t] for t in meta.away_id], dtype=np.int64)
-            latest = snap.edges.groupby("team_id").kickoff_at.max()
-            def rest(t):
-                return (time-latest[t]).total_seconds()/86400 if t in latest else np.nan
-            neutral = meta["neutral_venue"].to_numpy(dtype=float, na_value=np.nan) if "neutral_venue" in meta else np.full(len(meta), np.nan)
-            if np.any(np.isfinite(neutral) & ~np.isin(neutral, [0, 1])):
-                raise ValueError("neutral_venue must be 0, 1 or missing.")
-            numeric = np.column_stack((neutral, [rest(t) for t in meta.home_id],
-                                       [rest(t) for t in meta.away_id],
-                                       snap.support[home], snap.support[away]))
-            if self.config.fixture_features:
-                numeric = np.column_stack((numeric, context.X.iloc[positions][list(self.config.fixture_features)].to_numpy(dtype=float, na_value=np.nan)))
-            numeric_all[positions] = numeric
-            groups.append((positions, snap, home, away, meta, numeric))
-        return groups, numeric_all
+    def _plan(self, context):
+        return GroupPlan(self.store, self.config, context, self._validate(context))
 
-    def _prepare(self, raw):
-        """Consume the owned raw-group list in its original chronological order.
+    def _stream(self, context):
+        return PreparedGroups(self._plan(context), self.preprocessor, self.device)
 
-        CPU tensors may share NumPy buffers with a snapshot. Releasing the
-        snapshot frees its DataFrame and other unused fields; tensor-owned
-        buffers stay alive. Do not retain all raw frames alongside tensors.
-        """
-        torch = _torch()
-        groups = []
-        for i in range(len(raw)):
-            positions, snap, home, away, meta, numeric = raw[i]
-            groups.append((positions, self.preprocessor.tensors(snap, self.device),
-                           torch.as_tensor(home, device=self.device),
-                           torch.as_tensor(away, device=self.device),
-                           torch.as_tensor(self.preprocessor.fixture(meta, numeric), dtype=torch.float32, device=self.device)))
-            raw[i] = None
-            # Drop loop-local references before preparing the next issuance.
-            del snap, meta, numeric
-        raw.clear()
-        return groups
-
+    @release_temporary_frames
     def initialize(self, context):
         torch = _torch()
         from .network import TemporalNetwork
@@ -232,26 +194,30 @@ class _Backend:
             self.trained_through = max(self.trained_through,
                 respect_result_availability(context.validation.metadata,
                     self.config.labels_known_at(context.validation.metadata.kickoff_at)).max())
-        raw, numeric = self._raw_groups(context)
-        largest = max(snap.cutoff for _, snap, *_ in raw)
+        plan = self._plan(context)
+        numeric, leagues = plan.fitting_inputs()
+        largest = max(self.config.history_cutoff(time) for time, _ in plan.descriptors)
         fitting_history = self.store.eligible(largest)
         self.preprocessor = GraphPreprocessor(self.config).fit(
-            fitting_history, [g[1] for g in raw], context.metadata, numeric)
+            fitting_history, (), context.metadata, numeric, extra_leagues=leagues)
         del fitting_history
         # fork_rng avoids altering the caller's CPU random stream.
         with torch.random.fork_rng(devices=[]):
             torch.random.default_generator.manual_seed(self.seed)
             self.model = TemporalNetwork(self.config, len(self.preprocessor.leagues),
-                self.preprocessor.edges(raw[0][1]).shape[1],
-                self.preprocessor.fixture(context.metadata, numeric).shape[1]).to(self.device)
+                2*len(self.preprocessor.edge_columns)+1+len(self.preprocessor.leagues)+1,
+                2*len(self.preprocessor.fixture_columns)+len(self.preprocessor.leagues)+1).to(self.device)
         self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
         del numeric
-        self.train_groups = self._prepare(raw)
+        self.train_groups = PreparedGroups(plan, self.preprocessor, self.device)
         self.train_targets, self.train_weights = self._targets(context)
         self.validation_groups = None
         if context.validation is not None:
-            self.validation_groups = self._prepare(self._raw_groups(context.validation)[0])
+            self.validation_groups = self._stream(context.validation)
+            # Preserve eager input validation without retaining its tensors.
+            for i in range(len(self.validation_groups)):
+                self.validation_groups[i]
             self.validation_targets, self.validation_weights = self._targets(context.validation)
         self.refresh_version()
 
@@ -267,16 +233,21 @@ class _Backend:
             raise ValueError("Observation weights must be finite, nonnegative and have positive total.")
         return y, torch.tensor(w.copy(), dtype=torch.float32, device=self.device)
 
-    def _loss(self, groups, targets, weights, backward=False):
+    def _group_loss(self, group, targets, weights, backward):
         torch = _torch()
+        positions, data, home, away, fixture = group
+        logits = self.model(data, home, away, fixture)
+        ix = torch.as_tensor(positions, device=self.device)
+        loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * weights[ix]).sum()/weights.sum()
+        if backward:
+            loss.backward()
+        return float(loss.detach())
+
+    @release_temporary_frames
+    def _loss(self, groups, targets, weights, backward=False):
         value = 0.
-        for positions, data, home, away, fixture in groups:
-            logits = self.model(data, home, away, fixture)
-            ix = torch.as_tensor(positions, device=self.device)
-            loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * weights[ix]).sum()/weights.sum()
-            if backward:
-                loss.backward()
-            value += float(loss.detach())
+        for i in range(len(groups)):
+            value += self._group_loss(groups[i], targets, weights, backward)
         return value
 
     def step(self):
@@ -324,19 +295,43 @@ class _Backend:
         if len(issue) and min(self.config.history_cutoff(t) for t in issue) < self.trained_through:
             raise ValueError("Requested issuance precedes the fitted/validation-selection boundary.")
 
+    def _predict_group(self, group, output):
+        positions, data, home, away, fixture = group
+        output[positions] = self.model(data, home, away, fixture).softmax(-1).cpu().numpy()
+
+    @release_temporary_frames
     def predict(self, context):
         torch = _torch()
         issue = self._validate(context)
         self._boundary(issue)
         output = np.empty((len(context.X), 3))
         with inference_mode(self.model):
-            for positions, data, home, away, fixture in self._prepare(self._raw_groups(context)[0]):
-                output[positions] = self.model(data, home, away, fixture).softmax(-1).cpu().numpy()
+            groups = self._stream(context)
+            for i in range(len(groups)):
+                self._predict_group(groups[i], output)
         columns = pd.MultiIndex.from_product([[self.target_name], self.output_classes], names=['target', 'class'])
         probabilities = pd.DataFrame(output, index=context.X.index, columns=columns)
         predicted = pd.DataFrame({self.target_name: [self.output_classes[i] for i in output.argmax(1)]}, index=context.X.index)
         return {"predict_proba": probabilities, "predict": predicted}
 
+    def _encode_group(self, time, positions, queries, records):
+        teams = queries.iloc[positions].team_id.tolist()
+        snap = self.store.snapshot(time, self.config, teams)
+        data = self.preprocessor.tensors(snap, self.device)
+        z = self.model.encode(data).cpu().numpy()
+        priors = self.model.prior(data["league"], data["entry"]).cpu().numpy()
+        lookup = {t: n for n, t in enumerate(snap.teams)}
+        for pos, team in zip(positions, teams):
+            i = lookup[team]
+            records[pos] = dict(team_id=team, issuance_at=time, history_cutoff=snap.cutoff,
+                support=snap.support[i], gate=snap.gate[i], league=snap.league[i], entry=snap.entry[i],
+                evidence=snap.evidence(team, self.config.layers), model_version=self.model_version,
+                event_store_version=self.store.version, forecast_policy=self.config.forecast_policy,
+                trained_through=self.trained_through,
+                **{f"z_{j}": float(v) for j, v in enumerate(z[i])},
+                **{f"prior_{j}": float(v) for j, v in enumerate(priors[i])})
+
+    @release_temporary_frames
     def encode_teams(self, queries):
         torch = _torch()
         if not queries.index.is_unique:
@@ -347,21 +342,7 @@ class _Backend:
         records = [None] * len(queries)
         with inference_mode(self.model):
             for time, positions in issue.groupby(issue, sort=True).indices.items():
-                teams = queries.iloc[positions].team_id.tolist()
-                snap = self.store.snapshot(time, self.config, teams)
-                data = self.preprocessor.tensors(snap, self.device)
-                z = self.model.encode(data).cpu().numpy()
-                priors = self.model.prior(data["league"], data["entry"]).cpu().numpy()
-                lookup = {t: n for n, t in enumerate(snap.teams)}
-                for pos, team in zip(positions, teams):
-                    i = lookup[team]
-                    records[pos] = dict(team_id=team, issuance_at=time, history_cutoff=snap.cutoff,
-                        support=snap.support[i], gate=snap.gate[i], league=snap.league[i], entry=snap.entry[i],
-                        evidence=snap.evidence(team, self.config.layers), model_version=self.model_version,
-                        event_store_version=self.store.version, forecast_policy=self.config.forecast_policy,
-                        trained_through=self.trained_through,
-                        **{f"z_{j}": float(v) for j, v in enumerate(z[i])},
-                        **{f"prior_{j}": float(v) for j, v in enumerate(priors[i])})
+                self._encode_group(time, positions, queries, records)
         frame = pd.DataFrame(records, index=queries.index)
         if len(frame):
             # Preserve IDs even when mixed with nullable context fields.

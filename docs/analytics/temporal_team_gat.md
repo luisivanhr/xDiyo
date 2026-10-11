@@ -385,73 +385,136 @@ A builder-importable example is provided by
 [the recipe helper](../../examples/temporal_team_gat_recipe.py). It only writes a
 recipe; it does not train or change any existing experiment.
 
-### Preparation memory
+### Bounded preparation and execution memory
 
-Native tensor preparation consumes its temporary raw-group list in chronological
-order. After each conversion it releases that raw snapshot, its edge DataFrame,
-and fixture metadata before converting the next group. CPU tensors retain any
-NumPy buffers they share; those buffers remain valid. The temporary fitting-history
-table is released after preprocessing is fitted, and the combined numeric fixture
-array is released after model construction. All native callers pass owned,
-temporary lists; the private `_prepare` helper empties the list it receives.
+Native GAT execution retains ordered issuance descriptors, copied fixture metadata,
+selected fixture-head inputs and the immutable event store. It reconstructs one
+raw snapshot and tensor group at a time for fitting, validation and prediction.
+There is no graph/tensor cache, device offload pool or learned-embedding cache.
+Existing builder recipes and native v2 model artifacts need no configuration change.
 
-Graph construction, round anchors, eligibility, decay weights, preprocessing,
-tensor types, architecture and optimizer updates are unchanged. Training still
-aggregates gradients over the same groups before one optimizer update. This is
-not per-issuance training or an approximation of the graph.
+Preprocessing first scans fitting issuances one at a time to collect the same
+snapshot league categories and aligned fixture numeric rows. Edge scaling still
+fits on the **unique eligible fitting history**, not duplicated edges across
+issuances. Category sorting, scaler arithmetic, missing masks, dtypes and fixture
+row order are unchanged. The fixture numeric array is small and is discarded after
+fitting preprocessing. Validation inputs are checked in a bounded pass before
+optimization, without fitting their preprocessing or retaining their tensors.
 
-The immutable event store and inspection snapshot schema remain intact. We have
-not adopted the research bundle's scores-only source projection: it changes the
-source fingerprint and can remove inspection evidence or selected statistics.
-Unused temporary metadata is freed with its owning snapshot rather than changing
-the source schema or serialization contract.
+Every training iteration zeros gradients once, consumes the original chronological
+group order, uses the same full-population observation-weight denominator, adds
+the prior penalty once and takes exactly one AdamW step. Training cross-entropy is
+still measured before that update; validation is evaluated afterward under no-grad.
+Early stopping, restart selection, scheduling and restored checkpoints retain their
+native semantics. Reconstructing a graph does not change its cutoffs, contents,
+round anchors, weights, node/edge order or model architecture.
 
-Raw snapshots are still initially materialized together, and prepared tensors for
-all train/validation groups remain resident. Memory therefore still scales with
-the sum of edges across issuances. This change removes unnecessary overlap; it
-does not guarantee that the full 41.7-million-edge research fold fits in RAM.
+Embedding and attention inspection also finish and release one issuance before
+starting the next. Helper frames prevent the previous tensors or autograd graph
+from lingering while a new graph is built. Errors and KeyboardInterrupt preserve
+the traceback stack while clearing completed frames' temporary locals, so retaining
+an exception does not pin a graph. Inference restores the caller's module mode even
+on error. Results still accumulate their requested output rows: a very large
+attention table itself can therefore require significant memory.
 
-#### Verification against aca3e31
+No source columns, inspection evidence or immutable-store fingerprint inputs are
+projected away. Native save/load remains v2 and saves no runtime graph populations.
+It is still a prediction artifact, not an optimizer-resume checkpoint. Private
+`train_groups`/`validation_groups` are now restartable, indexable streams rather
+than lists; explicitly calling `list(stream)` materializes all groups and defeats
+the bound. Native callers never do that.
 
-The preparation regression covers both forecast policies, grouped/interleaved
-fixtures, delayed result release, movement metadata, selected statistics with
-missing values and zeros, fixture predictors and unequal/zero observation
-weights. Preprocessing, group order and tensor bytes, every training/validation
-step, model parameters, AdamW state after every step, final summaries, predictions,
-embeddings and embedded-store save/reload are exact. Inference preserves fitted
-state and mode. A weak-reference test proves each raw snapshot and its frames
-are released before the next conversion, while tensor values survive.
+Live graph memory is bounded by the largest issuance graph and its autograd work,
+plus fixed source/model/optimizer storage and fixture descriptors/output rows. It
+no longer scales with the sum of repeated historical edges. This does **not**
+guarantee any particular production fold fits: the largest individual graph,
+source schema, output size and other processes still matter.
 
-The focused graph, orchestration, UI, persistence, calibration and reporting
-suite passed **177 tests**, with **4 optional LightGBM tests skipped**.
+#### Exactness and lifetime checks
 
-#### Bounded peak-memory measurements
+Tests compare the streamed path against frozen adapter and inspection sources
+from `f8962af`, stored under `tests/analytics/reference`. They check:
 
-`examples/benchmark_gat_preparation_memory.py` runs reference and native
-initialization in fresh subprocesses, loading the reference adapter verbatim
-from Git commit `aca3e31`. Both use native snapshot construction and identical
-synthetic inputs with eight statistic channels. No training experiments run.
-Windows process peak working set includes imports, event store, model/optimizer,
-raw snapshots, transformations and prepared tensors. Sizes below are decimal GB.
+- Preprocessing, category order, missing masks, group positions, tensor bytes,
+  gradients immediately before every optimizer step, parameters and AdamW state
+  immediately afterward, losses and restored best-state summaries.
+- Both forecast policies; grouped and interleaved fixtures; delayed availability;
+  movement-only league categories; cold-only training; missing/zero statistics;
+  declared fixture-head inputs; weighted and zero-weight observations.
+- Prediction, embeddings, attention, native embedded-store save/reload, frozen
+  inference state/mode, repeated stream passes, caller-input mutation isolation,
+  future-result mutation and a 100-day postponement with its original round anchor.
+- Weak-reference checks during initialization, updates, validation, prediction,
+  embeddings, attention and restarts. Previous snapshots and input tensors are
+  gone before the next snapshot is built. RuntimeError and KeyboardInterrupt
+  cleanup is checked while the exception traceback is deliberately retained.
 
-| Train / validation issuances | Directed edges | Reference peak | Native peak | Reduction |
+The targeted suite passes **23 tests**. The wider graph, orchestration, UI,
+persistence, calibration and reporting run passes **195 tests**, with **4 optional
+LightGBM tests skipped** because that extra is absent.
+
+#### Fresh-process synthetic resource measurements
+
+`examples/benchmark_gat_streaming.py` compares the pinned eager adapter against
+streaming using identical source data and configuration in separate processes.
+The three populations share the same immutable store fingerprint, 2,000 historical
+matches, 2,048 scheduled future fixtures and eight selected statistic channels.
+There are 4,000 directed edges in each live graph. Seed 17, dimension 32, two layers,
+two heads, half-life 180, CPU, one Torch thread; Python 3.12.14, pandas 3.0.6,
+Torch 2.14.0+cu130. Each run initializes, performs one complete update including
+validation, then predicts 24 issuances. No research experiment was run.
+
+Decimal GB; training plus validation edge counts exclude another 96,000 prediction
+edges. Validation contains 24 issuances in all three runs.
+
+| Training issuances | Train + validation edges | Eager peak RSS | Streaming peak RSS | Eager resident tensor bytes | Streaming resident tensor bytes |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 120 | 576,000 | 0.934 GB | 0.846 GB | 66,882,816 | 0 |
+| 480 | 2,016,000 | 1.122 GB | 0.848 GB | 234,089,856 | 0 |
+| 960 | 3,936,000 | 1.382 GB | 0.848 GB | 457,032,576 | 0 |
+
+The 960-issuance run reduced peak RSS by **38.6%**. Streaming retains no prepared
+graphs between operations; the largest transient prepared group was 464,464 bytes
+in these inputs, excluding autograd activations. Prepared inputs, preprocessing,
+updated model identity, optimizer state, losses and predictions have matching
+hashes for every paired run.
+
+At 960 issuances the per-phase sampled peaks (every 2 ms) and elapsed times were:
+
+| Phase | Eager peak RSS | Streaming peak RSS | Eager time | Streaming time |
 | --- | ---: | ---: | ---: | ---: |
-| 240 / 60 | 2,400,000 | 1.351 GB | 1.052 GB | 22.2% |
-| 1,806 / 96 | 4,564,800 | 1.977 GB | 1.480 GB | 25.2% |
+| Preprocessing / initialization | 1.379 GB | 0.711 GB | 10.60 s | 8.79 s |
+| Fitting, excluding validation | 1.357 GB | 0.848 GB | 11.00 s | 19.29 s |
+| Validation | 1.357 GB | 0.848 GB | 0.12 s | 0.33 s |
+| Prediction | 1.369 GB | 0.848 GB | 0.36 s | 0.34 s |
 
-Prepared tensor hashes and initial model identities match exactly for each pair.
-Initialization times were 5.64 / 5.64 seconds and 14.50 / 15.81 seconds respectively;
-these single-run measurements establish memory reduction, not a speedup. The
-full 41,732,050-edge production fold was not benchmarked. Python 3.12.14,
-pandas 3.0.6, Torch 2.14.0+cu130, CPU preparation with one Torch thread.
-Machine-readable results: [300 issuances](data/gat_preparation_memory.json) and
-[1,806 training issuances](data/gat_preparation_memory_1806.json).
+Process high-water RSS is recorded separately from the sampled phase peaks.
+Rebuilding each graph each iteration is slower: the fitting phase here took about
+**1.75 times** as long. These are single runs, not statistical speed estimates.
+A future bounded disk/tensor cache could trade I/O or a fixed memory budget for
+reconstruction work; none is enabled in this implementation.
+
+The full 41,732,050-edge production fold and 16,803,918-edge prediction population
+remain **unmeasured**. The support bundle contains actual-cohort evidence for the
+previous repair but no input Parquets for reproducing that experiment. These tests
+establish bounded native graph lifetimes and synthetic scaling, not the complete
+research fold's measured peak or runtime.
+
+Evidence: [120 issuances](data/gat_streaming_120.json),
+[480 issuances](data/gat_streaming_480.json),
+[960 issuances](data/gat_streaming_960.json). The previous release-on-conversion
+repair's initialization-only results remain in
+[the 300-issuance profile](data/gat_preparation_memory.json) and
+[the 1,806-issuance profile](data/gat_preparation_memory_1806.json); these describe
+that older eager implementation, not the current streaming path.
 
 ```powershell
 $env:PYTHONPATH = 'src'
-python examples/benchmark_gat_preparation_memory.py --output peak-memory.json
-python examples/benchmark_gat_preparation_memory.py --history-matches 1200 --issuances 1806 --validation-issuances 96 --output peak-memory-1806.json
+python examples/benchmark_gat_streaming.py --issuances 120 --output streaming-120.json
+python examples/benchmark_gat_streaming.py --issuances 480 --output streaming-480.json
+python examples/benchmark_gat_streaming.py --issuances 960 --output streaming-960.json
 ```
 
-The benchmark requires `psutil` in the development environment; it is not a new
-runtime dependency of the model.
+The benchmark requires development-only `psutil`. Before allocating a population,
+it estimates additional memory and refuses a run above 65% of available RAM.
+This conservative benchmark guard is not a production memory-limit guarantee.

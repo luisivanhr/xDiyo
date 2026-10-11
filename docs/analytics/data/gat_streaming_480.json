@@ -1,0 +1,152 @@
+[
+  {
+    "mode": "reference",
+    "reference": "f8962af",
+    "issuances": 480,
+    "validation_issuances": 24,
+    "prediction_issuances": 24,
+    "history_matches": 2000,
+    "train_validation_directed_edges": 2016000,
+    "prediction_directed_edges": 96000,
+    "maximum_live_graph_edges": 4000,
+    "prepared_population_bytes": 234089856,
+    "maximum_group_tensor_bytes": 464464,
+    "retained_group_tensor_bytes": 234089856,
+    "baseline_rss_bytes": 636313600,
+    "peak_rss_bytes": 1122050048,
+    "phases": {
+      "preprocessing_initialization": {
+        "peak_rss_bytes": 1046179840,
+        "seconds": 5.877216599998064
+      },
+      "fitting": {
+        "peak_rss_bytes": 1109327872,
+        "seconds": 5.1946905000077095
+      },
+      "validation": {
+        "peak_rss_bytes": 1109323776,
+        "seconds": 0.11612910000258125
+      },
+      "prediction": {
+        "peak_rss_bytes": 1122050048,
+        "seconds": 0.3407318999816198
+      }
+    },
+    "additional_memory_guard_bytes": 1901490304,
+    "available_bytes_at_guard": 6344335360,
+    "parity_sha256": "ab24066bf85e98b23189118ddd7af6a6ad01941096cbc2722450db03f18691b1",
+    "model_version": "af2665bedb13ab794f1fe7e0d404ec4785b3c4535b803b484bb7cc0bf3af386f",
+    "store_version": "464cb77792380bb834ea8b7717983cfa9567d76645e076c67be949f859245f0c",
+    "torch": "2.14.0+cu130",
+    "pandas": "3.0.6",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "seed": 17,
+    "threads": 1,
+    "device": "cpu",
+    "config": {
+      "timezone": "UTC",
+      "forecast_policy": "by_round",
+      "round_keys": [
+        "competition_id",
+        "season_id",
+        "round"
+      ],
+      "embedding_dim": 32,
+      "layers": 2,
+      "heads": 2,
+      "half_life_days": 180.0,
+      "seasonal_retention": 0.5,
+      "support_kappa": 5.0,
+      "hidden_width": 64,
+      "statistics": [
+        "team::ALL::Synthetic::stat0::value",
+        "opponent::ALL::Synthetic::stat0::value",
+        "team::ALL::Synthetic::stat1::value",
+        "opponent::ALL::Synthetic::stat1::value",
+        "team::ALL::Synthetic::stat2::value",
+        "opponent::ALL::Synthetic::stat2::value",
+        "team::ALL::Synthetic::stat3::value",
+        "opponent::ALL::Synthetic::stat3::value"
+      ],
+      "fixture_features": [],
+      "learning_rate": 0.001,
+      "weight_decay": 0.001,
+      "prior_penalty": 0.001
+    }
+  },
+  {
+    "mode": "native",
+    "reference": "f8962af",
+    "issuances": 480,
+    "validation_issuances": 24,
+    "prediction_issuances": 24,
+    "history_matches": 2000,
+    "train_validation_directed_edges": 2016000,
+    "prediction_directed_edges": 96000,
+    "maximum_live_graph_edges": 4000,
+    "prepared_population_bytes": 234089856,
+    "maximum_group_tensor_bytes": 464464,
+    "retained_group_tensor_bytes": 0,
+    "baseline_rss_bytes": 635375616,
+    "peak_rss_bytes": 847826944,
+    "phases": {
+      "preprocessing_initialization": {
+        "peak_rss_bytes": 710496256,
+        "seconds": 5.044852500024717
+      },
+      "fitting": {
+        "peak_rss_bytes": 847626240,
+        "seconds": 9.677590800012695
+      },
+      "validation": {
+        "peak_rss_bytes": 847626240,
+        "seconds": 0.33314139998401515
+      },
+      "prediction": {
+        "peak_rss_bytes": 847826944,
+        "seconds": 0.33501030001207255
+      }
+    },
+    "additional_memory_guard_bytes": 670279176,
+    "available_bytes_at_guard": 6333677568,
+    "parity_sha256": "ab24066bf85e98b23189118ddd7af6a6ad01941096cbc2722450db03f18691b1",
+    "model_version": "af2665bedb13ab794f1fe7e0d404ec4785b3c4535b803b484bb7cc0bf3af386f",
+    "store_version": "464cb77792380bb834ea8b7717983cfa9567d76645e076c67be949f859245f0c",
+    "torch": "2.14.0+cu130",
+    "pandas": "3.0.6",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "seed": 17,
+    "threads": 1,
+    "device": "cpu",
+    "config": {
+      "timezone": "UTC",
+      "forecast_policy": "by_round",
+      "round_keys": [
+        "competition_id",
+        "season_id",
+        "round"
+      ],
+      "embedding_dim": 32,
+      "layers": 2,
+      "heads": 2,
+      "half_life_days": 180.0,
+      "seasonal_retention": 0.5,
+      "support_kappa": 5.0,
+      "hidden_width": 64,
+      "statistics": [
+        "team::ALL::Synthetic::stat0::value",
+        "opponent::ALL::Synthetic::stat0::value",
+        "team::ALL::Synthetic::stat1::value",
+        "opponent::ALL::Synthetic::stat1::value",
+        "team::ALL::Synthetic::stat2::value",
+        "opponent::ALL::Synthetic::stat2::value",
+        "team::ALL::Synthetic::stat3::value",
+        "opponent::ALL::Synthetic::stat3::value"
+      ],
+      "fixture_features": [],
+      "learning_rate": 0.001,
+      "weight_decay": 0.001,
+      "prior_penalty": 0.001
+    }
+  }
+]

@@ -52,8 +52,8 @@ class GraphPreprocessor:
                 raise ValueError("Selected statistics require both paired match perspectives.")
         return frame[list(self.edge_columns)].to_numpy(dtype=float, na_value=np.nan)
 
-    def fit(self, history, snapshots, fixtures, numeric):
-        categories = set(history.competition_id.tolist()) | set(fixtures.competition_id.tolist())
+    def fit(self, history, snapshots, fixtures, numeric, *, extra_leagues=()):
+        categories = set(history.competition_id.tolist()) | set(fixtures.competition_id.tolist()) | set(extra_leagues)
         for snap in snapshots:
             categories.update(x for x in snap.league if x is not None)
         self.leagues = {int(key): n+1 for n, key in enumerate(sorted(categories))}

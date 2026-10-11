@@ -15,24 +15,11 @@ import time
 import types
 
 
-def worker(args):
+def make_inputs(args):
     import numpy as np
     import pandas as pd
-    import psutil
-    import torch
     from xdiyo_analytics.graphs import TemporalEventStore, TemporalGraphConfig
-    from xdiyo_analytics.graphs.adapter import _Backend
-    from xdiyo_analytics.training.contracts import FitContext
-
-    if args.mode == "reference":
-        source = subprocess.check_output([
-            "git", "show", f"{args.reference}:src/xdiyo_analytics/graphs/adapter.py"
-        ], text=True)
-        module = types.ModuleType("xdiyo_analytics.graphs._memory_reference")
-        module.__package__ = "xdiyo_analytics.graphs"
-        exec(compile(source, "reference_adapter.py", "exec"), module.__dict__)
-        _Backend = module._Backend
-    torch.set_num_threads(1)
+    from xdiyo_analytics.training.contracts import FitContext, PredictionContext
     rows = []
     for i in range(args.history_matches):
         home, away = 1 + 2 * (i % 10), 2 + 2 * (i % 10)
@@ -54,7 +41,8 @@ def worker(args):
     schedule = pd.DataFrame([dict(event_id=args.history_matches + i + 1,
         kickoff_at=start + pd.Timedelta(days=i), home_id=1 + 2 * (i % 10),
         away_id=2 + 2 * (i % 10), competition_id=10, season_id=900, round=args.history_matches + i + 1)
-        for i in range(args.issuances + args.validation_issuances)])
+        for i in range(max(getattr(args, "schedule_issuances", 0),
+                           args.issuances + args.validation_issuances + getattr(args, "prediction_issuances", 0)))])
     members = pd.DataFrame([dict(team_id=t, competition_id=10, season_id=900,
         entry_at=pd.Timestamp("2017-07-01", tz="UTC"), movement="retained") for t in range(1, 21)])
     historical_schedule = history[history.side.eq("home")].rename(columns={"team_id": "home_id", "opponent_id": "away_id"})
@@ -68,7 +56,33 @@ def worker(args):
 
     train = context(schedule.iloc[:args.issuances])
     if args.validation_issuances:
-        train.validation = context(schedule.iloc[args.issuances:])
+        train.validation = context(schedule.iloc[args.issuances:args.issuances + args.validation_issuances])
+    prediction_start = args.issuances + args.validation_issuances
+    prediction_meta = schedule.iloc[prediction_start:prediction_start + getattr(args, "prediction_issuances", 0)]
+    prediction = PredictionContext(X=pd.DataFrame(index=prediction_meta.index), metadata=prediction_meta,
+        layout="match", match_columns=("competition_id", "season_id", "event_id"), fold_id=0)
+    return store, cfg, train, prediction
+
+
+def worker(args):
+    import numpy as np
+    import pandas as pd
+    import psutil
+    import torch
+    from xdiyo_analytics.graphs import TemporalEventStore, TemporalGraphConfig
+    from xdiyo_analytics.graphs.adapter import _Backend
+    from xdiyo_analytics.training.contracts import FitContext
+
+    if args.mode == "reference":
+        source = subprocess.check_output([
+            "git", "show", f"{args.reference}:src/xdiyo_analytics/graphs/adapter.py"
+        ], text=True)
+        module = types.ModuleType("xdiyo_analytics.graphs._memory_reference")
+        module.__package__ = "xdiyo_analytics.graphs"
+        exec(compile(source, "reference_adapter.py", "exec"), module.__dict__)
+        _Backend = module._Backend
+    torch.set_num_threads(1)
+    store, cfg, train, _ = make_inputs(args)
     backend = _Backend(cfg, store, 72, "cpu")
     process = psutil.Process()
     baseline = process.memory_info().rss
@@ -82,13 +96,17 @@ def worker(args):
         import resource
         peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == "darwin" else 1024)
     digest, edges, tensor_bytes = sha256(), 0, 0
-    for group in backend.train_groups + (backend.validation_groups or []):
+    def audit_group(group):
+        nonlocal edges, tensor_bytes
         positions, data, home, away, fixture = group
         digest.update(positions.tobytes())
         edges += len(data["receiver"])
         for tensor in (*data.values(), home, away, fixture):
             digest.update(tensor.numpy().tobytes())
             tensor_bytes += tensor.numel() * tensor.element_size()
+    for population in (backend.train_groups, backend.validation_groups or []):
+        for index in range(len(population)):
+            audit_group(population[index])
     digest.update(json.dumps(backend.preprocessor.state(), sort_keys=True).encode())
     print(json.dumps(dict(mode=args.mode, reference=args.reference, issuances=args.issuances,
         validation_issuances=args.validation_issuances, history_matches=args.history_matches,
