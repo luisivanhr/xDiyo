@@ -45,8 +45,8 @@ def context(store, positions, *, fit=True):
     X = pd.DataFrame({"unused": np.zeros(len(meta))}, index=meta.index)
     common = dict(X=X, metadata=meta, layout="match", match_columns=("competition_id","season_id","event_id"), fold_id=0)
     if fit:
-        y = pd.DataFrame({"result": np.where(meta.goals_for > meta.goals_against, "home",
-                                np.where(meta.goals_for < meta.goals_against, "away", "draw"))}, index=meta.index)
+        y = pd.DataFrame({"result": np.where(meta.goals_for > meta.goals_against, 1,
+                                np.where(meta.goals_for < meta.goals_against, -1, 0))}, index=meta.index)
         return FitContext(**common, y=y)
     return PredictionContext(**common)
 
@@ -267,7 +267,7 @@ def test_synthetic_learning_weighted_and_fresh_fits():
     fit=context(s,[1,2,3,4,5])
     # A declared causal feature deliberately encodes three separable classes.
     fit.X["unused"]=[-1.,0.,1.,-1.,0.]
-    fit.y.iloc[:,0]=["away","draw","home","away","draw"]
+    fit.y.iloc[:,0]=[-1,0,1,-1,0]
     issue=s.issue_times(fit.metadata,c)
     fit.metadata["feature_cutoff_at"]=[c.history_cutoff(t) for t in issue]
     fit.sample_weight=pd.Series([1.,2.,1.,0.,1.],index=fit.X.index)
@@ -360,7 +360,7 @@ def test_exact_snapshot_provenance_two_hops_and_no_outside_evidence():
 def test_validation_never_optimizes_or_fits_preprocessing():
     s=sample(); a=context(s,[1,2,3]); a.validation=context(s,[5,6])
     b=replace(a,validation=replace(a.validation,y=a.validation.y.copy()))
-    b.validation.y.iloc[:,0]="home"
+    b.validation.y.iloc[:,0]=1
     one=TemporalGraphAdapter(config(),s); two=TemporalGraphAdapter(config(),s)
     control=TrainingControl(max_steps=1,restore_best=False,seed=22)
     one.fit_controlled(a,control); two.fit_controlled(b,control)

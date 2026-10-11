@@ -23,7 +23,7 @@ def _ids(frame, names):
 def _times(values):
     if any(pd.Timestamp(x).tzinfo is None or pd.isna(x) for x in values):
         raise ValueError("Timestamps must be nonmissing and timezone-aware.")
-    return pd.to_datetime(values, utc=True)
+    return pd.to_datetime(values, utc=True).astype('datetime64[ns, UTC]')
 
 
 @dataclass
@@ -80,6 +80,8 @@ class TemporalEventStore:
         pairs = [("team_id", "opponent_id"), ("opponent_id", "team_id"),
                  ("goals_for", "goals_against"), ("goals_against", "goals_for"),
                  ("kickoff_at", "kickoff_at"), ("status", "status")]
+        if 'result_available_at' in h:
+            pairs.append(('result_available_at', 'result_available_at'))
         for col in h:
             if col.startswith("team::") and col.replace("team::", "opponent::", 1) in h:
                 other = col.replace("team::", "opponent::", 1)
@@ -118,13 +120,26 @@ class TemporalEventStore:
         s["kickoff_at"] = _times(s.kickoff_at)
         if s.duplicated(keys).any() or s.home_id.eq(s.away_id).any():
             raise ValueError("Schedule needs unique fixtures with different teams.")
+        scheduled = s.set_index(keys)
+        for col, expected in [('home_id', home.team_id), ('away_id', home.opponent_id)]:
+            actual = scheduled[col].reindex(home.index)
+            if not actual.eq(expected).fillna(False).all():
+                raise ValueError(f'Schedule disagrees with history: {col}.')
         self._schedule = s
         self.provenance = json.loads(json.dumps(provenance or {}, default=str))
         # Hash only model-relevant source values, without coercing large IDs.
         digest = sha256()
         for f in (self._history, self._memberships, self._schedule):
             digest.update(repr(list(f.columns)).encode())
-            digest.update(pd.util.hash_pandas_object(f, index=False).values.tobytes())
+            # Parquet may change datetime storage units without changing times.
+            # Fingerprint the same temporal values independently of those units.
+            canonical = f.copy(deep=False)
+            for column in f:
+                if isinstance(f[column].dtype, pd.DatetimeTZDtype):
+                    canonical = canonical.assign(**{column: f[column].dt.tz_convert('UTC').astype('datetime64[ns, UTC]')})
+                elif pd.api.types.is_datetime64_dtype(f[column].dtype):
+                    canonical = canonical.assign(**{column: f[column].astype('datetime64[ns]')})
+            digest.update(pd.util.hash_pandas_object(canonical, index=False).values.tobytes())
         self.version = digest.hexdigest()
         self._round_cache = {}
 
@@ -143,6 +158,13 @@ class TemporalEventStore:
     def issue_times(self, fixtures, config):
         _ids(fixtures, (*MATCH_KEYS, "home_id", "away_id"))
         kick = _times(fixtures.kickoff_at)
+        expected = self._schedule.set_index(list(MATCH_KEYS))
+        query_keys = pd.MultiIndex.from_frame(fixtures[list(MATCH_KEYS)])
+        known = query_keys.isin(expected.index)
+        for column in ('home_id', 'away_id'):
+            scheduled = expected[column].reindex(query_keys[known]).tolist()
+            if scheduled != fixtures.loc[known, column].tolist():
+                raise ValueError(f'Fixture {column} disagrees with the schedule.')
         if config.forecast_policy == "one_day_ahead":
             issue = _times(fixtures.issuance_at) if "issuance_at" in fixtures else kick - pd.Timedelta(hours=24)
         else:

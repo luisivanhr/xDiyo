@@ -31,6 +31,18 @@ def torch_threads(count):
         torch.set_num_threads(old)
 
 
+@contextmanager
+def inference_mode(model):
+    """Inspection preserves the caller's module mode, even after an error."""
+    was_training = model.training
+    try:
+        model.eval()
+        with _torch().no_grad():
+            yield
+    finally:
+        model.train(was_training)
+
+
 class TemporalGraphAdapter:
     supports_sample_weight = True
 
@@ -64,10 +76,11 @@ class TemporalGraphAdapter:
     def fit_controlled(self, context, control):
         self.configure_device(self.device)
         self.configure_threads(self.inner_threads)
+        self.control = control or self.control
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_iterations(
                 lambda seed: _Backend(self.config, self.event_store, seed, self.device),
-                context, control or self.control)
+                context, self.control)
         self.training_summary_.update(
             fitting_boundary=self.backend_.fitting_boundary.isoformat(),
             trained_through=self.backend_.trained_through.isoformat(),
@@ -85,6 +98,10 @@ class TemporalGraphAdapter:
         with torch_threads(self.inner_threads):
             return self.backend_.encode_teams(queries)
 
+    def attention_weights(self, queries):
+        from .inspection import attention_weights
+        return attention_weights(self, queries)
+
     def attach_event_store(self, event_store):
         """Explicit replacement for later observations; trained parameters stay frozen.
 
@@ -100,8 +117,8 @@ class TemporalGraphAdapter:
             left = before.set_index(keys)
             right = after.set_index(keys)
             try:
-                pd.testing.assert_frame_equal(left, right.loc[left.index, left.columns],
-                                              check_dtype=False, check_like=True)
+                pd.testing.assert_frame_equal(left.reset_index(), right.loc[left.index, left.columns].reset_index(),
+                                              check_dtype=False, check_like=True, check_exact=True)
             except (KeyError, AssertionError) as exc:
                 raise ValueError("Replacement store must preserve existing evidence.") from exc
         if self.config.forecast_policy == "by_round":
@@ -131,8 +148,12 @@ class _Backend:
         if fitting:
             if context.y.shape[1] != 1 or not context.y.index.equals(context.X.index):
                 raise ValueError("Fitting requires one aligned home/draw/away target.")
-            if not context.y.iloc[:, 0].isin(CLASS_ORDER).all():
-                raise ValueError("Target labels must be home, draw or away.")
+            labels = context.y.iloc[:, 0]
+            classes = CLASS_ORDER
+            if labels.map(lambda x: isinstance(x, (bool, np.bool_))).any() or not labels.isin(classes).all():
+                raise ValueError("Target labels must use native home-perspective 1/0/-1.")
+            if hasattr(self, 'output_classes') and classes != self.output_classes:
+                raise ValueError('Fitting and validation must use the same outcome label encoding.')
         if self.config.fixture_features:
             if not set(self.config.fixture_features) <= set(context.X):
                 raise ValueError("Selected fixture features are absent from X.")
@@ -189,6 +210,7 @@ class _Backend:
         if len(context.X) == 0:
             raise ValueError("Fitting population cannot be empty.")
         self.target_name = context.y.columns[0]
+        self.output_classes = CLASS_ORDER
         self.fitting_boundary = respect_result_availability(context.metadata,
             self.config.labels_known_at(context.metadata.kickoff_at)).max()
         self.trained_through = self.fitting_boundary
@@ -222,7 +244,7 @@ class _Backend:
 
     def _targets(self, context):
         torch = _torch()
-        y = torch.tensor([CLASS_ORDER.index(x) for x in context.y.iloc[:, 0]], device=self.device)
+        y = torch.tensor([self.output_classes.index(x) for x in context.y.iloc[:, 0]], device=self.device)
         w = np.ones(len(y))
         if context.sample_weight is not None:
             if isinstance(context.sample_weight, (pd.Series, pd.DataFrame)) and not context.sample_weight.index.equals(context.X.index):
@@ -294,12 +316,12 @@ class _Backend:
         issue = self._validate(context)
         self._boundary(issue)
         output = np.empty((len(context.X), 3))
-        self.model.eval()
-        with torch.no_grad():
+        with inference_mode(self.model):
             for positions, data, home, away, fixture in self._prepare(self._raw_groups(context)[0]):
                 output[positions] = self.model(data, home, away, fixture).softmax(-1).cpu().numpy()
-        probabilities = pd.DataFrame(output, index=context.X.index, columns=CLASS_ORDER)
-        predicted = pd.DataFrame({self.target_name: [CLASS_ORDER[i] for i in output.argmax(1)]}, index=context.X.index)
+        columns = pd.MultiIndex.from_product([[self.target_name], self.output_classes], names=['target', 'class'])
+        probabilities = pd.DataFrame(output, index=context.X.index, columns=columns)
+        predicted = pd.DataFrame({self.target_name: [self.output_classes[i] for i in output.argmax(1)]}, index=context.X.index)
         return {"predict_proba": probabilities, "predict": predicted}
 
     def encode_teams(self, queries):
@@ -310,8 +332,7 @@ class _Backend:
         issue = _times(queries.issuance_at)
         self._boundary(issue)
         records = [None] * len(queries)
-        self.model.eval()
-        with torch.no_grad():
+        with inference_mode(self.model):
             for time, positions in issue.groupby(issue, sort=True).indices.items():
                 teams = queries.iloc[positions].team_id.tolist()
                 snap = self.store.snapshot(time, self.config, teams)

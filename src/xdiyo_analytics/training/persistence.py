@@ -36,7 +36,11 @@ class JoblibSerializer:
             # Notebook/local adapter classes are valid pipeline inputs. Joblib's
             # bundled cloudpickle preserves their code as well as fitted state;
             # joblib.load reads this standard pickle stream too.
-            from joblib.externals import cloudpickle
+            try:
+                from joblib.externals import cloudpickle
+            except ImportError:
+                # joblib 1.6 uses its declared external cloudpickle dependency.
+                import cloudpickle
             with path.open("wb") as stream:
                 cloudpickle.dump(adapter, stream)
 
@@ -97,6 +101,10 @@ def save_model(model, path, *, fold_id=None, serializer=None):
     if isinstance(adapter, _CheckpointAdapter):
         adapter = adapter.estimator
     if serializer is None:
+        from ..graphs import TemporalGraphAdapter, TemporalGraphSerializer
+        if isinstance(adapter, TemporalGraphAdapter):
+            serializer = TemporalGraphSerializer(embed_event_store=True)
+    if serializer is None:
         from ..composition.adapter import CompositeModelAdapter
         if isinstance(adapter, CompositeModelAdapter):
             from ..composition.persistence import CompositeSerializer
@@ -147,6 +155,10 @@ def load_model(path, *, serializer=None):
     manifest = json.loads((folder / "model.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != 1:
         raise ValueError("Unsupported model artifact schema.")
+    if serializer is None:
+        from ..graphs import TemporalGraphSerializer
+        if manifest.get('format_id') == TemporalGraphSerializer.format_id:
+            serializer = TemporalGraphSerializer()
     if serializer is None:
         from ..composition.persistence import CompositeSerializer
         if manifest.get('format_id') == CompositeSerializer.format_id:

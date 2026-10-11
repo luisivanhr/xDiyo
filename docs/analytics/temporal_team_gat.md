@@ -9,7 +9,7 @@ starting hyperparameters; the bounded pilot did not establish a predictive advan
 ## Install and select a device
 
 ```powershell
-python -m pip install -e ".[graphs,training]"
+python -m pip install -e ".[graphs,training,reporting]"
 ```
 
 Install the appropriate CUDA-enabled PyTorch binary from the
@@ -84,9 +84,15 @@ model.fit(fit_context)  # FitContext with match layout and one home/draw/away ta
 probabilities = model.predict(prediction_context)["predict_proba"]
 ```
 
-The class order is always `home, draw, away`. Each returned frame has exactly
+The class order is always native home-perspective `1, 0, -1` (win, draw, loss).
+Use `Outcome(perspective="home")`; text class labels are rejected. Probability
+columns are the native `(target, class)` MultiIndex. Each returned frame has exactly
 `context.X.index` and order. `predict` also returns the class label under the
 fitted target's column name. Unselected X columns are ignored.
+
+The native artifact format is `xdiyo.temporal-team-gat.v2`. The experimental
+v1 text-label artifacts are not accepted by this format; create a fresh native
+artifact after fitting. Existing experiment files are not rewritten.
 
 ## Forecast timing
 
@@ -250,8 +256,13 @@ nonchronological folds rather than treating them as causal evaluations.
 
 The native serializer saves architecture/policy, weights, preprocessing/maps,
 feature/class order, fitting/selection boundaries, representation version and
-event-store fingerprint/provenance. It does not duplicate the dataset. Load
-requires the exact event store supplied to `TemporalGraphSerializer(store)`.
+event-store fingerprint/provenance and training history. Native `save_model`
+automatically embeds immutable history, membership and schedule tables using
+ZSTD Parquet; `load_model` discovers this format automatically, including in the
+UI. Artifacts can be large because full graph history is retained. Explicit
+`TemporalGraphSerializer(store)` instead omits those tables and requires that
+exact external store on load. Timestamp storage precision does not change the
+fingerprint. Native calibrated adapters use the existing joblib wrapper format.
 Tensor loading uses `weights_only=True`. Direct `save(adapter, directory)`
 and `load(directory)` are available alongside generic save_model/load_model.
 
@@ -310,3 +321,66 @@ numerical attention, two-hop influence, support decay, movement, cold teams,
 joint gradients, validation isolation, weighted synthetic learning, native runner
 folds, persistence, optional imports, CPU/CUDA behavior and provenance. Real
 football superiority is not a software acceptance condition.
+
+## Experiment builder and native reports
+
+Select **Temporal team GAT** under Model & training. The setup button selects
+native home-outcome labels and graph-owned masked scaling. Choose chronological
+outer folds and chronological inner folds when tuning. Training and optional
+validation labels must be known before the first evaluation cutoff; overlapping
+rounds or an insufficient gap raise an error. The default model is a three-class
+match-result classifier, not a corners model.
+
+The nested configuration exposes every architecture, decay, statistic, fixture
+input and optimizer setting. TrainingControl exposes steps, seeds, restarts,
+early stopping and scheduling. Device and threads use the existing ExecutionPolicy.
+Candidate validation, fitted class-weight reporters, probability calibration,
+final refits, run reuse and model loading use the native pipeline.
+Mid-fit checkpoint resume is not implemented by this adapter: CheckpointPolicy
+uses its existing skip/raise behavior. Completed models remain recoverable.
+Graph-only construction requires the graphs extra; plotting additionally requires
+reporting. Catalog discovery remains available without importing Torch.
+
+Memberships normally come from the selected dataset's team_seasons table. The
+**first_fixture** policy explicitly uses each competition-season's first fixture
+as its effective entry boundary. This is retrospective schedule context, not a
+claim about publication time. Use **explicit** plus a CSV/Parquet file containing
+entry_at for independently supplied boundaries. Include intervening memberships
+when the selected history has gaps. A single current domestic-league context per
+team is supported. Missing or ambiguous membership inputs fail clearly.
+
+Graph preparation aligns optional assembled fixture predictors to the graph's
+exclusive previous-day cutoffs. Generic cutoff overrides and top-level scaling
+are rejected. Selected raw statistic columns must include both team and opponent
+perspectives. Unselected assembled predictors are ignored. Architecture and
+optimizer settings can be tuned through native grid paths such as
+`model.params.config.params.learning_rate`. Membership or issuance-policy
+changes require separate preparation/recipes, not a shared grid population.
+
+Add these under **Post-training analysis**:
+
+- **GATLossReporter**: stored training and validation cross-entropy per step,
+  fold and restart attempt. Training loss is measured before that step's update;
+  validation after it. These exclude the prior penalty and AdamW decay. No
+  validation curve is invented when none was collected.
+- **EmbeddingReporter**: **tSNE** by default, or **PCA**. Configure the projection
+  in the builder. Names and available local badges identify teams; raw embeddings,
+  projection coordinates, explained variance or tSNE diagnostics, historical
+  support and prior/message gates remain downloadable. Small populations cap
+  perplexity at n-1; identical representations have no invented projection.
+- **GraphAttentionWeightReporter**: select a receiving team in the rendered
+  chart, inspect the strongest historical edges separately by layer/head, and
+  download all weights. Concentration, entropy, effective edge count, support
+  and gates give additional diagnostics. Attention is not causal attribution.
+
+Embedding and attention views use teams from the selected test/score population
+at one common issuance per fitted fold (the latest selected issuance by default).
+An explicit issuance must occur in that population. These reports reconstruct
+cutoff-safe graph state using frozen weights; they never refit the model. Each
+fold remains a separate coordinate system. Mean pooling is rejected. tSNE
+neighborhoods are exploratory; coordinates and global distances are not rankings.
+Badges use the same TeamCatalog and local assets as other native reporters.
+
+A builder-importable example is provided by
+[the recipe helper](../../examples/temporal_team_gat_recipe.py). It only writes a
+recipe; it does not train or change any existing experiment.

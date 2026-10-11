@@ -63,7 +63,7 @@ def validate_recipe(recipe):
     recipe = deepcopy(recipe)
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
     for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:
-        if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter', 'reporting.RatingReporter'):
+        if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter', 'reporting.RatingReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter'):
             params = reporter.setdefault('params', {})
             params.setdefault('show_badges', True)
             params.setdefault('catalog', {'ref': 'team_catalog'})
@@ -122,6 +122,10 @@ def catalog_for_ui():
                      title='Bayesian goal-score rating',
                      description='Fit fixed Bayesian rating parameters using the fitting partition only, with pooled or separate league parameters. Requires match-layout metadata and the observed home and away goal targets. No feature or target preprocessing is supported.')
     catalog.register('training.BayesianScoreSerializer', BayesianScoreSerializer, category='training')
+    from ..graphs import TemporalGraphModel, TemporalGraphConfig, TemporalGraphSerializer
+    catalog.register('graphs.TemporalGraphModel', TemporalGraphModel, category='model', title='Temporal team GAT')
+    catalog.register('graphs.TemporalGraphConfig', TemporalGraphConfig, category='graph_config')
+    catalog.register('graphs.TemporalGraphSerializer', TemporalGraphSerializer, category='training')
     catalog.register('features.TransitionContext', TransitionContext, category='input')
     catalog.register('features.TeamSeasons', build_team_seasons, category='input')
     catalog.register('training.JoblibSerializer', JoblibSerializer, category='training')
@@ -183,6 +187,20 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         tables = data_options['tables']
         tables = [tables] if isinstance(tables, str) else tables
         data_options['tables'] = list(dict.fromkeys([*tables, 'heatmap_points']))
+    graph_spec = None
+    if recipe['model'].get('component') == 'graphs.TemporalGraphModel':
+        graph_spec = catalog.build(recipe['model'])
+        if graph_spec.memberships_path is None and data_options.get('tables') is not None:
+            tables = data_options['tables']
+            tables = [tables] if isinstance(tables, str) else list(tables)
+            data_options['tables'] = list(dict.fromkeys([*tables, 'team_seasons']))
+        if recipe.get('cutoff_hours') is not None or recipe.get('feature_options', {}).get('cutoffs') is not None:
+            raise ValueError('Temporal GAT supplies its own previous-day feature cutoffs; disable cutoff overrides.')
+        if recipe['assembly'].get('layout', 'match') != 'match':
+            raise ValueError('Temporal GAT requires match layout.')
+        label = recipe['labels'].get(recipe['target'], {})
+        if label.get('component') != 'labels.Outcome' or label.get('params', {}).get('perspective') != 'home' or label.get('params', {}).get('source') is not None:
+            raise ValueError('Temporal GAT requires labels.Outcome(perspective="home") from match goals.')
     data = load_seasons(**data_options)
     heatmaps = data.tables.get('heatmap_points')
     if heatmaps is not None:
@@ -223,6 +241,12 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     if options.get('keyed') is False:
         raise ValueError('Assembly needs keyed features; leave keyed=True.')
     options['keyed'] = True
+    graph_store = None
+    if graph_spec is not None:
+        from ..graphs.integration import history_cutoffs
+        graph_store = graph_spec.event_store(history, data.tables.get('team_seasons'))
+        options['cutoffs'] = history_cutoffs(graph_store, graph_spec.config, history)
+        context['graph_store'] = graph_store
     labels = create_labels(history, catalog.build(recipe['labels']))
     assembly = catalog.build(recipe['assembly'])
     if prediction:
@@ -296,13 +320,16 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
             rows = common_training_rows(make_plan(dataset))
             state = identity_spec.fit(dataset.metadata.iloc[rows])
         dataset = add_identity_features(dataset, state)
+    if graph_spec is not None:
+        from ..graphs.integration import fixture_cutoffs
+        dataset.metadata['feature_cutoff_at'] = fixture_cutoffs(graph_store, graph_spec.config, dataset.metadata)
     context.update(features=features, labels=labels, dataset=dataset)
     if prediction:
         return data, dataset, context
     plan = make_plan(dataset)
     return PreparedExperiment(dataset, plan, {'history': history, 'matches': data.matches, 'features': features,
                                             'labels': labels, 'ratings': retained_ratings, 'team_catalog': team_catalog,
-                                            'rating_cutoffs': options.get('cutoffs')},
+                                            'rating_cutoffs': options.get('cutoffs'), 'graph_inputs': None if graph_store is None else dict(history=graph_store.history, team_seasons=graph_store.team_seasons, schedule=graph_store.schedule, provenance=graph_store.provenance)},
                               config={'recipe': recipe})
 
 
@@ -311,10 +338,12 @@ class ModelFactory:
     """Fresh estimator, preprocessing and adapter per fit; process serializable."""
     recipe: dict
     catalog: object
+    graph_store: object = None
 
     def cache_key(self):
         """Only configuration consumed when constructing a fitted model."""
         return {"catalog": self.catalog, "model": self.recipe["model"],
+                "graph_store": getattr(self.graph_store, "version", None),
                 "preprocessors": self.recipe.get("preprocessors", []),
                 "adapter": self.recipe.get("adapter"),
                 "target_transformer": self.recipe.get("target_transformer"),
@@ -326,6 +355,13 @@ class ModelFactory:
         from ..ratings import BayesianScoreAdapter
         from ..training import EstimatorAdapter, TargetTransformAdapter
         estimator = self.catalog.build(self.recipe['model'])
+        from ..graphs import TemporalGraphModel
+        if isinstance(estimator, TemporalGraphModel):
+            if self.graph_store is None:
+                raise ValueError('Prepare the graph recipe before constructing its model.')
+            if self.recipe.get('preprocessors') or self.recipe.get('adapter') is not None or self.recipe.get('target_transformer') is not None:
+                raise ValueError('Temporal GAT owns masked input scaling; disable top-level preprocessing, adapter and target scaling.')
+            return estimator.build(self.graph_store)
         from ..composition import CompositeModelAdapter, ModelEnsemble, ModelStack, ResidualModel, LearnedTargetAdapter
         if isinstance(estimator, (CompositeModelAdapter, ModelEnsemble, ModelStack, ResidualModel, LearnedTargetAdapter)):
             if self.recipe.get('preprocessors') or self.recipe.get('adapter') is not None or self.recipe.get('target_transformer') is not None:
@@ -392,7 +428,11 @@ def make_candidate(recipe, catalog, context=None):
     if recipe.get('fitted_reporters'):
         config['pre_analysis'] = PreTrainingAnalysis(catalog.build(recipe['fitted_reporters'], context),
                                                     **catalog.build(recipe.get('analysis_options', {}).get('fitted', {})))
-    return Candidate(model_factory=ModelFactory(recipe, catalog), **config)
+    graph_store = (context or {}).get('graph_store')
+    if graph_store is None and (context or {}).get('graph_inputs') is not None:
+        from ..graphs import TemporalEventStore
+        graph_store = TemporalEventStore(**context['graph_inputs'])
+    return Candidate(model_factory=ModelFactory(recipe, catalog, graph_store), **config)
 
 
 @dataclass
@@ -515,7 +555,17 @@ def predict_recipe(recipe, *, catalog=None):
     path = options.pop('model_path')
     serializer = options.pop('serializer', None)
     fitted = load_model(path, serializer=serializer)
-    data, dataset, _ = prepare_recipe(recipe, catalog=catalog, prediction=True, preparation_state=fitted.definitions)
+    data, dataset, context = prepare_recipe(recipe, catalog=catalog, prediction=True, preparation_state=fitted.definitions)
+    from ..graphs import TemporalGraphAdapter
+    from ..training.calibration import CalibratedAdapter
+    graph_model = fitted.model.estimator if isinstance(fitted.model, CalibratedAdapter) else fitted.model
+    if isinstance(graph_model, TemporalGraphAdapter):
+        store = context.get('graph_store')
+        if store is None:
+            raise ValueError('Load graph artifacts with a Temporal team GAT recipe and full retained history.')
+        if graph_model.config != catalog.build(recipe['model']).config:
+            raise ValueError('Prediction graph configuration must match the saved model.')
+        graph_model.attach_event_store(store)
     fixtures = select_prediction_fixtures(data, **options)
     aligned = fixtures.align(dataset)
     return aligned, fitted.predict(aligned)

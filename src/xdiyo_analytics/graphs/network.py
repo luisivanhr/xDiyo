@@ -30,9 +30,9 @@ class EdgeLayer(nn.Module):
         nn.init.xavier_uniform_(self.attention)
         self.output = nn.Linear(d * heads, d, bias=False)
 
-    def forward(self, h, x, receiver, sender, log_weight, gate):
+    def forward(self, h, x, receiver, sender, log_weight, gate, *, return_attention=False):
         if not len(receiver):
-            return h
+            return (h, h.new_empty((0, self.heads))) if return_attention else h
         shape = (-1, self.heads, self.d)
         scores = (torch.nn.functional.leaky_relu(
             (self.q(h[receiver]) + self.k(h[sender]) + self.e(x)).reshape(shape),
@@ -41,7 +41,8 @@ class EdgeLayer(nn.Module):
         values = torch.tanh((self.v(h[sender]) + self.u(x)).reshape(shape))
         messages = h.new_zeros((len(h), self.heads, self.d))
         messages.index_add_(0, receiver, alpha[:, :, None] * values)
-        return h + gate[:, None] * self.output(messages.flatten(1))
+        result = h + gate[:, None] * self.output(messages.flatten(1))
+        return (result, alpha) if return_attention else result
 
 
 class TemporalNetwork(nn.Module):
@@ -63,11 +64,17 @@ class TemporalNetwork(nn.Module):
     def prior(self, league, entry):
         return self.global_prior + self.league(league) + (league != 0)[:, None] * self.entry(entry)
 
-    def encode(self, data):
+    def encode(self, data, *, return_attention=False):
         h = self.prior(data["league"], data["entry"])
+        attention = []
         for layer in self.layers:
-            h = layer(h, data["x"], data["receiver"], data["sender"], data["log_weight"], data["gate"])
-        return h
+            value = layer(h, data["x"], data["receiver"], data["sender"], data["log_weight"], data["gate"], return_attention=return_attention)
+            if return_attention:
+                h, alpha = value
+                attention.append(alpha)
+            else:
+                h = value
+        return (h, attention) if return_attention else h
 
     def forward(self, data, home, away, fixture):
         h = self.encode(data)

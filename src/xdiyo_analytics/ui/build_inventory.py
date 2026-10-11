@@ -907,6 +907,8 @@ def build():
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     from .composition_inventory import decorate as composition_widgets
     composition_widgets(components)
+    from .graph_inventory import decorate as graph_widgets
+    graph_widgets(components, stages)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 
 

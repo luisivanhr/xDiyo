@@ -24,8 +24,8 @@ def make_context(fixtures, *, fitting=True):
     common = dict(X=X, metadata=fixtures.copy(), layout="match", match_columns=MATCH_KEYS, fold_id=0)
     if not fitting:
         return PredictionContext(**common)
-    labels = np.where(fixtures.goals_for > fixtures.goals_against, "home",
-                      np.where(fixtures.goals_for < fixtures.goals_against, "away", "draw"))
+    labels = np.where(fixtures.goals_for > fixtures.goals_against, 1,
+                      np.where(fixtures.goals_for < fixtures.goals_against, -1, 0))
     return FitContext(**common, y=pd.DataFrame({"result": labels}, index=fixtures.index))
 
 

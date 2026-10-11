@@ -6,3 +6,6 @@ from .persistence import TemporalGraphSerializer
 
 __all__ = ["TemporalGraphConfig", "TemporalEventStore", "GraphSnapshot",
            "TemporalGraphAdapter", "TemporalGraphSerializer", "CLASS_ORDER"]
+
+from .integration import TemporalGraphModel
+__all__ += ["TemporalGraphModel"]

@@ -26,3 +26,6 @@ __all__ = ["CompositionReporter", "ClassWeightReporter", "Artifact", "StudyResul
            "CalibrationReporter", "PredictionTimelineReporter", "PredictionDistributionReporter",
            "LabelPredictionDistributionReporter", "BetPerformanceReporter", "ExperimentLeaderboardReporter",
            "LearningCurveReporter", "CoefficientReporter", "FeatureImportanceReporter", "CountClassificationReporter", "MatchResultReporter", "TeamCatalog", "BetOutcomeReporter"]
+
+from .graphs import GATLossReporter, EmbeddingReporter, GraphAttentionWeightReporter
+__all__ += ["GATLossReporter", "EmbeddingReporter", "GraphAttentionWeightReporter"]

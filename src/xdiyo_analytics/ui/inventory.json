@@ -13858,7 +13858,8 @@
           "components": [
             "training.JoblibSerializer",
             "composition.CompositeSerializer",
-            "training.BayesianScoreSerializer"
+            "training.BayesianScoreSerializer",
+            "graphs.TemporalGraphSerializer"
           ]
         }
       ],
@@ -17488,6 +17489,683 @@
         }
       ],
       "accepts_extra": false
+    },
+    "reporting.GATLossReporter": {
+      "id": "reporting.GATLossReporter",
+      "title": "GATLossReporter",
+      "category": "post_reporter",
+      "description": "Stored cross-entropy losses, separated by fold and restart attempt.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "select",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Per fold selects one fitted model; overall keeps a separate panel or curve for each fold. Encoder coordinates are never averaged.",
+          "primary": true,
+          "default": "per_fold"
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": false,
+          "kind": "select",
+          "default": "model",
+          "choices": [
+            "model"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true
+        },
+        {
+          "name": "metrics",
+          "title": "Metrics",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "train_loss",
+            "validation_loss"
+          ],
+          "help": "Select stored cross-entropy loss curves. Validation is available only when a held-out training tail was configured.",
+          "primary": true,
+          "choices": [
+            "train_loss",
+            "validation_loss"
+          ]
+        },
+        {
+          "name": "attempts",
+          "title": "Attempts",
+          "required": false,
+          "kind": "attempts",
+          "default": null,
+          "help": "Disabled shows all attempts; selected shows the retained optimization attempt.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.EmbeddingReporter": {
+      "id": "reporting.EmbeddingReporter",
+      "title": "EmbeddingReporter",
+      "category": "post_reporter",
+      "description": "Project one frozen encoder at one evaluation issuance per fold.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "select",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Per fold selects one fitted model; overall keeps a separate panel or curve for each fold. Encoder coordinates are never averaged.",
+          "primary": true,
+          "default": "per_fold"
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": true,
+          "kind": "select",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true,
+          "default": "score"
+        },
+        {
+          "name": "pooling",
+          "title": "Pooling",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "choices": [
+            "occurrences",
+            "first",
+            "last"
+          ],
+          "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
+          "primary": true
+        },
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "default": "tSNE",
+          "help": "Choose tSNE for local-neighborhood exploration or PCA for a linear projection with explained variance. Reporting never changes the trained model.",
+          "primary": true,
+          "choices": [
+            "tSNE",
+            "PCA"
+          ]
+        },
+        {
+          "name": "issuance_at",
+          "title": "Issuance at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional timezone-aware issuance present in the selected test/score fixtures. Disabled uses the latest selected issuance separately for each fold.",
+          "primary": true
+        },
+        {
+          "name": "perplexity",
+          "title": "Perplexity",
+          "required": false,
+          "kind": "number",
+          "default": 30.0,
+          "help": "tSNE neighborhood scale; capped at number of teams minus one and recorded in the projection summary.",
+          "step": "any",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          }
+        },
+        {
+          "name": "learning_rate",
+          "title": "Learning rate",
+          "required": false,
+          "kind": "rule_number",
+          "default": "auto",
+          "help": "AdamW learning rate for model construction; tSNE learning rate for EmbeddingReporter (auto or a positive number).",
+          "step": "any",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          },
+          "rules": [
+            "auto"
+          ],
+          "number_default": 50.0,
+          "min": 1e-06
+        },
+        {
+          "name": "max_iter",
+          "title": "Max iter",
+          "required": false,
+          "kind": "number",
+          "default": 1000,
+          "help": "tSNE optimization iterations (at least 250). This fits the visualization only.",
+          "step": 1,
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          },
+          "min": 250
+        },
+        {
+          "name": "init",
+          "title": "Init",
+          "required": false,
+          "kind": "select",
+          "default": "pca",
+          "help": "tSNE initialization. PCA initialization falls back to random for one-dimensional embeddings.",
+          "primary": true,
+          "choices": [
+            "pca",
+            "random"
+          ],
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          }
+        },
+        {
+          "name": "metric",
+          "title": "Metric",
+          "required": false,
+          "kind": "select",
+          "default": "euclidean",
+          "help": "Distance metric between original embeddings for tSNE.",
+          "discovery": "metrics",
+          "primary": true,
+          "choices": [
+            "euclidean",
+            "cosine"
+          ],
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          }
+        },
+        {
+          "name": "early_exaggeration",
+          "title": "Early exaggeration",
+          "required": false,
+          "kind": "number",
+          "default": 12.0,
+          "help": "tSNE early exaggeration multiplier.",
+          "step": "any",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          }
+        },
+        {
+          "name": "random_state",
+          "title": "Random state",
+          "required": false,
+          "kind": "number",
+          "default": 0,
+          "help": "Seed for reproducible tSNE projections.",
+          "step": 1,
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "tSNE"
+            ]
+          }
+        },
+        {
+          "name": "whiten",
+          "title": "Whiten",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "PCA-only whitening of projected components.",
+          "primary": true,
+          "visible_when": {
+            "mode": [
+              "PCA"
+            ]
+          }
+        },
+        {
+          "name": "show_badges",
+          "title": "Show badges",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Display available local team badges with names; unavailable badges fall back to names.",
+          "primary": true
+        },
+        {
+          "name": "catalog",
+          "title": "Catalog",
+          "required": false,
+          "kind": "reference",
+          "default": null,
+          "help": "Catalog for EmbeddingReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "initial": {
+            "ref": "team_catalog"
+          },
+          "hidden": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "reporting.GraphAttentionWeightReporter": {
+      "id": "reporting.GraphAttentionWeightReporter",
+      "title": "GraphAttentionWeightReporter",
+      "category": "post_reporter",
+      "description": "Incoming edge weights by receiver, layer and head at an exact cutoff.",
+      "fields": [
+        {
+          "name": "type",
+          "title": "Analysis scope",
+          "required": true,
+          "kind": "select",
+          "choices": [
+            "overall",
+            "per_fold"
+          ],
+          "help": "Per fold selects one fitted model; overall keeps a separate panel or curve for each fold. Encoder coordinates are never averaged.",
+          "primary": true,
+          "default": "per_fold"
+        },
+        {
+          "name": "partition",
+          "title": "Rows to analyze",
+          "required": true,
+          "kind": "select",
+          "choices": [
+            "score",
+            "test"
+          ],
+          "help": "Choose the rows analyzed. Training rows describe fitting data; test contains held-out predictions; score is the configured scoring subset of test.",
+          "primary": true,
+          "default": "score"
+        },
+        {
+          "name": "pooling",
+          "title": "Pooling",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "choices": [
+            "occurrences",
+            "first",
+            "last"
+          ],
+          "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
+          "primary": true
+        },
+        {
+          "name": "issuance_at",
+          "title": "Issuance at",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional timezone-aware issuance present in the selected test/score fixtures. Disabled uses the latest selected issuance separately for each fold.",
+          "primary": true
+        },
+        {
+          "name": "top_edges",
+          "title": "Top edges",
+          "required": false,
+          "kind": "number",
+          "default": 20,
+          "help": "Strongest historical edges shown per team/layer/head. Full weights are retained in downloadable tables.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "show_badges",
+          "title": "Show badges",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Display available local team badges with names; unavailable badges fall back to names.",
+          "primary": true
+        },
+        {
+          "name": "catalog",
+          "title": "Catalog",
+          "required": false,
+          "kind": "reference",
+          "default": null,
+          "help": "Catalog for GraphAttentionWeightReporter. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "initial": {
+            "ref": "team_catalog"
+          },
+          "hidden": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.TemporalGraphModel": {
+      "id": "graphs.TemporalGraphModel",
+      "title": "Temporal team GAT",
+      "category": "model",
+      "description": "UI model specification; preparation supplies immutable graph inputs.",
+      "fields": [
+        {
+          "name": "config",
+          "title": "Config",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "graphs.TemporalGraphConfig",
+            "params": {
+              "timezone": "UTC",
+              "forecast_policy": "by_round",
+              "round_keys": [
+                "competition_id",
+                "season_id",
+                "round"
+              ],
+              "embedding_dim": 32,
+              "layers": 2,
+              "heads": 2,
+              "half_life_days": 180.0,
+              "seasonal_retention": 0.5,
+              "support_kappa": 5.0,
+              "hidden_width": 64,
+              "statistics": [],
+              "fixture_features": [],
+              "learning_rate": 0.001,
+              "weight_decay": 0.001,
+              "prior_penalty": 0.001
+            }
+          },
+          "help": "Architecture, time policy, input columns and optimizer settings for the temporal team graph.",
+          "primary": true,
+          "components": [
+            "graphs.TemporalGraphConfig"
+          ]
+        },
+        {
+          "name": "control",
+          "title": "Control",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "training.TrainingControl",
+            "params": {
+              "max_steps": 100,
+              "early_stopping": null,
+              "scheduler": null,
+              "restarts": 0,
+              "seed": 0,
+              "monitor": null,
+              "direction": "minimize",
+              "restore_best": true
+            }
+          },
+          "help": "Native training steps, seed, restarts, early stopping and learning-rate schedule. Candidate validation supplies held-out training rows.",
+          "components": [
+            "training.TrainingControl"
+          ],
+          "initial_component": "training.TrainingControl",
+          "primary": true
+        },
+        {
+          "name": "membership_policy",
+          "title": "Membership policy",
+          "required": false,
+          "kind": "select",
+          "default": "first_fixture",
+          "help": "First fixture uses the first scheduled kickoff of each competition-season as its effective entry boundary. Explicit requires timezone-aware entry_at in the membership file.",
+          "primary": true,
+          "choices": [
+            "first_fixture",
+            "explicit"
+          ]
+        },
+        {
+          "name": "memberships_path",
+          "title": "Memberships path",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Optional CSV or Parquet membership table: team_id, competition_id, season_id, movement and (in explicit mode) entry_at. Disabled uses dataset team_seasons.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.TemporalGraphConfig": {
+      "id": "graphs.TemporalGraphConfig",
+      "title": "TemporalGraphConfig",
+      "category": "graph_config",
+      "description": "TemporalGraphConfig(timezone: str, forecast_policy: str = 'by_round', round_keys: tuple = ('competition_id', 'season_id', 'round'), embedding_dim: int = 32, layers: int = 2, heads: int = 2, half_life_days: float = 180.0, seasonal_retention: float = 0.5, support_kappa: float = 5.0, hidden_width: int = 64, statistics: tuple = (), fixture_features: tuple = (), learning_rate: float = 0.001, weight_decay: float = 0.001, prior_penalty: float = 0.001)",
+      "fields": [
+        {
+          "name": "timezone",
+          "title": "Timezone",
+          "required": true,
+          "kind": "text",
+          "help": "IANA timezone for previous-day cutoffs, for example Europe/Berlin or Asia/Tokyo. Use the same setting when loading.",
+          "primary": true
+        },
+        {
+          "name": "forecast_policy",
+          "title": "Forecast policy",
+          "required": false,
+          "kind": "select",
+          "default": "by_round",
+          "help": "By Round uses the first scheduled kickoff of the complete round. One Day Ahead issues 24 hours before kickoff. Both exclude observations after the previous local day.",
+          "primary": true,
+          "choices": [
+            "by_round",
+            "one_day_ahead"
+          ]
+        },
+        {
+          "name": "round_keys",
+          "title": "Round keys",
+          "required": false,
+          "kind": "multiselect",
+          "default": [
+            "competition_id",
+            "season_id",
+            "round"
+          ],
+          "help": "Columns defining a round. Keep competition_id, season_id and round; add a stage column for competitions with repeated round numbers.",
+          "choices": [
+            "team_id",
+            "opponent_id",
+            "competition_id",
+            "season_id",
+            "round",
+            "source_league",
+            "source_season"
+          ],
+          "primary": true
+        },
+        {
+          "name": "embedding_dim",
+          "title": "Embedding dim",
+          "required": false,
+          "kind": "number",
+          "default": 32,
+          "help": "Number of learned coordinates in each reusable team representation.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "layers",
+          "title": "Layers",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Number of synchronous graph message-passing layers; more layers include more distant opponent relationships.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "heads",
+          "title": "Heads",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Independent attention heads in each layer.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "half_life_days",
+          "title": "Half life days",
+          "required": false,
+          "kind": "number",
+          "default": 180.0,
+          "help": "Historical edge weight halves after this many days. All eligible history is retained.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "seasonal_retention",
+          "title": "Seasonal retention",
+          "required": false,
+          "kind": "number",
+          "default": 0.5,
+          "help": "Additional weight multiplier for each crossed season boundary; 1 disables seasonal attenuation.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "support_kappa",
+          "title": "Support kappa",
+          "required": false,
+          "kind": "number",
+          "default": 5.0,
+          "help": "Decayed match mass at which the graph contribution gate reaches one half.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "hidden_width",
+          "title": "Hidden width",
+          "required": false,
+          "kind": "number",
+          "default": 64,
+          "help": "Hidden units in the fixture prediction head.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "statistics",
+          "title": "Statistics",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Exact paired native history columns, e.g. team::ALL::Match overview::cornerKicks::value. Include their opponent counterparts in the source history. No xG or rolling columns.",
+          "primary": true
+        },
+        {
+          "name": "fixture_features",
+          "title": "Fixture features",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Assembled predictor column names to append to the fixture head. Their cutoffs are aligned to the graph during preparation.",
+          "primary": true
+        },
+        {
+          "name": "learning_rate",
+          "title": "Learning rate",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "AdamW learning rate for model construction; tSNE learning rate for EmbeddingReporter (auto or a positive number).",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "weight_decay",
+          "title": "Weight decay",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "AdamW weight decay.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "prior_penalty",
+          "title": "Prior penalty",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "Quadratic penalty on league and entry-context prior embeddings; separate from AdamW decay.",
+          "step": "any",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.TemporalGraphSerializer": {
+      "id": "graphs.TemporalGraphSerializer",
+      "title": "TemporalGraphSerializer",
+      "category": "training",
+      "description": "Use with save_model/load_model; provide the exact event store at load.",
+      "fields": [
+        {
+          "name": "event_store",
+          "title": "Event store",
+          "required": false,
+          "kind": "text",
+          "default": null,
+          "help": "Event store for TemporalGraphSerializer. Optional; leave disabled to use the standard behavior.",
+          "primary": false,
+          "hidden": true
+        },
+        {
+          "name": "device",
+          "title": "Device",
+          "required": false,
+          "kind": "select",
+          "default": "cpu",
+          "help": "Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.",
+          "choices": [
+            "cpu",
+            "auto",
+            "cuda:0"
+          ],
+          "primary": true
+        },
+        {
+          "name": "embed_event_store",
+          "title": "Embed event store",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
     }
   },
   "stages": {
@@ -18263,7 +18941,8 @@
           "primary": false,
           "components": [
             "training.JoblibSerializer",
-            "training.BayesianScoreSerializer"
+            "training.BayesianScoreSerializer",
+            "graphs.TemporalGraphSerializer"
           ],
           "initial_component": "training.JoblibSerializer"
         },
@@ -18350,7 +19029,8 @@
           "primary": false,
           "components": [
             "training.JoblibSerializer",
-            "training.BayesianScoreSerializer"
+            "training.BayesianScoreSerializer",
+            "graphs.TemporalGraphSerializer"
           ],
           "initial_component": "training.JoblibSerializer"
         }

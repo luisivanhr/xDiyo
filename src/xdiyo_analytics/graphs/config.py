@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 import math
 import pandas as pd
 
-CLASS_ORDER = ("home", "draw", "away")
+CLASS_ORDER = (1, 0, -1)  # Native Outcome(perspective="home"): win, draw, loss.
 ENTRY_ORDER = ("retained", "promoted", "relegated", "unknown")
 MATCH_KEYS = ("competition_id", "season_id", "event_id")
 
@@ -63,4 +63,4 @@ class TemporalGraphConfig:
     def labels_known_at(self, kickoffs):
         times = pd.to_datetime(kickoffs, utc=True).dt.tz_convert(self.timezone)
         # Calendar DateOffset preserves midnight across daylight-saving changes.
-        return (times.dt.normalize() + pd.DateOffset(days=1)).dt.tz_convert("UTC")
+        return (times.dt.normalize() + pd.DateOffset(days=1)).dt.tz_convert("UTC").astype('datetime64[ns, UTC]')
