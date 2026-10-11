@@ -368,10 +368,18 @@ Add these under **Post-training analysis**:
   projection coordinates, explained variance or tSNE diagnostics, historical
   support and prior/message gates remain downloadable. Small populations cap
   perplexity at n-1; identical representations have no invented projection.
+  The rendered report has a fold dropdown when multiple folds are available,
+  a square canvas with equal axis scale, and league buttons that hide points,
+  names and badges together. Names are optional (off initially); hover still
+  identifies each team. Use the team finder to zoom to a team, drag to pan,
+  adjust badge size, or reset the view. Badge sizes stay constant while zooming.
+  Missing or unreadable badges fall back to colored markers. These controls
+  change presentation only; they do not recompute the projection or model.
 - **GraphAttentionWeightReporter**: select a receiving team in the rendered
   chart, inspect the strongest historical edges separately by layer/head, and
   download all weights. Concentration, entropy, effective edge count, support
   and gates give additional diagnostics. Attention is not causal attribution.
+  Layer/head legends appear above the plot, separately from fixture labels.
 
 Embedding and attention views use teams from the selected test/score population
 at one common issuance per fitted fold (the latest selected issuance by default).

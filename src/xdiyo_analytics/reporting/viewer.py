@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from .embedding_view import CSS as EMBEDDING_CSS, JS as EMBEDDING_JS
 from .match_view import MATCH_CSS, MATCH_JS, render_match_results
 from .spatial_view import CSS as SPATIAL_CSS, JS as SPATIAL_JS, render_spatial
 from .rating_view import CSS as RATING_CSS, JS as RATING_JS, render_ratings
@@ -85,9 +86,10 @@ function visiblePlots(){
   document.querySelectorAll('.plot[data-spec]').forEach(el=>{
     if(el.closest('details:not([open]), [hidden]'))return;
     if(!el.getClientRects().length)return;
-    if(el.dataset.loaded){if(window.Plotly)Plotly.Plots.resize(el);return;}
+    if(el.dataset.loaded){if(el.embeddingResize)el.embeddingResize();else if(window.Plotly)Plotly.Plots.resize(el);return;}
     const spec=JSON.parse(document.getElementById(el.dataset.spec).textContent);
     el.dataset.loaded='true';
+    if(spec.layout.meta?.xdiyo_embedding){initializeEmbedding(el,spec);return;}
     Plotly.newPlot(el,spec.data,spec.layout,{responsive:true,displaylogo:false,
       toImageButtonOptions:{format:'svg',filename:'analysis_figure'}});
   });
@@ -95,6 +97,10 @@ function visiblePlots(){
 document.querySelectorAll('.fold-selector').forEach(select=>select.addEventListener('change',()=>{
   const section=select.closest('.study');
   section.querySelectorAll('.variant').forEach(v=>v.hidden=v.dataset.fold!==select.value);
+  requestAnimationFrame(visiblePlots);
+}));
+document.querySelectorAll('.embedding-fold-selector').forEach(select=>select.addEventListener('change',()=>{
+  select.closest('.embedding-folds').querySelectorAll('[data-embedding-fold]').forEach(panel=>panel.hidden=panel.dataset.embeddingFold!==select.value);
   requestAnimationFrame(visiblePlots);
 }));
 document.querySelectorAll('details').forEach(el=>el.addEventListener('toggle',()=>requestAnimationFrame(visiblePlots)));
@@ -211,9 +217,19 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
             scope = '<div class="scope">' + ''.join(f'<span class="badge">{_e(b)}</span>' for b in badges) + '</div>'
             notes = '<ul class="notes">' + ''.join(f'<li>{_e(n)}</li>' for n in run.result.notes) + '</ul>'
             artifacts = []
+            embedding_folds = OrderedDict()
             for k, artifact in enumerate(run.result.artifacts):
-                artifacts.append(f'<details class="artifact" {"open" if k == 0 else ""}>'
-                                 f'<summary>{_e(artifact.title or artifact.kind)}</summary>{artifact_html(artifact)}</details>')
+                fold = artifact.options.get('embedding_fold')
+                target = artifacts if fold is None else embedding_folds.setdefault(str(fold), [])
+                target.append(f'<details class="artifact" {"open" if (k == 0 or (fold is not None and not target)) else ""}>'
+                              f'<summary>{_e(artifact.title or artifact.kind)}</summary>{artifact_html(artifact)}</details>')
+            if embedding_folds:
+                choices = ''.join(f'<option value="{_e(fold)}">Fold {_e(fold)}</option>' for fold in embedding_folds)
+                selector = (f'<label>Embedding fold <select class="embedding-fold-selector">{choices}</select></label>'
+                            if len(embedding_folds) > 1 else '')
+                panels = ''.join(f'<div data-embedding-fold="{_e(fold)}" {"hidden" if n else ""}>{"".join(items)}</div>'
+                                 for n, (fold, items) in enumerate(embedding_folds.items()))
+                artifacts.append(f'<div class="embedding-folds">{selector}{panels}</div>')
             downloads = []
             scope_table = run.scope if run.scope is not None else pd.DataFrame({"row_position": run.row_positions})
             downloads.append(_csv_link(scope_table, f"{name}-scope-{j}"))
@@ -234,7 +250,7 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
     empty = '<div class="empty">No reporters selected. Add studies when you need them.</div>' if not groups else ''
     html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}{SPATIAL_CSS}{RATING_CSS}</style>{plotly_script}</head><body>
+<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}{SPATIAL_CSS}{RATING_CSS}{EMBEDDING_CSS}</style>{plotly_script}</head><body>
 <aside><div class="eyebrow">xDiyo analytics</div><div class="brand">Study explorer</div>
 <label for="study-search" class="muted">Find a study</label><input id="study-search" type="search" placeholder="Filter studies…">
 <nav aria-label="Study navigation">{''.join(navigation)}</nav></aside>
@@ -242,7 +258,7 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
 <p class="muted">{len(groups)} selected studies · {len(report.studies)} computed views · explicit row scopes</p>
 <div class="toolbar"><button type="button" data-expand="true">Expand studies</button><button type="button" data-expand="false">Collapse studies</button></div></header>
 {empty}{''.join(sections)}<footer>Computed once. Fold and entity selection changes the view without recalculating studies. Figure toolbar exports SVG; data panels download CSV.</footer></main>
-<script>{SPATIAL_JS}{RATING_JS}{JS}{MATCH_JS}</script></body></html>'''
+<script>{EMBEDDING_JS}{SPATIAL_JS}{RATING_JS}{JS}{MATCH_JS}</script></body></html>'''
     if path is not None:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)

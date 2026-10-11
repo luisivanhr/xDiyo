@@ -1,6 +1,5 @@
 """Native diagnostics for retained temporal graph models. No model fitting."""
 from dataclasses import dataclass
-from colorsys import hsv_to_rgb
 from html import escape
 from numbers import Integral, Real
 from typing import ClassVar
@@ -12,6 +11,7 @@ from .model_diagnostics import LearningCurveReporter
 from .post_training import PredictionReporter
 from .studies import _plotting, _style
 from .teams import TeamCatalog
+from .embedding_view import embedding_figure
 
 
 def _graph(model):
@@ -156,25 +156,11 @@ class EmbeddingReporter(PredictionReporter):
                 if note: result.notes.append(note)
             table['team_name'] = names
             projections.append(table)
-            figure = go.Figure()
-            colors = ['#268bd2', '#dc322f', '#238b57', '#b58900', '#805ad5', '#2aa198']
-            for n, (league, group) in enumerate(table.groupby('league', dropna=False, sort=False)):
-                figure.add_trace(go.Scatter(x=group.x, y=group.y, mode='markers+text',
-                    text=[escape(x) for x in group.team_name], textposition='top center',
-                    name=f'League {league}', marker=dict(size=9, color=colors[n] if n < len(colors) else '#%02x%02x%02x' % tuple(round(255*v) for v in hsv_to_rgb((n*.61803398875)%1, .85, .8))),
-                    customdata=group[['support', 'gate']].to_numpy(),
-                    hovertemplate='%{text}<br>Support %{customdata[0]:.2f}<br>Gate %{customdata[1]:.3f}<extra></extra>'))
-            width = max(float(np.ptp(xy[:, 0])), 1e-6)*.035
-            height = max(float(np.ptp(xy[:, 1])), 1e-6)*.035
-            for (x, y), badge in zip(xy, badges):
-                if badge:
-                    figure.add_layout_image(dict(source=badge, x=float(x), y=float(y), xref='x', yref='y',
-                        sizex=width, sizey=height, xanchor='center', yanchor='middle', layer='above'))
-            _style(figure, f'{self.mode} · Fold {fold}<br>{queries.issuance_at.iloc[0].tz_convert("UTC").strftime("%Y-%m-%d %H:%M UTC")}', 'Component 1', 'Component 2')
-            figure.update_layout(height=560)
-            result.artifacts.append(Artifact('plotly', figure, f'{self.mode} embeddings · fold {fold}'))
+            figure = embedding_figure(table, badges,
+                f'{self.mode} · Fold {fold}<br>{queries.issuance_at.iloc[0].tz_convert("UTC").strftime("%Y-%m-%d %H:%M UTC")}')
+            result.artifacts.append(Artifact('plotly', figure, f'{self.mode} embeddings · fold {fold}', options={'embedding_fold': str(fold)}))
             support = go.Figure(go.Bar(x=[escape(x) for x in names], y=table.support, marker_color='#2aa198'))
-            result.artifacts.append(Artifact('plotly', _style(support, f'Historical support · Fold {fold}', 'Team', 'Decayed match mass'), 'Historical support'))
+            result.artifacts.append(Artifact('plotly', _style(support, f'Historical support · Fold {fold}', 'Team', 'Decayed match mass'), 'Historical support', options={'embedding_fold': str(fold)}))
         result.tables['embeddings'] = pd.concat(exports, ignore_index=True) if exports else pd.DataFrame()
         result.tables['projection'] = pd.concat(projections, ignore_index=True) if projections else pd.DataFrame()
         result.tables['projection_summary'] = pd.DataFrame(summaries)
@@ -230,11 +216,13 @@ class GraphAttentionWeightReporter(PredictionReporter):
             for team in dict.fromkeys(trace_teams):
                 name = escape(catalog.display(team)[0])
                 buttons.append(dict(label=name, method='update', args=[{'visible':[t == team for t in trace_teams]},
-                    {'title':{'text':f'Incoming attention · Fold {fold}'}, 'images':images[team]}]))
+                    {'title.text':f'Incoming attention · Fold {fold}', 'images':images[team]}]))
             _style(figure, f'Incoming attention · Fold {fold}', 'Historical opponent / kickoff / fixture', 'Normalized weight')
-            figure.update_layout(height=550, colorway=['#268bd2','#dc322f','#238b57','#b58900','#805ad5','#2aa198'],
-                margin=dict(t=110, b=125),
-                updatemenus=[dict(buttons=buttons, direction='down', x=0, y=1.02, yanchor='bottom')], images=images[trace_teams[0]])
+            figure.update_layout(height=750, title=dict(y=.98, yanchor='top'), colorway=['#268bd2','#dc322f','#238b57','#b58900','#805ad5','#2aa198'],
+                margin=dict(t=185, b=150),
+                legend=dict(orientation='h', x=0, y=1.05, yanchor='bottom'),
+                xaxis=dict(tickangle=-40, automargin=True),
+                updatemenus=[dict(buttons=buttons, direction='down', x=0, y=1.28, yanchor='bottom')], images=images[trace_teams[0]])
             result.artifacts.append(Artifact('plotly', figure, f'Attention · fold {fold}'))
         result.tables['attention'] = pd.concat(exports, ignore_index=True) if exports else pd.DataFrame()
         result.tables['concentration'] = pd.DataFrame(summaries)

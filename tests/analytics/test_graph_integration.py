@@ -85,6 +85,11 @@ def test_native_reporters_render_badges_and_recover(trained, tmp_path, mode):
     assert 'svg+xml;base64,' in html
     assert 'Incoming attention' in html
     assert all(s.result.tables for s in report.studies)
+    attention = report.studies[2].result.artifacts[0].data
+    assert attention.layout.legend.y > 1
+    assert attention.layout.updatemenus[0].y > attention.layout.legend.y
+    assert 'title.text' in attention.layout.updatemenus[0].buttons[0].args[1]
+    assert report.studies[1].result.artifacts[0].options['embedding_fold'] == '0'
     from xdiyo_analytics.experiments.recovery import pack, unpack
     restored = unpack(pack(report))
     assert 'Team embeddings' in restored.to_html()
