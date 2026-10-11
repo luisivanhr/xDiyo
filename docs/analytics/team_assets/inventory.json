@@ -1,69 +1,69 @@
 {
   "exports": [
     {
-      "publication": "Bundesliga_22_23.manifest.json",
+      "publication": "Bundesliga_10_11.manifest.json",
       "matches": 306,
       "league": "Bundesliga"
     },
     {
-      "publication": "Bundesliga_2_22_23.manifest.json",
+      "publication": "Bundesliga_11_12.manifest.json",
       "matches": 306,
-      "league": "Bundesliga_2"
+      "league": "Bundesliga"
     },
     {
-      "publication": "Championship_22_23.manifest.json",
-      "matches": 552,
-      "league": "Championship"
-    },
-    {
-      "publication": "Eredivisie_22_23.manifest.json",
+      "publication": "Bundesliga_12_13.manifest.json",
       "matches": 306,
-      "league": "Eredivisie"
+      "league": "Bundesliga"
     },
     {
-      "publication": "La_Liga_22_23.manifest.json",
-      "matches": 380,
-      "league": "La_Liga"
+      "publication": "Bundesliga_13_14.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "La_Liga_2_22_23.manifest.json",
-      "matches": 462,
-      "league": "La_Liga_2"
+      "publication": "Bundesliga_14_15.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Ligue_1_22_23.manifest.json",
-      "matches": 380,
-      "league": "Ligue_1"
+      "publication": "Bundesliga_15_16.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Ligue_2_22_23.manifest.json",
-      "matches": 379,
-      "league": "Ligue_2"
+      "publication": "Bundesliga_16_17.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Premier_League_22_23.manifest.json",
-      "matches": 380,
-      "league": "Premier_League"
+      "publication": "Bundesliga_17_18.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Premiership_22_23.manifest.json",
-      "matches": 228,
-      "league": "Premiership"
+      "publication": "Bundesliga_18_19.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Pro_League_22_23.manifest.json",
-      "matches": 328,
-      "league": "Pro_League"
+      "publication": "Bundesliga_19_20.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Serie_A_22_23.manifest.json",
-      "matches": 380,
-      "league": "Serie_A"
+      "publication": "Bundesliga_20_21.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
-      "publication": "Serie_B_22_23.manifest.json",
-      "matches": 380,
-      "league": "Serie_B"
+      "publication": "Bundesliga_21_22.manifest.json",
+      "matches": 305,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_22_23.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
     },
     {
       "publication": "Bundesliga_23_24.manifest.json",
@@ -71,69 +71,89 @@
       "league": "Bundesliga"
     },
     {
-      "publication": "Bundesliga_2_23_24.manifest.json",
+      "publication": "Bundesliga_24_25.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_25_26.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_26_27.manifest.json",
+      "matches": 36,
+      "league": "Bundesliga"
+    },
+    {
+      "publication": "Bundesliga_2_10_11.manifest.json",
       "matches": 306,
       "league": "Bundesliga_2"
     },
     {
-      "publication": "Championship_23_24.manifest.json",
-      "matches": 552,
-      "league": "Championship"
-    },
-    {
-      "publication": "Eredivisie_23_24.manifest.json",
+      "publication": "Bundesliga_2_11_12.manifest.json",
       "matches": 306,
-      "league": "Eredivisie"
+      "league": "Bundesliga_2"
     },
     {
-      "publication": "La_Liga_23_24.manifest.json",
-      "matches": 380,
-      "league": "La_Liga"
-    },
-    {
-      "publication": "La_Liga_2_23_24.manifest.json",
-      "matches": 462,
-      "league": "La_Liga_2"
-    },
-    {
-      "publication": "Ligue_1_23_24.manifest.json",
+      "publication": "Bundesliga_2_12_13.manifest.json",
       "matches": 306,
-      "league": "Ligue_1"
+      "league": "Bundesliga_2"
     },
     {
-      "publication": "Ligue_2_23_24.manifest.json",
-      "matches": 380,
-      "league": "Ligue_2"
-    },
-    {
-      "publication": "Premier_League_23_24.manifest.json",
-      "matches": 380,
-      "league": "Premier_League"
-    },
-    {
-      "publication": "Premiership_23_24.manifest.json",
-      "matches": 228,
-      "league": "Premiership"
-    },
-    {
-      "publication": "Pro_League_23_24.manifest.json",
-      "matches": 240,
-      "league": "Pro_League"
-    },
-    {
-      "publication": "Serie_A_23_24.manifest.json",
-      "matches": 380,
-      "league": "Serie_A"
-    },
-    {
-      "publication": "Serie_B_23_24.manifest.json",
-      "matches": 380,
-      "league": "Serie_B"
-    },
-    {
-      "publication": "Bundesliga_24_25.manifest.json",
+      "publication": "Bundesliga_2_13_14.manifest.json",
       "matches": 306,
-      "league": "Bundesliga"
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_14_15.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_15_16.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_16_17.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_17_18.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_18_19.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_19_20.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_20_21.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_21_22.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_22_23.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_23_24.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
     },
     {
       "publication": "Bundesliga_2_24_25.manifest.json",
@@ -141,9 +161,169 @@
       "league": "Bundesliga_2"
     },
     {
+      "publication": "Bundesliga_2_25_26.manifest.json",
+      "matches": 306,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Bundesliga_2_26_27.manifest.json",
+      "matches": 54,
+      "league": "Bundesliga_2"
+    },
+    {
+      "publication": "Championship_10_11.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_11_12.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_12_13.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_13_14.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_14_15.manifest.json",
+      "matches": 551,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_15_16.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_16_17.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_17_18.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_18_19.manifest.json",
+      "matches": 551,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_19_20.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_20_21.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_21_22.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_22_23.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_23_24.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
       "publication": "Championship_24_25.manifest.json",
       "matches": 552,
       "league": "Championship"
+    },
+    {
+      "publication": "Championship_25_26.manifest.json",
+      "matches": 552,
+      "league": "Championship"
+    },
+    {
+      "publication": "Championship_26_27.manifest.json",
+      "matches": 96,
+      "league": "Championship"
+    },
+    {
+      "publication": "Eredivisie_10_11.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_11_12.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_12_13.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_13_14.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_14_15.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_15_16.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_16_17.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_17_18.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_18_19.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_19_20.manifest.json",
+      "matches": 232,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_20_21.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_21_22.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_22_23.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_23_24.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
     },
     {
       "publication": "Eredivisie_24_25.manifest.json",
@@ -151,9 +331,344 @@
       "league": "Eredivisie"
     },
     {
+      "publication": "Eredivisie_25_26.manifest.json",
+      "matches": 306,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "Eredivisie_26_27.manifest.json",
+      "matches": 63,
+      "league": "Eredivisie"
+    },
+    {
+      "publication": "J1_10_10.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_11_11.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_12_12.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_13_13.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_14_14.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_15_15.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_16_16.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_17_17.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_18_18.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_19_19.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_20_20.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_21_21.manifest.json",
+      "matches": 380,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_22_22.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_23_23.manifest.json",
+      "matches": 306,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_24_24.manifest.json",
+      "matches": 380,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_25_25.manifest.json",
+      "matches": 380,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_26_27.manifest.json",
+      "matches": 80,
+      "league": "J1"
+    },
+    {
+      "publication": "J1_Transition_26_26.manifest.json",
+      "matches": 180,
+      "league": "J1_Transition"
+    },
+    {
+      "publication": "J2_10_10.manifest.json",
+      "matches": 342,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_11_11.manifest.json",
+      "matches": 380,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_12_12.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_13_13.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_14_14.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_15_15.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_16_16.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_17_17.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_18_18.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_19_19.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_20_20.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_21_21.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_22_22.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_23_23.manifest.json",
+      "matches": 462,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_24_24.manifest.json",
+      "matches": 380,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_25_25.manifest.json",
+      "matches": 380,
+      "league": "J2"
+    },
+    {
+      "publication": "J2_26_27.manifest.json",
+      "matches": 90,
+      "league": "J2"
+    },
+    {
+      "publication": "La_Liga_10_11.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_11_12.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_12_13.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_13_14.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_14_15.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_15_16.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_16_17.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_17_18.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_18_19.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_19_20.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_20_21.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_21_22.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_22_23.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_23_24.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
       "publication": "La_Liga_24_25.manifest.json",
       "matches": 380,
       "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_25_26.manifest.json",
+      "matches": 380,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_26_27.manifest.json",
+      "matches": 70,
+      "league": "La_Liga"
+    },
+    {
+      "publication": "La_Liga_2_10_11.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_11_12.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_12_13.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_13_14.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_14_15.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_15_16.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_16_17.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_17_18.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_18_19.manifest.json",
+      "matches": 456,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_19_20.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_20_21.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_21_22.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_22_23.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_23_24.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
     },
     {
       "publication": "La_Liga_2_24_25.manifest.json",
@@ -161,9 +676,334 @@
       "league": "La_Liga_2"
     },
     {
+      "publication": "La_Liga_2_25_26.manifest.json",
+      "matches": 462,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "La_Liga_2_26_27.manifest.json",
+      "matches": 66,
+      "league": "La_Liga_2"
+    },
+    {
+      "publication": "Liga_MX_Apertura_10_11.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_11_12.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_12_13.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_13_14.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_14_15.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_15_16.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_16_17.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_17_18.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_18_19.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_19_20.manifest.json",
+      "matches": 171,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_20_21.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_21_22.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_22_23.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_23_24.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_24_25.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_25_26.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Apertura_26_26.manifest.json",
+      "matches": 88,
+      "league": "Liga_MX_Apertura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_10_11.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_11_12.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_12_13.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_13_14.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_14_15.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_15_16.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_16_17.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_17_18.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_18_19.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_19_20.manifest.json",
+      "matches": 90,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_20_21.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_21_22.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_22_23.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_23_24.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_24_25.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Liga_MX_Clausura_25_26.manifest.json",
+      "matches": 153,
+      "league": "Liga_MX_Clausura"
+    },
+    {
+      "publication": "Ligue_1_10_11.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_11_12.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_12_13.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_13_14.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_14_15.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_15_16.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_16_17.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_17_18.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_18_19.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_19_20.manifest.json",
+      "matches": 279,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_20_21.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_21_22.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_22_23.manifest.json",
+      "matches": 380,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_23_24.manifest.json",
+      "matches": 306,
+      "league": "Ligue_1"
+    },
+    {
       "publication": "Ligue_1_24_25.manifest.json",
       "matches": 306,
       "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_25_26.manifest.json",
+      "matches": 305,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_1_26_27.manifest.json",
+      "matches": 45,
+      "league": "Ligue_1"
+    },
+    {
+      "publication": "Ligue_2_10_11.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_11_12.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_12_13.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_13_14.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_14_15.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_15_16.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_16_17.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_17_18.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_18_19.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_19_20.manifest.json",
+      "matches": 280,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_20_21.manifest.json",
+      "matches": 379,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_21_22.manifest.json",
+      "matches": 379,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_22_23.manifest.json",
+      "matches": 379,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_23_24.manifest.json",
+      "matches": 380,
+      "league": "Ligue_2"
     },
     {
       "publication": "Ligue_2_24_25.manifest.json",
@@ -171,9 +1011,169 @@
       "league": "Ligue_2"
     },
     {
+      "publication": "Ligue_2_25_26.manifest.json",
+      "matches": 306,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Ligue_2_26_27.manifest.json",
+      "matches": 63,
+      "league": "Ligue_2"
+    },
+    {
+      "publication": "Premier_League_10_11.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_11_12.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_12_13.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_13_14.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_14_15.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_15_16.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_16_17.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_17_18.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_18_19.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_19_20.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_20_21.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_21_22.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_22_23.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_23_24.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
       "publication": "Premier_League_24_25.manifest.json",
       "matches": 380,
       "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_25_26.manifest.json",
+      "matches": 380,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premier_League_26_27.manifest.json",
+      "matches": 50,
+      "league": "Premier_League"
+    },
+    {
+      "publication": "Premiership_10_11.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_11_12.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_12_13.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_13_14.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_14_15.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_15_16.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_16_17.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_17_18.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_18_19.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_19_20.manifest.json",
+      "matches": 179,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_20_21.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_21_22.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_22_23.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_23_24.manifest.json",
+      "matches": 228,
+      "league": "Premiership"
     },
     {
       "publication": "Premiership_24_25.manifest.json",
@@ -181,9 +1181,169 @@
       "league": "Premiership"
     },
     {
+      "publication": "Premiership_25_26.manifest.json",
+      "matches": 198,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Premiership_26_27.manifest.json",
+      "matches": 42,
+      "league": "Premiership"
+    },
+    {
+      "publication": "Pro_League_10_11.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_11_12.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_12_13.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_13_14.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_14_15.manifest.json",
+      "matches": 239,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_15_16.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_16_17.manifest.json",
+      "matches": 239,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_17_18.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_18_19.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_19_20.manifest.json",
+      "matches": 232,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_20_21.manifest.json",
+      "matches": 330,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_21_22.manifest.json",
+      "matches": 312,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_22_23.manifest.json",
+      "matches": 328,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_23_24.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
       "publication": "Pro_League_24_25.manifest.json",
       "matches": 311,
       "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_25_26.manifest.json",
+      "matches": 240,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Pro_League_26_27.manifest.json",
+      "matches": 63,
+      "league": "Pro_League"
+    },
+    {
+      "publication": "Serie_A_10_11.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_11_12.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_12_13.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_13_14.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_14_15.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_15_16.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_16_17.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_17_18.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_18_19.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_19_20.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_20_21.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_21_22.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_22_23.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_23_24.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
     },
     {
       "publication": "Serie_A_24_25.manifest.json",
@@ -191,10 +1351,100 @@
       "league": "Serie_A"
     },
     {
+      "publication": "Serie_A_25_26.manifest.json",
+      "matches": 380,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_A_26_27.manifest.json",
+      "matches": 50,
+      "league": "Serie_A"
+    },
+    {
+      "publication": "Serie_B_10_11.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_11_12.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_12_13.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_13_14.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_14_15.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_15_16.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_16_17.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_17_18.manifest.json",
+      "matches": 462,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_18_19.manifest.json",
+      "matches": 341,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_19_20.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_20_21.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_21_22.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_22_23.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_23_24.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
       "publication": "Serie_B_24_25.manifest.json",
       "matches": 380,
       "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_25_26.manifest.json",
+      "matches": 380,
+      "league": "Serie_B"
+    },
+    {
+      "publication": "Serie_B_26_27.manifest.json",
+      "matches": 50,
+      "league": "Serie_B"
     }
   ],
-  "team_count": 289
+  "team_count": 483
 }

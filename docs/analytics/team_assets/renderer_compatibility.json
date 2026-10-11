@@ -1,9 +1,10 @@
 {
-  "checked": 286,
-  "accepted": 286,
+  "checked": 483,
+  "accepted": 483,
   "formats": {
     "svg": 284,
-    "png": 2
+    "webp": 29,
+    "png": 170
   },
   "rejected": []
 }

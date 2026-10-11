@@ -36,7 +36,8 @@ for key,item in c.items():
             Image.open(q).verify()
         good += 1
         fm[item['format']] += 1
-        if key in ['42','17','2672','2692','2817','2888','2953','2352','8','11','1657','2859','1652','2671','1664','2567']:
+        if key in ['42','17','2672','2692','2817','2888','2953','2352','8','11','1657','2859','1652','2671','1664','2567',
+                   '4','1665','1931','1939','1946','1953','3132','3134','3147','5130','24338','55785','113755','201624','256899','549294']:
             cards.append(f'<figure><img src="{src}"><figcaption>{html.escape(item["name"])}</figcaption></figure>')
     except Exception as e:
         bad.append({'id':key,'name':item['name'],'error':str(e)})
