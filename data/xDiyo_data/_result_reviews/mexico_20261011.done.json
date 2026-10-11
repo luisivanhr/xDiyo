@@ -1,0 +1,28 @@
+{
+  "evidence_sha256": "d951663fa5877c08a0a410655bf6967944c51f064ef01d356ad64d9e7e94741e",
+  "event_id": 11341818,
+  "before": {
+    "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/matches.parquet": "405c586c8e98019a90030c0625b3d81da8036304d3a234d8853b552da94aa3e6",
+    "Liga_MX_Apertura_23_24.parquet": "45363bc58b0daf4af603749c4f8e66954cd46d0b09df25b7f58f9807a0a65a94",
+    "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/manifest.json": "85806b870b23c255d3f2779cfcbc16e6b34b4ecd2ebaa0e8dc349e365da0e066",
+    "Liga_MX_Apertura_23_24.manifest.json": "5904b0161723780fc6c072d33752425d1a89a21f9acd2463ec4e90c0fbe8914b"
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/matches.parquet",
+      "sha256": "3c2d70895801c40aef6fb3136b5beaf4dfa8a7dfe7b6a52146952f100ea4a937"
+    },
+    {
+      "path": "Liga_MX_Apertura_23_24.parquet",
+      "sha256": "793b75cf4f8242cce00702960896827556e702878a21b7a3c50e77f8717eb43a"
+    },
+    {
+      "path": "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/manifest.json",
+      "sha256": "1991cb8d713726f96b8ab16f3ec09c589ccd6d6d7ccbfb77dc758198b437b981"
+    },
+    {
+      "path": "Liga_MX_Apertura_23_24.manifest.json",
+      "sha256": "98a1adafe844a2de5d43c553fa53d48508d4359052521f27d70c7d2e78e92518"
+    }
+  ]
+}

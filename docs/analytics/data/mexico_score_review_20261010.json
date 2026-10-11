@@ -1,0 +1,36 @@
+{
+  "event_id": 11341818,
+  "workbook_match_id": "113496",
+  "fixture": "Tigres UANL v Queretaro",
+  "native_final": [
+    4,
+    0
+  ],
+  "workbook_final": [
+    5,
+    0
+  ],
+  "native_period1": [
+    2,
+    0
+  ],
+  "native_period2": [
+    3,
+    0
+  ],
+  "action": "Correct home_score_current and home_score_display from 4 to the official played result 5 in native and nested publications; permit missing-only statistics backfill.",
+  "external_verified_score": [
+    5,
+    0
+  ],
+  "sources": [
+    "https://www.tigres.com.mx/es/noticias/tigres/la-previa-ante-queretaro-3/",
+    "https://www.youtube.com/watch?v=x8aNsZggFXA"
+  ],
+  "corrected_final": [
+    5,
+    0
+  ],
+  "reviewed_on": "2026-10-11",
+  "reason": "Official club result confirms 5-0, agreeing with the workbook and native period scores. The cause of the original provider discrepancy is unknown."
+}

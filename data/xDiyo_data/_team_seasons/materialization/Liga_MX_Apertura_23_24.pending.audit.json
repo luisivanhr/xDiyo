@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_23_24",
+  "old_manifest_sha256": "7773b008141ce7e160a49d7da5107ba84a66b910fed90a7f9c51e81603e54dfe",
+  "old_publication_sha256": "09112d66459bafe4810a47b937f0f9561c28f015db20af78e8c7f7de591572bb",
+  "new_manifest_sha256": "85806b870b23c255d3f2779cfcbc16e6b34b4ecd2ebaa0e8dc349e365da0e066",
+  "new_publication_sha256": "5904b0161723780fc6c072d33752425d1a89a21f9acd2463ec4e90c0fbe8914b",
+  "matches_sha256": "405c586c8e98019a90030c0625b3d81da8036304d3a234d8853b552da94aa3e6",
+  "season_sha256": "45363bc58b0daf4af603749c4f8e66954cd46d0b09df25b7f58f9807a0a65a94"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_14_15",
+  "old_manifest_sha256": "0ed6341ed5edb0fd33a41a27fe825aea201256d6db3610b17e74dce5d4a245f7",
+  "old_publication_sha256": "344eafd2f488baed9f669a9bd121d34b07a121a0037619ad431bf2bb125c759e",
+  "new_manifest_sha256": "36492d271808d2888ab6c65d8b710008f82aba2c9cfbbe4ab4467d2ce62bb197",
+  "new_publication_sha256": "585873dcf42791da96a11ce2e7a9f0293f6335188caec7b5e96de6fde6e0df07",
+  "matches_sha256": "68eac626f535d35aec4bf0b869b5f326baf88cfeb588d9067a1a08f05f846d29",
+  "season_sha256": "953596f72c60450b026620b2955b5a94c1d182b64d05b80739477fdc2a485efa"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_18_19",
+  "old_manifest_sha256": "33de33a34cb5f4485a08957609c8785e3e07fca1943ef54a916c14b40e398aee",
+  "old_publication_sha256": "92c2f8f9a8bf3301c4ced18d7db312c484d4cdcefb98b7a466b60ebb330158d2",
+  "new_manifest_sha256": "12621b66480be09688ed5ec731a40990729a73a18bd17a302c8498d5bc549ed3",
+  "new_publication_sha256": "de196e6465e18eff7090b2f9e7dc25f594f102a10997d5f63b7a623237679cad",
+  "matches_sha256": "9e419c8025e0558eaa75be25b5346cbc9e431c0b385a0ac5c8a9b91569580acf",
+  "season_sha256": "e0531312a13df37558531ef99129dbe596daa31324cfe9de6d5102a489218d92"
+}

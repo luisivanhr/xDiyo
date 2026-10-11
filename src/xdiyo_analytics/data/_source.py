@@ -100,7 +100,15 @@ def _open_source(data_root, season_stem, record_path=None, *, existing_record=Fa
     version = manifest.get("version")
     if not isinstance(version, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", version):
         raise ValueError("Invalid season version")
-    expected = root / "_tables" / f"competition={scope['league_id']}" / f"season={scope['season_id']}" / "versions" / version / "manifest.json"
+    table_root = root / "_tables"
+    cohort = publication.get("reconciliation", {}).get("archive_cohort", {})
+    if cohort.get("shared_provider_identity") is True:
+        if (cohort.get("stem") != season_stem or cohort.get("league") != league
+                or cohort.get("competition_id") != scope["league_id"]
+                or cohort.get("season_id") != scope["season_id"]):
+            raise ValueError("Shared-provider cohort does not match the requested season")
+        table_root = table_root / "cohorts" / season_stem
+    expected = table_root / f"competition={scope['league_id']}" / f"season={scope['season_id']}" / "versions" / version / "manifest.json"
     if path != expected.resolve():
         raise ValueError("Manifest location does not match its season version")
     tables = manifest.get("tables")

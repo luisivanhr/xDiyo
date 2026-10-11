@@ -12,6 +12,10 @@ examples, override precedence, and statistical transition policies.
 
 ## Loading
 
+Mexican Apertura/Clausura publications also carry these fields. See
+[Mexico enrichment](mexico_enrichment.md) for annual entry semantics, franchise
+exceptions and shared historical provider identities.
+
 Japan's 2010–2026/27 publications also carry these fields. See the
 [Japan enrichment](japan_enrichment.md) for boundary evidence and the special
 handling of the 2026 transition tournament.

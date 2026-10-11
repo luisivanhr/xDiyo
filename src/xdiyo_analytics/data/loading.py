@@ -193,6 +193,8 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
                 "manifest_path": str(source.path), "tables": tuple(tables),
                 "include_awarded": include_awarded, "excluded_awarded_event_ids": excluded,
                 "awarded_flag_available": matches is not None and "is_awarded" in matches}
+    if '/_tables/cohorts/' in source.path.as_posix():
+        provenance['shared_provider_identity'] = True
     if enrichment is not None:
         provenance['team_seasons'] = enrichment[1]
     for name, frame in frames.items():
@@ -269,7 +271,8 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
     Adds source_league and source_season to every row; rejects existing columns
     with those names instead of overwriting them. Concatenates matching tables
     with a fresh index, retaining source row order and missing optional columns.
-    Does not join tables, create features or remove duplicate rows across seasons.
+    Does not join tables or create features. Explicit shared-provider cohorts
+    coalesce identical team-season evidence only; fixture rows remain separate.
 
     Optional record_dir holds one compatible selection record per publication.
     Records pin versions, not discovery membership: new matching publications may
@@ -305,6 +308,36 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
             pieces[name].append(frame)
         sources.append(loaded.provenance)
     combined = {name: pd.concat(parts, ignore_index=True, sort=False) for name, parts in pieces.items()}
+    if 'team_seasons' in combined:
+        combined['team_seasons'] = _coalesce_shared_movements(combined['team_seasons'], sources)
     provenance = {"seasons": tuple(seasons), "leagues": tuple(sorted({l for _, l, _ in selected})),
                   "tables": tuple(tables), "sources": sources, "include_awarded": include_awarded}
     return SeasonData(combined, provenance)
+
+
+def _coalesce_shared_movements(frame, sources):
+    """Resolve explicitly declared cohort copies, never general duplicate IDs.
+
+    The full list of publications stays in SeasonData.provenance. The first
+    copy supplies its source labels; every substantive evidence field must agree.
+    """
+    keys = ['competition_id', 'season_id', 'team_id']
+    if not set(keys).issubset(frame.columns):
+        return frame
+    duplicate = frame.duplicated(keys, keep=False)
+    if not duplicate.any():
+        return frame
+    authorized = {s['season'] for s in sources if s.get('shared_provider_identity') is True}
+    fields = [c for c in frame.columns if c not in ('season_stem', 'source_league', 'source_season')]
+    remove = []
+    for _, group in frame.loc[duplicate].groupby(keys, sort=False):
+        stems = (group.source_league + '_' + group.source_season).tolist()
+        if len(set(stems)) != len(stems) or not set(stems).issubset(authorized):
+            # Preserve the existing strict downstream handling for ordinary data.
+            continue
+        first = group.iloc[:1][fields].reset_index(drop=True)
+        if any(not first.equals(group.iloc[i:i+1][fields].reset_index(drop=True))
+               for i in range(1, len(group))):
+            raise ValueError('Conflicting movement evidence across shared-provider cohorts')
+        remove.extend(group.index[1:])
+    return frame.drop(index=remove).reset_index(drop=True)

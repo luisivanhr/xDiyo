@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Clausura_17_18",
+  "old_manifest_sha256": "81e5918904a5e17935d83d3dcde04de0225a735710ccc9268c964e25e9c87014",
+  "old_publication_sha256": "0a0635e9ccf9e3b39b80fbfc708096aafefe81be8097bdc14c48f0f7c5b47979",
+  "new_manifest_sha256": "ce246e12353b57fe8486f9ee610879dc1197793b725b02b199c3fe2a6fb1e135",
+  "new_publication_sha256": "c22ff9fac86922fbb2e50246a0915884c16d87c847284a5139446b30e09edfa7",
+  "matches_sha256": "31b123301d9918f3a8d5cdba9d9122c87e68194cf1c6e267df62954880ef852f",
+  "season_sha256": "49395f85ec2c160ff58cd43a0b7be47db0cb2fa520ae6f0ff09509250da2ff41"
+}

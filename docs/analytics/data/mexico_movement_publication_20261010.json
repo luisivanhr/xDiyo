@@ -1,0 +1,3496 @@
+{
+  "publications": 33,
+  "matches": 4939,
+  "team_seasons": 595,
+  "movements": {
+    "retained": 574,
+    "promoted": 18,
+    "other_entry": 3
+  },
+  "original_observations_preserved": false,
+  "seasons": {
+    "Liga_MX_Apertura_10_11": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "a58e47c9efa5de2d9934aeb417297fea781eebc5a7f17a5f449c6e7281b33a50",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 306,
+          "sha256": "a2f7e6c363a19414c160c4ab2407b0f6fe222a44a0144480e7c11656a406b5ab",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "7929393d92e849420604ab605161981f87278ad3fde74c71c074f4169974ff92",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "b34aba333808b621d5bce739c699e6832d46c9190c95e0862606a849196d1b1d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "35bff23fca3549d6ab07ae769e59646ca455c19eee08a333f2f726ffc79a5efc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "4ed04f53a874379ca38845208823aa33180ad01e3cad63eae3eb4b9c0ce00b43",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_11_12": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "b12495c7aa5d0a25c8e0a97baf939f9ca5d36dc1dea3772b1b59a7607327f195",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 306,
+          "sha256": "83ff7136106101859c3705c0a2228c1d6bc456b2d3b014552c8519524361024f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "f6b724eba72fea5bb3f49bec468d9b2b2ae41d7ba5dc752af75ba63ea817d167",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "a1c97e822343fea9895983fe741706d86c771072e54840485df6bde556e4c06a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "4b73442aaf47f04b9660a3f1ce5c4c8dd53dfbaa1f96f71b2c46411fc9260597",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "6d0cbfcc1ff5ce733eefeba396c6c27559646aa019ab8fb16fc7990661655770",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_12_13": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "eaae39dc43cea8f176ddb228f929682bf0db6b30c205105fabd790a922410ed7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 379,
+          "sha256": "37040ccb66f3886a79fc18ef72330854526ed99a9458ee00d4e876bb68a79fee",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 725,
+          "sha256": "4a090609b3873ecad61b0e1d67bc433a32e16a76ba517e15dafb98287a76bbb3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "c8c71f9c642bb2af5ebbd00c6ed105a6b92325dfc53fec43a539eb71708e95d9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "7163c1e409ed36adf72d17b4324fcbd03b24e2b0d44c99ecbe4282d85a7c8fa3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "9b42f35a35d273772683aaa64f204c54417673020627986d2bd09cb4ac38b00e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "79984421d639780ec1f99ae5ed68546fae6cd3192fb13db3ce9bbd0945a9199f",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_13_14": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "71a5c92bd6ad81a6ad3fea758f02fb6b05b1958c410dcae1df8b0ce80702831b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 391,
+          "sha256": "c537be162909f24cad066a2c29f6c6f646279e8fe8b32cfe2eefbfef9d11f44c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 742,
+          "sha256": "f3b971c34e5f4e32ddc8020a4ee580235b0d045de385b3a885c291705eecfce6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "4ef411316cc7b9233123cfc843f46e8f3d4b9b21b0dde4416c00f052a1255c32",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "d6555dd08f7d267b4e8ab02fa824b736d8bcfd6dc6283cda41505a5dbde52939",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "ff6e2714b092a431d54d8408d83e8dd5f7186ec14fd38ae1b96ab83f7ab9cfab",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "6239924166b45964286e33e4e5b55c1ee82c66f5403db94f78eaac46aa0ff9dc",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_14_15": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1682,
+          "sha256": "53fc4521a30a0aad262490944232903bd877c4b417283e319857520052c780a0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 364,
+          "sha256": "a0eb97e393da8cf6293b90445f91eb9bef08b8ae54b7aeeae3d91b9fc7ea8800",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 1415,
+          "sha256": "3ecab5a94e5fdaba1589d20068573d5c6dab9eefcaf51b08d50459f4e78aa76f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 1370,
+          "sha256": "f74c965a7b6b75c31d4d77077dc9eaa72a5a33364dde6702e2d88500c3680f88",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 76,
+          "sha256": "4a767872e1fd28f3fd5bfc45be931292a8568a207c0fb1e8e96de0bc99b24974",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "68eac626f535d35aec4bf0b869b5f326baf88cfeb588d9067a1a08f05f846d29",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 986,
+          "sha256": "99f417e6344122ffb6a9ef1e745184b3c3ebabbeae08806b6342b1c7f5c9ede9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 743,
+          "sha256": "7baba6ff3077879d090dc0d992e936489ed3fbe9dbfa96678d9db8a47a0ce4f1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "0a74a8af67e3eb7c543259aa5fe04727f5fb2bd5e7eabb251c5eb580a630fcf9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "953596f72c60450b026620b2955b5a94c1d182b64d05b80739477fdc2a485efa",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_15_16": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2070,
+          "sha256": "a432c5fb843aacdafa6a225a130841358239aa3f0acf570e3a0e108702b0a5fd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 460,
+          "sha256": "0ddb1e4c2c5aeba9ee7220b0cc31941b83eb62c5a0014765cfd4e08629dac476",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 2568,
+          "sha256": "54bb492ab3a2ce7b7ed1b6aedf39ebdb94fd1cdfe0802de90a895ff96d326bc6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2477,
+          "sha256": "92f399b310ba2946f327c9351111db579f46211d3c89428bb1f57a318496a00d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 4820,
+          "sha256": "bb51a2443c549e573553c2650783db7c821941ce7ac30b9952af9af3e79dddef",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 268,
+          "sha256": "b614c8fa1dee7703310a9a535c969facc878790fc24c0860aaf70d24067f1763",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "850f1e832e2588a81194e13af9c31e4309bb2f8cea6dbf19c9b3331dc3c1f15d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 63285,
+          "sha256": "b7ae5d741683beef2b9a53e813cb712131c637b80a784b594be6cc21053da586",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 38,
+          "sha256": "535c19eaf7f503acb0bec46a9515a6064b6089c845e01c593e0eb48f6d6ffd0a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 14268,
+          "sha256": "93df73a3663a9d2cea350a2ba1ddfa41cff3327d4da4e04e2ddecba09409632b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 722,
+          "sha256": "69ea558021ccf50199c6f31ba76b982c9188335c004225d653504f5022f765d8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "a24a61bce2bd5f940da54b6b4d1aafe70d58927b3f6c4535b2708b494ab6188a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "6329880213052e9f3412880da643a2e2cdacbca2732d1cf9fffc8018a5d63772",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_16_17": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2148,
+          "sha256": "9b2cbda7724ffe8be93dacc65dc5a17452ed76e9791e7682311dcabac1c6b464",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 431,
+          "sha256": "ee6bc93b8c61ac76aa8f69f2be5f04cd6277c2e2aa92942d74bab4864a6cec36",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 3895,
+          "sha256": "40fa47400fb6f3bd8a96d816fa87c7d797e6e744814cafa2e0ce9adb3e796cc5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2570,
+          "sha256": "9b894b7139103fd0739d37718274b1c54719577628ce21323f36988d1a23ece8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5507,
+          "sha256": "0d72b686792fe114fa8d9f9c67eb063b594f925775e20c82674716ceda075380",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "a348409e6fe25f485033bfe790bf5734f602711e6cbc4d5f5780badd2d911629",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "675394d23cc8fa92d73d7de5dbf93265123bde5aefe77c801ca17ef3c988c476",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 102780,
+          "sha256": "2e9d93007c13eb7aba2e12a3b6a3e918f044218ad73dddce5c28faf807774245",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 80,
+          "sha256": "c7d1205809650a51f6b5aeb53bdf0c2e40117258168b23d5d67bb7d262c8bce4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 20820,
+          "sha256": "a0027d125e37b1f0100c1e0933e530c2ae09f048f620dfacb5c1bf7a90c0d29e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 680,
+          "sha256": "0e109c0b4e41f5809679dc2f8ad2e482a6c6c3d612f1a2f4e8cbdeadde365b27",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "a7020d657c5661fe6f70e06c5a5755ca05f8dd0027a22798125ca35f3bb16b9d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "fc7ff4d33441fe96febb4584b77f0792aee694cbb6396f7bd60d9584ab9325e4",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_17_18": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2431,
+          "sha256": "bd8a3df1f1a70c816de58085e35ab29228d3aaf9e0528f4b641388a61ad4ef56",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 388,
+          "sha256": "cf839d5155c758fb10cc77852723a64917715f46fc4699d543cb7bbd81632e20",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 191296,
+          "sha256": "895555c00e2843c9010e3b5f5974d4efdf0c201c688960a1e62ae682f26281ec",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2547,
+          "sha256": "4350dc233e0b7731afc9e3938c2e5345ca7ccb2b53be2a543a82063c188b9edf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5516,
+          "sha256": "3cd1bf841e067eed73148430b830a9a7d6c2d37f6766b4ca2d1546f85150a418",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "87f7090c02e3a7fc762384577ec06589b7d70ac7f462f7ad7084d354c04f6690",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "3759bb7c8d2ae833077ec0add9603d22332d0ff4285e830c55210f948ca1780c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 105079,
+          "sha256": "e1ff3874a8a414d37459356d7428dcb81f28f35d3fa2e200e3585b0060568e50",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4217,
+          "sha256": "5d8972064a998a8829358a1cb36726e65ed9910da2c76d20d46352bf445562cf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 21816,
+          "sha256": "2590af7ecafaa5e504b37a2dd42ba6f15ef620c7fbf72434c636a3ab87768245",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 754,
+          "sha256": "60ac0b7d9232e54522ad80e9a79d91561231ec7e09a80d77351db351eca91927",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "d3b7737a74582e17f87b8a464ce5cd80e6e0d2544a5376d92f23554443a02655",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "7660d8ac7b6c8d134cc6683d23f1a403d8dfc4b0f7f49399cbc5b22f0587f577",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_18_19": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 2,
+          "sha256": "5c53b9929df5e34924ced39dd28ae0a42f3205edd540e3fba1bb165a2544edf8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2432,
+          "sha256": "9f6056b0e113ea686806998648cb8ef65d114bca4d555fa5c219af089552b828",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 410,
+          "sha256": "9ec0a39cd311913234aa9658b13c99aad397a3b0ccd619be01952639fe062850",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 189360,
+          "sha256": "f8f322fc713e0100eb9a3ded42319b171f722d2d98d6601a4b2a2899c7004a94",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2523,
+          "sha256": "643508435f5a55f34b384795a28e911725a11b0af8479f72eb9e98e552f63261",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5508,
+          "sha256": "d0b4692cdf768452f0a86656eae3fbdc05cccab0312482a662b7460ded55ed12",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "ce3cb7cf9c2aabe1f08736cc3301cd2f985c020d7661d194398ee6b6163421cb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "9e419c8025e0558eaa75be25b5346cbc9e431c0b385a0ac5c8a9b91569580acf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 107089,
+          "sha256": "e7bed9244474d1bb45fb5755872d0d434ad2ed422ecbb0670e391aadf5698ce5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 3663,
+          "sha256": "04ed05662a76289ce298d77db276bf428cadc7f7d04f84eef6fda25d51f11528",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 32970,
+          "sha256": "cc626ec14f12723c5134a9f9bfc923a105aea203443987ae98ad3d45f6317c2a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 768,
+          "sha256": "86efeb517826793ea8bb6b0cdf8924e0b71c59a57baedd73260af73a2412a9ac",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "ea85721d7c6ab13fa15fc82cbdf1775429d4426a0ac71e77ed46fee32f039dd5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "e0531312a13df37558531ef99129dbe596daa31324cfe9de6d5102a489218d92",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_19_20": {
+      "matches": 171,
+      "teams": 19,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2712,
+          "sha256": "0b2a40989bd8d8f1609d0c42fcb9285b2d903dfaad8ddc087398de5402973730",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 493,
+          "sha256": "e1e0684204a78611ac40478d9a048f24a073a36c7a4f2a166bff3f67398ef24e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 213132,
+          "sha256": "fe4309180051bb02a8431655b004197d0b139d92764e91a5dec712464efba752",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3051,
+          "sha256": "4c235e9a1fb940963c9b9dc81737666c4344f4a1d04747dff18b8b7b12200750",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6119,
+          "sha256": "3a733b8322e266678637b46325c7f7d64a0f8d078b5778168d6dff9aa64013da",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 340,
+          "sha256": "98e9f39c3e03958d8c5bb22b18e7e37b990bf282390423882e1f0aca5970d9eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 171,
+          "sha256": "fc104a6f83637119722f1445fb85588c3d71272766532a50ab686541fd1acd70",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 117599,
+          "sha256": "e3d979a5bcdd9955cddb5ba76a3f46618f59a4712468d071817c1de0d7b527be",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 322,
+          "sha256": "c162085149cf059f02df4a630d0fe3f67ba80f44da04eb0a721580f5ec4475b8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4472,
+          "sha256": "2849ff3413d2466087cea260607956e669fa787d790e8680e91a5d90c2fbffb3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 36766,
+          "sha256": "e444425826860bab226102f2501ebb36c025eeaf03dcf6d938dda0c9c182c46b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 903,
+          "sha256": "254d4ba0a5c16dba8560e372089e643d3746494471cdc68d9768ecd703287730",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 19,
+          "sha256": "6989c519b923f908d221f0c36fe7c5cbd356fd08cf3c380b54b0b61012a503b0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 171,
+          "sha256": "c636bdc3e5c362f9a335db775fcd247590664d77b67b9f7d601d92565a99bc7b",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_20_21": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2448,
+          "sha256": "3188ad5b5282e9bfc50f1e65c4252bf76a0a9b7302717c65ee8e2807c9e7eb9f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 390,
+          "sha256": "367807ef3de8e8e7a03404c956b8f6e0953f4723f250c340e6d5290a967c5b40",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 202026,
+          "sha256": "abf143a1b4a17b266ae71e1fe0ff661c512c20c7cad11484bdc88846b1a98093",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2904,
+          "sha256": "6a0c500e88be93d09717c5aabdf02832087339d516c78f454520d7f3395cf5e5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6331,
+          "sha256": "e037a92cd34f14cfc1fae9451d74aeefabf971acc962acd7eea9cfc03c8e3f93",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "d9b3afe5051c875188330df4ed7de0f0ca5ef48c0f5d3008aa82e0c8b2a76e43",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "378160c56efd2e352eb56305250872e1ba4b416332790586ee35bc8d20761ac2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 112815,
+          "sha256": "bfb0675f9f97544c46803e9e81042ff3168f1e171a469a9210d84c1d3f410038",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "7e2a9d4e8a083f4d79732816c7d8fcedc18e00fec952572d8d2b1c997c61bb8c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4019,
+          "sha256": "5f30ce9f07a9b20ba080aac62396ce15240f327feba79ddfa0a8d68dfb319376",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 35136,
+          "sha256": "68aca3e555174671e0d1c8aa1bd3263cca17735efbaf443a9b84fdce2aa1c39b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 787,
+          "sha256": "c5072eb76673d5c454e6ee57fedc38dad296eb82e070b797b3b92a0f7e6fa017",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "4b3e1842a6689db97393fe93ed8d87ffcf10e9b1c3d262d219f00d60b352d86d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "d9a1a41074d5bcd9391075d6cf42c43f6989f089a663903b11c9db12ff022182",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_21_22": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2448,
+          "sha256": "f5f54ca3affa746d75348c39c6ca3da54da23475a723d4a710352ffb443396b0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 332,
+          "sha256": "c9b0b531f6d0eb9aedaf7a98e2bdbb41d794bb7510c03618bf8ced11a903734b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 207890,
+          "sha256": "a7280ccd771e50cc61250243039ca75851aab97c750f26d60be4825cb556dfbe",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3051,
+          "sha256": "1978150d96f12575b337be55d497f2dd876be2e0cab45853b64b86ea6d092a90",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6399,
+          "sha256": "6046b85f5ef956a828618edb2dc69f0ecb342119f7b6d1419ee34f4d8cd183e1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "1e5557cc2a4836044e2b4827ddb56ba0207afb1d584ccc76e4cd9519b2ec5b2c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "cf19a2911f528704b349e85a5d9b6f5205ced48aa41a203e2234f9655f0f1959",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 115509,
+          "sha256": "441e0c5e2222d313838b74d7d2c275ba96a6f198f200b5d220a08a7972f72366",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "514a2544c6edc1384346b00e0433a3e17694c9b8ba0e34ff155e9cfd1c52544a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 3784,
+          "sha256": "310d312eccccc4d851c5467a06e790655959edd35d823cf6499f19867d4402c8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 35220,
+          "sha256": "680f33bd3c7198d0afd63f3fc63f1bc2bfb9edab4d6b04fbf2b36e0d67a65fba",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 878,
+          "sha256": "300c776890376787b7ad662dd8d196f7daebc5ee53702f84c0a87f5a44f2f964",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "3d96f0756232dcaff8960a9b4257fc1fd78ea7afc2b0295c96eaf0db886f5e75",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "5a7848d3b60ef05cf00768726deec019a5ad83522adccb21a010f908e32973c4",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_22_23": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2448,
+          "sha256": "a0e6814f5f4c0b630a34770d34c90b0d100cadfdaff446ba83aae425592e7e23",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 420,
+          "sha256": "65150a7186a5e2a12c3fa5d6169a3fd69ea00f3289f02f7567faf3179dfee4d3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 208721,
+          "sha256": "99a2404ebd35596412d69c736c0865788eb22980a167e4133575c29530052e5d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3252,
+          "sha256": "50921827a6aa63c94077fbf7f2f05ce3c975b11cdfc12844cf2b962ce9d5c681",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6416,
+          "sha256": "3a66bac743b311e6300f0c969ac0751277b8eaf4ef7ba9f6f4e9f808d8bc5b94",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "fbedff0138874a0c50c13482358c5a98f844f0826897aee86a86c84411a99181",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "1e9aef2f111062c8221a72ccc45fa563d2b2db98f72a611215a4efee3cf52329",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 115645,
+          "sha256": "6381bee8d6420d4553eeb8b0a4626d2fa9b4544a544d2fcec84e32ffa38395ce",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "c0e3e6e766ee0f08fdd360359d6663b87b2833ce80eee0c0539f4da6310b7fd2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4218,
+          "sha256": "bf3fd9602e10f1a8f659615d7db2605748316aecb11a9102519fe3646f938313",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 35482,
+          "sha256": "751e1ef76091a92645b6ca0628bbcd2144e4e47d377a5a3a3de5dc68898f4dc1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 864,
+          "sha256": "8c84cd6eb59f24d2d7e01f9b70fa6b94a06cbebd92fab2c10d19cd4e225a35ed",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "0bd1e4397ed87cab4b175b6994ad3c86c7de568abb888ff49b556df13135b89b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "82df2471dc17b0ff54990c25791120e76fdb87d6014ae99f5f831a814e526a18",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_23_24": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2442,
+          "sha256": "38a9657e9a332d87727df2f44b9aba98f3a5cc61fd2035cc775a8fdeca6e7cf7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 433,
+          "sha256": "55d8c90a9b8067008d8b0a6bb62fededac475a35f17e60887beeda30f9011d9e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 228640,
+          "sha256": "f8c48d839a1cbfd9afabace7159fce7284d763a3280fc9b9fc2d2d255723be30",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3357,
+          "sha256": "fcf2db446ee04b3d73c90b0af64e409f3953e9959eaf000e2287e9a8181b64ea",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6365,
+          "sha256": "bf12b2dbf400d405844c26c9879a5af0047e28ec0878c6a6d2a64ce165bc4e9b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 304,
+          "sha256": "f2f3c27bc74cd93bd7325d01ec0c9ea3ef1c9de25a48d7d663e9b9cc5a56dde9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "3c2d70895801c40aef6fb3136b5beaf4dfa8a7dfe7b6a52146952f100ea4a937",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 121610,
+          "sha256": "53a8b63817e4f5fbf3b894ea2319ac8d550f646c7a60dcba4e84582635af23ff",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "fe4c6c4e2f3ed6eea8434667bbd995a4d019248ac74dd55f37c3ed4de18ae443",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4170,
+          "sha256": "2693710e10fa9a25f14c81390eafc96f3cc534ccc5f11e7302895728526e89eb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 36126,
+          "sha256": "b36735ea0c4078d7551be81d04db51fe20cafffa5f437f8cddd499400788944b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 916,
+          "sha256": "6bf9bba1a69a04c2f1e5df29b80d358c3ce21ba03a60099016672a0d9dd9a40a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "5a957abeec05be52185c2a62d135becf6de09e9eb5af48a97413642d0c23e80e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "bb890f5fdc172c1a0bc6f4c69a5672b9ef2e4791a380c8c43d3a2ae8e40fbe88",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_24_25": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 11,
+          "sha256": "a981423ae8f682b699b0be3dd8916a92e6a4299d1671926677c0eb4494dac76c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2448,
+          "sha256": "46647aa053bf9ea10e7245251a9f9010557ab3c954100c2323b9200969bd36fa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 1490,
+          "sha256": "e873bd0ffed0f6aba601cd87911146cabb8b6ecd4bb237924a0a5c0bab81d62d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 403,
+          "sha256": "0560ea7f8a4243331318f2a75769c403b02d141d212e5110df2449c263592560",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 225802,
+          "sha256": "4bb318c4be69a32773879dcdb6f03ab76fc3306dde9c6601c61751656a566186",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3176,
+          "sha256": "261345b3c791a3f810e5167ec22dd6867afb67aa99fd521b6096c48373f49041",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6417,
+          "sha256": "4968528d57e1705273c04111cc323cfd357989416c214f0b8f820120693e22c4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "084badcb6dc98b4bb00646f5da3155ad4d056c5ac1235059eb1cb175aa19d4b8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "ec9d24c3fb60d69c4d313dde20ead08c17874edb14449421b748352a5c615a5c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 224,
+          "sha256": "d41ad935be13783c86eeb4fae3f2c1cfed79d80bc61cd79c0c7a531d67f8b31a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 130834,
+          "sha256": "9aa4d1f9874a0941d74d9840c5d1f25cd09a223c1d2f753e74599f295a025bb9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "a910e6ba45998afde7667824a0f65192f0640508d61b8e879d0c3b7f63e6db64",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4109,
+          "sha256": "d25c630a3eb6a3da12d29fe4b2f0be9cc68f6704765353b2dd0a4f4ea8ab3bbb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 37126,
+          "sha256": "9e18aec3f7d05c6e0c2f027fb7eff3a39a93a2e31e055ab600dbc8a65b5801fe",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 872,
+          "sha256": "e2084f7e26d85baa125a41f44531c43945752291a07bf6b3cb924004b3651e5c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "142848dfaeb1f44127670bee78a28fd34f74dc0af36a1229bc22a36c7b42751a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "9cf3f58af4fd31a1c9b503b4e038ddc8361adbf077ff73409c2f025c4fa5e313",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_25_26": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 246,
+          "sha256": "e36646238b608d7ff04c72bf5a1f0c26a3524b017b8e19605d3ab3ab0b6ad0d3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2448,
+          "sha256": "fbf87ea64d4c1faf95a7cab59ca0c701fb76d1aa713877d8f908a8d1befc22e4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 1623,
+          "sha256": "0479fd3d254c54557380103df31438c224acf2760fb12041b6033e3d70986afe",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 475,
+          "sha256": "166e32c3f3906ea5bca31a3a4010077757e2eb94eb670598f00253ead2a0fdee",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 214031,
+          "sha256": "1cf31cb74b938e12678678373dfdde34edea183c7808acfd02cdfcdc1a9006ba",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3377,
+          "sha256": "351d8c1da474961c20770d316b9e8985119077dcc17d8103086c4187a99b4a80",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6402,
+          "sha256": "90beb40a6a988a44e241b62fe3c953eb8ac44f3487d230fc0503327dc8088c5b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "a23745a8d5374ba0663c070f9657d7e8895cef8b9b023156d3cce8a7059aec85",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "abbc50d286d0ea4b12c5ad419720e31e1b03e92e8c86d7c13d7105e76408adb1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 193,
+          "sha256": "14c81382f1cd044425f709c1ad56b8524d4a4e43cbe628bbd2c2811d169e0b61",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 146271,
+          "sha256": "b977813ea5433f573f7b393cc5a7d6c6b015ef2bc5a7f7d7bf89c8acec9d6db7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 286,
+          "sha256": "5188662315a6a7d60e88bb37b13c5b0e86e8a5300e1e01534ba39d93c8324554",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4015,
+          "sha256": "236358fd1abb2d1746629683e666036c0f589f2ac86a71f95659f60d54a8af44",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 39922,
+          "sha256": "338a415ae4d183269b5af1b85b0c1fdbb003b15bd41510e18cc4207f5c68f586",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 913,
+          "sha256": "2decfbd31e4d1d60b546a66b2a27434fb30a482676672f180b55679f370f7eff",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "26553dafb9b82e8a592af70f5065aec8907ad198f24fab9f24f3a14b497302b0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "1fae887307c19d65f470cffca9b5a3e3b1a7bd57ee77973ecb466ad36655bad7",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Apertura_26_26": {
+      "matches": 88,
+      "teams": 18,
+      "snapshot": true,
+      "files": {
+        "availability": {
+          "rows": 259,
+          "sha256": "4a38bf9ded8676d39632e0b03ca7a5b61fbb4558bf1a341006bbcfcdefcb0d33",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 1408,
+          "sha256": "c70c607a93dfa01afd992e89d4c7d4575b4095163cb3e7b76ce52c22af20ef50",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 908,
+          "sha256": "d51bcb2ddb543981b01b79366d17de439d2832d8595e7ac9be37e919fdc68b71",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 258,
+          "sha256": "36651be02212b1c87937b78b98b0883a332d12458062c20fc185069c3a849acb",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 131649,
+          "sha256": "e146d7c01dd321c431e10d70cedc1511dc958aa1fdf5f2ba9c013b02bb91158d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 1868,
+          "sha256": "260d656accd9b85e6b244a27ada7bd8fd43081b53b62d46975339396a597969f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 3690,
+          "sha256": "75c8e92fd2016411deadbc48d237392b0606a1fc57d71a811103676b8e96b42e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 176,
+          "sha256": "87c21b7daba57276969912c39bcf5ef2ba3b602066dba19a13e66dc5b8d3368a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 88,
+          "sha256": "f933b052fea922b57092f8b372bda52d02ab9df3c411b3ae53e51d469ff5d47d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 114,
+          "sha256": "5dc41bd79baa1c7e52153809de375e7887605f1beb782d8f4d6ea52471a5a8c8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 101110,
+          "sha256": "fc035698a326e013e814ab1b4e3a4fb4356597a41af65d068ef2572812d30786",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 158,
+          "sha256": "6a67c9368b9eebdcbe3c5c50502e84f0c8d9ee6eebea28653652f4929bd8eb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 2614,
+          "sha256": "02fe60a732b5ce3067cf86f4927e2afad40ef477d548db4e380235f693c36323",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 23078,
+          "sha256": "319304a2727dd20c355043301b58e05006bb5be04568184b10bb3d27d2f94c48",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 527,
+          "sha256": "aac567d05944e3402552dcce667e5c0db62d8f32837a9ada042e1c143b209b02",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "3d42695242898d20be01b689b17d931dbc2a46c4bc242c6a39ed6d627bcc1154",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 88,
+          "sha256": "ca0e17ca1176558b045e921a06ef749ab131f9986870208c9a6442742bd29fcc",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_10_11": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "3b1c2d65f849e0db9b219b4442d7b23e24f0b999f7ada9d6b196d2c35f698346",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 306,
+          "sha256": "cd22fcff83035e3019afa641ed6fb9279cc6eea56fcd12e903ed0ce5ef19a4e8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "9a9dadcce9d8a636879edea3209506bdd8b766a4c7a3629a47075a6da6d8014f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "6ebd466b6951fe30a9f24c7900e233ccb65b501d07ce9b828c7aca7cff73af8e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "dfc6a8b0bbc2ce6fafd81e2ba23ef42cb5c885ffc2c1b63540ba03592dcb05b2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "c756cc3994ba2cbba54da1292a8d64151ae013ad33ceef6fa34b462ca009fb49",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_11_12": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "fcf2ffba43adfd01af023c076287e25aab9c08c3f5a5df9930723f7124b0749f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 0,
+          "sha256": "db87734ffefb24022e076b9eed0f8277ef87d23894820859e01c1979cd7d911a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 306,
+          "sha256": "809937f0436aa2aab5eaf9b6a7d6b0a05e6230b0fde6fa2079d27a95569ac5a0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "3e552d93132b2758a715158ecd191068a6404c1ca640009a72b41a4666ad9ae9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "59d26c735fcd808e19cc67b6d1e1e5f7c0d5e78015d82218d50a004c759f3d49",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "f69d1e852971be8c348a7ea8f884d89d28ac6e4c2418ca66f776144f5f6e8d4a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "f3a20f9d4ae095690f4b13a570d9fa64047215f744dd415b4bac837e2d1dd599",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_12_13": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "c6253165311c48b0d88e9c91af88457a72e13016a45f3580d1f303359ce9d8a9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 375,
+          "sha256": "ab9006efd4800da28b103b54031a37c113624fbfdd321f5ac90c0cd43dc7633a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 753,
+          "sha256": "d2a4f50aa9560e056b02cbe1e4ba4df842a7305ac1f86eb35a16877fa23ece37",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "cd2f5f0157df9f23d033d3352e19dd6638ec4aec7a5403a2556aae26da8435b6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 306,
+          "sha256": "6712724180b3de2df9f8de1ed21373dcded5216d864e22f65220958c87a774df",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "f93b4743ba36507f581c01039a7387ddd99f65c9e482f90d1061c0632cba9081",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "d854eb4f89484e23cc51bac254e82136da1cf0bb218820ae49eea05b8bf9d9de",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_13_14": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1530,
+          "sha256": "1eee15042b428678ca97afa27b00a027f33c0be1acebb81fba657e63d5879368",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 376,
+          "sha256": "a0f303f1e2983a503e5b1b5b1495c85f0a3b0a3cdec52ab603cdd44f6da5563e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 937,
+          "sha256": "d1052555775394c3e82e68721b9e0ab3da913ebb89097546835d17326a75c9e4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "eccbe014d14547af04508d185ff542a54ef5eb50cb5f64ede10d78181bdccc26",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 436,
+          "sha256": "b9e1c2ab4bf820bb7cea6ce5451d56f037522ee94c6dc528d1a16708c8d42701",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 600,
+          "sha256": "80df2735608ab9ff83b3bdb5b153944975c1beb1c2c0e903ec1efddce5708504",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "e5bd020919e49be45ba6289295d85a0a860d178c4a0190a931ea87180940045a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "c6ca36b2d6e6f6f01814c7d52ce3e579a3c903eb7d8015ecf9685d7c19dc3f21",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_14_15": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2062,
+          "sha256": "8dd6992245d8c881212172bfa77f37bc8f692756c98991f67e7b594bfe8bf6a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 395,
+          "sha256": "a5c94a5b533dded4e28dbdd258f04b039d3488b4ddb4a0fb33bbb118131b46a7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2313,
+          "sha256": "fbf90bc63bf28a76e0a4139111552f5fc9a689d81241cf7ab8a823528022bf15",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 4786,
+          "sha256": "db16363305d34a4bb33d2abfdf52528ec9b6fe9defacfdd55fa9432424bf8c75",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 266,
+          "sha256": "829bc01c87b80ad3bd314e43c24258a7bd2dc92e8921ba10496599135fe3a0b2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "4f6da143a32e2f0c028d9767dccc2fcb2e4db227fbe18898d44b45f39d964ffe",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 3244,
+          "sha256": "2779b7a8ad8e639ca28e7b452114154f2d188a9c067c39928fe87831ab4335c6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 722,
+          "sha256": "61a16554a5a079628f12436001f64508522d115c2ca3fa2902fe2c25bcdefd80",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "6f12b2c10c355f51c6e28af40078a200aadb228b0cb80a9233838f27f61b8df1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "fdfbfe0f31ba0bc8d9c65013028f2c9233b218997a427ebbc94107d1daa1c1d8",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_15_16": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2144,
+          "sha256": "6b7a01e3cebd5663dbfead7bc2ab4effefb01c990ed7cd01891b6cd01bbb119f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 431,
+          "sha256": "1edfd86cbdbe34c81713cef550c43aa2cca090d78fd0ab77bc2e61a4b437e14b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 1304,
+          "sha256": "5acdaa578cd452751e732b4d2c22254dc96d558693f696a91df4afc1b774fe43",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2567,
+          "sha256": "8c2693b1a3b99f575c6dc2d62fe0886949fa9a77c6fccc46a60573e3f0360d32",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5508,
+          "sha256": "b213b466f40c3c3b1f7c82c4f479cc9a1d0d0f54d89a031a4f875ec6a6aaa07f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "398a27a80473e059a3df677f8e195c95fe1ee7bbc21f7dca961310a030521fb4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "11aeb37f4e622d1b417399674c2994215ad4cf00cdc77ccbf55eb8a6f8eeafa6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 101145,
+          "sha256": "140e0ae3e342e13ae59dbd5daa5779bd5f7a8f0c79942b7bf762164c300fb342",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 16,
+          "sha256": "b0410e35f06ff688e25d2138c5c13954bdd741183cb7aa6384c9d88b33cebc89",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 20766,
+          "sha256": "e996a8dcc6305ac38ee1ddee3f5b74b81ffe4c612fec9d10c1a4d8db75eb7f30",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 632,
+          "sha256": "08406a67cae22ffe3b76d832928203d7884267503cad2e5c33d3bed6e569116a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "4a1fe2d81be97ecd251cc97d59a2f3bcc3b9c0afacd491b69f3382aef5c11c85",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "b6233d656339e6e85cda9282eeb88a674b5f49eba4f394e84893061da94cb763",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_16_17": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2142,
+          "sha256": "b11f6dc507f9c09e76602ae32e7b255bebc35d6f8f58f64d546ba165b949fa6d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 375,
+          "sha256": "8a159180c7373aac70686ba41df87070d17786b80e56c0364c7701874874d08a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2472,
+          "sha256": "ecf5ea36c1ed87b2973aba21c186e6415459f367dea49403972cc0281950ca29",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5508,
+          "sha256": "a8703cc403ac147a13c9e4048cd347cc5083071807b7f0cff7877f3fdc5bdc7d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "b0f7b3334611b56ed9aafe2a235ecc708ee656e11332f7f3a82671b5342602e7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "5bbfb42ced3a6efd2680fdd2e52567a7d1f88d900bffaaaab27011fad27ee84b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 102638,
+          "sha256": "066784e23faae6f3c723f96b212530286818c4e44ac134de30a01b92dc4f11d7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 20508,
+          "sha256": "3fc461ed551410178676aa814365ac58a1c23234b6ea0de435e212387fb4ab99",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 743,
+          "sha256": "93085fcb55d100b8f7fbd161a056a51236d5b86fb1fb37e44b907e3b9788d2e2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "f76d106c4ae9c7d9a421dff490649dadb62f583ac7af12d929640cf00658e72c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "26adc8d4e51142043832d3e98bb1ba71aca46537876dc1b0e7c7bf63dbc9bef8",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_17_18": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 95,
+          "sha256": "35b3749152c0ef79afa2fff43553670181a1e1a5e4c72e007f07a4796d5e0e99",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2431,
+          "sha256": "14812b544059ea0c5274487032fecfb25ff169da10da93a3ef16de0491140320",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 387,
+          "sha256": "240d1e01027758751efe1ad83688ecd784953a158cb41e563b14181469e42e2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 193583,
+          "sha256": "168f090f07eb6fd2385d399c439d7947dda1dd411435037a9de20cda57be4c7c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2551,
+          "sha256": "7fda5d5f192a0064fe646ef249b790ac776cf60170c9cbfecb57c47ecf3d7fdf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5506,
+          "sha256": "b0e10d46cda4a73ffac652950380ee98113abf1ee8e1cc1220658b76b667f796",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "38cf25f87a29bc9a464cab8db0126a36edb37982576ea19ebae52aa09a71c7d2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "31b123301d9918f3a8d5cdba9d9122c87e68194cf1c6e267df62954880ef852f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 102640,
+          "sha256": "c68e58f3844133011caba5fbeae4fdb8c587a6ce5fb71e782b254538310c789c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4001,
+          "sha256": "ea2f3a47fe0302a320f6bddc4fbe6eb2f94aaf6671ce79409c48a633fa299013",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 34156,
+          "sha256": "e43a8310025b8667499d3c37d62405268cba2f218a21c541217a94d9e307020a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 754,
+          "sha256": "8f0845bf89ed4e611ecd7afacacadaf2ef51270f1d2706656c47e3d945c79c04",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "760fa7b1fdfe0f42b0017c29aaa3f8e65163fe80dc4db4283cd2f6320b1d3975",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "49395f85ec2c160ff58cd43a0b7be47db0cb2fa520ae6f0ff09509250da2ff41",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_18_19": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2431,
+          "sha256": "99fb056e69f561d320cf6ff254ddbc798642a2a4b518418f63f902b7df891e2e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 426,
+          "sha256": "c1906f5ef20396912960b70adfc81ca64e8255346fd115c60d58d5356231d26a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 195110,
+          "sha256": "a28226fd18c586a3896c7a2963aa7a556031e69da42266dd8cc0b75a6e80f414",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2494,
+          "sha256": "283f9c1a56a03139eeda9aee5b8598d06ce3a9ebec845c5a85791d13fc47162d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 5508,
+          "sha256": "3d3b6fc8ece6c6f7bd6c0b156acbdd0eac1d831c21de5b86dfc14ef5ec0a099e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "8d045314a9d7b108007679b458aec54b8427095f5a37e6ff99545f3fdd5a239c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "3eca4fb36f5c4f5d9509850fb72567ff58d106812fb56cfd856aaa8e1cc2c2c9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 107802,
+          "sha256": "323b2f4e7115eb134d2b0c595b0847c8e8ed15f580840e668752ac936da968cd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 290,
+          "sha256": "78fb7f7b39a97c43cc3f213b38e716f683a53ab47ca31326496504a038a41faf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4113,
+          "sha256": "0748610c5840c3054ebee9ac13af7508e691e3796f286aeeaf395faff6e5e693",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 33076,
+          "sha256": "71161f382b5d2a3fac9ad76266fc7d9958b6bcb272ba99a197e92b9ed881b66c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 764,
+          "sha256": "ba65fceda5ed16e7c06afb7bc9c32d441456f08e5a458b462ab49b4a2f7dd6a7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "d5089f35a7e9bbdeecd200211690444a4c94935e5d1d3604f24eee0f621b8a03",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "89d2cdbfafc7d0d7d08b3b4186fbfc0df9f574c3de739b58daccc3c1c6628f20",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_19_20": {
+      "matches": 90,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 1430,
+          "sha256": "6355486385dd1d96d9a93f1309101df0a6efbb4c7d49f060c4e1c875a30af0b9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 260,
+          "sha256": "7248266a6a1f60466ec52dcdd691d2ce7bc3769b44894f188ea5fde4a830f9bc",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 110977,
+          "sha256": "ade067fbcd05f2a655cc9f264fed0dba2913e62b49f5661d5208562da70aaaf3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 1602,
+          "sha256": "1c510b6bb0c879fed70c7823753aa51dcb543130b76fe668c34fba4e6d8d039b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 3238,
+          "sha256": "2836a3081f98ab29c3ea3d13f32c6b8a8039c0aba36a1d158224c14dd3bcabec",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 180,
+          "sha256": "f7350360461632aea08a357f34187fbaf8816dc052801141542906e243668c9c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 90,
+          "sha256": "7390acc3f017cd296080b0d45cd0120e4cda813d0f898b2d5764d7464bcff3a6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 59895,
+          "sha256": "7f8dfa2588bb38b9ae1ebe174b1656de5e8f6127168662a1211ccb9893ca068c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 158,
+          "sha256": "a18893e55748b90fd133c6c75542f26e2589d848f19b1730095a85f47a54978b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 2252,
+          "sha256": "2233583c58bbcd2834f99672360ce66c26f78b446a8085db85c860417e66b1da",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 19416,
+          "sha256": "61fa61384036137bd60b4db8501565ae5d3b91a00f9caeb7b2a50c36a1410527",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 488,
+          "sha256": "927984204a9d6d6703635647b5e496728f6d09d0e134db6afe2283705ba560f2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "2d7c0de1df350095046294538ef58aca37edce6fa94ac9ce13c3865cd6724576",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 90,
+          "sha256": "e776749d59b45103b5db3421d1899ef2f8400be2c8a013e1c2447f63807b31b4",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_20_21": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2440,
+          "sha256": "c96a10263adc36e12f48b5c3849bd1068ff30d39fab1b84358ca9663bdc9218d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 358,
+          "sha256": "41b482c7ecefb1c782991cee14210be2562ea87fef885050febd5d65e8691de0",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 200819,
+          "sha256": "91873b12f11417485e51e1cd238c85d293c15a05ecd4ff4c484265726fa155a9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 2858,
+          "sha256": "135d4c6bd5249b0e68f1e282dd8f98d098febd49e0766be14f45d23406f122f4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6327,
+          "sha256": "8224bfca48545fe99cdf38c0a9310596de6b769dbed34315697896973dbdaa12",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 304,
+          "sha256": "643a851f0beaf6319ff3f369660c40d6a31786b0066ab2356e14db7d13a38b78",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "cda9319f9f60a847882048ca12c4f8fc4804211c76e6887030b2447096449baa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 111480,
+          "sha256": "f706f3e5cbf92a0316031d1080d3089984e4fa1470f762534d391da325341f2a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "073b4c2258697348f4a46fa36def840217717790254c6b32797c55374345f77b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 3610,
+          "sha256": "8ea4cf9a4dc7e642bd808f954f0f7a96cee1535086f9d1f966361514252c1340",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 34668,
+          "sha256": "e9105343d7d09eba779bd8553d015d57b76db30161d445f4edd00185743085c2",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 803,
+          "sha256": "f39218236a4e6f87e2ef4603bdd9d75feeb4d54b632cfef4917a5381f4f51298",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "46ffae7c58326bbc6778a652c75969adcfe763b6e5827b6b5a10f401398f1585",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "64722773805eb482565957511744b99fe9d791f921a40997f91e8f84684d9b88",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_21_22": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2442,
+          "sha256": "1c83e2d4841d94c20ec4e969437ccb0875f91e49154ddd3cbc9c64dca0714bf4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 384,
+          "sha256": "542709a381a5dda3e1ec0d33df9a3dc87b9d565172ebdf2678b85161274f7911",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 206491,
+          "sha256": "252023f371b64d2fce46a86a46fd58b70c0066d697cb8d5a455f15b62b8b63f9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3196,
+          "sha256": "bed145fa3d168450239043da58d08148ef4979d4954e3015e9dad5d0ed5cc576",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6337,
+          "sha256": "9aa91273717a497966b265040727a513d94071b47c0fb33f98f874e13f32e66c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 304,
+          "sha256": "975f1fdaa8515e4d8a12a837c300ee45df3783b231625afbd6269659e0deeb95",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "0f1e146a6c146f407ca7b7cbbf031e08a9e781d6daadda7b9e3eade203a03c88",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 114531,
+          "sha256": "29d9cdc5d55840d715a9737c41c4dcfe24158334bb2adeae95b0fe27c4109178",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 286,
+          "sha256": "b1b15df990641087f3572f7bcbae8c2a25c54367d121e6cbf8e70857a379e243",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 3951,
+          "sha256": "26bc55760c0f9e63677a40aa93c75b18aeef20c8b0a82af2c8c34e88bec8f38d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 35024,
+          "sha256": "90c27db27e744f645f33ca76ffc61b21848c6bee59ad3a6cdc7a1e8878325e8c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 861,
+          "sha256": "17332b613cfa7199b7cc50748b5aa2c8b05a326a85b2c61824818ac5348e76f9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "f606e2d9352dcf0fcbfec3b748eddf743a32ee183b7ad8713a03c83deadfab81",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "b6570606d6836aedc6ebaf5c76a9df80f0ee10d46a4e090d20ec90fb5e643f2a",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_22_23": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "coverage": {
+          "rows": 2448,
+          "sha256": "75b1965c4022c71f4dd62c2515fcc50ce82366db9d3821cf3a0eb4efb247f978",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 0,
+          "sha256": "8d9fb3627d5bd2a10823c2ba5cd260635646c40b7da1476ac2aaac8dd588d858",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 432,
+          "sha256": "eef997274039da87bae76fa2426e95013584036cd1c30c8520bbb4a3d58a48e7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 231247,
+          "sha256": "74272e75c04b6b7ca07f0ad664c0d7ac339ab0b0b93c6349ce3b88779ac8128b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3239,
+          "sha256": "ed1e443166b1980f7164c39f6a278cd8ac4c232dc926343be0f51517876f8b3b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6420,
+          "sha256": "e29b841e4fe201c170c26ea4c0ba9d21b125700bfe9c2bd97bee04c1fc699f5b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "8ab4a37fb2be2a57c0604bdfb9172e904215ad2eea5e7df0b0afce8a1563c773",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "20cbb72a2363912369dd43bde21074601c5c5ac8a16e31409712b7e3d7864b89",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 0,
+          "sha256": "f08c55eff0a7c0ae14d3de7f0c6e7a04135e820fb04af53a488af5bd174ebb73",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 123528,
+          "sha256": "59e0e8db16c5e3eca1d202236c7792548d74f1a626c7186e3afbb6a572455311",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 286,
+          "sha256": "7d507750a6fb288e3e42b4f2f3e6a44fe5311c3fe267b3ac080d22a928ab5e81",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4372,
+          "sha256": "a7f343792cc3c92c9fd6ab71834da04e07a4b630c4c4fbae745d84c97e6bae94",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 35586,
+          "sha256": "7fcb685270212828685c5dca9e2d85c470287e7744a7e25b54ff7193bad82509",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 860,
+          "sha256": "142db6a0713ee5d56e3a311ddd9ee9e2e874a6c267026c628de78616d4388bac",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "d89633081ff6e0bcbb0d1bfeacce7852d9ca7d7b53985f49c656d1158f09aaef",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "b6d2d271e503e812e423b1cd3dc74d982af078165a04028c45ddbaae046a3460",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_23_24": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 1,
+          "sha256": "2d860c0edfcdd5c2b4f5e533cd0b4983a31e437f90a28486d7ad41418dc316e1",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2448,
+          "sha256": "572e8e1b832653eaf9d2d87e1dc9aeb907f2eaf9f365d5e87e264ed81da39ddf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 50,
+          "sha256": "354670adb1fb92de8fa7dd91bb74022f78d1985d48c604202b92b28fc6a1e62c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 457,
+          "sha256": "a8d686f18bd49c2b2cce370f8bd688f667988467da73477899563339a272b81b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 227417,
+          "sha256": "55e2226ff485a5f75c9521a41eb0a790cae896b37190e6f8102d966a0e4589a9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3310,
+          "sha256": "fb042a01108fc806c78ead81d8df47bc4ae20ba6f71bde864b2aad23edaf48ea",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6422,
+          "sha256": "57fd77beaa09ed0705f1e4550e4144a9ccda3440679d6d351785cf42cdce2aea",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "7de5d6e4fc247351330b555aac58fc3c8a860416d40863c71225d850b9e3f964",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "e0c2dc746fd7edde2c034b02c65cf24eb2dd8595b6bfe1b0bb99c6a1c4155e24",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 8,
+          "sha256": "274a7ad5e59135fb28ccf6cda1e4a49c120a8f4d3ae96469a7032285bbea089e",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 122335,
+          "sha256": "88fb99b7f65835eafd2b86df733e735a2ad0b0e2706f2c92cd91733472dcc122",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "c6bbd5c784ffd5bc82d154d29a078296ace6d9d46f60c492a008ec0a5060e8cd",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4178,
+          "sha256": "8bd15efa2c2a16bbbb8abc08b52a8410a4225f6d55563eee1d2fa0be77c44f87",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 36342,
+          "sha256": "cbb397d6230852876f57da36052d1d793a7fa193c31b783f334d747b4459f392",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 917,
+          "sha256": "0751e448e93a72291f6963c1d751b46aa4fc45f088a8f48182ac8b6b9cd3c31b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "30a4ade508ff51852d0ed997208679b93bd6d0fde236d5bac4778edfc381c4aa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "9f2b6848eb486e9bb3c549162d5eafd59e08498584a4b452c02c4389ba6ed287",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_24_25": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 90,
+          "sha256": "c3597bd2602854b5cf946b76f800bf8b9838b5af347aaf8a3b19a2b92a0fd0db",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2448,
+          "sha256": "005b94b9a04fa6c8398147b3519564120f8079e57d73f34b33960ff1b7a52bb4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 1515,
+          "sha256": "098fb686d39bee15ce89fbc3bef6a74f56fedeb193b2e19a4e5e829240859244",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 437,
+          "sha256": "4f641a0d0c955095f6f006a74f5b0cb95267ef36eb14d0bd16d5d249e13cacec",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 222480,
+          "sha256": "c6c22c6d81a49fb45737076c35032579e670d20a1ead17175f2ae42937a98028",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3264,
+          "sha256": "1f35c3a571379f23a8189320cd63f6531558418e574296f9ca02b91f048e0a09",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6418,
+          "sha256": "5363f7612aba5629d2a74b38500c53dc935714ada336f13657a9ab25bf50a74a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "cf6efa15bd2515d0aaa86110a0d8f3f5a54ba816a431f67db3b5a228b0afb1a9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "b799e049f1b0af01db63b07577d9223e4b3060c4cd53acc7c00d3d9d8281c315",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 259,
+          "sha256": "72bb3a2ae6ca8f76ab263c116a07dfcbe3f54883d55f1ca80fa56aad8e69adac",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 125941,
+          "sha256": "3fe53030fd5fceb87dab588c1d87766ed2d323e021ccf1e0fff7921d01ea656a",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 286,
+          "sha256": "3ab8cd5934f277557996b20119e2b0bb4b207369e33b899a66c8200ed441829d",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 3954,
+          "sha256": "e963c5afada3505c4cc8cfe705662e717d34828f61c3c9a5b38d6d66edfec199",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 37642,
+          "sha256": "c87c4b652f96be9536d5e7dddf5f06d3f33eab8770b5b12b06494c8f8648a87c",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 918,
+          "sha256": "09e1ba7668d32a9efc323e2ea5f8b938a5d66e67729433bf72e56b270a872f00",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "37766add2856d3e78b5d5842302c74e97371f9415d9be2bffb36fff50fa1e69f",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "019fb88724c6cfe88ebee7bfe3b6e4942e5d5d3c98ed2e26903d937256454da3",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    },
+    "Liga_MX_Clausura_25_26": {
+      "matches": 153,
+      "teams": 18,
+      "snapshot": false,
+      "files": {
+        "availability": {
+          "rows": 372,
+          "sha256": "3e3d90d136a5aa75698af71c4256e0b6febc467ab9800bb3a5466e263f20cd37",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "coverage": {
+          "rows": 2448,
+          "sha256": "9d9bef91a56e6d7e9a3f98bd02fb0156714d09fc98fa7231c6f67e51a32838d9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_actions": {
+          "rows": 1426,
+          "sha256": "740a843eb0699ae8d0e94f6cf3c7166870dceb7ac559ef53f2c4eb9a190165f6",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "goal_sequences": {
+          "rows": 419,
+          "sha256": "585b5ae470cd8c6d2e3d5c395e18532ef61621fb48909ddc74f7bf36e475aae4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "heatmap_points": {
+          "rows": 216245,
+          "sha256": "9d4e49242e521875265594f11c56e244944786588776b463e5faae76fe397ebf",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "incidents": {
+          "rows": 3292,
+          "sha256": "bdeff19dc74b42977231a77d04a70e655e2676e8ed5fed8649995791eed8d8a3",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_players": {
+          "rows": 6416,
+          "sha256": "3883e676ac281aeea90a7734fc021011aa48ce472717a3bafc322d30aa6af3d5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "lineup_teams": {
+          "rows": 306,
+          "sha256": "9dec30738fcf0fcb9ec275d8d6a2d8421a5a374c810c385ce5e3e0dd335603c5",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "matches": {
+          "rows": 153,
+          "sha256": "0a6ba6d87a5f05aea188142c995e0bf0123528c7401763a4d0e6b8f023139a49",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "passing_edges": {
+          "rows": 177,
+          "sha256": "847296aaedc87fbd77c51c83699da74842ef7b6eeb5211d77387137aef5fedaa",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "player_statistics": {
+          "rows": 171961,
+          "sha256": "63d7f5a70488c3213332fab841be068e35cb19e7691906cfbab99cbe38792d5b",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "pregame": {
+          "rows": 288,
+          "sha256": "f62acdce9c45d787332b6c2aeb96ec945b7334545b14c76774d45d16cf282ee9",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "shots": {
+          "rows": 4205,
+          "sha256": "1b14baee0ad08192e7b1f39eadd3715a34d15b035d2bce986cd8e94c42de05f7",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "statistics": {
+          "rows": 39812,
+          "sha256": "dddfa5e957c0f20d9961ef780046211b45210f6e4b1726276af3f37476c635c8",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "timing": {
+          "rows": 916,
+          "sha256": "5361ff35aefbacc81b04f1ed0db86ca90c8272fe5013691f9468439c12d7f6d4",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "team_seasons": {
+          "rows": 18,
+          "sha256": "5044aaf834526dc43625aa57422bf92656265d8f518d68f585abf4cd59dfa178",
+          "codecs": [
+            "ZSTD"
+          ]
+        },
+        "season_export": {
+          "rows": 153,
+          "sha256": "4a3a46801161c3793b6ef77e27587c15d3fd229944a16cf7d13dcfa4d8a534cf",
+          "codecs": [
+            "ZSTD"
+          ]
+        }
+      }
+    }
+  },
+  "reviewed_score_corrections": [
+    11341818
+  ],
+  "other_original_observations_preserved": true
+}

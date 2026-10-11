@@ -1,0 +1,350 @@
+{
+  "bytes": 4682000,
+  "complete": true,
+  "complete_scope": "Saved collection cohort; independent played-fixture coverage is not implied",
+  "completed_at": 1791632665.6369267,
+  "coverage": {
+    "cached_last_good": 1057,
+    "no_goal_incidents": 9,
+    "not_requested": 153,
+    "per_goal_coverage_recorded": 144,
+    "present": 608,
+    "success": 153,
+    "unavailable": 318
+  },
+  "heatmap_points": 228640,
+  "lineup_events": 152,
+  "lineup_players": 6365,
+  "manifest": "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/manifest.json",
+  "matches": 153,
+  "profile": {
+    "duration_mode": "incidents",
+    "include_comments": false,
+    "include_goal_actions": true,
+    "include_heatmaps": true,
+    "include_injuries": true,
+    "include_lineups": true,
+    "include_pregame": true,
+    "include_shotmap": true,
+    "include_statistics": true,
+    "include_upcoming": false,
+    "injury_scope": "availability",
+    "lineup_window_hours": 24,
+    "locale": "en",
+    "negative_cache_seconds": 604800,
+    "settling_delay_seconds": 21600,
+    "settling_window_hours": 48,
+    "upcoming_refresh_seconds": 1800
+  },
+  "reconciliation": {
+    "archive_cohort": {
+      "competition_id": 11621,
+      "finished": 153,
+      "format_source": null,
+      "league": "Liga_MX_Apertura",
+      "regular_matches": 153,
+      "schedule_verified": true,
+      "season": "2023/2024",
+      "season_id": 52052,
+      "selected_matches": 153,
+      "selection": "all",
+      "snapshot": false,
+      "statuses": {
+        "finished": 153
+      },
+      "stem": "Liga_MX_Apertura_23_24",
+      "superseded_fixtures": [
+        {
+          "event_id": 11341774,
+          "replacement_event_id": 11583848,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11341785,
+          "replacement_event_id": 11557348,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11341789,
+          "replacement_event_id": 11717262,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11341800,
+          "replacement_event_id": 11559400,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11341801,
+          "replacement_event_id": 11568073,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11341844,
+          "replacement_event_id": 11697220,
+          "status": "postponed"
+        },
+        {
+          "event_id": 11528701,
+          "replacement_event_id": 11557348,
+          "status": "cancelled"
+        }
+      ],
+      "validation_issues": []
+    },
+    "campaign_id": "chrome-mexico-2010-2026-dfa31c4b",
+    "chrome_source_fingerprint": "6925aa14f509970a6cbf89ac92fb90ef4484249e8fb70d14336485ff3a1e3ebb",
+    "collection": "chrome_campaign",
+    "expected_event_ids": [
+      11341754,
+      11341756,
+      11341755,
+      11341757,
+      11341758,
+      11341759,
+      11341760,
+      11341761,
+      11341762,
+      11341765,
+      11341773,
+      11341771,
+      11341769,
+      11341768,
+      11341772,
+      11341770,
+      11341775,
+      11341776,
+      11341777,
+      11341778,
+      11341779,
+      11341780,
+      11341781,
+      11341782,
+      11341783,
+      11341784,
+      11341786,
+      11341793,
+      11341791,
+      11341788,
+      11341787,
+      11341792,
+      11341790,
+      11557348,
+      11341796,
+      11341798,
+      11341797,
+      11341795,
+      11341799,
+      11341794,
+      11341803,
+      11341804,
+      11341805,
+      11341806,
+      11341807,
+      11341808,
+      11341809,
+      11341810,
+      11341811,
+      11568073,
+      11559400,
+      11341802,
+      11341813,
+      11341814,
+      11341815,
+      11341817,
+      11341818,
+      11341819,
+      11341820,
+      11341816,
+      11341812,
+      11341821,
+      11341822,
+      11341825,
+      11341824,
+      11341823,
+      11341826,
+      11341827,
+      11341828,
+      11341829,
+      11583848,
+      11341830,
+      11341831,
+      11341832,
+      11341833,
+      11341834,
+      11341835,
+      11341836,
+      11341837,
+      11341838,
+      11673500,
+      11341839,
+      11341840,
+      11341847,
+      11341841,
+      11341843,
+      11341845,
+      11341842,
+      11341846,
+      11341848,
+      11341849,
+      11341850,
+      11341851,
+      11341852,
+      11341873,
+      11341853,
+      11341854,
+      11341855,
+      11341856,
+      11341857,
+      11341858,
+      11341859,
+      11341860,
+      11341861,
+      11341862,
+      11341863,
+      11341864,
+      11341865,
+      11341866,
+      11341870,
+      11341867,
+      11341868,
+      11341869,
+      11341871,
+      11717262,
+      11341874,
+      11341875,
+      11341876,
+      11341877,
+      11341879,
+      11341878,
+      11341880,
+      11341881,
+      11341882,
+      11341883,
+      11341884,
+      11341885,
+      11341886,
+      11341887,
+      11341888,
+      11341889,
+      11341890,
+      11341892,
+      11341891,
+      11341893,
+      11341894,
+      11341895,
+      11341896,
+      11341897,
+      11341898,
+      11341899,
+      11341900,
+      11341901,
+      11697220,
+      11341902,
+      11341903,
+      11341904,
+      11341905,
+      11341906,
+      11341908,
+      11341910,
+      11341907,
+      11341909
+    ],
+    "extra_event_ids": [],
+    "feature_status_counts": {
+      "added_time_announcements": {
+        "present": 153
+      },
+      "exact_elapsed_duration": {
+        "not_supplied": 153
+      },
+      "explicit_pass_recipients": {
+        "not_supplied": 153
+      },
+      "goal_sequences": {
+        "none_reported_or_not_supplied": 9,
+        "present": 144
+      },
+      "lineups": {
+        "not_supplied": 1,
+        "present": 152
+      },
+      "normalized_standings": {
+        "not_verified": 153
+      },
+      "pregame_positions": {
+        "not_supplied": 9,
+        "present": 144
+      },
+      "promotion_relegation_flags": {
+        "materialized": 153
+      },
+      "reported_absences": {
+        "none_reported_or_not_supplied": 153
+      },
+      "shot_xg": {
+        "not_supplied": 153
+      },
+      "team_heatmaps": {
+        "not_supplied": 1,
+        "present": 152
+      }
+    },
+    "missing_expected_ids": [],
+    "promotion_relegation_flags": "Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence.",
+    "scope": "Completed fixtures from the verified historical regular-season selection.",
+    "source_lineage": "_collection/chrome_exports/Liga_MX_Apertura_23_24.6925aa14f509970a6cbf89ac92fb90ef4484249e8fb70d14336485ff3a1e3ebb.json",
+    "standings": "Raw pregame positions retained; normalize over the assembled season when loading.",
+    "verified_capture_imports": 153
+  },
+  "schema_version": "2",
+  "season_file": "Liga_MX_Apertura_23_24.parquet",
+  "sha256": "bb890f5fdc172c1a0bc6f4c69a5672b9ef2e4791a380c8c43d3a2ae8e40fbe88",
+  "shots": 4170,
+  "shots_with_xg": 0,
+  "statistics_enrichment": {
+    "policy": "fill_missing_only",
+    "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+    "audit": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\audits\\mexico_enrichment_20261010\\statistics\\a91c03e3382045389270\\Liga_MX_Apertura_23_24.cells.json",
+    "audit_sha256": "29cdd36b8ac0d33f6f1a69247b5a5fac4c7eb8101126f3a55c474dbb97ef6d70"
+  },
+  "movement_enrichment": "Season-entry flags materialized in matches and season Parquet; team_seasons contains evidence.",
+  "result_reviews": {
+    "11341818": {
+      "event_id": 11341818,
+      "workbook_match_id": "113496",
+      "fixture": "Tigres UANL v Queretaro",
+      "native_final": [
+        4,
+        0
+      ],
+      "workbook_final": [
+        5,
+        0
+      ],
+      "native_period1": [
+        2,
+        0
+      ],
+      "native_period2": [
+        3,
+        0
+      ],
+      "action": "Correct home_score_current and home_score_display from 4 to the official played result 5 in native and nested publications; permit missing-only statistics backfill.",
+      "external_verified_score": [
+        5,
+        0
+      ],
+      "sources": [
+        "https://www.tigres.com.mx/es/noticias/tigres/la-previa-ante-queretaro-3/",
+        "https://www.youtube.com/watch?v=x8aNsZggFXA"
+      ],
+      "corrected_final": [
+        5,
+        0
+      ],
+      "reviewed_on": "2026-10-11",
+      "reason": "Official club result confirms 5-0, agreeing with the workbook and native period scores. The cause of the original provider discrepancy is unknown."
+    }
+  }
+}

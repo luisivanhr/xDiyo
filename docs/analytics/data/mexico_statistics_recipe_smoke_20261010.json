@@ -1,0 +1,15 @@
+{
+  "matches": 1833,
+  "features": [
+    "home::corners_mean",
+    "home::is_home",
+    "home::yellow_mean",
+    "home::promoted",
+    "away::corners_mean",
+    "away::is_home",
+    "away::yellow_mean",
+    "away::promoted"
+  ],
+  "folds": 4,
+  "fitting_performed": false
+}

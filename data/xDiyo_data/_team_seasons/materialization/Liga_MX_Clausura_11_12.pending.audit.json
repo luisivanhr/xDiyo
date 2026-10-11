@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Clausura_11_12",
+  "old_manifest_sha256": "5d1acd2178667557a69cbccf2d6ac0b3e93e7f9f605791240364cf450bc1f968",
+  "old_publication_sha256": "0a6ddfa16f8879c8385f009c5245309be4fb3fc77d1fef4bac50172825b49d8e",
+  "new_manifest_sha256": "c0a99646ca2075479d424341ee25d967088cbfaaf269f3dd27bedbba9fed28b3",
+  "new_publication_sha256": "9802e946f6c7bb3f615853ad7a79ad3627e0511c599ea5816432df245bbad8ed",
+  "matches_sha256": "3e552d93132b2758a715158ecd191068a6404c1ca640009a72b41a4666ad9ae9",
+  "season_sha256": "f3a20f9d4ae095690f4b13a570d9fa64047215f744dd415b4bac837e2d1dd599"
+}

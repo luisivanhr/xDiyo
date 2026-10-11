@@ -1,5 +1,8 @@
 # Missing statistics backfill
 
+The Mexican expansion is documented in [Mexico enrichment](mexico_enrichment.md),
+including short-tournament matching and reviewed cross-midnight exceptions.
+
 The published dataset can be enriched from a separately supplied statistics
 workbook. Existing native observations take priority, including genuine zeros.
 The original workbook is read-only.

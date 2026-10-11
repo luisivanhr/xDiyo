@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Clausura_22_23",
+  "old_manifest_sha256": "c10ca5e9358d9f0d22323d61f5c7630ae9ccad489bd355e3482236828087f89d",
+  "old_publication_sha256": "5ee4460557e5b26383a11abfdad318aa376bcbb7f6b0fdf81184e2068a6ae5cb",
+  "new_manifest_sha256": "9374e553ce11a3d6a3c8f817af997b336d2a6ae3b2ede1f4655e849daaaa8bae",
+  "new_publication_sha256": "3a236880b1b98a6ef954431c3d7d724d82b22210b1100bf2dc17b0deb6acf624",
+  "matches_sha256": "20cbb72a2363912369dd43bde21074601c5c5ac8a16e31409712b7e3d7864b89",
+  "season_sha256": "b6d2d271e503e812e423b1cd3dc74d982af078165a04028c45ddbaae046a3460"
+}

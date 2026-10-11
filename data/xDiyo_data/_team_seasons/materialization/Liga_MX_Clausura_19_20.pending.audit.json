@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Clausura_19_20",
+  "old_manifest_sha256": "849b3d2d2071ecb3ded6038d5daf75f6514a1c09331d022e68fabcb40d6606ca",
+  "old_publication_sha256": "d2742e16ca07905db7a3d79a71b1fd5af5a23418dc3360bee0405c2d68f5b502",
+  "new_manifest_sha256": "53129df09e68831f3e9156d69e57795429d0571e5d965e75ed2294ab450402ae",
+  "new_publication_sha256": "e2bc5fc93b883e0965c6377b4691dce25276fc56e2de709ab6a13bdb1e24c9a6",
+  "matches_sha256": "7390acc3f017cd296080b0d45cd0120e4cda813d0f898b2d5764d7464bcff3a6",
+  "season_sha256": "e776749d59b45103b5db3421d1899ef2f8400be2c8a013e1c2447f63807b31b4"
+}

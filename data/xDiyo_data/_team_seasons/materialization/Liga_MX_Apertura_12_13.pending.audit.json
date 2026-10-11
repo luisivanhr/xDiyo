@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_12_13",
+  "old_manifest_sha256": "fb2067f868ab7e0a1d88c205e5474917ead2791fd421a45c44cbc665409098de",
+  "old_publication_sha256": "faed16d0ca40c69692d216231a97e14f48708578250a17a3d2907c0bcf714f5e",
+  "new_manifest_sha256": "5db70132c5e4d1d49532e012629524f604f63be79cb9aeebc659392ed041bfd3",
+  "new_publication_sha256": "5439ab628b5d317b7c890bc3959bad1924336899627549e40e8a35ada4170595",
+  "matches_sha256": "c8c71f9c642bb2af5ebbd00c6ed105a6b92325dfc53fec43a539eb71708e95d9",
+  "season_sha256": "79984421d639780ec1f99ae5ed68546fae6cd3192fb13db3ce9bbd0945a9199f"
+}

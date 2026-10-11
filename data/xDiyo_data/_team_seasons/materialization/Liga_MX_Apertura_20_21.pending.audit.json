@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_20_21",
+  "old_manifest_sha256": "d9b867543549819a38971fd4bea691ed133e21fbefbb4f8af6db9b524ee47a79",
+  "old_publication_sha256": "0f65dcfd6b77d9824a16633c293a5d0aa884529869edc5b676d30ed77fead341",
+  "new_manifest_sha256": "ce00c97df5f51f275f9e8d3619302aef0dfa7e1536a370e124ca76091750c3ce",
+  "new_publication_sha256": "8635a564a73b4d07018dea73b0f0be503dae6462b53a0fa60f91bf43acd0dc0d",
+  "matches_sha256": "378160c56efd2e352eb56305250872e1ba4b416332790586ee35bc8d20761ac2",
+  "season_sha256": "d9a1a41074d5bcd9391075d6cf42c43f6989f089a663903b11c9db12ff022182"
+}

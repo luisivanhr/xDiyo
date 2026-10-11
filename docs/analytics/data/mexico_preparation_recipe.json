@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "name": "Corners experiment",
+  "output_dir": "experiments",
+  "config": {},
+  "team_badges": null,
+  "data": {
+    "data_root": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data",
+    "seasons": [
+      "20_21",
+      "21_22",
+      "22_23",
+      "23_24",
+      "24_25",
+      "25_26"
+    ],
+    "leagues": [
+      "Liga_MX_Apertura",
+      "Liga_MX_Clausura"
+    ],
+    "tables": [
+      "matches",
+      "statistics",
+      "team_seasons"
+    ],
+    "include_awarded": false,
+    "verify_hashes": true
+  },
+  "stat_selection": null,
+  "history": {},
+  "feature_options": {},
+  "cutoff_hours": null,
+  "feature_preset": null,
+  "preset_seasons": null,
+  "derived_features": {},
+  "context_features": {},
+  "identity_features": null,
+  "numeric_features": null,
+  "ratings": {},
+  "features": {
+    "corners_mean": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        },
+        "window": 5
+      }
+    },
+    "is_home": {
+      "component": "features.IsHome",
+      "params": {}
+    },
+    "yellow_mean": {
+      "component": "features.RollingMean",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "yellowCards"
+          }
+        },
+        "window": 5
+      }
+    },
+    "promoted": {
+      "component": "features.TeamMovement",
+      "params": {
+        "movement": "promoted"
+      }
+    }
+  },
+  "labels": {
+    "corners": {
+      "component": "labels.MatchTotal",
+      "params": {
+        "source": {
+          "component": "features.Stat",
+          "params": {
+            "period": "ALL",
+            "group": "Match overview",
+            "key": "cornerKicks"
+          }
+        }
+      }
+    }
+  },
+  "target": "corners",
+  "assembly": {
+    "layout": "match",
+    "drop_missing_targets": true
+  },
+  "split": {
+    "component": "splits.TemporalSplit",
+    "params": {
+      "train_size": 2,
+      "test_size": 1,
+      "unit": "seasons"
+    }
+  },
+  "split_options": {},
+  "fold_ids": null,
+  "pre_reporters": {},
+  "fitted_reporters": {},
+  "analysis_options": {},
+  "model": {
+    "component": "sklearn.linear_model.Lasso",
+    "params": {
+      "alpha": 0.1,
+      "max_iter": 5000
+    }
+  },
+  "preprocessors": [
+    {
+      "component": "sklearn.impute.SimpleImputer",
+      "params": {
+        "strategy": "median"
+      }
+    },
+    {
+      "component": "sklearn.preprocessing.StandardScaler",
+      "params": {}
+    }
+  ],
+  "adapter": null,
+  "target_transformer": null,
+  "prediction_methods": [
+    "predict"
+  ],
+  "candidate": {},
+  "search": null,
+  "execution": {
+    "component": "training.ExecutionPolicy",
+    "params": {}
+  },
+  "refit": null,
+  "checkpoint": null,
+  "post_reporters": {
+    "performance": {
+      "component": "reporting.PerformanceReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "metrics": [
+          "mse",
+          "mae"
+        ]
+      }
+    },
+    "matches": {
+      "component": "reporting.MatchResultReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "catalog": {
+          "ref": "team_catalog"
+        },
+        "show_badges": true
+      }
+    }
+  },
+  "run": {
+    "reuse": true
+  },
+  "artifact_export": null,
+  "prediction": {
+    "model_path": "",
+    "rounds": null,
+    "statuses": [
+      "notstarted"
+    ],
+    "as_of": null
+  }
+}

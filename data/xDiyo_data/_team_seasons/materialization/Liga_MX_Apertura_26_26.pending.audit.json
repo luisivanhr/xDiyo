@@ -1,0 +1,9 @@
+{
+  "season": "Liga_MX_Apertura_26_26",
+  "old_manifest_sha256": "679cd9f66e32d7d7c9eb05e188c51caefbc42eaa6ae81febdf957da363e24b69",
+  "old_publication_sha256": "5c9914dd34f0e448abc2da2c1f22032c438554cb5544d41476eca240fb8c6cb2",
+  "new_manifest_sha256": "a4508e52e1df6c2e807d78e086f21dab069cf55b6fdcc5db6b0a229fa52d2969",
+  "new_publication_sha256": "522ce65a1670f91421d092ff67f395e3b1343f8dade57a033e27ecb5e35494b5",
+  "matches_sha256": "f933b052fea922b57092f8b372bda52d02ab9df3c411b3ae53e51d469ff5d47d",
+  "season_sha256": "ca0e17ca1176558b045e921a06ef749ab131f9986870208c9a6442742bd29fcc"
+}

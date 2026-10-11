@@ -1,0 +1,404 @@
+{
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "applied": true,
+  "publications": 33,
+  "mapping": {
+    "matched": 1922,
+    "unmatched": 206
+  },
+  "rejected_values": 0,
+  "filled_cells": 23670,
+  "affected_matches": 1834,
+  "seasons": [
+    {
+      "season": "Liga_MX_Apertura_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_12_13",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_13_14",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_14_15",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_15_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_16_17",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_17_18",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_18_19",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_19_20",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Apertura_20_21",
+      "source_candidates": 9180,
+      "filled_cells": 2212,
+      "affected_matches": 153,
+      "by_statistic": {
+        "redCards": 648,
+        "expectedGoals": 918,
+        "yellowCards": 34,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 532,
+        "1ST": 840,
+        "2ND": 840
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_21_22",
+      "source_candidates": 9180,
+      "filled_cells": 2228,
+      "affected_matches": 153,
+      "by_statistic": {
+        "yellowCards": 44,
+        "redCards": 654,
+        "expectedGoals": 918,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 538,
+        "1ST": 846,
+        "2ND": 844
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_22_23",
+      "source_candidates": 9180,
+      "filled_cells": 2190,
+      "affected_matches": 153,
+      "by_statistic": {
+        "redCards": 642,
+        "expectedGoals": 918,
+        "yellowCards": 18,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 526,
+        "1ST": 832,
+        "2ND": 832
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_23_24",
+      "source_candidates": 9096,
+      "filled_cells": 2162,
+      "affected_matches": 152,
+      "by_statistic": {
+        "expectedGoals": 888,
+        "redCards": 642,
+        "yellowCards": 12,
+        "goalkeeperSaves": 12,
+        "fouls": 608
+      },
+      "by_period": {
+        "ALL": 520,
+        "1ST": 818,
+        "2ND": 824
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_24_25",
+      "source_candidates": 8520,
+      "filled_cells": 1632,
+      "affected_matches": 153,
+      "by_statistic": {
+        "expectedGoals": 258,
+        "redCards": 732,
+        "yellowCards": 30,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 340,
+        "1ST": 646,
+        "2ND": 646
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_25_26",
+      "source_candidates": 9180,
+      "filled_cells": 1076,
+      "affected_matches": 138,
+      "by_statistic": {
+        "redCards": 654,
+        "yellowCards": 6,
+        "fouls": 410,
+        "goalkeeperSaves": 6
+      },
+      "by_period": {
+        "ALL": 224,
+        "1ST": 426,
+        "2ND": 426
+      }
+    },
+    {
+      "season": "Liga_MX_Apertura_26_26",
+      "source_candidates": 5232,
+      "filled_cells": 410,
+      "affected_matches": 65,
+      "by_statistic": {
+        "redCards": 378,
+        "yellowCards": 32
+      },
+      "by_period": {
+        "ALL": 136,
+        "1ST": 136,
+        "2ND": 138
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_10_11",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_11_12",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_12_13",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_13_14",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_14_15",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_15_16",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_16_17",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_17_18",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_18_19",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_19_20",
+      "source_candidates": 0,
+      "filled_cells": 0,
+      "affected_matches": 0,
+      "by_statistic": {},
+      "by_period": {}
+    },
+    {
+      "season": "Liga_MX_Clausura_20_21",
+      "source_candidates": 9120,
+      "filled_cells": 2310,
+      "affected_matches": 152,
+      "by_statistic": {
+        "redCards": 702,
+        "expectedGoals": 912,
+        "yellowCards": 38,
+        "cornerKicks": 6,
+        "ballPossession": 6,
+        "totalShotsOnGoal": 6,
+        "shotsOnGoal": 6,
+        "shotsOffGoal": 6,
+        "fouls": 610,
+        "goalkeeperSaves": 18
+      },
+      "by_period": {
+        "ALL": 568,
+        "1ST": 872,
+        "2ND": 870
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_21_22",
+      "source_candidates": 9120,
+      "filled_cells": 2156,
+      "affected_matches": 152,
+      "by_statistic": {
+        "redCards": 624,
+        "expectedGoals": 912,
+        "yellowCards": 12,
+        "fouls": 608
+      },
+      "by_period": {
+        "ALL": 516,
+        "1ST": 820,
+        "2ND": 820
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_22_23",
+      "source_candidates": 9180,
+      "filled_cells": 2238,
+      "affected_matches": 153,
+      "by_statistic": {
+        "redCards": 678,
+        "expectedGoals": 918,
+        "yellowCards": 30,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 542,
+        "1ST": 848,
+        "2ND": 848
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_23_24",
+      "source_candidates": 9134,
+      "filled_cells": 2186,
+      "affected_matches": 153,
+      "by_statistic": {
+        "expectedGoals": 872,
+        "redCards": 672,
+        "yellowCards": 24,
+        "goalkeeperSaves": 6,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 526,
+        "1ST": 828,
+        "2ND": 832
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_24_25",
+      "source_candidates": 9180,
+      "filled_cells": 2226,
+      "affected_matches": 153,
+      "by_statistic": {
+        "expectedGoals": 918,
+        "redCards": 672,
+        "shotsOnGoal": 6,
+        "goalkeeperSaves": 12,
+        "yellowCards": 6,
+        "fouls": 612
+      },
+      "by_period": {
+        "ALL": 538,
+        "1ST": 844,
+        "2ND": 844
+      }
+    },
+    {
+      "season": "Liga_MX_Clausura_25_26",
+      "source_candidates": 9180,
+      "filled_cells": 644,
+      "affected_matches": 104,
+      "by_statistic": {
+        "redCards": 624,
+        "yellowCards": 12,
+        "expectedGoals": 8
+      },
+      "by_period": {
+        "ALL": 212,
+        "1ST": 216,
+        "2ND": 216
+      }
+    }
+  ],
+  "summary_scope": "Cumulative persisted cell audits including the reviewed score correction.",
+  "withheld_event_ids": []
+}

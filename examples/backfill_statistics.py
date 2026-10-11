@@ -36,20 +36,33 @@ def dump(path, value):
 
 
 def statistics_scope(row):
-    """Resolve calendar seasons and the distinct Japanese transition tournament."""
+    """Resolve calendar seasons, transition tournaments and Mexican short seasons."""
     if (row['country'], row['league']) == ('Japan', 'J1 League'):
         year = str(row['season'])
         if re.fullmatch(r'20\d{2}', year):
             suffix = f'{int(year) % 100:02}'
             return ('J1_Transition' if year == '2026' else 'J1'), f'{suffix}_{suffix}'
         return 'J1', _season(year)
+    if (row['country'], row['league']) == ('Mexico', 'Liga MX'):
+        season = _season(row['season'])
+        if season is None:
+            return None, None
+        # Workbook seasons combine two tournaments; the native publications do
+        # not. Resolve by the actual fixture date, never by a guessed match ID.
+        date = pd.to_datetime(float(row['start_datetime']), unit='D', origin='1899-12-30')
+        start = 2000 + int(season[:2])
+        if date.year == start and date.month >= 7:
+            return 'Liga_MX_Apertura', ('26_26' if start == 2026 else season)
+        if date.year == start + 1 and date.month <= 6:
+            return 'Liga_MX_Clausura', season
+        return None, None
     return LEAGUES.get((row['country'], row['league'])), _season(row['season'])
 
 
 def extract(workbook, directory):
     fingerprint = digest(workbook)
     # Extraction identity includes the mapping revision, not only workbook bytes.
-    directory = directory / 'calendar-seasons-v2' / fingerprint[:20]
+    directory = directory / 'short-tournaments-v3' / fingerprint[:20]
     directory.mkdir(parents=True, exist_ok=True)
     marker = directory / 'extract.json'
     if marker.exists():
@@ -305,6 +318,12 @@ def run(args):
         for row in frame.to_dict('records'):
             vendor[row['match_id']].append(row)
     aliases, overrides = load_mapping_rules(Path(args.mapping_root))
+    if getattr(args, 'fixture_overrides', None):
+        extra = json.loads(Path(args.fixture_overrides).read_bytes())
+        ids = [str(r['vendor_match_id']) for r in [*overrides, *extra]]
+        if len(set(ids)) != len(ids):
+            raise ValueError('Duplicate reviewed fixture override')
+        overrides = [*overrides, *extra]
     if args.team_aliases:
         for item in json.loads(Path(args.team_aliases).read_bytes()):
             key = (item['league'], item['name'])
@@ -315,12 +334,14 @@ def run(args):
     pd.DataFrame(mapping).to_csv(run_dir/'fixture_mapping.csv', index=False)
     print('Fixture mapping:', Counter(r['status'] for r in mapping), flush=True)
     candidates, rejected = defaultdict(list), []
+    excluded_events = set(getattr(args, 'exclude_event_ids', None) or ())
     now = time.time()
     for sheet, frame in frames.items():
         period = sheet.removeprefix('Statistics_').lower()
         for row in frame.to_dict('records'):
             match = mapped.get(row['match_id'])
-            if match is None or match.get('status_code') != 100 or match.get('is_awarded'):
+            if (match is None or match.get('status_code') != 100 or match.get('is_awarded')
+                    or match['event_id'] in excluded_events):
                 continue
             for stat in STATISTICS:
                 try:
@@ -381,6 +402,8 @@ def run(args):
                   mapping=dict(Counter(r['status'] for r in mapping)), rejected_values=len(rejected),
                   filled_cells=sum(r['filled_cells'] for r in summary),
                   affected_matches=sum(r['affected_matches'] for r in summary), seasons=summary)
+    if excluded_events:
+        report['withheld_event_ids'] = sorted(excluded_events)
     dump(run_dir/('applied.json' if args.apply else 'preflight.json'), report)
     print(json.dumps({k:v for k,v in report.items() if k!='seasons'}), flush=True)
 
@@ -392,6 +415,8 @@ if __name__ == '__main__':
     p.add_argument('--audit-root', default='data/audits/statistics_backfill')
     p.add_argument('--mapping-root', default='data/odds')
     p.add_argument('--team-aliases', default='docs/analytics/data/statistics_backfill_aliases.json')
+    p.add_argument('--fixture-overrides', help='Reviewed exact fixture/date exceptions (JSON).')
+    p.add_argument('--exclude-event-ids', nargs='+', type=int, help='Native fixtures withheld after review.')
     p.add_argument('--apply', action='store_true')
     p.add_argument('--leagues', nargs='+', help='Only inspect/publish these native league names.')
     run(p.parse_args())

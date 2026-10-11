@@ -1,0 +1,53 @@
+{
+  "publications": 33,
+  "matches": 4939,
+  "parquet_files_checked": 464,
+  "compression": "ZSTD",
+  "protected_files_unchanged": 7775,
+  "filled_cells": 23670,
+  "affected_matches": 1834,
+  "by_statistic": {
+    "redCards": 8322,
+    "expectedGoals": 8440,
+    "yellowCards": 298,
+    "fouls": 6520,
+    "goalkeeperSaves": 54,
+    "cornerKicks": 6,
+    "ballPossession": 6,
+    "totalShotsOnGoal": 6,
+    "shotsOnGoal": 12,
+    "shotsOffGoal": 6
+  },
+  "by_period": {
+    "ALL": 5718,
+    "1ST": 8972,
+    "2ND": 8980
+  },
+  "nested_statistics_matches_checked": 3868,
+  "team_tournament_entries": 595,
+  "unique_provider_team_seasons": 577,
+  "movements": {
+    "retained": 574,
+    "promoted": 18,
+    "other_entry": 3
+  },
+  "all_flags_known": true,
+  "duplicate_matches": 0,
+  "score_review_event_id": 11341818,
+  "statistics_repeat_proposed_values": 0,
+  "matched_fixture_scores_agree": 1922,
+  "matched_fixture_score_discrepancies": 0,
+  "score_correction": {
+    "event_id": 11341818,
+    "original": [
+      4,
+      0
+    ],
+    "corrected": [
+      5,
+      0
+    ],
+    "native_recipe_target_verified": true,
+    "other_match_fields_preserved": true
+  }
+}
