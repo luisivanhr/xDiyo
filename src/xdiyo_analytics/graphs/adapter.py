@@ -193,13 +193,24 @@ class _Backend:
         return groups, numeric_all
 
     def _prepare(self, raw):
+        """Consume the owned raw-group list in its original chronological order.
+
+        CPU tensors may share NumPy buffers with a snapshot. Releasing the
+        snapshot frees its DataFrame and other unused fields; tensor-owned
+        buffers stay alive. Do not retain all raw frames alongside tensors.
+        """
         torch = _torch()
         groups = []
-        for positions, snap, home, away, meta, numeric in raw:
+        for i in range(len(raw)):
+            positions, snap, home, away, meta, numeric = raw[i]
             groups.append((positions, self.preprocessor.tensors(snap, self.device),
                            torch.as_tensor(home, device=self.device),
                            torch.as_tensor(away, device=self.device),
                            torch.as_tensor(self.preprocessor.fixture(meta, numeric), dtype=torch.float32, device=self.device)))
+            raw[i] = None
+            # Drop loop-local references before preparing the next issuance.
+            del snap, meta, numeric
+        raw.clear()
         return groups
 
     def initialize(self, context):
@@ -226,6 +237,7 @@ class _Backend:
         fitting_history = self.store.eligible(largest)
         self.preprocessor = GraphPreprocessor(self.config).fit(
             fitting_history, [g[1] for g in raw], context.metadata, numeric)
+        del fitting_history
         # fork_rng avoids altering the caller's CPU random stream.
         with torch.random.fork_rng(devices=[]):
             torch.random.default_generator.manual_seed(self.seed)
@@ -234,6 +246,7 @@ class _Backend:
                 self.preprocessor.fixture(context.metadata, numeric).shape[1]).to(self.device)
         self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
+        del numeric
         self.train_groups = self._prepare(raw)
         self.train_targets, self.train_weights = self._targets(context)
         self.validation_groups = None

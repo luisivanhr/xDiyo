@@ -384,3 +384,74 @@ Badges use the same TeamCatalog and local assets as other native reporters.
 A builder-importable example is provided by
 [the recipe helper](../../examples/temporal_team_gat_recipe.py). It only writes a
 recipe; it does not train or change any existing experiment.
+
+### Preparation memory
+
+Native tensor preparation consumes its temporary raw-group list in chronological
+order. After each conversion it releases that raw snapshot, its edge DataFrame,
+and fixture metadata before converting the next group. CPU tensors retain any
+NumPy buffers they share; those buffers remain valid. The temporary fitting-history
+table is released after preprocessing is fitted, and the combined numeric fixture
+array is released after model construction. All native callers pass owned,
+temporary lists; the private `_prepare` helper empties the list it receives.
+
+Graph construction, round anchors, eligibility, decay weights, preprocessing,
+tensor types, architecture and optimizer updates are unchanged. Training still
+aggregates gradients over the same groups before one optimizer update. This is
+not per-issuance training or an approximation of the graph.
+
+The immutable event store and inspection snapshot schema remain intact. We have
+not adopted the research bundle's scores-only source projection: it changes the
+source fingerprint and can remove inspection evidence or selected statistics.
+Unused temporary metadata is freed with its owning snapshot rather than changing
+the source schema or serialization contract.
+
+Raw snapshots are still initially materialized together, and prepared tensors for
+all train/validation groups remain resident. Memory therefore still scales with
+the sum of edges across issuances. This change removes unnecessary overlap; it
+does not guarantee that the full 41.7-million-edge research fold fits in RAM.
+
+#### Verification against aca3e31
+
+The preparation regression covers both forecast policies, grouped/interleaved
+fixtures, delayed result release, movement metadata, selected statistics with
+missing values and zeros, fixture predictors and unequal/zero observation
+weights. Preprocessing, group order and tensor bytes, every training/validation
+step, model parameters, AdamW state after every step, final summaries, predictions,
+embeddings and embedded-store save/reload are exact. Inference preserves fitted
+state and mode. A weak-reference test proves each raw snapshot and its frames
+are released before the next conversion, while tensor values survive.
+
+The focused graph, orchestration, UI, persistence, calibration and reporting
+suite passed **177 tests**, with **4 optional LightGBM tests skipped**.
+
+#### Bounded peak-memory measurements
+
+`examples/benchmark_gat_preparation_memory.py` runs reference and native
+initialization in fresh subprocesses, loading the reference adapter verbatim
+from Git commit `aca3e31`. Both use native snapshot construction and identical
+synthetic inputs with eight statistic channels. No training experiments run.
+Windows process peak working set includes imports, event store, model/optimizer,
+raw snapshots, transformations and prepared tensors. Sizes below are decimal GB.
+
+| Train / validation issuances | Directed edges | Reference peak | Native peak | Reduction |
+| --- | ---: | ---: | ---: | ---: |
+| 240 / 60 | 2,400,000 | 1.351 GB | 1.052 GB | 22.2% |
+| 1,806 / 96 | 4,564,800 | 1.977 GB | 1.480 GB | 25.2% |
+
+Prepared tensor hashes and initial model identities match exactly for each pair.
+Initialization times were 5.64 / 5.64 seconds and 14.50 / 15.81 seconds respectively;
+these single-run measurements establish memory reduction, not a speedup. The
+full 41,732,050-edge production fold was not benchmarked. Python 3.12.14,
+pandas 3.0.6, Torch 2.14.0+cu130, CPU preparation with one Torch thread.
+Machine-readable results: [300 issuances](data/gat_preparation_memory.json) and
+[1,806 training issuances](data/gat_preparation_memory_1806.json).
+
+```powershell
+$env:PYTHONPATH = 'src'
+python examples/benchmark_gat_preparation_memory.py --output peak-memory.json
+python examples/benchmark_gat_preparation_memory.py --history-matches 1200 --issuances 1806 --validation-issuances 96 --output peak-memory-1806.json
+```
+
+The benchmark requires `psutil` in the development environment; it is not a new
+runtime dependency of the model.

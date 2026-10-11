@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "reference",
+    "reference": "aca3e31",
+    "issuances": 240,
+    "validation_issuances": 60,
+    "history_matches": 4000,
+    "directed_edges": 2400000,
+    "tensor_bytes": 278539200,
+    "baseline_rss_bytes": 642146304,
+    "peak_rss_bytes": 1351258112,
+    "final_rss_bytes": 1022619648,
+    "seconds": 5.6413257000094745,
+    "prepared_sha256": "e07fd881fe7449b0f3b58bba4b2dd401f6cc5819b68d5662db8c8d614e832ca0",
+    "model_version": "7d372ff0e8c2758dc934110df88ce93a6fad335b3d58de0d361cdb5111af360d",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "3.0.6",
+    "torch": "2.14.0+cu130"
+  },
+  {
+    "mode": "native",
+    "reference": "aca3e31",
+    "issuances": 240,
+    "validation_issuances": 60,
+    "history_matches": 4000,
+    "directed_edges": 2400000,
+    "tensor_bytes": 278539200,
+    "baseline_rss_bytes": 641495040,
+    "peak_rss_bytes": 1051508736,
+    "final_rss_bytes": 1019174912,
+    "seconds": 5.64043979998678,
+    "prepared_sha256": "e07fd881fe7449b0f3b58bba4b2dd401f6cc5819b68d5662db8c8d614e832ca0",
+    "model_version": "7d372ff0e8c2758dc934110df88ce93a6fad335b3d58de0d361cdb5111af360d",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "pandas": "3.0.6",
+    "torch": "2.14.0+cu130"
+  }
+]
