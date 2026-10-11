@@ -1,5 +1,39 @@
 # Football analytics implementation progress
 
+## Temporal team graph forecasts and CUDA support - 11 October 2026
+
+Implemented the optional `xdiyo_analytics.graphs` package: validated immutable
+event inputs, explicit-timezone By Round and One Day Ahead issuance, previous-day
+history eligibility, season-boundary discounting, contextual priors, edge-aware
+synchronous attention, support gating, weighted joint training, native
+TrainingControl/TrainingRunner integration, exact-cutoff embeddings with multi-hop
+provenance, and explicit-event-store native persistence. Full history and repeated
+fixtures remain intact. PyTorch imports stay lazy and packaging has a graphs extra.
+
+CPU and CUDA execution are supported. The isolated worktree environment has
+PyTorch 2.14.0+cu130 installed and verified on an RTX 4070 SUPER. The shared
+round-anchor helper preserves the existing league grouping contract. An existing
+SeasonProgress NumPy view now requests a writable copy for pandas 3 compatibility.
+
+Verification: 337 focused/new/affected tests passed, including 25 graph tests,
+real CUDA training, CPU/GPU numerical agreement, native save/load, fresh folds,
+validation isolation and deliberately learnable weighted synthetic examples.
+The package wheel contains all seven graph modules and the optional torch extra.
+
+The maintained executable example completed six bounded validation fits and
+one evaluation per selected graph on 306 Bundesliga 2023/24 fixtures. Test log
+loss: one layer 1.048878, two layers 1.053191, native rolling-goals baseline
+0.994672. H=365 was selected for both graph depths. A three-block frozen-encoder
+reuse example also completed; no predictive superiority was established.
+See [the API/equations guide](docs/analytics/temporal_team_gat.md) and
+[population/results/artifact inventory](docs/analytics/temporal_team_gat_pilot.md).
+
+Development base: `76472d956a8901a2b1397baa199eea5a4ac8f313` (committed main).
+All implementation work is isolated on `codex/temporal-team-gat`; source datasets
+were read-only. No merge, push or publication was performed. RatingRun bridging,
+archive-scale optimization and predictive model development beyond this fixed
+pilot are not implemented.
+
 ## Heatmap-only venue selector — 30 September 2026
 
 UI inventory limits venue selection to sources containing Heatmap, including

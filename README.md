@@ -15,6 +15,12 @@ builder = launch_ui(workspace=".")
 
 The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available layers and verification boundaries.
 
+The optional [temporal team graph](docs/analytics/temporal_team_gat.md) reconstructs
+cutoff-safe team embeddings and home/draw/away forecasts in By Round or One Day
+Ahead mode, with CPU/CUDA training and native persistence. Its
+[bounded pilot](docs/analytics/temporal_team_gat_pilot.md) reports the baseline
+comparison and frozen-encoder downstream example.
+
 The optional [Bayesian score rating](docs/analytics/bayesian_rating_model.md)
 adds attack and defensive vulnerability states alongside Glicko2, with pooled
 or per-league calibration, promotion/relegation handling and

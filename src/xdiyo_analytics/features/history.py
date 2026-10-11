@@ -1,6 +1,21 @@
 """Shared grouping, eligibility and league-season membership helpers."""
 
 
+def frozen_group_anchors(history, keys, cutoffs):
+    """Minimum cutoff per complete identity, preserving the input row order.
+
+    Call with the complete fixture schedule, not a prediction subset. Postponed
+    fixtures retain their assigned round; stage belongs in keys when required.
+    """
+    import pandas as pd
+    if history[list(keys)].isna().any().any():
+        raise ValueError("Round keys must be present and nonmissing.")
+    times = aligned_times(history, cutoffs, default="kickoff_at")
+    work = history[list(keys)].copy()
+    work["_anchor_time"] = times
+    return pd.Series(work.groupby(list(keys), sort=False, dropna=False)["_anchor_time"].transform("min"), index=history.index)
+
+
 def aligned_times(history, values, *, default):
     """Resolve a datetime column, scalar or position-aligned sequence into UTC.
 

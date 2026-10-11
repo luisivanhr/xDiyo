@@ -103,7 +103,7 @@ def season_progress(metadata, expression):
         # Positional grouping preserves duplicated/custom input indexes.
         schedule = metadata[keys].reset_index(drop=True).copy()
         schedule['_round'] = rounds.to_numpy()
-        totals = schedule.groupby(keys, dropna=False)['_round'].transform('max').to_numpy()
+        totals = schedule.groupby(keys, dropna=False)['_round'].transform('max').to_numpy(copy=True)
         totals[schedule[keys].isna().any(axis=1).to_numpy()] = np.nan
     else:
         totals = expression.total_rounds

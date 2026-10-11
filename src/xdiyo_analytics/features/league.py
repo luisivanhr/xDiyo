@@ -66,13 +66,15 @@ class LeaguePopulation:
         """Group fixture rows and calculate frozen anchors and completion times."""
         import pandas as pd
         if keys not in self._rounds:
+            from .history import frozen_group_anchors
+            anchors = frozen_group_anchors(self.history.reset_index(drop=True), keys, self.cutoff)
             if self.history[list(keys)].isna().any().any():
                 raise ValueError("Round keys must be present and nonmissing.")
             groups = self.history.groupby(list(keys), sort=False, dropna=False).indices
             info, row_keys = {}, [None] * len(self.history)
             for key, positions in groups.items():
                 key = key if isinstance(key, tuple) else (key,)
-                anchor = self.cutoff.iloc[positions].min()
+                anchor = anchors.iloc[positions[0]]
                 close = self.available.iloc[positions].max() if self.valid[positions].all() else pd.NaT
                 info[key] = (positions, anchor, close, self.kickoff.iloc[positions].max())
                 for i in positions:
