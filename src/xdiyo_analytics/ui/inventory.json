@@ -18139,6 +18139,15 @@
             "graphs.GraphHeatmaps"
           ],
           "initial_component": "graphs.GraphHeatmaps"
+        },
+        {
+          "name": "include_goal_features",
+          "title": "Include goal features",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Include native full-time goals for/against as numeric edge predictors and missing-value masks. Disable for explicit period-only statistics; at least one statistic is required. Canonical scores, labels and historical eligibility stay intact.",
+          "primary": true
         }
       ],
       "accepts_extra": false

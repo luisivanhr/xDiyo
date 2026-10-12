@@ -322,6 +322,8 @@ class _Backend:
         # A representation version includes decay, policy and architectural
         # settings as well as learned coordinates and preprocessing.
         config_state = asdict(self.config)
+        if config_state['include_goal_features']:
+            del config_state['include_goal_features']  # Preserve pre-option artifact fingerprints.
         if config_state['heatmaps'] is None:
             del config_state['heatmaps']  # Preserve existing scalar artifact fingerprints.
         else:

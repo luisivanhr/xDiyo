@@ -160,6 +160,50 @@ neutral standardized zero, and always receive a separate missingness mask.
 Observed zero has mask zero. Competition maps are also fitted only on that
 population; unknown categories have an explicit fallback.
 
+### Explicit goal predictor selection
+
+`include_goal_features=True` is the default and preserves the original ordered
+numeric edge columns: `goals_for`, `goals_against`, then `statistics`. Set it to
+`False` to use **only** the explicit statistics as numeric edge predictors:
+
+```python
+config = TemporalGraphConfig(
+    timezone="Europe/Berlin",
+    include_goal_features=False,
+    statistics=tuple(
+        f"{role}::{period}::Match overview::{stat}::value"
+        for period in ("1ST", "2ND")
+        for stat in ("goals", "shotsOnGoal")
+        for role in ("team", "opponent")
+    ),
+)
+```
+
+Use the exact column names supplied by your prepared history; the example does
+not create or reconcile period observations. Add any approved spatial covariance
+channels explicitly to that same list. Each selected channel still requires its
+paired receiver/opponent source column. Disabling goals with empty `statistics`
+is rejected, even when a CNN is enabled. The setting must be a boolean.
+
+This removes the two native goal predictor channels **and their masks**. It does
+not modify canonical event-store scores, labels, completion status, available
+history, edges, weights, side/competition inputs or the fixture head. Do not mask,
+zero or rewrite canonical scores to suppress predictors. Optional causal fixture
+inputs (including Bayesian inputs) keep their existing cutoff contract.
+
+Missing period observations keep their native masks. Period-score reconciliation
+belongs to data preparation: only independently verified regulation-time and
+first-half goals may support a derived second-half goal count. Extra time,
+penalties, suspicious zeros and unverified values must not be silently treated as
+verified period goals. Other half statistics are not derived by subtraction.
+
+In the builder, use **Model → Config → Include goal features**. Native JSON/Python
+recipes and saved models retain the option. Old saved models without the field
+load as `True`, with their existing model fingerprints unchanged. Saved ordered
+feature lists remain validated; network width is inferred from the actual list
+on either CPU or CUDA. Numeric edge width is twice the selected column count
+(values plus masks), plus the home-side indicator and competition one-hot vector.
+
 The fixture head receives competition, neutral venue, home/away rest days,
 home/away discounted supports, and their numeric missingness masks. Rest is
 elapsed time at issuance since the last eligible match; an unseen team has

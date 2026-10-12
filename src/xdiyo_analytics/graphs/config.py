@@ -28,6 +28,7 @@ class TemporalGraphConfig:
     weight_decay: float = .001
     prior_penalty: float = .001
     heatmaps: GraphHeatmaps | None = None
+    include_goal_features: bool = True
 
     def __post_init__(self):
         if self.heatmaps is not None and not isinstance(self.heatmaps, GraphHeatmaps):
@@ -37,6 +38,10 @@ class TemporalGraphConfig:
             raise ValueError("forecast_policy must be by_round (By Round) or one_day_ahead (One Day Ahead).")
         for name in ("round_keys", "statistics", "fixture_features"):
             object.__setattr__(self, name, tuple(getattr(self, name)))
+        if type(self.include_goal_features) is not bool:
+            raise ValueError('include_goal_features must be a boolean.')
+        if not self.include_goal_features and not self.statistics:
+            raise ValueError('include_goal_features=False requires at least one explicit statistic.')
         if not {"competition_id", "season_id", "round"} <= set(self.round_keys):
             raise ValueError("round_keys must contain competition_id, season_id and round; add stage when needed.")
         for name in ("embedding_dim", "layers", "heads", "hidden_width"):

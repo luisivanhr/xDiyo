@@ -18,6 +18,17 @@ configure(components,()=>{});
 const walk=node=>[node,...(node.children||[]).flatMap(walk)];
 const find=(root,label,tag)=>walk(root).find(n=>n['aria-label']===label&&(!tag||n.tag===tag));
 
+test('native goal predictors can be disabled and exported as false',async()=>{
+ let recipe=makeNode('graphs.TemporalGraphConfig');
+ const root=componentEditor(recipe,v=>{recipe=v;},null,['graphs.TemporalGraphConfig']);
+ const goals=find(root,'Include goal features','input');
+ assert.equal(goals.checked,true);
+ goals.checked=false;goals.events.change({target:goals});await Promise.resolve();
+ assert.equal(JSON.parse(JSON.stringify(recipe)).params.include_goal_features,false);
+ goals.checked=true;goals.events.change({target:goals});await Promise.resolve();
+ assert.equal(recipe.params.include_goal_features,true);
+});
+
 
 test('graph CNN and auxiliary reconstruction are independent opt-ins',async()=>{
  let recipe=makeNode('graphs.TemporalGraphConfig');

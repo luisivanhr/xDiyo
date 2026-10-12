@@ -35,7 +35,8 @@ class MaskedScale:
 class GraphPreprocessor:
     def __init__(self, config):
         self.config = config
-        self.edge_columns = ("goals_for", "goals_against", *config.statistics)
+        goals = ("goals_for", "goals_against") if config.include_goal_features else ()
+        self.edge_columns = (*goals, *config.statistics)
         self.fixture_columns = ("neutral_venue", "home_rest_days", "away_rest_days",
                                 "home_support", "away_support", *config.fixture_features)
 

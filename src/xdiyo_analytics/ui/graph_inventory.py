@@ -12,6 +12,7 @@ def decorate(components, stages):
         'support_kappa': 'Decayed match mass at which the graph contribution gate reaches one half.',
         'hidden_width': 'Hidden units in the fixture prediction head.',
         'statistics': 'Exact paired native history columns, e.g. team::ALL::Match overview::cornerKicks::value. Include their opponent counterparts in the source history. No xG or rolling columns.',
+        'include_goal_features': 'Include native full-time goals for/against as numeric edge predictors and missing-value masks. Disable for explicit period-only statistics; at least one statistic is required. Canonical scores, labels and historical eligibility stay intact.',
         'fixture_features': 'Assembled predictor column names to append to the fixture head. Their cutoffs are aligned to the graph during preparation.',
         'learning_rate': 'AdamW learning rate for model construction; tSNE learning rate for EmbeddingReporter (auto or a positive number).',
         'weight_decay': 'AdamW weight decay.',
