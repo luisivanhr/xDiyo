@@ -15,7 +15,9 @@ class HeatmapCNNSerializer:
         path = Path(directory)
         path.mkdir(parents=True, exist_ok=True)
         b = adapter.backend_
-        state = dict(spec=asdict(adapter.spec), inputs=b.inputs.state(), classes=b.classes,
+        state = dict(spec=asdict(adapter.spec), effective_control=(
+                         asdict(adapter.effective_control_) if adapter.effective_control_ is not None else None),
+                     inputs=b.inputs.state(), classes=b.classes,
                      targets=b.target_names, training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
         (path/'cnn.json').write_text(json.dumps(state, indent=2), encoding='utf-8')
         torch.save({k: v.detach().cpu() for k, v in b.model.state_dict().items()}, path/'weights.pt')
@@ -32,13 +34,19 @@ class HeatmapCNNSerializer:
         state = json.loads((path/'cnn.json').read_text(encoding='utf-8'))
         spec = state['spec']
         spec['encoder'] = HeatmapCNNConfig.from_dict(spec['encoder'])
-        control = spec['control']
-        for name, cls in [('early_stopping', EarlyStopping), ('scheduler', ReduceOnPlateau)]:
-            if control.get(name) is not None:
-                control[name] = cls(**control[name])
-        spec['control'] = TrainingControl(**control)
+        def read_control(values):
+            control = dict(values)
+            for name, cls in [('early_stopping', EarlyStopping), ('scheduler', ReduceOnPlateau)]:
+                if control.get(name) is not None:
+                    control[name] = cls(**control[name])
+            return TrainingControl(**control)
+        effective = state.get('effective_control')
+        spec['control'] = read_control(spec['control'])
         spec = HeatmapCNNModel(**spec)
         adapter = HeatmapCNNAdapter(spec, inner_threads=state['inner_threads'])
+        # Older artifacts did not preserve overrides. Do not invent a policy
+        # from the partial training summary or mislabel the declared default.
+        adapter.effective_control_ = read_control(effective) if effective is not None else None
         adapter.configure_device(self.device)
         b = CNNBackend(spec, 0, adapter.device)
         b.inputs = CNNInputs.from_state(spec, state['inputs'])

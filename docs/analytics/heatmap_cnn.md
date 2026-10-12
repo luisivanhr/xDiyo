@@ -82,8 +82,13 @@ edges at different issuances therefore participate at each eligible issuance.
 `train_loss` and `validation_loss` remain prediction losses. Optional extra
 metrics are `train_reconstruction_loss`, `validation_reconstruction_loss`,
 `train_objective` and `validation_objective`. The GAT training objective includes
-its explicit prior penalty; validation excludes that penalty. As before, training
-loss is evaluated before the optimizer step and validation after it. The default
+its explicit prior penalty; validation excludes that penalty. When selecting on a
+training metric, training losses are re-evaluated after the optimizer update so
+the monitor, scheduler, early stopping and saved checkpoint refer to the same
+parameters. Otherwise, training curves retain the gradient pass's pre-update
+losses, and validation is evaluated after the update. This avoids an additional
+training replay during validation-based selection. Older saved artifacts retain
+their original pre-update training curves; they are not rewritten. The default
 early-stopping monitor remains validation prediction loss (training prediction
 loss when there is no validation population). An explicit `TrainingControl.monitor`
 can select an auxiliary or combined metric.
@@ -136,12 +141,22 @@ outputs. Gradients from the fixture prediction loss train the encoder even when
 reconstruction is disabled.
 
 Only deterministic native grids are prepared once into the immutable event store.
-Its fingerprint includes these grid values and their configuration. Learned
+Its table fingerprint includes the grid values. Grid configuration is checked
+separately against the store's `heatmap_grid` provenance at construction, fitting,
+attachment and loading, including when two configurations happen to produce
+identical cells. Missing grid provenance is rejected for CNN-enabled models. Learned
 encodings are recomputed during optimization, once per issuance forward pass and
 reused across its GAT layers. Existing By Round and One Day Ahead cutoff and
 result-availability rules select historical edges; forecast-target/future maps
 never enter that snapshot. No xG is required. Changing grid construction settings
 requires new recipe preparation; encoder settings can vary over the same grids.
+
+Point-level `observed_at` is not treated as a publication-availability timestamp.
+It may describe retrieval time; that source contract has not been established.
+The current model assumes spatial evidence is available under the native
+historical match/result cutoff. Experiments requiring point-publication timing
+must establish that contract separately; match/result cutoffs alone do not prove
+point-publication availability.
 
 ## Missingness and validation
 
@@ -156,6 +171,14 @@ Partial NaNs, infinities, float32 overflow, malformed coordinates, duplicate map
 identities/point ordering, or conflicting source versions raise errors. They are
 not converted into missing observations. Grid normalization and validation use
 the existing native spatial implementation.
+Event/team/opponent identifiers must retain an exact integer domain. Floating-point
+IDs are rejected before lookup, including values already rounded upstream.
+Exact uint64 IDs are preserved; genuinely absent maps remain missing.
+
+Standalone row weights are normalized once per population in float64, using max
+scaling before summation. Prediction and observed-map reconstruction populations
+are normalized separately. Zero observed reconstruction weight contributes zero;
+no absolute denominator floor changes the loss when weights are rescaled.
 
 ## Standalone classification and regression
 
@@ -234,6 +257,11 @@ CNN configuration/weights and deterministic grids in the embedded event store;
 standalone artifacts include input group order, fitting-only preprocessing, class
 order, CNN/decoder/head weights and training history. Loading restores prediction
 and embedding values. These are prediction artifacts, not optimizer-resume files.
+The declared `spec.control` remains separate from `effective_control_`, which
+records the complete controls used by `fit_controlled`, including overrides.
+Both are saved and restored. Older CNN artifacts lack the effective policy:
+loading sets `effective_control_` to `None` rather than claiming the declared
+defaults were necessarily used. Inference remains available.
 Each fold/restart gets freshly initialized weights. Scalar-only GAT artifact
 fingerprints remain compatible with earlier configurations.
 

@@ -55,8 +55,10 @@ def _populations(context, issuance_at, result):
 class GATLossReporter(LearningCurveReporter):
     """Stored GAT losses, separated by fold and restart attempt.
 
-    Training loss is measured before the step's update; validation loss after
-    it. AdamW decay and the prior penalty are not included in these data losses.
+    New fits re-evaluate training loss after the update when it controls model
+    selection; otherwise it is the pre-update gradient-pass loss. Validation
+    loss is post-update. Older artifacts retain their original metric timing.
+    AdamW decay and the prior penalty are not included in these data losses.
     Validation appears only when training reserved a validation population.
     Optional reconstruction loss and combined objectives can also be selected.
     """
@@ -66,7 +68,7 @@ class GATLossReporter(LearningCurveReporter):
         result = super().run(context)
         result.title = 'GAT training and validation loss'
         result.notes.extend([
-            'train_loss and validation_loss are weighted cross-entropy data losses, excluding prior penalty and AdamW decay. Training metrics are pre-update; validation metrics are post-update.',
+            'train_loss and validation_loss are weighted cross-entropy data losses, excluding prior penalty and AdamW decay. New fits evaluate training monitors after the update; other training curves retain pre-update values. Validation metrics are post-update. Older saved curves retain their original timing.',
             'Optional reconstruction metrics use the configured observed-map loss (MSE or KL). train_objective adds weighted reconstruction and the prior penalty; validation_objective adds weighted reconstruction without the prior penalty. AdamW decay is not a reported loss term.',
             'No validation curve is fabricated when validation was not configured. Steps and restart attempts are preserved; curves are not averaged across folds.',
         ])

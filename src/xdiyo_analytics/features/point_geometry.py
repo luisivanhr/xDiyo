@@ -89,6 +89,21 @@ class SpatialPointSummary(Expr):
         object.__setattr__(self, 'min_points', int(self.min_points))
 
 
+def validate_exact_point_ids(history, points):
+    """Reject lossy identity domains before map lookup; typed integers are O(1)."""
+    for frame in (history, points):
+        for name in ('event_id', 'team_id', 'opponent_id'):
+            if name not in frame or not len(frame):
+                continue
+            ids = frame[name]
+            if pd.api.types.is_integer_dtype(ids.dtype):
+                valid = not pd.api.types.is_extension_array_dtype(ids.dtype) or not ids.hasnans
+            else:
+                valid = pd.api.types.infer_dtype(ids, skipna=False) == 'integer'
+            if not valid:
+                raise ValueError(f'Spatial {name} must contain exact integer identifiers, not floating-point IDs.')
+
+
 def validate_point_identities(history, points):
     """Validate native map keys without deduplicating coordinate observations."""
     if points is None:
@@ -106,6 +121,7 @@ def validate_point_identities(history, points):
         raise ValueError(f'Spatial points are missing columns: {sorted(missing)}')
     if history[keys].isna().any().any() or points[keys].isna().any().any():
         raise ValueError('Spatial map identities must be nonmissing.')
+    validate_exact_point_ids(history, points)
     if history.duplicated(keys).any():
         raise ValueError('Duplicate fixture/team identity in spatial history; retain source league/season keys.')
     if points.kind.isna().any() or not set(points.kind.unique()) <= {'player', 'goalkeeper'}:

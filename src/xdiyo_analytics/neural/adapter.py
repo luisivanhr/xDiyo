@@ -29,9 +29,11 @@ class HeatmapCNNAdapter:
         from ..graphs.adapter import torch_threads
         self.configure_device(self.device)
         self.configure_threads(self.inner_threads)
+        effective_control = control or self.spec.control
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_iterations(
-                lambda seed: CNNBackend(self.spec, seed, self.device), context, control or self.spec.control)
+                lambda seed: CNNBackend(self.spec, seed, self.device), context, effective_control)
+        self.effective_control_ = effective_control
 
     def predict(self, context):
         from ..graphs.adapter import torch_threads
@@ -141,34 +143,49 @@ class CNNBackend:
             if hasattr(context.sample_weight, 'index') and not context.sample_weight.index.equals(context.X.index):
                 raise ValueError('Sample weights must align with CNN rows.')
             w = np.asarray(context.sample_weight, dtype=float).reshape(-1)
-        if len(w) != len(y) or not np.isfinite(w).all() or (w < 0).any() or w.sum() <= 0:
+        if len(w) != len(y) or not np.isfinite(w).all() or (w < 0).any() or not (w > 0).any():
             raise ValueError('CNN weights must be finite, nonnegative and have positive total.')
-        if not np.isfinite(w.sum()) or w.sum() > np.finfo(np.float32).max or (self.classes is None and (np.abs(y) > np.finfo(np.float32).max).any()):
-            raise ValueError('CNN targets and weight totals must fit the finite neural tensor range.')
-        return (*self.inputs.transform(context.X), y, w.astype(np.float32))
+        if self.classes is None and (np.abs(y) > np.finfo(np.float32).max).any():
+            raise ValueError('CNN targets must fit the finite neural tensor range.')
+        maps, masks, numeric = self.inputs.transform(context.X)
+        observed = masks.any(axis=1)
+        # Normalize once in float64, independently for each loss population.
+        # Max scaling avoids overflow, and no float32 cast erases small weights.
+        def normalized(selected):
+            values = np.where(selected, w, 0.)
+            maximum = values.max()
+            if maximum == 0:
+                return values  # No observed positive-weight reconstruction target.
+            values = values / maximum
+            return values / values.sum()
+        weights = np.stack((normalized(np.ones(len(y), dtype=bool)), normalized(observed)))
+        return maps, masks, numeric, y, weights
 
     def loss(self, population, backward=False):
         import torch
         maps, masks, numeric, y, weights = population
-        primary, reconstruction = 0., 0.
-        observed = masks.any(axis=1)
-        reconstruction_denominator = max(float(weights[observed].sum()), 1e-30)
+        primary_weights, reconstruction_weights = weights
+        # Accumulate detached float64 scalars on device in batch order. Reading
+        # every batch as a Python float would synchronize CUDA repeatedly.
+        primary = torch.zeros((), dtype=torch.float64, device=self.device)
+        reconstruction = torch.zeros_like(primary)
         for start in range(0, len(y), self.spec.batch_size):
             sl = slice(start, start+self.spec.batch_size)
             m, a, n = [torch.as_tensor(v[sl], device=self.device) for v in (maps, masks, numeric)]
             target = torch.as_tensor(y[sl], dtype=torch.long if self.classes is not None else torch.float32, device=self.device)
-            w = torch.as_tensor(weights[sl], device=self.device)
+            w = torch.as_tensor(primary_weights[sl], device=self.device)
             logits, z = self.model(m, a, n)
             error = (logits-target).square().mean(dim=1) if self.classes is None else torch.nn.functional.cross_entropy(logits, target, reduction='none')
-            loss = (error*w).sum()/float(weights.sum())
-            primary += float(loss.detach())
+            loss = (error*w).sum()
+            primary.add_(loss.detach())
             if self.spec.encoder.reconstruction is not None:
-                aux = (self.model.encoder.reconstruction_errors(z, m, a)*w).sum()/reconstruction_denominator
-                reconstruction += float(aux.detach())
+                rw = torch.as_tensor(reconstruction_weights[sl], device=self.device)
+                aux = (self.model.encoder.reconstruction_errors(z, m, a)*rw).sum()
+                reconstruction.add_(aux.detach())
                 loss = loss + self.spec.encoder.reconstruction.weight*aux
             if backward:
                 loss.backward()
-        return primary, reconstruction
+        return float(primary), float(reconstruction)
 
     def step(self):
         import torch
@@ -186,6 +203,19 @@ class CNNBackend:
             values['validation_loss'] = loss
             if self.spec.encoder.reconstruction is not None:
                 values.update(validation_reconstruction_loss=aux, validation_objective=loss+self.spec.encoder.reconstruction.weight*aux)
+        return values
+
+    def checkpoint_metrics(self, monitor, values):
+        """Training monitors describe the same post-update state as snapshot()."""
+        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss'):
+            return values
+        from ..graphs.adapter import inference_mode
+        with inference_mode(self.model):
+            loss, aux = self.loss(self.train)
+        values = dict(values, train_loss=loss)
+        if self.spec.encoder.reconstruction is not None:
+            values.update(train_reconstruction_loss=aux,
+                          train_objective=loss+self.spec.encoder.reconstruction.weight*aux)
         return values
 
     def predict(self, context, embeddings=False):

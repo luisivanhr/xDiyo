@@ -38,6 +38,21 @@ def columns(config):
     return [f'cnn::{side}::y{y}::x{x}' for side in ('for', 'against') for y in range(n) for x in range(n)]
 
 
+def validate_grid_contract(store, config):
+    """Check semantic grid identity independently of the table fingerprint.
+
+    Different grid recipes can coincidentally produce identical old cells.
+    Such stores are not interchangeable for future evidence or saved models.
+    """
+    if config is None:
+        return
+    if store.provenance.get('heatmap_grid') != grid_identity(config):
+        raise ValueError('Heatmap grid settings change preparation; use a matching prepared recipe or event store.')
+    actual = {c for c in store._history.columns if c.startswith('cnn::')}
+    if actual != set(columns(config)):
+        raise ValueError('Event store CNN grid columns do not match the configured resolution.')
+
+
 def prepare_heatmaps(history, points, config):
     keys = validate_point_identities(history, points)
     for name in ('raw_hash', 'source_key'):

@@ -49,9 +49,8 @@ class TemporalGraphModel:
         })
 
     def build(self, store):
-        from .spatial import grid_identity
-        if self.config.heatmaps is not None and store.provenance.get('heatmap_grid') != grid_identity(self.config.heatmaps):
-            raise ValueError('Heatmap grid settings change preparation; use a matching prepared recipe.')
+        from .spatial import validate_grid_contract
+        validate_grid_contract(store, self.config.heatmaps)
         for key in ('membership_policy', 'memberships_path'):
             if key in store.provenance and store.provenance[key] != getattr(self, key):
                 raise ValueError('Graph membership settings change preparation; use a separate recipe.')

@@ -10,6 +10,7 @@ from .config import CLASS_ORDER, MATCH_KEYS
 from .preprocessing import GraphPreprocessor
 from .store import _ids, _times
 from .streaming import GroupPlan, PreparedGroups, release_temporary_frames
+from .spatial import validate_grid_contract
 from ..training.control import TrainingControl, run_iterations
 
 
@@ -48,6 +49,7 @@ class TemporalGraphAdapter:
     supports_sample_weight = True
 
     def __init__(self, config, event_store, *, control=None, device="cpu", inner_threads=1):
+        validate_grid_contract(event_store, config.heatmaps)
         self.config, self.event_store = config, event_store
         self.control = control or TrainingControl()
         self.device, self.inner_threads = device, inner_threads
@@ -75,6 +77,7 @@ class TemporalGraphAdapter:
         self.fit_controlled(context, self.control)
 
     def fit_controlled(self, context, control):
+        validate_grid_contract(self.event_store, self.config.heatmaps)
         self.configure_device(self.device)
         self.configure_threads(self.inner_threads)
         self.control = control or self.control
@@ -110,6 +113,7 @@ class TemporalGraphAdapter:
         new historical evidence may be added, but revised source data requires
         a new fitting run instead of silently changing artifact provenance.
         """
+        validate_grid_contract(event_store, self.config.heatmaps)
         old = self.event_store
         for before, after, keys in (
             (old.history, event_store.history, [*MATCH_KEYS, "side"]),
@@ -281,6 +285,18 @@ class _Backend:
                     values['validation_reconstruction_loss'] = self._reconstruction_loss
                     values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
         self.refresh_version()
+        return values
+
+    def checkpoint_metrics(self, monitor, values):
+        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss'):
+            return values
+        with inference_mode(self.model):
+            loss = self._loss(self.train_groups, self.train_targets, self.train_weights)
+            penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
+        values = dict(values, train_loss=loss)
+        if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
+            values.update(train_reconstruction_loss=self._reconstruction_loss,
+                          train_objective=loss+self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss+float(penalty))
         return values
 
     def refresh_version(self):

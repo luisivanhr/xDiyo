@@ -113,6 +113,11 @@ def run_iterations(backend_factory, context, control):
     details and learns preprocessing only from context.X/y. context.validation
     supplies separate monitoring data, never outer test rows.
 
+    Metrics used for selection must describe the state returned by snapshot().
+    A backend that measures loss while computing gradients may implement
+    checkpoint_metrics(monitor, values) to re-evaluate training monitors after
+    the update, before observers, scheduling, selection and checkpointing.
+
     Returns (selected_backend, history_frame, summary). Observers receive
     TrainingEvent objects at completed steps and a final event per attempt.
     """
@@ -152,6 +157,9 @@ def run_iterations(backend_factory, context, control):
             if rate is not None and (not np.isfinite(rate) or rate <= 0):
                 raise ValueError("The backend learning rate must be positive and finite.")
             values = backend.step()
+            checkpoint_metrics = getattr(backend, 'checkpoint_metrics', None)
+            if callable(checkpoint_metrics):
+                values = checkpoint_metrics(monitor, values)
             if not isinstance(values, dict) or monitor not in values:
                 raise ValueError(f"Backend step must expose monitored metric {monitor!r}.")
             if any(not isinstance(name, str) or not name or not np.isscalar(value) for name, value in values.items()):

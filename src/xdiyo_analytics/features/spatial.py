@@ -87,8 +87,10 @@ def heatmap_grid(points, spec=None):
 
 def heatmap_values(history, points, spec):
     """Align point grids to team history without floating-point identity joins."""
+    from .point_geometry import validate_exact_point_ids
     if points is None:
         raise ValueError("Load heatmap_points and pass it to evaluate_features(heatmaps=...).")
+    validate_exact_point_ids(history, points)
     scope = [c for c in ("source_league", "source_season") if c in history and c in points]
     keys = [*scope, "event_id", "team_id"]
     grids = {}
