@@ -8,4 +8,5 @@ __all__ = ["TemporalGraphConfig", "TemporalEventStore", "GraphSnapshot",
            "TemporalGraphAdapter", "TemporalGraphSerializer", "CLASS_ORDER"]
 
 from .integration import TemporalGraphModel
-__all__ += ["TemporalGraphModel"]
+from .spatial import GraphHeatmaps
+__all__ += ["TemporalGraphModel", "GraphHeatmaps"]

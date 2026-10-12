@@ -6,6 +6,10 @@ opponent-independent team embeddings. It has no learned team-ID vectors and no
 persistent recurrent team state. The default dimensions and decay constants are
 starting hyperparameters; the bounded pilot did not establish a predictive advantage.
 
+An [optional heatmap CNN](heatmap_cnn.md) adds shared, jointly trained spatial edge
+features. Its reconstruction branch is independently optional. Both are disabled
+by default; the CNN also supports standalone classification and regression.
+
 ## Install and select a device
 
 ```powershell

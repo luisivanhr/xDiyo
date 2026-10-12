@@ -22,7 +22,10 @@ class TemporalGraphModel:
     membership_policy: str = 'first_fixture'
     memberships_path: str | None = None
 
-    def event_store(self, history, memberships):
+    def event_store(self, history, memberships, heatmaps=None):
+        from .spatial import prepare_heatmaps, grid_identity
+        if self.config.heatmaps is not None:
+            history = prepare_heatmaps(history, heatmaps, self.config.heatmaps)
         if self.memberships_path:
             from pathlib import Path
             path = Path(self.memberships_path)
@@ -42,9 +45,13 @@ class TemporalGraphModel:
             'membership_policy': self.membership_policy,
             'memberships_path': self.memberships_path,
             'cutoff_config': {name: getattr(self.config, name) for name in ('timezone', 'forecast_policy', 'round_keys')},
+            **({'heatmap_grid': grid_identity(self.config.heatmaps)} if self.config.heatmaps is not None else {}),
         })
 
     def build(self, store):
+        from .spatial import grid_identity
+        if self.config.heatmaps is not None and store.provenance.get('heatmap_grid') != grid_identity(self.config.heatmaps):
+            raise ValueError('Heatmap grid settings change preparation; use a matching prepared recipe.')
         for key in ('membership_policy', 'memberships_path'):
             if key in store.provenance and store.provenance[key] != getattr(self, key):
                 raise ValueError('Graph membership settings change preparation; use a separate recipe.')

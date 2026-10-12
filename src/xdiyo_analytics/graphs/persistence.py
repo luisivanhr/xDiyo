@@ -59,7 +59,11 @@ class TemporalGraphSerializer:
             raise ValueError("Load requires the exact event_store matching the saved fingerprint.")
         if tuple(meta["class_order"]) != CLASS_ORDER:
             raise ValueError("Unsupported saved class order.")
-        config = TemporalGraphConfig(**meta["config"])
+        config_state = dict(meta['config'])
+        if config_state.get('heatmaps') is not None:
+            from .spatial import GraphHeatmaps
+            config_state['heatmaps'] = GraphHeatmaps.from_dict(config_state['heatmaps'])
+        config = TemporalGraphConfig(**config_state)
         from ..training.control import TrainingControl, EarlyStopping, ReduceOnPlateau
         control = dict(meta.get('control', {}))
         for key, cls in [('early_stopping', EarlyStopping), ('scheduler', ReduceOnPlateau)]:

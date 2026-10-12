@@ -13859,7 +13859,8 @@
             "training.JoblibSerializer",
             "composition.CompositeSerializer",
             "training.BayesianScoreSerializer",
-            "graphs.TemporalGraphSerializer"
+            "graphs.TemporalGraphSerializer",
+            "neural.HeatmapCNNSerializer"
           ]
         }
       ],
@@ -17494,7 +17495,7 @@
       "id": "reporting.GATLossReporter",
       "title": "GATLossReporter",
       "category": "post_reporter",
-      "description": "Stored cross-entropy losses, separated by fold and restart attempt.",
+      "description": "Stored GAT losses, separated by fold and restart attempt.\n\nTraining loss is measured before the step's update; validation loss after\nit. AdamW decay and the prior penalty are not included in these data losses.\nValidation appears only when training reserved a validation population.\nOptional reconstruction loss and combined objectives can also be selected.",
       "fields": [
         {
           "name": "type",
@@ -17530,11 +17531,15 @@
             "train_loss",
             "validation_loss"
           ],
-          "help": "Select stored cross-entropy loss curves. Validation is available only when a held-out training tail was configured.",
+          "help": "Select stored prediction loss, optional reconstruction loss (MSE or KL), or combined objectives. Validation requires a held-out training tail; reconstruction curves require an enabled decoder.",
           "primary": true,
           "choices": [
             "train_loss",
-            "validation_loss"
+            "validation_loss",
+            "train_reconstruction_loss",
+            "validation_reconstruction_loss",
+            "train_objective",
+            "validation_objective"
           ]
         },
         {
@@ -17959,7 +17964,7 @@
       "id": "graphs.TemporalGraphConfig",
       "title": "TemporalGraphConfig",
       "category": "graph_config",
-      "description": "TemporalGraphConfig(timezone: str, forecast_policy: str = 'by_round', round_keys: tuple = ('competition_id', 'season_id', 'round'), embedding_dim: int = 32, layers: int = 2, heads: int = 2, half_life_days: float = 180.0, seasonal_retention: float = 0.5, support_kappa: float = 5.0, hidden_width: int = 64, statistics: tuple = (), fixture_features: tuple = (), learning_rate: float = 0.001, weight_decay: float = 0.001, prior_penalty: float = 0.001)",
+      "description": "TemporalGraphConfig(timezone: str, forecast_policy: str = 'by_round', round_keys: tuple = ('competition_id', 'season_id', 'round'), embedding_dim: int = 32, layers: int = 2, heads: int = 2, half_life_days: float = 180.0, seasonal_retention: float = 0.5, support_kappa: float = 5.0, hidden_width: int = 64, statistics: tuple = (), fixture_features: tuple = (), learning_rate: float = 0.001, weight_decay: float = 0.001, prior_penalty: float = 0.001, heatmaps: xdiyo_analytics.graphs.spatial.GraphHeatmaps | None = None)",
       "fields": [
         {
           "name": "timezone",
@@ -18121,6 +18126,19 @@
           "help": "Quadratic penalty on league and entry-context prior embeddings; separate from AdamW decay.",
           "step": "any",
           "primary": true
+        },
+        {
+          "name": "heatmaps",
+          "title": "Heatmaps",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional shared CNN over individual historical match maps. Disabled preserves scalar-only GAT. Requires heatmap_points; target-fixture maps are never inputs.",
+          "primary": true,
+          "components": [
+            "graphs.GraphHeatmaps"
+          ],
+          "initial_component": "graphs.GraphHeatmaps"
         }
       ],
       "accepts_extra": false
@@ -18162,6 +18180,362 @@
           "kind": "boolean",
           "default": true,
           "help": "Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.GraphHeatmaps": {
+      "id": "graphs.GraphHeatmaps",
+      "title": "GraphHeatmaps",
+      "category": "graph_config",
+      "description": "GraphHeatmaps(grid: xdiyo_analytics.features.spatial.Heatmap = <factory>, encoder: xdiyo_analytics.neural.config.HeatmapCNNConfig = <factory>, batch_size: int = 256)",
+      "fields": [
+        {
+          "name": "grid",
+          "title": "Grid",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "features.Heatmap",
+            "params": {
+              "grid_size": 10,
+              "method": "grid",
+              "normalization": "mass",
+              "side": "both",
+              "sigma": 2.6,
+              "resolution": 100,
+              "kinds": [
+                "player"
+              ],
+              "use_weights": false,
+              "orientation": "team"
+            }
+          },
+          "help": "Native deterministic grid construction. Keep side=both and orientation=team for receiver-aligned GAT edges. Default: player-only 10x10 unit-mass grids.",
+          "primary": true,
+          "components": [
+            "features.Heatmap"
+          ],
+          "initial_component": "features.Heatmap"
+        },
+        {
+          "name": "encoder",
+          "title": "Encoder",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "neural.HeatmapCNNConfig",
+            "params": {
+              "channels": [
+                8,
+                8
+              ],
+              "kernel_size": 3,
+              "pool_size": 2,
+              "embedding_dim": 16,
+              "activation": "relu",
+              "reconstruction": null
+            }
+          },
+          "help": "Shared trainable convolutions, spatial pooling and flattened projection. Parameters are optimized with the prediction head.",
+          "primary": true,
+          "components": [
+            "neural.HeatmapCNNConfig"
+          ],
+          "initial_component": "neural.HeatmapCNNConfig"
+        },
+        {
+          "name": "batch_size",
+          "title": "Batch size",
+          "required": false,
+          "kind": "number",
+          "default": 256,
+          "help": "Maximum maps/rows processed together. Gradients accumulate before each native optimizer step.",
+          "step": 1,
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "neural.HeatmapCNNModel": {
+      "id": "neural.HeatmapCNNModel",
+      "title": "Heatmap CNN",
+      "category": "model",
+      "description": "Predict from native grid feature groups, optionally with numeric features.",
+      "fields": [
+        {
+          "name": "task",
+          "title": "Task",
+          "required": false,
+          "kind": "select",
+          "default": "classification",
+          "help": "Classification learns fitting classes; regression predicts numeric targets. Configure the matching target in Labels.",
+          "primary": true,
+          "choices": [
+            "classification",
+            "regression"
+          ]
+        },
+        {
+          "name": "encoder",
+          "title": "Encoder",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "neural.HeatmapCNNConfig",
+            "params": {
+              "channels": [
+                8,
+                8
+              ],
+              "kernel_size": 3,
+              "pool_size": 2,
+              "embedding_dim": 16,
+              "activation": "relu",
+              "reconstruction": null
+            }
+          },
+          "help": "Shared trainable convolutions, spatial pooling and flattened projection. Parameters are optimized with the prediction head.",
+          "primary": true,
+          "components": [
+            "neural.HeatmapCNNConfig"
+          ],
+          "initial_component": "neural.HeatmapCNNConfig"
+        },
+        {
+          "name": "grid_features",
+          "title": "Grid features",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Full native grid group names, excluding the _yXX_xXX suffix. Empty automatically selects all complete heatmap groups. Use historically wrapped grids of equal resolution.",
+          "primary": true,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "numeric_features",
+          "title": "Numeric features",
+          "required": false,
+          "kind": "list",
+          "default": [],
+          "help": "Optional additional prepared numeric columns. Scaling is fitted only on training rows.",
+          "primary": true,
+          "item": {
+            "kind": "text"
+          }
+        },
+        {
+          "name": "hidden_width",
+          "title": "Hidden width",
+          "required": false,
+          "kind": "number",
+          "default": 64,
+          "help": "Hidden units in this prediction or reconstruction head.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "learning_rate",
+          "title": "Learning rate",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "AdamW learning rate for model construction; tSNE learning rate for EmbeddingReporter (auto or a positive number).",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "weight_decay",
+          "title": "Weight decay",
+          "required": false,
+          "kind": "number",
+          "default": 0.001,
+          "help": "AdamW weight decay.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "batch_size",
+          "title": "Batch size",
+          "required": false,
+          "kind": "number",
+          "default": 128,
+          "help": "Maximum maps/rows processed together. Gradients accumulate before each native optimizer step.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "control",
+          "title": "Control",
+          "required": false,
+          "kind": "component",
+          "default": {
+            "component": "training.TrainingControl",
+            "params": {
+              "max_steps": 100,
+              "early_stopping": null,
+              "scheduler": null,
+              "restarts": 0,
+              "seed": 0,
+              "monitor": null,
+              "direction": "minimize",
+              "restore_best": true
+            }
+          },
+          "help": "Native training steps, seed, restarts, early stopping and learning-rate schedule. Candidate validation supplies held-out training rows.",
+          "components": [
+            "training.TrainingControl"
+          ],
+          "initial_component": "training.TrainingControl",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "neural.HeatmapCNNConfig": {
+      "id": "neural.HeatmapCNNConfig",
+      "title": "HeatmapCNNConfig",
+      "category": "neural_config",
+      "description": "Shared encoder: convolutions, average pooling, flattening and projection.",
+      "fields": [
+        {
+          "name": "channels",
+          "title": "Channels",
+          "required": false,
+          "kind": "list",
+          "default": [
+            8,
+            8
+          ],
+          "help": "Output channels of each convolution, in order. Default 8, 8.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "step": 1,
+            "min": 1
+          }
+        },
+        {
+          "name": "kernel_size",
+          "title": "Kernel size",
+          "required": false,
+          "kind": "number",
+          "default": 3,
+          "help": "Odd convolution kernel width; same padding preserves grid dimensions.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "pool_size",
+          "title": "Pool size",
+          "required": false,
+          "kind": "number",
+          "default": 2,
+          "help": "Average-pooling width and stride. Flattening preserves coarse spatial position.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "embedding_dim",
+          "title": "Embedding dim",
+          "required": false,
+          "kind": "number",
+          "default": 16,
+          "help": "Number of learned spatial features.",
+          "step": 1,
+          "primary": true
+        },
+        {
+          "name": "activation",
+          "title": "Activation",
+          "required": false,
+          "kind": "select",
+          "default": "relu",
+          "help": "Nonlinearity after each convolution and in the standalone prediction/auxiliary heads.",
+          "primary": true,
+          "choices": [
+            "relu",
+            "gelu",
+            "tanh"
+          ]
+        },
+        {
+          "name": "reconstruction",
+          "title": "Reconstruction",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional auxiliary decoder with masked MSE or KL divergence. Disabled creates no decoder or extra loss. Validation prediction loss remains the default early-stopping metric.",
+          "primary": true,
+          "components": [
+            "neural.Reconstruction"
+          ],
+          "initial_component": "neural.Reconstruction"
+        }
+      ],
+      "accepts_extra": false
+    },
+    "neural.Reconstruction": {
+      "id": "neural.Reconstruction",
+      "title": "Reconstruction",
+      "category": "neural_config",
+      "description": "Optional masked reconstruction objective, separate from prediction loss.",
+      "fields": [
+        {
+          "name": "weight",
+          "title": "Weight",
+          "required": false,
+          "kind": "number",
+          "default": 0.1,
+          "help": "Positive multiplier of the selected observed-map reconstruction loss. MSE and KL have different scales. This does not replace prediction loss.",
+          "primary": true
+        },
+        {
+          "name": "hidden_width",
+          "title": "Hidden width",
+          "required": false,
+          "kind": "number",
+          "default": 64,
+          "help": "Hidden units in this prediction or reconstruction head.",
+          "primary": true
+        },
+        {
+          "name": "loss",
+          "title": "Loss",
+          "required": false,
+          "kind": "select",
+          "default": "mse",
+          "help": "MSE averages squared cell errors. KL compares each normalized target map with a per-map softmax decoder distribution, summing over cells; missing maps are excluded.",
+          "primary": true,
+          "choices": [
+            "mse",
+            "kl"
+          ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "neural.HeatmapCNNSerializer": {
+      "id": "neural.HeatmapCNNSerializer",
+      "title": "HeatmapCNNSerializer",
+      "category": "training",
+      "description": "",
+      "fields": [
+        {
+          "name": "device",
+          "title": "Device",
+          "required": false,
+          "kind": "select",
+          "default": "cpu",
+          "help": "Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.",
+          "choices": [
+            "cpu",
+            "auto",
+            "cuda:0"
+          ],
           "primary": true
         }
       ],
@@ -18942,7 +19316,8 @@
           "components": [
             "training.JoblibSerializer",
             "training.BayesianScoreSerializer",
-            "graphs.TemporalGraphSerializer"
+            "graphs.TemporalGraphSerializer",
+            "neural.HeatmapCNNSerializer"
           ],
           "initial_component": "training.JoblibSerializer"
         },
@@ -19030,7 +19405,8 @@
           "components": [
             "training.JoblibSerializer",
             "training.BayesianScoreSerializer",
-            "graphs.TemporalGraphSerializer"
+            "graphs.TemporalGraphSerializer",
+            "neural.HeatmapCNNSerializer"
           ],
           "initial_component": "training.JoblibSerializer"
         }

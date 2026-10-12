@@ -57,6 +57,13 @@ class TemporalNetwork(nn.Module):
         with torch.no_grad():
             self.league.weight[0].zero_()
             self.entry.weight[0].zero_()
+        self.heatmap_config = config.heatmaps
+        self.spatial_encoder = None
+        if config.heatmaps is not None:
+            from ..neural.network import HeatmapEncoder
+            spatial = config.heatmaps
+            self.spatial_encoder = HeatmapEncoder(spatial.encoder, 2, spatial.grid.grid_size, spatial.grid.grid_size)
+            edge_dim += spatial.encoder.embedding_dim + 2
         self.layers = nn.ModuleList([EdgeLayer(d, config.heads, edge_dim) for _ in range(config.layers)])
         self.head = nn.Sequential(nn.Linear(4*d + fixture_dim, config.hidden_width),
                                   nn.ReLU(), nn.Linear(config.hidden_width, 3))
@@ -64,19 +71,37 @@ class TemporalNetwork(nn.Module):
     def prior(self, league, entry):
         return self.global_prior + self.league(league) + (league != 0)[:, None] * self.entry(entry)
 
-    def encode(self, data, *, return_attention=False):
+    def encode(self, data, *, return_attention=False, return_auxiliary=False):
         h = self.prior(data["league"], data["entry"])
+        x = data['x']
+        auxiliary = h.sum()*0
+        if self.spatial_encoder is not None:
+            maps, masks = data['maps'], data['map_available']
+            encoded = []
+            denominator = masks.any(dim=1).sum().clamp_min(1)
+            for start in range(0, len(maps), self.heatmap_config.batch_size):
+                m, a = maps[start:start+self.heatmap_config.batch_size], masks[start:start+self.heatmap_config.batch_size]
+                z = self.spatial_encoder(m, a)
+                encoded.append(z)
+                if return_auxiliary:
+                    auxiliary = auxiliary + self.spatial_encoder.reconstruction_errors(z, m, a).sum()/denominator
+            z = torch.cat(encoded) if encoded else maps.new_empty((0, self.heatmap_config.encoder.embedding_dim))
+            x = torch.cat((x, z, masks), dim=1)
         attention = []
         for layer in self.layers:
-            value = layer(h, data["x"], data["receiver"], data["sender"], data["log_weight"], data["gate"], return_attention=return_attention)
+            value = layer(h, x, data["receiver"], data["sender"], data["log_weight"], data["gate"], return_attention=return_attention)
             if return_attention:
                 h, alpha = value
                 attention.append(alpha)
             else:
                 h = value
-        return (h, attention) if return_attention else h
+        if return_attention:
+            return h, attention
+        return (h, auxiliary) if return_auxiliary else h
 
-    def forward(self, data, home, away, fixture):
-        h = self.encode(data)
+    def forward(self, data, home, away, fixture, *, return_auxiliary=False):
+        result = self.encode(data, return_auxiliary=return_auxiliary)
+        h, auxiliary = result if return_auxiliary else (result, None)
         a, b = h[home], h[away]
-        return self.head(torch.cat((a, b, a-b, a*b, fixture), dim=1))
+        logits = self.head(torch.cat((a, b, a-b, a*b, fixture), dim=1))
+        return (logits, auxiliary) if return_auxiliary else logits

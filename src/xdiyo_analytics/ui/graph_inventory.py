@@ -34,7 +34,8 @@ def decorate(components, stages):
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer',
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps',
+             'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
              'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
     choices = {'forecast_policy':['by_round','one_day_ahead'], 'membership_policy':['first_fixture','explicit'],
                'mode':['tSNE','PCA'], 'init':['pca','random'], 'metric':['euclidean','cosine'], 'device':['cpu','auto','cuda:0']}
@@ -48,6 +49,36 @@ def decorate(components, stages):
                 f.update(kind='select', choices=choices[name])
             if name == 'config':
                 f.update(kind='component', components=['graphs.TemporalGraphConfig'])
+            nested = {'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
+                      'reconstruction':'neural.Reconstruction', 'grid':'features.Heatmap'}
+            if name in nested and key.startswith(('graphs.', 'neural.')):
+                f.update(kind='component', components=[nested[name]], initial_component=nested[name])
+                f['help'] = {
+                    'heatmaps':'Optional shared CNN over individual historical match maps. Disabled preserves scalar-only GAT. Requires heatmap_points; target-fixture maps are never inputs.',
+                    'encoder':'Shared trainable convolutions, spatial pooling and flattened projection. Parameters are optimized with the prediction head.',
+                    'reconstruction':'Optional auxiliary decoder with masked MSE or KL divergence. Disabled creates no decoder or extra loss. Validation prediction loss remains the default early-stopping metric.',
+                    'grid':'Native deterministic grid construction. Keep side=both and orientation=team for receiver-aligned GAT edges. Default: player-only 10x10 unit-mass grids.',
+                }[name]
+            if key.startswith('neural.') or key == 'graphs.GraphHeatmaps':
+                details = {'task':'Classification learns fitting classes; regression predicts numeric targets. Configure the matching target in Labels.',
+                           'channels':'Output channels of each convolution, in order. Default 8, 8.',
+                           'kernel_size':'Odd convolution kernel width; same padding preserves grid dimensions.',
+                           'pool_size':'Average-pooling width and stride. Flattening preserves coarse spatial position.',
+                           'embedding_dim':'Number of learned spatial features.',
+                           'activation':'Nonlinearity after each convolution and in the standalone prediction/auxiliary heads.',
+                           'weight':'Positive multiplier of the selected observed-map reconstruction loss. MSE and KL have different scales. This does not replace prediction loss.',
+                           'loss':'MSE averages squared cell errors. KL compares each normalized target map with a per-map softmax decoder distribution, summing over cells; missing maps are excluded.',
+                           'hidden_width':'Hidden units in this prediction or reconstruction head.',
+                           'batch_size':'Maximum maps/rows processed together. Gradients accumulate before each native optimizer step.',
+                           'grid_features':'Full native grid group names, excluding the _yXX_xXX suffix. Empty automatically selects all complete heatmap groups. Use historically wrapped grids of equal resolution.',
+                           'numeric_features':'Optional additional prepared numeric columns. Scaling is fitted only on training rows.'}
+                f['help'] = details.get(name, f['help'])
+                if name in ('task', 'activation'):
+                    f.update(kind='select', choices=['classification','regression'] if name == 'task' else ['relu','gelu','tanh'])
+                if key == 'neural.Reconstruction' and name == 'loss':
+                    f.update(kind='select', choices=['mse','kl'])
+                if name in ('channels', 'grid_features', 'numeric_features'):
+                    f.update(kind='list', item={'kind':'number','step':1,'min':1} if name == 'channels' else {'kind':'text'})
             if name == 'control':
                 f.update(kind='component', components=['training.TrainingControl'])
             if name == 'catalog':
@@ -63,8 +94,8 @@ def decorate(components, stages):
                 f.update(kind='select', choices=['overall','per_fold'], default='per_fold')
                 f['help'] = 'Per fold selects one fitted model; overall keeps a separate panel or curve for each fold. Encoder coordinates are never averaged.'
             if name == 'metrics' and key.endswith('GATLossReporter'):
-                f.update(kind='multiselect', choices=['train_loss','validation_loss'],
-                         help='Select stored cross-entropy loss curves. Validation is available only when a held-out training tail was configured.')
+                f.update(kind='multiselect', choices=['train_loss','validation_loss','train_reconstruction_loss','validation_reconstruction_loss','train_objective','validation_objective'],
+                         help='Select stored prediction loss, optional reconstruction loss (MSE or KL), or combined objectives. Validation requires a held-out training tail; reconstruction curves require an enabled decoder.')
             if name == 'pooling':
                 f.update(choices=['occurrences','first','last'])
             if key.endswith('EmbeddingReporter') and name in ('perplexity','learning_rate','max_iter','init','metric','early_exaggeration','random_state'):
@@ -77,8 +108,8 @@ def decorate(components, stages):
     for stage in stages.values():
         for f in stage.get('fields', []):
             if f['name'] in ('serializer','model_serializer') and 'components' in f:
-                f['components'] = list(dict.fromkeys([*f['components'], 'graphs.TemporalGraphSerializer']))
+                f['components'] = list(dict.fromkeys([*f['components'], 'graphs.TemporalGraphSerializer', 'neural.HeatmapCNNSerializer']))
     export = components.get('experiments.ArtifactExport', {})
     for f in export.get('fields', []):
         if f['name'] == 'serializer':
-            f['components'] = list(dict.fromkeys([*f.get('components', []), 'graphs.TemporalGraphSerializer']))
+            f['components'] = list(dict.fromkeys([*f.get('components', []), 'graphs.TemporalGraphSerializer', 'neural.HeatmapCNNSerializer']))

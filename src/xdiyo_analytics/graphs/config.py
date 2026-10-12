@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from zoneinfo import ZoneInfo
 import math
 import pandas as pd
+from .spatial import GraphHeatmaps
 
 CLASS_ORDER = (1, 0, -1)  # Native Outcome(perspective="home"): win, draw, loss.
 ENTRY_ORDER = ("retained", "promoted", "relegated", "unknown")
@@ -26,8 +27,11 @@ class TemporalGraphConfig:
     learning_rate: float = .001
     weight_decay: float = .001
     prior_penalty: float = .001
+    heatmaps: GraphHeatmaps | None = None
 
     def __post_init__(self):
+        if self.heatmaps is not None and not isinstance(self.heatmaps, GraphHeatmaps):
+            raise TypeError('heatmaps must be GraphHeatmaps or None.')
         ZoneInfo(self.timezone)
         if self.forecast_policy not in ("by_round", "one_day_ahead"):
             raise ValueError("forecast_policy must be by_round (By Round) or one_day_ahead (One Day Ahead).")

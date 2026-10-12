@@ -102,6 +102,9 @@ def save_model(model, path, *, fold_id=None, serializer=None):
         adapter = adapter.estimator
     if serializer is None:
         from ..graphs import TemporalGraphAdapter, TemporalGraphSerializer
+        from ..neural import HeatmapCNNAdapter, HeatmapCNNSerializer
+        if isinstance(adapter, HeatmapCNNAdapter):
+            serializer = HeatmapCNNSerializer()
         if isinstance(adapter, TemporalGraphAdapter):
             serializer = TemporalGraphSerializer(embed_event_store=True)
     if serializer is None:
@@ -157,6 +160,9 @@ def load_model(path, *, serializer=None):
         raise ValueError("Unsupported model artifact schema.")
     if serializer is None:
         from ..graphs import TemporalGraphSerializer
+        from ..neural import HeatmapCNNSerializer
+        if manifest.get('format_id') == HeatmapCNNSerializer.format_id:
+            serializer = HeatmapCNNSerializer()
         if manifest.get('format_id') == TemporalGraphSerializer.format_id:
             serializer = TemporalGraphSerializer()
     if serializer is None:

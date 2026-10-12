@@ -19,6 +19,19 @@ def reference_module(name):
     module.__package__ = "xdiyo_analytics.graphs"
     path = Path(__file__).parent / "reference" / f"gat_{name}_f8962af.txt"
     exec(compile(path.read_text(), str(path), "exec"), module.__dict__)
+    # The frozen adapter predates the optional CNN field. Preserve its original
+    # serialized config when testing old model fingerprints with today's config
+    # instance; otherwise asdict would inject a field absent at f8962af.
+    if name == 'adapter':
+        original_asdict = module.asdict
+        def legacy_asdict(value):
+            result = original_asdict(value)
+            from xdiyo_analytics.graphs import TemporalGraphConfig
+            if isinstance(value, TemporalGraphConfig):
+                assert value.heatmaps is None
+                result.pop('heatmaps', None)
+            return result
+        module.asdict = legacy_asdict
     return module
 
 

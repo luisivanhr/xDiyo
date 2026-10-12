@@ -236,15 +236,26 @@ class _Backend:
     def _group_loss(self, group, targets, weights, backward):
         torch = _torch()
         positions, data, home, away, fixture = group
-        logits = self.model(data, home, away, fixture)
+        reconstruction = self.config.heatmaps.encoder.reconstruction if self.config.heatmaps is not None else None
+        if reconstruction is None:
+            logits = self.model(data, home, away, fixture)
+        else:
+            logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True)
         ix = torch.as_tensor(positions, device=self.device)
         loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * weights[ix]).sum()/weights.sum()
+        if reconstruction is not None:
+            part = auxiliary * weights[ix].sum()/weights.sum()
+            self._reconstruction_loss += float(part.detach())
+            objective = loss + reconstruction.weight * part
+        else:
+            objective = loss
         if backward:
-            loss.backward()
+            objective.backward()
         return float(loss.detach())
 
     @release_temporary_frames
     def _loss(self, groups, targets, weights, backward=False):
+        self._reconstruction_loss = 0.
         value = 0.
         for i in range(len(groups)):
             value += self._group_loss(groups[i], targets, weights, backward)
@@ -259,10 +270,16 @@ class _Backend:
         penalty.backward()
         self.optimizer.step()
         values = {"train_loss": train_loss}
+        if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
+            values['train_reconstruction_loss'] = self._reconstruction_loss
+            values['train_objective'] = train_loss + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss + float(penalty.detach())
         if self.validation_groups is not None:
             self.model.eval()
             with torch.no_grad():
                 values["validation_loss"] = self._loss(self.validation_groups, self.validation_targets, self.validation_weights)
+                if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
+                    values['validation_reconstruction_loss'] = self._reconstruction_loss
+                    values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
         self.refresh_version()
         return values
 
@@ -274,8 +291,15 @@ class _Backend:
         digest.update(json.dumps(self.preprocessor.state(), sort_keys=True).encode())
         # A representation version includes decay, policy and architectural
         # settings as well as learned coordinates and preprocessing.
+        config_state = asdict(self.config)
+        if config_state['heatmaps'] is None:
+            del config_state['heatmaps']  # Preserve existing scalar artifact fingerprints.
+        else:
+            reconstruction = config_state['heatmaps']['encoder']['reconstruction']
+            if reconstruction is not None and reconstruction.get('loss') == 'mse':
+                del reconstruction['loss']  # MSE was the original auxiliary default.
         self.model_version = sha256((digest.hexdigest() + json.dumps(
-            asdict(self.config), sort_keys=True)).encode()).hexdigest()
+            config_state, sort_keys=True)).encode()).hexdigest()
 
     def snapshot(self):
         return deepcopy(self.model.state_dict())

@@ -78,13 +78,17 @@ class GraphPreprocessor:
         import torch
         def tensor(a, dtype=torch.float32):
             return torch.as_tensor(a, dtype=dtype, device=device)
-        return dict(x=tensor(self.edges(snapshot)),
+        result = dict(x=tensor(self.edges(snapshot)),
                     receiver=tensor(snapshot.receiver, torch.long),
                     sender=tensor(snapshot.sender, torch.long),
                     log_weight=tensor(snapshot.log_weight, torch.float64),
                     gate=tensor(snapshot.gate),
                     league=tensor([self.leagues.get(x, 0) for x in snapshot.league], torch.long),
                     entry=tensor([ENTRY_ORDER.index(x) for x in snapshot.entry], torch.long))
+        if self.config.heatmaps is not None:
+            from .spatial import tensors
+            result['maps'], result['map_available'] = tensors(snapshot.edges, self.config.heatmaps, device)
+        return result
 
     def state(self):
         return dict(leagues=list(self.leagues.items()), edge_scale=self.edge_scale.state(),

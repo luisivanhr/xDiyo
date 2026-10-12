@@ -126,6 +126,13 @@ def catalog_for_ui():
     catalog.register('graphs.TemporalGraphModel', TemporalGraphModel, category='model', title='Temporal team GAT')
     catalog.register('graphs.TemporalGraphConfig', TemporalGraphConfig, category='graph_config')
     catalog.register('graphs.TemporalGraphSerializer', TemporalGraphSerializer, category='training')
+    from ..graphs import GraphHeatmaps
+    from ..neural import HeatmapCNNModel, HeatmapCNNConfig, Reconstruction, HeatmapCNNSerializer
+    catalog.register('graphs.GraphHeatmaps', GraphHeatmaps, category='graph_config')
+    catalog.register('neural.HeatmapCNNModel', HeatmapCNNModel, category='model', title='Heatmap CNN')
+    catalog.register('neural.HeatmapCNNConfig', HeatmapCNNConfig, category='neural_config')
+    catalog.register('neural.Reconstruction', Reconstruction, category='neural_config')
+    catalog.register('neural.HeatmapCNNSerializer', HeatmapCNNSerializer, category='training')
     catalog.register('features.TransitionContext', TransitionContext, category='input')
     catalog.register('features.TeamSeasons', build_team_seasons, category='input')
     catalog.register('training.JoblibSerializer', JoblibSerializer, category='training')
@@ -190,6 +197,10 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     graph_spec = None
     if recipe['model'].get('component') == 'graphs.TemporalGraphModel':
         graph_spec = catalog.build(recipe['model'])
+        if graph_spec.config.heatmaps is not None and data_options.get('tables') is not None:
+            tables = data_options['tables']
+            tables = [tables] if isinstance(tables, str) else list(tables)
+            data_options['tables'] = list(dict.fromkeys([*tables, 'heatmap_points']))
         if graph_spec.memberships_path is None and data_options.get('tables') is not None:
             tables = data_options['tables']
             tables = [tables] if isinstance(tables, str) else list(tables)
@@ -244,7 +255,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     graph_store = None
     if graph_spec is not None:
         from ..graphs.integration import history_cutoffs
-        graph_store = graph_spec.event_store(history, data.tables.get('team_seasons'))
+        graph_store = graph_spec.event_store(history, data.tables.get('team_seasons'), heatmaps=heatmaps)
         options['cutoffs'] = history_cutoffs(graph_store, graph_spec.config, history)
         context['graph_store'] = graph_store
     labels = create_labels(history, catalog.build(recipe['labels']))
@@ -355,6 +366,11 @@ class ModelFactory:
         from ..ratings import BayesianScoreAdapter
         from ..training import EstimatorAdapter, TargetTransformAdapter
         estimator = self.catalog.build(self.recipe['model'])
+        from ..neural import HeatmapCNNModel
+        if isinstance(estimator, HeatmapCNNModel):
+            if self.recipe.get('preprocessors') or self.recipe.get('adapter') is not None or self.recipe.get('target_transformer') is not None:
+                raise ValueError('Heatmap CNN owns whole-map missingness and numeric scaling; disable top-level preprocessing, adapter and target scaling.')
+            return estimator.build()
         from ..graphs import TemporalGraphModel
         if isinstance(estimator, TemporalGraphModel):
             if self.graph_store is None:

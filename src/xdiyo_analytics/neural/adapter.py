@@ -1,0 +1,221 @@
+"""Native iterative CNN training, independent of graph construction."""
+from copy import deepcopy
+import numpy as np
+import pandas as pd
+
+from .inputs import neural_maps
+from ..features.spatial import heatmap_columns
+from ..training.control import run_iterations
+
+
+class HeatmapCNNAdapter:
+    supports_sample_weight = True
+
+    def __init__(self, spec, *, device='cpu', inner_threads=1):
+        self.spec, self.device, self.inner_threads = spec, device, inner_threads
+
+    def configure_device(self, requested):
+        from ..graphs.adapter import TemporalGraphAdapter
+        return TemporalGraphAdapter.configure_device(self, requested)
+
+    def configure_threads(self, count):
+        from ..graphs.adapter import TemporalGraphAdapter
+        return TemporalGraphAdapter.configure_threads(self, count)
+
+    def fit(self, context):
+        self.fit_controlled(context, self.spec.control)
+
+    def fit_controlled(self, context, control):
+        from ..graphs.adapter import torch_threads
+        self.configure_device(self.device)
+        self.configure_threads(self.inner_threads)
+        with torch_threads(self.inner_threads):
+            self.backend_, self.training_history_, self.training_summary_ = run_iterations(
+                lambda seed: CNNBackend(self.spec, seed, self.device), context, control or self.spec.control)
+
+    def predict(self, context):
+        from ..graphs.adapter import torch_threads
+        with torch_threads(self.inner_threads):
+            return self.backend_.predict(context)
+
+    def encode(self, context):
+        """Read-only frozen representations in original fixture-row order."""
+        from ..graphs.adapter import torch_threads
+        with torch_threads(self.inner_threads):
+            return self.backend_.predict(context, embeddings=True)
+
+
+class CNNInputs:
+    def __init__(self, spec):
+        self.spec = spec
+
+    def fit(self, X):
+        from ..graphs.preprocessing import MaskedScale
+        if not X.index.is_unique or not X.columns.is_unique:
+            raise ValueError('CNN inputs require unique row and feature identities.')
+        groups = heatmap_columns(X.columns)
+        self.group_names = list(self.spec.grid_features or groups)
+        if not self.group_names or not set(self.group_names) <= set(groups):
+            raise ValueError('Select native complete heatmap grid groups for the standalone CNN.')
+        selected = [groups[name] for name in self.group_names]
+        if len({g['size'] for g in selected}) != 1:
+            raise ValueError('CNN input maps must share one grid resolution.')
+        self.size = selected[0]['size']
+        self.columns = []
+        for g in selected:
+            if set(g['cells']) != {(y, x) for y in range(self.size) for x in range(self.size)}:
+                raise ValueError('CNN input must contain every grid cell exactly once.')
+            self.columns.extend(g['cells'][y, x] for y in range(self.size) for x in range(self.size))
+        if set(self.columns) & set(self.spec.numeric_features):
+            raise ValueError('Grid cells cannot also be selected as numeric features.')
+        self.numeric_scale = MaskedScale().fit(X[list(self.spec.numeric_features)].to_numpy(dtype=float, na_value=np.nan))
+        self.transform(X)
+        return self
+
+    def transform(self, X):
+        if not X.index.is_unique or not X.columns.is_unique:
+            raise ValueError('CNN inputs require unique row and feature identities.')
+        if not set([*self.columns, *self.spec.numeric_features]) <= set(X):
+            raise ValueError('CNN prediction inputs are missing fitted feature columns.')
+        maps, masks = neural_maps(X[self.columns].to_numpy(dtype=float, na_value=np.nan).reshape(
+            len(X), len(self.group_names), self.size, self.size))
+        numeric = self.numeric_scale.transform(X[list(self.spec.numeric_features)].to_numpy(dtype=float, na_value=np.nan)).astype(np.float32)
+        if not np.isfinite(numeric).all():
+            raise ValueError('Scaled numeric features exceed the finite neural tensor range.')
+        return maps, masks, numeric
+
+    def state(self):
+        return dict(group_names=self.group_names, size=self.size, columns=self.columns, numeric_scale=self.numeric_scale.state())
+
+    @classmethod
+    def from_state(cls, spec, state):
+        from ..graphs.preprocessing import MaskedScale
+        obj = cls(spec)
+        obj.group_names, obj.size, obj.columns = state['group_names'], state['size'], state['columns']
+        obj.numeric_scale = MaskedScale.from_state(state['numeric_scale'])
+        return obj
+
+
+def make_network(spec, inputs, outputs):
+    from .network import HeatmapNetwork
+    return HeatmapNetwork(spec, len(inputs.group_names), inputs.size, outputs)
+
+
+class CNNBackend:
+    supports_sample_weight = True
+
+    def __init__(self, spec, seed, device):
+        self.spec, self.seed, self.device = spec, seed, device
+
+    def initialize(self, context):
+        import torch
+        if not len(context.X) or not len(context.y.columns) or not context.y.index.equals(context.X.index) or context.y.isna().any().any():
+            raise ValueError('CNN fitting needs nonempty aligned inputs and observed targets.')
+        self.target_names = list(context.y.columns)
+        self.classes = None
+        if self.spec.task == 'classification':
+            if len(self.target_names) != 1:
+                raise ValueError('CNN classification requires one target.')
+            self.classes = sorted(context.y.iloc[:, 0].unique().tolist())
+            if len(self.classes) < 2:
+                raise ValueError('CNN classification requires at least two fitting classes.')
+        self.inputs = CNNInputs(self.spec).fit(context.X)
+        self.train = self.population(context)
+        self.validation = self.population(context.validation) if context.validation is not None else None
+        with torch.random.fork_rng(devices=[]):
+            torch.random.default_generator.manual_seed(self.seed)
+            self.model = make_network(self.spec, self.inputs, len(self.classes) if self.classes is not None else len(self.target_names)).to(self.device)
+        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.spec.learning_rate, weight_decay=self.spec.weight_decay)
+
+    def population(self, context):
+        if not context.X.index.equals(context.y.index) or list(context.y.columns) != self.target_names:
+            raise ValueError('CNN target columns and row identities must match fitting.')
+        if self.classes is not None and not context.y.iloc[:, 0].isin(self.classes).all():
+            raise ValueError('CNN validation contains classes absent from the fitting population.')
+        y = context.y.to_numpy(dtype=float, copy=True) if self.classes is None else np.array([
+            self.classes.index(v) for v in context.y.iloc[:, 0]])
+        if not np.isfinite(y).all():
+            raise ValueError('CNN targets must be finite.')
+        w = np.ones(len(y))
+        if context.sample_weight is not None:
+            if hasattr(context.sample_weight, 'index') and not context.sample_weight.index.equals(context.X.index):
+                raise ValueError('Sample weights must align with CNN rows.')
+            w = np.asarray(context.sample_weight, dtype=float).reshape(-1)
+        if len(w) != len(y) or not np.isfinite(w).all() or (w < 0).any() or w.sum() <= 0:
+            raise ValueError('CNN weights must be finite, nonnegative and have positive total.')
+        if not np.isfinite(w.sum()) or w.sum() > np.finfo(np.float32).max or (self.classes is None and (np.abs(y) > np.finfo(np.float32).max).any()):
+            raise ValueError('CNN targets and weight totals must fit the finite neural tensor range.')
+        return (*self.inputs.transform(context.X), y, w.astype(np.float32))
+
+    def loss(self, population, backward=False):
+        import torch
+        maps, masks, numeric, y, weights = population
+        primary, reconstruction = 0., 0.
+        observed = masks.any(axis=1)
+        reconstruction_denominator = max(float(weights[observed].sum()), 1e-30)
+        for start in range(0, len(y), self.spec.batch_size):
+            sl = slice(start, start+self.spec.batch_size)
+            m, a, n = [torch.as_tensor(v[sl], device=self.device) for v in (maps, masks, numeric)]
+            target = torch.as_tensor(y[sl], dtype=torch.long if self.classes is not None else torch.float32, device=self.device)
+            w = torch.as_tensor(weights[sl], device=self.device)
+            logits, z = self.model(m, a, n)
+            error = (logits-target).square().mean(dim=1) if self.classes is None else torch.nn.functional.cross_entropy(logits, target, reduction='none')
+            loss = (error*w).sum()/float(weights.sum())
+            primary += float(loss.detach())
+            if self.spec.encoder.reconstruction is not None:
+                aux = (self.model.encoder.reconstruction_errors(z, m, a)*w).sum()/reconstruction_denominator
+                reconstruction += float(aux.detach())
+                loss = loss + self.spec.encoder.reconstruction.weight*aux
+            if backward:
+                loss.backward()
+        return primary, reconstruction
+
+    def step(self):
+        import torch
+        self.model.train()
+        self.optimizer.zero_grad(set_to_none=True)
+        loss, aux = self.loss(self.train, True)
+        self.optimizer.step()
+        values = {'train_loss': loss}
+        if self.spec.encoder.reconstruction is not None:
+            values.update(train_reconstruction_loss=aux, train_objective=loss+self.spec.encoder.reconstruction.weight*aux)
+        if self.validation is not None:
+            self.model.eval()
+            with torch.no_grad():
+                loss, aux = self.loss(self.validation)
+            values['validation_loss'] = loss
+            if self.spec.encoder.reconstruction is not None:
+                values.update(validation_reconstruction_loss=aux, validation_objective=loss+self.spec.encoder.reconstruction.weight*aux)
+        return values
+
+    def predict(self, context, embeddings=False):
+        import torch
+        from ..graphs.adapter import inference_mode
+        maps, masks, numeric = self.inputs.transform(context.X)
+        width = self.spec.encoder.embedding_dim if embeddings else (len(self.classes) if self.classes is not None else len(self.target_names))
+        output = np.empty((len(maps), width))
+        with inference_mode(self.model):
+            for start in range(0, len(maps), self.spec.batch_size):
+                sl = slice(start, start+self.spec.batch_size)
+                logits, z = self.model(*[torch.as_tensor(v[sl], device=self.device) for v in (maps, masks, numeric)])
+                output[sl] = (z if embeddings else (logits.softmax(-1) if self.classes is not None else logits)).cpu().numpy()
+        if embeddings:
+            return pd.DataFrame(output, index=context.X.index, columns=[f'z_{i}' for i in range(width)])
+        if self.classes is None:
+            return {'predict': pd.DataFrame(output, index=context.X.index, columns=self.target_names)}
+        columns = pd.MultiIndex.from_product([self.target_names, self.classes], names=['target', 'class'])
+        return {'predict_proba': pd.DataFrame(output, index=context.X.index, columns=columns),
+                'predict': pd.DataFrame({self.target_names[0]: [self.classes[i] for i in output.argmax(1)]}, index=context.X.index)}
+
+    def snapshot(self):
+        return deepcopy(self.model.state_dict())
+
+    def restore(self, state):
+        self.model.load_state_dict(state)
+
+    def get_learning_rate(self):
+        return self.optimizer.param_groups[0]['lr']
+
+    def set_learning_rate(self, rate):
+        for group in self.optimizer.param_groups:
+            group['lr'] = rate
