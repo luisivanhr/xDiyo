@@ -1,0 +1,2422 @@
+{
+  "browser": "153.0.8010.12",
+  "checked": 483,
+  "failures": [],
+  "results": [
+    {
+      "team": "1",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "2",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "3",
+      "decoded": true,
+      "visible_pixels": 7008
+    },
+    {
+      "team": "4",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "5",
+      "decoded": true,
+      "visible_pixels": 4755
+    },
+    {
+      "team": "6",
+      "decoded": true,
+      "visible_pixels": 8137
+    },
+    {
+      "team": "7",
+      "decoded": true,
+      "visible_pixels": 4804
+    },
+    {
+      "team": "8",
+      "decoded": true,
+      "visible_pixels": 8073
+    },
+    {
+      "team": "9",
+      "decoded": true,
+      "visible_pixels": 6586
+    },
+    {
+      "team": "11",
+      "decoded": true,
+      "visible_pixels": 7566
+    },
+    {
+      "team": "12",
+      "decoded": true,
+      "visible_pixels": 3736
+    },
+    {
+      "team": "13",
+      "decoded": true,
+      "visible_pixels": 7241
+    },
+    {
+      "team": "14",
+      "decoded": true,
+      "visible_pixels": 3890
+    },
+    {
+      "team": "15",
+      "decoded": true,
+      "visible_pixels": 7331
+    },
+    {
+      "team": "17",
+      "decoded": true,
+      "visible_pixels": 7384
+    },
+    {
+      "team": "21",
+      "decoded": true,
+      "visible_pixels": 6322
+    },
+    {
+      "team": "23",
+      "decoded": true,
+      "visible_pixels": 7338
+    },
+    {
+      "team": "24",
+      "decoded": true,
+      "visible_pixels": 6522
+    },
+    {
+      "team": "25",
+      "decoded": true,
+      "visible_pixels": 7395
+    },
+    {
+      "team": "27",
+      "decoded": true,
+      "visible_pixels": 2041
+    },
+    {
+      "team": "28",
+      "decoded": true,
+      "visible_pixels": 7381
+    },
+    {
+      "team": "29",
+      "decoded": true,
+      "visible_pixels": 8094
+    },
+    {
+      "team": "30",
+      "decoded": true,
+      "visible_pixels": 7380
+    },
+    {
+      "team": "31",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "32",
+      "decoded": true,
+      "visible_pixels": 7371
+    },
+    {
+      "team": "33",
+      "decoded": true,
+      "visible_pixels": 2925
+    },
+    {
+      "team": "34",
+      "decoded": true,
+      "visible_pixels": 6977
+    },
+    {
+      "team": "35",
+      "decoded": true,
+      "visible_pixels": 6035
+    },
+    {
+      "team": "36",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "37",
+      "decoded": true,
+      "visible_pixels": 7794
+    },
+    {
+      "team": "38",
+      "decoded": true,
+      "visible_pixels": 7394
+    },
+    {
+      "team": "39",
+      "decoded": true,
+      "visible_pixels": 5034
+    },
+    {
+      "team": "40",
+      "decoded": true,
+      "visible_pixels": 8286
+    },
+    {
+      "team": "41",
+      "decoded": true,
+      "visible_pixels": 5264
+    },
+    {
+      "team": "42",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "43",
+      "decoded": true,
+      "visible_pixels": 7891
+    },
+    {
+      "team": "44",
+      "decoded": true,
+      "visible_pixels": 3653
+    },
+    {
+      "team": "45",
+      "decoded": true,
+      "visible_pixels": 5879
+    },
+    {
+      "team": "46",
+      "decoded": true,
+      "visible_pixels": 8055
+    },
+    {
+      "team": "47",
+      "decoded": true,
+      "visible_pixels": 7387
+    },
+    {
+      "team": "48",
+      "decoded": true,
+      "visible_pixels": 6590
+    },
+    {
+      "team": "49",
+      "decoded": true,
+      "visible_pixels": 7389
+    },
+    {
+      "team": "50",
+      "decoded": true,
+      "visible_pixels": 7399
+    },
+    {
+      "team": "54",
+      "decoded": true,
+      "visible_pixels": 4978
+    },
+    {
+      "team": "58",
+      "decoded": true,
+      "visible_pixels": 7230
+    },
+    {
+      "team": "59",
+      "decoded": true,
+      "visible_pixels": 8389
+    },
+    {
+      "team": "60",
+      "decoded": true,
+      "visible_pixels": 7352
+    },
+    {
+      "team": "61",
+      "decoded": true,
+      "visible_pixels": 6238
+    },
+    {
+      "team": "62",
+      "decoded": true,
+      "visible_pixels": 7400
+    },
+    {
+      "team": "64",
+      "decoded": true,
+      "visible_pixels": 7463
+    },
+    {
+      "team": "67",
+      "decoded": true,
+      "visible_pixels": 3622
+    },
+    {
+      "team": "71",
+      "decoded": true,
+      "visible_pixels": 6540
+    },
+    {
+      "team": "72",
+      "decoded": true,
+      "visible_pixels": 3759
+    },
+    {
+      "team": "74",
+      "decoded": true,
+      "visible_pixels": 2603
+    },
+    {
+      "team": "84",
+      "decoded": true,
+      "visible_pixels": 4647
+    },
+    {
+      "team": "85",
+      "decoded": true,
+      "visible_pixels": 5328
+    },
+    {
+      "team": "92",
+      "decoded": true,
+      "visible_pixels": 2772
+    },
+    {
+      "team": "95",
+      "decoded": true,
+      "visible_pixels": 7659
+    },
+    {
+      "team": "96",
+      "decoded": true,
+      "visible_pixels": 7495
+    },
+    {
+      "team": "131",
+      "decoded": true,
+      "visible_pixels": 7514
+    },
+    {
+      "team": "134",
+      "decoded": true,
+      "visible_pixels": 7379
+    },
+    {
+      "team": "263",
+      "decoded": true,
+      "visible_pixels": 7754
+    },
+    {
+      "team": "1641",
+      "decoded": true,
+      "visible_pixels": 7382
+    },
+    {
+      "team": "1642",
+      "decoded": true,
+      "visible_pixels": 7353
+    },
+    {
+      "team": "1643",
+      "decoded": true,
+      "visible_pixels": 6509
+    },
+    {
+      "team": "1644",
+      "decoded": true,
+      "visible_pixels": 7372
+    },
+    {
+      "team": "1645",
+      "decoded": true,
+      "visible_pixels": 7975
+    },
+    {
+      "team": "1646",
+      "decoded": true,
+      "visible_pixels": 8303
+    },
+    {
+      "team": "1647",
+      "decoded": true,
+      "visible_pixels": 8149
+    },
+    {
+      "team": "1648",
+      "decoded": true,
+      "visible_pixels": 7681
+    },
+    {
+      "team": "1649",
+      "decoded": true,
+      "visible_pixels": 8188
+    },
+    {
+      "team": "1650",
+      "decoded": true,
+      "visible_pixels": 8513
+    },
+    {
+      "team": "1651",
+      "decoded": true,
+      "visible_pixels": 3427
+    },
+    {
+      "team": "1652",
+      "decoded": true,
+      "visible_pixels": 7330
+    },
+    {
+      "team": "1653",
+      "decoded": true,
+      "visible_pixels": 6160
+    },
+    {
+      "team": "1654",
+      "decoded": true,
+      "visible_pixels": 6937
+    },
+    {
+      "team": "1655",
+      "decoded": true,
+      "visible_pixels": 7154
+    },
+    {
+      "team": "1656",
+      "decoded": true,
+      "visible_pixels": 7484
+    },
+    {
+      "team": "1657",
+      "decoded": true,
+      "visible_pixels": 7583
+    },
+    {
+      "team": "1658",
+      "decoded": true,
+      "visible_pixels": 7175
+    },
+    {
+      "team": "1659",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "1660",
+      "decoded": true,
+      "visible_pixels": 6692
+    },
+    {
+      "team": "1661",
+      "decoded": true,
+      "visible_pixels": 6670
+    },
+    {
+      "team": "1662",
+      "decoded": true,
+      "visible_pixels": 6945
+    },
+    {
+      "team": "1663",
+      "decoded": true,
+      "visible_pixels": 3282
+    },
+    {
+      "team": "1664",
+      "decoded": true,
+      "visible_pixels": 7986
+    },
+    {
+      "team": "1665",
+      "decoded": true,
+      "visible_pixels": 7338
+    },
+    {
+      "team": "1666",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "1667",
+      "decoded": true,
+      "visible_pixels": 6896
+    },
+    {
+      "team": "1671",
+      "decoded": true,
+      "visible_pixels": 6435
+    },
+    {
+      "team": "1672",
+      "decoded": true,
+      "visible_pixels": 6872
+    },
+    {
+      "team": "1673",
+      "decoded": true,
+      "visible_pixels": 7975
+    },
+    {
+      "team": "1674",
+      "decoded": true,
+      "visible_pixels": 7530
+    },
+    {
+      "team": "1675",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "1676",
+      "decoded": true,
+      "visible_pixels": 7867
+    },
+    {
+      "team": "1677",
+      "decoded": true,
+      "visible_pixels": 6953
+    },
+    {
+      "team": "1678",
+      "decoded": true,
+      "visible_pixels": 6152
+    },
+    {
+      "team": "1680",
+      "decoded": true,
+      "visible_pixels": 6792
+    },
+    {
+      "team": "1681",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "1682",
+      "decoded": true,
+      "visible_pixels": 3287
+    },
+    {
+      "team": "1684",
+      "decoded": true,
+      "visible_pixels": 5420
+    },
+    {
+      "team": "1685",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "1686",
+      "decoded": true,
+      "visible_pixels": 6975
+    },
+    {
+      "team": "1707",
+      "decoded": true,
+      "visible_pixels": 7336
+    },
+    {
+      "team": "1711",
+      "decoded": true,
+      "visible_pixels": 7340
+    },
+    {
+      "team": "1715",
+      "decoded": true,
+      "visible_pixels": 6616
+    },
+    {
+      "team": "1727",
+      "decoded": true,
+      "visible_pixels": 6468
+    },
+    {
+      "team": "1931",
+      "decoded": true,
+      "visible_pixels": 7229
+    },
+    {
+      "team": "1932",
+      "decoded": true,
+      "visible_pixels": 5784
+    },
+    {
+      "team": "1933",
+      "decoded": true,
+      "visible_pixels": 6898
+    },
+    {
+      "team": "1934",
+      "decoded": true,
+      "visible_pixels": 9216
+    },
+    {
+      "team": "1936",
+      "decoded": true,
+      "visible_pixels": 6107
+    },
+    {
+      "team": "1938",
+      "decoded": true,
+      "visible_pixels": 6522
+    },
+    {
+      "team": "1939",
+      "decoded": true,
+      "visible_pixels": 7379
+    },
+    {
+      "team": "1940",
+      "decoded": true,
+      "visible_pixels": 9216
+    },
+    {
+      "team": "1941",
+      "decoded": true,
+      "visible_pixels": 6483
+    },
+    {
+      "team": "1942",
+      "decoded": true,
+      "visible_pixels": 7371
+    },
+    {
+      "team": "1943",
+      "decoded": true,
+      "visible_pixels": 6235
+    },
+    {
+      "team": "1944",
+      "decoded": true,
+      "visible_pixels": 6021
+    },
+    {
+      "team": "1946",
+      "decoded": true,
+      "visible_pixels": 7379
+    },
+    {
+      "team": "1947",
+      "decoded": true,
+      "visible_pixels": 7025
+    },
+    {
+      "team": "1948",
+      "decoded": true,
+      "visible_pixels": 5236
+    },
+    {
+      "team": "1949",
+      "decoded": true,
+      "visible_pixels": 5259
+    },
+    {
+      "team": "1950",
+      "decoded": true,
+      "visible_pixels": 6876
+    },
+    {
+      "team": "1951",
+      "decoded": true,
+      "visible_pixels": 8591
+    },
+    {
+      "team": "1952",
+      "decoded": true,
+      "visible_pixels": 8591
+    },
+    {
+      "team": "1953",
+      "decoded": true,
+      "visible_pixels": 4289
+    },
+    {
+      "team": "2346",
+      "decoded": true,
+      "visible_pixels": 6906
+    },
+    {
+      "team": "2347",
+      "decoded": true,
+      "visible_pixels": 6390
+    },
+    {
+      "team": "2348",
+      "decoded": true,
+      "visible_pixels": 5597
+    },
+    {
+      "team": "2349",
+      "decoded": true,
+      "visible_pixels": 7366
+    },
+    {
+      "team": "2350",
+      "decoded": true,
+      "visible_pixels": 4736
+    },
+    {
+      "team": "2351",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2352",
+      "decoded": true,
+      "visible_pixels": 7379
+    },
+    {
+      "team": "2353",
+      "decoded": true,
+      "visible_pixels": 7270
+    },
+    {
+      "team": "2354",
+      "decoded": true,
+      "visible_pixels": 6080
+    },
+    {
+      "team": "2355",
+      "decoded": true,
+      "visible_pixels": 6224
+    },
+    {
+      "team": "2356",
+      "decoded": true,
+      "visible_pixels": 7269
+    },
+    {
+      "team": "2357",
+      "decoded": true,
+      "visible_pixels": 7471
+    },
+    {
+      "team": "2358",
+      "decoded": true,
+      "visible_pixels": 7383
+    },
+    {
+      "team": "2359",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2362",
+      "decoded": true,
+      "visible_pixels": 4322
+    },
+    {
+      "team": "2363",
+      "decoded": true,
+      "visible_pixels": 5056
+    },
+    {
+      "team": "2365",
+      "decoded": true,
+      "visible_pixels": 8250
+    },
+    {
+      "team": "2376",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2523",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "2524",
+      "decoded": true,
+      "visible_pixels": 7400
+    },
+    {
+      "team": "2526",
+      "decoded": true,
+      "visible_pixels": 7392
+    },
+    {
+      "team": "2527",
+      "decoded": true,
+      "visible_pixels": 4704
+    },
+    {
+      "team": "2528",
+      "decoded": true,
+      "visible_pixels": 5707
+    },
+    {
+      "team": "2530",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2532",
+      "decoded": true,
+      "visible_pixels": 7108
+    },
+    {
+      "team": "2533",
+      "decoded": true,
+      "visible_pixels": 7373
+    },
+    {
+      "team": "2534",
+      "decoded": true,
+      "visible_pixels": 4704
+    },
+    {
+      "team": "2536",
+      "decoded": true,
+      "visible_pixels": 9063
+    },
+    {
+      "team": "2538",
+      "decoded": true,
+      "visible_pixels": 6488
+    },
+    {
+      "team": "2540",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2541",
+      "decoded": true,
+      "visible_pixels": 6854
+    },
+    {
+      "team": "2542",
+      "decoded": true,
+      "visible_pixels": 6586
+    },
+    {
+      "team": "2543",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2546",
+      "decoded": true,
+      "visible_pixels": 5001
+    },
+    {
+      "team": "2547",
+      "decoded": true,
+      "visible_pixels": 6919
+    },
+    {
+      "team": "2550",
+      "decoded": true,
+      "visible_pixels": 6130
+    },
+    {
+      "team": "2551",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2552",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "2553",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "2556",
+      "decoded": true,
+      "visible_pixels": 7390
+    },
+    {
+      "team": "2557",
+      "decoded": true,
+      "visible_pixels": 7386
+    },
+    {
+      "team": "2561",
+      "decoded": true,
+      "visible_pixels": 5464
+    },
+    {
+      "team": "2566",
+      "decoded": true,
+      "visible_pixels": 6308
+    },
+    {
+      "team": "2567",
+      "decoded": true,
+      "visible_pixels": 8033
+    },
+    {
+      "team": "2569",
+      "decoded": true,
+      "visible_pixels": 6433
+    },
+    {
+      "team": "2573",
+      "decoded": true,
+      "visible_pixels": 7395
+    },
+    {
+      "team": "2576",
+      "decoded": true,
+      "visible_pixels": 7373
+    },
+    {
+      "team": "2580",
+      "decoded": true,
+      "visible_pixels": 8619
+    },
+    {
+      "team": "2581",
+      "decoded": true,
+      "visible_pixels": 7594
+    },
+    {
+      "team": "2588",
+      "decoded": true,
+      "visible_pixels": 7393
+    },
+    {
+      "team": "2590",
+      "decoded": true,
+      "visible_pixels": 7090
+    },
+    {
+      "team": "2591",
+      "decoded": true,
+      "visible_pixels": 8421
+    },
+    {
+      "team": "2595",
+      "decoded": true,
+      "visible_pixels": 6484
+    },
+    {
+      "team": "2597",
+      "decoded": true,
+      "visible_pixels": 7425
+    },
+    {
+      "team": "2598",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "2600",
+      "decoded": true,
+      "visible_pixels": 8522
+    },
+    {
+      "team": "2671",
+      "decoded": true,
+      "visible_pixels": 5087
+    },
+    {
+      "team": "2672",
+      "decoded": true,
+      "visible_pixels": 7395
+    },
+    {
+      "team": "2673",
+      "decoded": true,
+      "visible_pixels": 7391
+    },
+    {
+      "team": "2674",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "2675",
+      "decoded": true,
+      "visible_pixels": 7395
+    },
+    {
+      "team": "2676",
+      "decoded": true,
+      "visible_pixels": 9216
+    },
+    {
+      "team": "2677",
+      "decoded": true,
+      "visible_pixels": 7074
+    },
+    {
+      "team": "2681",
+      "decoded": true,
+      "visible_pixels": 7695
+    },
+    {
+      "team": "2685",
+      "decoded": true,
+      "visible_pixels": 7391
+    },
+    {
+      "team": "2686",
+      "decoded": true,
+      "visible_pixels": 7385
+    },
+    {
+      "team": "2687",
+      "decoded": true,
+      "visible_pixels": 4375
+    },
+    {
+      "team": "2688",
+      "decoded": true,
+      "visible_pixels": 6432
+    },
+    {
+      "team": "2689",
+      "decoded": true,
+      "visible_pixels": 6505
+    },
+    {
+      "team": "2690",
+      "decoded": true,
+      "visible_pixels": 7908
+    },
+    {
+      "team": "2691",
+      "decoded": true,
+      "visible_pixels": 7093
+    },
+    {
+      "team": "2692",
+      "decoded": true,
+      "visible_pixels": 7379
+    },
+    {
+      "team": "2693",
+      "decoded": true,
+      "visible_pixels": 4704
+    },
+    {
+      "team": "2694",
+      "decoded": true,
+      "visible_pixels": 7380
+    },
+    {
+      "team": "2695",
+      "decoded": true,
+      "visible_pixels": 5937
+    },
+    {
+      "team": "2696",
+      "decoded": true,
+      "visible_pixels": 7328
+    },
+    {
+      "team": "2697",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2698",
+      "decoded": true,
+      "visible_pixels": 6570
+    },
+    {
+      "team": "2699",
+      "decoded": true,
+      "visible_pixels": 3575
+    },
+    {
+      "team": "2700",
+      "decoded": true,
+      "visible_pixels": 4892
+    },
+    {
+      "team": "2701",
+      "decoded": true,
+      "visible_pixels": 3658
+    },
+    {
+      "team": "2702",
+      "decoded": true,
+      "visible_pixels": 6732
+    },
+    {
+      "team": "2704",
+      "decoded": true,
+      "visible_pixels": 5727
+    },
+    {
+      "team": "2705",
+      "decoded": true,
+      "visible_pixels": 7265
+    },
+    {
+      "team": "2706",
+      "decoded": true,
+      "visible_pixels": 3236
+    },
+    {
+      "team": "2707",
+      "decoded": true,
+      "visible_pixels": 7384
+    },
+    {
+      "team": "2708",
+      "decoded": true,
+      "visible_pixels": 7377
+    },
+    {
+      "team": "2710",
+      "decoded": true,
+      "visible_pixels": 7333
+    },
+    {
+      "team": "2711",
+      "decoded": true,
+      "visible_pixels": 7935
+    },
+    {
+      "team": "2712",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2713",
+      "decoded": true,
+      "visible_pixels": 8739
+    },
+    {
+      "team": "2714",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "2715",
+      "decoded": true,
+      "visible_pixels": 4129
+    },
+    {
+      "team": "2716",
+      "decoded": true,
+      "visible_pixels": 7001
+    },
+    {
+      "team": "2717",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2718",
+      "decoded": true,
+      "visible_pixels": 7387
+    },
+    {
+      "team": "2719",
+      "decoded": true,
+      "visible_pixels": 7093
+    },
+    {
+      "team": "2722",
+      "decoded": true,
+      "visible_pixels": 6921
+    },
+    {
+      "team": "2724",
+      "decoded": true,
+      "visible_pixels": 6605
+    },
+    {
+      "team": "2725",
+      "decoded": true,
+      "visible_pixels": 7945
+    },
+    {
+      "team": "2726",
+      "decoded": true,
+      "visible_pixels": 7396
+    },
+    {
+      "team": "2729",
+      "decoded": true,
+      "visible_pixels": 6704
+    },
+    {
+      "team": "2730",
+      "decoded": true,
+      "visible_pixels": 7370
+    },
+    {
+      "team": "2731",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "2732",
+      "decoded": true,
+      "visible_pixels": 6362
+    },
+    {
+      "team": "2735",
+      "decoded": true,
+      "visible_pixels": 7383
+    },
+    {
+      "team": "2737",
+      "decoded": true,
+      "visible_pixels": 7367
+    },
+    {
+      "team": "2741",
+      "decoded": true,
+      "visible_pixels": 6508
+    },
+    {
+      "team": "2742",
+      "decoded": true,
+      "visible_pixels": 7120
+    },
+    {
+      "team": "2743",
+      "decoded": true,
+      "visible_pixels": 7447
+    },
+    {
+      "team": "2745",
+      "decoded": true,
+      "visible_pixels": 6915
+    },
+    {
+      "team": "2759",
+      "decoded": true,
+      "visible_pixels": 5557
+    },
+    {
+      "team": "2760",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "2761",
+      "decoded": true,
+      "visible_pixels": 5727
+    },
+    {
+      "team": "2767",
+      "decoded": true,
+      "visible_pixels": 7242
+    },
+    {
+      "team": "2769",
+      "decoded": true,
+      "visible_pixels": 6427
+    },
+    {
+      "team": "2770",
+      "decoded": true,
+      "visible_pixels": 7288
+    },
+    {
+      "team": "2782",
+      "decoded": true,
+      "visible_pixels": 7258
+    },
+    {
+      "team": "2785",
+      "decoded": true,
+      "visible_pixels": 7848
+    },
+    {
+      "team": "2793",
+      "decoded": true,
+      "visible_pixels": 6989
+    },
+    {
+      "team": "2796",
+      "decoded": true,
+      "visible_pixels": 8770
+    },
+    {
+      "team": "2801",
+      "decoded": true,
+      "visible_pixels": 7190
+    },
+    {
+      "team": "2803",
+      "decoded": true,
+      "visible_pixels": 7385
+    },
+    {
+      "team": "2808",
+      "decoded": true,
+      "visible_pixels": 6788
+    },
+    {
+      "team": "2814",
+      "decoded": true,
+      "visible_pixels": 4284
+    },
+    {
+      "team": "2815",
+      "decoded": true,
+      "visible_pixels": 5838
+    },
+    {
+      "team": "2816",
+      "decoded": true,
+      "visible_pixels": 3866
+    },
+    {
+      "team": "2817",
+      "decoded": true,
+      "visible_pixels": 7001
+    },
+    {
+      "team": "2818",
+      "decoded": true,
+      "visible_pixels": 6702
+    },
+    {
+      "team": "2819",
+      "decoded": true,
+      "visible_pixels": 6620
+    },
+    {
+      "team": "2820",
+      "decoded": true,
+      "visible_pixels": 5257
+    },
+    {
+      "team": "2821",
+      "decoded": true,
+      "visible_pixels": 2765
+    },
+    {
+      "team": "2822",
+      "decoded": true,
+      "visible_pixels": 7342
+    },
+    {
+      "team": "2824",
+      "decoded": true,
+      "visible_pixels": 5521
+    },
+    {
+      "team": "2825",
+      "decoded": true,
+      "visible_pixels": 6901
+    },
+    {
+      "team": "2826",
+      "decoded": true,
+      "visible_pixels": 6145
+    },
+    {
+      "team": "2828",
+      "decoded": true,
+      "visible_pixels": 6849
+    },
+    {
+      "team": "2829",
+      "decoded": true,
+      "visible_pixels": 6549
+    },
+    {
+      "team": "2830",
+      "decoded": true,
+      "visible_pixels": 6515
+    },
+    {
+      "team": "2831",
+      "decoded": true,
+      "visible_pixels": 4769
+    },
+    {
+      "team": "2832",
+      "decoded": true,
+      "visible_pixels": 5896
+    },
+    {
+      "team": "2833",
+      "decoded": true,
+      "visible_pixels": 6340
+    },
+    {
+      "team": "2835",
+      "decoded": true,
+      "visible_pixels": 6325
+    },
+    {
+      "team": "2836",
+      "decoded": true,
+      "visible_pixels": 7912
+    },
+    {
+      "team": "2838",
+      "decoded": true,
+      "visible_pixels": 6233
+    },
+    {
+      "team": "2839",
+      "decoded": true,
+      "visible_pixels": 4724
+    },
+    {
+      "team": "2840",
+      "decoded": true,
+      "visible_pixels": 5663
+    },
+    {
+      "team": "2841",
+      "decoded": true,
+      "visible_pixels": 6132
+    },
+    {
+      "team": "2843",
+      "decoded": true,
+      "visible_pixels": 2942
+    },
+    {
+      "team": "2845",
+      "decoded": true,
+      "visible_pixels": 6767
+    },
+    {
+      "team": "2846",
+      "decoded": true,
+      "visible_pixels": 6217
+    },
+    {
+      "team": "2847",
+      "decoded": true,
+      "visible_pixels": 7186
+    },
+    {
+      "team": "2848",
+      "decoded": true,
+      "visible_pixels": 4656
+    },
+    {
+      "team": "2849",
+      "decoded": true,
+      "visible_pixels": 6551
+    },
+    {
+      "team": "2850",
+      "decoded": true,
+      "visible_pixels": 4805
+    },
+    {
+      "team": "2851",
+      "decoded": true,
+      "visible_pixels": 8218
+    },
+    {
+      "team": "2852",
+      "decoded": true,
+      "visible_pixels": 4622
+    },
+    {
+      "team": "2854",
+      "decoded": true,
+      "visible_pixels": 7059
+    },
+    {
+      "team": "2855",
+      "decoded": true,
+      "visible_pixels": 7536
+    },
+    {
+      "team": "2858",
+      "decoded": true,
+      "visible_pixels": 6240
+    },
+    {
+      "team": "2859",
+      "decoded": true,
+      "visible_pixels": 6805
+    },
+    {
+      "team": "2868",
+      "decoded": true,
+      "visible_pixels": 6558
+    },
+    {
+      "team": "2869",
+      "decoded": true,
+      "visible_pixels": 5623
+    },
+    {
+      "team": "2877",
+      "decoded": true,
+      "visible_pixels": 6711
+    },
+    {
+      "team": "2885",
+      "decoded": true,
+      "visible_pixels": 7315
+    },
+    {
+      "team": "2887",
+      "decoded": true,
+      "visible_pixels": 4709
+    },
+    {
+      "team": "2888",
+      "decoded": true,
+      "visible_pixels": 6181
+    },
+    {
+      "team": "2889",
+      "decoded": true,
+      "visible_pixels": 7308
+    },
+    {
+      "team": "2890",
+      "decoded": true,
+      "visible_pixels": 7754
+    },
+    {
+      "team": "2893",
+      "decoded": true,
+      "visible_pixels": 8479
+    },
+    {
+      "team": "2895",
+      "decoded": true,
+      "visible_pixels": 7821
+    },
+    {
+      "team": "2898",
+      "decoded": true,
+      "visible_pixels": 7516
+    },
+    {
+      "team": "2900",
+      "decoded": true,
+      "visible_pixels": 5094
+    },
+    {
+      "team": "2901",
+      "decoded": true,
+      "visible_pixels": 5151
+    },
+    {
+      "team": "2903",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "2918",
+      "decoded": true,
+      "visible_pixels": 6070
+    },
+    {
+      "team": "2926",
+      "decoded": true,
+      "visible_pixels": 7118
+    },
+    {
+      "team": "2929",
+      "decoded": true,
+      "visible_pixels": 3882
+    },
+    {
+      "team": "2933",
+      "decoded": true,
+      "visible_pixels": 3157
+    },
+    {
+      "team": "2947",
+      "decoded": true,
+      "visible_pixels": 7698
+    },
+    {
+      "team": "2948",
+      "decoded": true,
+      "visible_pixels": 6907
+    },
+    {
+      "team": "2949",
+      "decoded": true,
+      "visible_pixels": 7383
+    },
+    {
+      "team": "2950",
+      "decoded": true,
+      "visible_pixels": 8341
+    },
+    {
+      "team": "2951",
+      "decoded": true,
+      "visible_pixels": 7358
+    },
+    {
+      "team": "2952",
+      "decoded": true,
+      "visible_pixels": 6429
+    },
+    {
+      "team": "2953",
+      "decoded": true,
+      "visible_pixels": 7385
+    },
+    {
+      "team": "2954",
+      "decoded": true,
+      "visible_pixels": 7395
+    },
+    {
+      "team": "2955",
+      "decoded": true,
+      "visible_pixels": 7649
+    },
+    {
+      "team": "2956",
+      "decoded": true,
+      "visible_pixels": 8002
+    },
+    {
+      "team": "2957",
+      "decoded": true,
+      "visible_pixels": 7114
+    },
+    {
+      "team": "2958",
+      "decoded": true,
+      "visible_pixels": 8164
+    },
+    {
+      "team": "2959",
+      "decoded": true,
+      "visible_pixels": 7381
+    },
+    {
+      "team": "2960",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "2961",
+      "decoded": true,
+      "visible_pixels": 7531
+    },
+    {
+      "team": "2962",
+      "decoded": true,
+      "visible_pixels": 7240
+    },
+    {
+      "team": "2964",
+      "decoded": true,
+      "visible_pixels": 7478
+    },
+    {
+      "team": "2965",
+      "decoded": true,
+      "visible_pixels": 7030
+    },
+    {
+      "team": "2966",
+      "decoded": true,
+      "visible_pixels": 7024
+    },
+    {
+      "team": "2967",
+      "decoded": true,
+      "visible_pixels": 7372
+    },
+    {
+      "team": "2968",
+      "decoded": true,
+      "visible_pixels": 7200
+    },
+    {
+      "team": "2970",
+      "decoded": true,
+      "visible_pixels": 8567
+    },
+    {
+      "team": "2971",
+      "decoded": true,
+      "visible_pixels": 8489
+    },
+    {
+      "team": "2972",
+      "decoded": true,
+      "visible_pixels": 5918
+    },
+    {
+      "team": "2973",
+      "decoded": true,
+      "visible_pixels": 7591
+    },
+    {
+      "team": "2977",
+      "decoded": true,
+      "visible_pixels": 7785
+    },
+    {
+      "team": "2979",
+      "decoded": true,
+      "visible_pixels": 6925
+    },
+    {
+      "team": "2980",
+      "decoded": true,
+      "visible_pixels": 6905
+    },
+    {
+      "team": "2990",
+      "decoded": true,
+      "visible_pixels": 7368
+    },
+    {
+      "team": "3132",
+      "decoded": true,
+      "visible_pixels": 7036
+    },
+    {
+      "team": "3133",
+      "decoded": true,
+      "visible_pixels": 7234
+    },
+    {
+      "team": "3134",
+      "decoded": true,
+      "visible_pixels": 7074
+    },
+    {
+      "team": "3135",
+      "decoded": true,
+      "visible_pixels": 6658
+    },
+    {
+      "team": "3136",
+      "decoded": true,
+      "visible_pixels": 5030
+    },
+    {
+      "team": "3137",
+      "decoded": true,
+      "visible_pixels": 5952
+    },
+    {
+      "team": "3138",
+      "decoded": true,
+      "visible_pixels": 8178
+    },
+    {
+      "team": "3139",
+      "decoded": true,
+      "visible_pixels": 7624
+    },
+    {
+      "team": "3140",
+      "decoded": true,
+      "visible_pixels": 6922
+    },
+    {
+      "team": "3141",
+      "decoded": true,
+      "visible_pixels": 7187
+    },
+    {
+      "team": "3142",
+      "decoded": true,
+      "visible_pixels": 6950
+    },
+    {
+      "team": "3143",
+      "decoded": true,
+      "visible_pixels": 5681
+    },
+    {
+      "team": "3144",
+      "decoded": true,
+      "visible_pixels": 6593
+    },
+    {
+      "team": "3145",
+      "decoded": true,
+      "visible_pixels": 7326
+    },
+    {
+      "team": "3146",
+      "decoded": true,
+      "visible_pixels": 7218
+    },
+    {
+      "team": "3147",
+      "decoded": true,
+      "visible_pixels": 8198
+    },
+    {
+      "team": "3148",
+      "decoded": true,
+      "visible_pixels": 7001
+    },
+    {
+      "team": "3149",
+      "decoded": true,
+      "visible_pixels": 6870
+    },
+    {
+      "team": "4487",
+      "decoded": true,
+      "visible_pixels": 4550
+    },
+    {
+      "team": "4488",
+      "decoded": true,
+      "visible_pixels": 4835
+    },
+    {
+      "team": "4494",
+      "decoded": true,
+      "visible_pixels": 6915
+    },
+    {
+      "team": "4858",
+      "decoded": true,
+      "visible_pixels": 6963
+    },
+    {
+      "team": "4859",
+      "decoded": true,
+      "visible_pixels": 7353
+    },
+    {
+      "team": "4860",
+      "decoded": true,
+      "visible_pixels": 4088
+    },
+    {
+      "team": "5044",
+      "decoded": true,
+      "visible_pixels": 4999
+    },
+    {
+      "team": "5046",
+      "decoded": true,
+      "visible_pixels": 7380
+    },
+    {
+      "team": "5061",
+      "decoded": true,
+      "visible_pixels": 7337
+    },
+    {
+      "team": "5067",
+      "decoded": true,
+      "visible_pixels": 5911
+    },
+    {
+      "team": "5069",
+      "decoded": true,
+      "visible_pixels": 6549
+    },
+    {
+      "team": "5127",
+      "decoded": true,
+      "visible_pixels": 7217
+    },
+    {
+      "team": "5128",
+      "decoded": true,
+      "visible_pixels": 6729
+    },
+    {
+      "team": "5129",
+      "decoded": true,
+      "visible_pixels": 7485
+    },
+    {
+      "team": "5130",
+      "decoded": true,
+      "visible_pixels": 6135
+    },
+    {
+      "team": "5291",
+      "decoded": true,
+      "visible_pixels": 7375
+    },
+    {
+      "team": "5316",
+      "decoded": true,
+      "visible_pixels": 7681
+    },
+    {
+      "team": "5324",
+      "decoded": true,
+      "visible_pixels": 7738
+    },
+    {
+      "team": "5762",
+      "decoded": true,
+      "visible_pixels": 6171
+    },
+    {
+      "team": "5777",
+      "decoded": true,
+      "visible_pixels": 8487
+    },
+    {
+      "team": "5880",
+      "decoded": true,
+      "visible_pixels": 7200
+    },
+    {
+      "team": "5885",
+      "decoded": true,
+      "visible_pixels": 8467
+    },
+    {
+      "team": "6070",
+      "decoded": true,
+      "visible_pixels": 7367
+    },
+    {
+      "team": "6157",
+      "decoded": true,
+      "visible_pixels": 7370
+    },
+    {
+      "team": "6195",
+      "decoded": true,
+      "visible_pixels": 6032
+    },
+    {
+      "team": "6577",
+      "decoded": true,
+      "visible_pixels": 6368
+    },
+    {
+      "team": "6585",
+      "decoded": true,
+      "visible_pixels": 5676
+    },
+    {
+      "team": "6917",
+      "decoded": true,
+      "visible_pixels": 7296
+    },
+    {
+      "team": "6918",
+      "decoded": true,
+      "visible_pixels": 8069
+    },
+    {
+      "team": "6921",
+      "decoded": true,
+      "visible_pixels": 7036
+    },
+    {
+      "team": "6925",
+      "decoded": true,
+      "visible_pixels": 7543
+    },
+    {
+      "team": "7061",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "7721",
+      "decoded": true,
+      "visible_pixels": 7385
+    },
+    {
+      "team": "7762",
+      "decoded": true,
+      "visible_pixels": 6751
+    },
+    {
+      "team": "7924",
+      "decoded": true,
+      "visible_pixels": 7331
+    },
+    {
+      "team": "7933",
+      "decoded": true,
+      "visible_pixels": 7391
+    },
+    {
+      "team": "7935",
+      "decoded": true,
+      "visible_pixels": 8186
+    },
+    {
+      "team": "8060",
+      "decoded": true,
+      "visible_pixels": 6382
+    },
+    {
+      "team": "21800",
+      "decoded": true,
+      "visible_pixels": 7717
+    },
+    {
+      "team": "21900",
+      "decoded": true,
+      "visible_pixels": 5428
+    },
+    {
+      "team": "21901",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "21902",
+      "decoded": true,
+      "visible_pixels": 7008
+    },
+    {
+      "team": "21903",
+      "decoded": true,
+      "visible_pixels": 4256
+    },
+    {
+      "team": "21904",
+      "decoded": true,
+      "visible_pixels": 5351
+    },
+    {
+      "team": "21905",
+      "decoded": true,
+      "visible_pixels": 6235
+    },
+    {
+      "team": "21906",
+      "decoded": true,
+      "visible_pixels": 7583
+    },
+    {
+      "team": "21907",
+      "decoded": true,
+      "visible_pixels": 3982
+    },
+    {
+      "team": "23947",
+      "decoded": true,
+      "visible_pixels": 5604
+    },
+    {
+      "team": "24264",
+      "decoded": true,
+      "visible_pixels": 7380
+    },
+    {
+      "team": "24265",
+      "decoded": true,
+      "visible_pixels": 6411
+    },
+    {
+      "team": "24322",
+      "decoded": true,
+      "visible_pixels": 6580
+    },
+    {
+      "team": "24324",
+      "decoded": true,
+      "visible_pixels": 6901
+    },
+    {
+      "team": "24329",
+      "decoded": true,
+      "visible_pixels": 8192
+    },
+    {
+      "team": "24330",
+      "decoded": true,
+      "visible_pixels": 6132
+    },
+    {
+      "team": "24332",
+      "decoded": true,
+      "visible_pixels": 7212
+    },
+    {
+      "team": "24335",
+      "decoded": true,
+      "visible_pixels": 5900
+    },
+    {
+      "team": "24336",
+      "decoded": true,
+      "visible_pixels": 2765
+    },
+    {
+      "team": "24338",
+      "decoded": true,
+      "visible_pixels": 6620
+    },
+    {
+      "team": "24343",
+      "decoded": true,
+      "visible_pixels": 7001
+    },
+    {
+      "team": "24360",
+      "decoded": true,
+      "visible_pixels": 5521
+    },
+    {
+      "team": "24368",
+      "decoded": true,
+      "visible_pixels": 7372
+    },
+    {
+      "team": "24516",
+      "decoded": true,
+      "visible_pixels": 8020
+    },
+    {
+      "team": "25155",
+      "decoded": true,
+      "visible_pixels": 7377
+    },
+    {
+      "team": "26009",
+      "decoded": true,
+      "visible_pixels": 7552
+    },
+    {
+      "team": "26011",
+      "decoded": true,
+      "visible_pixels": 6021
+    },
+    {
+      "team": "33779",
+      "decoded": true,
+      "visible_pixels": 8037
+    },
+    {
+      "team": "34034",
+      "decoded": true,
+      "visible_pixels": 6176
+    },
+    {
+      "team": "34035",
+      "decoded": true,
+      "visible_pixels": 6032
+    },
+    {
+      "team": "35056",
+      "decoded": true,
+      "visible_pixels": 7370
+    },
+    {
+      "team": "35092",
+      "decoded": true,
+      "visible_pixels": 4268
+    },
+    {
+      "team": "35097",
+      "decoded": true,
+      "visible_pixels": 6881
+    },
+    {
+      "team": "36360",
+      "decoded": true,
+      "visible_pixels": 6043
+    },
+    {
+      "team": "36525",
+      "decoded": true,
+      "visible_pixels": 6145
+    },
+    {
+      "team": "36530",
+      "decoded": true,
+      "visible_pixels": 3783
+    },
+    {
+      "team": "36534",
+      "decoded": true,
+      "visible_pixels": 6950
+    },
+    {
+      "team": "36535",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "37057",
+      "decoded": true,
+      "visible_pixels": 7173
+    },
+    {
+      "team": "37173",
+      "decoded": true,
+      "visible_pixels": 8375
+    },
+    {
+      "team": "37589",
+      "decoded": true,
+      "visible_pixels": 5984
+    },
+    {
+      "team": "38138",
+      "decoded": true,
+      "visible_pixels": 4613
+    },
+    {
+      "team": "38141",
+      "decoded": true,
+      "visible_pixels": 4137
+    },
+    {
+      "team": "38146",
+      "decoded": true,
+      "visible_pixels": 6742
+    },
+    {
+      "team": "38154",
+      "decoded": true,
+      "visible_pixels": 7262
+    },
+    {
+      "team": "38157",
+      "decoded": true,
+      "visible_pixels": 5842
+    },
+    {
+      "team": "40029",
+      "decoded": true,
+      "visible_pixels": 5688
+    },
+    {
+      "team": "43680",
+      "decoded": true,
+      "visible_pixels": 8289
+    },
+    {
+      "team": "43685",
+      "decoded": true,
+      "visible_pixels": 7363
+    },
+    {
+      "team": "43686",
+      "decoded": true,
+      "visible_pixels": 7189
+    },
+    {
+      "team": "43758",
+      "decoded": true,
+      "visible_pixels": 6650
+    },
+    {
+      "team": "44019",
+      "decoded": true,
+      "visible_pixels": 6117
+    },
+    {
+      "team": "44069",
+      "decoded": true,
+      "visible_pixels": 6675
+    },
+    {
+      "team": "44409",
+      "decoded": true,
+      "visible_pixels": 7372
+    },
+    {
+      "team": "44519",
+      "decoded": true,
+      "visible_pixels": 2066
+    },
+    {
+      "team": "44523",
+      "decoded": true,
+      "visible_pixels": 7573
+    },
+    {
+      "team": "44528",
+      "decoded": true,
+      "visible_pixels": 6956
+    },
+    {
+      "team": "47321",
+      "decoded": true,
+      "visible_pixels": 7227
+    },
+    {
+      "team": "52874",
+      "decoded": true,
+      "visible_pixels": 7377
+    },
+    {
+      "team": "54103",
+      "decoded": true,
+      "visible_pixels": 4775
+    },
+    {
+      "team": "54127",
+      "decoded": true,
+      "visible_pixels": 6152
+    },
+    {
+      "team": "55785",
+      "decoded": true,
+      "visible_pixels": 5754
+    },
+    {
+      "team": "56419",
+      "decoded": true,
+      "visible_pixels": 7814
+    },
+    {
+      "team": "59257",
+      "decoded": true,
+      "visible_pixels": 6709
+    },
+    {
+      "team": "61612",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "62200",
+      "decoded": true,
+      "visible_pixels": 6120
+    },
+    {
+      "team": "79907",
+      "decoded": true,
+      "visible_pixels": 5451
+    },
+    {
+      "team": "111205",
+      "decoded": true,
+      "visible_pixels": 8024
+    },
+    {
+      "team": "113755",
+      "decoded": true,
+      "visible_pixels": 7363
+    },
+    {
+      "team": "115067",
+      "decoded": true,
+      "visible_pixels": 7561
+    },
+    {
+      "team": "116075",
+      "decoded": true,
+      "visible_pixels": 6290
+    },
+    {
+      "team": "118478",
+      "decoded": true,
+      "visible_pixels": 7311
+    },
+    {
+      "team": "118500",
+      "decoded": true,
+      "visible_pixels": 6238
+    },
+    {
+      "team": "162632",
+      "decoded": true,
+      "visible_pixels": 7374
+    },
+    {
+      "team": "169260",
+      "decoded": true,
+      "visible_pixels": 8092
+    },
+    {
+      "team": "170650",
+      "decoded": true,
+      "visible_pixels": 7378
+    },
+    {
+      "team": "189234",
+      "decoded": true,
+      "visible_pixels": 7035
+    },
+    {
+      "team": "201624",
+      "decoded": true,
+      "visible_pixels": 6599
+    },
+    {
+      "team": "202074",
+      "decoded": true,
+      "visible_pixels": 7376
+    },
+    {
+      "team": "202076",
+      "decoded": true,
+      "visible_pixels": 5906
+    },
+    {
+      "team": "204219",
+      "decoded": true,
+      "visible_pixels": 9216
+    },
+    {
+      "team": "204712",
+      "decoded": true,
+      "visible_pixels": 5401
+    },
+    {
+      "team": "210099",
+      "decoded": true,
+      "visible_pixels": 7294
+    },
+    {
+      "team": "210894",
+      "decoded": true,
+      "visible_pixels": 7008
+    },
+    {
+      "team": "256899",
+      "decoded": true,
+      "visible_pixels": 6271
+    },
+    {
+      "team": "287058",
+      "decoded": true,
+      "visible_pixels": 8319
+    },
+    {
+      "team": "324871",
+      "decoded": true,
+      "visible_pixels": 7388
+    },
+    {
+      "team": "368506",
+      "decoded": true,
+      "visible_pixels": 8544
+    },
+    {
+      "team": "378962",
+      "decoded": true,
+      "visible_pixels": 6199
+    },
+    {
+      "team": "389232",
+      "decoded": true,
+      "visible_pixels": 6474
+    },
+    {
+      "team": "491246",
+      "decoded": true,
+      "visible_pixels": 7188
+    },
+    {
+      "team": "549294",
+      "decoded": true,
+      "visible_pixels": 4567
+    }
+  ]
+}

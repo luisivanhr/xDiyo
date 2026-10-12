@@ -6,7 +6,6 @@ import html
 import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
-from PIL import Image
 
 p = Path(__file__).resolve().parent
 root = p.parents[2]
@@ -23,6 +22,7 @@ asset_bytes = 0
 raster_svgs = 0
 for key,item in c.items():
     if 'badge_path' not in item:
+        bad.append({'id': key, 'name': item['name'], 'error': 'Missing badge_path'})
         continue
     try:
         q = p/item['badge_path']
@@ -33,6 +33,7 @@ for key,item in c.items():
             svg = ET.fromstring(q.read_bytes())
             raster_svgs += int(any(node.tag.endswith('image') for node in svg.iter()))
         else:
+            from PIL import Image
             Image.open(q).verify()
         good += 1
         fm[item['format']] += 1
@@ -40,7 +41,10 @@ for key,item in c.items():
             cards.append(f'<figure><img src="{src}"><figcaption>{html.escape(item["name"])}</figcaption></figure>')
     except Exception as e:
         bad.append({'id':key,'name':item['name'],'error':str(e)})
-summary = {'checked':good+len(bad),'accepted':good,'formats':dict(fm),'rejected':bad}
+inventory = json.loads((p/'inventory.json').read_text(encoding='utf-8'))
+missing_ids = sorted(set(inventory['team_ids']) - c.keys(), key=int)
+summary = {'checked':good+len(bad),'accepted':good,'formats':dict(fm),'rejected':bad,
+           'dataset_teams': inventory['team_count'], 'missing_catalog_ids': missing_ids}
 print(json.dumps(summary))
 (p/'renderer_compatibility.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
 (p/'integrity.json').write_text(json.dumps({'checked':good+len(bad),'formats':dict(fm),'bytes':asset_bytes,'svg_with_image_elements':raster_svgs,'errors':bad},indent=2)+'\n',encoding='utf-8')

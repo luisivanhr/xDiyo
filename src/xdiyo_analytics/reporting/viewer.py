@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .embedding_view import CSS as EMBEDDING_CSS, JS as EMBEDDING_JS
+from .attention_view import CSS as ATTENTION_CSS, JS as ATTENTION_JS
 from .match_view import MATCH_CSS, MATCH_JS, render_match_results
 from .spatial_view import CSS as SPATIAL_CSS, JS as SPATIAL_JS, render_spatial
 from .rating_view import CSS as RATING_CSS, JS as RATING_JS, render_ratings
@@ -89,6 +90,7 @@ function visiblePlots(){
     if(el.dataset.loaded){if(el.embeddingResize)el.embeddingResize();else if(window.Plotly)Plotly.Plots.resize(el);return;}
     const spec=JSON.parse(document.getElementById(el.dataset.spec).textContent);
     el.dataset.loaded='true';
+    if(spec.layout.meta?.xdiyo_attention){initializeAttention(el,spec);return;}
     if(spec.layout.meta?.xdiyo_embedding){initializeEmbedding(el,spec);return;}
     Plotly.newPlot(el,spec.data,spec.layout,{responsive:true,displaylogo:false,
       toImageButtonOptions:{format:'svg',filename:'analysis_figure'}});
@@ -250,7 +252,7 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
     empty = '<div class="empty">No reporters selected. Add studies when you need them.</div>' if not groups else ''
     html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}{SPATIAL_CSS}{RATING_CSS}{EMBEDDING_CSS}</style>{plotly_script}</head><body>
+<title>{_e(report.title)}</title><style>{CSS}{MATCH_CSS}{SPATIAL_CSS}{RATING_CSS}{EMBEDDING_CSS}{ATTENTION_CSS}</style>{plotly_script}</head><body>
 <aside><div class="eyebrow">xDiyo analytics</div><div class="brand">Study explorer</div>
 <label for="study-search" class="muted">Find a study</label><input id="study-search" type="search" placeholder="Filter studies…">
 <nav aria-label="Study navigation">{''.join(navigation)}</nav></aside>
@@ -258,7 +260,7 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
 <p class="muted">{len(groups)} selected studies · {len(report.studies)} computed views · explicit row scopes</p>
 <div class="toolbar"><button type="button" data-expand="true">Expand studies</button><button type="button" data-expand="false">Collapse studies</button></div></header>
 {empty}{''.join(sections)}<footer>Computed once. Fold and entity selection changes the view without recalculating studies. Figure toolbar exports SVG; data panels download CSV.</footer></main>
-<script>{EMBEDDING_JS}{SPATIAL_JS}{RATING_JS}{JS}{MATCH_JS}</script></body></html>'''
+<script>{ATTENTION_JS}{EMBEDDING_JS}{SPATIAL_JS}{RATING_JS}{JS}{MATCH_JS}</script></body></html>'''
     if path is not None:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)

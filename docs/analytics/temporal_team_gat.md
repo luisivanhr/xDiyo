@@ -391,10 +391,22 @@ Add these under **Post-training analysis**:
   adjust badge size, or reset the view. Badge sizes stay constant while zooming.
   Missing or unreadable badges fall back to colored markers. These controls
   change presentation only; they do not recompute the projection or model.
-- **GraphAttentionWeightReporter**: select a receiving team in the rendered
-  chart, inspect the strongest historical edges separately by layer/head, and
+  Reset always restores the original bounds, including after repeated searches
+  and pan/zoom operations. Coincident teams keep their actual coordinates. Plotly's duplicate
+  image-key behavior is avoided using imperceptible differences in badge width;
+  no projection coordinates are jittered. Find team brings its badge forward.
+  Native SVG downloads embed visible badges for offline
+  viewing, detecting SVG/PNG content independently of filenames. Native catalogs
+  embed local assets directly; custom relative image sources must be readable
+  by the browser (serve such custom reports over HTTP if file access is blocked).
+- **GraphAttentionWeightReporter**: use the rendered league and team dropdowns
+  to inspect the strongest historical edges separately by layer/head, and
   download all weights. Concentration, entropy, effective edge count, support
   and gates give additional diagnostics. Attention is not causal attribution.
+  Selected edges appear chronologically, newest on the left. Every team in
+  the evaluation population is selectable, including teams without eligible
+  edges, which show an explicit empty state. League grouping uses membership
+  at the selected issuance; known league names come from evaluation metadata.
   Layer/head legends appear above the plot, separately from fixture labels.
 
 Embedding and attention views use teams from the selected test/score population

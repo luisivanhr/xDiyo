@@ -87,8 +87,10 @@ def test_native_reporters_render_badges_and_recover(trained, tmp_path, mode):
     assert all(s.result.tables for s in report.studies)
     attention = report.studies[2].result.artifacts[0].data
     assert attention.layout.legend.y > 1
-    assert attention.layout.updatemenus[0].y > attention.layout.legend.y
-    assert 'title.text' in attention.layout.updatemenus[0].buttons[0].args[1]
+    assert not attention.layout.updatemenus
+    assert attention.layout.meta['xdiyo_attention']
+    assert {r['team'] for r in attention.layout.meta['roster']} == {'1', '2'}
+    assert 'initializeAttention(el,spec)' in html
     assert report.studies[1].result.artifacts[0].options['embedding_fold'] == '0'
     from xdiyo_analytics.experiments.recovery import pack, unpack
     restored = unpack(pack(report))
@@ -118,6 +120,17 @@ def graph_recipe(recipe, tmp_path):
                         'embedding':node('reporting.EmbeddingReporter',type='per_fold',partition='score',mode='PCA'),
                         'attention':node('reporting.GraphAttentionWeightReporter',type='per_fold',partition='score')})
     return recipe
+
+
+def test_attention_keeps_selectable_roster_when_no_edges_exist(trained, monkeypatch):
+    _, training = trained
+    monkeypatch.setattr(training.folds[0].model, 'attention_weights', lambda queries: pd.DataFrame())
+    report = PostTrainingAnalysis({'attention': GraphAttentionWeightReporter(type='overall', partition='score')}).run(training)
+    result = report.studies[0].result
+    assert result.tables['attention'].empty
+    assert len(result.artifacts) == 1
+    assert {row['team'] for row in result.artifacts[0].data.layout.meta['roster']} == {'1', '2'}
+    assert 'initializeAttention' in report.to_html()
 
 
 def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_path):

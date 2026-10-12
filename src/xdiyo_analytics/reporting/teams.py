@@ -39,14 +39,19 @@ def _local_reference(value):
 
 def _badge(path):
     path = Path(path)
-    mime = {".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
-            ".jpeg": "image/jpeg", ".webp": "image/webp"}.get(path.suffix.lower())
-    if mime is None:
-        raise ValueError("Badges must be local SVG, PNG, JPEG or WebP files.")
     if path.stat().st_size > 2_000_000:
         raise ValueError("Badge exceeds the 2 MB embedding limit.")
     data = path.read_bytes()
-    if path.suffix.lower() == ".svg":
+    # Provider badge filenames are not reliable: SVG crests can have .png names.
+    # Sniff bytes, and still apply SVG validation regardless of the suffix.
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        mime = "image/png"
+    elif data.startswith(b"\xff\xd8\xff"):
+        mime = "image/jpeg"
+    elif data.startswith(b"RIFF") and data[8:12] == b"WEBP":
+        mime = "image/webp"
+    else:
+        mime = "image/svg+xml"
         source = data.decode("utf-8-sig")
         if re.search(r"<!\s*(?:DOCTYPE|ENTITY)", source, re.I):
             raise ValueError("SVG badge must not contain document/entity declarations.")

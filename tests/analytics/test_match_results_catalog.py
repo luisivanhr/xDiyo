@@ -12,6 +12,25 @@ from match_results_samples import HOME,AWAY
 
 PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jfN8AAAAASUVORK5CYII=')
 
+
+@pytest.mark.parametrize('data,suffix,mime', [
+    (PNG, '.svg', 'image/png'),
+    (b'<svg xmlns="http://www.w3.org/2000/svg"/>', '.png', 'image/svg+xml'),
+])
+def test_badge_content_decides_mime_and_preserves_bytes(tmp_path, data, suffix, mime):
+    path = tmp_path / ('badge' + suffix)
+    path.write_bytes(data)
+    _, uri, note = TeamCatalog({1: dict(name='One', badge_path=str(path))}).display(1, badges=True)
+    assert note is None and uri.startswith(f'data:{mime};base64,')
+    assert base64.b64decode(uri.partition(',')[2]) == data
+
+
+def test_svg_with_png_name_still_requires_safe_content(tmp_path):
+    path = tmp_path / 'badge.png'
+    path.write_bytes(b'<svg><script>alert(1)</script></svg>')
+    _, uri, note = TeamCatalog({1: dict(name='One', badge_path=str(path))}).display(1, badges=True)
+    assert uri is None and 'active content' in note
+
 def svg(tmp_path,body):
     path=tmp_path/'crest.svg';path.write_text(body,encoding='utf-8')
     return TeamCatalog({HOME:{'name':'Example','badge_path':str(path)}})

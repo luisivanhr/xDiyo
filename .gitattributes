@@ -2,3 +2,7 @@
 data/xDiyo_data/** -text
 # The standalone viewer preserves the supplied stylesheet and its SHA-256.
 src/xdiyo_analytics/reporting/templates/assets/tickets.css -text
+# Badge provenance hashes describe exact downloaded/converted bytes, including
+# source whitespace. Original AI/CDR files are opaque artwork, not source code.
+docs/analytics/team_assets/badges/** -text -whitespace
+docs/analytics/team_assets/originals/** -text -diff -whitespace

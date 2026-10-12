@@ -49,13 +49,34 @@ CSS = r"""
 
 
 JS = r"""
+// Inline exact image bytes before Plotly renders so native SVG downloads are
+// self-contained. Content, not a provider's extension or MIME label, is decisive.
+async function embeddingBadgeData(source){
+  const response=await fetch(source);
+  if(!response.ok)throw new Error('Badge could not be read');
+  const bytes=new Uint8Array(await response.arrayBuffer());
+  if(bytes.length>2000000)throw new Error('Badge exceeds 2 MB');
+  const starts=signature=>signature.every((value,i)=>bytes[i]===value);
+  let mime;
+  if(starts([137,80,78,71,13,10,26,10]))mime='image/png';
+  else if(starts([255,216,255]))mime='image/jpeg';
+  else if(starts([82,73,70,70])&&String.fromCharCode(...bytes.slice(8,12))==='WEBP')mime='image/webp';
+  else {
+    const doc=new DOMParser().parseFromString(new TextDecoder().decode(bytes),'image/svg+xml');
+    if(doc.querySelector('parsererror')||doc.documentElement.localName!=='svg')throw new Error('Unsupported badge format');
+    mime='image/svg+xml';
+  }
+  let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+  return `data:${mime};base64,${btoa(binary)}`;
+}
 async function initializeEmbedding(el,spec){
   el.classList.add('embedding-plot');
   el.style.height='auto';
   const controls=document.createElement('div');controls.className='embedding-controls';
   const leagues=document.createElement('div');leagues.className='embedding-leagues';
   const help=document.createElement('p');help.className='embedding-help';
-  help.textContent='Drag to pan; use the chart toolbar to zoom. Select a team to locate it. League buttons hide points, names and badges together.';
+  const helpText='Drag to pan; use the chart toolbar to zoom. Select a team to locate it and bring its badge forward. Coincident teams share a position. League buttons hide points, names and badges together.';
+  help.textContent=helpText;
   el.before(controls,leagues,help);
   function button(text,fn,parent=controls){const b=document.createElement('button');b.type='button';b.textContent=text;b.onclick=fn;parent.append(b);return b;}
   function check(text,checked){const l=document.createElement('label'),i=document.createElement('input');i.type='checkbox';i.checked=checked;l.append(i,document.createTextNode(text));controls.append(l);return i;}
@@ -64,23 +85,41 @@ async function initializeEmbedding(el,spec){
   badgeSize.type='range';badgeSize.min='12';badgeSize.max='36';badgeSize.value='24';badgeSize.style.width='90px';
   sizeLabel.append(document.createTextNode('Badge size'),badgeSize);controls.append(sizeLabel);
   const find=document.createElement('select');find.setAttribute('aria-label','Find team');find.add(new Option('Find a team…',''));controls.append(find);
-  const sourceImages=spec.layout.images||[], failed=new Set(), visible=spec.data.map(()=>true);
-  const originalX=[...spec.layout.xaxis.range],originalY=[...spec.layout.yaxis.range];
+  const failed=new Set(), visible=spec.data.map(()=>true), badgeCache=new Map();
+  const sourceImages=await Promise.all((spec.layout.images||[]).map(async im=>{
+    try{
+      if(!badgeCache.has(im.source))badgeCache.set(im.source,embeddingBadgeData(im.source));
+      return {...im,source:await badgeCache.get(im.source)};
+    }catch(error){failed.add(im.name);return {...im,source:'',visible:false};}
+  }));
+  function updateHelp(){help.textContent=helpText+(failed.size?` ${failed.size} badge(s) unavailable; colored points remain available.`:'');}
+  updateHelp();
+  let selectedBadge=null;
+  // Plotly may mutate range arrays passed to relayout. Never hand it baselines.
+  const originalX=Object.freeze([...spec.layout.xaxis.range]),originalY=Object.freeze([...spec.layout.yaxis.range]);
   const teamOptions=[];
   spec.data.forEach((trace,t)=>trace.text.forEach((name,p)=>{const decoder=document.createElement('span');decoder.innerHTML=name;teamOptions.push({name:decoder.textContent,t,p});}));
   teamOptions.sort((a,b)=>a.name.localeCompare(b.name)).forEach(o=>find.add(new Option(o.name,`${o.t}:${o.p}`)));
   const toggles=spec.data.map((trace,t)=>{const b=button(trace.name,async()=>{visible[t]=!visible[t];await redraw();},leagues);b.style.borderBottom=`3px solid ${trace.meta.embedding_color}`;b.setAttribute('aria-pressed','true');return b;});
   const width=Math.round(el.getBoundingClientRect().width);
-  await Plotly.newPlot(el,spec.data,{...spec.layout,width,height:width},{responsive:false,displaylogo:false,
+  await Plotly.newPlot(el,spec.data,{...spec.layout,images:sourceImages.filter(im=>!failed.has(im.name)),width,height:width},{responsive:false,displaylogo:false,
     toImageButtonOptions:{format:'svg',filename:'team_embeddings'}});
   let updating=false, pending=false;
   async function placeBadges(){
     if(updating){pending=true;return;}if(!el._fullLayout||!el.getClientRects().length)return;
     const f=el._fullLayout,s=f._size;if(s.w<=0||s.h<=0)return;
-    const images=sourceImages.map(im=>{const t=Number(im.name.split(':')[1]);return {...im,
+    const positions=new Map();
+    const images=sourceImages.filter(im=>!failed.has(im.name)).map(im=>{
+      const t=Number(im.name.split(':')[1]),key=JSON.stringify([im.xref,im.x,im.yref,im.y]);
+      const duplicate=positions.get(key)||0;positions.set(key,duplicate+1);
+      return {...im,
       visible:visible[t]&&badges.checked&&!failed.has(im.name),
-      sizex:Math.abs(f.xaxis.range[1]-f.xaxis.range[0])*Number(badgeSize.value)/f.xaxis._length,
+      // Plotly keys layout images by position AND size, ignoring their name.
+      // Distinguish coincident images by an imperceptible width difference
+      // (under 1e-8 px for this catalog), preserving every embedding coordinate.
+      sizex:Math.abs(f.xaxis.range[1]-f.xaxis.range[0])*Number(badgeSize.value)/f.xaxis._length*(1+duplicate*1e-12),
       sizey:Math.abs(f.yaxis.range[1]-f.yaxis.range[0])*Number(badgeSize.value)/f.yaxis._length};});
+    images.sort((a,b)=>Number(a.name===selectedBadge)-Number(b.name===selectedBadge));
     updating=true;
     try{await Plotly.relayout(el,{images});}finally{updating=false;if(pending){pending=false;requestAnimationFrame(placeBadges);}}
   }
@@ -97,8 +136,9 @@ async function initializeEmbedding(el,spec){
   names.onchange=redraw;badges.onchange=redraw;badgeSize.onchange=redraw;
   button('Show all leagues',async()=>{visible.fill(true);await redraw();});
   button('Hide all leagues',async()=>{visible.fill(false);await redraw();});
-  button('Reset view',()=>{find.value='';Plotly.relayout(el,{'xaxis.range':originalX,'yaxis.range':originalY});});
-  find.onchange=async()=>{if(!find.value)return;const [t,p]=find.value.split(':').map(Number);visible[t]=true;await redraw();
+  button('Reset view',()=>{find.value='';selectedBadge=null;return Plotly.relayout(el,{'xaxis.range':[...originalX],'yaxis.range':[...originalY],
+    'xaxis.autorange':false,'yaxis.autorange':false});});
+  find.onchange=async()=>{if(!find.value)return;const [t,p]=find.value.split(':').map(Number);selectedBadge=`badge:${t}:${p}`;visible[t]=true;await redraw();
     const trace=el.calcdata[t][p],span=(originalX[1]-originalX[0])*.18;
     await Plotly.relayout(el,{'xaxis.range':[trace.x-span,trace.x+span],'yaxis.range':[trace.y-span,trace.y+span]});
     Plotly.Fx.hover(el,[{curveNumber:t,pointNumber:p}]);};
@@ -106,7 +146,7 @@ async function initializeEmbedding(el,spec){
   let lastWidth=width;
   el.embeddingResize=()=>{const w=Math.round(el.getBoundingClientRect().width);if(w>0&&w!==lastWidth){lastWidth=w;Plotly.relayout(el,{width:w,height:w});}};
   new ResizeObserver(el.embeddingResize).observe(el);
-  await placeBadges();
-  sourceImages.forEach(im=>{const img=new Image();img.onerror=()=>{failed.add(im.name);redraw();};img.src=im.source;});
+  await redraw();
+  sourceImages.filter(im=>!failed.has(im.name)).forEach(im=>{const img=new Image();img.onerror=()=>{failed.add(im.name);updateHelp();redraw();};img.src=im.source;});
 }
 """

@@ -1,36 +1,45 @@
-# Team display catalog and offline badges
+# Team display catalog and offline SVG badges
 
-Collected on 2026-09-18 for the first experiment's **2022/23, 2023/24 and 2024/25** seasons.
+Updated 2026-10-12 against every published league-season in `data/xDiyo_data`.
 
-## Coverage
+## Coverage and identity
 
-- **289 teams**, enumerated from the current published `matches.parquet` tables of all **39 exports / 13 leagues** in `data/xDiyo_data`.
-- **286 local badges:** 284 SVG and two PNG fallbacks (1. FC Köln and Troyes).
-- Three entries deliberately remain name-only: Chamois Niortais (1665), Villarreal B U23 (24338), and SPAL (113755). No badge was acquired and confirmed for these identities in this bounded collection pass.
-- Team IDs are the exact `home_id` / `away_id` values used by the analytics histories. Names come from saved match metadata. If names changed between exports, `name` is the latest encountered name and `aliases` retains every encountered variant.
+- **483 distinct team IDs across 289 published league-seasons**, all with local SVG badges.
+- Includes historical teams, reserves, Japan and Mexico. The previous collection covered only 289 teams in 39 recent European exports.
+- IDs are the exact `home_id` / `away_id` values in published matches. `aliases`, `leagues` and `seasons` describe their dataset appearances; they are not model inputs.
+- This is a display catalog, not a historically versioned crest timeline. Renamed clubs may display a historical or current crest. The Llagostera crest is explicitly mapped to the stable club ID subsequently named Costa Brava / Badalona Futur. Reserve sides using the parent club's crest have an explicit `shared_badge_team_id` and identity source.
 
-`catalog.json` is a JSON object keyed by the decimal team ID string. Every entry has `name`; acquired badges also have `badge_path`, `format`, `source_url`, `source_commit`, `identity_match`, `sha256`, and a source-license note. Paths are relative to `catalog.json`. The additional `leagues`, `seasons`, and `aliases` fields are descriptive provenance, not model features.
+`catalog.json` maps decimal team IDs to names, relative `badge_path`, actual file format, SHA-256, source URLs and identity/provenance notes. Reports embed these assets locally and require no network requests. Every current catalog entry uses SVG; six original SVG artworks contain embedded raster tiles. They remain self-contained. The two previous PNG catalog selections have been replaced by SVG crests.
 
-## Sources and identity matching
+## Sources and transformations
 
-Most assets come from [Jose Arroyave's football-logos collection](https://github.com/JoseArroyave/football-logos), pinned to commit `1b8e57c3ea3658001cafba18c4a6db730b420ad6`. SVG files themselves credit `football-logos.cc`. The repository's declared MIT text is preserved in `SOURCE_LICENSE.txt`; this does not establish ownership of each club's trademark or artwork.
+Most badges come from [Jose Arroyave's football-logos collection](https://github.com/JoseArroyave/football-logos), pinned to `1b8e57c3ea3658001cafba18c4a6db730b420ad6` or `a80039b889ba3308aa83e52cd20d0967be4b833a`. Source SVGs credit football-logos.cc. The repository's declared MIT text is retained in `SOURCE_LICENSE.txt`; it does not establish ownership of each club's artwork or trademark.
 
-FC Köln's and Troyes' PNGs come from [leoratzlaff/football-badges](https://github.com/leoratzlaff/football-badges), pinned to commit `ba8ec269d88498a3842567887677198af43e3dd8`. Troyes uses the collection's 2022/23 season asset because the first source's 7 MB SVG wrapper exceeds the report's embedding limit; the original SVG is retained and its provenance is recorded in `previous_asset`. A separate image-specific license was not identified. Club artwork and trademark rights remain with their owners.
+Additional explicitly identified crests come from Wikimedia, Logotyp, Seeklogo, Freebie Supply and Logoneate. Each entry records its source URL/page and available license/attribution. Artwork and trademark rights remain with their owners. Matching uses country-scoped normalized names and reviewed aliases, not automatic fuzzy assignment. `reviewed_aliases.json` records the selected repository paths; the catalog records their exact revisions.
 
-FC Martigues and Jahn Regensburg use Wikimedia Commons files whose descriptions explicitly identify their clubs: [Martigues 2020 crest](https://commons.wikimedia.org/wiki/File:Logo_FC_Martigues_-_2020.svg) and [Jahn Regensburg 2014 crest](https://commons.wikimedia.org/wiki/File:Jahn_Regensburg_logo2014.svg). Both description pages identify the artwork as PD-textlogo, with trademark restrictions; author attribution, source page, download URL and SHA256 are recorded in the catalog.
+Lobos BUAP, Lorca FC and Llagostera were supplied as AI/CDR vector originals and converted using Inkscape 1.4.2 (`--export-type=svg --export-plain-svg --export-text-to-path`). The export page is fitted to the drawing with `--export-area-drawing`. Troyes and Lokeren also have excessive source canvas margins trimmed with that option. These originals are preserved under `originals/`, with conversion details and hashes in the catalog. Standalone SVG document-type declarations from some sources are removed before native validation; source and resulting hashes are recorded separately. Git attributes preserve exact asset bytes across Windows checkouts.
 
-Identity matching uses exact normalized names within the competition's country, followed by the explicit club-name aliases recorded in `reviewed_aliases.json`. Fuzzy suggestions were not used to automatically assign assets. Villarreal's first-team asset was not silently assigned to Villarreal B. This is a display catalog of acquired club crests, **not a historically versioned crest catalog**: a current crest may differ from one used during a particular match season.
+## Repeating the checks
 
-## Collection and inspection artifacts
+Run from the repository root in the analytics Python environment:
 
-- `inventory.json`: every contributing publication, league, and match count.
-- `source_tree.json` and `fallback_source_tree.json`: pinned source-tree inventories.
-- `collection.json`: acquired count, unresolved identities, and retrieval errors.
-- `integrity.json`: file/hash checks, SVG XML inspection, PNG decoding and format counts.
-- `renderer_compatibility.json`: acceptance checks using the current report renderer's actual helper source.
-- `sample.html`: self-contained sample of 16 acquired team badges. Opening this local HTML through the computer-use browser was blocked by its URL security policy; no alternate browser/server workaround was attempted and **full visual verification is pending**. The two PNG assets were viewed directly and show the named Troyes and FC Köln crests.
-- `check_assets.py`: repeat hash/integrity/renderer checks and recreate the sample.
-- `inventory_teams.py`: rebuilds the name inventory from local match data; requires the existing analytics Python/pyarrow environment. **It resets badge metadata**, so run the collector afterward.
-- `collect_badges.py`: downloads the explicitly mapped assets using Python's standard library. SVG files with script, foreign-object or external `href`/`src` references are rejected; the report renderer also checks embedded raster signatures. Four selected SVGs contain raster tiles as part of the original artwork and are preserved unchanged. Already-hashed SVG files are reused locally, and previously acquired alternatives are retained. The source license file is retained separately. Rebuilding the name inventory resets alternative metadata too; retain the catalog to preserve those separately sourced choices.
+```shell
+python docs/analytics/team_assets/inventory_teams.py
+python docs/analytics/team_assets/check_assets.py
+python -m pytest tests/analytics/test_team_asset_inventory.py tests/analytics/test_match_results_catalog.py tests/analytics/test_graph_reporter_browser.py
+```
 
-No collection or network request is needed when displaying the report. Unavailable badges should fall back to the real team name. No model, training data or notebook was modified by this collection.
+The inventory reads **all** publication manifests and preserves existing badge/provenance fields. It never downloads or guesses badges. A new unmatched team causes the catalog coverage regression to fail until a reviewed asset is added.
+
+Artifacts:
+
+- `inventory.json`: contributing publications and exact team IDs.
+- `source_tree.json`, `source_tree_20261012.json`, `fallback_source_tree.json`: pinned source inventories.
+- `collection.json`: scope, counts and unresolved identities.
+- `integrity.json`, `renderer_compatibility.json`: exact hashes, XML/content validation and native renderer acceptance.
+- `browser_validation.json`: all 483 SVGs decode and paint nonempty pixels in offline Chromium.
+- `sample.html`: self-contained badge sample.
+
+The embedding browser regression covers coincident team coordinates, league visibility, repeated find/reset/pan/zoom, content-based PNG/SVG detection and offline SVG export. Badges with identical positions are retained without changing their embedding coordinates; Find team raises the selected badge above coincident ones. Unavailable or unreadable custom assets fall back to colored points and names.
+
+No match tables, model weights or experiments are modified by this asset update.

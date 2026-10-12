@@ -12,6 +12,7 @@ from .post_training import PredictionReporter
 from .studies import _plotting, _style
 from .teams import TeamCatalog
 from .embedding_view import embedding_figure
+from .attention_view import attention_figure, attention_roster
 
 
 def _graph(model):
@@ -189,44 +190,26 @@ class GraphAttentionWeightReporter(PredictionReporter):
         _positive('top_edges', self.top_edges)
         result = StudyResult('Graph attention weights', notes=[
             'Attention is normalized within each receiver, layer and head, including temporal decay. It is not a causal effect or a direct attribution of the fixture prediction.',
-            'The chart shows the strongest incoming edges per receiver/layer/head. Exports retain every edge and the full-history entropy. Gates and historical support remain separate.',
+            'The chart shows the strongest incoming edges per receiver/layer/head, ordered newest first. Exports retain every edge and the full-history entropy. Gates and historical support remain separate.',
         ])
         raw_catalog = self.catalog if self.catalog is not None else context.resources.get('team_catalog')
         catalog = raw_catalog if isinstance(raw_catalog, TeamCatalog) else TeamCatalog(raw_catalog or {})
         exports, summaries = [], []
-        go = _plotting()
         for fold, model, queries in _populations(context, self.issuance_at, result):
             table = model.attention_weights(queries)
             if table.empty:
                 result.notes.append(f'Fold {fold}: no eligible historical edges; representations use priors.')
-                continue
             table['fold_id'] = fold
             exports.append(table)
-            figure = go.Figure(); trace_teams = []; buttons = []; images = {}
-            for (team, layer, head), group in table.groupby(['team_id', 'layer', 'head'], sort=False):
+            roster = attention_roster(model, queries, context.metadata, catalog, self.show_badges, result.notes)
+            groups = [] if table.empty else table.groupby(['team_id', 'layer', 'head'], sort=False)
+            for (team, layer, head), group in groups:
                 p = group.attention.to_numpy(); nonzero = p[p > 0]
                 entropy = float(-(nonzero*np.log(nonzero)).sum())
                 summaries.append(dict(fold_id=fold, team_id=team, layer=layer, head=head,
                     edges=len(group), weight_sum=float(p.sum()), entropy=entropy,
                     effective_edges=float(np.exp(entropy)), support=group.support.iloc[0], gate=group.gate.iloc[0]))
-                name, badge, note = catalog.display(team, badges=self.show_badges)
-                if note: result.notes.append(note)
-                images[team] = [] if badge is None else [dict(source=badge, x=1, y=1.12, xref='paper', yref='paper', sizex=.06, sizey=.12, xanchor='right', yanchor='top')]
-                top = group.nlargest(self.top_edges, 'attention')
-                labels = [escape(catalog.display(r.opponent_id)[0])+' · '+r.kickoff_at.strftime('%Y-%m-%d')+' · '+str(r.event_id) for r in top.itertuples()]
-                figure.add_trace(go.Bar(x=labels, y=top.attention, name=f'Layer {layer+1} / head {head+1}',
-                    visible=not trace_teams or team == trace_teams[0]))
-                trace_teams.append(team)
-            for team in dict.fromkeys(trace_teams):
-                name = escape(catalog.display(team)[0])
-                buttons.append(dict(label=name, method='update', args=[{'visible':[t == team for t in trace_teams]},
-                    {'title.text':f'Incoming attention · Fold {fold}', 'images':images[team]}]))
-            _style(figure, f'Incoming attention · Fold {fold}', 'Historical opponent / kickoff / fixture', 'Normalized weight')
-            figure.update_layout(height=750, title=dict(y=.98, yanchor='top'), colorway=['#268bd2','#dc322f','#238b57','#b58900','#805ad5','#2aa198'],
-                margin=dict(t=185, b=150),
-                legend=dict(orientation='h', x=0, y=1.05, yanchor='bottom'),
-                xaxis=dict(tickangle=-40, automargin=True),
-                updatemenus=[dict(buttons=buttons, direction='down', x=0, y=1.28, yanchor='bottom')], images=images[trace_teams[0]])
+            figure = attention_figure(table, roster, catalog, self.top_edges, fold)
             result.artifacts.append(Artifact('plotly', figure, f'Attention · fold {fold}'))
         result.tables['attention'] = pd.concat(exports, ignore_index=True) if exports else pd.DataFrame()
         result.tables['concentration'] = pd.DataFrame(summaries)
