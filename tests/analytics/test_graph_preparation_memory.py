@@ -126,8 +126,11 @@ def test_streaming_bit_exact_training_and_exports(monkeypatch, tmp_path, policy,
     assert_exact(a.preprocessor.state(), b.preprocessor.state())
     assert_exact(a.model.state_dict(), b.model.state_dict())
     assert_exact(a.optimizer.state_dict(), b.optimizer.state_dict())
-    assert_exact(a.train_weights, b.train_weights)
-    assert_exact(a.validation_weights, b.validation_weights)
+    # Native weights are now safely binary-rescaled before conversion. The
+    # frozen eager reference keeps raw weights; their proportions are exact
+    # here, as are all gradients, optimizer states and outputs checked above.
+    assert_exact(a.train_weights/a.train_weights.sum(), b.train_weights/b.train_weights.sum())
+    assert_exact(a.validation_weights/a.validation_weights.sum(), b.validation_weights/b.validation_weights.sum())
     pd.testing.assert_frame_equal(native.training_history_, original.training_history_, check_exact=True)
     assert native.training_summary_ == original.training_summary_
     assert a.model_version == b.model_version

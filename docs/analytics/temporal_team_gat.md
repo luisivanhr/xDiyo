@@ -222,6 +222,18 @@ The head concatenates `[z_home, z_away, z_home-z_away, z_home*z_away, c_fixture]
 with z equal to the last-layer state. Defaults: dimension 32, two layers, two
 heads per layer, H=180 days, rho=0.5, kappa=5, and one 64-wide ReLU hidden layer
 before three logits. All weights train jointly using weighted cross-entropy.
+
+Fitting and validation observation weights are independently rescaled by an
+exact power of two in float64 before conversion to the model's float32 dtype.
+This keeps the largest stored weight between 0.5 and 1 and preserves relative
+weights, including when the original positive weights are uniformly tiny or
+their raw sum would overflow. No epsilon floor or clipping changes their ratios.
+An excessively wide relative range that would erase a positive weight in
+float32 is rejected explicitly. Zero weights remain zero. The denominator is
+computed once per replay; optional reconstruction retains the issuance's share
+of total fixture weight, independent of its historical edge count. Rescaled
+objectives and gradients agree within float32 rounding. Existing artifacts are
+unchanged; their inference does not recompute fitting weights.
 One iteration is a full fitting-population gradient step; issuance groups share
 one graph forward pass and backpropagate before the next group. Immutable
 prepared graph tensors are reused, but embeddings are recomputed after every

@@ -1,10 +1,10 @@
 """Bounded synthetic CPU timing for CNN audit repairs; no research data.
 
 Run from the repository root with PYTHONPATH=src. Requires the graphs extra
-and git history containing baseline 5eded399. Reports medians after warm-up;
+and git history containing baseline 5eded399 (or --baseline REF). Reports medians after warm-up;
 absolute timings depend on hardware and do not establish GPU performance.
 """
-import json, statistics, subprocess, time, types
+import argparse, json, statistics, subprocess, time, types
 import numpy as np
 import pandas as pd
 import torch
@@ -14,9 +14,12 @@ from xdiyo_analytics.training.contracts import FitContext
 from xdiyo_analytics.features.point_geometry import validate_exact_point_ids
 
 torch.set_num_threads(1)
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--baseline', default='5eded399', help='Trusted local Git revision for the read-only baseline backend.')
+baseline = parser.parse_args().baseline
 legacy = types.ModuleType('xdiyo_analytics.neural.audit_baseline')
 legacy.__package__ = 'xdiyo_analytics.neural'
-exec(subprocess.check_output(['git','show','5eded399:src/xdiyo_analytics/neural/adapter.py'], text=True, encoding='utf-8'), legacy.__dict__)
+exec(subprocess.check_output(['git','show',f'{baseline}:src/xdiyo_analytics/neural/adapter.py'], text=True, encoding='utf-8'), legacy.__dict__)
 rng=np.random.default_rng(17)
 N=512
 names=[f'{side}::recent::heatmap_for_mass_10_y{y:02}_x{x:02}' for side in ('home','away') for y in range(10) for x in range(10)]
@@ -67,7 +70,7 @@ train=graph_context(list(range(1,21)))
 train.validation=graph_context(list(range(22,28)))
 old_graph=types.ModuleType('xdiyo_analytics.graphs.audit_baseline')
 old_graph.__package__='xdiyo_analytics.graphs'
-exec(subprocess.check_output(['git','show','5eded399:src/xdiyo_analytics/graphs/adapter.py'],
+exec(subprocess.check_output(['git','show',f'{baseline}:src/xdiyo_analytics/graphs/adapter.py'],
                              text=True,encoding='utf-8'),old_graph.__dict__)
 for label,cls in [('baseline_gat_validation',old_graph._Backend),('repaired_gat_validation',_Backend)]:
     b=cls(cfg,store,17,'cpu');b.initialize(train)
@@ -77,7 +80,7 @@ for label,cls in [('baseline_gat_validation',old_graph._Backend),('repaired_gat_
         if hasattr(b,'checkpoint_metrics'):b.checkpoint_metrics('validation_loss',values)
         if i>=2:durations.append(time.perf_counter()-start)
     results[label]={'median_seconds':statistics.median(durations),'min_seconds':min(durations)}
-results['scope']={'device':'cpu','threads':1,'standalone_rows':N,'grid_size':10,
+results['scope']={'baseline':baseline,'device':'cpu','threads':1,'standalone_rows':N,'grid_size':10,
                   'gat_train_issuances':20,'gat_validation_issuances':6,
                   'torch':torch.__version__,'pandas':pd.__version__}
 print(json.dumps(results,indent=2))

@@ -233,11 +233,21 @@ class _Backend:
             if isinstance(context.sample_weight, (pd.Series, pd.DataFrame)) and not context.sample_weight.index.equals(context.X.index):
                 raise ValueError("Observation weights must align with X.")
             w = np.asarray(context.sample_weight, dtype=float).reshape(-1)
-        if len(w) != len(y) or not np.isfinite(w).all() or (w < 0).any() or w.sum() <= 0:
+        if len(w) != len(y) or not np.isfinite(w).all() or (w < 0).any() or not (w > 0).any():
             raise ValueError("Observation weights must be finite, nonnegative and have positive total.")
-        return y, torch.tensor(w.copy(), dtype=torch.float32, device=self.device)
+        # Binary scaling is exact in float64 and leaves relative weights intact.
+        # ldexp also handles subnormal maxima and avoids constructing 2**1024.
+        # Bound the largest stored weight to [0.5, 1], before the float32 cast:
+        # neither an overall tiny scale nor an overflowing raw sum can corrupt
+        # the fitting/validation objective. Ordinary binary rescalings retain
+        # the existing float32 reduction arithmetic.
+        exponent = np.frexp(w.max())[1]
+        scaled = np.ldexp(w, -int(exponent)).astype(np.float32)
+        if ((w > 0) & (scaled == 0)).any():
+            raise ValueError('Relative observation weights exceed the float32 dynamic range; positive weights would disappear.')
+        return y, torch.tensor(scaled, device=self.device)
 
-    def _group_loss(self, group, targets, weights, backward):
+    def _group_loss(self, group, targets, weights, backward, total_weight=None):
         torch = _torch()
         positions, data, home, away, fixture = group
         reconstruction = self.config.heatmaps.encoder.reconstruction if self.config.heatmaps is not None else None
@@ -246,9 +256,12 @@ class _Backend:
         else:
             logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True)
         ix = torch.as_tensor(positions, device=self.device)
-        loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * weights[ix]).sum()/weights.sum()
+        if total_weight is None:
+            total_weight = weights.sum()
+        group_weights = weights[ix]
+        loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * group_weights).sum()/total_weight
         if reconstruction is not None:
-            part = auxiliary * weights[ix].sum()/weights.sum()
+            part = auxiliary * (group_weights.sum()/total_weight)
             self._reconstruction_loss += float(part.detach())
             objective = loss + reconstruction.weight * part
         else:
@@ -261,8 +274,9 @@ class _Backend:
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
         value = 0.
+        total_weight = weights.sum()
         for i in range(len(groups)):
-            value += self._group_loss(groups[i], targets, weights, backward)
+            value += self._group_loss(groups[i], targets, weights, backward, total_weight)
         return value
 
     def step(self):
