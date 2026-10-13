@@ -43,3 +43,12 @@ Artifacts:
 The embedding browser regression covers coincident team coordinates, league visibility, repeated find/reset/pan/zoom, content-based PNG/SVG detection and offline SVG export. Badges with identical positions are retained without changing their embedding coordinates; Find team raises the selected badge above coincident ones. Unavailable or unreadable custom assets fall back to colored points and names.
 
 No match tables, model weights or experiments are modified by this asset update.
+
+## Integrated badge coverage
+
+The main-branch coverage expansion (`bfe249c`) is preserved alongside the SVG
+selections: all 483 identities remain covered, all added raster assets remain
+available, and 199 alternative badge records retain their exact source metadata
+under `alternative_assets` in the catalog. Reports continue to select the
+reviewed SVG for every current team. The missing-badge collection helper from
+main is retained for future acquisitions.
