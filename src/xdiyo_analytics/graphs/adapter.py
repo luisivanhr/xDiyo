@@ -11,6 +11,7 @@ from .preprocessing import GraphPreprocessor
 from .store import _ids, _times
 from .streaming import GroupPlan, PreparedGroups, release_temporary_frames
 from .spatial import validate_grid_contract
+from .profiling import phase, timed
 from ..training.control import TrainingControl, run_iterations
 
 
@@ -133,6 +134,7 @@ class TemporalGraphAdapter:
                 raise ValueError("Replacement store changes frozen round anchors.")
         self.event_store = event_store
         self.backend_.store = event_store
+        self.backend_.preprocessor._edge_cache = None
 
 
 class _Backend:
@@ -251,10 +253,11 @@ class _Backend:
         torch = _torch()
         positions, data, home, away, fixture = group
         reconstruction = self.config.heatmaps.encoder.reconstruction if self.config.heatmaps is not None else None
-        if reconstruction is None:
-            logits = self.model(data, home, away, fixture)
-        else:
-            logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True)
+        with phase('forward'):
+            if reconstruction is None:
+                logits = self.model(data, home, away, fixture)
+            else:
+                logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True)
         ix = torch.as_tensor(positions, device=self.device)
         if total_weight is None:
             total_weight = weights.sum()
@@ -262,21 +265,34 @@ class _Backend:
         loss = (torch.nn.functional.cross_entropy(logits, targets[ix], reduction="none") * group_weights).sum()/total_weight
         if reconstruction is not None:
             part = auxiliary * (group_weights.sum()/total_weight)
-            self._reconstruction_loss += float(part.detach())
             objective = loss + reconstruction.weight * part
         else:
             objective = loss
         if backward:
-            objective.backward()
-        return float(loss.detach())
+            with phase('backward'):
+                objective.backward()
+        # Detached scalar storage only; no graph/logits survive this helper.
+        return (loss.detach(), part.detach()) if reconstruction is not None else (loss.detach(),)
 
     @release_temporary_frames
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
-        value = 0.
         total_weight = weights.sum()
+        scalars = []
         for i in range(len(groups)):
-            value += self._group_loss(groups[i], targets, weights, backward, total_weight)
+            scalars.extend(self._group_loss(groups[i], targets, weights, backward, total_weight))
+        if not scalars:
+            return 0.
+        # One device-to-host transfer, then the *original* sequential Python
+        # float accumulation. A device sum would change the reduction order.
+        width = 2 if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None else 1
+        with phase('loss_transfer'):
+            values = _torch().stack(scalars).cpu().tolist()
+        value = 0.
+        for i in range(0, len(values), width):
+            value += values[i]
+            if width == 2:
+                self._reconstruction_loss += values[i+1]
         return value
 
     def step(self):
@@ -286,7 +302,8 @@ class _Backend:
         train_loss = self._loss(self.train_groups, self.train_targets, self.train_weights, True)
         penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
         penalty.backward()
-        self.optimizer.step()
+        with phase('optimizer'):
+            self.optimizer.step()
         values = {"train_loss": train_loss}
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values['train_reconstruction_loss'] = self._reconstruction_loss
@@ -301,6 +318,7 @@ class _Backend:
         self.refresh_version()
         return values
 
+    @timed('metric_replay')
     def checkpoint_metrics(self, monitor, values):
         if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss'):
             return values
@@ -313,6 +331,7 @@ class _Backend:
                           train_objective=loss+self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss+float(penalty))
         return values
 
+    @timed('fingerprint')
     def refresh_version(self):
         digest = sha256()
         for name, value in self.model.state_dict().items():

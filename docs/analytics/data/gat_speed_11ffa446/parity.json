@@ -1,0 +1,20 @@
+{
+  "model": {
+    "exact_tensors": 2,
+    "tensor_count": 21,
+    "max_absolute_difference": 1.6763806343078613e-06
+  },
+  "gradients": {
+    "exact_tensors": 0,
+    "tensor_count": 21,
+    "max_absolute_difference": 2.0954757928848267e-09
+  },
+  "optimizer": {
+    "exact_tensors": 21,
+    "tensor_count": 63,
+    "max_absolute_difference": 2.3283064365386963e-10
+  },
+  "status": "MEASURED_NONDETERMINISTIC_CUDA_DIFFERENCES",
+  "prepared_sample_tensors_byte_exact": true,
+  "note": "No bit-exact or relaxed-tolerance pass claimed for the full-fold default CUDA update. Separate deterministic CUDA diagnostic passes exactly."
+}

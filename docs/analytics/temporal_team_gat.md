@@ -571,8 +571,8 @@ At 960 issuances the per-phase sampled peaks (every 2 ms) and elapsed times were
 Process high-water RSS is recorded separately from the sampled phase peaks.
 Rebuilding each graph each iteration is slower: the fitting phase here took about
 **1.75 times** as long. These are single runs, not statistical speed estimates.
-A future bounded disk/tensor cache could trade I/O or a fixed memory budget for
-reconstruction work; none is enabled in this implementation.
+Those measurements predate the bounded source-row encoding cache described below;
+they do not measure its speed or memory.
 
 The full 41,732,050-edge production fold and 16,803,918-edge prediction population
 remain **unmeasured**. The support bundle contains actual-cohort evidence for the
@@ -598,3 +598,67 @@ python examples/benchmark_gat_streaming.py --issuances 960 --output streaming-96
 The benchmark requires development-only `psutil`. Before allocating a population,
 it estimates additional memory and refuses a run above 65% of available RAM.
 This conservative benchmark guard is not a production memory-limit guarantee.
+
+### Source-row preparation and loss-transfer optimization
+
+The streaming path retains one CPU float32 source-edge encoding cache per fitted
+preprocessor, shared by training, validation and prediction. Its combined value
+and readiness arrays are capped at 128 MiB. Sources exceeding that cap use the
+original per-snapshot encoding. No complete graphs, device copies or learned CNN
+outputs are cached. Resident preparation memory therefore scales with source
+rows plus the largest live graph, rather than the sum of overlapping issuances.
+
+Rows are encoded lazily when eligible: future invalid observations cannot break
+an earlier forecast. Encoding still uses float64 scaler arithmetic followed by
+the original float32 cast. The cache identity includes the immutable store object
+and content version, full graph configuration, ordered feature columns and fitted
+preprocessing state. Store replacement, scaler changes and refitting invalidate
+it. It is transient and absent from saved model artifacts and model fingerprints.
+
+Store-level timestamp arrays and season-entry indices replace repeated boundary
+scans. Each issuance still reconstructs its exact eligible row order, node
+population, memberships, decay, support and rest days. Memberships use the full
+issuance timestamp; two issuances sharing a midnight cutoff are not equivalent.
+Exact team IDs are indexed once into compact source codes, avoiding repeated
+Arrow scalar conversion for every edge. The original IDs are never cast to
+floating point or restricted to signed 64-bit values. Latest eligible kickoff
+times are reduced using the same receiver indices; rest days retain the original
+scalar timestamp arithmetic, including its nanosecond rounding behavior.
+Fixture column reads use temporary frames without attrs to avoid copying large
+provenance dictionaries onto each Series. Returned metadata keeps its original
+attrs and independent nested copies. These temporary frames are not cached.
+Prepared graphs copy only the metadata and optional heatmap channels needed for
+that issuance. Public snapshots retain their complete original edge columns.
+
+Each group still performs its own backward call with the same global weight
+denominator, followed by one prior backward and one AdamW update per pass.
+Detached scalar losses are transferred together once per pass, then accumulated
+as Python floats in their original order. Post-update training loss, validation,
+selection, checkpoint metrics and reporting cadence are unchanged.
+
+Optional diagnostic timing does not enter recipes or model identity:
+
+```python
+from xdiyo_analytics.graphs import GraphProfile
+
+with GraphProfile(device="cuda:0") as profile:
+    adapter.fit(context)
+print(profile.timings)
+```
+
+The profile records snapshot/index construction, row encoding, tensor transfers,
+forward/backward, loss transfer, optimizer, fingerprint and metric replay phases.
+Native serializer saves are recorded as `checkpoint_export`; external checkpoint
+observers can use `graphs.profiling.phase("checkpoint_export")`. CUDA boundaries
+are synchronized, which introduces overhead. Phases can overlap through nesting,
+so their totals must not be added together. Compare unprofiled wall time separately.
+
+`examples/benchmark_gat_speed.py` benchmarks a completed scalar expanded-totals
+fold against frozen `11ffa446` code. It reads saved preprocessing and weights,
+checks model commitments, input hashes and model/store identity, then performs
+disposable updates outside the study. It never resumes or rewrites the study.
+Use separate processes for reference/native memory comparisons and pass Ayre's
+support ZIP via `--evidence` to enforce its pinned hashes as well.
+
+See the [measured speed audit](gat_speed_11ffa446.md) for timings, memory,
+profiling overhead and exact-versus-nondeterministic CUDA comparison limits.

@@ -1,0 +1,101 @@
+"""Task-local fixed-refit replay bridge. No native-library edits or ML imports.
+
+Real-model/optimizer/RNG restore is supplied by the hash-bound recovery helper.
+Fake-state unit tests do not establish real-model or GPU continuation parity.
+"""
+from copy import deepcopy
+import math
+
+
+def validate_fixed_replay(control, context, payload):
+    if (control.early_stopping or control.scheduler or control.restarts or
+            control.restore_best or context.validation is not None or
+            control.direction != 'minimize' or control.monitor not in (None, 'train_loss')):
+        raise ValueError('Fixed-refit replay excludes selection, validation and schedules')
+    if payload is None:
+        return 0
+    completed = payload['completed_steps']
+    if type(completed) is not int or not 0 < completed <= control.max_steps:
+        raise ValueError('Invalid completed step count')
+    if payload['budget'] != control.max_steps:
+        raise ValueError('Replay budget changed')
+    records = payload['records']
+    if len(records) != completed or [r['step'] for r in records] != list(range(1, completed + 1)):
+        raise ValueError('Replay history must be complete and contiguous')
+    for record in records:
+        values = record['metrics']
+        if 'train_loss' not in values or not all(math.isfinite(float(v)) for v in values.values()):
+            raise ValueError('Replay native metrics must be finite and include train_loss')
+    return completed
+
+
+def make_fixed_replay_backend(native_backend, payload, restore_backend):
+    """Subclass a native backend and change only already-completed step replay.
+
+    The caller must validate fixed-only control and checkpoint identities first.
+    Native checkpoint_metrics is called normally for every genuinely new step.
+    """
+    records = () if payload is None else tuple(deepcopy(payload['records']))
+
+    class FixedReplayBackend(native_backend):
+        def initialize(self, context):
+            result = super().initialize(context)
+            self.replay_cursor = 0
+            self.last_step_was_replay = False
+            if payload is not None:
+                restore_backend(self, payload)
+            return result
+
+        def step(self):
+            if self.replay_cursor < len(records):
+                self.last_step_was_replay = True
+                values = deepcopy(records[self.replay_cursor]['metrics'])
+                self.replay_cursor += 1
+                return values
+            self.last_step_was_replay = False
+            return super().step()
+
+        def checkpoint_metrics(self, monitor, values):
+            if self.last_step_was_replay:
+                return values
+            native_hook = getattr(super(), 'checkpoint_metrics', None)
+            return native_hook(monitor, values) if callable(native_hook) else values
+
+    return FixedReplayBackend
+
+
+def derive_selection_ledger(records, *, cap=48, patience=12, min_delta=0.0001):
+    """Pure exact-best/patience ledger; not a selection continuation adapter.
+
+    Called after an observer receives native validation metrics, before the
+    native controller has updated its own ledger. Best-state tensor identity
+    must be bound separately by the future checkpoint writer.
+    """
+    if [r['step'] for r in records] != list(range(1, len(records) + 1)) or len(records) > cap:
+        raise ValueError('Selection records must be contiguous and within cap')
+    best = progress_best = math.inf
+    best_step = None
+    stale = 0
+    reason = 'in_progress'
+    for record in records:
+        if reason != 'in_progress':
+            raise ValueError('Selection history continues beyond native termination')
+        value = float(record['metrics']['validation_loss'])
+        if not math.isfinite(value):
+            raise ValueError('Nonfinite selection metric cannot be committed as usable progress')
+        if value < best:
+            best, best_step = value, record['step']
+        if value < progress_best - min_delta:
+            progress_best, stale = value, 0
+        else:
+            stale += 1
+        if stale >= patience:
+            reason = 'early_stopping'
+        elif record['step'] == cap:
+            reason = 'max_steps'
+    return dict(completed_steps=len(records), cap=cap, patience=patience,
+                min_delta=min_delta, best_value=None if best_step is None else best,
+                best_step=best_step, progress_best=None if best_step is None else progress_best,
+                stale=stale, schedule_stale=stale, termination_reason=reason,
+                monitor='validation_loss', direction='minimize', attempt=0, seed=17,
+                best_tensor_identity='MUST_BE_BOUND_SEPARATELY_NOT_INFERRED_FROM_CURRENT_OPTIMIZER')

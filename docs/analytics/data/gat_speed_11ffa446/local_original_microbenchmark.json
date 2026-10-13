@@ -1,0 +1,277 @@
+{
+  "status": "PASS_BOUNDED_NOFIT_CPU_PREPROCESSING_PROFILE",
+  "source_commit": "11ffa446f347a98e1514e671b638399b2ae9e359",
+  "source_manifest_sha256": "c9e481345059c4fb28557d14c7e6bcc33e5235f57b8bc28b82e02fb5ee72a049",
+  "model_version": "1ec37266f45b62ee01dc5616480dbba1733e1b95c6f004c24f4dfd6b171d0983",
+  "store_version": "ed86c8296bfa3106159a756b9672fe9e67ac0f0f6978b1149bd489ce9404f42b",
+  "source_files": {
+    "store.py": "01addbb0e1b8b2cc64716cc2fc35d9608a5090bc6d49c0e256c234a354189d7b",
+    "streaming.py": "494c4430f829962e0bbc06cf53c77f3aaade46cd66dd4cac14422aac7fe236bb",
+    "preprocessing.py": "bac28733830bcc94861752f4e76fc74510b7656c60592b9246db3bea02f5358d",
+    "adapter.py": "43f2cd6dbf09747b7a9e68ec70a123480a652d104dc02a624dffb79d9b9c7dc0"
+  },
+  "input_files": {
+    "gpu_runs/gat_expanded_totals/refit-fold-02/model/graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "gpu_runs/gat_expanded_totals/refit-fold-02/model/history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "gpu_runs/gat_expanded_totals/refit-fold-02/model/team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "gpu_runs/gat_expanded_totals/refit-fold-02/model/schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "gpu_runs/gat_expanded_totals/refit-fold-02/train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "torch_threads": 1,
+    "device": "cpu",
+    "cpu_count": 16
+  },
+  "population": {
+    "training_fixtures": 18888,
+    "issuance_descriptors": 1463,
+    "store_history_rows": 55976,
+    "store_history_columns": 83,
+    "store_membership_rows": 1484,
+    "store_schedule_rows": 27988,
+    "leagues": 13
+  },
+  "setup_seconds": 1.2739137000171468,
+  "baseline_rss_after_setup_bytes": 799707136,
+  "resources": {
+    "peak_rss_bytes": 946364416,
+    "minimum_host_available_bytes": 11473637376
+  },
+  "results": [
+    {
+      "label": "early",
+      "descriptor_index": 0,
+      "issuance": "2020-08-01T10:30:00+00:00",
+      "fixtures": 6,
+      "query_teams": 12,
+      "repeats": [
+        {
+          "repeat": 1,
+          "store_snapshot_seconds": 0.006036299979314208,
+          "group_plan_raw_including_snapshot_seconds": 0.011442699993494898,
+          "preprocessor_edges_seconds": 0.0011679999879561365,
+          "edge_float64_to_float32_cpu_seconds": 0.00022540002828463912,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.001542000041808933,
+          "fixture_transform_plus_cpu_seconds": 0.0009204999660141766,
+          "encoded_edge_float64_bytes": 0,
+          "edge_tensor_float32_bytes": 0,
+          "all_graph_tensor_bytes": 240,
+          "edge_encoding_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rss_before_bytes": 799719424,
+          "rss_after_bytes": 800518144
+        },
+        {
+          "repeat": 2,
+          "store_snapshot_seconds": 0.005868399981409311,
+          "group_plan_raw_including_snapshot_seconds": 0.011330800014548004,
+          "preprocessor_edges_seconds": 0.0007980999653227627,
+          "edge_float64_to_float32_cpu_seconds": 5.8699981309473515e-05,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.0016552999732084572,
+          "fixture_transform_plus_cpu_seconds": 0.0007321000448428094,
+          "encoded_edge_float64_bytes": 0,
+          "edge_tensor_float32_bytes": 0,
+          "all_graph_tensor_bytes": 240,
+          "edge_encoding_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rss_before_bytes": 800526336,
+          "rss_after_bytes": 800526336
+        },
+        {
+          "repeat": 3,
+          "store_snapshot_seconds": 0.005654999986290932,
+          "group_plan_raw_including_snapshot_seconds": 0.012920400011353195,
+          "preprocessor_edges_seconds": 0.001102500013075769,
+          "edge_float64_to_float32_cpu_seconds": 5.989999044686556e-05,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.001428699993994087,
+          "fixture_transform_plus_cpu_seconds": 0.0006105999927967787,
+          "encoded_edge_float64_bytes": 0,
+          "edge_tensor_float32_bytes": 0,
+          "all_graph_tensor_bytes": 240,
+          "edge_encoding_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rss_before_bytes": 800526336,
+          "rss_after_bytes": 800526336
+        }
+      ],
+      "dimensions": {
+        "edges": 0,
+        "nodes": 12,
+        "numeric_columns": 74,
+        "encoded_columns": 163,
+        "snapshot_frame_bytes": 132
+      },
+      "median_seconds": {
+        "store_snapshot_seconds": 0.005868399981409311,
+        "group_plan_raw_including_snapshot_seconds": 0.011442699993494898,
+        "preprocessor_edges_seconds": 0.001102500013075769,
+        "edge_float64_to_float32_cpu_seconds": 5.989999044686556e-05,
+        "preprocessor_tensors_including_edges_cpu_seconds": 0.001542000041808933,
+        "fixture_transform_plus_cpu_seconds": 0.0007321000448428094
+      }
+    },
+    {
+      "label": "middle",
+      "descriptor_index": 731,
+      "issuance": "2022-05-06T17:30:00+00:00",
+      "fixtures": 9,
+      "query_teams": 18,
+      "repeats": [
+        {
+          "repeat": 1,
+          "store_snapshot_seconds": 0.11704719997942448,
+          "group_plan_raw_including_snapshot_seconds": 0.12015480000991374,
+          "preprocessor_edges_seconds": 0.03345789999002591,
+          "edge_float64_to_float32_cpu_seconds": 0.003481400024611503,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.03771899995626882,
+          "fixture_transform_plus_cpu_seconds": 0.0009095999994315207,
+          "encoded_edge_float64_bytes": 24001424,
+          "edge_tensor_float32_bytes": 12000712,
+          "all_graph_tensor_bytes": 12447916,
+          "edge_encoding_sha256": "45da0a8b9b9a6e8c05a6fe88857925854da5232f4f86295da6595cd35aedede0",
+          "rss_before_bytes": 800583680,
+          "rss_after_bytes": 824655872
+        },
+        {
+          "repeat": 2,
+          "store_snapshot_seconds": 0.11963279999326915,
+          "group_plan_raw_including_snapshot_seconds": 0.12271159997908399,
+          "preprocessor_edges_seconds": 0.03322049998678267,
+          "edge_float64_to_float32_cpu_seconds": 0.0026002000086009502,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.038429600012023,
+          "fixture_transform_plus_cpu_seconds": 0.0008101999992504716,
+          "encoded_edge_float64_bytes": 24001424,
+          "edge_tensor_float32_bytes": 12000712,
+          "all_graph_tensor_bytes": 12447916,
+          "edge_encoding_sha256": "45da0a8b9b9a6e8c05a6fe88857925854da5232f4f86295da6595cd35aedede0",
+          "rss_before_bytes": 814051328,
+          "rss_after_bytes": 824655872
+        },
+        {
+          "repeat": 3,
+          "store_snapshot_seconds": 0.12091439997311682,
+          "group_plan_raw_including_snapshot_seconds": 0.12525679997634143,
+          "preprocessor_edges_seconds": 0.03624879999551922,
+          "edge_float64_to_float32_cpu_seconds": 0.0016967999981716275,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.03982529998756945,
+          "fixture_transform_plus_cpu_seconds": 0.0008806000114418566,
+          "encoded_edge_float64_bytes": 24001424,
+          "edge_tensor_float32_bytes": 12000712,
+          "all_graph_tensor_bytes": 12447916,
+          "edge_encoding_sha256": "45da0a8b9b9a6e8c05a6fe88857925854da5232f4f86295da6595cd35aedede0",
+          "rss_before_bytes": 814051328,
+          "rss_after_bytes": 824655872
+        }
+      ],
+      "dimensions": {
+        "edges": 18406,
+        "nodes": 273,
+        "numeric_columns": 74,
+        "encoded_columns": 163,
+        "snapshot_frame_bytes": 12447190
+      },
+      "median_seconds": {
+        "store_snapshot_seconds": 0.11963279999326915,
+        "group_plan_raw_including_snapshot_seconds": 0.12271159997908399,
+        "preprocessor_edges_seconds": 0.03345789999002591,
+        "edge_float64_to_float32_cpu_seconds": 0.0026002000086009502,
+        "preprocessor_tensors_including_edges_cpu_seconds": 0.038429600012023,
+        "fixture_transform_plus_cpu_seconds": 0.0008806000114418566
+      }
+    },
+    {
+      "label": "late",
+      "descriptor_index": 1462,
+      "issuance": "2024-06-02T13:15:00+00:00",
+      "fixtures": 11,
+      "query_teams": 22,
+      "repeats": [
+        {
+          "repeat": 1,
+          "store_snapshot_seconds": 0.214341799961403,
+          "group_plan_raw_including_snapshot_seconds": 0.21839929994894192,
+          "preprocessor_edges_seconds": 0.06837020005332306,
+          "edge_float64_to_float32_cpu_seconds": 0.007088599959388375,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.0746690999949351,
+          "fixture_transform_plus_cpu_seconds": 0.0014959000400267541,
+          "encoded_edge_float64_bytes": 49228608,
+          "edge_tensor_float32_bytes": 24614304,
+          "all_graph_tensor_bytes": 25526372,
+          "edge_encoding_sha256": "5c76ca8d74d639acb28f5f82acf3212c3b6569947104be475331eda3742265ac",
+          "rss_before_bytes": 814051328,
+          "rss_after_bytes": 855691264
+        },
+        {
+          "repeat": 2,
+          "store_snapshot_seconds": 0.23102080001262948,
+          "group_plan_raw_including_snapshot_seconds": 0.2341907000518404,
+          "preprocessor_edges_seconds": 0.06813100003637373,
+          "edge_float64_to_float32_cpu_seconds": 0.0068866999936290085,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.08028120000381023,
+          "fixture_transform_plus_cpu_seconds": 0.0010461999918334186,
+          "encoded_edge_float64_bytes": 49228608,
+          "edge_tensor_float32_bytes": 24614304,
+          "all_graph_tensor_bytes": 25526372,
+          "edge_encoding_sha256": "5c76ca8d74d639acb28f5f82acf3212c3b6569947104be475331eda3742265ac",
+          "rss_before_bytes": 809263104,
+          "rss_after_bytes": 853774336
+        },
+        {
+          "repeat": 3,
+          "store_snapshot_seconds": 0.2218412000220269,
+          "group_plan_raw_including_snapshot_seconds": 0.22385260002920404,
+          "preprocessor_edges_seconds": 0.06703500001458451,
+          "edge_float64_to_float32_cpu_seconds": 0.007236000034026802,
+          "preprocessor_tensors_including_edges_cpu_seconds": 0.07199430000036955,
+          "fixture_transform_plus_cpu_seconds": 0.0011034999624826014,
+          "encoded_edge_float64_bytes": 49228608,
+          "edge_tensor_float32_bytes": 24614304,
+          "all_graph_tensor_bytes": 25526372,
+          "edge_encoding_sha256": "5c76ca8d74d639acb28f5f82acf3212c3b6569947104be475331eda3742265ac",
+          "rss_before_bytes": 807346176,
+          "rss_after_bytes": 853786624
+        }
+      ],
+      "dimensions": {
+        "edges": 37752,
+        "nodes": 301,
+        "numeric_columns": 74,
+        "encoded_columns": 163,
+        "snapshot_frame_bytes": 25529922
+      },
+      "median_seconds": {
+        "store_snapshot_seconds": 0.2218412000220269,
+        "group_plan_raw_including_snapshot_seconds": 0.22385260002920404,
+        "preprocessor_edges_seconds": 0.06813100003637373,
+        "edge_float64_to_float32_cpu_seconds": 0.007088599959388375,
+        "preprocessor_tensors_including_edges_cpu_seconds": 0.0746690999949351,
+        "fixture_transform_plus_cpu_seconds": 0.0011034999624826014
+      }
+    }
+  ],
+  "total_elapsed_seconds": 6.1450000000186265,
+  "limits": {
+    "issuances": 3,
+    "repeats": 3,
+    "max_seconds": 180,
+    "max_rss_bytes": 2147483648
+  },
+  "semantics": {
+    "model_constructed": false,
+    "model_forward": false,
+    "backprop": false,
+    "fit_or_scaler_refit": false,
+    "weights_loaded": false,
+    "CUDA_used": false,
+    "PC_access": true,
+    "fullfold_graph_cache_allocated": false,
+    "pinned_source_and_inputs_unchanged": true
+  },
+  "caveats": [
+    "CPU local microbenchmark; not a measurement of PC GPU utilization or H2D time",
+    "snapshot is included inside GroupPlan.raw; edges is included inside preprocessor.tensors; do not sum overlapping columns",
+    "Three representative issuance descriptors only; no full-fold timing extrapolation or promised speedup"
+  ]
+}

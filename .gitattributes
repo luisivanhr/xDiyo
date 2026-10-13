@@ -1,5 +1,7 @@
 # Published checksums describe exact bytes; do not rewrite them on checkout.
 data/xDiyo_data/** -text
+# Frozen GAT audit references are verified against supplied SHA-256 hashes.
+tests/analytics/reference/gat_*_11ffa446.txt -text
 # The standalone viewer preserves the supplied stylesheet and its SHA-256.
 src/xdiyo_analytics/reporting/templates/assets/tickets.css -text
 # Badge provenance hashes describe exact downloaded/converted bytes, including

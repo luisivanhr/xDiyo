@@ -5,6 +5,7 @@ from pathlib import Path
 from .config import TemporalGraphConfig, CLASS_ORDER
 from .adapter import TemporalGraphAdapter, _Backend, _torch
 from .preprocessing import GraphPreprocessor
+from .profiling import timed
 
 
 class TemporalGraphSerializer:
@@ -21,6 +22,7 @@ class TemporalGraphSerializer:
         self.event_store, self.device = event_store, device
         self.embed_event_store = embed_event_store
 
+    @timed('checkpoint_export')
     def save(self, adapter, directory):
         torch = _torch()
         path = Path(directory)

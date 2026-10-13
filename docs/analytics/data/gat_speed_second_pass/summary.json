@@ -1,0 +1,23 @@
+{
+  "first_pass_median_seconds": 140.77564949999214,
+  "second_pass_median_seconds": 40.73055455001304,
+  "speed_ratio": 3.4562664578291895,
+  "elapsed_reduction_percent": 71.06704554752183,
+  "prepared_sample_hashes_exact": true,
+  "input_hashes_identical": true,
+  "added_fixed_source_code_bytes": 895616,
+  "source_sha256": {
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "c65bfca50344fd6b76aeb1b1e780a0d4c042e5098ebf12fd205cfc6ef948b1fb",
+    "src\\xdiyo_analytics\\graphs\\config.py": "79d9ae82999d52be2b2f51786bc05035c0e1b84de7ae1d0888eadbe54044146f",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "43fe56959f0e6a3ef30dfb01f3eb2fab6408b4d9afbb088d5b4168d80322bad9",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "4491c320bd19ebbd724232b04dead55e34584592444baa2362a02850b0a9b8b8",
+    "src\\xdiyo_analytics\\graphs\\network.py": "0de697d603e09e80b5891d9fe2016f021aa8aaba9e2fcce56f6611ceb6368f0c",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "82f6de048168558120b6d38e8e537b85435b8bdd2a027010d1ddae6acf7e75f6",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "0060bb123c4f29d90c02de7f78ae9fad2cc46ecbf558914c38ac05384fdd2aec",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "2ffccf9fe2fa33a1584efe6f83c7b59bfa931f5f81b2a39edd074b584dbd92d8",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\store.py": "9c62f02129c3efc09d96281ef05b25631f4f121fbe12980c11d79c2cf69cbed8",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "7f6af3f3a8ec277f7feaa5625b4b064a83a38685ab5cfd9d325020a95748e32b",
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "6b870e198a409ce2f8858ff30ce17e8f895f735327b3ce89cdc5eddcb3860597"
+  }
+}

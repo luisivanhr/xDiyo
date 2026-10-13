@@ -1,0 +1,161 @@
+{
+  "mode": "native",
+  "baseline": "11ffa446",
+  "input_sha256": {
+    "train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465",
+    "model\\graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "model\\history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "model\\team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "model\\schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "model\\weights.pt": "43263746d590bfe71616896a18c2a2ab3627c542be3c72e2042d51ac2e8ef931"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4",
+    "device": "NVIDIA GeForce RTX 4070 SUPER",
+    "threads": 1,
+    "deterministic": false,
+    "tf32": false
+  },
+  "samples": [
+    {
+      "label": "early",
+      "index": 0,
+      "edges": 0,
+      "width": 163,
+      "issuance": "2020-08-01 10:30:00+00:00",
+      "cold_seconds": 0.010117099969647825,
+      "warm_seconds": [
+        0.006659099948592484,
+        0.006585299968719482,
+        0.006229799997527152
+      ],
+      "tensor_sha256": "08315a717095e79aee7991fdad0628bf5384183c035785d8a2e5ecf7a818bd31"
+    },
+    {
+      "label": "middle",
+      "index": 731,
+      "edges": 18406,
+      "width": 163,
+      "issuance": "2022-05-06 17:30:00+00:00",
+      "cold_seconds": 0.07732519996352494,
+      "warm_seconds": [
+        0.024483000044710934,
+        0.024657999980263412,
+        0.024029700027313083
+      ],
+      "tensor_sha256": "3f34d157e02a990669f557c2c214ed9567795ac6c52c969b296f40ca83021d60"
+    },
+    {
+      "label": "late",
+      "index": 1462,
+      "edges": 37752,
+      "width": 163,
+      "issuance": "2024-06-02 13:15:00+00:00",
+      "cold_seconds": 0.10103920003166422,
+      "warm_seconds": [
+        0.044760200020391494,
+        0.045890300010796636,
+        0.045555600023362786
+      ],
+      "tensor_sha256": "7db3dad2131e6596c2dce97989151d525f3f25695c7a18ea3f6ab35f262fa03c"
+    }
+  ],
+  "updates": [
+    {
+      "repeat": 0,
+      "profiled": false,
+      "training_seconds": 53.3039465000038,
+      "metric_seconds": 47.54806739999913,
+      "total_seconds": 100.85201390000293,
+      "values": {
+        "train_loss": 1.0009591461512173
+      },
+      "metrics": {
+        "train_loss": 1.0005947108365945
+      },
+      "phases": {},
+      "rng_unchanged": true
+    },
+    {
+      "repeat": 1,
+      "profiled": false,
+      "training_seconds": 55.54310740000801,
+      "metric_seconds": 56.07192060002126,
+      "total_seconds": 111.61502800002927,
+      "values": {
+        "train_loss": 1.0009591456382623
+      },
+      "metrics": {
+        "train_loss": 1.0005947111330897
+      },
+      "phases": {},
+      "rng_unchanged": true
+    },
+    {
+      "repeat": 2,
+      "profiled": true,
+      "training_seconds": 75.21185859997058,
+      "metric_seconds": 74.0044289000216,
+      "total_seconds": 149.21628749999218,
+      "values": {
+        "train_loss": 1.000959144983426
+      },
+      "metrics": {
+        "train_loss": 1.0005947094814474
+      },
+      "phases": {
+        "snapshot_index": {
+          "calls": 2926,
+          "seconds": 84.45507730153622
+        },
+        "row_encoding": {
+          "calls": 2926,
+          "seconds": 6.7355458996025845
+        },
+        "tensor_transfer": {
+          "calls": 20482,
+          "seconds": 5.669958396872971
+        },
+        "forward": {
+          "calls": 2926,
+          "seconds": 16.544832900806796
+        },
+        "backward": {
+          "calls": 1463,
+          "seconds": 11.722980699676555
+        },
+        "loss_transfer": {
+          "calls": 2,
+          "seconds": 0.0033829999738372862
+        },
+        "optimizer": {
+          "calls": 1,
+          "seconds": 0.003835500043351203
+        },
+        "fingerprint": {
+          "calls": 1,
+          "seconds": 0.0009542999905534089
+        },
+        "metric_replay": {
+          "calls": 1,
+          "seconds": 74.00440830003936
+        }
+      },
+      "rng_unchanged": true
+    }
+  ],
+  "issuances": 1463,
+  "source_edges": 55976,
+  "rss": {
+    "baseline": 811302912,
+    "peak": 1886216192
+  },
+  "peak_device_allocated": 175799296,
+  "peak_device_reserved": 228589568,
+  "cache_bytes": 36552328,
+  "inputs_unchanged": true,
+  "disposable_updates_only": true
+}

@@ -1,0 +1,29 @@
+{
+  "status": "PASS_BIT_EXACT_DETERMINISTIC_CUDA",
+  "groups": [
+    0,
+    18406,
+    37752
+  ],
+  "checks": [
+    "ordered_inputs",
+    "logits",
+    "losses",
+    "gradients",
+    "parameters",
+    "AdamW_state",
+    "CPU_and_CUDA_RNG"
+  ],
+  "device": "NVIDIA GeForce RTX 4070 SUPER",
+  "torch": "2.14.0+cu130",
+  "input_sha256": {
+    "train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465",
+    "model\\history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "model\\team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "model\\schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "model\\graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "model\\weights.pt": "43263746d590bfe71616896a18c2a2ab3627c542be3c72e2042d51ac2e8ef931"
+  },
+  "inputs_unchanged": true,
+  "scope": "Three actual early/middle/late graphs, not a full-fold deterministic comparison"
+}

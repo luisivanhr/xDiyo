@@ -10,3 +10,5 @@ __all__ = ["TemporalGraphConfig", "TemporalEventStore", "GraphSnapshot",
 from .integration import TemporalGraphModel
 from .spatial import GraphHeatmaps
 __all__ += ["TemporalGraphModel", "GraphHeatmaps"]
+from .profiling import GraphProfile
+__all__ += ["GraphProfile"]

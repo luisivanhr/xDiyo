@@ -1,0 +1,134 @@
+"""DRAFT task-local latest-native recovery derivative. Real-model/GPU parity pending."""
+import copy, dataclasses, hashlib, json, os, pathlib, random, sys
+import numpy as np
+import torch
+
+VERSION = 1
+
+def identity_for(model,context,extra):
+    import pandas as pd
+    def frame(frame):
+        if frame is None: return None
+        digest=hashlib.sha256(pd.util.hash_pandas_object(frame,index=True).values.tobytes())
+        digest.update(str(list(frame.columns) if hasattr(frame,'columns') else frame.name).encode())
+        digest.update(str(frame.dtypes).encode())
+        return digest.hexdigest()
+    return canonical(dict(config=dataclasses.asdict(model.config),control=dataclasses.asdict(model.control),
+        store_version=model.event_store.version,fold_id=context.fold_id,
+        X=frame(context.X),y=frame(context.y),metadata=frame(context.metadata),
+        sample_weight=frame(context.sample_weight) if hasattr(context.sample_weight,'index') else canonical(context.sample_weight),extra=extra))
+
+def canonical(value):
+    return json.loads(json.dumps(value, sort_keys=True, allow_nan=False, default=str))
+
+def sha(path):
+    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+def atomic_json(path, value):
+    path = pathlib.Path(path); temporary = path.with_name(path.name + '.tmp')
+    with temporary.open('w', encoding='utf-8') as stream:
+        json.dump(value, stream, indent=2, allow_nan=False, default=str)
+        stream.flush(); os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+def runtime():
+    return dict(python=sys.version, torch=str(torch.__version__), cuda=torch.version.cuda,
+        threads=torch.get_num_threads(), matmul_tf32=torch.backends.cuda.matmul.allow_tf32,
+        cudnn_tf32=torch.backends.cudnn.allow_tf32, precision=torch.get_float32_matmul_precision(),
+        deterministic=torch.are_deterministic_algorithms_enabled(),
+        cudnn_deterministic=torch.backends.cudnn.deterministic, cudnn_benchmark=torch.backends.cudnn.benchmark,
+        cublas=os.environ.get('CUBLAS_WORKSPACE_CONFIG'),
+        devices=[dict(name=torch.cuda.get_device_name(i),capability=list(torch.cuda.get_device_capability(i))) for i in range(torch.cuda.device_count())])
+
+def rng_state():
+    numpy_state = np.random.get_state()
+    return dict(python=random.getstate(), numpy=[numpy_state[0],torch.tensor(numpy_state[1].astype(np.int64)),*numpy_state[2:]],
+        cpu=torch.get_rng_state(), cuda=torch.cuda.get_rng_state_all())
+
+def restore_rng(state):
+    random.setstate(state['python'])
+    n=state['numpy']; np.random.set_state((n[0], n[1].numpy().astype(np.uint32), *n[2:]))
+    torch.set_rng_state(state['cpu'])
+    if len(state['cuda']) != torch.cuda.device_count(): raise ValueError('CUDA RNG device count changed')
+    torch.cuda.set_rng_state_all(state['cuda'])
+
+def cpu_tree(value):
+    if isinstance(value,torch.Tensor): return value.detach().cpu().clone()
+    if isinstance(value,dict): return {k:cpu_tree(v) for k,v in value.items()}
+    if isinstance(value,list): return [cpu_tree(v) for v in value]
+    if isinstance(value,tuple): return tuple(cpu_tree(v) for v in value)
+    return copy.deepcopy(value)
+
+def save_state(directory, backend, identity, records, budget):
+    """Write into an unpublished pending directory; commit_directory publishes it."""
+    directory=pathlib.Path(directory); directory.mkdir(parents=True,exist_ok=True)
+    if backend.device.startswith('cuda'): torch.cuda.synchronize(backend.device)
+    saved_rng=rng_state()
+    payload=dict(format=VERSION,identity=canonical(identity),runtime=runtime(),
+        preprocessing=canonical(backend.preprocessor.state()),config=canonical(dataclasses.asdict(backend.config)),
+        model=cpu_tree(backend.model.state_dict()), optimizer=cpu_tree(backend.optimizer.state_dict()),
+        parameter_names=[name for name,_ in backend.model.named_parameters()], rng=saved_rng,
+        completed_steps=len(records),budget=budget,records=copy.deepcopy(records),training=backend.model.training,
+        device=backend.device,model_version=backend.model_version)
+    assert [r['step'] for r in records]==list(range(1,len(records)+1)) and 0<len(records)<=budget
+    path=directory/'training-state.pt'
+    with path.open('xb') as stream:
+        torch.save(payload,stream);stream.flush();os.fsync(stream.fileno())
+    restore_rng(saved_rng)
+
+def commit_directory(pending, complete):
+    pending,complete=pathlib.Path(pending),pathlib.Path(complete)
+    if complete.exists(): raise FileExistsError(complete)
+    hashes={p.relative_to(pending).as_posix():sha(p) for p in pending.rglob('*') if p.is_file()}
+    if 'checkpoint/training-state.pt' not in hashes: raise ValueError('Full-state checkpoint absent')
+    # Flush all native serializer files before publishing the directory.
+    for name in hashes:
+        with (pending/name).open('r+b') as stream: os.fsync(stream.fileno())
+    atomic_json(pending/'COMMITTED.json',dict(format=VERSION,files=hashes))
+    os.replace(pending,complete)
+    atomic_json(complete.parent/'LATEST.json',dict(step_directory=complete.name,manifest_sha256=sha(complete/'COMMITTED.json')))
+
+def load_state(complete, identity, budget):
+    complete=pathlib.Path(complete)
+    if complete.name.startswith('.'): raise ValueError('Unpublished checkpoint')
+    manifest=json.loads((complete/'COMMITTED.json').read_text())
+    if manifest['format']!=VERSION: raise ValueError('Checkpoint format changed')
+    for name,digest in manifest['files'].items():
+        candidate=(complete/name).resolve()
+        if not candidate.is_relative_to(complete.resolve()) or sha(candidate)!=digest: raise ValueError('Checkpoint integrity mismatch')
+    if 'checkpoint/training-state.pt' not in manifest['files']: raise ValueError('Weights-only checkpoint cannot resume')
+    payload=torch.load(complete/'checkpoint/training-state.pt',map_location='cpu',weights_only=True)
+    if payload['format']!=VERSION or payload['identity']!=canonical(identity): raise ValueError('Checkpoint identity mismatch')
+    if payload['budget']!=budget or not 0<payload['completed_steps']<=budget: raise ValueError('Budget/progress mismatch')
+    if len(payload['records'])!=payload['completed_steps'] or [r['step'] for r in payload['records']]!=list(range(1,payload['completed_steps']+1)): raise ValueError('Noncontiguous progress')
+    if payload['runtime']!=runtime(): raise ValueError('Runtime or precision settings changed')
+    return payload
+
+def restore_backend(backend,payload):
+    if payload['device']!=backend.device or payload['config']!=canonical(dataclasses.asdict(backend.config)): raise ValueError('Device/config mismatch')
+    if payload['preprocessing']!=canonical(backend.preprocessor.state()): raise ValueError('Preprocessing mismatch')
+    if payload['parameter_names']!=[name for name,_ in backend.model.named_parameters()]: raise ValueError('Optimizer parameter order mismatch')
+    backend.model.load_state_dict(payload['model'],strict=True)
+    backend.optimizer.load_state_dict(payload['optimizer'])
+    backend.model.train(payload['training']);backend.refresh_version()
+    if backend.model_version!=payload['model_version']: raise ValueError('Model identity mismatch')
+    restore_rng(payload['rng'])
+
+def fit_fixed(model, context, payload=None):
+    """DRAFT latest-native fixed-refit continuation; real-model parity pending."""
+    from xdiyo_analytics.graphs.adapter import _Backend, torch_threads
+    from xdiyo_analytics.training.control import run_iterations
+    from replay_bridge import make_fixed_replay_backend, validate_fixed_replay
+    control=model.control
+    completed=validate_fixed_replay(control,context,payload)
+    model.configure_device(model.device);model.configure_threads(model.inner_threads)
+    observer=context.observer
+    Backend=make_fixed_replay_backend(_Backend,payload,restore_backend)
+    def observe(event):
+        if observer is not None and (event.final or event.step>completed): observer(event)
+    local=dataclasses.replace(context,observer=observe)
+    with torch_threads(model.inner_threads):
+        model.backend_,model.training_history_,model.training_summary_=run_iterations(lambda seed:Backend(model.config,model.event_store,seed,model.device),local,control)
+    model.training_summary_.update(fitting_boundary=model.backend_.fitting_boundary.isoformat(),
+        trained_through=model.backend_.trained_through.isoformat(),model_version=model.backend_.model_version,
+        event_store_version=model.event_store.version,forecast_policy=model.config.forecast_policy,timezone=model.config.timezone)

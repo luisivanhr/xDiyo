@@ -1,0 +1,109 @@
+{
+  "mode": "native",
+  "baseline": "11ffa446",
+  "input_sha256": {
+    "train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465",
+    "model\\graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "model\\history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "model\\team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "model\\schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "model\\weights.pt": "43263746d590bfe71616896a18c2a2ab3627c542be3c72e2042d51ac2e8ef931"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4",
+    "device": "NVIDIA GeForce RTX 4070 SUPER",
+    "threads": 1,
+    "deterministic": false,
+    "tf32": false
+  },
+  "samples": [
+    {
+      "label": "early",
+      "index": 0,
+      "edges": 0,
+      "width": 163,
+      "issuance": "2020-08-01 10:30:00+00:00",
+      "cold_seconds": 0.009586999949533492,
+      "warm_seconds": [
+        0.005095400032587349,
+        0.004363899992313236,
+        0.0037526999949477613
+      ],
+      "tensor_sha256": "08315a717095e79aee7991fdad0628bf5384183c035785d8a2e5ecf7a818bd31"
+    },
+    {
+      "label": "middle",
+      "index": 731,
+      "edges": 18406,
+      "width": 163,
+      "issuance": "2022-05-06 17:30:00+00:00",
+      "cold_seconds": 0.06395600002724677,
+      "warm_seconds": [
+        0.0069136000238358974,
+        0.007257900026161224,
+        0.008396700024604797
+      ],
+      "tensor_sha256": "3f34d157e02a990669f557c2c214ed9567795ac6c52c969b296f40ca83021d60"
+    },
+    {
+      "label": "late",
+      "index": 1462,
+      "edges": 37752,
+      "width": 163,
+      "issuance": "2024-06-02 13:15:00+00:00",
+      "cold_seconds": 0.07232769997790456,
+      "warm_seconds": [
+        0.011050599976442754,
+        0.011769599979743361,
+        0.011643000005278736
+      ],
+      "tensor_sha256": "7db3dad2131e6596c2dce97989151d525f3f25695c7a18ea3f6ab35f262fa03c"
+    }
+  ],
+  "updates": [
+    {
+      "repeat": 0,
+      "profiled": false,
+      "training_seconds": 23.29204430000391,
+      "metric_seconds": 16.189817400008906,
+      "total_seconds": 39.481861700012814,
+      "values": {
+        "train_loss": 1.0009591473481123
+      },
+      "metrics": {
+        "train_loss": 1.000594711082158
+      },
+      "phases": {},
+      "rng_unchanged": true
+    },
+    {
+      "repeat": 1,
+      "profiled": false,
+      "training_seconds": 23.320605600019917,
+      "metric_seconds": 18.658641799993347,
+      "total_seconds": 41.979247400013264,
+      "values": {
+        "train_loss": 1.0009591468169674
+      },
+      "metrics": {
+        "train_loss": 1.000594711782469
+      },
+      "phases": {},
+      "rng_unchanged": true
+    }
+  ],
+  "issuances": 1463,
+  "source_edges": 55976,
+  "rss": {
+    "baseline": 807424000,
+    "peak": 1880924160
+  },
+  "peak_device_allocated": 175799296,
+  "peak_device_reserved": 228589568,
+  "cache_bytes": 36552328,
+  "inputs_unchanged": true,
+  "disposable_updates_only": true
+}
