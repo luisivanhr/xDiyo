@@ -8,6 +8,7 @@ frozen 11ffa446 from tests/analytics/reference. Requires psutil and torch.
 """
 import argparse
 from copy import deepcopy
+from dataclasses import replace
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -40,9 +41,12 @@ def main():
     parser.add_argument('--profile', action='store_true', help='One extra instrumented update to measure overhead.')
     parser.add_argument('--cold-pass', action='store_true', help='Time one complete preparation pass before warming samples or updating.')
     parser.add_argument('--deterministic', action='store_true', help='Require deterministic CUDA operations for exact paired updates.')
+    parser.add_argument('--native-deterministic', action='store_true', help='Exercise the native opt-in with caller deterministic flags disabled (native mode only).')
     parser.add_argument('--evidence', type=Path, help='Ayre support ZIP containing pinned input/source hashes.')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
+    if args.native_deterministic and (args.mode != 'native' or args.deterministic):
+        parser.error('--native-deterministic requires native mode without --deterministic.')
     if args.repeats < 1 or args.repeats > 3:
         parser.error('Use 1 to 3 bounded full-update repeats.')
     if args.output.resolve().is_relative_to(args.fold.resolve()):
@@ -55,6 +59,9 @@ def main():
     import torch
     from test_graph_speed import reference
     from xdiyo_analytics.graphs.config import TemporalGraphConfig, CLASS_ORDER
+    from xdiyo_analytics.graphs.execution import prepare_determinism
+    if args.native_deterministic:
+        prepare_determinism(TemporalGraphConfig('UTC', deterministic=True), args.device)
     from xdiyo_analytics.graphs.network import TemporalNetwork
     from xdiyo_analytics.graphs import GraphProfile
     from xdiyo_analytics.training.contracts import FitContext
@@ -161,6 +168,12 @@ def main():
         backend.model.load_state_dict(saved)
         backend.refresh_version()
         assert backend.model_version == meta['model_version']
+        if args.native_deterministic:
+            # Verify the frozen artifact first; alter only the disposable backend's
+            # execution policy, never the saved file or model architecture.
+            cfg = replace(cfg, deterministic=True)
+            backend.config = cfg
+            pre.config = cfg
         backend.output_classes=CLASS_ORDER
         backend.train_groups=groups
         backend.train_targets,backend.train_weights=backend._targets(ctx)
@@ -200,7 +213,9 @@ def main():
             reference_sha256={p.name:digest(p) for p in (ROOT/'tests/analytics/reference').glob('gat_*_11ffa446.txt')},
             runtime=dict(python=platform.python_version(),torch=torch.__version__,pandas=pd.__version__,numpy=np.__version__,
                 device=torch.cuda.get_device_name(args.device) if args.device.startswith('cuda') else 'cpu',threads=1,
-                deterministic=torch.are_deterministic_algorithms_enabled(),tf32=False),
+                deterministic=args.deterministic or args.native_deterministic,tf32=False),
+            native_deterministic=args.native_deterministic,
+            caller_deterministic_after=torch.are_deterministic_algorithms_enabled(),
             samples=samples,updates=records,issuances=len(plan),source_edges=len(event_store._history),rss=rss,
             peak_device_allocated=torch.cuda.max_memory_allocated(args.device) if args.device.startswith('cuda') else 0,
             peak_device_reserved=torch.cuda.max_memory_reserved(args.device) if args.device.startswith('cuda') else 0,

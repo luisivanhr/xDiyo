@@ -1,0 +1,143 @@
+{
+  "mode": "native",
+  "baseline": "11ffa446",
+  "input_sha256": {
+    "train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465",
+    "model\\graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "model\\history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "model\\team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "model\\schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "model\\weights.pt": "43263746d590bfe71616896a18c2a2ab3627c542be3c72e2042d51ac2e8ef931"
+  },
+  "command": [
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "examples/benchmark_gat_speed.py",
+    "--fold",
+    "C:/Users/luisi/AppData/Local/Temp/gat-merge-20261013/isolated-fold-02",
+    "--mode",
+    "native",
+    "--native-deterministic",
+    "--repeats",
+    "1",
+    "--cold-pass",
+    "--evidence",
+    "C:/Users/luisi/Downloads/GAT_SPEED_HANDOFF_SUPPORT_11ffa446.zip",
+    "--output",
+    "C:/Users/luisi/AppData/Local/Temp/gat-deterministic-20261013/native.json"
+  ],
+  "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+  "harness_sha256": "7a0230d3b0f697fea8f22a154ca854e32d6473da318f8402dccae223753f325f",
+  "setup_seconds": 0.9584189999732189,
+  "cold_preparation": {
+    "seconds": 10.034067299973685,
+    "fixtures": 18888,
+    "directed_edges": 27188308
+  },
+  "source_sha256": {
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "c5e3167626111e1f15607de3adb4e919a7a20c46daf4bad303170e9dd76c9ec4",
+    "src\\xdiyo_analytics\\graphs\\config.py": "950fb6078a6d9aa0e47e242f96c0c86e0b3bf57bf03c5ec2e597b3322705fe13",
+    "src\\xdiyo_analytics\\graphs\\execution.py": "b7f472454e6f25313556236c490a15514c8014a8469a45539eb7d38bd7f48a50",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "98cfedad3bb7fb22fd75e89dd49a75f897466dd8250864aa68ffe34aad793ff9",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "693748f2726a4361f03d145ff8e3fde415a3ce28a1a966753339ce34dcb5faa0",
+    "src\\xdiyo_analytics\\graphs\\network.py": "e04a9883f5d420b6570b1099ff340d7516efee20f39ff54dc43e5005f7c58a75",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "b8e2183e532658e62ff7debac72a9a23c130766a931a56d361291456f887edc6",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "0060bb123c4f29d90c02de7f78ae9fad2cc46ecbf558914c38ac05384fdd2aec",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "c1b0d9e7b9a04777c1284c9ead5d1312e456eae22bb4ce46eb9183c1fae2ab95",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\store.py": "9c62f02129c3efc09d96281ef05b25631f4f121fbe12980c11d79c2cf69cbed8",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "7f6af3f3a8ec277f7feaa5625b4b064a83a38685ab5cfd9d325020a95748e32b",
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "6b870e198a409ce2f8858ff30ce17e8f895f735327b3ce89cdc5eddcb3860597"
+  },
+  "reference_sha256": {
+    "gat_adapter_11ffa446.txt": "43f2cd6dbf09747b7a9e68ec70a123480a652d104dc02a624dffb79d9b9c7dc0",
+    "gat_preprocessing_11ffa446.txt": "bac28733830bcc94861752f4e76fc74510b7656c60592b9246db3bea02f5358d",
+    "gat_recovery_state_latest_draft_11ffa446.txt": "5fb42dd0593e71e8f3d66dc920580afa3fcf1a0c4bf87f2d84300bf3dbb0c60c",
+    "gat_replay_bridge_11ffa446.txt": "7dcd9fd8b4550216d20714a2535e69447d79db5807d8be9f8881441084aa96ce",
+    "gat_store_11ffa446.txt": "01addbb0e1b8b2cc64716cc2fc35d9608a5090bc6d49c0e256c234a354189d7b",
+    "gat_streaming_11ffa446.txt": "494c4430f829962e0bbc06cf53c77f3aaade46cd66dd4cac14422aac7fe236bb"
+  },
+  "runtime": {
+    "python": "3.14.0",
+    "torch": "2.9.0+cu130",
+    "pandas": "2.3.3",
+    "numpy": "2.4.6",
+    "device": "NVIDIA GeForce RTX 4070 SUPER",
+    "threads": 1,
+    "deterministic": true,
+    "tf32": false
+  },
+  "native_deterministic": true,
+  "caller_deterministic_after": false,
+  "samples": [
+    {
+      "label": "early",
+      "index": 0,
+      "edges": 0,
+      "width": 163,
+      "issuance": "2020-08-01 10:30:00+00:00",
+      "cold_seconds": 0.0037765000015497208,
+      "warm_seconds": [
+        0.0033134999684989452,
+        0.0030094999819993973,
+        0.0032655999530106783
+      ],
+      "tensor_sha256": "08315a717095e79aee7991fdad0628bf5384183c035785d8a2e5ecf7a818bd31"
+    },
+    {
+      "label": "middle",
+      "index": 731,
+      "edges": 18406,
+      "width": 163,
+      "issuance": "2022-05-06 17:30:00+00:00",
+      "cold_seconds": 0.00771930004702881,
+      "warm_seconds": [
+        0.007832499977666885,
+        0.00816359999589622,
+        0.009283500025048852
+      ],
+      "tensor_sha256": "3f34d157e02a990669f557c2c214ed9567795ac6c52c969b296f40ca83021d60"
+    },
+    {
+      "label": "late",
+      "index": 1462,
+      "edges": 37752,
+      "width": 163,
+      "issuance": "2024-06-02 13:15:00+00:00",
+      "cold_seconds": 0.015938600001391023,
+      "warm_seconds": [
+        0.016245100006926805,
+        0.016022700001485646,
+        0.015792699996381998
+      ],
+      "tensor_sha256": "7db3dad2131e6596c2dce97989151d525f3f25695c7a18ea3f6ab35f262fa03c"
+    }
+  ],
+  "updates": [
+    {
+      "repeat": 0,
+      "profiled": false,
+      "training_seconds": 23.1352228000178,
+      "metric_seconds": 15.817456000018865,
+      "total_seconds": 38.952678800036665,
+      "values": {
+        "train_loss": 1.0009591454636393
+      },
+      "metrics": {
+        "train_loss": 1.000594711245867
+      },
+      "phases": {},
+      "rng_unchanged": true
+    }
+  ],
+  "issuances": 1463,
+  "source_edges": 55976,
+  "rss": {
+    "baseline": 632590336,
+    "peak": 1850642432
+  },
+  "peak_device_allocated": 226360320,
+  "peak_device_reserved": 260046848,
+  "cache_bytes": 36552328,
+  "inputs_unchanged": true,
+  "disposable_updates_only": true
+}

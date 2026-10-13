@@ -4,6 +4,7 @@ import pandas as pd
 from .adapter import _torch, torch_threads
 from .store import _ids, _times
 from .streaming import release_temporary_frames
+from .execution import configured_execution
 
 
 def _attention_group(adapter, time, positions, queries, records):
@@ -27,6 +28,7 @@ def _attention_group(adapter, time, positions, queries, records):
                     model_version=backend.model_version, event_store_version=backend.store.version))
 
 
+@configured_execution
 @release_temporary_frames
 def attention_weights(adapter, queries):
     if not queries.index.is_unique:

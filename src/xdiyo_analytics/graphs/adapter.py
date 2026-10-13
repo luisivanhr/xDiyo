@@ -12,6 +12,7 @@ from .store import _ids, _times
 from .streaming import GroupPlan, PreparedGroups, release_temporary_frames
 from .spatial import validate_grid_contract
 from .profiling import phase, timed
+from .execution import configured_execution, prepare_determinism
 from ..training.control import TrainingControl, run_iterations
 
 
@@ -80,6 +81,7 @@ class TemporalGraphAdapter:
     def fit_controlled(self, context, control):
         validate_grid_contract(self.event_store, self.config.heatmaps)
         self.configure_device(self.device)
+        prepare_determinism(self.config, self.device)
         self.configure_threads(self.inner_threads)
         self.control = control or self.control
         with torch_threads(self.inner_threads):
@@ -93,6 +95,8 @@ class TemporalGraphAdapter:
             event_store_version=self.event_store.version,
             forecast_policy=self.config.forecast_policy,
             timezone=self.config.timezone)
+        if self.config.deterministic:
+            self.training_summary_['deterministic'] = True
 
     def predict(self, context):
         with torch_threads(self.inner_threads):
@@ -180,6 +184,7 @@ class _Backend:
     def _stream(self, context):
         return PreparedGroups(self._plan(context), self.preprocessor, self.device)
 
+    @configured_execution
     @release_temporary_frames
     def initialize(self, context):
         torch = _torch()
@@ -275,6 +280,7 @@ class _Backend:
         return (loss.detach(), part.detach()) if reconstruction is not None else (loss.detach(),)
 
     @release_temporary_frames
+    @configured_execution
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
         total_weight = weights.sum()
@@ -295,6 +301,7 @@ class _Backend:
                 self._reconstruction_loss += values[i+1]
         return value
 
+    @configured_execution
     def step(self):
         torch = _torch()
         self.model.train()
@@ -318,6 +325,7 @@ class _Backend:
         self.refresh_version()
         return values
 
+    @configured_execution
     @timed('metric_replay')
     def checkpoint_metrics(self, monitor, values):
         if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss'):
@@ -341,6 +349,8 @@ class _Backend:
         # A representation version includes decay, policy and architectural
         # settings as well as learned coordinates and preprocessing.
         config_state = asdict(self.config)
+        if not config_state['deterministic']:
+            del config_state['deterministic']  # Preserve pre-option artifact fingerprints.
         if config_state['include_goal_features']:
             del config_state['include_goal_features']  # Preserve pre-option artifact fingerprints.
         if config_state['heatmaps'] is None:
@@ -374,6 +384,7 @@ class _Backend:
         positions, data, home, away, fixture = group
         output[positions] = self.model(data, home, away, fixture).softmax(-1).cpu().numpy()
 
+    @configured_execution
     @release_temporary_frames
     def predict(self, context):
         torch = _torch()
@@ -406,6 +417,7 @@ class _Backend:
                 **{f"z_{j}": float(v) for j, v in enumerate(z[i])},
                 **{f"prior_{j}": float(v) for j, v in enumerate(priors[i])})
 
+    @configured_execution
     @release_temporary_frames
     def encode_teams(self, queries):
         torch = _torch()

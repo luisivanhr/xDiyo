@@ -32,6 +32,8 @@ def reference_module(name):
                 result.pop('heatmaps', None)
                 assert value.include_goal_features is True
                 result.pop('include_goal_features', None)
+                assert value.deterministic is False
+                result.pop('deterministic', None)
             return result
         module.asdict = legacy_asdict
     return module

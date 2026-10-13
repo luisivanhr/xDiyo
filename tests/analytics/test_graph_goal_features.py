@@ -63,6 +63,7 @@ def legacy_version(backend):
         digest.update(value.detach().cpu().numpy().tobytes())
     digest.update(json.dumps(backend.preprocessor.state(), sort_keys=True).encode())
     settings = asdict(backend.config)
+    settings.pop('deterministic', None)
     settings.pop('include_goal_features')
     settings.pop('heatmaps')
     return sha256((digest.hexdigest()+json.dumps(settings, sort_keys=True)).encode()).hexdigest()

@@ -18,6 +18,17 @@ configure(components,()=>{});
 const walk=node=>[node,...(node.children||[]).flatMap(walk)];
 const find=(root,label,tag)=>walk(root).find(n=>n['aria-label']===label&&(!tag||n.tag===tag));
 
+test('GAT deterministic mode is an editable opt-in and survives JSON export',async()=>{
+ let recipe=makeNode('graphs.TemporalGraphConfig');
+ const root=componentEditor(recipe,v=>{recipe=v;},null,['graphs.TemporalGraphConfig']);
+ const field=find(root,'Deterministic','input');
+ assert.equal(field.checked,false);
+ field.checked=true;field.events.change({target:field});await Promise.resolve();
+ assert.equal(JSON.parse(JSON.stringify(recipe)).params.deterministic,true);
+ field.checked=false;field.events.change({target:field});await Promise.resolve();
+ assert.equal(recipe.params.deterministic,false);
+});
+
 test('native goal predictors can be disabled and exported as false',async()=>{
  let recipe=makeNode('graphs.TemporalGraphConfig');
  const root=componentEditor(recipe,v=>{recipe=v;},null,['graphs.TemporalGraphConfig']);

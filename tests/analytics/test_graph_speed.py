@@ -29,6 +29,14 @@ def reference():
         exec(compile(path.read_text(), str(path), 'exec'), module.__dict__)
         modules[name] = module
     adapter = modules['adapter']
+    # Keep the frozen implementation's pre-option fingerprint for disabled mode.
+    original_asdict = adapter.asdict
+    def legacy_asdict(value):
+        result = original_asdict(value)
+        if result.get('deterministic') is False:
+            result.pop('deterministic')
+        return result
+    adapter.asdict = legacy_asdict
     adapter.GraphPreprocessor = modules['preprocessing'].GraphPreprocessor
     adapter.GroupPlan = modules['streaming'].GroupPlan
     adapter.PreparedGroups = modules['streaming'].PreparedGroups

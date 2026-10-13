@@ -6,6 +6,8 @@ shapes on real graphs; it is not a full-fold training or cross-process resume te
 """
 import argparse
 from copy import deepcopy
+from contextlib import nullcontext
+from dataclasses import asdict, replace
 from hashlib import sha256
 import json
 import os
@@ -28,6 +30,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--native-deterministic', action='store_true', help='Compare scoped native mode against the frozen implementation under external deterministic flags.')
     args = parser.parse_args()
     assert not args.output.resolve().is_relative_to(args.run.resolve())
     args.output.mkdir(parents=True, exist_ok=True)
@@ -38,6 +41,7 @@ def main():
     from test_graph_preparation_memory import assert_exact
     from xdiyo_analytics.graphs import adapter, store, preprocessing, streaming
     from xdiyo_analytics.graphs import TemporalGraphConfig, TemporalGraphAdapter, TemporalGraphSerializer
+    from xdiyo_analytics.graphs.execution import deterministic_execution
     from xdiyo_analytics.training import TrainingControl
     from xdiyo_analytics.training.control import run_iterations
     from xdiyo_analytics.training.contracts import FitContext, PredictionContext
@@ -50,6 +54,9 @@ def main():
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
     torch.set_float32_matmul_precision('highest')
+    if args.native_deterministic:
+        torch.use_deterministic_algorithms(False)
+        torch.backends.cudnn.deterministic = False
     assert torch.cuda.get_device_name(0) == 'NVIDIA GeForce RTX 4070 SUPER'
     protocol = json.loads((args.run/'STUDY_PROTOCOL.json').read_text())
     manifest = json.loads((args.run/'INPUT_MANIFEST.json').read_text())
@@ -73,6 +80,8 @@ def main():
         source_sha256=source, frozen_source_sha256=frozen, input_sha256=hashes,
         scope='Three real training issuances, two validation issuances, one prediction issuance per recipe; three updates',
         cross_process_resume_tested=False, arms={})
+    receipt['native_deterministic'] = args.native_deterministic
+    receipt['candidate_is_base_commit_with_working_tree_source_hashes'] = True
     def write():
         (args.output/'parity.json').write_text(json.dumps(receipt,indent=2,default=str))
     write()  # Freeze settings before evaluating any candidate.
@@ -93,6 +102,8 @@ def main():
         for arm, definition in protocol['arms'].items():
             receipt['active_arm'] = arm; write()
             cfg = TemporalGraphConfig(**definition['native_config_base'])
+            if args.native_deterministic:
+                cfg = replace(cfg, deterministic=True)
             family = 'halves' if '_halves' in arm else 'totals'
             assert list(cfg.statistics) == manifest['statistics'][family]
             assert cfg.include_goal_features == manifest['native_goal_predictors'][family]
@@ -118,37 +129,41 @@ def main():
             results = []; initial = []
             control = TrainingControl(max_steps=3,seed=17,monitor='validation_loss',restore_best=True)
             for label, mod, event_store in zip(('reference','candidate'), modules, stores):
-                records = []
-                class AuditedBackend(mod['adapter']._Backend):
-                    def initialize(self, ctx):
-                        super().initialize(ctx)
-                        initial.append(cpu(self.model.state_dict()))
-                    def checkpoint_metrics(self, monitor, values):
-                        # Explicitly evaluate post-update training AND validation
-                        # at every update while selecting by validation loss.
-                        measured = super().checkpoint_metrics('train_loss',values)
-                        records.append(dict(losses=cpu(measured),
-                            gradients=cpu([p.grad for p in self.model.parameters()]),
-                            model=cpu(self.model.state_dict()),optimizer=cpu(self.optimizer.state_dict()),
-                            rng=cpu(torch.get_rng_state()),cuda_rng=cpu(torch.cuda.get_rng_state())))
-                        return measured
-                torch.manual_seed(17); torch.cuda.manual_seed_all(17)
-                backend, log, summary = run_iterations(lambda seed:AuditedBackend(cfg,event_store,seed,'cuda:0'),fit,control)
-                model = TemporalGraphAdapter(cfg,event_store,control=control,device='cuda:0')
-                model.backend_, model.training_history_, model.training_summary_ = backend,log,summary
-                pred = model.predict(prediction)
-                serializer = TemporalGraphSerializer(embed_event_store=True,device='cuda:0')
-                location = args.output/arm/label
-                serializer.save(model,location)
-                loaded = serializer.load(location)
-                assert_exact(backend.model.state_dict(),loaded.backend_.model.state_dict())
-                for key, values in pred.items():
-                    pd.testing.assert_frame_equal(values,loaded.predict(prediction)[key],check_exact=True)
-                chosen = summary['retained_step']-1
-                assert chosen == int(np.argmin([x['losses']['validation_loss'] for x in records]))
-                assert_exact(cpu(backend.model.state_dict()), records[chosen]['model'])
-                results.append((backend,log,summary,records,pred))
-                print(json.dumps(dict(arm=arm,implementation=label,updates=len(records),status='FINISHED')),flush=True)
+                with deterministic_execution(cfg, 'cuda:0') if args.native_deterministic and label == 'reference' else nullcontext():
+                    records = []
+                    class AuditedBackend(mod['adapter']._Backend):
+                        def initialize(self, ctx):
+                            super().initialize(ctx)
+                            initial.append(cpu(self.model.state_dict()))
+                        def checkpoint_metrics(self, monitor, values):
+                            # Explicitly evaluate post-update training AND validation
+                            # at every update while selecting by validation loss.
+                            measured = super().checkpoint_metrics('train_loss',values)
+                            records.append(dict(losses=cpu(measured),
+                                gradients=cpu([p.grad for p in self.model.parameters()]),
+                                model=cpu(self.model.state_dict()),optimizer=cpu(self.optimizer.state_dict()),
+                                rng=cpu(torch.get_rng_state()),cuda_rng=cpu(torch.cuda.get_rng_state())))
+                            return measured
+                    torch.manual_seed(17); torch.cuda.manual_seed_all(17)
+                    backend, log, summary = run_iterations(lambda seed:AuditedBackend(cfg,event_store,seed,'cuda:0'),fit,control)
+                    model = TemporalGraphAdapter(cfg,event_store,control=control,device='cuda:0')
+                    model.backend_, model.training_history_, model.training_summary_ = backend,log,summary
+                    pred = model.predict(prediction)
+                    serializer = TemporalGraphSerializer(embed_event_store=True,device='cuda:0')
+                    location = args.output/arm/label
+                    serializer.save(model,location)
+                    loaded = serializer.load(location)
+                    assert_exact(backend.model.state_dict(),loaded.backend_.model.state_dict())
+                    for key, values in pred.items():
+                        pd.testing.assert_frame_equal(values,loaded.predict(prediction)[key],check_exact=True)
+                    chosen = summary['retained_step']-1
+                    assert chosen == int(np.argmin([x['losses']['validation_loss'] for x in records]))
+                    assert_exact(cpu(backend.model.state_dict()), records[chosen]['model'])
+                    results.append((backend,log,summary,records,pred))
+                    print(json.dumps(dict(arm=arm,implementation=label,updates=len(records),status='FINISHED')),flush=True)
+                if args.native_deterministic:
+                    assert not torch.are_deterministic_algorithms_enabled()
+                    assert not torch.backends.cudnn.deterministic
             assert_exact(initial[0],initial[1])
             old,new = results
             assert_exact(old[3],new[3])  # Every update: losses/gradients/weights/full AdamW/RNG.
@@ -171,7 +186,7 @@ def main():
                     raw=b[1].edges[cols].to_numpy(dtype=float,na_value=np.nan)
                     np.testing.assert_array_equal(x[:,len(cols):2*len(cols)].cpu().numpy(),np.isnan(raw))
                     groups.append(dict(partition=name,issuance=str(a[1].issuance),edges=len(a[1].edges)))
-            receipt['arms'][arm]=dict(status='PASS_BIT_EXACT',config=definition['native_config_base'],groups=groups,
+            receipt['arms'][arm]=dict(status='PASS_BIT_EXACT',config=asdict(cfg),groups=groups,
                 train_rows=len(fit.X),validation_rows=len(fit.validation.X),prediction_rows=len(prediction.X),
                 steps=[r['losses'] for r in new[3]],selected_step=new[2]['retained_step'],
                 checks=['prepared inputs','causal eligibility','graph order','masks','scaling','per-update losses',

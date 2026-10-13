@@ -6,6 +6,7 @@ from .config import TemporalGraphConfig, CLASS_ORDER
 from .adapter import TemporalGraphAdapter, _Backend, _torch
 from .preprocessing import GraphPreprocessor
 from .profiling import timed
+from .execution import prepare_determinism
 
 
 class TemporalGraphSerializer:
@@ -73,6 +74,7 @@ class TemporalGraphSerializer:
                 control[key] = cls(**control[key])
         adapter = TemporalGraphAdapter(config, store, control=TrainingControl(**control), inner_threads=meta["inner_threads"])
         adapter.configure_device(self.device)
+        prepare_determinism(config, adapter.device)
         backend = _Backend(config, store, 0, adapter.device)
         backend.preprocessor = GraphPreprocessor.from_state(config, meta["preprocessing"])
         p = backend.preprocessor

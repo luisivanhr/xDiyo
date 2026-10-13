@@ -29,8 +29,11 @@ class TemporalGraphConfig:
     prior_penalty: float = .001
     heatmaps: GraphHeatmaps | None = None
     include_goal_features: bool = True
+    deterministic: bool = False
 
     def __post_init__(self):
+        if type(self.deterministic) is not bool:
+            raise ValueError('deterministic must be a boolean.')
         if self.heatmaps is not None and not isinstance(self.heatmaps, GraphHeatmaps):
             raise TypeError('heatmaps must be GraphHeatmaps or None.')
         ZoneInfo(self.timezone)

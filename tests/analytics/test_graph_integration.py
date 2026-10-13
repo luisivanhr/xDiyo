@@ -133,8 +133,10 @@ def test_attention_keeps_selectable_roster_when_no_edges_exist(trained, monkeypa
     assert 'initializeAttention' in report.to_html()
 
 
-def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_path):
+@pytest.mark.parametrize('deterministic', [False, True])
+def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_path, deterministic):
     recipe = graph_recipe(ui_recipe,tmp_path)
+    recipe['model']['params']['config']['params']['deterministic'] = deterministic
     prepared = prepare_recipe(recipe)
     assert prepared.outputs['graph_inputs'] is not None
     assert prepared.dataset.y.iloc[:,0].eq(1).all()
@@ -147,9 +149,14 @@ def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_pat
         pd.testing.assert_frame_equal(a.predictions['predict_proba'],b.predictions['predict_proba'])
     exported = export_python(recipe)
     compile(exported,'graph_recipe.py','exec')
+    namespace = {}
+    exec(exported.split('prepared =')[0], namespace)
+    assert namespace['recipe']['model']['params']['config']['params']['deterministic'] is deterministic
+    assert catalog_for_ui().build(json.loads(json.dumps(recipe['model']))).config.deterministic is deterministic
     assert catalog_for_ui().build(json.loads(json.dumps(recipe['model']))).config.embedding_dim == 4
     from xdiyo_analytics.ui.recipe import predict_recipe
     model_path = save_model(result.training, tmp_path/'ui_model', fold_id=0)
+    assert load_model(model_path).model.config.deterministic is deterministic
     future = deepcopy(recipe)
     future['prediction'].update(model_path=str(model_path), rounds={'Alpha':[8]})
     aligned, predictions = predict_recipe(future)

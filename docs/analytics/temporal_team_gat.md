@@ -36,6 +36,44 @@ device and CPU threads through the existing runner. Thread limits are scoped
 and restored. Seeds control initialization and fresh restarts; CUDA scatter
 reductions may differ in final rounding and are tested with tolerances.
 
+### Optional deterministic execution
+
+In the experiment builder, open **Model → Temporal Graph Model → Config →
+Deterministic**. The default is off. Python callers can use
+`TemporalGraphConfig("UTC", deterministic=True)` with their existing
+`TrainingControl(seed=17)` (choose and retain the seed for your experiment).
+The setting is included in JSON/Python recipe exports and saved model artifacts;
+loading a deterministic model also enables it for inference and diagnostics.
+
+This enables strict PyTorch deterministic algorithms, deterministic cuDNN, and
+disables cuDNN algorithm benchmarking during native GAT operations. Unsupported
+operations raise an error. Training, post-update loss evaluation, predictions,
+embeddings, attention inspection and the optional end-to-end CNN use the same
+policy. Architecture, objective, optimizer, precision settings, graph contents,
+causal cutoffs, scaling and the optimized preparation/caching paths are unchanged.
+The caller's execution flags are restored after each operation, including errors.
+With the option off, existing caller flags are inherited without modification.
+Older saved models default to off and retain their model fingerprints.
+
+For CUDA, native setup selects `CUBLAS_WORKSPACE_CONFIG=:4096:8` before the first
+CUDA initialization if it is unset. Existing `:4096:8` or `:16:8` values are
+accepted. Because CUDA caches this setting, it stays set for the process lifetime.
+If CUDA was already initialized without a supported workspace setting, restart
+the notebook kernel/process and enable this option before using CUDA, or set
+the environment variable before launching Python:
+
+```powershell
+$env:CUBLAS_WORKSPACE_CONFIG = ":4096:8"
+python your_experiment.py
+```
+
+Determinism requires the same seed, inputs, hardware, runtime and precision
+settings. It does not promise bit-exact agreement with older nondeterministic
+runs or across different devices/PyTorch versions. PyTorch execution flags are
+process-global: do not run unrelated PyTorch work concurrently in that process.
+Deterministic kernels can have a performance cost; use measured receipts for
+your configuration. Cross-process training resume remains separately unverified.
+
 ## Input contract
 
 Use `build_team_history` on loaded matches and optionally selected statistics.

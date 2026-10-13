@@ -13,6 +13,7 @@ def decorate(components, stages):
         'hidden_width': 'Hidden units in the fixture prediction head.',
         'statistics': 'Exact paired native history columns, e.g. team::ALL::Match overview::cornerKicks::value. Include their opponent counterparts in the source history. No xG or rolling columns.',
         'include_goal_features': 'Include native full-time goals for/against as numeric edge predictors and missing-value masks. Disable for explicit period-only statistics; at least one statistic is required. Canonical scores, labels and historical eligibility stay intact.',
+        'deterministic': 'Opt in to strict deterministic PyTorch execution for training, predictions and diagnostics, including the optional CNN. Keep the training seed and hardware/runtime fixed. CUDA workspace setup is automatic before first CUDA use; an already initialized session may require a kernel restart. May affect speed. Disabled preserves caller execution settings.',
         'fixture_features': 'Assembled predictor column names to append to the fixture head. Their cutoffs are aligned to the graph during preparation.',
         'learning_rate': 'AdamW learning rate for model construction; tSNE learning rate for EmbeddingReporter (auto or a positive number).',
         'weight_decay': 'AdamW weight decay.',

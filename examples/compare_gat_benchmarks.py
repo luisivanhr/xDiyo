@@ -26,7 +26,10 @@ def main():
     write()
     try:
         a, b = [json.loads(p.read_text()) for p in (args.reference, args.candidate)]
-        assert a['mode'] == 'reference' and b['mode'] == 'native'
+        # Also accept the optimized path with external deterministic flags as
+        # a control for native scoped execution-policy overhead.
+        assert a['mode'] in ('reference', 'native') and b['mode'] == 'native'
+        receipt['implementations'] = dict(reference=a['mode'], candidate=b['mode'])
         for key in ('input_sha256', 'executable', 'harness_sha256', 'runtime',
                     'source_sha256', 'reference_sha256', 'issuances', 'source_edges'):
             assert_exact(a[key], b[key])
