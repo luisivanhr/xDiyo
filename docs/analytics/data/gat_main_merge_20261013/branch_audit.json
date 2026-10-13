@@ -1,0 +1,18 @@
+{
+  "branches": {
+    "codex/temporal-team-gat": {
+      "tip": "02d60801813d71d489800ee01621ffab09ea384f",
+      "commits_absent_main": 1,
+      "commits_absent_remote_gat": 0,
+      "unique_to_branch": []
+    },
+    "codex/new-rating": {
+      "tip": "2642ae35b4081c26c8856b17e4e07e646ec3722c",
+      "commits_absent_main": 0,
+      "commits_absent_remote_gat": 0,
+      "unique_to_branch": []
+    }
+  },
+  "main_checkout_overlap_tracked": [],
+  "main_checkout_overlap_untracked": []
+}

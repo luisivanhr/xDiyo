@@ -1,0 +1,11 @@
+✔ native goal predictors can be disabled and exported as false (2.1081ms)
+✔ graph CNN and auxiliary reconstruction are independent opt-ins (2.9577ms)
+✔ standalone task, architecture and masks have typed editable form fields (1.1043ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.4163

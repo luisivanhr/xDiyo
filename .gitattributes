@@ -8,3 +8,6 @@ src/xdiyo_analytics/reporting/templates/assets/tickets.css -text
 # source whitespace. Original AI/CDR files are opaque artwork, not source code.
 docs/analytics/team_assets/badges/** -text -whitespace
 docs/analytics/team_assets/originals/** -text -diff -whitespace
+# Merge audit receipt hashes refer to exact output bytes.
+docs/analytics/data/gat_main_merge_20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/analytics/data/gat_main_merge_20261013/*.log -whitespace

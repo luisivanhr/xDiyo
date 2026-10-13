@@ -12,6 +12,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import platform
+import os
 import sys
 import threading
 import time
@@ -37,6 +38,8 @@ def main():
     parser.add_argument('--device', default='cuda:0')
     parser.add_argument('--repeats', type=int, default=2)
     parser.add_argument('--profile', action='store_true', help='One extra instrumented update to measure overhead.')
+    parser.add_argument('--cold-pass', action='store_true', help='Time one complete preparation pass before warming samples or updating.')
+    parser.add_argument('--deterministic', action='store_true', help='Require deterministic CUDA operations for exact paired updates.')
     parser.add_argument('--evidence', type=Path, help='Ayre support ZIP containing pinned input/source hashes.')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -44,6 +47,8 @@ def main():
         parser.error('Use 1 to 3 bounded full-update repeats.')
     if args.output.resolve().is_relative_to(args.fold.resolve()):
         parser.error('Output must be outside the completed fold.')
+    if args.deterministic:
+        os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
     import numpy as np
     import pandas as pd
     import psutil
@@ -61,6 +66,9 @@ def main():
     torch.backends.cudnn.allow_tf32 = True
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = False
+    if args.deterministic:
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cudnn.deterministic = True
     paths = [args.fold/'train_metadata.parquet', *[args.fold/'model'/n for n in
              ('graph.json','history.parquet','team_seasons.parquet','schedule.parquet','weights.pt')]]
     hashes = {str(p.relative_to(args.fold)):digest(p) for p in paths}
@@ -77,6 +85,17 @@ def main():
             assert digest(args.fold/relative) == expected, relative
         for name, expected in evidence['source_files'].items():
             assert digest(ROOT/'tests/analytics/reference'/f'gat_{Path(name).stem}_11ffa446.txt') == expected
+    process = psutil.Process()
+    rss = {'baseline': process.memory_info().rss, 'peak':process.memory_info().rss}
+    stop = threading.Event()
+    def sample():
+        while not stop.wait(.01):
+            rss['peak'] = max(rss['peak'],process.memory_info().rss)
+    sampler = threading.Thread(target=sample,daemon=True); sampler.start()
+    if args.device.startswith('cuda'):
+        torch.cuda.synchronize(args.device)  # Initialize the allocator before resetting counters (Torch 2.9).
+        torch.cuda.reset_peak_memory_stats(args.device)
+    setup_start = time.perf_counter()
     meta = json.loads((args.fold/'model/graph.json').read_text())
     if meta['config']['heatmaps'] is not None or meta['config']['fixture_features']:
         raise ValueError('This audit harness expects the supplied scalar expanded-totals fold.')
@@ -92,13 +111,7 @@ def main():
     assert tuple(meta['fixture_feature_order']) == pre.fixture_columns
     plan = modules['streaming'].GroupPlan(event_store,cfg,ctx,event_store.issue_times(frame,cfg))
     groups = modules['streaming'].PreparedGroups(plan,pre,args.device)
-    process = psutil.Process()
-    rss = {'baseline': process.memory_info().rss, 'peak':process.memory_info().rss}
-    stop = threading.Event()
-    def sample():
-        while not stop.wait(.01):
-            rss['peak'] = max(rss['peak'],process.memory_info().rss)
-    sampler = threading.Thread(target=sample,daemon=True); sampler.start()
+    setup_seconds = time.perf_counter()-setup_start
     def sync():
         if args.device.startswith('cuda'):
             torch.cuda.synchronize(args.device)
@@ -111,6 +124,20 @@ def main():
             h.update(t.detach().cpu().numpy().tobytes())
         return h.hexdigest()
     try:
+        cold_pass = None
+        if args.cold_pass:
+            def prepare_one(index):
+                group = groups[index]
+                return len(group[0]), group[1]['x'].shape[0]
+            def prepare_all():
+                fixtures = edges = 0
+                for index in range(len(groups)):
+                    rows, directed = prepare_one(index)
+                    fixtures += rows; edges += directed
+                return dict(fixtures=fixtures, directed_edges=edges)
+            population, seconds = measure(prepare_all)
+            cold_pass = dict(seconds=seconds,**population)
+            print(json.dumps(dict(mode=args.mode,cold_preparation=cold_pass)),flush=True)
         samples=[]
         for label,index in zip(('early','middle','late'),(0,len(plan)//2,len(plan)-1)):
             cold,cold_seconds=measure(lambda:groups[index])
@@ -139,8 +166,6 @@ def main():
         backend.train_targets,backend.train_weights=backend._targets(ctx)
         backend.validation_groups=None
         records=[]; saved_states=[]
-        if args.device.startswith('cuda'):
-            torch.cuda.reset_peak_memory_stats(args.device)
         for repeat in range(args.repeats + int(args.profile)):
             backend.model.load_state_dict(saved)
             backend.optimizer=torch.optim.AdamW(backend.model.parameters(),lr=cfg.learning_rate,weight_decay=cfg.weight_decay)
@@ -169,6 +194,10 @@ def main():
             assert digest(args.fold/'model'/name) == expected
         cache=getattr(pre,'_edge_cache',None)
         report=dict(mode=args.mode,baseline='11ffa446',input_sha256=hashes,
+            command=[sys.executable,*sys.argv], executable=sys.executable,
+            harness_sha256=digest(Path(__file__)),setup_seconds=setup_seconds,cold_preparation=cold_pass,
+            source_sha256={str(p.relative_to(ROOT)):digest(p) for p in (ROOT/'src/xdiyo_analytics/graphs').glob('*.py')},
+            reference_sha256={p.name:digest(p) for p in (ROOT/'tests/analytics/reference').glob('gat_*_11ffa446.txt')},
             runtime=dict(python=platform.python_version(),torch=torch.__version__,pandas=pd.__version__,numpy=np.__version__,
                 device=torch.cuda.get_device_name(args.device) if args.device.startswith('cuda') else 'cpu',threads=1,
                 deterministic=torch.are_deterministic_algorithms_enabled(),tf32=False),

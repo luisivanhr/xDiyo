@@ -1,0 +1,74 @@
+{
+  "status": "PASS_BIT_EXACT",
+  "command": [
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "examples/compare_gat_benchmarks.py",
+    "--reference",
+    "C:/Users/luisi/AppData/Local/Temp/gat-merge-20261013/reference.json",
+    "--candidate",
+    "C:/Users/luisi/AppData/Local/Temp/gat-merge-20261013/candidate.json",
+    "--output",
+    "C:/Users/luisi/AppData/Local/Temp/gat-merge-20261013/full_fold_comparison.json"
+  ],
+  "comparison": "bit-exact deterministic CUDA",
+  "declared_atol": 1e-06,
+  "declared_rtol": 1e-05,
+  "cross_process_resume_tested": false,
+  "files": {
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-merge-20261013\\reference.json": "a1c09bed51a49731373b44c6f6b11438f006674803ed2857c2e6a1d870553b0b",
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-merge-20261013\\reference.pt": "56a7953b5f64398181cb9dd4054f7e16ea8d3289b13f3ae32a75dd1beaa4db55",
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-merge-20261013\\candidate.json": "0ba5dac19771f07ed1cc813beafd9319597cc5e40257fde9e00036a2e9e464c8",
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-merge-20261013\\candidate.pt": "6ea342949d72a482323b1323d4b5d1a38b5c4e4ed5785fb2e1aa89992a5b0dbc"
+  },
+  "checks": [
+    "identical runtime and source hashes",
+    "unchanged inputs",
+    "sampled prepared tensor hashes",
+    "all repeated update losses",
+    "first full update gradients",
+    "parameters",
+    "full AdamW state",
+    "RNG unchanged within each process"
+  ],
+  "measurements": {
+    "training": {
+      "reference_seconds": 202.6261128000042,
+      "candidate_seconds": 22.939749850018416,
+      "speedup": 8.83296958880489
+    },
+    "post_update_loss": {
+      "reference_seconds": 180.13353605000884,
+      "candidate_seconds": 14.946153249999043,
+      "speedup": 12.052167071819659
+    },
+    "combined_update": {
+      "reference_seconds": 382.75964885001304,
+      "candidate_seconds": 37.88590310001746,
+      "speedup": 10.1029569716087
+    },
+    "cold_preparation": {
+      "reference_seconds": 154.10734549997142,
+      "candidate_seconds": 10.876106000039726,
+      "speedup": 14.169349351634539
+    },
+    "store_setup": {
+      "reference_seconds": 0.9292007000185549,
+      "candidate_seconds": 0.9746604000101797,
+      "speedup": 0.9533584210550157
+    }
+  },
+  "memory_bytes": {
+    "reference": {
+      "peak_rss": 1942441984,
+      "baseline_rss": 633802752,
+      "peak_cuda_allocated": 226168832,
+      "peak_cuda_reserved": 260046848
+    },
+    "candidate": {
+      "peak_rss": 1890951168,
+      "baseline_rss": 631386112,
+      "peak_cuda_allocated": 226917376,
+      "peak_cuda_reserved": 260046848
+    }
+  }
+}

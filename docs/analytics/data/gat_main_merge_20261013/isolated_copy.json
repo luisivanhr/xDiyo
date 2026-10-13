@@ -1,0 +1,14 @@
+{
+  "source": "C:\\Users\\luisi\\Documents\\Codex\\2026-10-11\\task\\expanded-gat-11ffa446\\run\\gpu_runs\\gat_expanded_totals\\refit-fold-02",
+  "copy": "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-merge-20261013\\isolated-fold-02",
+  "sha256": {
+    "train_metadata.parquet": "9796f0f36fdcbbedc046d31f0f4c4483d7c5623d9d1100445342cabd49346465",
+    "model\\graph.json": "50e386211b864e74ced19ad89d6ba587529806f1783692a9508a7bcfb2b274fa",
+    "model\\history.parquet": "2880c831307217626189dffb17fb63314698aaa15218ba1a5c35afe6df8c0c5b",
+    "model\\MODEL_COMMITTED.json": "f005bdc9f8473cbace411e0bcc94fee3000b0127cf593c272b7cbcf21be0e896",
+    "model\\schedule.parquet": "814ff67d6187b91f203d8f7d5f9426aa5c4afa9e40cdc5b90d8b116dba1afcab",
+    "model\\team_seasons.parquet": "c162cd3e7eb66cfeef6cc43ab1c746c13b5a0ebce9717c6b39a6d5189a4e25c7",
+    "model\\training_history.parquet": "740ee97c80e87f7a874cd4846c5b3b567ced3befd285ee02c23e9c2f9a123bd8",
+    "model\\weights.pt": "43263746d590bfe71616896a18c2a2ab3627c542be3c72e2042d51ac2e8ef931"
+  }
+}
