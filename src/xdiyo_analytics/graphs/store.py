@@ -222,10 +222,15 @@ class TemporalEventStore:
         return issue
 
     @timed('snapshot_index')
-    def snapshot(self, issuance, config, teams=(), *, _columns=None):
+    def snapshot(self, issuance, config, teams=(), *, _columns=None, _since=None):
         issuance = pd.Timestamp(issuance).tz_convert("UTC")
         cutoff = config.history_cutoff(issuance)
         rows = self._eligible_rows(cutoff)
+        if _since is not None:
+            old = pd.Timestamp(_since).value
+            # Partition on eligibility, not kickoff alone: late releases belong
+            # to the first segment in which the result becomes available.
+            rows = rows[(self._kickoff_ns[rows] >= old) | (self._available_ns[rows] > old)]
         source = self._history if _columns is None else self._history.loc[:, _columns]
         e = source.iloc[rows].copy()
         receiver_codes = self._receiver_codes[rows]

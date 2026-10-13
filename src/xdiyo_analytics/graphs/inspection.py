@@ -7,11 +7,15 @@ from .streaming import release_temporary_frames
 from .execution import configured_execution
 
 
-def _attention_group(adapter, time, positions, queries, records):
+def _attention_group(adapter, time, positions, queries, records, replay=None):
     backend = adapter.backend_
     teams = queries.iloc[positions].team_id.tolist()
-    snap = backend.store.snapshot(time, adapter.config, teams)
-    _, layers = backend.model.encode(backend.preprocessor.tensors(snap, adapter.device), return_attention=True)
+    if replay is None:
+        snap = backend.store.snapshot(time, adapter.config, teams)
+        data = backend.preprocessor.tensors(snap, adapter.device)
+    else:
+        snap, data = replay.snapshot(time, teams)
+    _, layers = backend.model.encode(data, return_attention=True)
     selected = np.flatnonzero(snap.edges.team_id.isin(teams))
     edges = list(snap.edges.iloc[selected].itertuples(index=False))
     for layer, alpha in enumerate(layers):
@@ -26,6 +30,8 @@ def _attention_group(adapter, time, positions, queries, records):
                     attention=float(weight), log_decay=float(snap.log_weight[i]),
                     support=float(snap.support[node]), gate=float(snap.gate[node]),
                     model_version=backend.model_version, event_store_version=backend.store.version))
+                if replay is not None:
+                    records[-1].update(boundary_at=replay.start, evidence_scope='explicit_segment_edges')
 
 
 @configured_execution
@@ -43,8 +49,10 @@ def attention_weights(adapter, queries):
     try:
         backend.model.eval()
         with torch_threads(adapter.inner_threads), torch.no_grad():
+            from .memory import BoundaryReplay
+            replay = BoundaryReplay(backend, issue.max()) if adapter.config.boundary_memory is not None and len(issue) else None
             for time, positions in issue.groupby(issue, sort=True).indices.items():
-                _attention_group(adapter, time, positions, queries, records)
+                _attention_group(adapter, time, positions, queries, records, replay)
     finally:
         backend.model.train(was_training)
     return pd.DataFrame(records)

@@ -700,3 +700,10 @@ support ZIP via `--evidence` to enforce its pinned hashes as well.
 
 See the [measured speed audit](gat_speed_11ffa446.md) for timings, memory,
 profiling overhead and exact-versus-nondeterministic CUDA comparison limits.
+
+## Optional boundary memory and future-statistic supervision
+
+See [boundary memory and statistics forecasts](gat_boundary_memory_statistics.md)
+for the opt-in configurations, exact temporal/gradient semantics, UI setup,
+native diagnostics, validation evidence and limitations. Full-history scalar GAT
+remains the default; neither addition is enabled by an old recipe.

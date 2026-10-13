@@ -12,3 +12,6 @@ from .spatial import GraphHeatmaps
 __all__ += ["TemporalGraphModel", "GraphHeatmaps"]
 from .profiling import GraphProfile
 __all__ += ["GraphProfile"]
+
+from .extensions import BoundaryMemory, StatisticTarget, StatisticsForecast
+__all__ += ["BoundaryMemory", "StatisticTarget", "StatisticsForecast"]

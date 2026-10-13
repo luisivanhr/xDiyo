@@ -39,6 +39,8 @@ class TemporalGraphSerializer:
             model_version=backend.model_version, event_store_version=adapter.event_store.version,
             event_store_provenance=adapter.event_store.provenance,
             training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
+        if adapter.config.statistics_forecast is not None:
+            metadata['statistics_scale'] = backend.statistics_scale.state()
         (path/"graph.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
         adapter.training_history_.to_parquet(path/"training_history.parquet", compression="zstd", index=False)
         if self.embed_event_store:
@@ -66,6 +68,11 @@ class TemporalGraphSerializer:
         if config_state.get('heatmaps') is not None:
             from .spatial import GraphHeatmaps
             config_state['heatmaps'] = GraphHeatmaps.from_dict(config_state['heatmaps'])
+        from .extensions import BoundaryMemory, StatisticsForecast
+        if config_state.get('boundary_memory') is not None:
+            config_state['boundary_memory'] = BoundaryMemory(**config_state['boundary_memory'])
+        if config_state.get('statistics_forecast') is not None:
+            config_state['statistics_forecast'] = StatisticsForecast.from_dict(config_state['statistics_forecast'])
         config = TemporalGraphConfig(**config_state)
         from ..training.control import TrainingControl, EarlyStopping, ReduceOnPlateau
         control = dict(meta.get('control', {}))
@@ -92,6 +99,9 @@ class TemporalGraphSerializer:
             raise ValueError('Saved output classes must use native home-perspective 1/0/-1.')
         backend.fitting_boundary = pd.Timestamp(meta["fitting_boundary"]).as_unit('ns')
         backend.trained_through = pd.Timestamp(meta["trained_through"]).as_unit('ns')
+        if config.statistics_forecast is not None:
+            from .statistics import StatisticsScale
+            backend.statistics_scale = StatisticsScale.from_state(config.statistics_forecast, meta['statistics_scale'])
         backend.refresh_version()
         if backend.model_version != meta["model_version"]:
             raise ValueError("Model version does not match saved metadata.")

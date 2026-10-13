@@ -26,6 +26,9 @@ def reference_module(name):
         original_asdict = module.asdict
         def legacy_asdict(value):
             result = original_asdict(value)
+            for name in ('boundary_memory', 'statistics_forecast'):
+                if result.get(name) is None:
+                    result.pop(name, None)
             from xdiyo_analytics.graphs import TemporalGraphConfig
             if isinstance(value, TemporalGraphConfig):
                 assert value.heatmaps is None

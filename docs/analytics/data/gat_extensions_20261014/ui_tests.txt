@@ -1,0 +1,13 @@
+✔ GAT deterministic mode is an editable opt-in and survives JSON export (2.1751ms)
+✔ native goal predictors can be disabled and exported as false (1.0158ms)
+✔ graph CNN and auxiliary reconstruction are independent opt-ins (2.0271ms)
+✔ standalone task, architecture and masks have typed editable form fields (0.7725ms)
+✔ memory and statistics are independent contextual opt-ins (1.4969ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.8844

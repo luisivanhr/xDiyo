@@ -71,6 +71,7 @@ class GATLossReporter(LearningCurveReporter):
         result.notes.extend([
             'train_loss and validation_loss are weighted cross-entropy data losses, excluding prior penalty and AdamW decay. New fits evaluate training monitors after the update; other training curves retain pre-update values. Validation metrics are post-update. Older saved curves retain their original timing.',
             'Optional reconstruction metrics use the configured observed-map loss (MSE or KL). train_objective adds weighted reconstruction and the prior penalty; validation_objective adds weighted reconstruction without the prior penalty. AdamW decay is not a reported loss term.',
+            'Optional statistics losses are separate supervised forecasts of upcoming matches, normalized per observed target and weighted across targets. The configured statistics weight enters combined objectives; selection still uses the explicit training monitor.',
             'No validation curve is fabricated when validation was not configured. Steps and restart attempts are preserved; curves are not averaged across folds.',
         ])
         return result
@@ -111,7 +112,7 @@ class EmbeddingReporter(PredictionReporter):
         result = StudyResult('Team embeddings', notes=[
             'Each fold uses one frozen encoder and a common issuance. Teams are taken from the selected test/score fixtures. The latest issuance is the default.',
             'Projections are independently fitted per fold for visualization only. Axes and distances are not comparable across folds; tSNE is a local-neighborhood visualization, not a ranking.',
-            'Support is decayed historical match mass. The gate controls how much graph messages modify the prior. These diagnostics do not add predictors.',
+            'Support is decayed explicit-edge match mass. With boundary memory it describes the active segment; prior coordinates are the effective carried starting state. Older summarized edges remain identified by the store and boundary, not by explicit attention weights. These diagnostics do not add predictors.',
         ])
         catalog = self.catalog if self.catalog is not None else context.resources.get('team_catalog')
         catalog = catalog if isinstance(catalog, TeamCatalog) else TeamCatalog(catalog or {})
@@ -178,7 +179,7 @@ class GraphAttentionWeightReporter(PredictionReporter):
 
     Select teams in the rendered plot. Top edges only affect the chart: the full
     attention table and concentration summary remain exportable. Weights sum
-    to one over each receiver's full incoming history in each layer/head.
+    to one over each receiver's explicit incoming edges in each layer/head. Carried older state has no per-edge attention attribution.
     """
     issuance_at: str | None = None
     top_edges: int = 20

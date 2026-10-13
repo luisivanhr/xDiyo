@@ -1,0 +1,52 @@
+{
+  "final_source_hashes": {
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "7c767be7a57916201d98d0839edd34b885fd22f3bdcaad143d3667858899ae8e",
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "1fb88ff3f957f0f21dc9ef08e515462b147e60b1ab3a00e499d7f58780e159b9",
+    "src\\xdiyo_analytics\\graphs\\config.py": "b17b483324554e7397d602ab51489ab31425b4d9c360623b8111dad1f516ca48",
+    "src\\xdiyo_analytics\\graphs\\execution.py": "b53bf373460d83eb3f0eb78e14ed3aa2053112142170e15763861e33dd91851c",
+    "src\\xdiyo_analytics\\graphs\\extensions.py": "fa02a6df59775161a915f09be73e3571c75517ab41d2f2267b3f09cc89b68d00",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "68e619ccf876a354e4c4cad4b18459c7e559cea1198f87dc073428253b704105",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "693748f2726a4361f03d145ff8e3fde415a3ce28a1a966753339ce34dcb5faa0",
+    "src\\xdiyo_analytics\\graphs\\memory.py": "ec734e8a76c0569283ebc79e8928be368b8e0b57029d5d0b4ccb7d5e9b0d24f4",
+    "src\\xdiyo_analytics\\graphs\\network.py": "ea7e8ec44d5d3f0235906a10eff81817c20f2a3d75293f42479514e2ebcc35ed",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "77810729bcbb46a77d224d7ce0c657625e7ab70ba4908124fb63dcc6aea1c4ef",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "0060bb123c4f29d90c02de7f78ae9fad2cc46ecbf558914c38ac05384fdd2aec",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "c1b0d9e7b9a04777c1284c9ead5d1312e456eae22bb4ce46eb9183c1fae2ab95",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\statistics.py": "0bec3fe471f38acc050787613b74477cea17adf8c522327300103fc3ad0cdfb3",
+    "src\\xdiyo_analytics\\graphs\\statistics_network.py": "86d4ff3ba0e21d33a0c5fb37ce0a4076b5a3eff6188f74b15fb76f3d511f0ac5",
+    "src\\xdiyo_analytics\\graphs\\store.py": "ab684b83d5323711ab0f2108874bdd4040625e47a6ace2e59973ad6aa75d18b4",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "240471d39f31b3f567b3b1d2008b75d55828f67823b6390fe4974aa9606705fa",
+    "src\\xdiyo_analytics\\graphs\\supervision.py": "50b65278b0fca00f50caa177f92f173202d772973333e031e6e663692af09ef2"
+  },
+  "timing_receipt_mismatches": {
+    "combined": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "default": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "gpu_combined": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "gpu_default": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "gpu_memory": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "gpu_statistics": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "memory": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ],
+    "statistics": [
+      "src\\xdiyo_analytics\\graphs\\statistics.py"
+    ]
+  },
+  "pytest": "164 passed, 1 warning in 58.30s",
+  "native_ui": "5 passed",
+  "qualification": "Final label lookup narrows copied columns and shares the row index. Regression tested after change; preceding timing receipts retained unchanged. New research worker prevents rebenchmark.",
+  "input_hashes_identical": true
+}

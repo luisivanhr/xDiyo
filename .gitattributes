@@ -11,3 +11,7 @@ docs/analytics/team_assets/originals/** -text -diff -whitespace
 # Merge audit receipt hashes refer to exact output bytes.
 docs/analytics/data/gat_main_merge_20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/analytics/data/gat_main_merge_20261013/*.log -whitespace
+
+# Frozen base network and exact extension benchmark receipt bytes.
+tests/analytics/reference/gat_network_de32880.txt -text whitespace=cr-at-eol
+docs/analytics/data/gat_extensions_20261014/** -text whitespace=cr-at-eol
