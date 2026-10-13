@@ -15,3 +15,7 @@ docs/analytics/data/gat_main_merge_20261013/*.log -whitespace
 # Frozen base network and exact extension benchmark receipt bytes.
 tests/analytics/reference/gat_network_de32880.txt -text whitespace=cr-at-eol
 docs/analytics/data/gat_extensions_20261014/** -text whitespace=cr-at-eol
+
+# Exact frozen review references and bounded repair receipts.
+tests/analytics/reference/gat_*_f224a48.txt -text whitespace=cr-at-eol
+docs/analytics/data/gat_statistics_repair_20261014/** -text whitespace=cr-at-eol

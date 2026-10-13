@@ -84,12 +84,14 @@ def decorate(components, stages):
             if key == 'graphs.StatisticTarget':
                 from ..graphs.extensions import STATISTICS
                 opts = {'statistic':list(STATISTICS), 'side':['home','away'], 'period':['ALL','1ST','2ND'],
-                        'family':['point','poisson','negative_binomial','inflated_beta']}
+                        'family':['point','poisson','negative_binomial','inflated_beta','quantile']}
                 if name in opts: f.update(kind='select', choices=opts[name])
+                if name == 'quantiles': f.update(kind='list', item={'kind':'number','step':'any','min':0,'max':1}, visible_when={'family':['quantile']})
                 f['help'] = {'side':'Upcoming fixture home or away team; independent of historical edge receiver orientation.',
                     'period':'ALL, 1ST or 2ND; exact native period coverage is required.',
                     'statistic':'Exact native statistic identity. Goals currently support ALL only; missing periods are never replaced with totals.',
-                    'family':'Point: constrained mean. Counts: Poisson/NB. Possession: endpoint-inflated Beta. These are marginal distributions, not automatically calibrated.',
+                    'family':'Point: constrained mean. Counts: Poisson/NB. Possession: endpoint-inflated Beta. Quantile: independently learned ordered quantiles with pinball loss.',
+                    'quantiles':'Nonempty unique levels strictly inside (0,1); saved in ascending order. Default .25, .5, .75. Each side/period target learns one output per level. Ties in predicted values are allowed; no rounding.',
                     'weight':'Positive relative target weight; target coverage is normalized separately.'}.get(name, f['help'])
             if key.startswith('neural.') or key == 'graphs.GraphHeatmaps':
                 details = {'task':'Classification learns fitting classes; regression predicts numeric targets. Configure the matching target in Labels.',

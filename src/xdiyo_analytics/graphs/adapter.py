@@ -379,6 +379,9 @@ class _Backend:
         if self.config.statistics_forecast is not None:
             digest.update(json.dumps(self.statistics_scale.state(), sort_keys=True).encode())
         config_state = asdict(self.config)
+        if self.config.statistics_forecast is not None:
+            from .extensions import target_schema
+            config_state["statistics_forecast"]["targets"] = [target_schema(t) for t in self.config.statistics_forecast.targets]
         for name in ('boundary_memory', 'statistics_forecast'):
             if config_state[name] is None:
                 del config_state[name]
@@ -416,10 +419,14 @@ class _Backend:
     def _statistic_arrays(self, size):
         arrays = {}
         for t in self.config.statistics_forecast.targets:
+            if t.family == 'quantile':
+                from .extensions import quantile_column
+                for q in t.quantiles: arrays[quantile_column(t, q)] = np.full(size, np.nan)
+                continue
             fields = ['mean']
             if t.family != 'point': fields.append('std')
             if t.family == 'negative_binomial': fields.append('dispersion')
-            if t.family == 'inflated_beta': fields += ['a', 'b', 'p_zero', 'p_one', 'p_interior']
+            if t.family == 'inflated_beta': fields += ['a', 'b', 'p_zero', 'p_one', 'p_interior', 'log_p_zero', 'log_p_one', 'log_p_interior']
             for field in fields: arrays[t.name+'::'+field] = np.full(size, np.nan)
         return arrays
 
@@ -430,9 +437,16 @@ class _Backend:
         else:
             logits, _, forecasts = self.model(data, home, away, fixture, return_statistics=True)
             for target, values in zip(self.config.statistics_forecast.targets, forecasts):
+                if target.family == 'quantile':
+                    from .extensions import quantile_column
+                    quantiles = values['quantiles'].cpu().numpy() * (100 if target.proportion else 1)
+                    for j, q in enumerate(target.quantiles): statistics[quantile_column(target, q)][positions] = quantiles[:, j]
+                    continue
                 values = dict(values)
                 if 'log_mixture' in values:
-                    mixture = values.pop('log_mixture').exp()
+                    logmix = values.pop('log_mixture')
+                    values.update(zip(('log_p_zero','log_p_one','log_p_interior'), logmix.unbind(1)))
+                    mixture = logmix.exp()
                     values.update(zip(('p_zero','p_one','p_interior'), mixture.unbind(1)))
                 for field, value in values.items():
                     if value is not None:

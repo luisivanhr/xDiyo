@@ -78,12 +78,22 @@ Two policies are provided:
   membership-entry dates**, floored to local midnight. This is one shared graph,
   not a separate per-league reset. Another league's entry can create a global
   segment boundary. Membership identities themselves still use their actual
-  effective entry timestamps. There is no inference of result availability from
-  a season label.
+  effective entry timestamps. The membership/boundary calendar is fixed and
+  known before the experiment; midnight is the start of that local calendar day.
+  Morning and evening issuances use that same boundary and previous-day result
+  cutoff. Later same-day results do not become available early. Changing the
+  supplied calendar can legitimately change segmentation; dynamic late-known or
+  retroactively inserted calendars are not supported. No real affected-fixture
+  count is claimed. There is no inference of result availability from a season label.
 - `fixed_days`: nonoverlapping blocks of `days` local calendar days aligned to
   `anchor`. Anchor must be timezone-aware and local midnight in the model's
   timezone; e.g. use an appropriate `+01:00` date for Europe/Berlin. Calendar days
   preserve local-midnight boundaries through DST. This is **not a sliding window**.
+
+An entirely empty history produces no boundary carry: predictions use the current
+native prior. The original schedule and memberships are retained, and explicitly
+attaching new evidence uses its actual eligibility cutoff. Statistics supervision
+still requires observed training labels; an empty history does not invent them.
 
 The first boundary summarizes eligible history from the beginning of the source
 store. Subsequent boundary states summarize only the newly eligible segment
@@ -228,6 +238,119 @@ plots, MAE, proper marginal NLL and central 80% empirical interval coverage.
 Missing diagnostics are explicit. Uncertainty is **not automatically calibrated**.
 Existing losses, tSNE/PCA, team badges, attention, bet/ticket and financial/P&L
 reporters remain native consumers.
+
+## Quantile / pinball forecasts (opt-in)
+
+Select **Quantile** in a statistic target's Family field. Its dependent **Quantiles**
+list defaults to `[0.25, 0.50, 0.75]`; the UI previews target-channel and learned-output
+counts. The list must be nonempty, finite, unique and strictly inside (0,1). Duplicate
+levels are rejected, and accepted levels are persisted in increasing order.
+
+```python
+StatisticsForecast(
+    route='bottleneck', weight=.2,
+    targets=tuple(
+        StatisticTarget('cornerKicks', side=side, period='ALL',
+                        family='quantile', quantiles=(.25, .5, .75))
+        for side in ('home', 'away')
+    ),
+)
+```
+
+Each target/side/period learns K independent logits. For S targets sharing K levels,
+the outputs are logically `[fixtures, S, K]`, flattened in configured target order,
+then ascending level. Four statistics for each team and three levels give **24**
+learned values. K=1 is supported; no median is required. Individual targets may
+also use different levels or families, in which case output widths sum over targets.
+Columns are named, for example, `home::ALL::cornerKicks::quantile::0.25`.
+
+The parameterization sorts the K logits **inside the trained forward pass**, then
+applies softplus for counts or sigmoid for possession fractions. The same ordered
+values are used for loss, outcome inputs, prediction and reporting. This enforces
+nondecreasing forecasts while permitting ties; it introduces no required spacing.
+Gradients pass through the ordered values. Count forecasts are neither rounded nor
+sampled. Possession is exported in native 0–100 percentage units. The current
+catalogue still supports the six native statistics listed above; arbitrary continuous
+columns, nominal labels and half-goal targets are not added by this option.
+
+For each observed y and level tau the pinball is
+`max(tau * (y-q), (tau-1) * (y-q))`. Training uses the saved **training-only**
+transform and scale: log1p(count), or possession/100. The residual is
+`(transform(y)-transform(q))/training_scale`. Centering cancels from that residual;
+route inputs use `(transform(q)-training_center)/training_scale`. This log-count
+objective is not equivalent to original-count-unit pinball loss. The reporter
+separately computes original-unit pinball scores.
+
+Loss first averages across the requested quantiles, then sums over observed rows
+with the native sample weights and full-population per-target observed-weight
+denominator. Existing relative target weights and the overall statistics multiplier
+apply afterward. Increasing K does not multiply the auxiliary weight. Missing values
+are excluded before arithmetic; zero counts are observed values; all-missing groups
+supply a differentiable zero auxiliary loss while outcome training continues.
+
+Auxiliary-only keeps the original outcome inputs. Combined appends **every ordered
+quantile**; bottleneck uses only those quantiles. No direct context bypass or detach
+is introduced. No mean column is manufactured. The reporter includes a median only
+when 0.5 is configured, never labels it as an expected value, and never interpolates
+unrequested levels. It plots all configured forecasts and reports per-level pinball,
+empirical `P(Y <= q_tau)`, transformed-space scores and the equal-observed-row held-out
+quantile objective component (including configured target/auxiliary weights). Native
+GAT loss curves retain the actual sample-weighted training/validation objectives.
+
+The outer requested levels define the displayed quantile interval. Default 25th–75th
+is a **nominal central 50% interval**, not a 95% interval or confidence interval for
+a mean. For discrete counts, ties can make empirical coverage differ from tau.
+These are marginal quantiles, not a full joint distribution or an automatic
+calibration guarantee. Levels, order, support, parameterization and transforms are
+bound to the saved schema; changed schemas are rejected before loading weights.
+Unused quantile defaults are omitted from legacy model fingerprints.
+
+## Review repairs and statistics performance
+
+- Empty history uses prior-only inference in both boundary policies.
+- Inflated-Beta predictions now retain `log_p_zero`, `log_p_one` and
+  `log_p_interior`. The reporter uses those values directly for proper NLL,
+  preserving finite native scores even when displayed probability masses underflow
+  to zero. Legacy retained predictions without logs remain readable, with an explicit
+  limitation when an already-underflowed mass cannot recover its original score.
+  No epsilon clipping substitutes for the likelihood.
+- Fixed label selections, local integer indices and per-target weight denominators
+  are cached once for each fit's training/validation population. No forecasts or
+  learned states are cached. This removes repeated missing-mask `nonzero` operations
+  (and their CUDA synchronization) in point/count/quantile loss paths. Beta still
+  separates endpoint/interior observations for its likelihood. Cache size is O(N*S),
+  not O(history edges * issuances), and fresh initialization clears it. Quantile
+  levels move with the module as configuration-derived, nonpersistent buffers.
+
+See `data/gat_statistics_repair_20261014/` for current-source checks and isolated
+loss-path benchmark receipts. The pre-repair measurements below remain historical.
+
+Current-source isolated statistics-head forward/backward measurements, milliseconds
+per 256-row pass (8 groups, 6 targets, 25% missing labels, six alternating paired
+repeats; medians):
+
+| Family | CPU uncached | CPU cached | Ratio | GPU uncached | GPU cached | Ratio |
+|---|---:|---:|---:|---:|---:|---:|
+| point | 10.11 | 7.82 | 1.29x | 48.20 | 30.53 | 1.58x |
+| poisson | 10.39 | 8.16 | 1.27x | 47.61 | 32.36 | 1.47x |
+| negative_binomial | 17.24 | 14.40 | 1.20x | 86.07 | 65.40 | 1.32x |
+| inflated_beta | 30.92 | 28.08 | 1.10x | 190.73 | 166.40 | 1.15x |
+| quantile | 12.61 | 10.39 | 1.21x | 61.03 | 41.56 | 1.47x |
+
+These are loss-path measurements with synthetic fixed labels and native heads, not
+whole-GAT epoch speedups. The one-time cache-building cost is recorded separately.
+Every benchmark requires exact loss/gradient agreement. CPU and deterministic CUDA
+regressions additionally compare two complete native updates, post-update checkpoint
+metrics, validation metrics, all gradients, parameters and full AdamW state against
+the uncached reference. Existing families use the frozen f224a48 head/loss code;
+quantiles compare cached and uncached execution of the new mathematical objective.
+No worker was interrupted, and no large study or accuracy experiment was run.
+
+Repair verification: **255 Python tests and 29 JavaScript UI checks passed**,
+including bounded RTX 4070 SUPER checks. Exact commands, environment, source hashes
+and timing scope are recorded in `data/gat_statistics_repair_20261014/verification.json`.
+The reference constructor, default path and old artifacts remain covered.
+
 
 ## Validation and benchmark receipts
 

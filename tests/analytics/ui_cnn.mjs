@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {configure, componentEditor, makeNode} from '../../src/xdiyo_analytics/ui/static/forms.js';
+import {configure, componentEditor, makeNode, statisticsOutputPreview} from '../../src/xdiyo_analytics/ui/static/forms.js';
 
 class Element {
  constructor(tag) { this.tag=tag; this.nodeType=1; this.children=[]; this.value=''; this.checked=false; this.type=''; this.events={}; }
@@ -91,4 +91,20 @@ test('memory and statistics are independent contextual opt-ins',async()=>{
  const family=find(root,'Family','select');family.value='2';family.onchange();await Promise.resolve();
  assert.equal(recipe.params.statistics_forecast.params.targets[0].params.family,'negative_binomial');
  assert.deepEqual(JSON.parse(JSON.stringify(recipe)),recipe);
+});
+
+
+test('quantile controls expose editable levels and learned output count',async()=>{
+ let value=makeNode('graphs.StatisticTarget');const root=componentEditor(value,v=>{value=v;},null,['graphs.StatisticTarget']);
+ assert.ok(!find(root,'Quantiles'));
+ const family=find(root,'Family','select');family.value='4';family.onchange();await Promise.resolve();
+ assert.equal(value.params.family,'quantile');
+ assert.match(statisticsOutputPreview(value),/3 learned statistic outputs/);
+ const numbers=walk(root).filter(n=>n.tag==='input'&&n.type==='number');
+ const level=numbers.find(n=>n.value==.25);assert.ok(level);level.value='0.1';level.events.change({target:level});await Promise.resolve();
+ assert.equal(value.params.quantiles[0],.1);
+ value.params.quantiles=[.1,.1];assert.match(statisticsOutputPreview(value),/Invalid quantiles/);
+ value.params.quantiles=[.1];assert.match(statisticsOutputPreview(value),/1 learned statistic outputs/);
+ const target={component:'graphs.StatisticTarget',params:{family:'quantile',quantiles:[.25,.5,.75]}};
+ assert.match(statisticsOutputPreview({component:'graphs.StatisticsForecast',params:{targets:Array(8).fill(target)}}),/8 target channels · 24 learned statistic outputs/);
 });

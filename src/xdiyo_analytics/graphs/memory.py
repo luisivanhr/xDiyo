@@ -5,6 +5,8 @@ import pandas as pd
 def boundaries(store, config, until):
     mode = config.boundary_memory
     end = config.history_cutoff(until)
+    if store._history.empty:
+        return []  # No evidence to summarize; retain the ordinary current prior.
     first = config.history_cutoff(store._history.kickoff_at.min())
     if mode.policy == 'season':
         return sorted({config.history_cutoff(t) for t in store._memberships.entry_at.drop_duplicates()

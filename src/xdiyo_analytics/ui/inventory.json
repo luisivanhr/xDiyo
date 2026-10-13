@@ -18652,7 +18652,7 @@
       "id": "graphs.StatisticTarget",
       "title": "StatisticTarget",
       "category": "graph_config",
-      "description": "StatisticTarget(statistic: str = 'cornerKicks', side: str = 'home', period: str = 'ALL', family: str = 'point', weight: float = 1.0)",
+      "description": "StatisticTarget(statistic: str = 'cornerKicks', side: str = 'home', period: str = 'ALL', family: str = 'point', weight: float = 1.0, quantiles: tuple[float, ...] = (0.25, 0.5, 0.75))",
       "fields": [
         {
           "name": "statistic",
@@ -18704,13 +18704,14 @@
           "required": false,
           "kind": "select",
           "default": "point",
-          "help": "Point: constrained mean. Counts: Poisson/NB. Possession: endpoint-inflated Beta. These are marginal distributions, not automatically calibrated.",
+          "help": "Point: constrained mean. Counts: Poisson/NB. Possession: endpoint-inflated Beta. Quantile: independently learned ordered quantiles with pinball loss.",
           "primary": true,
           "choices": [
             "point",
             "poisson",
             "negative_binomial",
-            "inflated_beta"
+            "inflated_beta",
+            "quantile"
           ]
         },
         {
@@ -18722,6 +18723,30 @@
           "help": "Positive relative target weight; target coverage is normalized separately.",
           "step": "any",
           "primary": true
+        },
+        {
+          "name": "quantiles",
+          "title": "Quantiles",
+          "required": false,
+          "kind": "list",
+          "default": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "help": "Nonempty unique levels strictly inside (0,1); saved in ascending order. Default .25, .5, .75. Each side/period target learns one output per level. Ties in predicted values are allowed; no rounding.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "step": "any",
+            "min": 0,
+            "max": 1
+          },
+          "visible_when": {
+            "family": [
+              "quantile"
+            ]
+          }
         }
       ],
       "accepts_extra": false
@@ -18730,7 +18755,7 @@
       "id": "graphs.StatisticsForecast",
       "title": "StatisticsForecast",
       "category": "graph_config",
-      "description": "StatisticsForecast(targets: tuple[xdiyo_analytics.graphs.extensions.StatisticTarget, ...] = (StatisticTarget(statistic='cornerKicks', side='home', period='ALL', family='point', weight=1.0),), route: str = 'auxiliary', weight: float = 1.0, point_loss: str = 'huber')",
+      "description": "StatisticsForecast(targets: tuple[xdiyo_analytics.graphs.extensions.StatisticTarget, ...] = (StatisticTarget(statistic='cornerKicks', side='home', period='ALL', family='point', weight=1.0, quantiles=(0.25, 0.5, 0.75)),), route: str = 'auxiliary', weight: float = 1.0, point_loss: str = 'huber')",
       "fields": [
         {
           "name": "targets",
@@ -18745,7 +18770,12 @@
                 "side": "home",
                 "period": "ALL",
                 "family": "point",
-                "weight": 1.0
+                "weight": 1.0,
+                "quantiles": [
+                  0.25,
+                  0.5,
+                  0.75
+                ]
               }
             }
           ],

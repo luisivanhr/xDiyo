@@ -1,5 +1,5 @@
 """Opt-in temporal memory and supervised future-statistic configuration."""
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import math
 import pandas as pd
 
@@ -42,16 +42,24 @@ class StatisticTarget:
     period: str = 'ALL'
     family: str = 'point'
     weight: float = 1.
+    quantiles: tuple[float, ...] = (.25, .5, .75)
 
     def __post_init__(self):
+        try:
+            levels = tuple(float(q) for q in self.quantiles)
+        except (TypeError, ValueError) as e:
+            raise ValueError('Quantiles must be a nonempty list of finite unique levels in (0,1).') from e
+        if not levels or any(not math.isfinite(q) or not 0 < q < 1 for q in levels) or len(set(levels)) != len(levels):
+            raise ValueError('Quantiles must be nonempty, finite, unique and strictly between zero and one.')
+        object.__setattr__(self, 'quantiles', tuple(sorted(levels)))
         if self.statistic not in STATISTICS or self.side not in ('home', 'away') or self.period not in ('ALL', '1ST', '2ND'):
             raise ValueError('Unsupported statistic, side or period for statistic target.')
         if self.statistic == 'goals' and self.period != 'ALL':
             raise ValueError('Canonical goals targets currently support ALL only; no half substitution.')
-        if self.family not in ('point', 'poisson', 'negative_binomial', 'inflated_beta'):
+        if self.family not in ('point', 'poisson', 'negative_binomial', 'inflated_beta', 'quantile'):
             raise ValueError('Unsupported target family.')
-        if self.proportion and self.family not in ('point', 'inflated_beta'):
-            raise ValueError('Possession requires point or inflated_beta.')
+        if self.proportion and self.family not in ('point', 'inflated_beta', 'quantile'):
+            raise ValueError('Possession requires point, inflated_beta or quantile.')
         if not self.proportion and self.family == 'inflated_beta':
             raise ValueError('inflated_beta requires a proportion target.')
         if not math.isfinite(self.weight) or self.weight <= 0:
@@ -95,3 +103,17 @@ class StatisticsForecast:
         value = dict(value)
         value['targets'] = tuple(StatisticTarget(**t) for t in value['targets'])
         return cls(**value)
+
+
+def target_schema(target):
+    """Stable identity: unused quantile defaults do not alter existing models."""
+    value = asdict(target)
+    if target.family != 'quantile':
+        del value['quantiles']
+    else:
+        value['quantiles'] = list(target.quantiles)
+    return value
+
+
+def quantile_column(target, level):
+    return target.name + '::quantile::' + repr(float(level))

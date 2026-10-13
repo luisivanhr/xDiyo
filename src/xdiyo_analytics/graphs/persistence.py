@@ -87,6 +87,9 @@ class TemporalGraphSerializer:
         p = backend.preprocessor
         if tuple(meta["edge_feature_order"]) != p.edge_columns or tuple(meta["fixture_feature_order"]) != p.fixture_columns:
             raise ValueError("Saved feature order disagrees with the architecture configuration.")
+        if config.statistics_forecast is not None:
+            from .statistics import StatisticsScale
+            backend.statistics_scale = StatisticsScale.from_state(config.statistics_forecast, meta['statistics_scale'])
         # Loading weights must not advance the caller's initialization RNG.
         with torch.random.fork_rng(devices=[]):
             backend.model = TemporalNetwork(config, len(p.leagues),
@@ -99,9 +102,6 @@ class TemporalGraphSerializer:
             raise ValueError('Saved output classes must use native home-perspective 1/0/-1.')
         backend.fitting_boundary = pd.Timestamp(meta["fitting_boundary"]).as_unit('ns')
         backend.trained_through = pd.Timestamp(meta["trained_through"]).as_unit('ns')
-        if config.statistics_forecast is not None:
-            from .statistics import StatisticsScale
-            backend.statistics_scale = StatisticsScale.from_state(config.statistics_forecast, meta['statistics_scale'])
         backend.refresh_version()
         if backend.model_version != meta["model_version"]:
             raise ValueError("Model version does not match saved metadata.")

@@ -1,5 +1,5 @@
 """Training-only statistic transforms; labels stay outside neural inputs."""
-from dataclasses import asdict
+from .extensions import target_schema
 import numpy as np
 import pandas as pd
 from .config import MATCH_KEYS
@@ -11,6 +11,8 @@ def labels(store, metadata, config, known_at):
     for target in config.targets:
         if target.column not in source:
             raise ValueError(f'Statistics target {target.name}: missing native column {target.column}; no period substitution.')
+    if source.empty:
+        return np.full((len(metadata), len(config.targets)), np.nan)
     # Never copy heatmap arrays or unrelated edge columns to look up labels.
     columns = list(dict.fromkeys([*keys, *(t.column for t in config.targets)]))
     indexed = source.loc[:, columns].set_index(keys)
@@ -67,18 +69,24 @@ class StatisticsScale:
                                 for i, t in enumerate(self.config.targets)])
 
     def state(self):
-        return dict(targets=[asdict(t) for t in self.config.targets], mean=self.mean.tolist(), scale=self.scale.tolist(),
+        state = dict(targets=[target_schema(t) for t in self.config.targets], mean=self.mean.tolist(), scale=self.scale.tolist(),
                     counts=self.counts.tolist(), mask_shape=self.mask_shape, mask_bits=self.mask_bits,
                     transforms=['percentage_to_fraction' if t.proportion else 'log1p' for t in self.config.targets])
+        quantiles = [dict(target=t.name, levels=list(t.quantiles), parameterization='sort_logits_then_sigmoid' if t.proportion else 'sort_logits_then_softplus', support='percentage_0_100' if t.proportion else 'nonnegative', outputs=len(t.quantiles)) for t in self.config.targets if t.family == 'quantile']
+        if quantiles:
+            state['quantile_schema'] = quantiles
+        return state
 
     @classmethod
     def from_state(cls, config, state):
         obj = cls(config)
-        if state['targets'] != [asdict(t) for t in config.targets]:
+        if state['targets'] != [target_schema(t) for t in config.targets]:
             raise ValueError('Saved statistics target order/configuration mismatch.')
         for key in ('mean', 'scale', 'counts'):
             setattr(obj, key, np.asarray(state[key]))
         if len(obj.mean) != len(config.targets) or not np.isfinite(obj.mean).all() or not np.isfinite(obj.scale).all() or (obj.scale <= 0).any():
             raise ValueError('Invalid saved statistics transform.')
         obj.mask_shape, obj.mask_bits = state['mask_shape'], state['mask_bits']
+        if obj.state().get('quantile_schema') != state.get('quantile_schema'):
+            raise ValueError('Saved quantile schema/parameterization mismatch.')
         return obj
