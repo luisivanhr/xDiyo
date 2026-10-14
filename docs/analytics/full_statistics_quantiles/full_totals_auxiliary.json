@@ -1,0 +1,3058 @@
+{
+  "status": "Native configuration; no experiment run",
+  "draft_sha256": "4128ea902f11e1b05aea2c795039ecde8601b2173c8ac055b787e69d407bbdc8",
+  "input_manifest_sha256": "89054f75169d44ba01fa1fd1668f2636c8129a05d9a0c33b8b7c115b83166f08",
+  "forecast": {
+    "component": "graphs.StatisticsForecast",
+    "params": {
+      "targets": [
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "goals_for",
+            "source_column": "goals_for",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "goals_for",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "total_shots",
+            "source_column": "team::total_shots",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "total_shots",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "shots_on_target",
+            "source_column": "team::shots_on_target",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "shots_on_target",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "outfield_cov_xy",
+            "source_column": "team::outfield_cov_xy",
+            "units": "squared normalized pitch-coordinate units (0..100 axes)",
+            "support": "signed_continuous",
+            "side": "home",
+            "period": "ALL",
+            "component": "outfield_cov_xy",
+            "transform": "identity",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "abs_outfield_cov_xy",
+            "source_column": "team::abs_outfield_cov_xy",
+            "units": "squared normalized pitch-coordinate units (0..100 axes)",
+            "support": "nonnegative_continuous",
+            "side": "home",
+            "period": "ALL",
+            "component": "abs_outfield_cov_xy",
+            "transform": "identity",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateCross::total",
+            "source_column": "team::ALL::accurateCross::total",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateCross::value",
+            "source_column": "team::ALL::accurateCross::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateLongBalls::total",
+            "source_column": "team::ALL::accurateLongBalls::total",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateLongBalls::value",
+            "source_column": "team::ALL::accurateLongBalls::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accuratePasses::value",
+            "source_column": "team::ALL::accuratePasses::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::aerialDuelsPercentage::value",
+            "source_column": "team::ALL::aerialDuelsPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::ballPossession::value",
+            "source_column": "team::ALL::ballPossession::value",
+            "units": "percent",
+            "support": "bounded_continuous",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "affine",
+            "scaling": "standard",
+            "lower": 0.0,
+            "upper": 100.0,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::bigChanceCreated::value",
+            "source_column": "team::ALL::bigChanceCreated::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::blockedScoringAttempt::value",
+            "source_column": "team::ALL::blockedScoringAttempt::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::cornerKicks::value",
+            "source_column": "team::ALL::cornerKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dispossessed::value",
+            "source_column": "team::ALL::dispossessed::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dribblesPercentage::total",
+            "source_column": "team::ALL::dribblesPercentage::total",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dribblesPercentage::value",
+            "source_column": "team::ALL::dribblesPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::duelWonPercent::value",
+            "source_column": "team::ALL::duelWonPercent::value",
+            "units": "percent",
+            "support": "bounded_continuous",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "affine",
+            "scaling": "standard",
+            "lower": 0.0,
+            "upper": 100.0,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::finalThirdEntries::value",
+            "source_column": "team::ALL::finalThirdEntries::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::fouledFinalThird::value",
+            "source_column": "team::ALL::fouledFinalThird::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::fouls::value",
+            "source_column": "team::ALL::fouls::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::freeKicks::value",
+            "source_column": "team::ALL::freeKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::goalKicks::value",
+            "source_column": "team::ALL::goalKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::goalkeeperSaves::value",
+            "source_column": "team::ALL::goalkeeperSaves::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::groundDuelsPercentage::value",
+            "source_column": "team::ALL::groundDuelsPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::interceptionWon::value",
+            "source_column": "team::ALL::interceptionWon::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::offsides::value",
+            "source_column": "team::ALL::offsides::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::passes::value",
+            "source_column": "team::ALL::passes::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::shotsOffGoal::value",
+            "source_column": "team::ALL::shotsOffGoal::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::throwIns::value",
+            "source_column": "team::ALL::throwIns::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalClearance::value",
+            "source_column": "team::ALL::totalClearance::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalShotsInsideBox::value",
+            "source_column": "team::ALL::totalShotsInsideBox::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalShotsOutsideBox::value",
+            "source_column": "team::ALL::totalShotsOutsideBox::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalTackle::value",
+            "source_column": "team::ALL::totalTackle::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::wonTacklePercent::value",
+            "source_column": "team::ALL::wonTacklePercent::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::yellowCards::value",
+            "source_column": "team::ALL::yellowCards::value",
+            "units": "count",
+            "support": "count",
+            "side": "home",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "goals_for",
+            "source_column": "goals_for",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "goals_for",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "total_shots",
+            "source_column": "team::total_shots",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "total_shots",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "shots_on_target",
+            "source_column": "team::shots_on_target",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "shots_on_target",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "outfield_cov_xy",
+            "source_column": "team::outfield_cov_xy",
+            "units": "squared normalized pitch-coordinate units (0..100 axes)",
+            "support": "signed_continuous",
+            "side": "away",
+            "period": "ALL",
+            "component": "outfield_cov_xy",
+            "transform": "identity",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "abs_outfield_cov_xy",
+            "source_column": "team::abs_outfield_cov_xy",
+            "units": "squared normalized pitch-coordinate units (0..100 axes)",
+            "support": "nonnegative_continuous",
+            "side": "away",
+            "period": "ALL",
+            "component": "abs_outfield_cov_xy",
+            "transform": "identity",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateCross::total",
+            "source_column": "team::ALL::accurateCross::total",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateCross::value",
+            "source_column": "team::ALL::accurateCross::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateLongBalls::total",
+            "source_column": "team::ALL::accurateLongBalls::total",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accurateLongBalls::value",
+            "source_column": "team::ALL::accurateLongBalls::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::accuratePasses::value",
+            "source_column": "team::ALL::accuratePasses::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::aerialDuelsPercentage::value",
+            "source_column": "team::ALL::aerialDuelsPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::ballPossession::value",
+            "source_column": "team::ALL::ballPossession::value",
+            "units": "percent",
+            "support": "bounded_continuous",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "affine",
+            "scaling": "standard",
+            "lower": 0.0,
+            "upper": 100.0,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::bigChanceCreated::value",
+            "source_column": "team::ALL::bigChanceCreated::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::blockedScoringAttempt::value",
+            "source_column": "team::ALL::blockedScoringAttempt::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::cornerKicks::value",
+            "source_column": "team::ALL::cornerKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dispossessed::value",
+            "source_column": "team::ALL::dispossessed::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dribblesPercentage::total",
+            "source_column": "team::ALL::dribblesPercentage::total",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "total",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::dribblesPercentage::value",
+            "source_column": "team::ALL::dribblesPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::duelWonPercent::value",
+            "source_column": "team::ALL::duelWonPercent::value",
+            "units": "percent",
+            "support": "bounded_continuous",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "affine",
+            "scaling": "standard",
+            "lower": 0.0,
+            "upper": 100.0,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::finalThirdEntries::value",
+            "source_column": "team::ALL::finalThirdEntries::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::fouledFinalThird::value",
+            "source_column": "team::ALL::fouledFinalThird::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::fouls::value",
+            "source_column": "team::ALL::fouls::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::freeKicks::value",
+            "source_column": "team::ALL::freeKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::goalKicks::value",
+            "source_column": "team::ALL::goalKicks::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::goalkeeperSaves::value",
+            "source_column": "team::ALL::goalkeeperSaves::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::groundDuelsPercentage::value",
+            "source_column": "team::ALL::groundDuelsPercentage::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::interceptionWon::value",
+            "source_column": "team::ALL::interceptionWon::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::offsides::value",
+            "source_column": "team::ALL::offsides::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::passes::value",
+            "source_column": "team::ALL::passes::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::shotsOffGoal::value",
+            "source_column": "team::ALL::shotsOffGoal::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::throwIns::value",
+            "source_column": "team::ALL::throwIns::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalClearance::value",
+            "source_column": "team::ALL::totalClearance::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalShotsInsideBox::value",
+            "source_column": "team::ALL::totalShotsInsideBox::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalShotsOutsideBox::value",
+            "source_column": "team::ALL::totalShotsOutsideBox::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::totalTackle::value",
+            "source_column": "team::ALL::totalTackle::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::wonTacklePercent::value",
+            "source_column": "team::ALL::wonTacklePercent::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        },
+        {
+          "component": "graphs.NumericStatisticTarget",
+          "params": {
+            "semantic_name": "ALL::yellowCards::value",
+            "source_column": "team::ALL::yellowCards::value",
+            "units": "count",
+            "support": "count",
+            "side": "away",
+            "period": "ALL",
+            "component": "value",
+            "transform": "log1p",
+            "scaling": "standard",
+            "lower": null,
+            "upper": null,
+            "weight": 1.0,
+            "quantiles": [
+              0.25,
+              0.5,
+              0.75
+            ],
+            "family": "quantile"
+          }
+        }
+      ],
+      "route": "auxiliary",
+      "weight": 1.0,
+      "point_loss": "huber"
+    }
+  },
+  "provenance": [
+    {
+      "target_order": 0,
+      "fixture_side": "home",
+      "semantic_component": "goals_for",
+      "source_team_column": "goals_for",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "goals_for",
+        "source": "canonical final regulation goals"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 1,
+      "fixture_side": "home",
+      "semantic_component": "total_shots",
+      "source_team_column": "team::total_shots",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::Shots::totalShotsOnGoal::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 2,
+      "fixture_side": "home",
+      "semantic_component": "shots_on_target",
+      "source_team_column": "team::shots_on_target",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::Shots::shotsOnGoal::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 3,
+      "fixture_side": "home",
+      "semantic_component": "outfield_cov_xy",
+      "source_team_column": "team::outfield_cov_xy",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::PlayerHeatmap::cov_xy::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 4,
+      "fixture_side": "home",
+      "semantic_component": "abs_outfield_cov_xy",
+      "source_team_column": "team::abs_outfield_cov_xy",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::PlayerHeatmap::abs_cov_xy::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 5,
+      "fixture_side": "home",
+      "semantic_component": "ALL::accurateCross::total",
+      "source_team_column": "team::ALL::accurateCross::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateCross::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 6,
+      "fixture_side": "home",
+      "semantic_component": "ALL::accurateCross::value",
+      "source_team_column": "team::ALL::accurateCross::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateCross::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 7,
+      "fixture_side": "home",
+      "semantic_component": "ALL::accurateLongBalls::total",
+      "source_team_column": "team::ALL::accurateLongBalls::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateLongBalls::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 8,
+      "fixture_side": "home",
+      "semantic_component": "ALL::accurateLongBalls::value",
+      "source_team_column": "team::ALL::accurateLongBalls::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateLongBalls::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 9,
+      "fixture_side": "home",
+      "semantic_component": "ALL::accuratePasses::value",
+      "source_team_column": "team::ALL::accuratePasses::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accuratePasses::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 10,
+      "fixture_side": "home",
+      "semantic_component": "ALL::aerialDuelsPercentage::value",
+      "source_team_column": "team::ALL::aerialDuelsPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::aerialDuelsPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 11,
+      "fixture_side": "home",
+      "semantic_component": "ALL::ballPossession::value",
+      "source_team_column": "team::ALL::ballPossession::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::ballPossession::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 12,
+      "fixture_side": "home",
+      "semantic_component": "ALL::bigChanceCreated::value",
+      "source_team_column": "team::ALL::bigChanceCreated::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::bigChanceCreated::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 13,
+      "fixture_side": "home",
+      "semantic_component": "ALL::blockedScoringAttempt::value",
+      "source_team_column": "team::ALL::blockedScoringAttempt::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::blockedScoringAttempt::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 14,
+      "fixture_side": "home",
+      "semantic_component": "ALL::cornerKicks::value",
+      "source_team_column": "team::ALL::cornerKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::cornerKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 15,
+      "fixture_side": "home",
+      "semantic_component": "ALL::dispossessed::value",
+      "source_team_column": "team::ALL::dispossessed::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dispossessed::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 16,
+      "fixture_side": "home",
+      "semantic_component": "ALL::dribblesPercentage::total",
+      "source_team_column": "team::ALL::dribblesPercentage::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dribblesPercentage::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 17,
+      "fixture_side": "home",
+      "semantic_component": "ALL::dribblesPercentage::value",
+      "source_team_column": "team::ALL::dribblesPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dribblesPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 18,
+      "fixture_side": "home",
+      "semantic_component": "ALL::duelWonPercent::value",
+      "source_team_column": "team::ALL::duelWonPercent::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::duelWonPercent::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 19,
+      "fixture_side": "home",
+      "semantic_component": "ALL::finalThirdEntries::value",
+      "source_team_column": "team::ALL::finalThirdEntries::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::finalThirdEntries::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 20,
+      "fixture_side": "home",
+      "semantic_component": "ALL::fouledFinalThird::value",
+      "source_team_column": "team::ALL::fouledFinalThird::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::fouledFinalThird::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 21,
+      "fixture_side": "home",
+      "semantic_component": "ALL::fouls::value",
+      "source_team_column": "team::ALL::fouls::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::fouls::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 22,
+      "fixture_side": "home",
+      "semantic_component": "ALL::freeKicks::value",
+      "source_team_column": "team::ALL::freeKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::freeKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 23,
+      "fixture_side": "home",
+      "semantic_component": "ALL::goalKicks::value",
+      "source_team_column": "team::ALL::goalKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::goalKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 24,
+      "fixture_side": "home",
+      "semantic_component": "ALL::goalkeeperSaves::value",
+      "source_team_column": "team::ALL::goalkeeperSaves::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::goalkeeperSaves::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 25,
+      "fixture_side": "home",
+      "semantic_component": "ALL::groundDuelsPercentage::value",
+      "source_team_column": "team::ALL::groundDuelsPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::groundDuelsPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 26,
+      "fixture_side": "home",
+      "semantic_component": "ALL::interceptionWon::value",
+      "source_team_column": "team::ALL::interceptionWon::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::interceptionWon::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 27,
+      "fixture_side": "home",
+      "semantic_component": "ALL::offsides::value",
+      "source_team_column": "team::ALL::offsides::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::offsides::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 28,
+      "fixture_side": "home",
+      "semantic_component": "ALL::passes::value",
+      "source_team_column": "team::ALL::passes::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::passes::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 29,
+      "fixture_side": "home",
+      "semantic_component": "ALL::shotsOffGoal::value",
+      "source_team_column": "team::ALL::shotsOffGoal::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::shotsOffGoal::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 30,
+      "fixture_side": "home",
+      "semantic_component": "ALL::throwIns::value",
+      "source_team_column": "team::ALL::throwIns::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::throwIns::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 31,
+      "fixture_side": "home",
+      "semantic_component": "ALL::totalClearance::value",
+      "source_team_column": "team::ALL::totalClearance::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalClearance::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 32,
+      "fixture_side": "home",
+      "semantic_component": "ALL::totalShotsInsideBox::value",
+      "source_team_column": "team::ALL::totalShotsInsideBox::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalShotsInsideBox::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 33,
+      "fixture_side": "home",
+      "semantic_component": "ALL::totalShotsOutsideBox::value",
+      "source_team_column": "team::ALL::totalShotsOutsideBox::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalShotsOutsideBox::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 34,
+      "fixture_side": "home",
+      "semantic_component": "ALL::totalTackle::value",
+      "source_team_column": "team::ALL::totalTackle::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalTackle::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 35,
+      "fixture_side": "home",
+      "semantic_component": "ALL::wonTacklePercent::value",
+      "source_team_column": "team::ALL::wonTacklePercent::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::wonTacklePercent::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 36,
+      "fixture_side": "home",
+      "semantic_component": "ALL::yellowCards::value",
+      "source_team_column": "team::ALL::yellowCards::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::yellowCards::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 37,
+      "fixture_side": "away",
+      "semantic_component": "goals_for",
+      "source_team_column": "goals_for",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "goals_for",
+        "source": "canonical final regulation goals"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 38,
+      "fixture_side": "away",
+      "semantic_component": "total_shots",
+      "source_team_column": "team::total_shots",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::Shots::totalShotsOnGoal::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 39,
+      "fixture_side": "away",
+      "semantic_component": "shots_on_target",
+      "source_team_column": "team::shots_on_target",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::Shots::shotsOnGoal::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 40,
+      "fixture_side": "away",
+      "semantic_component": "outfield_cov_xy",
+      "source_team_column": "team::outfield_cov_xy",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::PlayerHeatmap::cov_xy::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 41,
+      "fixture_side": "away",
+      "semantic_component": "abs_outfield_cov_xy",
+      "source_team_column": "team::abs_outfield_cov_xy",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "team::ALL::PlayerHeatmap::abs_cov_xy::value",
+        "source": "exact accepted frozen base channel; includes disclosed legacy teamaggregate shot exception",
+        "role": "team",
+        "frozen_base_sha256": "63ba3f86c318c89ee6b237a8cbf76e86e808b046fb5854f9533d21b9bc6a04d3"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 42,
+      "fixture_side": "away",
+      "semantic_component": "ALL::accurateCross::total",
+      "source_team_column": "team::ALL::accurateCross::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateCross::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 43,
+      "fixture_side": "away",
+      "semantic_component": "ALL::accurateCross::value",
+      "source_team_column": "team::ALL::accurateCross::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateCross::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 44,
+      "fixture_side": "away",
+      "semantic_component": "ALL::accurateLongBalls::total",
+      "source_team_column": "team::ALL::accurateLongBalls::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateLongBalls::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 45,
+      "fixture_side": "away",
+      "semantic_component": "ALL::accurateLongBalls::value",
+      "source_team_column": "team::ALL::accurateLongBalls::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accurateLongBalls::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 46,
+      "fixture_side": "away",
+      "semantic_component": "ALL::accuratePasses::value",
+      "source_team_column": "team::ALL::accuratePasses::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::accuratePasses::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 47,
+      "fixture_side": "away",
+      "semantic_component": "ALL::aerialDuelsPercentage::value",
+      "source_team_column": "team::ALL::aerialDuelsPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::aerialDuelsPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 48,
+      "fixture_side": "away",
+      "semantic_component": "ALL::ballPossession::value",
+      "source_team_column": "team::ALL::ballPossession::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::ballPossession::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 49,
+      "fixture_side": "away",
+      "semantic_component": "ALL::bigChanceCreated::value",
+      "source_team_column": "team::ALL::bigChanceCreated::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::bigChanceCreated::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 50,
+      "fixture_side": "away",
+      "semantic_component": "ALL::blockedScoringAttempt::value",
+      "source_team_column": "team::ALL::blockedScoringAttempt::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::blockedScoringAttempt::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 51,
+      "fixture_side": "away",
+      "semantic_component": "ALL::cornerKicks::value",
+      "source_team_column": "team::ALL::cornerKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::cornerKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 52,
+      "fixture_side": "away",
+      "semantic_component": "ALL::dispossessed::value",
+      "source_team_column": "team::ALL::dispossessed::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dispossessed::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 53,
+      "fixture_side": "away",
+      "semantic_component": "ALL::dribblesPercentage::total",
+      "source_team_column": "team::ALL::dribblesPercentage::total",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dribblesPercentage::total",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 54,
+      "fixture_side": "away",
+      "semantic_component": "ALL::dribblesPercentage::value",
+      "source_team_column": "team::ALL::dribblesPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::dribblesPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 55,
+      "fixture_side": "away",
+      "semantic_component": "ALL::duelWonPercent::value",
+      "source_team_column": "team::ALL::duelWonPercent::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::duelWonPercent::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 56,
+      "fixture_side": "away",
+      "semantic_component": "ALL::finalThirdEntries::value",
+      "source_team_column": "team::ALL::finalThirdEntries::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::finalThirdEntries::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 57,
+      "fixture_side": "away",
+      "semantic_component": "ALL::fouledFinalThird::value",
+      "source_team_column": "team::ALL::fouledFinalThird::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::fouledFinalThird::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 58,
+      "fixture_side": "away",
+      "semantic_component": "ALL::fouls::value",
+      "source_team_column": "team::ALL::fouls::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::fouls::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 59,
+      "fixture_side": "away",
+      "semantic_component": "ALL::freeKicks::value",
+      "source_team_column": "team::ALL::freeKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::freeKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 60,
+      "fixture_side": "away",
+      "semantic_component": "ALL::goalKicks::value",
+      "source_team_column": "team::ALL::goalKicks::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::goalKicks::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 61,
+      "fixture_side": "away",
+      "semantic_component": "ALL::goalkeeperSaves::value",
+      "source_team_column": "team::ALL::goalkeeperSaves::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::goalkeeperSaves::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 62,
+      "fixture_side": "away",
+      "semantic_component": "ALL::groundDuelsPercentage::value",
+      "source_team_column": "team::ALL::groundDuelsPercentage::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::groundDuelsPercentage::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 63,
+      "fixture_side": "away",
+      "semantic_component": "ALL::interceptionWon::value",
+      "source_team_column": "team::ALL::interceptionWon::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::interceptionWon::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 64,
+      "fixture_side": "away",
+      "semantic_component": "ALL::offsides::value",
+      "source_team_column": "team::ALL::offsides::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::offsides::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 65,
+      "fixture_side": "away",
+      "semantic_component": "ALL::passes::value",
+      "source_team_column": "team::ALL::passes::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::passes::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 66,
+      "fixture_side": "away",
+      "semantic_component": "ALL::shotsOffGoal::value",
+      "source_team_column": "team::ALL::shotsOffGoal::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::shotsOffGoal::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 67,
+      "fixture_side": "away",
+      "semantic_component": "ALL::throwIns::value",
+      "source_team_column": "team::ALL::throwIns::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::throwIns::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 68,
+      "fixture_side": "away",
+      "semantic_component": "ALL::totalClearance::value",
+      "source_team_column": "team::ALL::totalClearance::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalClearance::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 69,
+      "fixture_side": "away",
+      "semantic_component": "ALL::totalShotsInsideBox::value",
+      "source_team_column": "team::ALL::totalShotsInsideBox::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalShotsInsideBox::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 70,
+      "fixture_side": "away",
+      "semantic_component": "ALL::totalShotsOutsideBox::value",
+      "source_team_column": "team::ALL::totalShotsOutsideBox::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalShotsOutsideBox::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 71,
+      "fixture_side": "away",
+      "semantic_component": "ALL::totalTackle::value",
+      "source_team_column": "team::ALL::totalTackle::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::totalTackle::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 72,
+      "fixture_side": "away",
+      "semantic_component": "ALL::wonTacklePercent::value",
+      "source_team_column": "team::ALL::wonTacklePercent::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::wonTacklePercent::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    },
+    {
+      "target_order": 73,
+      "fixture_side": "away",
+      "semantic_component": "ALL::yellowCards::value",
+      "source_team_column": "team::ALL::yellowCards::value",
+      "source_role_rule": "lookup directed history row with matching fixture side; use team channel only, never duplicate opponent copy",
+      "source_mapping": {
+        "source_column": "ALL::yellowCards::value",
+        "source": "native-only match-stat observations",
+        "role": "team"
+      },
+      "quantiles": [
+        0.25,
+        0.5,
+        0.75
+      ],
+      "target_weight_proposed": 1.0
+    }
+  ],
+  "fitting_coverage": "Computed per fitting fold and stored in model statistics_scale.target_manifest; no pooled/test coverage substituted."
+}

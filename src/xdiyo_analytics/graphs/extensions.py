@@ -79,18 +79,92 @@ class StatisticTarget:
 
 
 @dataclass(frozen=True)
+class NumericStatisticTarget:
+    """Exact own-team numeric observation, supervised as ordered quantiles.
+
+    Values and predictions use declared native units. Bounds are required only
+    for bounded_continuous. Transformation and scaling fit no held-out data.
+    """
+    semantic_name: str
+    source_column: str
+    units: str
+    support: str
+    side: str = 'home'
+    period: str = 'ALL'
+    component: str = 'value'
+    transform: str = 'identity'
+    scaling: str = 'standard'
+    lower: float | None = None
+    upper: float | None = None
+    weight: float = 1.
+    quantiles: tuple[float, ...] = (.25, .5, .75)
+    family: str = 'quantile'
+
+    def __post_init__(self):
+        for key in ('semantic_name', 'source_column', 'units', 'component'):
+            value = getattr(self, key)
+            if not isinstance(value, str) or not value.strip() or value != value.strip():
+                raise ValueError(f'{key} must be an explicit nonempty string.')
+        if self.source_column != 'goals_for' and not self.source_column.startswith('team::'):
+            raise ValueError('source_column must identify an own-team channel, never an opponent copy.')
+        if self.side not in ('home', 'away') or self.period not in ('ALL', '1ST', '2ND'):
+            raise ValueError('Invalid numeric target side or period.')
+        if self.source_column == 'goals_for' and self.period != 'ALL':
+            raise ValueError('Canonical goals_for requires period ALL; no half substitution.')
+        parts = self.source_column.split('::')
+        if len(parts) > 2 and parts[1] in ('ALL','1ST','2ND'):
+            if parts[1] != self.period or parts[-1] != self.component:
+                raise ValueError('Exact source period/component differs from declared target.')
+        if self.support not in ('count', 'nonnegative_continuous', 'signed_continuous', 'bounded_continuous'):
+            raise ValueError('Invalid target support.')
+        if self.transform not in ('identity', 'log1p', 'signed_log1p', 'affine'):
+            raise ValueError('Invalid target transform.')
+        if self.scaling not in ('standard', 'robust', 'none'):
+            raise ValueError('Invalid fitting-only scaling.')
+        if self.support == 'bounded_continuous':
+            if self.lower is None or self.upper is None or not all(math.isfinite(x) for x in (self.lower,self.upper)) or not self.lower < self.upper:
+                raise ValueError('Bounded targets require finite increasing bounds.')
+            if self.transform != 'affine':
+                raise ValueError('Bounded targets require the explicit affine transform.')
+        elif self.lower is not None or self.upper is not None or self.transform == 'affine':
+            raise ValueError('Bounds/affine transform require bounded_continuous support.')
+        if self.support == 'signed_continuous' and self.transform == 'log1p':
+            raise ValueError('Signed targets cannot use plain log1p.')
+        if self.family != 'quantile':
+            raise ValueError('Numeric targets currently require family=quantile.')
+        # Reuse the legacy quantile/weight validation without changing its schema.
+        checked = StatisticTarget(weight=self.weight, family='quantile', quantiles=self.quantiles)
+        object.__setattr__(self, 'quantiles', checked.quantiles)
+
+    @property
+    def column(self):
+        return self.source_column
+
+    @property
+    def name(self):
+        return f'{self.side}::{self.period}::{self.semantic_name}'
+
+    @property
+    def proportion(self):
+        return False
+
+
+@dataclass(frozen=True)
 class StatisticsForecast:
-    targets: tuple[StatisticTarget, ...] = (StatisticTarget(),)
+    targets: tuple[StatisticTarget | NumericStatisticTarget, ...] = (StatisticTarget(),)
     route: str = 'auxiliary'
     weight: float = 1.
     point_loss: str = 'huber'
 
     def __post_init__(self):
         object.__setattr__(self, 'targets', tuple(self.targets))
-        if not self.targets or any(not isinstance(t, StatisticTarget) for t in self.targets):
+        if not self.targets or any(not isinstance(t, (StatisticTarget, NumericStatisticTarget)) for t in self.targets):
             raise ValueError('targets must be a nonempty ordered list of StatisticTarget.')
         if len({t.name for t in self.targets}) != len(self.targets):
             raise ValueError('Statistic targets must be distinct.')
+        identities = [(t.column, t.side) for t in self.targets]
+        if len(set(identities)) != len(identities):
+            raise ValueError('Duplicate source/side component targets (aliases are not independent targets).')
         if self.route not in ('auxiliary', 'combined', 'bottleneck'):
             raise ValueError('Statistic route must be auxiliary, combined or bottleneck.')
         if not math.isfinite(self.weight) or self.weight <= 0:
@@ -101,7 +175,7 @@ class StatisticsForecast:
     @classmethod
     def from_dict(cls, value):
         value = dict(value)
-        value['targets'] = tuple(StatisticTarget(**t) for t in value['targets'])
+        value['targets'] = tuple((NumericStatisticTarget if 'source_column' in t else StatisticTarget)(**t) for t in value['targets'])
         return cls(**value)
 
 

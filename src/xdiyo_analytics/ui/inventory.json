@@ -18755,7 +18755,7 @@
       "id": "graphs.StatisticsForecast",
       "title": "StatisticsForecast",
       "category": "graph_config",
-      "description": "StatisticsForecast(targets: tuple[xdiyo_analytics.graphs.extensions.StatisticTarget, ...] = (StatisticTarget(statistic='cornerKicks', side='home', period='ALL', family='point', weight=1.0, quantiles=(0.25, 0.5, 0.75)),), route: str = 'auxiliary', weight: float = 1.0, point_loss: str = 'huber')",
+      "description": "StatisticsForecast(targets: tuple[xdiyo_analytics.graphs.extensions.StatisticTarget | xdiyo_analytics.graphs.extensions.NumericStatisticTarget, ...] = (StatisticTarget(statistic='cornerKicks', side='home', period='ALL', family='point', weight=1.0, quantiles=(0.25, 0.5, 0.75)),), route: str = 'auxiliary', weight: float = 1.0, point_loss: str = 'huber')",
       "fields": [
         {
           "name": "targets",
@@ -18784,7 +18784,8 @@
           "item": {
             "kind": "component",
             "components": [
-              "graphs.StatisticTarget"
+              "graphs.StatisticTarget",
+              "graphs.NumericStatisticTarget"
             ],
             "initial_component": "graphs.StatisticTarget"
           }
@@ -18874,6 +18875,191 @@
           ],
           "help": "When a match is predicted in multiple folds, choose which occurrence to retain. First/last uses one prediction per row; mean averages predictions; occurrences retains every prediction.",
           "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.NumericStatisticTarget": {
+      "id": "graphs.NumericStatisticTarget",
+      "title": "NumericStatisticTarget",
+      "category": "graph_config",
+      "description": "Exact own-team numeric observation, supervised as ordered quantiles.",
+      "fields": [
+        {
+          "name": "semantic_name",
+          "title": "Semantic name",
+          "required": true,
+          "kind": "text",
+          "help": "Stable unique identity for this component; home and away are added automatically.",
+          "primary": true
+        },
+        {
+          "name": "source_column",
+          "title": "Source column",
+          "required": true,
+          "kind": "text",
+          "help": "Exact directed own-team history column (team::...), or goals_for. Missing columns are errors; missing observations are masked.",
+          "primary": true
+        },
+        {
+          "name": "units",
+          "title": "Units",
+          "required": true,
+          "kind": "text",
+          "help": "Explicit original units, for example count, percent, or normalized-coordinate squared.",
+          "primary": true
+        },
+        {
+          "name": "support",
+          "title": "Support",
+          "required": true,
+          "kind": "select",
+          "help": "Counts require integers; signed values remain signed. Bounded continuous requires lower/upper and affine transform.",
+          "primary": true,
+          "choices": [
+            "count",
+            "nonnegative_continuous",
+            "signed_continuous",
+            "bounded_continuous"
+          ]
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "select",
+          "default": "home",
+          "choices": [
+            "home",
+            "away"
+          ],
+          "help": "For uses this team’s values; against uses its opponent’s values; both creates separate outputs.",
+          "primary": true
+        },
+        {
+          "name": "period",
+          "title": "Period",
+          "required": false,
+          "kind": "select",
+          "default": "ALL",
+          "help": "Full match, first half or second half. Only periods present for the selected statistic are offered.",
+          "primary": true,
+          "choices": [
+            "ALL",
+            "1ST",
+            "2ND"
+          ]
+        },
+        {
+          "name": "component",
+          "title": "Component",
+          "required": false,
+          "kind": "text",
+          "default": "value",
+          "help": "Exact value, total or named geometric component. Must agree with the source column.",
+          "primary": true
+        },
+        {
+          "name": "transform",
+          "title": "Transform",
+          "required": false,
+          "kind": "select",
+          "default": "identity",
+          "help": "Monotone transform before pinball loss. Use log1p for counts, identity/signed_log1p for signed values, affine for bounded values.",
+          "primary": true,
+          "choices": [
+            "identity",
+            "log1p",
+            "signed_log1p",
+            "affine"
+          ]
+        },
+        {
+          "name": "scaling",
+          "title": "Scaling",
+          "required": false,
+          "kind": "select",
+          "default": "standard",
+          "choices": [
+            "standard",
+            "robust",
+            "none"
+          ],
+          "help": "Fit only positive-weight fitting observations: standard deviation, robust interquartile range, or none. Constant scale becomes one.",
+          "primary": true
+        },
+        {
+          "name": "lower",
+          "title": "Lower",
+          "required": true,
+          "kind": "number",
+          "default": null,
+          "help": "Lower for NumericStatisticTarget. Optional; leave disabled to use the standard behavior.",
+          "primary": true,
+          "step": "any",
+          "visible_when": {
+            "support": [
+              "bounded_continuous"
+            ]
+          },
+          "nullable": false
+        },
+        {
+          "name": "upper",
+          "title": "Upper",
+          "required": true,
+          "kind": "number",
+          "default": null,
+          "help": "Upper for NumericStatisticTarget. Optional; leave disabled to use the standard behavior.",
+          "primary": true,
+          "step": "any",
+          "visible_when": {
+            "support": [
+              "bounded_continuous"
+            ]
+          },
+          "nullable": false
+        },
+        {
+          "name": "weight",
+          "title": "Weight",
+          "required": false,
+          "kind": "number",
+          "default": 1.0,
+          "help": "Weight for NumericStatisticTarget. Default: 1.0.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "quantiles",
+          "title": "Quantiles",
+          "required": false,
+          "kind": "list",
+          "default": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "help": "Quantiles for NumericStatisticTarget. Default: [0.25, 0.5, 0.75].",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "step": "any",
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "name": "family",
+          "title": "Family",
+          "required": false,
+          "kind": "select",
+          "default": "quantile",
+          "help": "Family for NumericStatisticTarget. Default: quantile.",
+          "primary": true,
+          "choices": [
+            "quantile"
+          ]
         }
       ],
       "accepts_extra": false

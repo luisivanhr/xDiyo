@@ -2,6 +2,8 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
+from .extensions import NumericStatisticTarget
+from .statistics import transform_target
 
 
 class StatisticsHead(nn.Module):
@@ -29,7 +31,12 @@ class StatisticsHead(nn.Module):
                 # Ties are permitted; no forced positive increments or rounding.
                 ordered = r.sort(dim=1).values
                 q = ordered.sigmoid() if t.proportion else F.softplus(ordered)
-                transformed = q if t.proportion else q.log1p()
+                if isinstance(t, NumericStatisticTarget):
+                    if t.support == 'signed_continuous':
+                        q = ordered
+                    elif t.support == 'bounded_continuous':
+                        q = t.lower+(t.upper-t.lower)*ordered.sigmoid()
+                transformed = transform_target(t, q)
                 summaries.extend(((transformed-self.center[i])/self.scale[i]).unbind(1))
                 forecasts.append(dict(quantiles=q))
                 continue
@@ -73,14 +80,14 @@ class StatisticsHead(nn.Module):
                 valid, y, w = prepared[i]
             if t.family == 'quantile':
                 q = f['quantiles'][valid]
-                observed = y if t.proportion else y.log1p()
-                predicted = q if t.proportion else q.log1p()
+                observed = transform_target(t, y)
+                predicted = transform_target(t, q)
                 residual = (observed[:, None]-predicted)/self.scale[i]
                 tau = getattr(self, f'levels_{i}')
                 loss = torch.maximum(tau*residual, (tau-1)*residual).mean(1)
             elif t.family == 'point':
                 mu = f['mean'][valid]
-                observed = y if t.proportion else y.log1p()
+                observed = transform_target(t, y)
                 predicted = mu if t.proportion else mu.log1p()
                 observed = (observed-self.center[i])/self.scale[i]
                 predicted = (predicted-self.center[i])/self.scale[i]

@@ -50,7 +50,7 @@ class GraphStatisticsReporter(PredictionReporter):
                     table, score, levels, fig = diagnose_quantiles(target, predicted, y, fold, meta.index, model.backend_.statistics_scale.scale[i])
                     largest = max(t.weight for t in cfg.targets)
                     relative = (target.weight/largest)/sum(t.weight/largest for t in cfg.targets)
-                    quantile_objectives.append(dict(fold_id=fold,target=target.name,weighted_component=cfg.weight*relative*(score['training_space_pinball'] if score['n'] else 0.)))
+                    quantile_objectives.append(dict(fold_id=fold,target=target.name,weighted_component=cfg.weight*relative*(score['training_space_pinball'] if score['n'] else np.nan)))
                     exports.append(table); scores.append(score); quantile_scores.extend(levels)
                     result.artifacts.append(Artifact('plotly', fig, name))
                     continue
@@ -96,7 +96,7 @@ class GraphStatisticsReporter(PredictionReporter):
         result.tables['scores']=pd.DataFrame(scores)
         if quantile_scores:
             result.tables['quantile_scores'] = pd.DataFrame(quantile_scores)
-            result.tables['quantile_objective'] = pd.DataFrame(quantile_objectives).groupby('fold_id',sort=False).weighted_component.sum().rename('heldout_equal_row_quantile_objective').reset_index()
+            result.tables['quantile_objective'] = pd.DataFrame(quantile_objectives).groupby('fold_id',sort=False).weighted_component.sum(min_count=1).rename('heldout_equal_row_quantile_objective').reset_index()
             result.artifacts.append(Artifact('table',result.tables['quantile_objective'],'Held-out quantile objective component (equal observed-row weights)'))
             result.artifacts.append(Artifact('table',result.tables['quantile_scores'],'Marginal quantile scores and coverage'))
             result.notes.append('Quantile pinball scores use original units and equal observed-row weights; training-space scores use the saved training-only transform/scale. Training curves retain the actual weighted combined objective. Discrete ties can make P(Y <= quantile) differ from its level. Quantiles are marginal, not a joint distribution. A median is shown only if 0.5 was requested; it is not a mean.')

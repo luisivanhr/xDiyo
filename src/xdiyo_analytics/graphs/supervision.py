@@ -8,7 +8,7 @@ def initialize_statistics(backend, context):
     backend._statistics_observations = {}  # Fresh fold/reinitialize owns fresh fixed labels.
     cfg = backend.config.statistics_forecast
     y = labels(backend.store, context.metadata, cfg, backend.fitting_boundary)
-    backend.statistics_scale = StatisticsScale(cfg).fit(y)
+    backend.statistics_scale = StatisticsScale(cfg).fit(y, backend.train_weights.detach().cpu().numpy())
     backend.train_statistics = torch.as_tensor(y, dtype=torch.float32, device=backend.device)
     backend.validation_statistics = None
     if context.validation is not None:
@@ -56,6 +56,9 @@ def statistics_loss(backend, groups, targets, weights, backward):
     values = torch.stack(scalars).cpu().tolist() if scalars else []
     sums = [sum(row[i] for row in values) for i in range(3)]
     backend._statistics_loss, backend._reconstruction_loss = sums[1:]
+    # A label-free validation population has unavailable auxiliary evidence.
+    if not backward and not observations_have_labels(observations):
+        backend._statistics_loss = float('nan')
     return sums[0]
 
 
@@ -79,3 +82,7 @@ def prepare_observations(groups, labels, weights):
             observed.append((local, labels[global_rows,i], weights[global_rows]))
         groups_out.append(tuple(observed))
     return denominator, tuple(groups_out)
+
+
+def observations_have_labels(observations):
+    return any(y.numel() for group in observations for _, y, _ in group)

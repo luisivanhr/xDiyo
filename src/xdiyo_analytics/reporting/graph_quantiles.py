@@ -1,7 +1,8 @@
 """Held-out quantile diagnostics, with no interpolated or invented summaries."""
 import numpy as np
 import pandas as pd
-from ..graphs.extensions import quantile_column
+from ..graphs.extensions import quantile_column, NumericStatisticTarget
+from ..graphs.statistics import transform_target
 from .studies import _plotting, _style
 
 
@@ -12,14 +13,18 @@ def diagnose_quantiles(target, predicted, y, fold, index, scale):
     q = predicted[columns].to_numpy(dtype=float)
     if not np.isfinite(q).all() or (np.diff(q, axis=1) < 0).any():
         raise ValueError('Retained quantile forecasts must be finite and nondecreasing.')
-    if (q < 0).any() or (target.proportion and (q > 100).any()):
+    generic = isinstance(target, NumericStatisticTarget)
+    invalid = ((q < 0).any() or (target.proportion and (q > 100).any())) if not generic else (
+        (target.support in ('count','nonnegative_continuous') and (q < 0).any()) or
+        (target.support == 'bounded_continuous' and ((q < target.lower).any() or (q > target.upper).any())))
+    if invalid:
         raise ValueError('Retained quantiles violate target support.')
     valid = np.isfinite(y)
     observed = y*factor
     residual = observed[valid, None]-q[valid]
     pinball = np.maximum(tau*residual, (tau-1)*residual)
-    transformed_y = y[valid] if target.proportion else np.log1p(y[valid])
-    transformed_q = q[valid]/factor if target.proportion else np.log1p(q[valid])
+    transformed_y = transform_target(target, y[valid])
+    transformed_q = transform_target(target, q[valid]/factor)
     error = (transformed_y[:, None]-transformed_q)/scale
     normalized = np.maximum(tau*error, (tau-1)*error)
     table = pd.DataFrame(dict(fold_id=fold, target=target.name, observed=observed), index=index)

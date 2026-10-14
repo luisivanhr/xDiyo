@@ -108,3 +108,14 @@ test('quantile controls expose editable levels and learned output count',async()
  const target={component:'graphs.StatisticTarget',params:{family:'quantile',quantiles:[.25,.5,.75]}};
  assert.match(statisticsOutputPreview({component:'graphs.StatisticsForecast',params:{targets:Array(8).fill(target)}}),/8 target channels · 24 learned statistic outputs/);
 });
+
+test('generic numeric target controls and full74 output preview',async()=>{
+ let value=makeNode('graphs.NumericStatisticTarget');
+ const root=componentEditor(value,v=>{value=v;},null,['graphs.NumericStatisticTarget']);
+ for(const label of ['Semantic name','Source column','Units','Support','Side','Period','Component','Transform','Scaling'])assert.ok(find(root,label),label);
+ const support=find(root,'Support','select');support.value='3';support.onchange();await Promise.resolve();
+ assert.equal(value.params.support,'bounded_continuous');
+ assert.ok(find(root,'Lower'));assert.ok(find(root,'Upper'));
+ const target={component:'graphs.NumericStatisticTarget',params:{quantiles:[.25,.5,.75]}};
+ assert.match(statisticsOutputPreview({component:'graphs.StatisticsForecast',params:{targets:Array(74).fill(target)}}),/74 target channels · 222 learned statistic outputs/);
+});

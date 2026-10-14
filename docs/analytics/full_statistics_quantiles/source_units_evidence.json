@@ -1,0 +1,565 @@
+{
+  "cornerKicks": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Corner kicks",
+    "display": "6",
+    "value": 6.0,
+    "total": null,
+    "source_item": {
+      "away": "3",
+      "awayValue": 3,
+      "compareCode": 1,
+      "home": "6",
+      "homeValue": 6,
+      "key": "cornerKicks",
+      "name": "Corner kicks",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "shotsOffGoal": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Shots off target",
+    "display": "7",
+    "value": 7.0,
+    "total": null,
+    "source_item": {
+      "away": "2",
+      "awayValue": 2,
+      "compareCode": 1,
+      "home": "7",
+      "homeValue": 7,
+      "key": "shotsOffGoal",
+      "name": "Shots off target",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "throwIns": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Throw-ins",
+    "display": "30",
+    "value": 30.0,
+    "total": null,
+    "source_item": {
+      "away": "19",
+      "awayValue": 19,
+      "compareCode": 1,
+      "home": "30",
+      "homeValue": 30,
+      "key": "throwIns",
+      "name": "Throw-ins",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "ballPossession": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Ball possession",
+    "display": "58%",
+    "value": 58.0,
+    "total": null,
+    "source_item": {
+      "away": "42%",
+      "awayValue": 42,
+      "compareCode": 1,
+      "home": "58%",
+      "homeValue": 58,
+      "key": "ballPossession",
+      "name": "Ball possession",
+      "renderType": 2,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "fouledFinalThird": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Fouled in final third",
+    "display": "2",
+    "value": 2.0,
+    "total": null,
+    "source_item": {
+      "away": "1",
+      "awayValue": 1,
+      "compareCode": 1,
+      "home": "2",
+      "homeValue": 2,
+      "key": "fouledFinalThird",
+      "name": "Fouled in final third",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "duelWonPercent": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Duels",
+    "display": "41%",
+    "value": 41.0,
+    "total": null,
+    "source_item": {
+      "away": "59%",
+      "awayValue": 59,
+      "compareCode": 2,
+      "home": "41%",
+      "homeValue": 41,
+      "key": "duelWonPercent",
+      "name": "Duels",
+      "renderType": 2,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "totalShotsOutsideBox": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Shots outside box",
+    "display": "3",
+    "value": 3.0,
+    "total": null,
+    "source_item": {
+      "away": "3",
+      "awayValue": 3,
+      "compareCode": 3,
+      "home": "3",
+      "homeValue": 3,
+      "key": "totalShotsOutsideBox",
+      "name": "Shots outside box",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "accurateLongBalls": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Long balls",
+    "display": "22/46 (48%)",
+    "value": 22.0,
+    "total": 46.0,
+    "source_item": {
+      "away": "32/57 (56%)",
+      "awayTotal": 57,
+      "awayValue": 32,
+      "compareCode": 2,
+      "home": "22/46 (48%)",
+      "homeTotal": 46,
+      "homeValue": 22,
+      "key": "accurateLongBalls",
+      "name": "Long balls",
+      "renderType": 3,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "blockedScoringAttempt": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Blocked shots",
+    "display": "2",
+    "value": 2.0,
+    "total": null,
+    "source_item": {
+      "away": "2",
+      "awayValue": 2,
+      "compareCode": 3,
+      "home": "2",
+      "homeValue": 2,
+      "key": "blockedScoringAttempt",
+      "name": "Blocked shots",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "yellowCards": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Yellow cards",
+    "display": "3",
+    "value": 3.0,
+    "total": null,
+    "source_item": {
+      "away": "4",
+      "awayValue": 4,
+      "compareCode": 2,
+      "home": "3",
+      "homeValue": 3,
+      "key": "yellowCards",
+      "name": "Yellow cards",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "totalClearance": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Clearances",
+    "display": "19",
+    "value": 19.0,
+    "total": null,
+    "source_item": {
+      "away": "26",
+      "awayValue": 26,
+      "compareCode": 2,
+      "home": "19",
+      "homeValue": 19,
+      "key": "totalClearance",
+      "name": "Clearances",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "bigChanceCreated": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Big chances",
+    "display": "1",
+    "value": 1.0,
+    "total": null,
+    "source_item": {
+      "away": "1",
+      "awayValue": 1,
+      "compareCode": 3,
+      "home": "1",
+      "homeValue": 1,
+      "key": "bigChanceCreated",
+      "name": "Big chances",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "offsides": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Offsides",
+    "display": "1",
+    "value": 1.0,
+    "total": null,
+    "source_item": {
+      "away": "2",
+      "awayValue": 2,
+      "compareCode": 2,
+      "home": "1",
+      "homeValue": 1,
+      "key": "offsides",
+      "name": "Offsides",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "groundDuelsPercentage": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Ground duels",
+    "display": "28/75 (37%)",
+    "value": 28.0,
+    "total": 75.0,
+    "source_item": {
+      "away": "47/75 (63%)",
+      "awayTotal": 75,
+      "awayValue": 47,
+      "compareCode": 2,
+      "home": "28/75 (37%)",
+      "homeTotal": 75,
+      "homeValue": 28,
+      "key": "groundDuelsPercentage",
+      "name": "Ground duels",
+      "renderType": 3,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "aerialDuelsPercentage": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Aerial duels",
+    "display": "17/34 (50%)",
+    "value": 17.0,
+    "total": 34.0,
+    "source_item": {
+      "away": "17/34 (50%)",
+      "awayTotal": 34,
+      "awayValue": 17,
+      "compareCode": 3,
+      "home": "17/34 (50%)",
+      "homeTotal": 34,
+      "homeValue": 17,
+      "key": "aerialDuelsPercentage",
+      "name": "Aerial duels",
+      "renderType": 3,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "fouls": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Fouls",
+    "display": "0",
+    "value": 0.0,
+    "total": null,
+    "source_item": {
+      "away": "0",
+      "awayValue": 0,
+      "compareCode": 3,
+      "home": "0",
+      "homeValue": 0,
+      "key": "fouls",
+      "name": "Fouls",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "interceptionWon": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Interceptions",
+    "display": "6",
+    "value": 6.0,
+    "total": null,
+    "source_item": {
+      "away": "18",
+      "awayValue": 18,
+      "compareCode": 2,
+      "home": "6",
+      "homeValue": 6,
+      "key": "interceptionWon",
+      "name": "Interceptions",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "totalTackle": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Tackles",
+    "display": "18",
+    "value": 18.0,
+    "total": null,
+    "source_item": {
+      "away": "19",
+      "awayValue": 19,
+      "compareCode": 2,
+      "home": "18",
+      "homeValue": 18,
+      "key": "totalTackle",
+      "name": "Tackles",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "totalShotsInsideBox": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Shots inside box",
+    "display": "8",
+    "value": 8.0,
+    "total": null,
+    "source_item": {
+      "away": "4",
+      "awayValue": 4,
+      "compareCode": 1,
+      "home": "8",
+      "homeValue": 8,
+      "key": "totalShotsInsideBox",
+      "name": "Shots inside box",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "freeKicks": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Free kicks",
+    "display": "13",
+    "value": 13.0,
+    "total": null,
+    "source_item": {
+      "away": "13",
+      "awayValue": 13,
+      "compareCode": 3,
+      "home": "13",
+      "homeValue": 13,
+      "key": "freeKicks",
+      "name": "Free kicks",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "dribblesPercentage": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Dribbles",
+    "display": "14/22 (64%)",
+    "value": 14.0,
+    "total": 22.0,
+    "source_item": {
+      "away": "9/15 (60%)",
+      "awayTotal": 15,
+      "awayValue": 9,
+      "compareCode": 1,
+      "home": "14/22 (64%)",
+      "homeTotal": 22,
+      "homeValue": 14,
+      "key": "dribblesPercentage",
+      "name": "Dribbles",
+      "renderType": 3,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "finalThirdEntries": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Final third entries",
+    "display": "50",
+    "value": 50.0,
+    "total": null,
+    "source_item": {
+      "away": "66",
+      "awayValue": 66,
+      "compareCode": 2,
+      "home": "50",
+      "homeValue": 50,
+      "key": "finalThirdEntries",
+      "name": "Final third entries",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "passes": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Passes",
+    "display": "548",
+    "value": 548.0,
+    "total": null,
+    "source_item": {
+      "away": "391",
+      "awayValue": 391,
+      "compareCode": 1,
+      "home": "548",
+      "homeValue": 548,
+      "key": "passes",
+      "name": "Passes",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "wonTacklePercent": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Tackles won",
+    "display": "83%",
+    "value": 15.0,
+    "total": 18.0,
+    "source_item": {
+      "away": "79%",
+      "awayTotal": 19,
+      "awayValue": 15,
+      "compareCode": 1,
+      "home": "83%",
+      "homeTotal": 18,
+      "homeValue": 15,
+      "key": "wonTacklePercent",
+      "name": "Tackles won",
+      "renderType": 4,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "accuratePasses": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Accurate passes",
+    "display": "464",
+    "value": 464.0,
+    "total": null,
+    "source_item": {
+      "away": "310",
+      "awayValue": 310,
+      "compareCode": 1,
+      "home": "464",
+      "homeValue": 464,
+      "key": "accuratePasses",
+      "name": "Accurate passes",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "goalKicks": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Goal kicks",
+    "display": "3",
+    "value": 3.0,
+    "total": null,
+    "source_item": {
+      "away": "13",
+      "awayValue": 13,
+      "compareCode": 2,
+      "home": "3",
+      "homeValue": 3,
+      "key": "goalKicks",
+      "name": "Goal kicks",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  },
+  "accurateCross": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Crosses",
+    "display": "1/18 (6%)",
+    "value": 1.0,
+    "total": 18.0,
+    "source_item": {
+      "away": "7/28 (25%)",
+      "awayTotal": 28,
+      "awayValue": 7,
+      "compareCode": 2,
+      "home": "1/18 (6%)",
+      "homeTotal": 18,
+      "homeValue": 1,
+      "key": "accurateCross",
+      "name": "Crosses",
+      "renderType": 3,
+      "statisticsType": "positive",
+      "valueType": "team"
+    }
+  },
+  "dispossessed": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Dispossessed",
+    "display": "11",
+    "value": 11.0,
+    "total": null,
+    "source_item": {
+      "away": "12",
+      "awayValue": 12,
+      "compareCode": 2,
+      "home": "11",
+      "homeValue": 11,
+      "key": "dispossessed",
+      "name": "Dispossessed",
+      "renderType": 1,
+      "statisticsType": "negative",
+      "valueType": "event"
+    }
+  },
+  "goalkeeperSaves": {
+    "path": "data\\xDiyo_data\\_tables\\competition=17\\season=10356\\versions\\6afbe38189bf477994d66e4c0bc09b98\\statistics.parquet",
+    "name": "Goalkeeper saves",
+    "display": "2",
+    "value": 2.0,
+    "total": null,
+    "source_item": {
+      "away": "2",
+      "awayValue": 2,
+      "compareCode": 3,
+      "home": "2",
+      "homeValue": 2,
+      "key": "goalkeeperSaves",
+      "name": "Goalkeeper saves",
+      "renderType": 1,
+      "statisticsType": "positive",
+      "valueType": "event"
+    }
+  }
+}

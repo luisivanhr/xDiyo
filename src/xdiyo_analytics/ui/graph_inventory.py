@@ -36,7 +36,7 @@ def decorate(components, stages):
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.StatisticsForecast',
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast',
              'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
              'reporting.GraphStatisticsReporter', 'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
     choices = {'forecast_policy':['by_round','one_day_ahead'], 'membership_policy':['first_fixture','explicit'],
@@ -79,8 +79,25 @@ def decorate(components, stages):
                 if name == 'route': f.update(kind='select', choices=['auxiliary','combined','bottleneck'])
                 if name == 'point_loss': f.update(kind='select', choices=['huber','mse'])
                 if name == 'targets':
-                    f.update(kind='list', item={'kind':'component','components':['graphs.StatisticTarget'],'initial_component':'graphs.StatisticTarget'})
+                    f.update(kind='list', item={'kind':'component','components':['graphs.StatisticTarget','graphs.NumericStatisticTarget'],'initial_component':'graphs.StatisticTarget'})
                     f.pop('discovery',None)
+            if key == 'graphs.NumericStatisticTarget':
+                opts = {'support':['count','nonnegative_continuous','signed_continuous','bounded_continuous'],
+                        'transform':['identity','log1p','signed_log1p','affine'],
+                        'scaling':['standard','robust','none'], 'side':['home','away'],
+                        'period':['ALL','1ST','2ND'], 'family':['quantile']}
+                if name in opts: f.update(kind='select', choices=opts[name])
+                if name in ('lower','upper'): f.update(kind='number',step='any',required=True,nullable=False,visible_when={'support':['bounded_continuous']})
+                if name == 'quantiles': f.update(kind='list',item={'kind':'number','step':'any','min':0,'max':1})
+                f['help'] = {
+                    'source_column':'Exact directed own-team history column (team::...), or goals_for. Missing columns are errors; missing observations are masked.',
+                    'semantic_name':'Stable unique identity for this component; home and away are added automatically.',
+                    'units':'Explicit original units, for example count, percent, or normalized-coordinate squared.',
+                    'component':'Exact value, total or named geometric component. Must agree with the source column.',
+                    'support':'Counts require integers; signed values remain signed. Bounded continuous requires lower/upper and affine transform.',
+                    'transform':'Monotone transform before pinball loss. Use log1p for counts, identity/signed_log1p for signed values, affine for bounded values.',
+                    'scaling':'Fit only positive-weight fitting observations: standard deviation, robust interquartile range, or none. Constant scale becomes one.'
+                }.get(name, f['help'])
             if key == 'graphs.StatisticTarget':
                 from ..graphs.extensions import STATISTICS
                 opts = {'statistic':list(STATISTICS), 'side':['home','away'], 'period':['ALL','1ST','2ND'],
