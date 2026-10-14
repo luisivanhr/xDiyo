@@ -700,3 +700,17 @@ support ZIP via `--evidence` to enforce its pinned hashes as well.
 
 See the [measured speed audit](gat_speed_11ffa446.md) for timings, memory,
 profiling overhead and exact-versus-nondeterministic CUDA comparison limits.
+
+### League labels in embedding reports
+
+League buttons use the recorded competition names from the evaluation metadata.
+The exported `league` column remains the model membership effective at the
+snapshot issuance. Under `first_fixture`, a newly promoted team can legitimately
+have no active model membership before its competition starts. The reporter uses
+that team's unique competition in the selected evaluation fixtures for display
+only, recording `display_league`, `league_name` and `league_label_source`
+(`model_membership` or `evaluation_fixture`) in its projection table. It never
+changes effective membership dates, model priors, embeddings or predictions.
+Missing or ambiguous fixture evidence for a cold team raises a clear error
+instead of silently assigning a current league. Names are resolved within each
+fold; custom metadata without competition names retains an ID label.

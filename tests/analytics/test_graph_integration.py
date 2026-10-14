@@ -73,6 +73,8 @@ def test_auto_native_save_load_history_embeddings_attention(trained, tmp_path):
 @pytest.mark.parametrize('mode', ['PCA','tSNE'])
 def test_native_reporters_render_badges_and_recover(trained, tmp_path, mode):
     data, training = trained
+    metadata = training.folds[0].metadata
+    metadata['source_league'] = metadata.competition_id.map(lambda value: f'Recorded competition {value}')
     badge = tmp_path/'badge.svg'; badge.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="red"/></svg>')
     catalog = TeamCatalog({1:dict(name='One',badge_path=str(badge)),2:'Two'})
     report = PostTrainingAnalysis({
@@ -92,6 +94,9 @@ def test_native_reporters_render_badges_and_recover(trained, tmp_path, mode):
     assert {r['team'] for r in attention.layout.meta['roster']} == {'1', '2'}
     assert 'initializeAttention(el,spec)' in html
     assert report.studies[1].result.artifacts[0].options['embedding_fold'] == '0'
+    assert all(trace.name.startswith('Recorded competition ')
+               for trace in report.studies[1].result.artifacts[0].data.data)
+    assert 'league_label_source' in report.studies[1].result.tables['projection']
     from xdiyo_analytics.experiments.recovery import pack, unpack
     restored = unpack(pack(report))
     assert 'Team embeddings' in restored.to_html()

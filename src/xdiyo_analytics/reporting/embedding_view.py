@@ -3,6 +3,7 @@ from colorsys import hsv_to_rgb
 from html import escape
 
 import numpy as np
+import pandas as pd
 
 from .studies import _plotting, _style
 from .teams import team_key
@@ -16,13 +17,16 @@ def embedding_figure(table, badges, title):
     span = max(float(np.ptp(xy, axis=0).max()), 1e-6) * 1.2
     center = (xy.max(axis=0) + xy.min(axis=0)) / 2
     rows = table.reset_index(drop=True)
-    for n, (league, group) in enumerate(rows.groupby('league', dropna=False, sort=False)):
+    league_column = 'display_league' if 'display_league' in rows else 'league'
+    for n, (league, group) in enumerate(rows.groupby(league_column, dropna=False, sort=False)):
+        labels = group['league_name'].dropna() if 'league_name' in group else []
+        label = str(next(iter(labels))) if len(labels) else ('Unknown league' if pd.isna(league) else f'League {league}')
         color = colors[n] if n < len(colors) else '#%02x%02x%02x' % tuple(round(255*v) for v in hsv_to_rgb((n*.61803398875)%1, .85, .8))
         has_badge = [bool(badges[i]) for i in group.index]
         figure.add_trace(go.Scatter(x=group.x, y=group.y, mode='markers',
             ids=[team_key(team) for team in group.team_id] if 'team_id' in group else None,
             text=[escape(str(x)) for x in group.team_name], textposition='top center',
-            name=f'League {league}', marker=dict(size=[30 if b else 12 for b in has_badge],
+            name=label, marker=dict(size=[30 if b else 12 for b in has_badge],
                 color=['#eee8d5' if b else color for b in has_badge], line=dict(color=color, width=2)),
             meta=dict(embedding_color=color), customdata=group[['support', 'gate']].to_numpy(),
             hovertemplate='%{text}<br>Support %{customdata[0]:.2f}<br>Gate %{customdata[1]:.3f}<extra></extra>'))

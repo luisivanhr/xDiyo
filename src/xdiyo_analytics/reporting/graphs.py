@@ -12,6 +12,7 @@ from .post_training import PredictionReporter
 from .studies import _plotting, _style
 from .teams import TeamCatalog
 from .embedding_view import embedding_figure
+from .leagues import embedding_leagues
 from .attention_view import attention_figure, attention_roster
 
 
@@ -112,6 +113,7 @@ class EmbeddingReporter(PredictionReporter):
             'Each fold uses one frozen encoder and a common issuance. Teams are taken from the selected test/score fixtures. The latest issuance is the default.',
             'Projections are independently fitted per fold for visualization only. Axes and distances are not comparable across folds; tSNE is a local-neighborhood visualization, not a ranking.',
             'Support is decayed historical match mass. The gate controls how much graph messages modify the prior. These diagnostics do not add predictors.',
+            'League names use recorded competition metadata. Teams without an active model membership are grouped by their unique evaluation-fixture league for display only; the exported league and league_label_source preserve this distinction.',
         ])
         catalog = self.catalog if self.catalog is not None else context.resources.get('team_catalog')
         catalog = catalog if isinstance(catalog, TeamCatalog) else TeamCatalog(catalog or {})
@@ -160,6 +162,7 @@ class EmbeddingReporter(PredictionReporter):
                 names.append(name); badges.append(badge)
                 if note: result.notes.append(note)
             table['team_name'] = names
+            table = embedding_leagues(table, context.metadata.xs(fold, level='fold_id'))
             projections.append(table)
             figure = embedding_figure(table, badges,
                 f'{self.mode} · Fold {fold}<br>{queries.issuance_at.iloc[0].tz_convert("UTC").strftime("%Y-%m-%d %H:%M UTC")}')
