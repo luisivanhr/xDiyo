@@ -225,11 +225,13 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         if column not in names:
             names = names.assign(**{column: pd.NA})
     team_catalog = TeamCatalog.from_matches(names)
-    badge_path = Path(recipe.get('team_badges') or Path(__file__).resolve().parents[3] / 'docs/analytics/team_assets/catalog.json')
-    if badge_path.is_file():
-        saved_catalog = TeamCatalog.from_json(badge_path)
-        team_catalog = TeamCatalog({key: {**saved_catalog.entries.get(key, {}), **entry}
-                                    for key, entry in team_catalog.entries.items()})
+    if recipe.get('team_badges'):
+        badge_path = Path(recipe['team_badges'])
+        saved_catalog = TeamCatalog.from_json(badge_path) if badge_path.is_file() else TeamCatalog({})
+    else:
+        saved_catalog = TeamCatalog.builtin()
+    team_catalog = TeamCatalog({key: {**saved_catalog.entries.get(key, {}), **entry}
+                                for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
     if heatmaps is not None:

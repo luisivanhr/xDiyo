@@ -49,7 +49,7 @@ def test_experiment_source_is_not_ignored(git_checkout):
 def _copy_publishable_source(project, destination):
     """Include candidate analytics edits, but no unrelated local utility changes."""
     paths = _run(["git", "ls-files", "--cached", "--others", "--exclude-standard",
-                  "-z", "--", "src/xdiyo_analytics"], cwd=project).decode().split("\0")
+                  "-z", "--", "src/xdiyo_analytics", "docs/analytics/team_assets"], cwd=project).decode().split("\0")
     for relative in {path for path in paths if path} | {"pyproject.toml"}:
         source = project / relative
         if source.is_file():
@@ -117,6 +117,19 @@ INSTALLED_SMOKE = textwrap.dedent("""
     pd.testing.assert_frame_equal(loaded.dataset.X, dataset.X)
     assert loaded.reused
 
+    from xdiyo_analytics.reporting import TeamCatalog
+    import hashlib
+    catalog = TeamCatalog.builtin()
+    assert len(catalog.entries) >= 483
+    for key, record in catalog.entries.items():
+        assert Path(record['badge_path']).resolve().is_relative_to(installation)
+        assert hashlib.sha256(Path(record['badge_path']).read_bytes()).hexdigest() == record['sha256']
+        _, badge, note = catalog.display(key, badges=True)
+        assert note is None and badge.startswith('data:image/svg+xml;base64,'), key
+    assert {'47', '64', '1665', '368506'} <= catalog.entries.keys()
+    assert any('J1' in record.get('leagues', []) for record in catalog.entries.values())
+    assert any('Liga_MX_Apertura' in record.get('leagues', []) for record in catalog.entries.values())
+
     distribution = importlib.metadata.distribution('xdiyo-analytics')
     commands = {entry.name: entry for entry in distribution.entry_points
                 if entry.group == 'console_scripts'}
@@ -182,6 +195,7 @@ def test_publishable_wheel_runs_without_editable_install(git_checkout):
         assert {f"xdiyo_analytics/experiments/{name}.py" for name in EXPERIMENT_MODULES} <= names
         assert {f"xdiyo_analytics/ui/static/{name}" for name in STATIC_ASSETS} <= names
         assert "xdiyo_analytics/ui/inventory.json" in names
+        assert "xdiyo_analytics/reporting/team_assets/catalog.json" in names
         assert not any(name.startswith(("scraping/", "data/", "experiments/", "experiment/"))
                        or "_collection" in Path(name).parts or name.endswith(".pyc") for name in names)
         installation = scratch / "installed"

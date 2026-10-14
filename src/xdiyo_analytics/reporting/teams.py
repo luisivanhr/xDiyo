@@ -1,6 +1,8 @@
 """Stable-ID team names and optional local badges for offline reports."""
 
 import base64
+from copy import deepcopy
+import hashlib
 from dataclasses import dataclass
 import json
 import math
@@ -95,6 +97,55 @@ class TeamCatalog:
             if isinstance(value, dict) and value.get("badge_path"):
                 value["badge_path"] = str((path.parent / value["badge_path"]).resolve())
         return cls(entries)
+
+    @classmethod
+    def builtin(cls):
+        """Load the complete shipped catalog, in a checkout or installed wheel."""
+        installed = Path(__file__).with_name('team_assets') / 'catalog.json'
+        checkout = Path(__file__).resolve().parents[3] / 'docs/analytics/team_assets/catalog.json'
+        return cls.from_json(installed if installed.is_file() else checkout)
+
+    def export_bundle(self, directory, *, team_ids=None):
+        """Copy selected badges and their catalog into a new portable directory.
+
+        By default export every catalogued team (no league/season filtering).
+        Fail before creating the directory if any selected badge is unavailable,
+        unsafe or inconsistent with its recorded hash. Files retain their actual
+        image format. Source provenance and names are preserved. Alternative
+        asset records remain provenance only; the selected badge is packaged.
+        The resulting catalog can be passed directly to ``from_json``.
+        """
+        keys = list(self.entries) if team_ids is None else list(dict.fromkeys(map(team_key, team_ids)))
+        records, payloads = {}, {}
+        suffixes = {'image/svg+xml': '.svg', 'image/png': '.png',
+                    'image/jpeg': '.jpg', 'image/webp': '.webp'}
+        for key in keys:
+            if key not in self.entries:
+                raise ValueError(f'Team {key}: missing catalog entry.')
+            entry = deepcopy(self.entries[key])
+            if not entry.get('badge_path'):
+                raise ValueError(f'Team {key}: missing badge_path.')
+            try:
+                uri = _badge(entry['badge_path'])
+                mime, encoded = uri.removeprefix('data:').split(';base64,', 1)
+                data = base64.b64decode(encoded)
+            except (OSError, ValueError, ET.ParseError) as error:
+                raise ValueError(f'Team {key}: cannot package badge ({error}).') from error
+            digest = hashlib.sha256(data).hexdigest()
+            if entry.get('sha256') and entry['sha256'] != digest:
+                raise ValueError(f'Team {key}: badge SHA-256 mismatch.')
+            relative = f'badges/{digest}{suffixes[mime]}'
+            entry.update(badge_path=relative, sha256=digest, format=suffixes[mime][1:])
+            records[key] = entry
+            payloads[relative] = data
+        directory = Path(directory)
+        directory.mkdir(parents=True, exist_ok=False)
+        (directory / 'badges').mkdir()
+        for relative, data in payloads.items():
+            (directory / relative).write_bytes(data)
+        path = directory / 'catalog.json'
+        path.write_text(json.dumps(records, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        return path
 
     @classmethod
     def from_matches(cls, matches):

@@ -5,6 +5,7 @@ from html import escape
 import numpy as np
 
 from .studies import _plotting, _style
+from .teams import team_key
 
 
 def embedding_figure(table, badges, title):
@@ -19,6 +20,7 @@ def embedding_figure(table, badges, title):
         color = colors[n] if n < len(colors) else '#%02x%02x%02x' % tuple(round(255*v) for v in hsv_to_rgb((n*.61803398875)%1, .85, .8))
         has_badge = [bool(badges[i]) for i in group.index]
         figure.add_trace(go.Scatter(x=group.x, y=group.y, mode='markers',
+            ids=[team_key(team) for team in group.team_id] if 'team_id' in group else None,
             text=[escape(str(x)) for x in group.team_name], textposition='top center',
             name=f'League {league}', marker=dict(size=[30 if b else 12 for b in has_badge],
                 color=['#eee8d5' if b else color for b in has_badge], line=dict(color=color, width=2)),

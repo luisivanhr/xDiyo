@@ -52,3 +52,35 @@ available, and 199 alternative badge records retain their exact source metadata
 under `alternative_assets` in the catalog. Reports continue to select the
 reviewed SVG for every current team. The missing-badge collection helper from
 main is retained for future acquisitions.
+
+## Portable report packaging
+
+`TeamCatalog.builtin()` loads this complete catalog both from a checkout and
+from an installed wheel. The wheel includes the catalog, selected SVGs and
+source/license documentation. The UI uses this same loader; it does not depend
+on an external `docs` directory after installation.
+
+For an independent report bundle:
+
+```python
+from xdiyo_analytics.reporting import TeamCatalog
+
+catalog_path = TeamCatalog.builtin().export_bundle("report/team_assets")
+catalog = TeamCatalog.from_json(catalog_path)
+```
+
+The destination must be new. By default **every** catalogued team is included,
+including historical teams, Japan and Mexico. An explicit `team_ids` iterable
+can select a subset. Missing entries/files, invalid images and incorrect recorded
+SHA-256 values fail before the output directory is created. The exported catalog
+uses relative paths and content-detected MIME types, so it remains usable after
+moving the report. It preserves provenance; alternative asset records describe
+unselected source assets and are not copied. Selected image bytes are unchanged.
+Include this source/license documentation when redistributing the collection.
+
+For a report generated with an old recovered subset, replace its generation
+catalog with the complete bundle and regenerate presentation from retained
+projection tables. Do not refit models or recompute t-SNE/PCA. Native embedding
+traces now retain exact team IDs in Plotly `ids`, independently of labels and
+coordinates, to support subsequent presentation repairs. Already generated HTML
+is not automatically rewritten when the library is upgraded.

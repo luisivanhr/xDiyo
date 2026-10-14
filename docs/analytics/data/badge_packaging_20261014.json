@@ -1,0 +1,39 @@
+{
+  "catalog_teams": 483,
+  "embedding_figures": 56,
+  "added_image_instances": 280,
+  "recovered_team_ids": [
+    "47",
+    "64",
+    "1665",
+    "1672",
+    "1675",
+    "1711",
+    "2363",
+    "2595",
+    "2730",
+    "2741",
+    "2868",
+    "2869",
+    "2972",
+    "7935",
+    "24338",
+    "24360",
+    "43680",
+    "113755",
+    "368506"
+  ],
+  "unchanged_scientific_payloads": true,
+  "unchanged_files_verified": 1677,
+  "source_commit": "de32880eb0ebbf6892d88276737acef118d68462",
+  "catalog_sha256": "ef595ec8ca124616847df90449aae52c91977624df550b2d2dbb6f72513b6a2a",
+  "japanese_teams": 55,
+  "mexican_teams": 26,
+  "report_copy": "gat_diagnostics_badges_fixed",
+  "repair_receipt_sha256": "503664d31836b309e7e32b93b95187c7c7e61baecbdb26fbe434a2a14c30aef1",
+  "verification": {
+    "wheel": "All 483 selected SVG bytes and native MIME validation checked from an isolated installed wheel, without checkout imports.",
+    "report": "56 embedding figure payloads differ only in layout.images. Original projection, prediction and other data files unchanged.",
+    "browser": "Existing native browser regressions passed (SVG export, repeated reset, visibility and all-catalog SVG decode). In-app visual inspection of the repaired report was blocked by the file URL policy."
+  }
+}
