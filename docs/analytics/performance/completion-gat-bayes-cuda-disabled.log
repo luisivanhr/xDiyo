@@ -1,0 +1,6 @@
+{"stage": "verified_isolated_model", "model_version": "4dd4464b7c43c89cfcc08243faa595d481c50e68ed44ef17922318925e0e23db"}
+{"stage": "prepared", "seconds": 12.87802129999909, "issuances": 1463}
+{"stage": "prepared_hash", "sha256": "60637c165d00879614d7cc695f4843d326e7051c728d25f806fe3b6b58d82b03"}
+{"stage": "update", "number": 1, "seconds": 44.155701800002134, "metrics": {"train_loss": 1.0879447164588782}}
+{"stage": "update", "number": 2, "seconds": 42.6024488999974, "metrics": {"train_loss": 1.0788439355237642}}
+{"stage": "update", "number": 3, "seconds": 41.072899300001154, "metrics": {"train_loss": 1.0699261255867896}}

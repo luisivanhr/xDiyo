@@ -5,16 +5,16 @@ local and Hostinger runtimes, datasets and production fits are unchanged.
 
 ## Status
 
-The user explicitly requested waiting for the active frozen GPU fit to finish.
-CUDA checks and saved-fold GPU benchmarks must not run while that fit or its
-successor workers occupy the GPU. Pending CUDA results are not represented as
-passed, and CPU-emulated cache tests are not CUDA evidence.
+Completed on 2026-10-15 after full process-command and GPU telemetry checks
+confirmed that the frozen worker and its successors had exited. No production
+worker was paused or modified. The remaining CUDA gates passed on implementation
+`e26e58a`; this final evidence update changes no runtime model source.
 
 | Area | Implementation and verification |
 | --- | --- |
-| Checkpoints and cleanup | Native full-state checkpoints and prediction-only finalization remain; fresh-process CPU continuation covers four native model forms. CUDA continuation is an explicit pending gate. |
-| Optional GPU inputs | Process/device shared accounting, private immutable snapshots, isolated consumer leases, idle LRU eviction, headroom checks, owner cleanup and disabled/CPU fallback. Settings are native ExecutionPolicy UI/JSON/Python fields and persist with models. CPU emulation checks full model/AdamW parity; real CUDA verification is pending. |
-| Spatial/export/inspection | Deterministic source-row grids are shared within the native preprocessor, with store/config/orientation/grid identity and causal lazy population. Native GAT KL targets now validate on the CPU when each source-row grid is first cached; native updates reuse that validation. Bounded-cache fallback validates newly reconstructed inputs again. Public arbitrary snapshots and caller-supplied groups retain validation. Complete-transfer frozen inspection reference matches optimized inspection on CPU with and without CNN maps. CUDA variants are pending. |
+| Checkpoints and cleanup | Native full-state checkpoints and prediction-only finalization remain; fresh-process CPU continuation covers four native model forms. Fresh-process deterministic CUDA continuation also passed for all four native model forms. |
+| Optional GPU inputs | Process/device shared accounting, private immutable snapshots, isolated consumer leases, idle LRU eviction, headroom checks, owner cleanup and disabled/CPU fallback. Settings are native ExecutionPolicy UI/JSON/Python fields and persist with models. CPU emulation checks full model/AdamW parity; real deterministic CUDA parity passed, including full AdamW state. |
+| Spatial/export/inspection | Deterministic source-row grids are shared within the native preprocessor, with store/config/orientation/grid identity and causal lazy population. Native GAT KL targets now validate on the CPU when each source-row grid is first cached; native updates reuse that validation. Bounded-cache fallback validates newly reconstructed inputs again. Public arbitrary snapshots and caller-supplied groups retain validation. Complete-transfer frozen inspection reference matches optimized inspection on CPU with and without CNN maps. Both deterministic CUDA inspection variants and owned-KL update parity passed. |
 | Frozen search | Owned isolated dataset/fold inputs, cached shared signatures, fresh per-candidate copies and source-content verification. Existing recovery-key bytes match exactly. Mutable callers keep the original full-content path. |
 | Run index | Authoritative manifest bytes are reread. Decoding and lookup reuse are in memory; the atomic on-disk hint is disposable. Mutation, corrupt/stale hints, corrupt manifests, concurrent instances and interrupted hint publication are tested. |
 | UI retention | Native completion rendering is reused. Optional `launch_ui(retention_bytes=...)` / `--retention-bytes` eviction requires verified result/model/reporter reload; active, unsaved and unsupported custom results stay pinned. Documents and spatial payloads use verified disk spools. Reopen and native model export are tested after eviction. |
@@ -100,23 +100,80 @@ tracked, and no remote CI pass is claimed. The current local integrated run is t
 available full-suite gate. The prior EMA qualification remains: recurrence reuse
 still examines full eligible-history prefixes and is not fully linear-time.
 
-## Remaining GPU procedure
+## Completed CUDA verification and benchmarks
 
-1. Confirm through full process command lines and GPU telemetry that the frozen
-   worker and any successor workers have released the GPU. Never pause them.
-2. Use the same Python 3.14 environment, `XDIYO_CUDA_CHECKS=1`, deterministic
-   execution and `CUBLAS_WORKSPACE_CONFIG=:4096:8`; remove the CPU mask.
-3. Run CUDA input-residency parity, frozen inspection parity and fresh-process
-   resume tests. Preserve exact comparison expectations and validation cadence.
-4. Run `benchmarks/gpu_residency_saved_fold.py` on isolated copies of the saved
-   plain and Bayesian expanded-totals fold 02, with cache disabled and enabled.
-   Verify manifest hashes, prepared tensor hashes, losses and complete training
-   state hashes. This compares candidate residency policies, not an older model.
-5. Run `benchmarks/owned_cnn_inputs.py` in separate frozen-reference and candidate
-   processes for CNN preparation and updates including post-update loss evaluation.
-   Record RSS, object counts and CUDA allocated/reserved peaks separately.
-6. Update this document and fresh receipts. Any parity failure blocks merge;
-   never relax tolerances or claim an unexecuted check passed.
+`completion-cuda.xml` and `.log`: **37 passed, zero skipped**, 182.11 s.
+This includes 11 GPU-specific cases: four residency cases, one owned-KL case,
+two frozen-inspection cases, and four fresh-process continuation cases. Exact
+checks cover losses, gradients, model/full-AdamW state, selection/history, RNG,
+prediction and persistence where applicable. Continuation workers independently
+exercise uninterrupted, intentionally interrupted, resumed and completed-no-op
+runs. This establishes same-source, same-runtime deterministic continuation;
+it does not establish cross-runtime or nondeterministic bit-exact continuation.
+One PyTorch TF32 API deprecation warning remains; there were no failures.
+
+`completion-cuda-environment.json` records test/source hashes and the environment.
+Python 3.14.0, torch 2.9.0+cu130, pandas 2.3.3, numpy 2.4.6, RTX 4070 SUPER,
+driver 610.88; deterministic CUDA with `CUBLAS_WORKSPACE_CONFIG=:4096:8`.
+`completion-cuda-summary.json` records exact comparisons and benchmark hashes;
+individual receipts contain commands, source hashes, model manifests and raw times.
+
+### Saved expanded-totals fold 02: optional residency
+
+Each arm uses an isolated copy of its saved model and train metadata, verifies
+all manifest hashes, and freshly initializes matching candidate models. Original
+saved-model hashes were reverified after benchmarking. This compares residency
+policies on current source, not current source against an older GAT implementation.
+Both plain and Bayesian populations contain 18,888 rows and 1,463 issuances.
+Enabled budget is 6 GiB with 2 GiB headroom; disabled budget is zero.
+
+| Population / cache | Cold native prep (s) | Warm update + post-update evaluation (s) | Peak RAM (MiB) | Peak CUDA allocated / reserved (MiB) |
+| --- | ---: | ---: | ---: | ---: |
+| Plain / disabled | 11.896 | 41.292 | 1807.95 | 216.14 / 248.00 |
+| Plain / enabled | 11.693 | 44.748 | 1832.08 | 6386.56 / 8076.00 |
+| Bayesian / disabled | 12.878 | 41.838 | 1780.70 | 216.16 / 248.00 |
+| Bayesian / enabled | 12.517 | 41.712 | 1807.70 | 6389.10 / 8098.00 |
+
+Prepared-input hashes, all three update metrics and model/gradient/full-AdamW
+state hashes match **exactly** in each pair. Training-loss evaluation remains
+at every update. Warm time is the median of updates two and three. Cold native
+preparation excludes file/model loading. The prepared-hash verification pass is
+outside timings and warms CPU inputs, but does not warm GPU residency.
+
+Both enabled arms recorded zero hits and 8,778 misses, with no retained or active
+input bytes at completion. Eviction churn provides no demonstrated benefit on
+these folds: plain was 8.37% slower; Bayesian was effectively unchanged (1.003x).
+**Keep residency disabled for these large folds.** Its default remains disabled.
+The much larger allocated/reserved peaks illustrate its memory cost. A single
+pair per GAT population and desktop graphics activity limit timing conclusions;
+these results do not establish a statistically reliable speedup or universal
+cache sizing rule. OS file-cache attribution is unavailable.
+
+### CNN: three alternating-order process pairs
+
+The frozen reference loads the `2e3b967` CNN adapter/network into the same current
+support environment; it is not an entire frozen library checkout. The candidate
+uses owned prepared inputs and 256 MiB optional residency. All five update losses
+and model/gradient/full-AdamW hashes match exactly in every pair, on the same
+2,000 synthetic fixtures, including missing maps and KL reconstruction.
+
+Median across three independent runs per arm:
+
+| Measure | Frozen adapter/network | Candidate |
+| --- | ---: | ---: |
+| Cold preparation (s) | 1.13244 | 1.17592 |
+| Warm update + post-update evaluation (s) | 0.091814 | 0.075073 |
+| Peak host working set (MiB) | 1371.79 | 1328.24 |
+| Peak CUDA allocated (MiB) | 67.58 | 69.17 |
+| Peak CUDA reserved (MiB) | 70.00 | 70.00 |
+| GC-tracked objects | 349975 | 350329 |
+
+Observed warm speed ratio is **1.223x**, with about 3.8% slower preparation.
+This measures the combined owned-input/residency path on a small synthetic
+population, not isolated cache contribution or production throughput. CUDA
+metrics are allocator peaks, host memory is process peak working set, and neither
+includes a separately attributed OS file cache. The earlier CPU results below
+remain a distinct experiment.
 
 ## Repeated CNN CPU comparison
 
@@ -130,5 +187,6 @@ objects 346,859 / 347,054. Slightly slower preparation and effectively unchanged
 memory accompany this small observed warm difference; it is not a production
 throughput claim. File-cache attribution is unavailable and CUDA peaks are null.
 
-A quiet 30-minute heartbeat will resume the CUDA gate after the user-requested
-wait. Exact continuation instructions are in [completion-handoff.md](completion-handoff.md).
+All scheduled CUDA verification is complete. Pause the heartbeat; retain this
+branch unmerged and unpushed. Reproduction commands remain in
+[completion-handoff.md](completion-handoff.md).

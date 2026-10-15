@@ -49,6 +49,7 @@ def run(args):
             assert hashlib.sha256((isolated/name).read_bytes()).hexdigest()==expected
         loaded=TemporalGraphSerializer(device='cpu').load(isolated)
         assert loaded.backend_.model_version==manifest['model_version']
+        print(json.dumps({'stage':'verified_isolated_model','model_version':manifest['model_version']}),flush=True)
         cfg=replace(loaded.config,deterministic=True)
         store=loaded.event_store
         metadata=pd.read_parquet(Path(temporary)/'train_metadata.parquet')
@@ -61,21 +62,24 @@ def run(args):
         torch.cuda.synchronize();start=time.perf_counter()
         backend=_Backend(cfg,store,17,'cuda:0',InputCachePolicy(args.cache_bytes,args.headroom_bytes));backend.initialize(context)
         torch.cuda.synchronize();cold=time.perf_counter()-start
+        print(json.dumps({'stage':'prepared','seconds':cold,'issuances':len(backend.train_groups)}),flush=True)
         # Evidence pass uses the uncached native stream, so it does not warm GPU residency.
         prepared=hashlib.sha256()
         for i in range(len(backend.train_groups)):
             prepared.update(digest_tree(backend.train_groups[i]).encode())
+        print(json.dumps({'stage':'prepared_hash','sha256':prepared.hexdigest()}),flush=True)
         timings=[];metrics=[];states=[]
         for _ in range(args.updates):
             torch.cuda.synchronize();start=time.perf_counter()
             value=backend.step();value=backend.checkpoint_metrics('train_loss',value)
             torch.cuda.synchronize();timings.append(time.perf_counter()-start);metrics.append(value)
             states.append(digest_tree((backend.model.state_dict(),backend.optimizer.state_dict(),[p.grad for p in backend.model.parameters()])))
+            print(json.dumps({'stage':'update','number':len(timings),'seconds':timings[-1],'metrics':value}),flush=True)
         pool=backend.train_groups._resident.pool
         info=process.memory_info()
         from xdiyo_analytics.experiments.recovery import training_source_files
         source=ROOT/'src/xdiyo_analytics'
-        receipt=dict(command=[sys.executable,*sys.argv],source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True,cwd=ROOT).strip(),
+        receipt=dict(command=[sys.executable,*sys.argv],benchmark_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True,cwd=ROOT).strip(),
             source_files={str(p.relative_to(source)):hashlib.sha256(p.read_bytes()).hexdigest() for p in training_source_files(source)},
             frozen_model_manifest=manifest,train_metadata_sha256=metadata_sha,rows=len(metadata),issuances=len(backend.train_groups),
             fixture_features=list(cfg.fixture_features),prepared_sha256=prepared.hexdigest(),cache_bytes=args.cache_bytes,headroom_bytes=args.headroom_bytes,

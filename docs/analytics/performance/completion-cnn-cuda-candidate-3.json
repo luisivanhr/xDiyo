@@ -1,0 +1,85 @@
+{
+  "kind": "candidate",
+  "device": "cuda:0",
+  "cache_bytes": 268435456,
+  "sources": {
+    "adapter": "e21bb727ffc540351965de4ec74d123c836e14eea58d013834bf88ed70713615",
+    "network": "bcbd67e0322e47bca7ff110ac35d78d05cb59845dfb590de38fbf1fafac5c418",
+    "prepared": "245f0e52cb4b4dbf54aaceec143d69364a69c3c82fb87afd23ecf19ad893fb14"
+  },
+  "candidate_commit": "e26e58a25700183b80612a3995a4cf9189979d22",
+  "command": [
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "benchmarks/owned_cnn_inputs.py",
+    "--kind",
+    "candidate",
+    "--device",
+    "cuda:0",
+    "--cache-bytes",
+    "268435456",
+    "--output",
+    "docs/analytics/performance/completion-cnn-cuda-candidate-3.json"
+  ],
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "torch": "2.9.0+cu130",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "rows": 2000,
+  "maps_shape": [
+    2000,
+    2,
+    10,
+    10
+  ],
+  "inputs_sha256": "3dec7263e926c660d14bd7dd3e342d54c12381e5f29911a23003fcc37f8c950c",
+  "cold_seconds": 1.1349358999941614,
+  "update_and_post_evaluation_seconds": [
+    0.37416760000633076,
+    0.07394470000144793,
+    0.06930540000030305,
+    0.07502580000436865,
+    0.07324009999865666
+  ],
+  "warm_median_seconds": 0.0735924000000523,
+  "metrics": [
+    {
+      "train_loss": 1.1009352532625198,
+      "train_reconstruction_loss": 0.19703406638011864,
+      "train_objective": 1.1206386599005318
+    },
+    {
+      "train_loss": 1.1001921054720878,
+      "train_reconstruction_loss": 0.19663520574419943,
+      "train_objective": 1.1198556260465078
+    },
+    {
+      "train_loss": 1.0996064880192282,
+      "train_reconstruction_loss": 0.19626994317575316,
+      "train_objective": 1.1192334823368035
+    },
+    {
+      "train_loss": 1.0991823643445966,
+      "train_reconstruction_loss": 0.19593987887977957,
+      "train_objective": 1.1187763522325747
+    },
+    {
+      "train_loss": 1.0989252420067785,
+      "train_reconstruction_loss": 0.19564084001821488,
+      "train_objective": 1.1184893260086
+    }
+  ],
+  "per_update_state_sha256": [
+    "e6cb4923ee277e543148882a8014a0b2133285cdfcec00c47120925a9614eaca",
+    "3993e85e18665059fded5454958358b6b75ac2be9a1afd60303442cbb8377d7b",
+    "9e8d4d69f3fa452448ca78125b5465fa7da55b4248666b6cd783f3eda055bbcc",
+    "bd6225e2b9be68bb8b500d6b813ff72d61308ed56bf76f7a244442c2be220dc4",
+    "a5d477fb9837ddcfe94a83ebe556da172f4f2e0bee0165b1962fd30ac9951739"
+  ],
+  "rss_before": 649728000,
+  "rss_after": 1392758784,
+  "peak_working_set": 1392758784,
+  "gc_tracked_objects": 350324,
+  "cuda_allocated": 72525824,
+  "cuda_reserved": 73400320,
+  "file_cache": null
+}

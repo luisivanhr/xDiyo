@@ -1,6 +1,18 @@
-# Completion handoff: wait for GPU
+# Completion handoff: verification complete
 
-## Current scope and safety
+## Completion status (2026-10-15)
+
+All remaining CUDA checks completed after the production GPU workers exited.
+37 tests passed with no skips; saved-fold plain/Bayesian parity and all three CNN
+process pairs matched exactly. Fresh-process deterministic resume passed for all
+four native model forms. See completion.md and completion-cuda-summary.json for
+measured tradeoffs: large-fold GAT residency had no benefit and remains disabled
+by default; synthetic CNN warm updates improved 1.223x with slower preparation.
+No runtime source changed during final GPU verification. Pause the heartbeat.
+The commands below are retained for reproduction, not pending work. Keep the
+branch unmerged and unpushed.
+
+## Original scope and safety
 
 - Worktree: `C:/Users/luisi/.codex/worktrees/performance-owned-caches-resume/xDiyo`
 - Branch: `codex/performance-owned-caches-resume`; keep unmerged and unpushed.
