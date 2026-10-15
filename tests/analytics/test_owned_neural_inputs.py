@@ -41,6 +41,7 @@ def test_owned_aliases_generation_and_invalidation():
     with pytest.raises(FrozenInstanceError): population.kl_validated = True
     other = OwnedPopulation(tuple(population), binding=population.binding)
     assert other.generation == population.generation
+    assert other != population  # Ownership identity is distinct from equal content.
     changed = list(population); changed[0][0, 0, 0, 0] = 1
     assert OwnedPopulation(changed, binding=population.binding).generation != population.generation
     backend.spec = replace(backend.spec, numeric_features=('strength',))

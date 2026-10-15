@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import numpy as np
 
 
-@dataclass(frozen=True, init=False)
+@dataclass(frozen=True, init=False, eq=False)
 class OwnedPopulation:
     """A fit-local immutable snapshot; dropping it releases its entire generation.
 
