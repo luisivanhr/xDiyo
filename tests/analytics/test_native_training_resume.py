@@ -9,7 +9,7 @@ import torch
 from test_graph_preparation_memory import assert_exact
 
 
-@pytest.mark.parametrize('kind', ['gat', 'gat_bayes', 'cnn_classification', 'cnn_regression'])
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
 def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind):
     worker = Path(__file__).with_name('native_resume_worker.py')
     env = dict(os.environ, CUDA_VISIBLE_DEVICES='-1', PYTHONDONTWRITEBYTECODE='1')
@@ -29,24 +29,35 @@ def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind)
     assert_exact(reference['backend'], load('completed.pt')['backend'])
 
 
-def test_prediction_finalization_requires_verified_native_checkpoint(tmp_path):
+@pytest.mark.parametrize('kind', ['gat', 'cnn_classification', 'cnn_regression'])
+def test_prediction_finalization_requires_verified_native_checkpoint(tmp_path, kind):
     from native_resume_worker import fixture
     from xdiyo_analytics.training import TrainingControl, CheckpointPolicy
     from xdiyo_analytics.graphs import TemporalGraphSerializer
     torch.set_num_threads(1)
-    adapter, train, query = fixture('gat')
+    adapter, train, query = fixture(kind)
     control = TrainingControl(max_steps=2)
     wrapped = CheckpointPolicy(every=100, finalization='prediction_only').wrap(lambda: adapter, tmp_path/'runs', 'finalize')()
     wrapped.fit_controlled(train, control)
     assert adapter._training_finalized and not hasattr(adapter.backend_, 'optimizer')
     assert not hasattr(adapter.backend_, 'train_groups')
+    assert not hasattr(adapter.backend_, 'train')
     expected = adapter.predict(query)
     adapter.finalize_training(mode='prediction_only')
-    serializer = TemporalGraphSerializer(event_store=adapter.event_store)
+    from xdiyo_analytics.neural import HeatmapCNNSerializer
+    serializer = TemporalGraphSerializer(event_store=adapter.event_store) if kind == 'gat' else HeatmapCNNSerializer()
     serializer.save(adapter, tmp_path/'model')
     actual = serializer.load(tmp_path/'model').predict(query)
     import pandas as pd
     for name in expected: pd.testing.assert_frame_equal(actual[name], expected[name], check_exact=True)
+    if kind.startswith('cnn'):
+        pd.testing.assert_frame_equal(adapter.encode(query), serializer.load(tmp_path/'model').encode(query), check_exact=True)
+    else:
+        teams = query.metadata.home_id
+        queries = pd.DataFrame({'team_id': teams, 'issuance_at': adapter.event_store.issue_times(query.metadata, adapter.config)})
+        loaded = serializer.load(tmp_path/'model')
+        pd.testing.assert_frame_equal(adapter.encode_teams(queries), loaded.encode_teams(queries), check_exact=True)
+        pd.testing.assert_frame_equal(adapter.attention_weights(queries), loaded.attention_weights(queries), check_exact=True)
     with pytest.raises(RuntimeError, match='finalized'):
         adapter.fit_controlled(train, control)
     # Same completed checkpoint restores training state before optional cleanup.
@@ -99,3 +110,18 @@ def test_finalization_ui_recipe_roundtrip_and_stale_weights_rejected(tmp_path):
     with pytest.raises(ValueError, match='parameters'):
         adapter.finalize_training(mode='prediction_only')
     assert hasattr(adapter.backend_, 'optimizer')
+
+
+def test_thinned_offers_do_not_capture_optimizer_buffers(tmp_path, monkeypatch):
+    from native_resume_worker import fixture
+    from xdiyo_analytics.training import TrainingControl, CheckpointPolicy
+    import xdiyo_analytics.training.resume_loop as loop
+    adapter, train, _ = fixture('cnn_classification')
+    calls = []
+    capture = loop.capture_backend
+    def recorded(backend):
+        calls.append(1)
+        return capture(backend)
+    monkeypatch.setattr(loop, 'capture_backend', recorded)
+    CheckpointPolicy(every=100).wrap(lambda: adapter, tmp_path/'runs', 'thin')().fit_controlled(train, TrainingControl(max_steps=3))
+    assert calls == [1]  # Only the selected backend at mandatory final publication.

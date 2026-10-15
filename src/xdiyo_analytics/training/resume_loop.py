@@ -50,10 +50,10 @@ def run_resumable_iterations(backend_factory, context, control, *, state=None, s
             restore_backend(winner, state['winner'])
         restore_rng(state['rng'])
     def publish(attempt, active=None):
-        save(dict(attempt=attempt, restarts=control.restarts, rows=deepcopy(rows), attempts=deepcopy(attempts),
+        save(lambda: dict(attempt=attempt, restarts=control.restarts, rows=deepcopy(rows), attempts=deepcopy(attempts),
                   winner=None if winner is None else capture_backend(winner), winning_value=winning_value,
-                  winner_info=deepcopy(winner_info), active=active,
-                  rng=rng_state(backend.device)))
+                  winner_info=deepcopy(winner_info), active=None if active is None else active(),
+                  rng=rng_state(backend.device)), complete=attempt > control.restarts)
     for attempt in range(0 if state is None else state['attempt'], control.restarts+1):
         backend = backend_factory(control.seed+attempt)
         if backend in seen:
@@ -65,6 +65,7 @@ def run_resumable_iterations(backend_factory, context, control, *, state=None, s
                 if owned in owned_states:
                     raise ValueError("Restart backends must own fresh estimators and preprocessing.")
                 owned_states.add(owned)
+        del owned
         if control.restore_best and not all(callable(getattr(backend, method, None)) for method in ("snapshot", "restore")):
             raise TypeError("Checkpoint restoration requires backend snapshot()/restore().")
         if control.scheduler and not all(callable(getattr(backend, method, None)) for method in ("get_learning_rate", "set_learning_rate")):
@@ -92,7 +93,7 @@ def run_resumable_iterations(backend_factory, context, control, *, state=None, s
             restore_rng(state['rng'])
             state = None
         def offer(stopped=False):
-            publish(attempt, dict(backend=capture_backend(backend), best=best, best_step=best_step,
+            publish(attempt, lambda: dict(backend=capture_backend(backend), best=best, best_step=best_step,
                     checkpoint=_cpu(checkpoint), progress_best=progress_best, stale=stale,
                     schedule_stale=schedule_stale, last_value=last_value, reason=reason,
                     last_metrics=deepcopy(last_metrics), step=step, stopped=stopped))

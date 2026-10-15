@@ -177,11 +177,13 @@ def run_adapter_iterations(adapter, factory, context, control):
     if checkpoint is not None:
         adapter.training_checkpoint_ = str(checkpoint)
     adapter._training_finalized = False
-    def save(value):
+    def save(capture, *, complete):
         def writer(directory):
-            write_checkpoint(directory, value, identity, profile)
+            # Capture only after the publication policy accepts this offer.
+            # Thinned offers must not clone optimizer/model buffers to CPU.
+            write_checkpoint(directory, capture(), identity, profile)
         # A final checkpoint is mandatory even when periodic offers are thinned.
-        writer._xdiyo_completed_checkpoint = value['attempt'] > control.restarts
+        writer._xdiyo_completed_checkpoint = complete
         path = publish(writer)
         if path is not None:
             read_checkpoint(path, identity, profile)

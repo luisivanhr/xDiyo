@@ -19,7 +19,7 @@ def fixture(kind):
         from xdiyo_analytics.graphs import TemporalGraphAdapter
         store = sample()
         train = context(store, [1, 2, 3, 4]); train.validation = context(store, [5, 6])
-        cfg = config(deterministic=True, fixture_features=('unused',) if kind == 'gat_bayes' else ())
+        cfg = config(deterministic=True, fixture_features=('unused',) if kind == 'gat_fixture' else ())
         if cfg.fixture_features:
             for c in (train, train.validation):
                 c.metadata['feature_cutoff_at'] = [cfg.history_cutoff(t) for t in store.issue_times(c.metadata, cfg)]
