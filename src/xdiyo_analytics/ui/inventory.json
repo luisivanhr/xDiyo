@@ -3941,6 +3941,19 @@
           ],
           "help": "Skip checkpointing or raise when the selected adapter cannot save resumable state.",
           "primary": false
+        },
+        {
+          "name": "finalization",
+          "title": "Finalization",
+          "required": false,
+          "kind": "select",
+          "default": "retain",
+          "choices": [
+            "retain",
+            "prediction_only"
+          ],
+          "primary": false,
+          "help": "Retain is the default. Prediction only releases native training buffers after a completed verified training checkpoint; prediction, inspection and model export remain available. Resume requires that checkpoint."
         }
       ],
       "accepts_extra": false

@@ -22,16 +22,26 @@ class HeatmapCNNAdapter:
         from ..graphs.adapter import TemporalGraphAdapter
         return TemporalGraphAdapter.configure_threads(self, count)
 
+    def fit_resumable(self, context, *, control, checkpoint, save_checkpoint):
+        from ..training.native_resume import resume_session
+        with resume_session(self, checkpoint, save_checkpoint):
+            self.fit_controlled(context, control)
+
+    def finalize_training(self, *, mode='retain', checkpoint=None):
+        from ..training.native_resume import finalize_training
+        finalize_training(self, mode=mode, checkpoint=checkpoint)
+
     def fit(self, context):
         self.fit_controlled(context, self.spec.control)
 
     def fit_controlled(self, context, control):
+        from ..training.native_resume import run_adapter_iterations
         from ..graphs.adapter import torch_threads
         self.configure_device(self.device)
         self.configure_threads(self.inner_threads)
         effective_control = control or self.spec.control
         with torch_threads(self.inner_threads):
-            self.backend_, self.training_history_, self.training_summary_ = run_iterations(
+            self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
                 lambda seed: CNNBackend(self.spec, seed, self.device), context, effective_control)
         self.effective_control_ = effective_control
 

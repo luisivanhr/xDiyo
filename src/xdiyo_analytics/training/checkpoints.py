@@ -23,8 +23,11 @@ class CheckpointPolicy:
     """
     every: int = 1
     unsupported: str = "skip"
+    finalization: str = "retain"
 
     def __post_init__(self):
+        if self.finalization not in {"retain", "prediction_only"}:
+            raise ValueError("finalization must be retain or prediction_only.")
         if isinstance(self.every, bool) or not isinstance(self.every, int) or self.every < 1:
             raise ValueError("Checkpoint every must be a positive integer.")
         if self.unsupported not in {"skip", "raise"}:
@@ -73,6 +76,8 @@ class _CheckpointAdapter:
         from ..experiments.store import _publish
         adapter = self.estimator
         resume = getattr(adapter, "fit_resumable", None)
+        if self.policy.finalization != "retain" and (not callable(resume) or not callable(getattr(adapter, "finalize_training", None))):
+            raise TypeError("Prediction-only finalization requires explicit native checkpoint/cleanup capabilities.")
         if not callable(resume):
             if self.policy.unsupported == "raise":
                 raise TypeError("This adapter does not implement fit_resumable().")
@@ -94,10 +99,10 @@ class _CheckpointAdapter:
                 raise ValueError("Invalid native checkpoint pointer.")
         offered = 0
 
-        def save_checkpoint(writer):
+        def save_checkpoint(writer, *, force=False):
             nonlocal offered
             offered += 1
-            if offered % self.policy.every:
+            if not (force or getattr(writer, '_xdiyo_completed_checkpoint', False)) and offered % self.policy.every:
                 return
             identifier = str(uuid4())
             stage, final = folder / f".pending-{identifier}", folder / identifier
@@ -105,7 +110,14 @@ class _CheckpointAdapter:
             writer(stage)
             _publish(stage, final)
             temporary = folder / f".pointer-{identifier}.json"
-            temporary.write_text(json.dumps({"directory": identifier}), encoding="utf-8")
+            import os
+            with temporary.open("x", encoding="utf-8") as stream:
+                json.dump({"directory": identifier}, stream)
+                stream.flush()
+                os.fsync(stream.fileno())
             temporary.replace(pointer)
+            return final
 
         resume(context, control=control, checkpoint=checkpoint, save_checkpoint=save_checkpoint)
+        if self.policy.finalization != "retain":
+            adapter.finalize_training(mode=self.policy.finalization)

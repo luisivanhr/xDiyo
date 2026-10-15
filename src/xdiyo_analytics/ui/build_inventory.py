@@ -16,6 +16,7 @@ from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
+    'finalization': 'Retain is the default. Prediction only releases native training buffers after a completed verified training checkpoint; inference and export remain available. Resume requires that checkpoint.',
     'left': 'First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.',
     'right': 'Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.',
     'numerator': 'Single-output feature above the fraction bar. Example: recent rolling average.',
@@ -308,6 +309,7 @@ def build():
             if name in ('bins','bandwidth'): f['choices']=['auto','fd','sturges','sqrt'] if name=='bins' else ['scott','silverman']
             if name == 'comparison': f['choices']=['auto','numeric','categorical']
             if name == 'entity': f['choices']=['team','league']
+            if name == 'finalization' and key == 'training.CheckpointPolicy': f.update(kind='select', choices=['retain','prediction_only'])
             if name == 'device': f['choices']=['cpu','auto','cuda','cuda:0']
             if name == 'partition' and key in ('reporting.LearningCurveReporter','reporting.CoefficientReporter','reporting.FeatureImportanceReporter'): f['choices']=['model']
             if name == 'partition' and key == 'reporting.ExperimentLeaderboardReporter': f['choices']=['experiment']
