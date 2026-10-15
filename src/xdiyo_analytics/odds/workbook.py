@@ -102,13 +102,24 @@ class _Workbook:
         if not needed:return
         with self.archive.open('xl/sharedStrings.xml') as stream:
             index=0
-            for _,element in ET.iterparse(stream,events=('end',)):
-                if element.tag==NS+'si':
-                    if index in needed:
-                        self.strings[index]=''.join(t.text or '' for t in element.iter(NS+'t'))
-                        needed.remove(index)
-                    element.clear();index+=1
-                    if not needed:break
+            parser=ET.iterparse(stream,events=('start','end'))
+            stack=[]
+            try:
+                for event,element in parser:
+                    if event=='start':
+                        stack.append(element)
+                        continue
+                    if element.tag==NS+'si':
+                        if index in needed:
+                            self.strings[index]=''.join(t.text or '' for t in element.iter(NS+'t'))
+                            needed.remove(index)
+                        element.clear();index+=1
+                        if len(stack)>1:stack[-2].remove(element)
+                        if not needed:break
+                    stack.pop()
+            finally:
+                close=getattr(parser,'close',None)
+                if close is not None:close()
         if needed:raise ValueError('Invalid shared-string references')
 
     def decode(self,cell):

@@ -20,9 +20,15 @@ def _e(value):
     return escape(str(value), quote=True)
 
 
-def _csv_link(frame, name):
+def _csv_link(frame, name, *, cache=None):
     content = frame.to_csv(index=False).encode("utf-8-sig")
-    encoded = base64.b64encode(content).decode("ascii")
+    encoded = None if cache is None else cache.get(content)
+    if encoded is None:
+        encoded = base64.b64encode(content).decode("ascii")
+        if cache is not None and len(content)+len(encoded) <= 8*1024*1024:
+            if sum(len(k)+len(v) for k, v in cache.items())+len(content)+len(encoded) > 8*1024*1024:
+                cache.clear()
+            cache[content] = encoded
     return (f'<a class="download" download="{_e(name)}.csv" '
             f'href="data:text/csv;base64,{encoded}">Download CSV</a>')
 
@@ -155,6 +161,11 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
     Downloads include all computed table rows even when HTML previews are capped.
     """
     renderers = {} if renderers is None else dict(renderers)
+    # Content-keyed, render-local: custom renderers may mutate shared tables.
+    # Bound retained payloads; CSV serialization remains necessary to detect it.
+    csv_cache = {}
+    def csv_link(frame, name):
+        return _csv_link(frame, name, cache=csv_cache)
     groups = OrderedDict()
     for run in report.studies:
         groups.setdefault(run.name, []).append(run)
@@ -176,7 +187,7 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
         if artifact.kind == "html":
             return str(artifact.data)
         if artifact.kind == "table":
-            return _table(artifact.data) + _csv_link(artifact.data, artifact.title or "table")
+            return _table(artifact.data) + csv_link(artifact.data, artifact.title or "table")
         if artifact.kind == "match_results":
             return render_match_results(artifact)
         if artifact.kind == "leaderboard":
@@ -234,10 +245,10 @@ def render_report(report, *, path=None, renderers=None, spatial_transport=None, 
                 artifacts.append(f'<div class="embedding-folds">{selector}{panels}</div>')
             downloads = []
             scope_table = run.scope if run.scope is not None else pd.DataFrame({"row_position": run.row_positions})
-            downloads.append(_csv_link(scope_table, f"{name}-scope-{j}"))
+            downloads.append(csv_link(scope_table, f"{name}-scope-{j}"))
             for table_name, table in run.result.tables.items():
                 downloads.append(f'<div class="download-row">{_e(table_name)} · {len(table):,} rows '
-                                 + _csv_link(table, f"{name}-{table_name}-{j}") + '</div>')
+                                 + csv_link(table, f"{name}-{table_name}-{j}") + '</div>')
             variants.append(f'<div class="variant" data-fold="{j}" {"hidden" if j else ""}>'
                             f'{scope}<h3>{_e(run.result.title)}</h3>{notes}{"".join(artifacts)}'
                             f'<details class="artifact"><summary>Download underlying data</summary>{"".join(downloads)}</details></div>')

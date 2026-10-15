@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, replace
 from decimal import Decimal
-from functools import lru_cache
+from ._cache import operation, table as cached_table
 from pathlib import Path
 
 import numpy as np
@@ -18,9 +18,9 @@ TIMING_NOTE = ('Opening/closing are vendor labels without quote timestamps or bo
                'Tickets do not establish a common bookmaker or simultaneous prices.')
 
 
-@lru_cache(maxsize=8)
 def _partition(snapshot, league, season, sheet, fingerprint):
-    return load_odds(snapshot, league=league, season=season, sheet=sheet)
+    return cached_table(('partition', snapshot, league, season, sheet, fingerprint),
+                        lambda: load_odds(snapshot, league=league, season=season, sheet=sheet))
 
 
 @dataclass(frozen=True)
@@ -182,6 +182,7 @@ class OddsSeries:
         return self.resolve(context).decimal_odds
 
 
+@operation
 def paired_quotes(source):
     """Outer-join both timings; keep separate missing-open and missing-close flags."""
     if source.market in ('corners','yellow_cards','asian_handicap'):

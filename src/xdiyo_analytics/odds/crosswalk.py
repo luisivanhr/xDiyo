@@ -268,11 +268,14 @@ def read_crosswalk(directory, snapshot_id):
     manifest = read_manifest(directory, crosswalk=True)
     if manifest['snapshot'] != snapshot_id:
         raise ValueError('Crosswalk belongs to another odds snapshot')
-    frame = pd.read_parquet(verified_path(directory, manifest['files'][0]))
+    from ._cache import table
+    path = verified_path(directory, manifest['files'][0])  # rehash even on cache hits
+    frame = table(('crosswalk', str(Path(path).resolve()), manifest['files'][0]['sha256']),
+                  lambda: pd.read_parquet(path))
     version = hashlib.sha256(frame.to_json(orient='records', date_format='iso').encode()).hexdigest()[:24]
     if version != manifest['version']:
         raise ValueError('Crosswalk content identity was modified')
-    return frame
+    return frame.copy(deep=True)
 
 
 def native_fixture_metadata(data_root, *, seasons, leagues=None):

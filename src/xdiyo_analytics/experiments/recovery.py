@@ -265,6 +265,7 @@ def pack(value):
         # Validate attrs before pandas can deepcopy them while slicing columns.
         # The frame owns this metadata; inherited column attrs would duplicate it.
         attrs = pack(value.attrs)
+        value = pd.DataFrame(value, copy=False)  # private column traversal without inherited attrs
         return {"@": "frame", "index": pack(value.index), "columns": pack(value.columns),
                 "series": [_pack_series(value.iloc[:, i].reset_index(drop=True), include_attrs=False)
                            for i in range(len(value.columns))], "attrs": attrs}
@@ -480,9 +481,89 @@ def unpack(value):
     raise ValueError(f"Unknown recovery tag {tag!r}.")
 
 
+def _iter_pack_json(value):
+    """Stream the existing logical encoding, preserving JSON separators/order.
+
+    Pandas values are boxed with the same tolist operation in bounded chunks.
+    pack remains the public materialized encoder used by fingerprints.
+    """
+    def encoded(item):
+        return json.dumps(item, ensure_ascii=False, allow_nan=False)
+
+    def array(items):
+        yield '['
+        first = True
+        for chunks in items:
+            if not first:
+                yield ', '
+            first = False
+            yield from chunks
+        yield ']'
+
+    def obj(items):
+        yield '{'
+        for i, (key, chunks) in enumerate(items):
+            if i:
+                yield ', '
+            yield encoded(key)+': '
+            yield from chunks
+        yield '}'
+
+    def literal(item):
+        return iter((encoded(item),))
+
+    def series(item, include_attrs=True):
+        dtype = _pack_dtype(item.dtype)
+        bare = pd.Series(item, copy=False)
+        def values():
+            # Chunk boxing/JSON encoding avoids both a full Python list and
+            # one encoder/write call per scalar while keeping exact separators.
+            yield '['
+            for start in range(0, len(bare), 1024):
+                if start:
+                    yield ', '
+                yield encoded(pack(bare.iloc[start:start+1024].tolist()))[1:-1]
+            yield ']'
+
+        items = [('@', literal('series')), ('index', _iter_pack_json(item.index)),
+                 ('name', _iter_pack_json(item.name)), ('values', values()),
+                 ('dtype', literal(dtype))]
+        if include_attrs:
+            items.append(('attrs', _iter_pack_json(item.attrs)))
+        yield from obj(items)
+
+    if isinstance(value, pd.DataFrame):
+        attrs = pack(value.attrs)  # validate before pandas column access, as pack does
+        bare = pd.DataFrame(value, copy=False)
+        yield from obj([('@', literal('frame')), ('index', _iter_pack_json(value.index)),
+            ('columns', _iter_pack_json(value.columns)),
+            ('series', array(series(bare.iloc[:, i].reset_index(drop=True), False) for i in range(len(bare.columns)))),
+            ('attrs', literal(attrs))])
+    elif isinstance(value, pd.Series):
+        yield from series(value)
+    elif isinstance(value, tuple):
+        yield from obj([('@', literal('tuple')), ('values', array(_iter_pack_json(v) for v in value))])
+    elif isinstance(value, list):
+        yield from array(_iter_pack_json(v) for v in value)
+    elif isinstance(value, dict):
+        yield from obj([('@', literal('dict')),
+            ('items', array(array((_iter_pack_json(k), _iter_pack_json(v))) for k, v in value.items()))])
+    elif is_dataclass(value) and type(value).__module__.startswith('xdiyo_analytics.'):
+        omitted = {'model'} if type(value).__name__ in {'FoldResult', 'FittedModel'} else set()
+        yield from obj([('@', literal('record')), ('module', literal(type(value).__module__)),
+            ('name', literal(type(value).__name__)),
+            ('fields', obj((f.name, _iter_pack_json(None if f.name in omitted else getattr(value, f.name)))
+                           for f in fields(value) if f.init))])
+    else:
+        yield encoded(pack(value))
+
+
 def dump_bundle(path, payload):
+    # As before, the experiment store owns transactional directory publication.
     with Path(path).open("x", encoding="utf-8") as stream:
-        json.dump({"schema": 1, "payload": pack(payload)}, stream, ensure_ascii=False, allow_nan=False)
+        stream.write('{"schema": 1, "payload": ')
+        stream.writelines(_iter_pack_json(payload))
+        stream.write('}')
 
 
 def load_bundle(path):

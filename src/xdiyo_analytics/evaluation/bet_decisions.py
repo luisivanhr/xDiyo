@@ -8,6 +8,7 @@ from ..labels import BetOption, Outcome
 from .betting import BetSpec, _aligned
 from .probabilities import bet_probabilities, negative_binomial_bet_probabilities
 from ..odds.selection import OddsSeries
+from ..odds._cache import operation
 
 
 @dataclass(frozen=True)
@@ -114,6 +115,7 @@ def _option_probabilities(context, option, target, output, *, binary_draw=False)
     return result
 
 
+@operation
 def prepare_bets(context, offers, policy, *, target=None, output='predict_proba', default_odds=None):
     """Return (named BetSpecs, alternatives table) without reading outcomes.
 
