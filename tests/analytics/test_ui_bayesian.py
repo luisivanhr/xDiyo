@@ -36,7 +36,8 @@ def test_bayesian_inventory_distinguishes_team_fixture_and_training_fields():
     assert components['ratings.BayesianScoreAdapter']['category'] == 'model'
     run = {field['name']: field for field in inventory()['stages']['run']['fields']}
     assert run['model_serializer']['components'] == [
-        'training.JoblibSerializer', 'training.BayesianScoreSerializer']
+        'training.JoblibSerializer', 'training.BayesianScoreSerializer',
+        'graphs.TemporalGraphSerializer', 'neural.HeatmapCNNSerializer']
 
 
 def test_bayesian_ast_model_json_roundtrip_and_parameter_loader(tmp_path):

@@ -267,7 +267,8 @@ class BayesianRatingRun(RatingRun):
             (stage / "state.json").write_text(json.dumps(description, indent=2, allow_nan=False), encoding="utf-8")
             hashes = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in stage.iterdir()}
             (stage / "bayesian.json").write_text(json.dumps({"schema": 1, "files": hashes}, indent=2), encoding="utf-8")
-            stage.rename(target)
+            from ..experiments.store import _publish
+            _publish(stage, target)
         except Exception:
             # Only this newly-created private staging directory is removed.
             if stage.exists() and not stage.is_symlink() and stage.resolve().parent == target.parent.resolve():

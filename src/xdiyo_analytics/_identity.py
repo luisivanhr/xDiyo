@@ -30,3 +30,14 @@ class IdentityRegistry:
     def extend(self, values):
         for value in values:
             self.add(value)
+
+    def __getstate__(self):
+        # Serialize live referents, never weakref callbacks or address keys.
+        # Pickle memoization preserves aliases with factories/adapters in the
+        # same object graph, so reused fitted objects remain detectable.
+        values = [value for weak in list(self._weak.values()) if (value := weak()) is not None]
+        return values + list(self._strong.values())
+
+    def __setstate__(self, values):
+        self.__init__()
+        self.extend(values)
