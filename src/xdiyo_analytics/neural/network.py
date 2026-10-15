@@ -39,16 +39,21 @@ class HeatmapEncoder(nn.Module):
         MSE averages cells. KL sums cells of each unit-mass distribution, then
         both losses average observed maps. Inputs to the encoder are unchanged.
         """
+        return self._reconstruction_errors(z, maps, available, validate=True)
+
+    def _reconstruction_errors(self, z, maps, available, *, validate):
+        # Only native owned populations may skip validation. Keep normalization,
+        # operation order and device arithmetic identical for both paths.
         if self.decoder is None:
             return z.sum(dim=1)*0
         decoded = self.decoder(z).reshape_as(maps)
         if self.config.reconstruction.loss == 'kl':
             target = torch.where(available[:, :, None, None].bool(), maps, 0).flatten(2)
-            if not torch.isfinite(target).all() or (target < 0).any():
+            if validate and (not torch.isfinite(target).all() or (target < 0).any()):
                 raise ValueError('KL reconstruction needs finite nonnegative observed maps.')
             # Scale first so count grids cannot overflow their normalization sum.
             maximum = target.amax(dim=-1, keepdim=True)
-            if ((maximum.squeeze(-1) == 0) & available.bool()).any():
+            if validate and ((maximum.squeeze(-1) == 0) & available.bool()).any():
                 raise ValueError('KL reconstruction needs positive mass in every observed map.')
             target = target / torch.where(maximum > 0, maximum, 1)
             total = target.sum(dim=-1, keepdim=True)

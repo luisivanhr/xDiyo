@@ -169,28 +169,41 @@ class CNNBackend:
             values = values / maximum
             return values / values.sum()
         weights = np.stack((normalized(np.ones(len(y), dtype=bool)), normalized(observed)))
-        return maps, masks, numeric, y, weights
+        from .prepared import OwnedPopulation, population_binding
+        return OwnedPopulation((maps, masks, numeric, y, weights),
+            binding=population_binding(self.spec, self.inputs, self.device),
+            validate_kl=self.spec.encoder.reconstruction is not None and self.spec.encoder.reconstruction.loss == 'kl')
 
     def loss(self, population, backward=False):
         import torch
-        maps, masks, numeric, y, weights = population
-        primary_weights, reconstruction_weights = weights
+        from .prepared import OwnedPopulation, population_binding
+        owned = type(population) is OwnedPopulation
+        if owned:
+            if population.binding != population_binding(self.spec, self.inputs, self.device):
+                raise ValueError('Prepared CNN inputs no longer match configuration, preprocessing or device; initialize again.')
+            count = population.rows
+        else:
+            maps, masks, numeric, y, weights = population
+            count = len(y)
         # Accumulate detached float64 scalars on device in batch order. Reading
         # every batch as a Python float would synchronize CUDA repeatedly.
         primary = torch.zeros((), dtype=torch.float64, device=self.device)
         reconstruction = torch.zeros_like(primary)
-        for start in range(0, len(y), self.spec.batch_size):
+        for start in range(0, count, self.spec.batch_size):
             sl = slice(start, start+self.spec.batch_size)
-            m, a, n = [torch.as_tensor(v[sl], device=self.device) for v in (maps, masks, numeric)]
-            target = torch.as_tensor(y[sl], dtype=torch.long if self.classes is not None else torch.float32, device=self.device)
-            w = torch.as_tensor(primary_weights[sl], device=self.device)
+            batch = population.batch(sl) if owned else (maps[sl], masks[sl], numeric[sl], y[sl], weights[:, sl])
+            m, a, n = [torch.as_tensor(v, device=self.device) for v in batch[:3]]
+            target = torch.as_tensor(batch[3], dtype=torch.long if self.classes is not None else torch.float32, device=self.device)
+            w = torch.as_tensor(batch[4][0], device=self.device)
             logits, z = self.model(m, a, n)
             error = (logits-target).square().mean(dim=1) if self.classes is None else torch.nn.functional.cross_entropy(logits, target, reduction='none')
             loss = (error*w).sum()
             primary.add_(loss.detach())
             if self.spec.encoder.reconstruction is not None:
-                rw = torch.as_tensor(reconstruction_weights[sl], device=self.device)
-                aux = (self.model.encoder.reconstruction_errors(z, m, a)*rw).sum()
+                rw = torch.as_tensor(batch[4][1], device=self.device)
+                errors = (self.model.encoder._reconstruction_errors(z, m, a, validate=False)
+                          if owned and population.kl_validated else self.model.encoder.reconstruction_errors(z, m, a))
+                aux = (errors*rw).sum()
                 reconstruction.add_(aux.detach())
                 loss = loss + self.spec.encoder.reconstruction.weight*aux
             if backward:

@@ -4,6 +4,7 @@ import traceback
 
 import numpy as np
 import pandas as pd
+from .._ownership import isolated_frame
 
 
 def release_temporary_frames(function):
@@ -34,8 +35,8 @@ class GroupPlan:
     """
     def __init__(self, store, config, context, issue):
         self.store, self.config = store, config
-        self.metadata = context.metadata.copy(deep=True)
-        self.X = context.X.loc[:, list(config.fixture_features)].copy(deep=True)
+        self.metadata = isolated_frame(context.metadata)
+        self.X = isolated_frame(context.X.loc[:, list(config.fixture_features)])
         self.descriptors = tuple((time, positions.copy()) for time, positions
                                  in issue.groupby(issue, sort=True).indices.items())
 
