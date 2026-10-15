@@ -32,3 +32,6 @@ notebooks/outputs/
 docs/analytics/dtale_season_session.json
 docs/analytics/dtale_season.*.log
 docs/analytics/team_assets/collect_badges.py
+
+# Local audit scratch files, temporary Git indexes and private workbook extracts.
+/scratch/

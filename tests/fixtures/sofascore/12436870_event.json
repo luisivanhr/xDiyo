@@ -1,0 +1,106 @@
+{
+  "event": {
+    "attendance": 73297,
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "normaltime": 0,
+      "period1": 0,
+      "period2": 0
+    },
+    "awayTeam": {
+      "id": 43,
+      "name": "Fulham",
+      "slug": "fulham"
+    },
+    "changes": {
+      "changeTimestamp": 1723841539,
+      "changes": [
+        "status.code",
+        "status.description",
+        "status.type"
+      ]
+    },
+    "crowdsourcingDataDisplayEnabled": false,
+    "currentPeriodStartTimestamp": 1723838558,
+    "customId": "KsT",
+    "defaultOvertimeLength": 15,
+    "defaultPeriodCount": 2,
+    "defaultPeriodLength": 45,
+    "detailId": 1,
+    "eventState": {},
+    "feedLocked": true,
+    "finalResultOnly": false,
+    "hasEventPlayerHeatMap": true,
+    "hasEventPlayerStatistics": true,
+    "hasGlobalHighlights": false,
+    "hasXg": true,
+    "homeScore": {
+      "current": 1,
+      "display": 1,
+      "normaltime": 1,
+      "period1": 0,
+      "period2": 1
+    },
+    "homeTeam": {
+      "id": 35,
+      "name": "Manchester United",
+      "slug": "manchester-united"
+    },
+    "id": 12436870,
+    "isEditor": false,
+    "referee": {
+      "id": 74264,
+      "name": "Robert Jones",
+      "slug": "robert-jones"
+    },
+    "roundInfo": {
+      "round": 1
+    },
+    "season": {
+      "editor": false,
+      "id": 61627,
+      "name": "Premier League 24/25",
+      "year": "24/25"
+    },
+    "seasonStatisticsType": "overall",
+    "showTotoPromo": true,
+    "slug": "fulham-manchester-united",
+    "startTimestamp": 1723834800,
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1723838558,
+      "injuryTime1": 1,
+      "injuryTime2": 4
+    },
+    "tournament": {
+      "category": {
+        "id": 1,
+        "name": "England",
+        "slug": "england"
+      },
+      "competitionType": 1,
+      "id": 1,
+      "isGroup": false,
+      "isLive": false,
+      "name": "Premier League",
+      "priority": 703,
+      "slug": "premier-league",
+      "uniqueTournament": {
+        "id": 17,
+        "name": "Premier League",
+        "slug": "premier-league"
+      }
+    },
+    "venue": {
+      "id": 9,
+      "name": "Old Trafford",
+      "slug": "old-trafford"
+    },
+    "winnerCode": 1
+  }
+}

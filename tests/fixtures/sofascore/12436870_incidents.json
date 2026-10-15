@@ -1,0 +1,547 @@
+{
+  "away": {
+    "goalkeeperColor": {
+      "fancyNumber": "ffffff",
+      "number": "ffffff",
+      "outline": "d01e2a",
+      "primary": "d01e2a"
+    },
+    "playerColor": {
+      "fancyNumber": "222226",
+      "number": "000000",
+      "outline": "ffffff",
+      "primary": "ffffff"
+    }
+  },
+  "home": {
+    "goalkeeperColor": {
+      "fancyNumber": "ffffff",
+      "number": "ffffff",
+      "outline": "000000",
+      "primary": "000000"
+    },
+    "playerColor": {
+      "fancyNumber": "ffffff",
+      "number": "ffffff",
+      "outline": "ea0000",
+      "primary": "ea0000"
+    }
+  },
+  "incidents": [
+    {
+      "addedTime": 999,
+      "awayScore": 0,
+      "homeScore": 1,
+      "incidentType": "period",
+      "isLive": false,
+      "periodTimeSeconds": 2700,
+      "reversedPeriodTime": 1,
+      "reversedPeriodTimeSeconds": 0,
+      "text": "FT",
+      "time": 90,
+      "timeSeconds": 5400
+    },
+    {
+      "addedTime": 1,
+      "id": 122939213,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 365802,
+        "name": "Harrison Reed",
+        "position": "M",
+        "slug": "harrison-reed"
+      },
+      "playerOut": {
+        "id": 285949,
+        "name": "Andreas Pereira",
+        "position": "M",
+        "slug": "andreas-pereira"
+      },
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "addedTime": 1,
+      "id": 122939212,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 1013987,
+        "name": "Jay Stansfield",
+        "position": "M",
+        "slug": "jay-stansfield"
+      },
+      "playerOut": {
+        "id": 371222,
+        "name": "Sa\u0161a Luki\u0107",
+        "position": "M",
+        "slug": "sasa-lukic"
+      },
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "addedTime": 0,
+      "incidentType": "injuryTime",
+      "length": 4,
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "assist1": {
+        "id": 1135873,
+        "name": "Alejandro Garnacho",
+        "position": "F",
+        "slug": "alejandro-garnacho"
+      },
+      "awayScore": 0,
+      "footballPassingNetworkAction": [
+        {
+          "eventType": "pass",
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 41.5,
+            "y": 96.3
+          },
+          "player": {
+            "id": 859999,
+            "name": "Lisandro Mart\u00ednez",
+            "position": "D",
+            "slug": "lisandro-martinez"
+          },
+          "playerCoordinates": {
+            "x": 13.6,
+            "y": 84.8
+          },
+          "time": 87
+        },
+        {
+          "eventType": "ball-movement",
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 64.8,
+            "y": 52.7
+          },
+          "player": {
+            "id": 288205,
+            "name": "Bruno Fernandes",
+            "position": "M",
+            "slug": "bruno-fernandes"
+          },
+          "playerCoordinates": {
+            "x": 41.5,
+            "y": 96.3
+          },
+          "time": 87
+        },
+        {
+          "eventType": "pass",
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 64.8,
+            "y": 52.7
+          },
+          "player": {
+            "id": 288205,
+            "name": "Bruno Fernandes",
+            "position": "M",
+            "slug": "bruno-fernandes"
+          },
+          "playerCoordinates": {
+            "x": 56.2,
+            "y": 80.6
+          },
+          "time": 87
+        },
+        {
+          "eventType": "pass",
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 71.9,
+            "y": 26.5
+          },
+          "player": {
+            "id": 917007,
+            "name": "Joshua Zirkzee",
+            "position": "F",
+            "slug": "joshua-zirkzee"
+          },
+          "playerCoordinates": {
+            "x": 69.1,
+            "y": 42.8
+          },
+          "time": 87
+        },
+        {
+          "eventType": "pass",
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 88.1,
+            "y": 17
+          },
+          "player": {
+            "id": 122951,
+            "name": "Casemiro",
+            "position": "M",
+            "slug": "casemiro"
+          },
+          "playerCoordinates": {
+            "x": 80.2,
+            "y": 22.1
+          },
+          "time": 87
+        },
+        {
+          "eventType": "pass",
+          "isAssist": true,
+          "isHome": true,
+          "passEndCoordinates": {
+            "x": 91.2,
+            "y": 44.6
+          },
+          "player": {
+            "id": 1135873,
+            "name": "Alejandro Garnacho",
+            "position": "F",
+            "slug": "alejandro-garnacho"
+          },
+          "playerCoordinates": {
+            "x": 89.6,
+            "y": 15.4
+          },
+          "time": 87
+        },
+        {
+          "bodyPart": "left-foot",
+          "eventType": "goal",
+          "gkCoordinates": {
+            "x": 98.6,
+            "y": 47.1
+          },
+          "goalMouthCoordinates": {
+            "x": 32.8,
+            "y": 90.5
+          },
+          "goalMouthLocation": "low-left",
+          "goalShotCoordinates": {
+            "x": 100,
+            "y": 53.2
+          },
+          "goalType": "regular",
+          "goalkeeper": {
+            "id": 103335,
+            "name": "Bernd Leno",
+            "position": "G",
+            "slug": "bernd-leno"
+          },
+          "isHome": true,
+          "player": {
+            "id": 917007,
+            "name": "Joshua Zirkzee",
+            "position": "F",
+            "slug": "joshua-zirkzee"
+          },
+          "playerCoordinates": {
+            "x": 90.7,
+            "y": 43.9
+          },
+          "situation": "assisted",
+          "time": 87,
+          "xg": 0.072922594845295,
+          "xgot": 0.86077922582626
+        }
+      ],
+      "homeScore": 1,
+      "id": 185982125,
+      "incidentClass": "regular",
+      "incidentType": "goal",
+      "isHome": true,
+      "player": {
+        "id": 917007,
+        "name": "Joshua Zirkzee",
+        "position": "F",
+        "slug": "joshua-zirkzee"
+      },
+      "reversedPeriodTime": 4,
+      "time": 87
+    },
+    {
+      "id": 122939190,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 879346,
+        "name": "Scott McTominay",
+        "position": "M",
+        "slug": "scott-mctominay"
+      },
+      "playerOut": {
+        "id": 1142175,
+        "name": "Kobbie Mainoo",
+        "position": "M",
+        "slug": "kobbie-mainoo"
+      },
+      "reversedPeriodTime": 7,
+      "time": 84
+    },
+    {
+      "id": 122939188,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 803031,
+        "name": "Matthijs de Ligt",
+        "position": "D",
+        "slug": "matthijs-de-ligt"
+      },
+      "playerOut": {
+        "id": 847030,
+        "name": "Noussair Mazraoui",
+        "position": "D",
+        "slug": "noussair-mazraoui"
+      },
+      "reversedPeriodTime": 10,
+      "time": 81
+    },
+    {
+      "id": 122939187,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 30144,
+        "name": "Jonny Evans",
+        "position": "D",
+        "slug": "jonny-evans"
+      },
+      "playerOut": {
+        "id": 149380,
+        "name": "Harry Maguire",
+        "position": "D",
+        "slug": "harry-maguire"
+      },
+      "reversedPeriodTime": 10,
+      "time": 81
+    },
+    {
+      "id": 122939162,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 192442,
+        "name": "Ra\u00fal Jim\u00e9nez",
+        "position": "F",
+        "slug": "raul-jimenez"
+      },
+      "playerOut": {
+        "id": 1015256,
+        "name": "Rodrigo Muniz",
+        "position": "F",
+        "slug": "rodrigo-muniz"
+      },
+      "reversedPeriodTime": 13,
+      "time": 78
+    },
+    {
+      "id": 122939163,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 355528,
+        "name": "Harry Wilson",
+        "position": "M",
+        "slug": "harry-wilson"
+      },
+      "playerOut": {
+        "id": 286165,
+        "name": "Adama Traor\u00e9",
+        "position": "F",
+        "slug": "adama-traore"
+      },
+      "reversedPeriodTime": 13,
+      "time": 78
+    },
+    {
+      "id": 121482563,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 82566,
+        "name": "Tom Cairney",
+        "position": "M",
+        "slug": "tom-cairney"
+      },
+      "playerName": "Tom Cairney",
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 18,
+      "time": 73
+    },
+    {
+      "id": 121482559,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 285949,
+        "name": "Andreas Pereira",
+        "position": "M",
+        "slug": "andreas-pereira"
+      },
+      "playerName": "Andreas Pereira",
+      "reason": "Argument",
+      "rescinded": false,
+      "reversedPeriodTime": 21,
+      "time": 70
+    },
+    {
+      "id": 122939110,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 82566,
+        "name": "Tom Cairney",
+        "position": "M",
+        "slug": "tom-cairney"
+      },
+      "playerOut": {
+        "id": 867445,
+        "name": "Emile Smith Rowe",
+        "position": "M",
+        "slug": "emile-smith-rowe"
+      },
+      "reversedPeriodTime": 27,
+      "time": 64
+    },
+    {
+      "id": 122939094,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 1135873,
+        "name": "Alejandro Garnacho",
+        "position": "F",
+        "slug": "alejandro-garnacho"
+      },
+      "playerOut": {
+        "id": 971037,
+        "name": "Amad Diallo",
+        "position": "M",
+        "slug": "diallo-amad"
+      },
+      "reversedPeriodTime": 30,
+      "time": 61
+    },
+    {
+      "id": 122939095,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 917007,
+        "name": "Joshua Zirkzee",
+        "position": "F",
+        "slug": "joshua-zirkzee"
+      },
+      "playerOut": {
+        "id": 836694,
+        "name": "Mason Mount",
+        "position": "M",
+        "slug": "mason-mount"
+      },
+      "reversedPeriodTime": 30,
+      "time": 61
+    },
+    {
+      "addedTime": 999,
+      "awayScore": 0,
+      "homeScore": 0,
+      "incidentType": "period",
+      "isLive": false,
+      "periodTimeSeconds": 2700,
+      "reversedPeriodTime": 1,
+      "reversedPeriodTimeSeconds": 0,
+      "text": "HT",
+      "time": 45,
+      "timeSeconds": 2700
+    },
+    {
+      "addedTime": 0,
+      "incidentType": "injuryTime",
+      "length": 1,
+      "reversedPeriodTime": 1,
+      "time": 45
+    },
+    {
+      "id": 121482410,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": true,
+      "player": {
+        "id": 149380,
+        "name": "Harry Maguire",
+        "position": "D",
+        "slug": "harry-maguire"
+      },
+      "playerName": "Harry Maguire",
+      "reason": "Simulation",
+      "rescinded": false,
+      "reversedPeriodTime": 6,
+      "time": 40
+    },
+    {
+      "id": 121482355,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 861972,
+        "name": "Calvin Bassey",
+        "position": "D",
+        "slug": "calvin-bassey"
+      },
+      "playerName": "Calvin Bassey",
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 21,
+      "time": 25
+    },
+    {
+      "id": 121482305,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": true,
+      "player": {
+        "id": 836694,
+        "name": "Mason Mount",
+        "position": "M",
+        "slug": "mason-mount"
+      },
+      "playerName": "Mason Mount",
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 28,
+      "time": 18
+    }
+  ]
+}

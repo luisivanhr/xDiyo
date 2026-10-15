@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "xDiyo Network Capture",
+  "version": "0.4.1",
+  "description": "Discover football seasons and collect match data through this Sofascore tab.",
+  "devtools_page": "devtools.html",
+  "permissions": ["nativeMessaging", "scripting"],
+  "host_permissions": ["https://www.sofascore.com/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'none'"
+  }
+}

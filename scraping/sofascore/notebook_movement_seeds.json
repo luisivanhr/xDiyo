@@ -1,0 +1,92 @@
+{
+  "slug_seeds": [
+    {
+      "league": "Serie_A",
+      "start_year": 2015,
+      "end_year": 2016,
+      "movement": "promoted",
+      "slug": "carpi",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_A",
+      "start_year": 2015,
+      "end_year": 2016,
+      "movement": "promoted",
+      "slug": "frosinone",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_A",
+      "start_year": 2015,
+      "end_year": 2016,
+      "movement": "promoted",
+      "slug": "bologna",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "promoted",
+      "slug": "trapani",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "promoted",
+      "slug": "pisa",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "promoted",
+      "slug": "juve-stabia",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "promoted",
+      "slug": "pordenone",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "promoted",
+      "slug": "virtus-entella",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "relegated",
+      "slug": "empoli",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "relegated",
+      "slug": "frosinone",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    },
+    {
+      "league": "Serie_B",
+      "start_year": 2019,
+      "end_year": 2020,
+      "movement": "relegated",
+      "slug": "chievoverona",
+      "evidence": "Existing promotions_demotions.ipynb code seed; pinned to original earliest input season during migration"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "Bundesliga": {"competition_id": 35, "system": "Germany", "tier": 1},
+  "Bundesliga_2": {"competition_id": 44, "system": "Germany", "tier": 2},
+  "Championship": {"competition_id": 18, "system": "England", "tier": 2},
+  "Premier_League": {"competition_id": 17, "system": "England", "tier": 1},
+  "La_Liga": {"competition_id": 8, "system": "Spain", "tier": 1},
+  "La_Liga_2": {"competition_id": 54, "system": "Spain", "tier": 2},
+  "Ligue_1": {"competition_id": 34, "system": "France", "tier": 1},
+  "Ligue_2": {"competition_id": 182, "system": "France", "tier": 2},
+  "Serie_A": {"competition_id": 23, "system": "Italy", "tier": 1},
+  "Serie_B": {"competition_id": 53, "system": "Italy", "tier": 2},
+  "Eredivisie": {"competition_id": 37, "system": "Netherlands", "tier": 1},
+  "Premiership": {"competition_id": 36, "system": "Scotland", "tier": 1},
+  "Pro_League": {"competition_id": 38, "system": "Belgium", "tier": 1}
+}

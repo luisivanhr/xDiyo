@@ -1,0 +1,297 @@
+{
+  "away": {
+    "goalkeeperColor": {
+      "fancyNumber": "222226",
+      "number": "000000",
+      "outline": "ffff00",
+      "primary": "ffff00"
+    },
+    "playerColor": {
+      "fancyNumber": "222226",
+      "number": "000066",
+      "outline": "ffffff",
+      "primary": "ffffff"
+    }
+  },
+  "home": {
+    "goalkeeperColor": {
+      "fancyNumber": "222226",
+      "number": "ffffff",
+      "outline": "66ff99",
+      "primary": "66ff99"
+    },
+    "playerColor": {
+      "fancyNumber": "ffffff",
+      "number": "ffffff",
+      "outline": "ff0000",
+      "primary": "ff0000"
+    }
+  },
+  "incidents": [
+    {
+      "addedTime": 999,
+      "awayScore": 0,
+      "homeScore": 1,
+      "incidentType": "period",
+      "isLive": false,
+      "periodTimeSeconds": 2700,
+      "reversedPeriodTime": 1,
+      "reversedPeriodTimeSeconds": 0,
+      "text": "FT",
+      "time": 90,
+      "timeSeconds": 5400
+    },
+    {
+      "addedTime": 1,
+      "id": 118334631,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 198028,
+        "name": "Dele Alli",
+        "position": "M",
+        "slug": "dele-alli"
+      },
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "addedTime": 0,
+      "incidentType": "injuryTime",
+      "length": 4,
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "id": 118334630,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": true,
+      "player": {
+        "id": 28367,
+        "name": "Juan Mata",
+        "position": "M",
+        "slug": "juan-mata"
+      },
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 1,
+      "time": 90
+    },
+    {
+      "id": 118321046,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 11820,
+        "name": "Antonio Valencia",
+        "position": "D",
+        "slug": "antonio-valencia"
+      },
+      "playerOut": {
+        "id": 19352,
+        "name": "Matteo Darmian",
+        "position": "D",
+        "slug": "matteo-darmian"
+      },
+      "reversedPeriodTime": 11,
+      "time": 80
+    },
+    {
+      "id": 118321044,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 198028,
+        "name": "Dele Alli",
+        "position": "M",
+        "slug": "dele-alli"
+      },
+      "playerOut": {
+        "id": 146101,
+        "name": "Eric Dier",
+        "position": "D",
+        "slug": "eric-dier"
+      },
+      "reversedPeriodTime": 14,
+      "time": 77
+    },
+    {
+      "id": 118334627,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 146101,
+        "name": "Eric Dier",
+        "position": "D",
+        "slug": "eric-dier"
+      },
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 15,
+      "time": 76
+    },
+    {
+      "id": 118334626,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": true,
+      "player": {
+        "id": 326,
+        "name": "Bastian Schweinsteiger",
+        "position": "M",
+        "slug": "bastian-schweinsteiger"
+      },
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 22,
+      "time": 69
+    },
+    {
+      "id": 118321040,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 122702,
+        "name": "Erik Lamela",
+        "position": "M",
+        "slug": "erik-lamela"
+      },
+      "playerOut": {
+        "id": 9865,
+        "name": "Mousa Demb\u00e9l\u00e9",
+        "position": "M",
+        "slug": "mousa-dembele"
+      },
+      "reversedPeriodTime": 23,
+      "time": 68
+    },
+    {
+      "id": 118321039,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 82474,
+        "name": "Ander Herrera",
+        "position": "M",
+        "slug": "ander-herrera"
+      },
+      "playerOut": {
+        "id": 138833,
+        "name": "Memphis Depay",
+        "position": "F",
+        "slug": "memphis-depay"
+      },
+      "reversedPeriodTime": 23,
+      "time": 68
+    },
+    {
+      "id": 118321038,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": true,
+      "playerIn": {
+        "id": 326,
+        "name": "Bastian Schweinsteiger",
+        "position": "M",
+        "slug": "bastian-schweinsteiger"
+      },
+      "playerOut": {
+        "id": 938,
+        "name": "Michael Carrick",
+        "position": "M",
+        "slug": "michael-carrick"
+      },
+      "reversedPeriodTime": 31,
+      "time": 60
+    },
+    {
+      "id": 118321031,
+      "incidentClass": "regular",
+      "incidentType": "substitution",
+      "injury": false,
+      "isHome": false,
+      "playerIn": {
+        "id": 44567,
+        "name": "Ryan Mason",
+        "position": "M",
+        "slug": "ryan-mason"
+      },
+      "playerOut": {
+        "id": 368120,
+        "name": "Nabil Bentaleb",
+        "position": "M",
+        "slug": "nabil-bentaleb"
+      },
+      "reversedPeriodTime": 38,
+      "time": 53
+    },
+    {
+      "addedTime": 999,
+      "awayScore": 0,
+      "homeScore": 1,
+      "incidentType": "period",
+      "isLive": false,
+      "periodTimeSeconds": 2700,
+      "reversedPeriodTime": 1,
+      "reversedPeriodTimeSeconds": 0,
+      "text": "HT",
+      "time": 45,
+      "timeSeconds": 2700
+    },
+    {
+      "addedTime": 0,
+      "incidentType": "injuryTime",
+      "length": 1,
+      "reversedPeriodTime": 1,
+      "time": 45
+    },
+    {
+      "id": 118334611,
+      "incidentClass": "yellow",
+      "incidentType": "card",
+      "isHome": false,
+      "player": {
+        "id": 16921,
+        "name": "Jan Vertonghen",
+        "position": "D",
+        "slug": "jan-vertonghen"
+      },
+      "reason": "Foul",
+      "rescinded": false,
+      "reversedPeriodTime": 19,
+      "time": 27
+    },
+    {
+      "awayScore": 0,
+      "footballPassingNetworkAction": [],
+      "from": "owngoal",
+      "homeScore": 1,
+      "id": 118548106,
+      "incidentClass": "ownGoal",
+      "incidentType": "goal",
+      "isHome": true,
+      "player": {
+        "id": 44614,
+        "name": "Kyle Walker",
+        "position": "D",
+        "slug": "kyle-walker"
+      },
+      "reversedPeriodTime": 24,
+      "time": 22
+    }
+  ]
+}

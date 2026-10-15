@@ -1,0 +1,1349 @@
+{
+  "away": {
+    "formation": "4-2-3-1",
+    "goalkeeperColor": {
+      "fancyNumber": "222226",
+      "number": "000000",
+      "outline": "ffff00",
+      "primary": "ffff00"
+    },
+    "playerColor": {
+      "fancyNumber": "222226",
+      "number": "000066",
+      "outline": "ffffff",
+      "primary": "ffffff"
+    },
+    "players": [
+      {
+        "jerseyNumber": "13",
+        "player": {
+          "id": 16944,
+          "name": "Michel Vorm",
+          "position": "G",
+          "slug": "michel-vorm"
+        },
+        "position": "G",
+        "shirtNumber": 13,
+        "statistics": {
+          "accurateLongBalls": 8,
+          "accurateOwnHalfPasses": 42,
+          "accuratePass": 42,
+          "ballRecovery": 8,
+          "goodHighClaim": 1,
+          "minutesPlayed": 90,
+          "rating": 6.6,
+          "savedShotsFromInsideTheBox": 1,
+          "saves": 1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 11,
+          "totalOppositionHalfPasses": 1,
+          "totalOwnHalfPasses": 44,
+          "totalPass": 45,
+          "totalShots": 0,
+          "touches": 51
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "2",
+        "player": {
+          "id": 44614,
+          "name": "Kyle Walker",
+          "position": "D",
+          "slug": "kyle-walker"
+        },
+        "position": "D",
+        "shirtNumber": 2,
+        "statistics": {
+          "accurateLongBalls": 2,
+          "accurateOppositionHalfPasses": 13,
+          "accurateOwnHalfPasses": 13,
+          "accuratePass": 26,
+          "aerialWon": 1,
+          "ballRecovery": 7,
+          "duelLost": 1,
+          "duelWon": 11,
+          "interceptionWon": 5,
+          "minutesPlayed": 90,
+          "onTargetScoringAttempt": 1,
+          "outfielderBlock": 1,
+          "ownGoals": 1,
+          "rating": 7.7,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 4,
+          "totalContest": 1,
+          "totalLongBalls": 11,
+          "totalOppositionHalfPasses": 18,
+          "totalOwnHalfPasses": 21,
+          "totalPass": 39,
+          "totalShots": 1,
+          "totalTackle": 8,
+          "touches": 80,
+          "unsuccessfulTouch": 2,
+          "wasFouled": 2
+        },
+        "substitute": false,
+        "teamId": 6
+      },
+      {
+        "jerseyNumber": "4",
+        "player": {
+          "id": 44575,
+          "name": "Toby Alderweireld",
+          "position": "D",
+          "slug": "toby-alderweireld"
+        },
+        "position": "D",
+        "shirtNumber": 4,
+        "statistics": {
+          "accurateLongBalls": 8,
+          "accurateOppositionHalfPasses": 11,
+          "accurateOwnHalfPasses": 47,
+          "accuratePass": 58,
+          "aerialLost": 1,
+          "aerialWon": 1,
+          "ballRecovery": 3,
+          "blockedScoringAttempt": 1,
+          "challengeLost": 1,
+          "duelLost": 4,
+          "duelWon": 4,
+          "fouls": 2,
+          "interceptionWon": 6,
+          "keyPass": 1,
+          "minutesPlayed": 90,
+          "onTargetScoringAttempt": 1,
+          "rating": 7.7,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 7,
+          "totalContest": 2,
+          "totalCross": 1,
+          "totalLongBalls": 19,
+          "totalOppositionHalfPasses": 23,
+          "totalOwnHalfPasses": 48,
+          "totalPass": 70,
+          "totalShots": 2,
+          "totalTackle": 1,
+          "touches": 90,
+          "wonContest": 2
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "5",
+        "player": {
+          "id": 16921,
+          "name": "Jan Vertonghen",
+          "position": "D",
+          "slug": "jan-vertonghen"
+        },
+        "position": "D",
+        "shirtNumber": 5,
+        "statistics": {
+          "accurateLongBalls": 4,
+          "accurateOppositionHalfPasses": 14,
+          "accurateOwnHalfPasses": 42,
+          "accuratePass": 56,
+          "aerialLost": 1,
+          "aerialWon": 1,
+          "ballRecovery": 5,
+          "duelLost": 2,
+          "duelWon": 2,
+          "fouls": 1,
+          "interceptionWon": 3,
+          "minutesPlayed": 90,
+          "outfielderBlock": 1,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 2,
+          "totalLongBalls": 5,
+          "totalOppositionHalfPasses": 18,
+          "totalOwnHalfPasses": 42,
+          "totalPass": 60,
+          "totalShots": 0,
+          "totalTackle": 1,
+          "touches": 68,
+          "unsuccessfulTouch": 1
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "33",
+        "player": {
+          "id": 94758,
+          "name": "Ben Davies",
+          "position": "D",
+          "slug": "ben-davies"
+        },
+        "position": "D",
+        "shirtNumber": 33,
+        "statistics": {
+          "accurateLongBalls": 2,
+          "accurateOppositionHalfPasses": 9,
+          "accurateOwnHalfPasses": 11,
+          "accuratePass": 20,
+          "aerialWon": 2,
+          "ballRecovery": 3,
+          "duelLost": 1,
+          "duelWon": 3,
+          "fouls": 1,
+          "interceptionWon": 3,
+          "minutesPlayed": 90,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 6,
+          "totalContest": 1,
+          "totalCross": 3,
+          "totalLongBalls": 4,
+          "totalOppositionHalfPasses": 17,
+          "totalOwnHalfPasses": 13,
+          "totalPass": 27,
+          "totalShots": 0,
+          "touches": 49,
+          "wonContest": 1
+        },
+        "substitute": false,
+        "teamId": 33
+      },
+      {
+        "jerseyNumber": "15",
+        "player": {
+          "id": 146101,
+          "name": "Eric Dier",
+          "position": "D",
+          "slug": "eric-dier"
+        },
+        "position": "M",
+        "shirtNumber": 15,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 9,
+          "accurateOwnHalfPasses": 25,
+          "accuratePass": 34,
+          "aerialLost": 2,
+          "ballRecovery": 3,
+          "challengeLost": 1,
+          "duelLost": 4,
+          "duelWon": 4,
+          "fouls": 1,
+          "interceptionWon": 2,
+          "minutesPlayed": 77,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 6,
+          "totalOppositionHalfPasses": 13,
+          "totalOwnHalfPasses": 30,
+          "totalPass": 43,
+          "totalShots": 0,
+          "totalTackle": 4,
+          "touches": 49
+        },
+        "substitute": false,
+        "teamId": 1653
+      },
+      {
+        "jerseyNumber": "6",
+        "player": {
+          "id": 368120,
+          "name": "Nabil Bentaleb",
+          "position": "M",
+          "slug": "nabil-bentaleb"
+        },
+        "position": "M",
+        "shirtNumber": 6,
+        "statistics": {
+          "accurateOppositionHalfPasses": 8,
+          "accurateOwnHalfPasses": 22,
+          "accuratePass": 30,
+          "aerialWon": 1,
+          "ballRecovery": 5,
+          "dispossessed": 1,
+          "duelLost": 1,
+          "duelWon": 1,
+          "errorLeadToAShot": 1,
+          "interceptionWon": 1,
+          "minutesPlayed": 53,
+          "outfielderBlock": 2,
+          "rating": 6.2,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 2,
+          "totalOppositionHalfPasses": 14,
+          "totalOwnHalfPasses": 24,
+          "totalPass": 38,
+          "totalShots": 0,
+          "touches": 44,
+          "unsuccessfulTouch": 2
+        },
+        "substitute": false,
+        "teamId": 1643
+      },
+      {
+        "jerseyNumber": "19",
+        "player": {
+          "id": 9865,
+          "name": "Mousa Demb\u00e9l\u00e9",
+          "position": "M",
+          "slug": "mousa-dembele"
+        },
+        "position": "M",
+        "shirtNumber": 19,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 6,
+          "accurateOwnHalfPasses": 25,
+          "accuratePass": 31,
+          "aerialLost": 2,
+          "aerialWon": 2,
+          "ballRecovery": 10,
+          "dispossessed": 5,
+          "duelLost": 10,
+          "duelWon": 8,
+          "fouls": 3,
+          "interceptionWon": 1,
+          "minutesPlayed": 68,
+          "rating": 6.5,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 1,
+          "totalCross": 1,
+          "totalLongBalls": 2,
+          "totalOffside": 1,
+          "totalOppositionHalfPasses": 9,
+          "totalOwnHalfPasses": 26,
+          "totalPass": 34,
+          "totalShots": 0,
+          "totalTackle": 5,
+          "touches": 49,
+          "wasFouled": 1
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "23",
+        "player": {
+          "id": 105734,
+          "name": "Christian Eriksen",
+          "position": "M",
+          "slug": "christian-eriksen"
+        },
+        "position": "M",
+        "shirtNumber": 23,
+        "statistics": {
+          "accurateCross": 2,
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 23,
+          "accurateOwnHalfPasses": 9,
+          "accuratePass": 30,
+          "ballRecovery": 7,
+          "bigChanceMissed": 1,
+          "dispossessed": 2,
+          "duelLost": 4,
+          "duelWon": 5,
+          "interceptionWon": 1,
+          "keyPass": 4,
+          "minutesPlayed": 90,
+          "onTargetScoringAttempt": 2,
+          "rating": 7.2,
+          "shotOffTarget": 1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalContest": 2,
+          "totalCross": 5,
+          "totalLongBalls": 5,
+          "totalOppositionHalfPasses": 36,
+          "totalOwnHalfPasses": 12,
+          "totalPass": 43,
+          "totalShots": 3,
+          "totalTackle": 2,
+          "touches": 66,
+          "unsuccessfulTouch": 2,
+          "wasFouled": 3
+        },
+        "substitute": false,
+        "teamId": 2524
+      },
+      {
+        "jerseyNumber": "22",
+        "player": {
+          "id": 32492,
+          "name": "Nacer Chadli",
+          "position": "M",
+          "slug": "nacer-chadli"
+        },
+        "position": "M",
+        "shirtNumber": 22,
+        "statistics": {
+          "accurateOppositionHalfPasses": 9,
+          "accurateOwnHalfPasses": 11,
+          "accuratePass": 20,
+          "ballRecovery": 6,
+          "dispossessed": 1,
+          "duelLost": 4,
+          "duelWon": 2,
+          "fouls": 2,
+          "interceptionWon": 2,
+          "minutesPlayed": 90,
+          "rating": 6.5,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalContest": 1,
+          "totalLongBalls": 1,
+          "totalOffside": 1,
+          "totalOppositionHalfPasses": 13,
+          "totalOwnHalfPasses": 13,
+          "totalPass": 26,
+          "totalShots": 0,
+          "totalTackle": 1,
+          "touches": 36,
+          "unsuccessfulTouch": 1,
+          "wasFouled": 1
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "10",
+        "player": {
+          "id": 108579,
+          "name": "Harry Kane",
+          "position": "F",
+          "slug": "harry-kane"
+        },
+        "position": "F",
+        "shirtNumber": 10,
+        "statistics": {
+          "accurateOppositionHalfPasses": 16,
+          "accurateOwnHalfPasses": 3,
+          "accuratePass": 19,
+          "aerialLost": 1,
+          "aerialWon": 2,
+          "ballRecovery": 2,
+          "bigChanceCreated": 1,
+          "blockedScoringAttempt": 2,
+          "dispossessed": 2,
+          "duelLost": 7,
+          "duelWon": 7,
+          "fouls": 1,
+          "keyPass": 1,
+          "minutesPlayed": 90,
+          "rating": 7.3,
+          "shotOffTarget": 1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalContest": 6,
+          "totalLongBalls": 1,
+          "totalOppositionHalfPasses": 26,
+          "totalOwnHalfPasses": 3,
+          "totalPass": 29,
+          "totalShots": 3,
+          "totalTackle": 1,
+          "touches": 45,
+          "wasFouled": 1,
+          "wonContest": 3
+        },
+        "substitute": false,
+        "teamId": 2672
+      },
+      {
+        "jerseyNumber": "8",
+        "player": {
+          "id": 44567,
+          "name": "Ryan Mason",
+          "position": "M",
+          "slug": "ryan-mason"
+        },
+        "position": "M",
+        "shirtNumber": 8,
+        "statistics": {
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 12,
+          "accurateOwnHalfPasses": 5,
+          "accuratePass": 17,
+          "aerialWon": 1,
+          "ballRecovery": 4,
+          "duelLost": 1,
+          "duelWon": 4,
+          "minutesPlayed": 37,
+          "rating": 6.7,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalContest": 1,
+          "totalCross": 1,
+          "totalLongBalls": 5,
+          "totalOppositionHalfPasses": 15,
+          "totalOwnHalfPasses": 5,
+          "totalPass": 19,
+          "totalShots": 0,
+          "totalTackle": 1,
+          "touches": 25,
+          "unsuccessfulTouch": 1,
+          "wasFouled": 2
+        },
+        "substitute": true,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "11",
+        "player": {
+          "id": 122702,
+          "name": "Erik Lamela",
+          "position": "M",
+          "slug": "erik-lamela"
+        },
+        "position": "M",
+        "shirtNumber": 11,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 3,
+          "accurateOwnHalfPasses": 2,
+          "accuratePass": 5,
+          "ballRecovery": 1,
+          "dispossessed": 2,
+          "duelLost": 2,
+          "duelWon": 3,
+          "interceptionWon": 1,
+          "keyPass": 1,
+          "minutesPlayed": 22,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalCross": 1,
+          "totalLongBalls": 1,
+          "totalOppositionHalfPasses": 7,
+          "totalOwnHalfPasses": 3,
+          "totalPass": 9,
+          "totalShots": 0,
+          "totalTackle": 2,
+          "touches": 16,
+          "wasFouled": 1
+        },
+        "substitute": true,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "20",
+        "player": {
+          "id": 198028,
+          "name": "Dele Alli",
+          "position": "M",
+          "slug": "dele-alli"
+        },
+        "position": "M",
+        "shirtNumber": 20,
+        "statistics": {
+          "accurateOppositionHalfPasses": 2,
+          "accurateOwnHalfPasses": 1,
+          "accuratePass": 3,
+          "aerialLost": 1,
+          "ballRecovery": 2,
+          "duelLost": 2,
+          "duelWon": 1,
+          "fouls": 1,
+          "interceptionWon": 4,
+          "minutesPlayed": 13,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 1,
+          "totalOppositionHalfPasses": 4,
+          "totalOwnHalfPasses": 1,
+          "totalPass": 5,
+          "totalShots": 0,
+          "touches": 11,
+          "wasFouled": 1
+        },
+        "substitute": true,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "1",
+        "player": {
+          "id": 9048,
+          "name": "Hugo Lloris",
+          "position": "G",
+          "slug": "hugo-lloris"
+        },
+        "position": "G",
+        "shirtNumber": 1,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 274650
+      },
+      {
+        "jerseyNumber": "16",
+        "player": {
+          "id": 69256,
+          "name": "Kieran Trippier",
+          "position": "D",
+          "slug": "kieran-trippier"
+        },
+        "position": "D",
+        "shirtNumber": 16,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 3
+      },
+      {
+        "jerseyNumber": "27",
+        "player": {
+          "id": 141203,
+          "name": "Kevin Wimmer",
+          "position": "D",
+          "slug": "kevin-wimmer"
+        },
+        "position": "D",
+        "shirtNumber": 27,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 2404
+      },
+      {
+        "jerseyNumber": "28",
+        "player": {
+          "id": 801460,
+          "name": "Tom Carroll",
+          "position": "M",
+          "slug": "carroll-tom"
+        },
+        "position": "M",
+        "shirtNumber": 28,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 241802
+      }
+    ],
+    "supportStaff": []
+  },
+  "confirmed": true,
+  "home": {
+    "formation": "4-2-3-1",
+    "goalkeeperColor": {
+      "fancyNumber": "222226",
+      "number": "ffffff",
+      "outline": "66ff99",
+      "primary": "66ff99"
+    },
+    "playerColor": {
+      "fancyNumber": "ffffff",
+      "number": "ffffff",
+      "outline": "ff0000",
+      "primary": "ff0000"
+    },
+    "players": [
+      {
+        "jerseyNumber": "20",
+        "player": {
+          "id": 25566,
+          "name": "Sergio Romero",
+          "position": "G",
+          "slug": "sergio-romero"
+        },
+        "position": "G",
+        "shirtNumber": 20,
+        "statistics": {
+          "accurateKeeperSweeper": 2,
+          "accurateLongBalls": 8,
+          "accurateOppositionHalfPasses": 2,
+          "accurateOwnHalfPasses": 17,
+          "accuratePass": 19,
+          "ballRecovery": 11,
+          "minutesPlayed": 90,
+          "rating": 7.4,
+          "savedShotsFromInsideTheBox": 3,
+          "saves": 4,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 2,
+          "totalKeeperSweeper": 2,
+          "totalLongBalls": 24,
+          "totalOppositionHalfPasses": 14,
+          "totalOwnHalfPasses": 22,
+          "totalPass": 36,
+          "totalShots": 0,
+          "touches": 48
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "36",
+        "player": {
+          "id": 19352,
+          "name": "Matteo Darmian",
+          "position": "D",
+          "slug": "matteo-darmian"
+        },
+        "position": "D",
+        "shirtNumber": 36,
+        "statistics": {
+          "accurateCross": 1,
+          "accurateLongBalls": 2,
+          "accurateOppositionHalfPasses": 19,
+          "accurateOwnHalfPasses": 13,
+          "accuratePass": 31,
+          "ballRecovery": 5,
+          "dispossessed": 1,
+          "duelLost": 1,
+          "duelWon": 4,
+          "keyPass": 1,
+          "minutesPlayed": 81,
+          "rating": 7.2,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 5,
+          "totalCross": 2,
+          "totalLongBalls": 5,
+          "totalOppositionHalfPasses": 25,
+          "totalOwnHalfPasses": 13,
+          "totalPass": 36,
+          "totalShots": 0,
+          "totalTackle": 3,
+          "touches": 58,
+          "wasFouled": 1
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "12",
+        "player": {
+          "id": 47741,
+          "name": "Chris Smalling",
+          "position": "D",
+          "slug": "chris-smalling"
+        },
+        "position": "D",
+        "shirtNumber": 12,
+        "statistics": {
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 12,
+          "accurateOwnHalfPasses": 34,
+          "accuratePass": 46,
+          "ballRecovery": 10,
+          "duelWon": 5,
+          "interceptionWon": 3,
+          "minutesPlayed": 90,
+          "outfielderBlock": 1,
+          "rating": 7.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 7,
+          "totalLongBalls": 11,
+          "totalOppositionHalfPasses": 20,
+          "totalOwnHalfPasses": 35,
+          "totalPass": 55,
+          "totalShots": 0,
+          "totalTackle": 5,
+          "touches": 72
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "17",
+        "player": {
+          "id": 44864,
+          "name": "Daley Blind",
+          "position": "D",
+          "slug": "daley-blind"
+        },
+        "position": "D",
+        "shirtNumber": 17,
+        "statistics": {
+          "accurateLongBalls": 4,
+          "accurateOppositionHalfPasses": 17,
+          "accurateOwnHalfPasses": 31,
+          "accuratePass": 48,
+          "aerialLost": 1,
+          "ballRecovery": 5,
+          "challengeLost": 2,
+          "dispossessed": 1,
+          "duelLost": 6,
+          "duelWon": 3,
+          "fouls": 1,
+          "interceptionWon": 2,
+          "minutesPlayed": 90,
+          "outfielderBlock": 1,
+          "rating": 6.9,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 3,
+          "totalContest": 1,
+          "totalLongBalls": 8,
+          "totalOppositionHalfPasses": 22,
+          "totalOwnHalfPasses": 34,
+          "totalPass": 56,
+          "totalShots": 0,
+          "totalTackle": 3,
+          "touches": 69
+        },
+        "substitute": false,
+        "teamId": 2953
+      },
+      {
+        "jerseyNumber": "23",
+        "player": {
+          "id": 190839,
+          "name": "Luke Shaw",
+          "position": "D",
+          "slug": "luke-shaw"
+        },
+        "position": "D",
+        "shirtNumber": 23,
+        "statistics": {
+          "accurateLongBalls": 2,
+          "accurateOppositionHalfPasses": 24,
+          "accurateOwnHalfPasses": 15,
+          "accuratePass": 39,
+          "aerialLost": 4,
+          "aerialWon": 5,
+          "ballRecovery": 8,
+          "challengeLost": 1,
+          "dispossessed": 3,
+          "duelLost": 10,
+          "duelWon": 8,
+          "fouls": 1,
+          "minutesPlayed": 90,
+          "rating": 6.6,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 5,
+          "totalContest": 1,
+          "totalLongBalls": 4,
+          "totalOppositionHalfPasses": 30,
+          "totalOwnHalfPasses": 17,
+          "totalPass": 47,
+          "totalShots": 0,
+          "totalTackle": 2,
+          "touches": 74,
+          "unsuccessfulTouch": 1,
+          "wasFouled": 1
+        },
+        "substitute": false,
+        "teamId": 35
+      },
+      {
+        "jerseyNumber": "16",
+        "player": {
+          "id": 938,
+          "name": "Michael Carrick",
+          "position": "M",
+          "slug": "michael-carrick"
+        },
+        "position": "M",
+        "shirtNumber": 16,
+        "statistics": {
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 12,
+          "accurateOwnHalfPasses": 18,
+          "accuratePass": 30,
+          "ballRecovery": 3,
+          "dispossessed": 1,
+          "duelLost": 1,
+          "duelWon": 3,
+          "interceptionWon": 4,
+          "keyPass": 1,
+          "minutesPlayed": 60,
+          "rating": 7.1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 3,
+          "totalOppositionHalfPasses": 13,
+          "totalOwnHalfPasses": 18,
+          "totalPass": 31,
+          "totalShots": 0,
+          "totalTackle": 1,
+          "touches": 40,
+          "unsuccessfulTouch": 1,
+          "wasFouled": 2
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "28",
+        "player": {
+          "id": 27009,
+          "name": "Morgan Schneiderlin",
+          "position": "M",
+          "slug": "morgan-schneiderlin"
+        },
+        "position": "M",
+        "shirtNumber": 28,
+        "statistics": {
+          "accurateLongBalls": 4,
+          "accurateOppositionHalfPasses": 17,
+          "accurateOwnHalfPasses": 27,
+          "accuratePass": 44,
+          "ballRecovery": 6,
+          "challengeLost": 1,
+          "dispossessed": 1,
+          "duelLost": 7,
+          "duelWon": 6,
+          "errorLeadToAShot": 1,
+          "fouls": 5,
+          "interceptionWon": 3,
+          "minutesPlayed": 90,
+          "rating": 6.8,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalLongBalls": 6,
+          "totalOppositionHalfPasses": 22,
+          "totalOwnHalfPasses": 29,
+          "totalPass": 51,
+          "totalShots": 0,
+          "totalTackle": 4,
+          "touches": 62,
+          "wasFouled": 2
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "8",
+        "player": {
+          "id": 28367,
+          "name": "Juan Mata",
+          "position": "M",
+          "slug": "juan-mata"
+        },
+        "position": "M",
+        "shirtNumber": 8,
+        "statistics": {
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 22,
+          "accurateOwnHalfPasses": 14,
+          "accuratePass": 36,
+          "aerialLost": 1,
+          "ballRecovery": 8,
+          "blockedScoringAttempt": 2,
+          "challengeLost": 1,
+          "dispossessed": 2,
+          "duelLost": 5,
+          "duelWon": 3,
+          "fouls": 1,
+          "interceptionWon": 4,
+          "minutesPlayed": 90,
+          "rating": 7,
+          "shotOffTarget": 1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 2,
+          "totalLongBalls": 3,
+          "totalOppositionHalfPasses": 25,
+          "totalOwnHalfPasses": 18,
+          "totalPass": 43,
+          "totalShots": 3,
+          "touches": 59,
+          "unsuccessfulTouch": 2,
+          "wasFouled": 3
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "7",
+        "player": {
+          "id": 138833,
+          "name": "Memphis Depay",
+          "position": "F",
+          "slug": "memphis-depay"
+        },
+        "position": "M",
+        "shirtNumber": 7,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 21,
+          "accurateOwnHalfPasses": 4,
+          "accuratePass": 25,
+          "aerialLost": 1,
+          "aerialWon": 1,
+          "ballRecovery": 4,
+          "blockedScoringAttempt": 2,
+          "dispossessed": 6,
+          "duelLost": 7,
+          "duelWon": 2,
+          "minutesPlayed": 68,
+          "rating": 6.3,
+          "shotOffTarget": 1,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalCross": 1,
+          "totalLongBalls": 2,
+          "totalOppositionHalfPasses": 26,
+          "totalOwnHalfPasses": 4,
+          "totalPass": 29,
+          "totalShots": 3,
+          "touches": 40,
+          "wasFouled": 1
+        },
+        "substitute": false,
+        "teamId": 1957
+      },
+      {
+        "jerseyNumber": "18",
+        "player": {
+          "id": 10589,
+          "name": "Ashley Young",
+          "position": "D",
+          "slug": "ashley-young"
+        },
+        "position": "M",
+        "shirtNumber": 18,
+        "statistics": {
+          "accurateLongBalls": 3,
+          "accurateOppositionHalfPasses": 17,
+          "accurateOwnHalfPasses": 6,
+          "accuratePass": 23,
+          "ballRecovery": 8,
+          "duelLost": 6,
+          "duelWon": 3,
+          "fouls": 1,
+          "interceptionWon": 3,
+          "keyPass": 1,
+          "minutesPlayed": 90,
+          "onTargetScoringAttempt": 1,
+          "rating": 6.5,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 2,
+          "totalContest": 5,
+          "totalCross": 6,
+          "totalLongBalls": 6,
+          "totalOppositionHalfPasses": 30,
+          "totalOwnHalfPasses": 7,
+          "totalPass": 31,
+          "totalShots": 1,
+          "totalTackle": 1,
+          "touches": 57,
+          "unsuccessfulTouch": 1,
+          "wasFouled": 2
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "10",
+        "player": {
+          "id": 751,
+          "name": "Wayne Rooney",
+          "position": "F",
+          "slug": "wayne-rooney"
+        },
+        "position": "F",
+        "shirtNumber": 10,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 20,
+          "accurateOwnHalfPasses": 9,
+          "accuratePass": 29,
+          "aerialLost": 1,
+          "aerialWon": 1,
+          "ballRecovery": 4,
+          "dispossessed": 3,
+          "duelLost": 4,
+          "duelWon": 3,
+          "keyPass": 2,
+          "minutesPlayed": 90,
+          "outfielderBlock": 1,
+          "rating": 7,
+          "shotOffTarget": 2,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 1,
+          "totalContest": 1,
+          "totalCross": 1,
+          "totalLongBalls": 2,
+          "totalOffside": 1,
+          "totalOppositionHalfPasses": 24,
+          "totalOwnHalfPasses": 12,
+          "totalPass": 35,
+          "totalShots": 2,
+          "totalTackle": 1,
+          "touches": 46,
+          "unsuccessfulTouch": 1,
+          "wonContest": 1
+        },
+        "substitute": false,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "31",
+        "player": {
+          "id": 326,
+          "name": "Bastian Schweinsteiger",
+          "position": "M",
+          "slug": "bastian-schweinsteiger"
+        },
+        "position": "M",
+        "shirtNumber": 31,
+        "statistics": {
+          "accurateLongBalls": 2,
+          "accurateOppositionHalfPasses": 13,
+          "accurateOwnHalfPasses": 7,
+          "accuratePass": 20,
+          "aerialLost": 2,
+          "challengeLost": 1,
+          "duelLost": 5,
+          "duelWon": 1,
+          "fouls": 2,
+          "minutesPlayed": 30,
+          "rating": 6.5,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 2,
+          "totalLongBalls": 3,
+          "totalOppositionHalfPasses": 15,
+          "totalOwnHalfPasses": 8,
+          "totalPass": 23,
+          "totalShots": 0,
+          "totalTackle": 1,
+          "touches": 27
+        },
+        "substitute": true,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "21",
+        "player": {
+          "id": 82474,
+          "name": "Ander Herrera",
+          "position": "M",
+          "slug": "ander-herrera"
+        },
+        "position": "M",
+        "shirtNumber": 21,
+        "statistics": {
+          "accurateLongBalls": 1,
+          "accurateOppositionHalfPasses": 5,
+          "accurateOwnHalfPasses": 3,
+          "accuratePass": 8,
+          "aerialLost": 1,
+          "ballRecovery": 1,
+          "dispossessed": 1,
+          "duelLost": 3,
+          "duelWon": 1,
+          "fouls": 1,
+          "minutesPlayed": 22,
+          "rating": 6.5,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalContest": 1,
+          "totalLongBalls": 1,
+          "totalOppositionHalfPasses": 5,
+          "totalOwnHalfPasses": 4,
+          "totalPass": 9,
+          "totalShots": 0,
+          "touches": 14,
+          "unsuccessfulTouch": 1,
+          "wonContest": 1
+        },
+        "substitute": true,
+        "teamId": 2815
+      },
+      {
+        "jerseyNumber": "25",
+        "player": {
+          "id": 11820,
+          "name": "Antonio Valencia",
+          "position": "D",
+          "slug": "antonio-valencia"
+        },
+        "position": "M",
+        "shirtNumber": 25,
+        "statistics": {
+          "accurateOppositionHalfPasses": 2,
+          "accurateOwnHalfPasses": 1,
+          "accuratePass": 3,
+          "aerialWon": 1,
+          "ballRecovery": 1,
+          "duelWon": 1,
+          "minutesPlayed": 9,
+          "rating": 6.6,
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalClearance": 1,
+          "totalOppositionHalfPasses": 2,
+          "totalOwnHalfPasses": 3,
+          "totalPass": 5,
+          "totalShots": 0,
+          "touches": 9
+        },
+        "substitute": true,
+        "teamId": 241802
+      },
+      {
+        "jerseyNumber": "50",
+        "player": {
+          "id": 98427,
+          "name": "Sam Johnstone",
+          "position": "G",
+          "slug": "sam-johnstone"
+        },
+        "position": "G",
+        "shirtNumber": 50,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 2352
+      },
+      {
+        "jerseyNumber": "33",
+        "player": {
+          "id": 592876,
+          "name": "Paddy McNair",
+          "position": "D",
+          "slug": "paddy-mcnair"
+        },
+        "position": "D",
+        "shirtNumber": 33,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 96
+      },
+      {
+        "jerseyNumber": "44",
+        "player": {
+          "id": 285949,
+          "name": "Andreas Pereira",
+          "position": "M",
+          "slug": "andreas-pereira"
+        },
+        "position": "M",
+        "shirtNumber": 44,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 1963
+      },
+      {
+        "jerseyNumber": "14",
+        "player": {
+          "id": 34312,
+          "name": "Javier Hern\u00e1ndez",
+          "position": "F",
+          "slug": "javier-hernandez"
+        },
+        "position": "F",
+        "shirtNumber": 14,
+        "statistics": {
+          "statisticsType": {
+            "sportSlug": "football",
+            "statisticsType": "player"
+          },
+          "totalShots": 0
+        },
+        "substitute": true,
+        "teamId": 1153585
+      }
+    ],
+    "supportStaff": []
+  },
+  "statisticalVersion": null
+}

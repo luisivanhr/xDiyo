@@ -1,0 +1,14 @@
+{
+  "currentRound": {"round": 52, "name": "Placement match", "slug": "placement-match"},
+  "rounds": [
+    {"round": 1}, {"round": 2}, {"round": 3}, {"round": 4},
+    {"round": 5}, {"round": 6}, {"round": 7}, {"round": 8},
+    {"round": 9}, {"round": 10}, {"round": 11}, {"round": 12},
+    {"round": 13}, {"round": 14}, {"round": 15}, {"round": 16},
+    {"round": 17}, {"round": 18},
+    {"round": 29, "name": "Final", "slug": "final"},
+    {"round": 51, "name": "Match for 5th place", "slug": "match-for-5th-place"},
+    {"round": 52, "name": "Placement match", "slug": "placement-match"},
+    {"round": 50, "name": "Match for 3rd place", "slug": "match-for-3rd-place"}
+  ]
+}

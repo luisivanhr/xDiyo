@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>xDiyo Network Capture</title><link rel="stylesheet" href="panel.css"></head>
+<body>
+  <h1>xDiyo Network Capture</h1>
+  <p id="version">Loading recorder version…</p>
+  <p>Collect queued match data through this Chrome session. Keep DevTools open.</p>
+  <h2>Discover matches</h2>
+  <p>Select the regular season and leagues. Discovery uses this tab and saves each response locally so it can resume.</p>
+  <div class="controls">
+    <label>Season <input id="discovery-season" value="25/26" size="12"></label>
+    <label>Collection <select id="discovery-mode"><option value="season">Complete historical season</option><option value="daily">History + current / next round</option></select></label>
+    <button id="load-leagues">Load saved leagues</button>
+    <label>Include lineups <input id="discovery-lineups" type="checkbox" checked></label>
+    <label>Extra random delay, seconds (blank = none)<input id="discovery-jitter" type="number" min="0" step="0.1"></label>
+  </div>
+  <div id="discovery-leagues" class="league-options"></div>
+  <details><summary>Add another league</summary>
+    <div class="controls">
+      <label>Filename name <input id="new-league-name" placeholder="League_Name"></label>
+      <label>Sofascore competition ID <input id="new-league-id" type="number" min="1"></label>
+      <label>Regular meetings per team pair <input id="new-league-meetings" type="number" min="1" max="4" value="2"></label>
+      <button id="add-league">Add league</button>
+    </div>
+    <p class="note">Use the number at the end of the Sofascore league URL. The format check supports a single league table with 1–4 meetings per pair; other formats need their own validation rule.</p>
+  </details>
+  <div class="controls">
+    <label>Discovery ID (blank for new)<input id="discovery-id" size="40" placeholder="Saved automatically when created"></label>
+    <button id="discovery-connect">Create / reconnect</button>
+    <button id="discovery-run" disabled>Discover / resume</button>
+    <button id="discovery-pause" disabled>Pause discovery</button>
+    <button id="discovery-disconnect" disabled>Disconnect discovery</button>
+    <button id="discovery-prepare" disabled>Create collection campaign</button>
+  </div>
+  <p id="discovery-status" role="status">Ready.</p>
+  <pre id="discovery-preview">No discovery yet.</pre>
+  <p class="note">Group stages and playoffs are excluded, including post-split groups. Daily collection includes the whole current/next regular round and reuses verified finished matches. Ended seasons need no prediction queue. Keep the daily Python runner open to publish updates automatically. A reconnected Discovery ID uses its saved settings.</p>
+  <h2>Automatic collection</h2>
+  <div class="controls">
+    <label>Campaign ID <input id="campaign-id" type="text" placeholder="Paste the script or notebook's campaign ID" size="40"></label>
+    <button id="connect">Connect to Python</button><button id="run" disabled>Start / resume</button>
+    <button id="pause" disabled>Pause</button>
+    <button id="disconnect" disabled>Disconnect</button>
+  </div>
+  <p id="campaign-status" role="status">Python is disconnected.</p>
+  <p class="note">Session mode requests missing components in this tab; page mode opens match sections. Both save responses locally through Python. Keep DevTools open; you may switch panels. A challenge, wrong fixture, missing core data, or observation budget pauses further actions. The website can still make its own background requests.</p>
+  <details><summary>Coverage and last result</summary><pre id="coverage">{}</pre></details>
+  <h2>Session access test</h2>
+  <p>Test one match metadata request in this tab using a recently successful site session. No page navigation or queue changes.</p>
+  <div class="controls">
+    <label>Test match ID <input id="probe-event-id" type="number" min="1" value="12448325"></label>
+    <button id="probe-session">Test session access</button>
+    <button id="export-probe" disabled>Export test result</button>
+  </div>
+  <pre id="probe-result" role="status">Not tested.</pre>
+  <h2>Manual recording</h2>
+  <div class="controls">
+    <label>Match event ID <input id="event-id" type="number" min="1" value="12499375"></label>
+    <button id="start">Start recording</button><button id="existing" disabled>Read existing Network log</button>
+    <button id="stop" disabled>Stop recording</button><button id="export" disabled>Export HAR</button>
+  </div>
+  <p id="status" role="status">Ready. Recording does not navigate, refresh, or send requests.</p>
+  <p id="warning" role="alert" hidden></p>
+  <p id="observed-matches"></p>
+  <p class="note">Only selected match response bodies are retained. Commentary bodies, cookies, and headers are excluded. Manual recordings stay in memory; export them before closing DevTools. Campaign responses are acknowledged and saved by Python as they arrive.</p>
+  <table><thead><tr><th>Path</th><th>HTTP</th><th>Capture</th></tr></thead><tbody id="rows"></tbody></table>
+  <script type="module" src="panel.mjs"></script>
+</body></html>

@@ -146,86 +146,11 @@ def extract_league_name(league_str):
         return '_'.join(parts[:-2])
     return league_str
 
-def merge_leagues(leagues, home_flags: bool = False):
-    merged_df = pd.DataFrame()
-
-    standard_columns = None  # To hold the standard column order
-
-    # Dictionary to map league names to indices
-    league_indices = {}
-
-    for league in leagues:
-        # Extract the base league name
-        league_name = extract_league_name(league)
-        # Assign a new index if we haven't seen this league before
-        if league_name not in league_indices:
-            league_indices[league_name] = len(league_indices)
-        current_league_index = league_indices[league_name]
-        
-        # Read CSV files
-        df = pd.read_csv(f'xDiyo_data_heatmaps/{league}.csv', 
-                        converters={'home_shots': ast.literal_eval, 'away_shots': ast.literal_eval,
-                                'home_heatmap': ast.literal_eval,'away_heatmap': ast.literal_eval})
-        lp = pd.read_csv(f'xDiyo_data_heatmaps/{league}_lineups.csv', 
-                        converters={'home': ast.literal_eval, 'away': ast.literal_eval})
-
-        # Extract formations from lp and add them as columns in df
-        df['home_formation'] = lp.apply(lambda row: row['home']['formation'], axis=1)
-        df['away_formation'] = lp.apply(lambda row: row['away']['formation'], axis=1)
-
-        # Normalize standings
-        df['home_standing'] = df['home_standing'] / df['home_standing'].max()
-        df['away_standing'] = df['away_standing'] / df['away_standing'].max()
-
-        # Normalize round number within the league
-        max_round = df['round'].max()
-        if pd.isna(max_round) or max_round == 0:
-            normalized_round = pd.Series(0, index=df.index, dtype=float)
-        else:
-            normalized_round = df['round'] / max_round
-
-        round_position = df.columns.get_loc('round') + 1
-        df.insert(round_position, 'normalized_round', normalized_round)
-
-        # Add season start indicator derived from the first two digits of season_year
-        if 'season_year' in df.columns:
-            season_year_str = df['season_year'].astype(str)
-            season_start = pd.to_numeric(
-                season_year_str.str.slice(0, 2), errors='coerce'
-            ).fillna(0).astype(int)
-        else:
-            season_start = pd.Series(0, index=df.index, dtype=int)
-        df['season_start'] = season_start
-
-        # Optionally include flags identifying the home side in the row structure
-        if home_flags:
-            df['home_is_home'] = 1
-            df['away_is_home'] = 0
-
-        # Add league_index column to mark league membership
-        df['league_index'] = current_league_index
-
-        # Set the standard column order from the first file processed
-        if standard_columns is None:
-            standard_columns = df.columns.tolist()
-
-        # Align current DataFrame's columns to the standard order
-        df = df.reindex(columns=standard_columns)
-
-        # Merge into the combined DataFrame
-        merged_df = pd.concat([merged_df, df], axis=0)
-    
-    # Drop the 'index' column if it exists
-    if 'index' in merged_df.columns:
-        merged_df.drop('index', axis=1, inplace=True)
-
-    # Fill missing values with 0 and reset indexes
-    merged_df.fillna(0, inplace=True)
-    merged_df.reset_index(drop=True, inplace=True)
-
-    # Return the merged dataframe along with the league mapping dictionary
-    return merged_df, league_indices
-
+def merge_leagues(leagues, home_flags: bool = False, *, data_dir=None, include_lineups=True, team_season_flags=None):
+    """Load CSV or versioned Parquet seasons with ID joins and a union schema."""
+    from utils.data_loading import merge_seasons
+    return merge_seasons(leagues, home_flags, data_dir=data_dir, include_lineups=include_lineups,
+                         team_season_flags=team_season_flags)
 
 
 def calculate_mean_std(train_df, columns):
@@ -405,12 +330,13 @@ def process_heatmap_data(heatmap_data, n_x, n_y, reverse_x=False, reverse_y=Fals
 
 class FootballDataset(Dataset):
     def __init__(self, league_df, max_seq_length, team2id, n_x, n_y, flatten_h=False, reverse_h=False, stat_type=None):
-        self.league_df = league_df
+        # Row position is the existing sequence order, distinct from provider IDs.
+        self.league_df = league_df.reset_index(drop=True)
         self.team2id = team2id
         self.flatten_h = flatten_h
         self.reverse_h = reverse_h
         self.stat_type = stat_type
-        self.match_ids = league_df.index.tolist()  # match indices
+        self.match_ids = self.league_df.index.tolist()  # sequence positions
         self.max_seq_length = max_seq_length + 1     # max number of matches per team sequence
         # New parameters for the heatmap grid dimensions
         self.n_x = n_x  # number of grid divisions along the x-axis
@@ -431,6 +357,8 @@ class FootballDataset(Dataset):
         # Determine match outcome: draw=0, home win=1, away win=-1
         home_score = league_row['home_score']
         away_score = league_row['away_score']
+        if pd.isna(home_score) or pd.isna(away_score):
+            raise ValueError("A supervised sample requires both observed final scores")
         if home_score == away_score:
             outcome = 0
         elif home_score > away_score:
@@ -621,7 +549,8 @@ class FootballDataset(Dataset):
             'enemy_player_heatmap_sequence': enemy_player_heatmap_sequence,
             'enemy_goalkeeper_heatmap_sequence': enemy_goalkeeper_heatmap_sequence
         }
-        return team_data
+        from .tensor_inputs import prepare_team_inputs
+        return prepare_team_inputs(team_data, historical_team_data)
     
     def find_key_instances_in_order(dict1, dict2, target_key):
         results = []
@@ -689,30 +618,38 @@ class FootballDataset(Dataset):
     
     def extract_team_stats(self, row, side, enemy):
         # Extract statistics based on team_headers
-        atk_vector = [row.get(f'{side}_{stat}', 0) for stat in self.atk_headers]
-        def_vector = [row.get(f'{side}_{stat}', 0) for stat in self.def_headers]+\
-                    [row.get(f'{enemy}_{stat}', 0) for stat in self.mis_headers]
+        atk_vector = [row.get(f'{side}_{stat}', np.nan) for stat in self.atk_headers]
+        def_vector = [row.get(f'{side}_{stat}', np.nan) for stat in self.def_headers]+\
+                    [row.get(f'{enemy}_{stat}', np.nan) for stat in self.mis_headers]
+        # Pandas nullable scalars cannot be cast directly to numpy floats.
+        atk_vector = [np.nan if pd.isna(v) else v for v in atk_vector]
+        def_vector = [np.nan if pd.isna(v) else v for v in def_vector]
         return np.array(atk_vector, dtype=np.float32), np.array(def_vector, dtype=np.float32)
     
     def extract_shots(self, row, side):
         #Extract all types of shots and their xG
         shots,penalties,owngoals = [],[],[]
         all_shots = row.get(f'{side}_shots', [])
+        if not isinstance(all_shots, (list, tuple)):
+            all_shots = []
         for shot in all_shots:
-            if shot['shotType']=='own':
-                owngoals.append((1.0,1,shot['time']))
-            elif shot['situation']=='penalty':
-                if shot['shotType']=='goal':
+            xg = shot.get('xg')
+            if str(shot.get('xg_quality', '')).startswith('legacy_unverified'):
+                xg = None
+            if shot.get('shotType')=='own' or shot.get('goalType') in {'own', 'ownGoal'}:
+                owngoals.append((None,1,shot.get('time')))
+            elif shot.get('situation')=='penalty':
+                if shot.get('shotType')=='goal':
                     shotType=1
                 else:
                     shotType=0
-                penalties.append((shot['xg'],shotType,shot['time']))
+                penalties.append((xg,shotType,shot.get('time')))
             else:
-                if shot['shotType']=='goal':
+                if shot.get('shotType')=='goal':
                     shotType=1
                 else:
                     shotType=0
-                shots.append((shot['xg'],shotType,shot['time']))
+                shots.append((xg,shotType,shot.get('time')))
         return shots,penalties,owngoals
     
     def get_historical_stats(self, player_hist_stats):
@@ -749,15 +686,17 @@ class FootballDataset(Dataset):
                 enemy_name = row[f'{enemy_side}_team']
                 enemy_index = convert_team_names_to_ids(enemy_name, self.team2id)
                 total_score = row[f'{team_side}_score']
-                score_45_min = row[f'{team_side}_45_min']
-                score_90_min = row[f'{team_side}_90_min']
+                score_45_min = row.get(f'{team_side}_45_min')
+                score_90_min = row.get(f'{team_side}_90_min')
                 enemy_total_score = row[f'{enemy_side}_score']
-                enemy_45_min = row[f'{enemy_side}_45_min']
-                enemy_90_min = row[f'{enemy_side}_90_min']
-                standings = row[f'{team_side}_standing']
-                enemy_standings = row[f'{enemy_side}_standing']
-                formation = row[f'{team_side}_formation']
-                enemy_formation = row[f'{enemy_side}_formation']
+                enemy_45_min = row.get(f'{enemy_side}_45_min')
+                enemy_90_min = row.get(f'{enemy_side}_90_min')
+                standings = row.get(f'{team_side}_standing')
+                enemy_standings = row.get(f'{enemy_side}_standing')
+                formation = row.get(f'{team_side}_formation')
+                enemy_formation = row.get(f'{enemy_side}_formation')
+                formation = formation if isinstance(formation, (list, tuple)) else (None,)*4
+                enemy_formation = enemy_formation if isinstance(enemy_formation, (list, tuple)) else (None,)*4
                 is_home = 1 if team_side == 'home' else 0
                 enemy_is_home = 1 - is_home
                 
@@ -788,11 +727,11 @@ class FootballDataset(Dataset):
                     )
                 else:
                     if self.flatten_h:
-                        enemy_player_heatmap = torch.zeros((self.n_y * self.n_x), dtype=torch.float32)
-                        enemy_goalkeeper_heatmap = torch.zeros((self.n_y * self.n_x), dtype=torch.float32)
+                        player_heatmap = torch.zeros((self.n_y * self.n_x), dtype=torch.float32)
+                        goalkeeper_heatmap = torch.zeros((self.n_y * self.n_x), dtype=torch.float32)
                     else:
-                        enemy_player_heatmap = torch.zeros((self.n_y, self.n_x), dtype=torch.float32)
-                        enemy_goalkeeper_heatmap = torch.zeros((self.n_y, self.n_x), dtype=torch.float32)
+                        player_heatmap = torch.zeros((self.n_y, self.n_x), dtype=torch.float32)
+                        goalkeeper_heatmap = torch.zeros((self.n_y, self.n_x), dtype=torch.float32)
                 
                 # Process enemy team's heatmap using the enemy key.
                 raw_heatmap_enemy = row.get(f'{enemy_side}_heatmap', None)
@@ -824,6 +763,7 @@ class FootballDataset(Dataset):
                 
                 match_dict = {
                     'match_id': idx,
+                    'provider_event_id': row.get('match_id'),
                     'round': week,
                     'team_name': team_name,
                     'team_index': team_index,
@@ -858,6 +798,14 @@ class FootballDataset(Dataset):
                     'enemy_player_heatmap': enemy_player_heatmap,
                     'enemy_goalkeeper_heatmap': enemy_goalkeeper_heatmap
                 }
+                for label, raw in (("team", raw_heatmap_self), ("enemy", raw_heatmap_enemy)):
+                    for kind in ("player", "goalkeeper"):
+                        match_dict[label+"_"+kind+"_heatmap_available"] = (
+                            isinstance(raw, dict) and isinstance(raw.get(kind+"Points"), list))
+                for label, side in (("team", team_side), ("enemy", enemy_side)):
+                    reported = row.get(side+'_shots_available')
+                    match_dict[label+'_shots_available'] = (bool(reported) if reported is not None and not pd.isna(reported)
+                        else isinstance(row.get(side+'_shots'), (list, tuple)))
                 
                 if team_id not in team_history:
                     team_history[team_id] = []
@@ -953,6 +901,9 @@ def pad_feature_to_batch_max(batch, feature_key, nested_key):
                 # Create padding for the match
                 padding = [[0,0,0] for _ in range(pad_length)]
                 sample[feature_key][nested_key][match_idx] = sample[feature_key][nested_key][match_idx] + padding
+                if 'availability' in sample[feature_key]:
+                    masks = sample[feature_key]['availability'][nested_key]
+                    masks[match_idx] = masks[match_idx] + [[False, False, False] for _ in range(pad_length)]
                 #print(len(sample[feature_key][nested_key][match_idx]))
                     
 
@@ -1176,6 +1127,26 @@ def collate_fn(batch):
         'away_enemy_player_heatmap_sequence': away_enemy_player_heatmap_seq_tensor,
         'away_enemy_goalkeeper_heatmap_sequence': away_enemy_goalkeeper_heatmap_seq_tensor
     }
+    # Preserve public tensor names and add masks with exactly matching shapes.
+    # An empty shot group still has a three-field last dimension.
+    for side in ('home', 'away'):
+        for owner in ('team', 'enemy'):
+            key = owner+'_shots_available'
+            if key in batch[0][side+'_data']:
+                batch_data[side+'_'+key] = torch.tensor([sample[side+'_data'][key] for sample in batch], dtype=torch.bool).unsqueeze(-1)
+        for owner in ('team', 'enemy'):
+            for kind in ('shots', 'penalties', 'owngoals'):
+                key = owner+'_'+kind
+                values = [sample[side+'_data'][key] for sample in batch]
+                batch_data[side+'_'+key] = torch.tensor(values, dtype=torch.float32).reshape(
+                    batch_size, len(values[0]), len(values[0][0]), 3)
+        availability = {}
+        for key in batch[0][side+'_data'].get('availability', {}):
+            tensor_key = side+'_'+key
+            availability[tensor_key] = torch.tensor(
+                [sample[side+'_data']['availability'][key] for sample in batch], dtype=torch.bool
+            ).reshape(batch_data[tensor_key].shape)
+        batch_data.setdefault('availability', {}).update(availability)
     return batch_data
 
 

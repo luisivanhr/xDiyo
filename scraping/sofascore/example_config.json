@@ -1,0 +1,25 @@
+{
+  "scope": {
+    "league_id": 17,
+    "season_id": 61627,
+    "rounds": [1],
+    "league_name": "Premier_League",
+    "season_start": 2024,
+    "season_end": 2025
+  },
+  "profile": {
+    "include_lineups": true,
+    "include_injuries": true,
+    "include_comments": false,
+    "include_goal_actions": true,
+    "duration_mode": "metadata"
+  },
+  "rate": {
+    "min_interval_seconds": 10,
+    "per_minute": 6,
+    "per_hour": 120,
+    "max_attempts_per_run": 40,
+    "random_delay_max_seconds": null
+  },
+  "readiness_pause": false
+}

@@ -1,0 +1,8 @@
+{
+  "europe": "All 13 registered leagues, 2010/11 through 2014/15",
+  "japan": "J1 and J2, 2010 through 2026/27, completed regular-season matches",
+  "japan_2026_j2_j3": "skip",
+  "mexico": "Apertura 2010 through Apertura 2026, separate Apertura and Clausura cohorts",
+  "scope": "Regular season only; exclude playoffs, finals and Scottish post-split matches",
+  "round_postprocessing": "Deferred: concatenate Mexico tournaments chronologically and offset validated round spans"
+}

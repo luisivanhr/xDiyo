@@ -1,0 +1,108 @@
+{
+  "event": {
+    "attendance": 75261,
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "normaltime": 0,
+      "period1": 0,
+      "period2": 0
+    },
+    "awayTeam": {
+      "id": 33,
+      "name": "Tottenham Hotspur",
+      "slug": "tottenham-hotspur"
+    },
+    "changes": {
+      "changeTimestamp": 1439041013,
+      "changes": [
+        "status.code",
+        "status.description",
+        "status.type",
+        "homeScore.normaltime",
+        "awayScore.normaltime"
+      ]
+    },
+    "coverage": 1,
+    "crowdsourcingDataDisplayEnabled": false,
+    "currentPeriodStartTimestamp": 1439041004,
+    "customId": "IsK",
+    "defaultOvertimeLength": 15,
+    "defaultPeriodCount": 2,
+    "defaultPeriodLength": 45,
+    "detailId": 1,
+    "eventState": {},
+    "feedLocked": false,
+    "finalResultOnly": false,
+    "hasEventPlayerHeatMap": true,
+    "hasEventPlayerStatistics": true,
+    "hasGlobalHighlights": false,
+    "homeScore": {
+      "current": 1,
+      "display": 1,
+      "normaltime": 1,
+      "period1": 1,
+      "period2": 0
+    },
+    "homeTeam": {
+      "id": 35,
+      "name": "Manchester United",
+      "slug": "manchester-united"
+    },
+    "id": 6767929,
+    "isEditor": false,
+    "referee": {
+      "id": 74250,
+      "name": "Jonathan Moss",
+      "slug": "moss-jonathan"
+    },
+    "roundInfo": {
+      "round": 1
+    },
+    "season": {
+      "editor": false,
+      "id": 10356,
+      "name": "Premier League 15/16",
+      "year": "15/16"
+    },
+    "seasonStatisticsType": "overall",
+    "showTotoPromo": true,
+    "slug": "manchester-united-tottenham-hotspur",
+    "startTimestamp": 1439034300,
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1439041004,
+      "injuryTime1": 1,
+      "injuryTime2": 4
+    },
+    "tournament": {
+      "category": {
+        "id": 1,
+        "name": "England",
+        "slug": "england"
+      },
+      "competitionType": 1,
+      "id": 1,
+      "isGroup": false,
+      "isLive": false,
+      "name": "Premier League",
+      "priority": 703,
+      "slug": "premier-league",
+      "uniqueTournament": {
+        "id": 17,
+        "name": "Premier League",
+        "slug": "premier-league"
+      }
+    },
+    "venue": {
+      "id": 9,
+      "name": "Old Trafford",
+      "slug": "old-trafford"
+    },
+    "winnerCode": 1
+  }
+}

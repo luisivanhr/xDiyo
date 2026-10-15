@@ -1,0 +1,58 @@
+[
+  {
+    "file": "12436870_event.json",
+    "endpoint": "/event/12436870",
+    "fetched_at_utc": 1789146705.614631,
+    "raw_sha256": "cafc97f15d1bd87f27d7525bd1951ebad02bf3391f7a99ccaad40c0ef0815a3a",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "12436870_incidents.json",
+    "endpoint": "/event/12436870/incidents",
+    "fetched_at_utc": 1789146948.8633077,
+    "raw_sha256": "586f01cbbd1a04f38f286d31fa9fb2d85a269968ca7fd14f49c6fbfba8b7ddb6",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "12436870_shotmap.json",
+    "endpoint": "/event/12436870/shotmap",
+    "fetched_at_utc": 1789146918.2405188,
+    "raw_sha256": "5e9975045ea93b1dc3b5380ca88741ee57030c7b048895146e32219b02e3b19f",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "12436870_lineups.json",
+    "endpoint": "/event/12436870/lineups",
+    "fetched_at_utc": 1789146715.6917236,
+    "raw_sha256": "f7a7c14aafe4a62f58932f27b6251039d8749237a6e9fa009604f0c1485349d2",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "6767929_event.json",
+    "endpoint": "/event/6767929",
+    "fetched_at_utc": 1789147296.3469539,
+    "raw_sha256": "0fd038dfe7a1496f66b226e9b5e3254b52d4ffe121cbccb853a38a31ab0e48b1",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "6767929_incidents.json",
+    "endpoint": "/event/6767929/incidents",
+    "fetched_at_utc": 1789147348.4717126,
+    "raw_sha256": "94516098856ca8c487ee3b7524aa286ea2cbb61e5fe87631eb327b22c7e53d67",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "6767929_shotmap.json",
+    "endpoint": "/event/6767929/shotmap",
+    "fetched_at_utc": 1789147306.6976063,
+    "raw_sha256": "918fe6fc7546c866ddfcb6295055703cf908bb0e4ac036a59d0e2f4c8d29dbe7",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "6767929_lineups.json",
+    "endpoint": "/event/6767929/lineups",
+    "fetched_at_utc": 1789147338.0823889,
+    "raw_sha256": "99428ea78198ffaa96a6033590473b0571be6b4f172c870666d3a00db78e7620",
+    "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  }
+]

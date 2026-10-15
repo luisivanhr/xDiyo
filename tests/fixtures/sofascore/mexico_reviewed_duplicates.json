@@ -1,0 +1,3422 @@
+{
+  "discovery_id": "discover-mexico-2010-2026-d1028227",
+  "pairs": [
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Primera Division 14/15",
+          "year": "14/15",
+          "editor": false,
+          "id": 8176
+        },
+        "roundInfo": {
+          "round": 8
+        },
+        "customId": "HNsNN",
+        "status": {
+          "code": 70,
+          "description": "Canceled",
+          "type": "canceled"
+        },
+        "homeTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "CD Guadalajara",
+          "slug": "cd-guadalajara",
+          "shortName": "Guadalajara",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 118375,
+          "nameCode": "GDL",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1938,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#bb0000",
+            "secondary": "#ffffff",
+            "text": "#ffffff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "نادي غوادالاخارا",
+              "hi": "गुआडलाहारा चिवास",
+              "ru": "СД Гвадалахара"
+            },
+            "shortNameTranslation": {
+              "ar": "غوادالاخارا"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "coverage": -1,
+        "time": {
+          "currentPeriodStartTimestamp": 1416098599
+        },
+        "changes": {
+          "changeTimestamp": 0
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 6133946,
+        "slug": "cd-guadalajara-cf-monterrey",
+        "startTimestamp": 1416092400,
+        "finalResultOnly": false,
+        "feedLocked": false,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Primera Division 14/15",
+          "year": "14/15",
+          "editor": false,
+          "id": 8176
+        },
+        "roundInfo": {
+          "round": 8
+        },
+        "customId": "HNsNN",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 1,
+        "homeTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "CD Guadalajara",
+          "slug": "cd-guadalajara",
+          "shortName": "Guadalajara",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 118375,
+          "nameCode": "GDL",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1938,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#bb0000",
+            "secondary": "#ffffff",
+            "text": "#ffffff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "نادي غوادالاخارا",
+              "hi": "गुआडलाहारा चिवास",
+              "ru": "СД Гвадалахара"
+            },
+            "shortNameTranslation": {
+              "ar": "غوادالاخارا"
+            }
+          }
+        },
+        "homeScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 0,
+          "period2": 1,
+          "normaltime": 1
+        },
+        "awayScore": {
+          "current": 0,
+          "display": 0,
+          "period1": 0,
+          "period2": 0,
+          "normaltime": 0
+        },
+        "coverage": -1,
+        "time": {
+          "currentPeriodStartTimestamp": 1416098757
+        },
+        "changes": {
+          "changeTimestamp": 0
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 5559934,
+        "slug": "cd-guadalajara-cf-monterrey",
+        "startTimestamp": 1410652800,
+        "finalResultOnly": false,
+        "feedLocked": false,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Primera Division 17/18",
+          "year": "17/18",
+          "editor": false,
+          "id": 13413
+        },
+        "roundInfo": {
+          "round": 11
+        },
+        "customId": "HNsYN",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 3,
+        "homeTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Santos Laguna",
+          "slug": "santos-laguna",
+          "shortName": "Santos",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 25104,
+          "nameCode": "SLA",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1948,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#00c6c6",
+            "text": "#00c6c6"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "سانتوس لاجونا",
+              "ru": "Сантос Лагуна"
+            },
+            "shortNameTranslation": {
+              "ar": "سانتوس"
+            }
+          }
+        },
+        "homeScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "coverage": 1,
+        "time": {
+          "injuryTime1": 3,
+          "injuryTime2": 3,
+          "currentPeriodStartTimestamp": 1510289003
+        },
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type",
+            "homeScore.normaltime",
+            "awayScore.normaltime"
+          ],
+          "changeTimestamp": 1510289010
+        },
+        "hasGlobalHighlights": false,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 7450393,
+        "slug": "santos-laguna-cf-monterrey",
+        "startTimestamp": 1506564000,
+        "finalResultOnly": false,
+        "feedLocked": false,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Primera Division 17/18",
+          "year": "17/18",
+          "editor": false,
+          "id": 13413
+        },
+        "roundInfo": {
+          "round": 11
+        },
+        "customId": "HNsYN",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 3,
+        "homeTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Santos Laguna",
+          "slug": "santos-laguna",
+          "shortName": "Santos",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 25104,
+          "nameCode": "SLA",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1948,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#00c6c6",
+            "text": "#00c6c6"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "سانتوس لاجونا",
+              "ru": "Сантос Лагуна"
+            },
+            "shortNameTranslation": {
+              "ar": "سانتوس"
+            }
+          }
+        },
+        "homeScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "coverage": 1,
+        "time": {
+          "injuryTime1": 3,
+          "injuryTime2": 3,
+          "currentPeriodStartTimestamp": 1510288978
+        },
+        "changes": {
+          "changes": [
+            "cardsCode"
+          ],
+          "changeTimestamp": 1510306706
+        },
+        "hasGlobalHighlights": false,
+        "hasEventPlayerStatistics": true,
+        "hasEventPlayerHeatMap": true,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 7636813,
+        "awayRedCards": 1,
+        "slug": "santos-laguna-cf-monterrey",
+        "startTimestamp": 1510282800,
+        "finalResultOnly": false,
+        "feedLocked": false,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2023",
+          "year": "23/24",
+          "editor": false,
+          "id": 52052
+        },
+        "roundInfo": {
+          "round": 4
+        },
+        "customId": "ONsZN",
+        "status": {
+          "code": 60,
+          "description": "Postponed",
+          "type": "postponed"
+        },
+        "homeTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1691770574
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11341785,
+        "slug": "atlas-fc-club-america",
+        "startTimestamp": 1692396000,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2023",
+          "year": "23/24",
+          "editor": false,
+          "id": 52052
+        },
+        "roundInfo": {
+          "round": 4
+        },
+        "customId": "ONsZN",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 3,
+        "homeTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "homeScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "time": {
+          "injuryTime1": 6,
+          "injuryTime2": 6,
+          "currentPeriodStartTimestamp": 1692591804
+        },
+        "changes": {
+          "changes": [
+            "time.currentPeriodStart"
+          ],
+          "changeTimestamp": 1709042063
+        },
+        "hasGlobalHighlights": false,
+        "hasEventPlayerStatistics": true,
+        "hasEventPlayerHeatMap": true,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11557348,
+        "slug": "atlas-fc-club-america",
+        "startTimestamp": 1692587400,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2023",
+          "year": "23/24",
+          "editor": false,
+          "id": 52052
+        },
+        "roundInfo": {
+          "round": 4
+        },
+        "customId": "ONsZN",
+        "status": {
+          "code": 70,
+          "description": "Canceled",
+          "type": "canceled"
+        },
+        "homeTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {
+          "currentPeriodStartTimestamp": 1692594907
+        },
+        "changes": {
+          "changes": [
+            "time.currentPeriodStart"
+          ],
+          "changeTimestamp": 1692594956
+        },
+        "hasGlobalHighlights": false,
+        "hasEventPlayerStatistics": false,
+        "hasEventPlayerHeatMap": false,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11528701,
+        "slug": "atlas-fc-club-america",
+        "startTimestamp": 1692586800,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2023",
+          "year": "23/24",
+          "editor": false,
+          "id": 52052
+        },
+        "roundInfo": {
+          "round": 4
+        },
+        "customId": "ONsZN",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 3,
+        "homeTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "homeScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 1,
+          "period2": 0,
+          "normaltime": 1
+        },
+        "time": {
+          "injuryTime1": 6,
+          "injuryTime2": 6,
+          "currentPeriodStartTimestamp": 1692591804
+        },
+        "changes": {
+          "changes": [
+            "time.currentPeriodStart"
+          ],
+          "changeTimestamp": 1709042063
+        },
+        "hasGlobalHighlights": false,
+        "hasEventPlayerStatistics": true,
+        "hasEventPlayerHeatMap": true,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11557348,
+        "slug": "atlas-fc-club-america",
+        "startTimestamp": 1692587400,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2026",
+          "year": "2026",
+          "editor": false,
+          "id": 96191
+        },
+        "roundInfo": {
+          "round": 7
+        },
+        "customId": "ONsAFo",
+        "status": {
+          "code": 60,
+          "description": "Postponed",
+          "type": "postponed"
+        },
+        "homeTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Club Tijuana",
+          "slug": "club-tijuana",
+          "shortName": "Tijuana",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28543,
+          "nameCode": "TIJ",
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 36525,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ff0000",
+            "secondary": "#ffffff",
+            "text": "#ffffff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "نادي تيخوانا",
+              "ru": "Тихуана"
+            },
+            "shortNameTranslation": {
+              "ar": "تيخوانا"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1788358218
+        },
+        "hasGlobalHighlights": false,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 16317921,
+        "slug": "club-tijuana-club-america",
+        "startTimestamp": 1788656400,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false,
+        "eventFilters": {
+          "category": [
+            "club"
+          ],
+          "level": [
+            "top-competitions",
+            "pro"
+          ],
+          "gender": [
+            "M"
+          ]
+        }
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2026",
+          "year": "2026",
+          "editor": false,
+          "id": 96191
+        },
+        "roundInfo": {
+          "round": 7
+        },
+        "customId": "ONsAFo",
+        "status": {
+          "code": 0,
+          "description": "Not started",
+          "type": "notstarted"
+        },
+        "homeTeam": {
+          "name": "Club América",
+          "slug": "club-america",
+          "shortName": "América",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 169258,
+          "nameCode": "AME",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1939,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffff99",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب أمريكا",
+              "ru": "КФ Америка"
+            },
+            "shortNameTranslation": {
+              "ar": "أمريكا"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Club Tijuana",
+          "slug": "club-tijuana",
+          "shortName": "Tijuana",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28543,
+          "nameCode": "TIJ",
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 36525,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ff0000",
+            "secondary": "#ffffff",
+            "text": "#ffffff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "نادي تيخوانا",
+              "ru": "Тихуана"
+            },
+            "shortNameTranslation": {
+              "ar": "تيخوانا"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changeTimestamp": 0
+        },
+        "hasGlobalHighlights": false,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 17025169,
+        "slug": "club-tijuana-club-america",
+        "startTimestamp": 1793242800,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2026",
+          "year": "2026",
+          "editor": false,
+          "id": 96191
+        },
+        "roundInfo": {
+          "round": 7
+        },
+        "customId": "HNsbO",
+        "status": {
+          "code": 60,
+          "description": "Postponed",
+          "type": "postponed"
+        },
+        "homeTeam": {
+          "name": "Querétaro FC",
+          "slug": "queretaro-fc",
+          "shortName": "Querétaro",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 16584,
+          "nameCode": "QRO",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1951,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#0058b0",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كيريتارو",
+              "ru": "Керетаро"
+            },
+            "shortNameTranslation": {
+              "ar": "كيريتارو"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1788358205
+        },
+        "hasGlobalHighlights": false,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 16317922,
+        "slug": "queretaro-fc-cf-monterrey",
+        "startTimestamp": 1788649200,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false,
+        "eventFilters": {
+          "category": [
+            "club"
+          ],
+          "level": [
+            "top-competitions",
+            "pro"
+          ],
+          "gender": [
+            "M"
+          ]
+        }
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Apertura",
+          "slug": "liga-mx-apertura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Apertura",
+            "slug": "liga-mx-apertura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 56239,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": true,
+            "country": {},
+            "id": 11621,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دوري المكسيك، مرحلة الذهاب",
+                "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+                "hi": "लीगा एमएक्स, एपर्टुरा",
+                "ru": "Лига MX, Апертура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 415,
+          "isGroup": false,
+          "isLive": false,
+          "id": 28,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الدوري المكسيكي، مرحلة الذهاب",
+              "bn": "লিগা এমএক্স, অ্যাপেরতুরা",
+              "hi": "लीगा एमएक्स, एपर्टुरा",
+              "ru": "Лига MX, Апертура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Apertura 2026",
+          "year": "2026",
+          "editor": false,
+          "id": 96191
+        },
+        "roundInfo": {
+          "round": 7
+        },
+        "customId": "HNsbO",
+        "status": {
+          "code": 0,
+          "description": "Not started",
+          "type": "notstarted"
+        },
+        "homeTeam": {
+          "name": "Querétaro FC",
+          "slug": "queretaro-fc",
+          "shortName": "Querétaro",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 16584,
+          "nameCode": "QRO",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1951,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#0058b0",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كيريتارو",
+              "ru": "Керетаро"
+            },
+            "shortNameTranslation": {
+              "ar": "كيريتارو"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "CF Monterrey",
+          "slug": "cf-monterrey",
+          "shortName": "Monterrey",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 90546,
+          "nameCode": "MTY",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1932,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ffffff",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "مونتيري",
+              "hi": "सीऍफ़ मोन्टेरे",
+              "ru": "КФ Монтеррей"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changeTimestamp": 0
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 17020784,
+        "slug": "queretaro-fc-cf-monterrey",
+        "startTimestamp": 1794697200,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Clausura",
+          "slug": "liga-mx-clausura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Clausura",
+            "slug": "liga-mx-clausura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 41290,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": false,
+            "country": {},
+            "id": 11620,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "الدوري المكسيكي، مرحلة الإياب",
+                "bn": "লিগা এমএক্স , ক্লাউসুরা",
+                "hi": "लीगा एमएक्स, क्लॉसुरा",
+                "ru": "Лига MX, Клаусура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 416,
+          "isGroup": false,
+          "isLive": false,
+          "id": 16753,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "دوري المكسيك، مرحلة الإياب",
+              "bn": "লিগা এমএক্স, ক্লসুরা",
+              "hi": "लीगा एमएक्स, क्लॉसुरा",
+              "ru": "Лига MX, Клаусура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Clausura 2024",
+          "year": "23/24",
+          "editor": false,
+          "id": 57315
+        },
+        "roundInfo": {
+          "round": 15
+        },
+        "customId": "INsaO",
+        "status": {
+          "code": 70,
+          "description": "Canceled",
+          "type": "canceled"
+        },
+        "homeTeam": {
+          "name": "Pumas UNAM",
+          "slug": "pumas-unam",
+          "shortName": "Pumas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 70491,
+          "nameCode": "UNAM",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1933,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#d2b651",
+            "secondary": "#000033",
+            "text": "#000033"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "بوماس أونام",
+              "hi": "पुमास उनाम",
+              "ru": "Пумас Унам"
+            },
+            "shortNameTranslation": {
+              "ar": "بوماس"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Atlético San Luis",
+          "slug": "atletico-san-luis",
+          "shortName": "San Luis",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 18092,
+          "nameCode": "SNL",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1950,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ff0000",
+            "secondary": "#0000ff",
+            "text": "#0000ff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أتلتيكو سان لويس",
+              "ru": "Сан Луис"
+            },
+            "shortNameTranslation": {
+              "ar": "سان لويس"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1706186347
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11911065,
+        "slug": "atletico-san-luis-pumas-unam",
+        "startTimestamp": 1713139200,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Clausura",
+          "slug": "liga-mx-clausura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Clausura",
+            "slug": "liga-mx-clausura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 41290,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": false,
+            "country": {},
+            "id": 11620,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "الدوري المكسيكي، مرحلة الإياب",
+                "bn": "লিগা এমএক্স , ক্লাউসুরা",
+                "hi": "लीगा एमएक्स, क्लॉसुरा",
+                "ru": "Лига MX, Клаусура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 416,
+          "isGroup": false,
+          "isLive": false,
+          "id": 16753,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "دوري المكسيك، مرحلة الإياب",
+              "bn": "লিগা এমএক্স, ক্লসুরা",
+              "hi": "लीगा एमएक्स, क्लॉसुरा",
+              "ru": "Лига MX, Клаусура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Clausura 2024",
+          "year": "23/24",
+          "editor": false,
+          "id": 57315
+        },
+        "roundInfo": {
+          "round": 2
+        },
+        "customId": "INsaO",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 1,
+        "homeTeam": {
+          "name": "Atlético San Luis",
+          "slug": "atletico-san-luis",
+          "shortName": "San Luis",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 18092,
+          "nameCode": "SNL",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1950,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#ff0000",
+            "secondary": "#0000ff",
+            "text": "#0000ff"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أتلتيكو سان لويس",
+              "ru": "Сан Луис"
+            },
+            "shortNameTranslation": {
+              "ar": "سان لويس"
+            }
+          }
+        },
+        "awayTeam": {
+          "name": "Pumas UNAM",
+          "slug": "pumas-unam",
+          "shortName": "Pumas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 70491,
+          "nameCode": "UNAM",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1933,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#d2b651",
+            "secondary": "#000033",
+            "text": "#000033"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "بوماس أونام",
+              "hi": "पुमास उनाम",
+              "ru": "Пумас Унам"
+            },
+            "shortNameTranslation": {
+              "ar": "بوماس"
+            }
+          }
+        },
+        "homeScore": {
+          "current": 3,
+          "display": 3,
+          "period1": 1,
+          "period2": 2,
+          "normaltime": 3
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 0,
+          "period2": 1,
+          "normaltime": 1
+        },
+        "time": {
+          "injuryTime1": 4,
+          "injuryTime2": 6,
+          "currentPeriodStartTimestamp": 1705724252
+        },
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1705727342
+        },
+        "hasGlobalHighlights": true,
+        "hasEventPlayerStatistics": true,
+        "hasEventPlayerHeatMap": true,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11911187,
+        "slug": "atletico-san-luis-pumas-unam",
+        "startTimestamp": 1705719600,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    },
+    {
+      "original": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Clausura",
+          "slug": "liga-mx-clausura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Clausura",
+            "slug": "liga-mx-clausura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 41290,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": false,
+            "country": {},
+            "id": 11620,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "الدوري المكسيكي، مرحلة الإياب",
+                "bn": "লিগা এমএক্স , ক্লাউসুরা",
+                "hi": "लीगा एमएक्स, क्लॉसुरा",
+                "ru": "Лига MX, Клаусура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 416,
+          "isGroup": false,
+          "isLive": false,
+          "id": 16753,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "دوري المكسيك، مرحلة الإياب",
+              "bn": "লিগা এমএক্স, ক্লসুরা",
+              "hi": "लीगा एमएक्स, क्लॉसुरा",
+              "ru": "Лига MX, Клаусура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Clausura 2024",
+          "year": "23/24",
+          "editor": false,
+          "id": 57315
+        },
+        "roundInfo": {
+          "round": 15
+        },
+        "customId": "ZNsJFo",
+        "status": {
+          "code": 70,
+          "description": "Canceled",
+          "type": "canceled"
+        },
+        "homeTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Club León",
+          "slug": "club-leon",
+          "shortName": "León",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 40370,
+          "nameCode": "LEO",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 36534,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#008040",
+            "secondary": "#66cc33",
+            "text": "#66cc33"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب ليون",
+              "ru": "Леон"
+            },
+            "shortNameTranslation": {
+              "ar": "ليون"
+            }
+          }
+        },
+        "homeScore": {},
+        "awayScore": {},
+        "time": {},
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1706186347
+        },
+        "hasGlobalHighlights": false,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11911068,
+        "slug": "club-leon-atlas-fc",
+        "startTimestamp": 1713132000,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      },
+      "replacement": {
+        "eventState": {},
+        "tournament": {
+          "name": "Liga MX, Clausura",
+          "slug": "liga-mx-clausura",
+          "category": {
+            "name": "Mexico",
+            "slug": "mexico",
+            "sport": {
+              "name": "Football",
+              "slug": "football",
+              "id": 1
+            },
+            "priority": 0,
+            "country": {
+              "alpha2": "MX",
+              "alpha3": "MEX",
+              "name": "Mexico",
+              "slug": "mexico"
+            },
+            "id": 12,
+            "flag": "mexico",
+            "alpha2": "MX",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "المكسيك",
+                "ru": "Мексика"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "uniqueTournament": {
+            "name": "Liga MX, Clausura",
+            "slug": "liga-mx-clausura",
+            "primaryColorHex": "#cd2c25",
+            "secondaryColorHex": "#52b030",
+            "category": {
+              "name": "Mexico",
+              "slug": "mexico",
+              "sport": {
+                "name": "Football",
+                "slug": "football",
+                "id": 1
+              },
+              "priority": 0,
+              "country": {
+                "alpha2": "MX",
+                "alpha3": "MEX",
+                "name": "Mexico",
+                "slug": "mexico"
+              },
+              "id": 12,
+              "flag": "mexico",
+              "alpha2": "MX",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "المكسيك",
+                  "ru": "Мексика"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "userCount": 41290,
+            "hasPerformanceGraphFeature": false,
+            "liveActivityEnabled": false,
+            "country": {},
+            "id": 11620,
+            "hasEventPlayerStatistics": true,
+            "displayInverseHomeAwayTeams": false,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "الدوري المكسيكي، مرحلة الإياب",
+                "bn": "লিগা এমএক্স , ক্লাউসুরা",
+                "hi": "लीगा एमएक्स, क्लॉसुरा",
+                "ru": "Лига MX, Клаусура"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "priority": 416,
+          "isGroup": false,
+          "isLive": false,
+          "id": 16753,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "دوري المكسيك، مرحلة الإياب",
+              "bn": "লিগা এমএক্স, ক্লসুরা",
+              "hi": "लीगा एमएक्स, क्लॉसुरा",
+              "ru": "Лига MX, Клаусура"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "season": {
+          "name": "Liga MX, Clausura 2024",
+          "year": "23/24",
+          "editor": false,
+          "id": 57315
+        },
+        "roundInfo": {
+          "round": 7
+        },
+        "customId": "ZNsJFo",
+        "status": {
+          "code": 100,
+          "description": "Ended",
+          "type": "finished"
+        },
+        "winnerCode": 2,
+        "homeTeam": {
+          "name": "Atlas FC",
+          "slug": "atlas-fc",
+          "shortName": "Atlas",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 28079,
+          "nameCode": "ATS",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 1949,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#e70b17",
+            "secondary": "#000000",
+            "text": "#000000"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "أطلس",
+              "hi": "एटलास ऍफ़सी",
+              "ru": "ФК Атлас"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "awayTeam": {
+          "name": "Club León",
+          "slug": "club-leon",
+          "shortName": "León",
+          "gender": "M",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "userCount": 40370,
+          "nameCode": "LEO",
+          "disabled": false,
+          "national": false,
+          "type": 0,
+          "country": {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "name": "Mexico",
+            "slug": "mexico"
+          },
+          "id": 36534,
+          "subTeams": [],
+          "teamColors": {
+            "primary": "#008040",
+            "secondary": "#66cc33",
+            "text": "#66cc33"
+          },
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كلوب ليون",
+              "ru": "Леон"
+            },
+            "shortNameTranslation": {
+              "ar": "ليون"
+            }
+          }
+        },
+        "homeScore": {
+          "current": 0,
+          "display": 0,
+          "period1": 0,
+          "period2": 0,
+          "normaltime": 0
+        },
+        "awayScore": {
+          "current": 1,
+          "display": 1,
+          "period1": 0,
+          "period2": 1,
+          "normaltime": 1
+        },
+        "time": {
+          "injuryTime1": 6,
+          "injuryTime2": 5,
+          "currentPeriodStartTimestamp": 1708298056
+        },
+        "changes": {
+          "changes": [
+            "status.code",
+            "status.description",
+            "status.type"
+          ],
+          "changeTimestamp": 1708301213
+        },
+        "hasGlobalHighlights": true,
+        "hasEventPlayerStatistics": true,
+        "hasEventPlayerHeatMap": true,
+        "detailId": 1,
+        "crowdsourcingDataDisplayEnabled": false,
+        "id": 11911139,
+        "awayRedCards": 1,
+        "slug": "club-leon-atlas-fc",
+        "startTimestamp": 1708293600,
+        "finalResultOnly": false,
+        "feedLocked": true,
+        "isEditor": false
+      }
+    }
+  ]
+}
