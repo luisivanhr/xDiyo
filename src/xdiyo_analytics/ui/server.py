@@ -18,7 +18,7 @@ from .recipe import (catalog_for_ui, default_recipe, export_notebook, export_pyt
 from .schema import stage_schema
 
 
-def render_result_report(result, recipe, *, spatial_transport=None):
+def _result_report(result, recipe):
     """Refresh local badge presentation without fitting or changing saved results."""
     from dataclasses import replace
     from ..reporting import TeamCatalog
@@ -27,7 +27,7 @@ def render_result_report(result, recipe, *, spatial_transport=None):
     report = result.report
     if isinstance(report, StoredHTMLReport):
         # Legacy HTML is the retained document, not a regenerable report view.
-        return report.to_html()
+        return report
     if recipe.get('team_badges'):
         path = Path(recipe['team_badges'])
         badges = TeamCatalog.from_json(path) if path.is_file() else TeamCatalog({})
@@ -48,7 +48,15 @@ def render_result_report(result, recipe, *, spatial_transport=None):
                 artifact = replace(artifact, options={**artifact.options, 'teams': teams})
             artifacts.append(artifact)
         refreshed.append(replace(study, result=replace(study.result, artifacts=artifacts)))
-    return replace(report, studies=refreshed).to_html(spatial_transport=spatial_transport)
+    return replace(report, studies=refreshed)
+
+
+def render_result_report(result, recipe, *, spatial_transport=None):
+    from ..experiments.legacy import StoredHTMLReport
+    report = _result_report(result, recipe)
+    if isinstance(report, StoredHTMLReport):
+        return report.to_html()
+    return report.to_html(spatial_transport=spatial_transport, renderers=getattr(result, '_renderers', None))
 
 
 def _frame(frame, limit=40):
@@ -114,7 +122,11 @@ def _fold_description(metadata, fold):
 
 
 class BuilderState:
-    def __init__(self, workspace, catalog):
+    def __init__(self, workspace, catalog, *, retention_bytes=None):
+        if retention_bytes is not None and (isinstance(retention_bytes, bool) or not isinstance(retention_bytes, int) or retention_bytes < 0):
+            raise ValueError("retention_bytes must be None or a nonnegative integer.")
+        self.retention_bytes = retention_bytes
+        self._retention_lock = threading.RLock()
         self.workspace = Path(workspace).resolve()
         self.catalog = catalog
         self.token = secrets.token_urlsafe(32)
@@ -124,7 +136,7 @@ class BuilderState:
         self.discovery_cache = {}
         self.base_url = ''
         from ..reporting.spatial_live import SpatialStore
-        self.spatial = SpatialStore()
+        self.spatial = SpatialStore(self.workspace / "experiments" / "_ui_spatial" / self.token if retention_bytes is not None else None)
 
     def resolve(self, path):
         path = Path(path)
@@ -172,7 +184,7 @@ class BuilderState:
                                      if j['action'] == 'prepare' and j['status'] == 'complete' and j['recipe'] == job['recipe']), None)
                     result = run_recipe(job['recipe'], prepared=previous, catalog=self.catalog)
                     job['object'] = result
-                    job['html'] = result.to_html()
+                    self._report(job)
                     job['path'] = str(result.path)
                     job['reused'] = result.reused
                     job['preview'] = _preparation_preview(result.prepared)
@@ -181,10 +193,67 @@ class BuilderState:
                     job['object'] = (dataset, predictions)
                     job['preview'] = {'metadata': _frame(dataset.metadata), **{k: _frame(v) for k, v in predictions.items()}}
                 job.update(status='complete', message='Completed')
+                result = previous = None
+                self._trim_results()
             except Exception as exc:
                 job.update(status='failed', message=f'{type(exc).__name__}: {exc}')
         job['future'] = self.executor.submit(work)
         return {'id': job_id}
+
+    def _object(self, job):
+        if job.get('object') is None and '_retained' in job:
+            return job['_retained'].load()
+        return job['object']
+
+    def _report(self, job):
+        from .retention import digest
+        result = self._object(job)
+        report = _result_report(result, job['recipe'])
+        try:
+            key = None if getattr(result, '_renderers', None) else digest((report, self.base_url, self.token))
+        except TypeError:
+            key = None  # Custom renderers/artifacts retain eager validation.
+        if key is None or key != job.get('_html_key') or ('html' not in job and '_document' not in job):
+            # Rendering is still the completion validation, using exactly the
+            # same badge refresh and spatial transport as the served document.
+            from ..experiments.legacy import StoredHTMLReport
+            document = (report.to_html() if isinstance(report, StoredHTMLReport) else
+                        report.to_html(spatial_transport=self.spatial_transport(), renderers=getattr(result, '_renderers', None)))
+            job['_html_key'] = key
+            if '_retained' in job:
+                from .retention import RetainedDocument
+                job['_document'] = RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), document)
+                job.pop('html', None)
+            else:
+                job['html'] = document
+        return job['html'] if 'html' in job else job['_document'].read()
+
+    def _trim_results(self):
+        if self.retention_bytes is None:
+            return
+        from .retention import payload_bytes, RetainedResult, RetainedDocument
+        with self._retention_lock:
+            jobs = list(self.jobs.values())
+            total = sum(payload_bytes(j.get('object')) + payload_bytes(j.get('html', '')) for j in jobs)
+            for job in jobs:
+                if total <= self.retention_bytes:
+                    break
+                if job['status'] != 'complete' or job['action'] != 'run' or job.get('object') is None:
+                    continue
+                result = job['object']
+                try:
+                    retained = RetainedResult(result, job['recipe'])
+                except Exception as error:
+                    job['retention'] = 'pinned: ' + str(error)
+                    continue
+                if 'html' in job:
+                    job['_document'] = RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), job['html'])
+                    total -= payload_bytes(job.pop('html'))
+                total -= payload_bytes(result)
+                job['_retained'] = retained
+                job.pop('object')
+                job['retention'] = 'reloaded on demand'
+            self.retained_payload_bytes = max(0, total)
 
     def dispatch(self, route, request):
         from ..data import inspect_season, list_stat_bundles
@@ -329,10 +398,10 @@ class BuilderState:
             return self.start(route, request['recipe'])
         if route == 'job':
             job = self.jobs[request['id']]
-            return {k: v for k, v in job.items() if k not in ('object', 'recipe', 'future', 'html')}
+            return {k: v for k, v in job.items() if k not in ('object', 'recipe', 'future', 'html') and not k.startswith('_')}
         if route == 'report':
             job = self.jobs[request['id']]
-            return {'html': render_result_report(job['object'], job['recipe'], spatial_transport=self.spatial_transport())}
+            return {'html': self._report(job)}
         if route == 'spatial':
             return self.spatial.fetch(request)
         if route == 'runs':
@@ -349,7 +418,7 @@ class BuilderState:
             return {'html': render_result_report(result, recipe, spatial_transport=self.spatial_transport())}
         if route == 'save_model':
             from ..training import save_model
-            result = self.jobs[request['id']]['object']
+            result = self._object(self.jobs[request['id']])
             model = result.refit if request.get('refit') else result.training
             if model is None:
                 raise ValueError('This run has no final refitted model.')
@@ -385,8 +454,8 @@ class BuilderHandle:
         self.state.spatial.ids.clear()
 
 
-def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None):
-    state = BuilderState(workspace, catalog or catalog_for_ui())
+def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None, retention_bytes=None):
+    state = BuilderState(workspace, catalog or catalog_for_ui(), retention_bytes=retention_bytes)
     assets = Path(__file__).parent / 'static'
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
@@ -457,8 +526,9 @@ def main():
     parser.add_argument('--workspace', default='.')
     parser.add_argument('--port', type=int, default=0)
     parser.add_argument('--no-browser', action='store_true')
+    parser.add_argument('--retention-bytes', type=int, default=None, help='Optional completed-result payload budget; unset retains current behavior.')
     args = parser.parse_args()
-    handle = launch_ui(args.workspace, port=args.port, open_browser=not args.no_browser)
+    handle = launch_ui(args.workspace, port=args.port, open_browser=not args.no_browser, retention_bytes=args.retention_bytes)
     print(handle.url, flush=True)
     try:
         handle.thread.join()

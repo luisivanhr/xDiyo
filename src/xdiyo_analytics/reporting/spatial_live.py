@@ -9,7 +9,8 @@ import threading
 
 
 class SpatialStore:
-    def __init__(self):
+    def __init__(self, spool=None):
+        self.spool = spool
         self.data = {}
         self.ids = {}
 
@@ -19,10 +20,35 @@ class SpatialStore:
             key = secrets.token_urlsafe(18)
             self.ids[id(data)] = key
             self.data[key] = data
+            if self.spool is not None:
+                from pathlib import Path
+                from ..experiments.recovery import dump_bundle, load_bundle, pack
+                path = Path(self.spool) / (key + '.json')
+                path.parent.mkdir(parents=True, exist_ok=True)
+                dump_bundle(path, data)
+                if pack(load_bundle(path)) != pack(data):
+                    raise ValueError('Spatial payload reload verification failed.')
+                self.data[key] = _SpooledSpatial(path)
+                # No id-only deduplication after releasing the original object.
+                self.ids.pop(id(data), None)
         return key
 
     def fetch(self, request):
         return self.data[request['id']].panel_pair(request['fixture'], request['map'])
+
+
+class _SpooledSpatial:
+    def __init__(self, path):
+        import hashlib
+        self.path = path
+        self.sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def panel_pair(self, fixture, map_id):
+        import hashlib
+        from ..experiments.recovery import load_bundle
+        if hashlib.sha256(self.path.read_bytes()).hexdigest() != self.sha256:
+            raise ValueError('Retained spatial artifact changed.')
+        return load_bundle(self.path).panel_pair(fixture, map_id)
 
 
 @dataclass
