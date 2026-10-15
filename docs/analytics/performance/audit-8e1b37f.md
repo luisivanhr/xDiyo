@@ -1,7 +1,7 @@
 # Review repairs after 8e1b37f
 
-Branch: `codex/performance-owned-caches-resume`. Keep unmerged. Repairs are local;
-this audit does not authorize publishing another revision. No frozen experiment,
+Branch: `codex/performance-owned-caches-resume`. Keep unmerged. The user
+authorized pushing the completed repairs after verification. No frozen experiment,
 production source binding, model artifact or dataset is changed.
 
 ## Repairs
@@ -56,8 +56,17 @@ against an uninterrupted reference. No comparison tolerance is relaxed.
 - Integrated final run: **5,739 passed, 34 skipped, zero failures**, 58 warnings,
   1,227.97 s. Skips cover unavailable/gated CUDA and SciPy array-API checks;
   warnings include deprecations and intentional float32 overflow probes.
-- CUDA on repaired source: pending production GPU release. Prior CUDA receipts
-  remain evidence for 8e1b37f only, not a claim that these repairs passed CUDA.
+- Repaired-source CUDA gate: **56 passed, zero skips/failures** (464.61 s),
+  on RTX 4070 SUPER after the production worker and supervisors exited. Includes
+  11 CUDA-specific cases: four residency/update comparisons, one owned-KL
+  comparison, two frozen-inspection comparisons and four fresh-process continuation
+  cases. The remaining cases include CPU continuation and interruption boundaries.
+  Strict exact comparisons passed for gradients, parameters, full AdamW state,
+  losses, predictions, selected checkpoints and tested continuation outputs.
+  One PyTorch TF32 API deprecation warning; no checks were relaxed.
+  Fresh source/test/runtime hashes and the command are in
+  `audit-8e1b37f-cuda-environment.json`; log/XML receipts are retained.
+  Runtime source remained byte-identical to the completed CPU audit.
 
 The initial integrated run was stopped after the corrected reference harness had
 been collected in its old form; its partial log is retained. The final integrated
@@ -90,9 +99,10 @@ $env:CUBLAS_WORKSPACE_CONFIG=':4096:8'
 
 Do not edit runtime source during cold-process resume checks. Capture fresh
 source/runtime hashes. Do not run this command while a production worker or a
-successor supervisor is active. Current wait gate is the Bayesian recovery
-worker PID 145340 (launcher 139544), `long200_aux2_bayes11_fold03.json`; recheck
-all processes, not only these historical PIDs.
+successor supervisor is active. The former wait gate was the Bayesian recovery
+worker PID 145340 (launcher 139544), `long200_aux2_bayes11_fold03.json`.
+All worker/supervisor command lines were absent at the final preflight.
+Always recheck live processes before reproducing these commands.
 
 ## Performance and limitations
 
@@ -104,6 +114,7 @@ transients). This CPU storage is outside the GPU budget and included in measured
 process RSS. There is no claim that all source caches are shared when enabled.
 No new speedup is claimed from these correctness repairs. The existing browser
 CSV-download limitation and lack of remote CI remain; local HTTP report/export
-checks passed. Keep the branch unmerged pending final verification/review. The existing quiet
-heartbeat has been reactivated for the repaired-source CUDA gate; it must wait
-for all production workers and successors to release the GPU.
+checks passed. The repaired-source verification is complete; keep the branch unmerged for review.
+The user authorized pushing after completion. Pause the waiting heartbeat after
+verifying the push. Deterministic CUDA checks do not establish bit-exact behavior
+under nondeterministic settings. No new speedup or saved-fold benchmark is claimed.

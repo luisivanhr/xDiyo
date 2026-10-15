@@ -16,15 +16,8 @@
     "tests/analytics/test_ui_retention_audit.py": "423b0abe56169388b425cdd44c8c64623ab37be1be5a4da96c0f5d471fbe333a"
   },
   "gpu_gate": {
-    "status": "waiting_for_production",
-    "worker_pid": 145340,
-    "launcher_pid": 139544,
-    "supervisor_pids": [
-      158592,
-      141392
-    ],
-    "execution": "long200_aux2_bayes11_fold03.json",
-    "observed_local_time": "2026-10-15T21:11:45+09:00"
+    "status": "verified_free_and_cuda_passed",
+    "completion_receipt": "audit-8e1b37f-cuda-environment.json"
   },
   "cpu_environment": {
     "CUDA_VISIBLE_DEVICES": "-1",
@@ -72,6 +65,16 @@
       "time": "14.353",
       "timestamp": "2026-10-15T21:19:27.206396+09:00",
       "hostname": "Ivan-tachi"
+    },
+    "audit-8e1b37f-cuda.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "56",
+      "time": "464.604",
+      "timestamp": "2026-10-16T00:02:35.903682+09:00",
+      "hostname": "Ivan-tachi"
     }
   },
   "python_executable": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe",
@@ -80,5 +83,5 @@
     "regressions": "python -u -m pytest tests/analytics/test_graph_owned_kl.py tests/analytics/test_ui_retention_audit.py -q --tb=short --junitxml=docs/analytics/performance/audit-8e1b37f-regressions.xml",
     "compatibility": "See audit-8e1b37f.md for the exact file-selection command; isolated xdiyo-pandas22-followup and xdiyo-pandas30-followup interpreters."
   },
-  "remaining": "Repaired-source deterministic CUDA gate; production worker still active. Quiet heartbeat reactivated. No merge or push."
+  "remaining": "No pending audit verification. User authorized branch push after completion; keep unmerged for review."
 }

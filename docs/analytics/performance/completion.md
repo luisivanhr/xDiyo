@@ -1,13 +1,15 @@
 # Performance completion pass
 
-Branch: `codex/performance-owned-caches-resume`. No merge or push. The frozen
+Branch: `codex/performance-owned-caches-resume`. Keep unmerged; the user authorized
+pushing the verified repairs. The frozen
 local and Hostinger runtimes, datasets and production fits are unchanged.
 
 ## Status
 
 Follow-up review repairs: see [audit-8e1b37f.md](audit-8e1b37f.md). The
 completion evidence below describes the previously verified 8e1b37f revision;
-the repaired source requires its own final CUDA gate.
+the repaired source has now passed its own final gate: 56 tests, zero skips or
+failures. See the fresh audit CUDA receipts for exact source/runtime hashes.
 
 Completed on 2026-10-15 after full process-command and GPU telemetry checks
 confirmed that the frozen worker and its successors had exited. No production

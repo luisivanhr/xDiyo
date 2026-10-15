@@ -1,19 +1,21 @@
-# Current handoff: audit repairs await free GPU
+# Current handoff: audit verification complete
 
-The 8e1b37f review introduced a new verification gate after the earlier completion.
-Read [audit-8e1b37f.md](audit-8e1b37f.md) and its environment receipt first.
-The four repairs are on the same isolated branch. Final CPU/compatibility results
-are recorded there. The production Bayesian recovery worker (last observed PID
-145340, launcher 139544, supervisors 141392/158592) is active; inspect full command
-lines and telemetry for it and all successors before doing any CUDA work.
+The repairs are committed at `745570fc4de0cdf857355ce283f21c154a6f0f35`.
+Read [audit-8e1b37f.md](audit-8e1b37f.md), its environment receipt and the
+fresh `audit-8e1b37f-cuda-environment.json` for the tested source/runtime hashes.
 
-Once free, run the exact CUDA command in the audit document, preserving strict
-comparisons. Capture fresh source/runtime/test hashes and receipts. Fix any
-failure without relaxing checks; rerun affected CPU tests if runtime source
-changes. Update the audit status and commit locally, then pause the heartbeat.
-Do not push or merge. Do not rerun frozen fits or change their artifacts.
-The saved-fold benchmarks below were already completed and need not be repeated
-for this correctness audit unless a new failure/change requires it.
+- CPU integrated: 5,739 passed, 34 skipped.
+- pandas 2.2.3 and 3.0.0: 411 passed each.
+- Final repaired-source CUDA selection: 56 passed, zero skips/failures, 464.61 s.
+- Strict deterministic CUDA and fresh-process continuation comparisons passed.
+- No runtime source changed during verification; production fits were untouched.
+
+The user's subsequent instruction authorizes pushing this completed branch;
+it supersedes historical no-push instructions below. Keep the branch unmerged.
+Commit the evidence, push `codex/performance-owned-caches-resume`, verify the
+remote tip, and pause the waiting heartbeat. Do not rerun frozen fits or change
+their artifacts. Saved-fold benchmarks are already completed; no new performance
+claim is made for these correctness repairs.
 
 ---
 
