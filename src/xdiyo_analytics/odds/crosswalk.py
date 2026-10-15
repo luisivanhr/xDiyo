@@ -275,7 +275,8 @@ def read_crosswalk(directory, snapshot_id):
     version = hashlib.sha256(frame.to_json(orient='records', date_format='iso').encode()).hexdigest()[:24]
     if version != manifest['version']:
         raise ValueError('Crosswalk content identity was modified')
-    return frame.copy(deep=True)
+    from .._ownership import isolated_frame
+    return isolated_frame(frame)
 
 
 def native_fixture_metadata(data_root, *, seasons, leagues=None):

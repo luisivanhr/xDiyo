@@ -89,3 +89,31 @@ def test_odds_operation_over_eight_partitions_bounded_and_released():
         table('failure',lambda: load(99)); raise RuntimeError('cancel')
     with pytest.raises(RuntimeError):fail()
     assert _active.get() is None
+
+
+def test_custom_crosswalk_nested_cells_do_not_mutate_cached_table(tmp_path, monkeypatch):
+    import hashlib
+    from xdiyo_analytics.odds import crosswalk
+    from xdiyo_analytics.odds._cache import operation
+    source = pd.DataFrame({'status': ['matched'], 'custom': [{'notes': ['original']}],
+                           'array': [np.array([1, 2])]})
+    path = tmp_path/'fixtures.parquet'; source.to_parquet(path, index=False)
+    # Logical identity is calculated on the actual parquet representation.
+    stored = pd.read_parquet(path)
+    manifest = {'snapshot': 'test', 'version': hashlib.sha256(stored.to_json(orient='records', date_format='iso').encode()).hexdigest()[:24],
+                'files': [{'path': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}]}
+    monkeypatch.setattr(crosswalk, 'read_manifest', lambda *a, **k: manifest)
+    calls = []; read = pd.read_parquet
+    def recorded(*a, **k):
+        calls.append(1); return read(*a, **k)
+    monkeypatch.setattr(pd, 'read_parquet', recorded)
+    @operation
+    def run():
+        first = crosswalk.read_crosswalk(tmp_path, 'test')
+        first.at[0, 'custom']['notes'][0] = 'changed'
+        first.at[0, 'array'][0] = 99
+        second = crosswalk.read_crosswalk(tmp_path, 'test')
+        assert second.at[0, 'custom']['notes'][0] == 'original'
+        assert second.at[0, 'array'][0] == 1
+        assert calls == [1]
+    run()
