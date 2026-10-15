@@ -25,8 +25,12 @@ class ExecutionPolicy:
     device: str = "cpu"
     inner_threads: int = 1
     gpu_jobs: int = 1
+    input_cache_bytes: int = 0
+    input_cache_headroom_bytes: int = 1073741824
 
     def __post_init__(self):
+        from .residency import InputCachePolicy
+        InputCachePolicy(self.input_cache_bytes, self.input_cache_headroom_bytes)
         if isinstance(self.n_jobs, bool) or not isinstance(self.n_jobs, int) or self.n_jobs == 0 or self.n_jobs < -1:
             raise ValueError("n_jobs must be -1 or a positive integer.")
         if not isinstance(self.device, str) or not re.fullmatch(r"cpu|auto|cuda(?::[0-9]+)?", self.device):
@@ -67,6 +71,11 @@ def configure_model(model, execution):
     if execution.device.startswith("cuda") and (not device.startswith("cuda") or
             (":" in execution.device and device != execution.device)):
         raise ValueError("Adapter did not honor the requested CUDA device.")
+    cache = getattr(model, "configure_input_cache", None)
+    if callable(cache):
+        cache(execution.input_cache_bytes, execution.input_cache_headroom_bytes)
+    elif execution.input_cache_bytes:
+        raise ValueError("This adapter does not support native input residency.")
     threads = getattr(model, "configure_threads", None)
     if callable(threads):
         threads(execution.inner_threads)

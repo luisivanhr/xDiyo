@@ -14,6 +14,10 @@ class HeatmapCNNAdapter:
     def __init__(self, spec, *, device='cpu', inner_threads=1):
         self.spec, self.device, self.inner_threads = spec, device, inner_threads
 
+    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
+        from ..training.residency import InputCachePolicy
+        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes)
+
     def configure_device(self, requested):
         from ..graphs.adapter import TemporalGraphAdapter
         return TemporalGraphAdapter.configure_device(self, requested)
@@ -42,7 +46,7 @@ class HeatmapCNNAdapter:
         effective_control = control or self.spec.control
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
-                lambda seed: CNNBackend(self.spec, seed, self.device), context, effective_control)
+                lambda seed: CNNBackend(self.spec, seed, self.device, getattr(self, "input_cache_policy", None)), context, effective_control)
         self.effective_control_ = effective_control
 
     def predict(self, context):
@@ -116,7 +120,10 @@ def make_network(spec, inputs, outputs):
 class CNNBackend:
     supports_sample_weight = True
 
-    def __init__(self, spec, seed, device):
+    def __init__(self, spec, seed, device, input_cache_policy=None):
+        from ..training.residency import InputResident
+        self.input_cache_policy = input_cache_policy
+        self._input_resident = InputResident(device, input_cache_policy)
         self.spec, self.seed, self.device = spec, seed, device
 
     def initialize(self, context):
@@ -191,23 +198,31 @@ class CNNBackend:
         reconstruction = torch.zeros_like(primary)
         for start in range(0, count, self.spec.batch_size):
             sl = slice(start, start+self.spec.batch_size)
-            batch = population.batch(sl) if owned else (maps[sl], masks[sl], numeric[sl], y[sl], weights[:, sl])
-            m, a, n = [torch.as_tensor(v, device=self.device) for v in batch[:3]]
-            target = torch.as_tensor(batch[3], dtype=torch.long if self.classes is not None else torch.float32, device=self.device)
-            w = torch.as_tensor(batch[4][0], device=self.device)
-            logits, z = self.model(m, a, n)
-            error = (logits-target).square().mean(dim=1) if self.classes is None else torch.nn.functional.cross_entropy(logits, target, reduction='none')
-            loss = (error*w).sum()
-            primary.add_(loss.detach())
-            if self.spec.encoder.reconstruction is not None:
-                rw = torch.as_tensor(batch[4][1], device=self.device)
-                errors = (self.model.encoder._reconstruction_errors(z, m, a, validate=False)
-                          if owned and population.kl_validated else self.model.encoder.reconstruction_errors(z, m, a))
-                aux = (errors*rw).sum()
-                reconstruction.add_(aux.detach())
-                loss = loss + self.spec.encoder.reconstruction.weight*aux
-            if backward:
-                loss.backward()
+            def tensors(device):
+                batch = population.batch(sl) if owned else (maps[sl], masks[sl], numeric[sl], y[sl], weights[:, sl])
+                return (*[torch.as_tensor(v, device=device) for v in batch[:3]],
+                        torch.as_tensor(batch[3], dtype=torch.long if self.classes is not None else torch.float32, device=device),
+                        *[torch.as_tensor(v, device=device) for v in batch[4]])
+            from contextlib import nullcontext
+            lease = (self._input_resident.lease((population.generation, start, self.spec.batch_size),
+                     lambda: tensors('cpu'), lambda: tensors(self.device)) if owned else nullcontext(tensors(self.device)))
+            with lease as values:
+                m, a, n, target, w, rw = values
+                logits, z = self.model(m, a, n)
+                error = (logits-target).square().mean(dim=1) if self.classes is None else torch.nn.functional.cross_entropy(logits, target, reduction='none')
+                loss = (error*w).sum()
+                primary.add_(loss.detach())
+                if self.spec.encoder.reconstruction is not None:
+                    errors = (self.model.encoder._reconstruction_errors(z, m, a, validate=False)
+                              if owned and population.kl_validated else self.model.encoder.reconstruction_errors(z, m, a))
+                    aux = (errors*rw).sum()
+                    reconstruction.add_(aux.detach())
+                    loss = loss + self.spec.encoder.reconstruction.weight*aux
+                if backward:
+                    loss.backward()
+                del values, m, a, n, target, w, rw, logits, z, loss, error
+                if self.spec.encoder.reconstruction is not None:
+                    del errors, aux
         return float(primary), float(reconstruction)
 
     def step(self):

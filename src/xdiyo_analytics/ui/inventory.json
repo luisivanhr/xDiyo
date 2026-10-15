@@ -4008,6 +4008,28 @@
           "help": "Maximum simultaneous GPU fits. 1 avoids competing for the same GPU memory.",
           "step": 1,
           "primary": true
+        },
+        {
+          "name": "input_cache_bytes",
+          "title": "Input cache bytes",
+          "required": false,
+          "kind": "number",
+          "default": 0,
+          "min": 0,
+          "step": 1,
+          "help": "Aggregate CUDA input-cache budget in bytes per process/device. Zero disables residency; CPU uses streaming. Retained inputs and transient leases share the budget; oversize inputs stream without retention.",
+          "primary": false
+        },
+        {
+          "name": "input_cache_headroom_bytes",
+          "title": "Input cache headroom bytes",
+          "required": false,
+          "kind": "number",
+          "default": 1073741824,
+          "min": 0,
+          "step": 1,
+          "help": "Free CUDA memory reserved for activations and optimizer state before retaining inputs. This does not cap total model memory.",
+          "primary": false
         }
       ],
       "accepts_extra": false

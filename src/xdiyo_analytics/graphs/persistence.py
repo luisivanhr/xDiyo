@@ -39,6 +39,8 @@ class TemporalGraphSerializer:
             model_version=backend.model_version, event_store_version=adapter.event_store.version,
             event_store_provenance=adapter.event_store.provenance,
             training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
+        if getattr(adapter, "input_cache_policy", None) is not None:
+            metadata["input_cache_policy"] = asdict(adapter.input_cache_policy)
         (path/"graph.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
         adapter.training_history_.to_parquet(path/"training_history.parquet", compression="zstd", index=False)
         if self.embed_event_store:
@@ -78,8 +80,10 @@ class TemporalGraphSerializer:
                 control[key] = cls(**control[key])
         adapter = TemporalGraphAdapter(config, store, control=TrainingControl(**control), inner_threads=meta["inner_threads"])
         adapter.configure_device(self.device)
+        if meta.get("input_cache_policy") is not None:
+            adapter.configure_input_cache(**meta["input_cache_policy"])
         prepare_determinism(config, adapter.device)
-        backend = _Backend(config, store, 0, adapter.device)
+        backend = _Backend(config, store, 0, adapter.device, getattr(adapter, "input_cache_policy", None))
         backend.preprocessor = GraphPreprocessor.from_state(config, meta["preprocessing"])
         p = backend.preprocessor
         if tuple(meta["edge_feature_order"]) != p.edge_columns or tuple(meta["fixture_feature_order"]) != p.fixture_columns:

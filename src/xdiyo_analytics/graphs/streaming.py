@@ -98,9 +98,8 @@ class GroupPlan:
 def prepare_group(raw, preprocessor, device, store=None):
     import torch
     positions, snap, home, away, meta, numeric = raw
-    if store is not None:
-        snap._encoded_x = preprocessor.cached_edges(snap, store)
-    return (positions, preprocessor.tensors(snap, device),
+    data = preprocessor.native_tensors(snap, device, store) if store is not None else preprocessor.tensors(snap, device)
+    return (positions, data,
             torch.as_tensor(home, device=device), torch.as_tensor(away, device=device),
             torch.as_tensor(preprocessor.fixture(meta, numeric), dtype=torch.float32, device=device))
 
@@ -112,8 +111,23 @@ class PreparedGroups:
     additionally process each group inside a helper frame, so the previous
     tensors/autograd graph are gone before requesting the next one.
     """
-    def __init__(self, plan, preprocessor, device):
+    def __init__(self, plan, preprocessor, device, input_cache_policy=None):
         self.plan, self.preprocessor, self.device = plan, preprocessor, device
+        from ..training.residency import InputResident
+        self._resident = InputResident(device, input_cache_policy)
+        if self._resident.pool is not None:
+            from copy import copy, deepcopy
+            self._fixed_plan = copy(plan)
+            self._fixed_plan.metadata = isolated_frame(plan.metadata)
+            self._fixed_plan.X = isolated_frame(plan.X)
+            self._fixed_plan.descriptors = tuple((t, p.copy()) for t, p in plan.descriptors)
+            self._fixed_preprocessor = type(preprocessor).from_state(deepcopy(preprocessor.config), deepcopy(preprocessor.state()))
+
+    def lease(self, index):
+        def cpu():
+            p, prep = self._fixed_plan, self._fixed_preprocessor
+            return prepare_group(p.raw(index, columns=prep.snapshot_columns(p.store)), prep, 'cpu', p.store)
+        return self._resident.lease(index, cpu, lambda: self[index])
 
     def __len__(self):
         return len(self.plan)

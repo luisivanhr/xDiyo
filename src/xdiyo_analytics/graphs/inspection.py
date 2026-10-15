@@ -11,7 +11,7 @@ def _attention_group(adapter, time, positions, queries, records):
     backend = adapter.backend_
     teams = queries.iloc[positions].team_id.tolist()
     snap = backend.store.snapshot(time, adapter.config, teams)
-    _, layers = backend.model.encode(backend.preprocessor.tensors(snap, adapter.device), return_attention=True)
+    _, layers = backend.model.encode(backend.preprocessor.native_tensors(snap, adapter.device, backend.store), return_attention=True)
     selected = np.flatnonzero(snap.edges.team_id.isin(teams))
     edges = list(snap.edges.iloc[selected].itertuples(index=False))
     for layer, alpha in enumerate(layers):

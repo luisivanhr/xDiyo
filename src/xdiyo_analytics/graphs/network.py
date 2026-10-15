@@ -71,7 +71,7 @@ class TemporalNetwork(nn.Module):
     def prior(self, league, entry):
         return self.global_prior + self.league(league) + (league != 0)[:, None] * self.entry(entry)
 
-    def encode(self, data, *, return_attention=False, return_auxiliary=False):
+    def encode(self, data, *, return_attention=False, return_auxiliary=False, _validated_targets=False):
         h = self.prior(data["league"], data["entry"])
         x = data['x']
         auxiliary = h.sum()*0
@@ -84,7 +84,8 @@ class TemporalNetwork(nn.Module):
                 z = self.spatial_encoder(m, a)
                 encoded.append(z)
                 if return_auxiliary:
-                    auxiliary = auxiliary + self.spatial_encoder.reconstruction_errors(z, m, a).sum()/denominator
+                    auxiliary = auxiliary + self.spatial_encoder._reconstruction_errors(
+                        z, m, a, validate=not _validated_targets).sum()/denominator
             z = torch.cat(encoded) if encoded else maps.new_empty((0, self.heatmap_config.encoder.embedding_dim))
             x = torch.cat((x, z, masks), dim=1)
         attention = []
@@ -99,8 +100,8 @@ class TemporalNetwork(nn.Module):
             return h, attention
         return (h, auxiliary) if return_auxiliary else h
 
-    def forward(self, data, home, away, fixture, *, return_auxiliary=False):
-        result = self.encode(data, return_auxiliary=return_auxiliary)
+    def forward(self, data, home, away, fixture, *, return_auxiliary=False, _validated_targets=False):
+        result = self.encode(data, return_auxiliary=return_auxiliary, _validated_targets=_validated_targets)
         h, auxiliary = result if return_auxiliary else (result, None)
         a, b = h[home], h[away]
         logits = self.head(torch.cat((a, b, a-b, a*b, fixture), dim=1))

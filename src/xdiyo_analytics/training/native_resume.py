@@ -53,8 +53,10 @@ def restore_rng(state):
 
 def execution_profile(adapter):
     import torch
+    from dataclasses import asdict
+    from .residency import InputCachePolicy
     device = str(adapter.device)
-    return dict(python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
+    return dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
                 torch_build=hashlib.sha256(torch.__config__.show().encode()).hexdigest(),
                 platform=platform.platform(), device=device, threads=torch.get_num_threads(),
                 interop_threads=torch.get_num_interop_threads(),
@@ -216,10 +218,13 @@ def finalize_training(adapter, *, mode='retain', checkpoint=None):
         raise ValueError('Finalization checkpoint does not match the current fitted parameters.')
     if _preprocessing(backend) != state['winner']['preprocessing']:
         raise ValueError('Finalization checkpoint does not match the current preprocessing.')
+    if hasattr(backend, "_input_resident"):
+        backend._input_resident.close()
     backend.optimizer.zero_grad(set_to_none=True)
     for name in ('optimizer', 'train_groups', 'validation_groups', 'train_targets', 'validation_targets',
                  'train_weights', 'validation_weights', 'train', 'validation'):
         backend.__dict__.pop(name, None)
     if hasattr(backend, 'preprocessor'):
         backend.preprocessor._edge_cache = None
+        backend.preprocessor._map_cache = None
     adapter._training_finalized = True

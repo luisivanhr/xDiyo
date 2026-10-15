@@ -56,6 +56,10 @@ class TemporalGraphAdapter:
         self.control = control or TrainingControl()
         self.device, self.inner_threads = device, inner_threads
 
+    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
+        from ..training.residency import InputCachePolicy
+        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes)
+
     def configure_device(self, requested):
         torch = _torch()
         if requested == "auto":
@@ -96,7 +100,7 @@ class TemporalGraphAdapter:
         self.control = control or self.control
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
-                lambda seed: _Backend(self.config, self.event_store, seed, self.device),
+                lambda seed: _Backend(self.config, self.event_store, seed, self.device, getattr(self, "input_cache_policy", None)),
                 context, self.control)
         self.training_summary_.update(
             fitting_boundary=self.backend_.fitting_boundary.isoformat(),
@@ -154,7 +158,8 @@ class TemporalGraphAdapter:
 class _Backend:
     supports_sample_weight = True
 
-    def __init__(self, config, store, seed, device):
+    def __init__(self, config, store, seed, device, input_cache_policy=None):
+        self.input_cache_policy = input_cache_policy
         self.config, self.store, self.seed, self.device = config, store, seed, device
 
     def _validate(self, context, fitting=False):
@@ -192,7 +197,7 @@ class _Backend:
         return GroupPlan(self.store, self.config, context, self._validate(context))
 
     def _stream(self, context):
-        return PreparedGroups(self._plan(context), self.preprocessor, self.device)
+        return PreparedGroups(self._plan(context), self.preprocessor, self.device, self.input_cache_policy)
 
     @configured_execution
     @release_temporary_frames
@@ -231,7 +236,7 @@ class _Backend:
         self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
         del numeric
-        self.train_groups = PreparedGroups(plan, self.preprocessor, self.device)
+        self.train_groups = PreparedGroups(plan, self.preprocessor, self.device, self.input_cache_policy)
         self.train_targets, self.train_weights = self._targets(context)
         self.validation_groups = None
         if context.validation is not None:
@@ -264,7 +269,7 @@ class _Backend:
             raise ValueError('Relative observation weights exceed the float32 dynamic range; positive weights would disappear.')
         return y, torch.tensor(scaled, device=self.device)
 
-    def _group_loss(self, group, targets, weights, backward, total_weight=None):
+    def _group_loss(self, group, targets, weights, backward, total_weight=None, *, owned_targets=False):
         torch = _torch()
         positions, data, home, away, fixture = group
         reconstruction = self.config.heatmaps.encoder.reconstruction if self.config.heatmaps is not None else None
@@ -272,7 +277,7 @@ class _Backend:
             if reconstruction is None:
                 logits = self.model(data, home, away, fixture)
             else:
-                logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True)
+                logits, auxiliary = self.model(data, home, away, fixture, return_auxiliary=True, _validated_targets=owned_targets)
         ix = torch.as_tensor(positions, device=self.device)
         if total_weight is None:
             total_weight = weights.sum()
@@ -296,7 +301,12 @@ class _Backend:
         total_weight = weights.sum()
         scalars = []
         for i in range(len(groups)):
-            scalars.extend(self._group_loss(groups[i], targets, weights, backward, total_weight))
+            if type(groups) is PreparedGroups:
+                with groups.lease(i) as group:
+                    scalars.extend(self._group_loss(group, targets, weights, backward, total_weight, owned_targets=True))
+                    del group
+            else:
+                scalars.extend(self._group_loss(groups[i], targets, weights, backward, total_weight))
         if not scalars:
             return 0.
         # One device-to-host transfer, then the *original* sequential Python
@@ -413,7 +423,7 @@ class _Backend:
     def _encode_group(self, time, positions, queries, records):
         teams = queries.iloc[positions].team_id.tolist()
         snap = self.store.snapshot(time, self.config, teams)
-        data = self.preprocessor.tensors(snap, self.device)
+        data = self.preprocessor.native_tensors(snap, self.device, self.store)
         z = self.model.encode(data)
         priors = self.model.prior(data["league"], data["entry"])
         lookup = {t: n for n, t in enumerate(snap.teams)}

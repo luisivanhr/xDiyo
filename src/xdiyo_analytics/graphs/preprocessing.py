@@ -48,6 +48,7 @@ class GraphPreprocessor:
         # One CPU source-row cache shared by every stream using this fitted
         # preprocessor. No graph/device/learned-output cache is retained.
         self._edge_cache = None
+        self._map_cache = None
 
     def numeric_edges(self, frame):
         if not set(self.edge_columns) <= set(frame):
@@ -64,6 +65,7 @@ class GraphPreprocessor:
 
     def fit(self, history, snapshots, fixtures, numeric, *, extra_leagues=()):
         self._edge_cache = None
+        self._map_cache = None
         categories = set(history.competition_id.tolist()) | set(fixtures.competition_id.tolist()) | set(extra_leagues)
         for snap in snapshots:
             categories.update(x for x in snap.league if x is not None)
@@ -121,6 +123,54 @@ class GraphPreprocessor:
             ready[part] = True
         return values[rows]
 
+    def cached_maps(self, snapshot, store):
+        """Native source-row maps shared across issuances, bounded to 128 MiB.
+
+        These are per-match grids already constructed in the receiving-team
+        frame. No point pooling, temporal averaging or learned outputs occur.
+        Arbitrary public snapshots retain the validating uncached path.
+        """
+        from .spatial import columns, grid_identity
+        from ..neural.inputs import neural_maps
+        if snapshot.store_version != store.version:
+            raise ValueError('Cannot encode maps from a different event store.')
+        cfg = self.config.heatmaps
+        reconstruction = cfg.encoder.reconstruction
+        validate_kl = reconstruction is not None and reconstruction.loss == 'kl'
+        identity = (id(store), store.version, json.dumps(grid_identity(cfg), sort_keys=True), validate_kl)
+        cache = self._map_cache
+        if cache is not None and cache[0] != identity:
+            self._map_cache = cache = None
+        n, count = cfg.grid.grid_size, len(store._history)
+        rows = snapshot.edges.index.to_numpy(dtype=np.int64)
+        def encode(indices):
+            maps, available = neural_maps(store._history.iloc[indices][columns(cfg)].to_numpy(
+                dtype=float, na_value=np.nan).reshape(len(indices), 2, n, n))
+            if validate_kl:
+                from ..neural.prepared import validate_kl_targets
+                validate_kl_targets(maps, available)
+            return maps, available
+        if count * (2*n*n*4 + 2*4 + 1) > self._edge_cache_limit or not len(rows):
+            self._map_cache = None
+            return encode(rows)
+        if cache is None:
+            cache = (identity, np.empty((count, 2, n, n), dtype=np.float32),
+                     np.empty((count, 2), dtype=np.float32), np.zeros(count, dtype=bool))
+            self._map_cache = cache
+        _, maps, available, ready = cache
+        unseen = rows[~ready[rows]]
+        for start in range(0, len(unseen), 256):
+            part = unseen[start:start+256]
+            maps[part], available[part] = encode(part)
+            ready[part] = True
+        return maps[rows], available[rows]
+
+    def native_tensors(self, snapshot, device, store):
+        snapshot._encoded_x = self.cached_edges(snapshot, store)
+        if self.config.heatmaps is not None:
+            snapshot._prepared_maps = self.cached_maps(snapshot, store)
+        return self.tensors(snapshot, device)
+
     def snapshot_columns(self, store):
         """Keep only causal graph metadata and optional deterministic maps."""
         names = {'competition_id', 'season_id', 'event_id', 'team_id', 'opponent_id',
@@ -157,7 +207,10 @@ class GraphPreprocessor:
                     entry=tensor([ENTRY_ORDER.index(x) for x in snapshot.entry], torch.long))
         if self.config.heatmaps is not None:
             from .spatial import tensors
-            result['maps'], result['map_available'] = tensors(snapshot.edges, self.config.heatmaps, device)
+            if hasattr(snapshot, '_prepared_maps'):
+                result['maps'], result['map_available'] = [torch.as_tensor(v, device=device) for v in snapshot._prepared_maps]
+            else:
+                result['maps'], result['map_available'] = tensors(snapshot.edges, self.config.heatmaps, device)
         return result
 
     def state(self):

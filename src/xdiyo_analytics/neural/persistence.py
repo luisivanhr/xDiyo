@@ -19,6 +19,8 @@ class HeatmapCNNSerializer:
                          asdict(adapter.effective_control_) if adapter.effective_control_ is not None else None),
                      inputs=b.inputs.state(), classes=b.classes,
                      targets=b.target_names, training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
+        if getattr(adapter, "input_cache_policy", None) is not None:
+            state["input_cache_policy"] = asdict(adapter.input_cache_policy)
         (path/'cnn.json').write_text(json.dumps(state, indent=2), encoding='utf-8')
         torch.save({k: v.detach().cpu() for k, v in b.model.state_dict().items()}, path/'weights.pt')
         adapter.training_history_.to_parquet(path/'training_history.parquet', compression='zstd', index=False)
@@ -48,7 +50,9 @@ class HeatmapCNNSerializer:
         # from the partial training summary or mislabel the declared default.
         adapter.effective_control_ = read_control(effective) if effective is not None else None
         adapter.configure_device(self.device)
-        b = CNNBackend(spec, 0, adapter.device)
+        if state.get("input_cache_policy") is not None:
+            adapter.configure_input_cache(**state["input_cache_policy"])
+        b = CNNBackend(spec, 0, adapter.device, getattr(adapter, "input_cache_policy", None))
         b.inputs = CNNInputs.from_state(spec, state['inputs'])
         b.classes, b.target_names = state['classes'], state['targets']
         with torch.random.fork_rng(devices=[]):

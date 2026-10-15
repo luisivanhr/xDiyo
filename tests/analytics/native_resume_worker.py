@@ -45,6 +45,10 @@ def main(directory, kind, mode):
     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
     random.seed(321); np.random.seed(321); torch.manual_seed(321)
     adapter, train, query = fixture(kind)
+    device = os.environ.get('XDIYO_RESUME_DEVICE', 'cpu')
+    adapter.configure_device(device)
+    if os.environ.get('XDIYO_RESUME_CACHE') == '1':
+        adapter.configure_input_cache(256 * 1024**2, 1024**3)
     control = TrainingControl(max_steps=4, restarts=1, seed=19,
         scheduler=ReduceOnPlateau(patience=1), early_stopping=EarlyStopping(patience=3))
     updates = []
@@ -59,7 +63,7 @@ def main(directory, kind, mode):
     torch.optim.AdamW.step = observe
     # Consume all global RNGs in callbacks; resume must restore their exact next values.
     def observer(event):
-        random.random(); np.random.random(); torch.rand(1)
+        random.random(); np.random.random(); torch.rand(1); torch.rand(1, device=device) if device.startswith("cuda") else None
     train.observer = observer
     if mode == 'reference':
         adapter.fit_controlled(train, control)
@@ -79,7 +83,7 @@ def main(directory, kind, mode):
             Path.replace = replace
         wrapped = CheckpointPolicy(every=1).wrap(lambda: adapter, directory/'checkpoints', 'fixture')()
         wrapped.fit_controlled(train, control)
-    torch.save(dict(backend=capture_backend(adapter.backend_), updates=updates, rng=rng_state('cpu')),
+    torch.save(dict(backend=capture_backend(adapter.backend_), updates=updates, rng=rng_state(device)),
                directory/(mode+'.pt'))
     (directory/(mode+'.json')).write_text(json.dumps(pack(dict(history=adapter.training_history_,
         summary=adapter.training_summary_, prediction=adapter.predict(query))), ensure_ascii=False, allow_nan=False))

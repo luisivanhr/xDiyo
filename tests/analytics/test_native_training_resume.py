@@ -125,3 +125,22 @@ def test_thinned_offers_do_not_capture_optimizer_buffers(tmp_path, monkeypatch):
     monkeypatch.setattr(loop, 'capture_backend', recorded)
     CheckpointPolicy(every=100).wrap(lambda: adapter, tmp_path/'runs', 'thin')().fit_controlled(train, TrainingControl(max_steps=3))
     assert calls == [1]  # Only the selected backend at mandatory final publication.
+
+
+@pytest.mark.skipif(os.environ.get('XDIYO_CUDA_CHECKS') != '1', reason='Explicit free-GPU gate required')
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
+def test_cuda_cold_process_resume_with_input_residency(tmp_path, kind):
+    worker = Path(__file__).with_name('native_resume_worker.py')
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES='0', CUBLAS_WORKSPACE_CONFIG=':4096:8',
+               XDIYO_RESUME_DEVICE='cuda:0', XDIYO_RESUME_CACHE='1', PYTHONDONTWRITEBYTECODE='1')
+    for mode, code in [('reference', 0), ('interrupt', 73), ('resumed', 0), ('completed', 0)]:
+        run = subprocess.run([sys.executable, str(worker), str(tmp_path), kind, mode], env=env, capture_output=True, text=True)
+        assert run.returncode == code, run.stdout+run.stderr
+    load = lambda name: torch.load(tmp_path/name, map_location='cpu', weights_only=True)
+    reference, resumed, completed = load('reference.pt'), load('resumed.pt'), load('completed.pt')
+    assert_exact(reference['updates'], load('prefix.pt')+resumed['updates'])
+    for key in ('backend', 'rng'):
+        assert_exact(reference[key], resumed[key])
+    assert_exact(reference['backend'], completed['backend'])
+    assert not completed['updates']
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'resumed.json').read_bytes()

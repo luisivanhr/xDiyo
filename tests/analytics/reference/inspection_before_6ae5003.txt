@@ -1,0 +1,39 @@
+"""Frozen inspection functions before 6ae5003; complete CPU transfer reference."""
+import numpy as np
+
+def _encode_group(self, time, positions, queries, records):
+    teams = queries.iloc[positions].team_id.tolist()
+    snap = self.store.snapshot(time, self.config, teams)
+    data = self.preprocessor.tensors(snap, self.device)
+    z = self.model.encode(data).cpu().numpy()
+    priors = self.model.prior(data["league"], data["entry"]).cpu().numpy()
+    lookup = {t: n for n, t in enumerate(snap.teams)}
+    for pos, team in zip(positions, teams):
+        i = lookup[team]
+        records[pos] = dict(team_id=team, issuance_at=time, history_cutoff=snap.cutoff,
+            support=snap.support[i], gate=snap.gate[i], league=snap.league[i], entry=snap.entry[i],
+            evidence=snap.evidence(team, self.config.layers), model_version=self.model_version,
+            event_store_version=self.store.version, forecast_policy=self.config.forecast_policy,
+            trained_through=self.trained_through,
+            **{f"z_{j}": float(v) for j, v in enumerate(z[i])},
+            **{f"prior_{j}": float(v) for j, v in enumerate(priors[i])})
+
+def _attention_group(adapter, time, positions, queries, records):
+    backend = adapter.backend_
+    teams = queries.iloc[positions].team_id.tolist()
+    snap = backend.store.snapshot(time, adapter.config, teams)
+    _, layers = backend.model.encode(backend.preprocessor.tensors(snap, adapter.device), return_attention=True)
+    selected = np.flatnonzero(snap.edges.team_id.isin(teams))
+    edges = list(snap.edges.iloc[selected].itertuples(index=False))
+    for layer, alpha in enumerate(layers):
+        weights = alpha.cpu().numpy()
+        for i, edge in zip(selected, edges):
+            node = snap.receiver[i]
+            for head, weight in enumerate(weights[i]):
+                records.append(dict(team_id=int(edge.team_id), opponent_id=int(edge.opponent_id),
+                    event_id=int(edge.event_id), competition_id=int(edge.competition_id),
+                    season_id=int(edge.season_id), kickoff_at=edge.kickoff_at,
+                    issuance_at=time, history_cutoff=snap.cutoff, layer=layer, head=head,
+                    attention=float(weight), log_decay=float(snap.log_weight[i]),
+                    support=float(snap.support[node]), gate=float(snap.gate[node]),
+                    model_version=backend.model_version, event_store_version=backend.store.version))

@@ -17,3 +17,5 @@ tests/analytics/reference/recovery_01617da.txt -text
 
 # Preserve pytest failure excerpts verbatim in follow-up validation receipts.
 docs/analytics/performance/follow-up*.xml -whitespace
+
+tests/analytics/reference/inspection_before_6ae5003.txt -text

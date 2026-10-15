@@ -161,6 +161,8 @@ HELP = {
     'n_jobs': 'Number of folds trained concurrently. 1 runs sequentially; -1 requests all available CPUs.',
     'inner_threads': 'CPU threads per fold. Limits nested parallelism when several folds run together.',
     'device': 'Requested compute device. CPU works for all standard estimators; CUDA requires a compatible model and installed runtime.',
+    'input_cache_bytes': 'Aggregate CUDA input-cache budget in bytes per process/device. Zero disables residency; CPU uses streaming. Retained inputs and transient leases share the budget; oversize inputs stream without retention.',
+    'input_cache_headroom_bytes': 'Free CUDA memory reserved for activations and optimizer state before retaining inputs. This does not cap total model memory.',
     'gpu_jobs': 'Maximum simultaneous GPU fits. 1 avoids competing for the same GPU memory.',
     'control': 'Optional iterative stopping, scheduling and restarts, for adapters that support them.',
     'validation': 'Reserve a trailing part of the current training population for training controls. Outer test data is not used.',
@@ -244,8 +246,6 @@ def build():
         doc = inspect.getdoc(catalog.entries[key]['constructor']) if key in catalog.entries else ''
         for f in s['fields']:
             name, default = f['name'], f.get('default')
-            f.pop('annotation', None)
-            f.pop('suggestions', None)
             f['help'] = HELP.get(name, '')
             if key.startswith(('sklearn.', 'lightgbm.', 'xgboost.')) and doc:
                 match = re.search(r'(?m)^[ \t]*' + re.escape(name) + r'[ \t]*:[^\n]+\n(?:[ \t]*\n)*([ \t]+\S[^\n]*(?:\n[ \t]+\S[^\n]*)*)', doc)

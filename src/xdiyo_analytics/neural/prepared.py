@@ -19,12 +19,7 @@ class OwnedPopulation:
         object.__setattr__(self, "binding", binding)
         object.__setattr__(self, "kl_validated", bool(validate_kl))
         if validate_kl:
-            maps, available = self._arrays[:2]
-            target = np.where(available[:, :, None, None].astype(bool), maps, 0)
-            if not np.isfinite(target).all() or (target < 0).any():
-                raise ValueError('KL reconstruction needs finite nonnegative observed maps.')
-            if ((target.max(axis=(2, 3)) == 0) & available.astype(bool)).any():
-                raise ValueError('KL reconstruction needs positive mass in every observed map.')
+            validate_kl_targets(*self._arrays[:2])
         digest = sha256(binding.encode())
         for array in self._arrays:
             digest.update(repr((array.dtype.str, array.shape)).encode())
@@ -63,3 +58,12 @@ def population_binding(spec, inputs, device):
     from dataclasses import asdict
     from ..experiments.recovery import pack
     return json.dumps(pack((asdict(spec), inputs.state(), str(device))), sort_keys=True)
+
+
+def validate_kl_targets(maps, available):
+    """Validate owned CPU targets before their device arithmetic is repeated."""
+    target = np.where(available[:, :, None, None].astype(bool), maps, 0)
+    if not np.isfinite(target).all() or (target < 0).any():
+        raise ValueError('KL reconstruction needs finite nonnegative observed maps.')
+    if ((target.max(axis=(2, 3)) == 0) & available.astype(bool)).any():
+        raise ValueError('KL reconstruction needs positive mass in every observed map.')
