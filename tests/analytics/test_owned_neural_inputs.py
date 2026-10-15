@@ -75,3 +75,23 @@ def test_graph_plan_nested_metadata_is_isolated():
     context.X.iloc[0, 0] = 99
     assert plan.metadata.at[0, 'notes']['parts'] == ['original']
     assert plan.X.iloc[0, 0] == 1
+
+
+def test_native_store_export_matches_public_tables_and_keeps_attrs_isolated(tmp_path):
+    import pandas as pd
+    from test_temporal_graph import sample
+    from xdiyo_analytics.graphs import TemporalEventStore
+    source = sample()
+    history, memberships, schedule = source.history, source.team_seasons, source.schedule
+    history.attrs['notes'] = {'parts': ['original']}
+    store = TemporalEventStore(history, memberships, schedule=schedule)
+    history.attrs['notes']['parts'][0] = 'changed'
+    exposed = store.history
+    exposed.attrs['notes']['parts'][0] = 'also changed'
+    assert store.history.attrs['notes']['parts'] == ['original']
+    store._export_tables(tmp_path)
+    for name in ('history', 'team_seasons', 'schedule'):
+        expected = tmp_path/('public-'+name+'.parquet')
+        getattr(store, name).to_parquet(expected, compression='zstd', index=False)
+        assert expected.read_bytes() == (tmp_path/(name+'.parquet')).read_bytes()
+        pd.testing.assert_frame_equal(pd.read_parquet(expected), pd.read_parquet(tmp_path/(name+'.parquet')))

@@ -42,8 +42,12 @@ class TemporalGraphSerializer:
         (path/"graph.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
         adapter.training_history_.to_parquet(path/"training_history.parquet", compression="zstd", index=False)
         if self.embed_event_store:
-            for name in ('history', 'team_seasons', 'schedule'):
-                getattr(adapter.event_store, name).to_parquet(path/(name+'.parquet'), compression='zstd', index=False)
+            from .store import TemporalEventStore
+            if type(adapter.event_store) is TemporalEventStore:
+                adapter.event_store._export_tables(path)
+            else:
+                for name in ('history', 'team_seasons', 'schedule'):
+                    getattr(adapter.event_store, name).to_parquet(path/(name+'.parquet'), compression='zstd', index=False)
         torch.save({k: v.detach().cpu() for k, v in backend.model.state_dict().items()}, path/"weights.pt")
 
     def load(self, directory):

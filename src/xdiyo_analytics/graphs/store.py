@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from .config import MATCH_KEYS, ENTRY_ORDER
 from .profiling import timed
+from .._ownership import isolated_frame
 
 
 def identities(frame, columns):
@@ -63,7 +64,7 @@ class TemporalEventStore:
     explicit round_issue_at preserves the original anchor after rescheduling.
     """
     def __init__(self, history, team_seasons, *, schedule=None, provenance=None):
-        h = history.copy(deep=True).reset_index(drop=True)
+        h = isolated_frame(history).reset_index(drop=True)
         required = [*MATCH_KEYS, "team_id", "opponent_id", "side", "kickoff_at",
                     "status", "goals_for", "goals_against"]
         if not set(required) <= set(h):
@@ -97,7 +98,7 @@ class TemporalEventStore:
             v = pd.to_numeric(h[col], errors="raise").to_numpy(dtype=float, na_value=np.nan)
             if (np.isfinite(v) & ((v < 0) | (v % 1 != 0))).any() or np.isinf(v).any():
                 raise ValueError("Scores must be nonnegative integers or missing.")
-        m = pd.DataFrame(team_seasons).copy(deep=True)
+        m = isolated_frame(pd.DataFrame(team_seasons))
         required_m = ["team_id", "competition_id", "season_id", "entry_at", "movement"]
         if not set(required_m) <= set(m):
             raise ValueError("team_seasons needs team/competition/season IDs, entry_at and movement.")
@@ -116,7 +117,7 @@ class TemporalEventStore:
         self._memberships = m[required_m].sort_values("entry_at", kind="stable").reset_index(drop=True)
         if schedule is None:
             schedule = h[h.side.eq("home")].rename(columns={"team_id": "home_id", "opponent_id": "away_id"})
-        s = schedule.copy(deep=True).reset_index(drop=True)
+        s = isolated_frame(schedule).reset_index(drop=True)
         _ids(s, (*MATCH_KEYS, "home_id", "away_id"))
         s["kickoff_at"] = _times(s.kickoff_at)
         if s.duplicated(keys).any() or s.home_id.eq(s.away_id).any():
@@ -169,17 +170,27 @@ class TemporalEventStore:
                 self._entries_at_event[positions] = np.searchsorted(
                     membership[0], self._kickoff_ns[positions], side='right')
 
+    def _export_tables(self, directory):
+        """Native synchronous traversal; no writable frame alias escapes.
+
+        Arbitrary/custom stores retain the serializer's public-copy path. Do not
+        mutate private store fields concurrently with export or preparation.
+        """
+        from pathlib import Path
+        for name, frame in (('history', self._history), ('team_seasons', self._memberships), ('schedule', self._schedule)):
+            frame.to_parquet(Path(directory)/(name+'.parquet'), compression='zstd', index=False)
+
     @property
     def history(self):
-        return self._history.copy(deep=True)
+        return isolated_frame(self._history)
 
     @property
     def team_seasons(self):
-        return self._memberships.copy(deep=True)
+        return isolated_frame(self._memberships)
 
     @property
     def schedule(self):
-        return self._schedule.copy(deep=True)
+        return isolated_frame(self._schedule)
 
     def issue_times(self, fixtures, config):
         _ids(fixtures, (*MATCH_KEYS, "home_id", "away_id"))
