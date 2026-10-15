@@ -208,7 +208,7 @@ def run_iterations(backend_factory, context, control):
             winner, winning_value, winner_info = backend, retained_value, info.copy()
         if context.observer is not None:
             context.observer(TrainingEvent(context.fold_id, attempt, step, last_metrics.copy(), monitor, final=True))
-        del backend, state, checkpoint
+        del backend, state, checkpoint, checkpoint_metrics
     if winner is None:
         raise ValueError("No training attempt produced a finite monitored value.")
     summary = dict(monitor=monitor, direction=control.direction, restore_best=control.restore_best,

@@ -154,12 +154,12 @@ def _prepared_count(estimator, inputs, methods):
         return None
     model = estimator
     if type(estimator) is Pipeline:
-        if not estimator.steps:
+        if not estimator.steps or any(name in vars(estimator) for name in ('predict', 'transform')):
             return None
         model = estimator.steps[-1][1]
         allowed = (SimpleImputer, StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler)
         if any(step is not None and not (isinstance(step, str) and step == 'passthrough')
-               and (type(step) not in allowed or 'transform' in vars(step) or
+               and (type(step) not in allowed or 'transform' in vars(step) or getattr(step, 'copy', True) is not True or
                     (type(step) is SimpleImputer and callable(step.strategy)))
                for _, step in estimator.steps[:-1]):
             return None

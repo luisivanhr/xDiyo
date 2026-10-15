@@ -35,12 +35,16 @@ def test_identity_registry_weak_unhashable_and_strong_fallback():
     assert not registry._weak
 
 
-def test_losing_restart_backends_collect_before_next_attempt():
+@pytest.mark.parametrize("with_checkpoint_metrics", [False, True])
+def test_losing_restart_backends_collect_before_next_attempt(with_checkpoint_metrics):
+    class HookBackend(ScriptBackend):
+        def checkpoint_metrics(self, monitor, values):
+            return values
     references = []
     def factory(seed):
         gc.collect()
         assert sum(ref() is not None for ref in references) <= 1
-        backend = ScriptBackend([float(seed+1)])
+        backend = (HookBackend if with_checkpoint_metrics else ScriptBackend)([float(seed+1)])
         references.append(weakref.ref(backend))
         return backend
     winner, _, summary = run_iterations(factory, fit_context(), TrainingControl(max_steps=1, restarts=8))
@@ -97,3 +101,24 @@ def test_selection_guard_does_not_own_discarded_models():
     assert reference() is None
     live=Model();reuse=guard.factory(SimpleNamespace(model_factory=lambda:live));reuse()
     with pytest.raises(ValueError,match='fresh'):reuse()
+
+
+def test_inplace_count_preprocessor_retains_legacy_double_transform():
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    from xdiyo_analytics.training.estimators import EstimatorAdapter, _prepared_count
+    from xdiyo_analytics.training.counts import NegativeBinomialRegressor
+    X = pd.DataFrame({'x': np.linspace(2, 9, 30)})
+    y = pd.Series(np.arange(30) % 5)
+    pipeline = Pipeline([('scale', StandardScaler(copy=False)),
+                         ('model', NegativeBinomialRegressor())]).fit(X.copy(), y)
+    assert _prepared_count(pipeline, X.copy(), ('predict',)) is None
+    expected_input = X.copy()
+    expected_point = pipeline.predict(expected_input)
+    expected_mean = pipeline[-1].predict_mean(pipeline[:-1].transform(expected_input))
+    adapter = EstimatorAdapter(pipeline); adapter.target_columns_ = ('count',)
+    actual_input = X.copy()
+    actual = adapter.predict(SimpleNamespace(X=actual_input))
+    np.testing.assert_array_equal(actual['predict']['count'], expected_point)
+    np.testing.assert_array_equal(actual['count_distribution'][('count', 'mean')], expected_mean)
+    pd.testing.assert_frame_equal(actual_input, expected_input)
