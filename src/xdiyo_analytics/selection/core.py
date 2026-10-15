@@ -470,6 +470,12 @@ class ModelSelection:
     def run(self, dataset, split_plan, *, development_positions, experiment=None, run_group=None, name="Model selection",
             resume=False, checkpoint_policy=None, _identity_candidates=None, recovery_namespace=None, execution=None):
         metrics, rule = self.validate_evidence()
+        frozen = None
+        from ..experiments.store import ExperimentStore
+        if type(experiment) is ExperimentStore:
+            from ..experiments.frozen import FrozenExecution
+            frozen = FrozenExecution(dataset, split_plan)
+            dataset, split_plan = frozen.copy(0), frozen.copy(1)
         development, rows = _development(dataset, development_positions)
         local_plan, lookup = _restrict_plan(split_plan, rows, len(dataset.X))
         codes, _ = pd.factorize(development.groups, sort=False)
@@ -496,9 +502,12 @@ class ModelSelection:
         search_key = None
         if experiment is not None:
             from ..experiments.recovery import execution_key
-            search_key = execution_key(dataset, split_plan, rows, metrics, _resolved_metric_definitions(metrics),
+            key_function = frozen.key if frozen is not None else execution_key
+            key_options = {'shared_positions': ((0, 0), (1, 1))} if frozen is not None else {}
+            search_key = key_function(dataset, split_plan, rows, metrics, _resolved_metric_definitions(metrics),
                                        rule, self.pooling,
-                                       self.information_criteria, self.evidence_reporters, recovery_namespace, execution)
+                                       self.information_criteria, self.evidence_reporters, recovery_namespace, execution,
+                                       **key_options)
         if experiment is not None and run_group is None:
             run_group = (experiment.open_run(name, execution_key(search_key, identity_candidates), reuse=resume)
                          if resume or checkpoint_policy is not None else experiment.start_run(name, config={"development_positions": rows.tolist()}))
@@ -516,9 +525,10 @@ class ModelSelection:
             local = replace(candidate, validation=_local_validation(candidate.validation, lookup))
             # Fitting identity excludes how retained predictions are scored/ranked.
             # Include data, scopes, fitted preparation and custom fitted evidence.
-            trial_key = (execution_key("candidate-evidence-v2", dataset, split_plan, rows,
+            key_options = {'shared_positions': ((1, 0), (2, 1))} if frozen is not None else {}
+            trial_key = (key_function("candidate-evidence-v2", dataset, split_plan, rows,
                                        identity_candidates[candidate_index], self.information_criteria,
-                                       self.evidence_reporters, execution) if experiment is not None else None)
+                                       self.evidence_reporters, execution, **key_options) if experiment is not None else None)
             if resume:
                 saved = experiment.find_completed(trial_key, role="trial")
                 if saved is not None:
@@ -536,7 +546,11 @@ class ModelSelection:
                 local = replace(local, model_factory=checkpoint_policy.wrap(
                     local.model_factory, experiment.path / "checkpoints", f"{run_group}:{trial_key}"))
             try:
-                training = _fit_candidate(development, local_plan, local, guard, execution)
+                if frozen is not None:
+                    from ..experiments.frozen import isolate
+                    training = _fit_candidate(isolate(development), isolate(local_plan), local, guard, execution)
+                else:
+                    training = _fit_candidate(development, local_plan, local, guard, execution)
                 trial.training = _original_positions(training, rows)
                 reporters = {} if not metrics else {
                     "selection_metrics": PerformanceReporter(type="overall", partition="score", pooling=self.pooling, metrics=metrics),

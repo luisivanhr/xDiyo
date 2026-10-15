@@ -419,10 +419,16 @@ class ExperimentStore:
 
     def find_completed(self, recovery_key, *, role="final", run_group=None):
         """Return the latest exact completed recovery record; ignore failed/partial runs."""
-        matches = [record for record in self.read_runs(role=role, run_group=run_group)
-                   if record["status"] == "complete" and record.get("recovery_key") == recovery_key
-                   and "recovery" in record.get("artifacts", {})]
-        return matches[-1] if matches else None
+        if role not in {None, 'final', 'trial'}:
+            raise ValueError('role must be final, trial or None.')
+        return self._index().read(role, run_group, key=recovery_key, completed=True)
+
+    def _index(self):
+        from .run_index import RunIndex
+        # No loaded index is trusted; each instance builds from manifest bytes.
+        if not hasattr(self, '_run_index'):
+            self._run_index = RunIndex(self.path, self.manifest['experiment_id'])
+        return self._run_index
 
     def load_run(self, run_id, *, load_models=False, model_serializer=None):
         """Load retained results without fitting or predicting.
@@ -509,17 +515,4 @@ class ExperimentStore:
         """
         if role not in {None, "final", "trial"}:
             raise ValueError("role must be final, trial or None.")
-        records = []
-        for path in sorted((self.path / "runs").glob("*/run.json")):
-            if path.parent.name.startswith(".pending-"):
-                continue
-            record = json.loads(path.read_text(encoding="utf-8"))
-            if (record.get("schema") != 1 or record.get("experiment_id") != self.manifest["experiment_id"]
-                    or record.get("run_id") != path.parent.name):
-                raise ValueError(f"Incompatible experiment run record: {path}")
-            if role is not None and record.get("role", "final") != role:
-                continue
-            if run_group is not None and record.get("run_group", record["run_id"]) != run_group:
-                continue
-            records.append(record)
-        return sorted(records, key=lambda item: (item["created_at"], item["run_id"]))
+        return self._index().read(role, run_group)
