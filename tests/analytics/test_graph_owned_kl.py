@@ -63,21 +63,21 @@ def test_native_grid_validation_once_per_cached_source_and_causal_errors(monkeyp
         return original(maps, flags)
     monkeypatch.setattr(owned, 'validate_kl_targets', tracked)
     snapshot = store.snapshot(pd.Timestamp('2020-01-12', tz='UTC'), spec.config, {1, 2})
-    first = prep.cached_maps(snapshot, store)
-    second = prep.cached_maps(snapshot, store)
+    first = prep.cached_maps(snapshot, store, reconstruction_targets=True)
+    second = prep.cached_maps(snapshot, store, reconstruction_targets=True)
     assert len(calls) == 1
     for a, b in zip(first, second):
         np.testing.assert_array_equal(a, b)
     first[0].fill(-10)
-    assert (prep.cached_maps(snapshot, store)[0] >= 0).all()
+    assert (prep.cached_maps(snapshot, store, reconstruction_targets=True)[0] >= 0).all()
     history = store.history
     history.loc[history.event_id.eq(9), columns(spec.config.heatmaps)[0]] = -1
     changed = TemporalEventStore(history, store.team_seasons, schedule=store.schedule, provenance=store.provenance)
     early = changed.snapshot(pd.Timestamp('2020-01-12', tz='UTC'), spec.config, {1, 2})
-    prep.cached_maps(early, changed)  # Invalid future targets are not visited.
+    prep.cached_maps(early, changed, reconstruction_targets=True)  # Invalid future targets are not visited.
     late = changed.snapshot(pd.Timestamp('2020-02-01', tz='UTC'), spec.config, {1, 2})
     with pytest.raises(ValueError, match='nonnegative'):
-        prep.cached_maps(late, changed)
+        prep.cached_maps(late, changed, reconstruction_targets=True)
 
 
 @pytest.mark.parametrize('bad', ['negative', 'zero', 'infinite'])
@@ -90,3 +90,47 @@ def test_immutable_kl_target_validator_rejects_invalid_observed_maps(bad):
     maps[1, 0] = {'negative': -1, 'zero': 0, 'infinite': np.inf}[bad]
     with pytest.raises(ValueError, match='KL reconstruction'):
         validate_kl_targets(maps, flags)
+
+
+@pytest.mark.parametrize('cache_limit', [0, 128 * 1024**2])
+def test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects(monkeypatch, cache_limit):
+    from xdiyo_analytics.graphs import TemporalEventStore, TemporalGraphAdapter
+    from xdiyo_analytics.graphs.spatial import columns
+    from xdiyo_analytics.training import TrainingControl
+    spec, full = graph_setup(Reconstruction(loss='kl'), deterministic=True)
+    initial = TemporalEventStore(full.history.query('event_id < 7'), full.team_seasons,
+                                 schedule=full.schedule, provenance=full.provenance)
+    adapter = TemporalGraphAdapter(spec.config, initial)
+    adapter.fit_controlled(context(initial, [1, 2, 3, 4]), TrainingControl(max_steps=2))
+    history = full.history
+    history.loc[history.event_id.eq(7), columns(spec.config.heatmaps)] = 0.
+    later = TemporalEventStore(history, full.team_seasons, schedule=full.schedule, provenance=full.provenance)
+    adapter.attach_event_store(later)
+    prep = adapter.backend_.preprocessor
+    prep._edge_cache_limit = cache_limit
+    query = context(later, [8], fit=False)
+    teams = pd.DataFrame({'team_id': [1, 2], 'issuance_at': pd.to_datetime(['2020-01-25']*2, utc=True)})
+    actual = adapter.predict(query)
+    embeddings = adapter.encode_teams(teams)
+    # Independent original forward-input route: no reconstruction targets.
+    with monkeypatch.context() as patch:
+        patch.setattr(prep, 'native_tensors', lambda snap, device, store, **kw: prep.tensors(store.snapshot(snap.issuance, spec.config, snap.teams), device))
+        for name, expected in adapter.predict(query).items():
+            pd.testing.assert_frame_equal(actual[name], expected, check_exact=True)
+        pd.testing.assert_frame_equal(embeddings, adapter.encode_teams(teams), check_exact=True)
+    snap = later.snapshot(pd.Timestamp('2020-01-25', tz='UTC'), spec.config, {1, 2})
+    maps, flags = prep.cached_maps(snap, later)
+    assert ((maps.sum(axis=(2, 3)) == 0) & (flags == 1)).any()
+    # An inference cache entry must never authorize loss-target validation.
+    with pytest.raises(ValueError, match='positive mass'):
+        prep.cached_maps(snap, later, reconstruction_targets=True)
+    bad_train = context(later, [8])
+    groups = adapter.backend_._stream(bad_train, reconstruction_targets=True)
+    targets, weights = adapter.backend_._targets(bad_train)
+    with pytest.raises(ValueError, match='positive mass'):
+        adapter.backend_._loss(groups, targets, weights)
+    # An ordinary PreparedGroups passed to loss must use validating device loss.
+    with pytest.raises(ValueError, match='positive mass'):
+        adapter.backend_._loss(adapter.backend_._stream(bad_train), targets, weights)
+    with pytest.raises(ValueError, match='positive mass'):
+        TemporalGraphAdapter(spec.config, later).fit_controlled(bad_train, TrainingControl(max_steps=1))

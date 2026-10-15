@@ -196,8 +196,9 @@ class _Backend:
     def _plan(self, context):
         return GroupPlan(self.store, self.config, context, self._validate(context))
 
-    def _stream(self, context):
-        return PreparedGroups(self._plan(context), self.preprocessor, self.device, self.input_cache_policy)
+    def _stream(self, context, *, reconstruction_targets=False):
+        return PreparedGroups(self._plan(context), self.preprocessor, self.device, self.input_cache_policy,
+                              reconstruction_targets=reconstruction_targets)
 
     @configured_execution
     @release_temporary_frames
@@ -236,11 +237,11 @@ class _Backend:
         self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
         del numeric
-        self.train_groups = PreparedGroups(plan, self.preprocessor, self.device, self.input_cache_policy)
+        self.train_groups = PreparedGroups(plan, self.preprocessor, self.device, self.input_cache_policy, reconstruction_targets=True)
         self.train_targets, self.train_weights = self._targets(context)
         self.validation_groups = None
         if context.validation is not None:
-            self.validation_groups = self._stream(context.validation)
+            self.validation_groups = self._stream(context.validation, reconstruction_targets=True)
             # Preserve eager input validation without retaining its tensors.
             for i in range(len(self.validation_groups)):
                 self.validation_groups[i]
@@ -303,7 +304,7 @@ class _Backend:
         for i in range(len(groups)):
             if type(groups) is PreparedGroups:
                 with groups.lease(i) as group:
-                    scalars.extend(self._group_loss(group, targets, weights, backward, total_weight, owned_targets=True))
+                    scalars.extend(self._group_loss(group, targets, weights, backward, total_weight, owned_targets=groups.reconstruction_targets))
                     del group
             else:
                 scalars.extend(self._group_loss(groups[i], targets, weights, backward, total_weight))

@@ -1,0 +1,176 @@
+........................................................................ [  1%]
+........................................................................ [  2%]
+........................................................................ [  3%]
+........................................................................ [  4%]
+........................................................................ [  6%]
+........................................................................ [  7%]
+........................................................................ [  8%]
+........................................................................ [  9%]
+........................................................................ [ 11%]
+........................................................................ [ 12%]
+........................................................................ [ 13%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+........................................................s............... [ 17%]
+........................................................................ [ 18%]
+........................................................................ [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 22%]
+........................................................................ [ 23%]
+........................................................................ [ 24%]
+........................................................................ [ 26%]
+........................................................................ [ 27%]
+...................................................s.s.s...........sss.. [ 28%]
+............s..........................................s.s.s.s.......... [ 29%]
+................ssssss.................................................. [ 31%]
+........................................................................ [ 32%]
+........................................................................ [ 33%]
+........................................................................ [ 34%]
+........................................................................ [ 36%]
+........................................................................ [ 37%]
+........................................................................ [ 38%]
+.......................ssss............................................. [ 39%]
+........................................................................ [ 41%]
+........................................................................ [ 42%]
+........................................................................ [ 43%]
+........................................................................ [ 44%]
+........................................................................ [ 46%]
+........................................................................ [ 47%]
+..................................................................ssss.. [ 48%]
+.......................................................s................ [ 49%]
+........................................................s............... [ 51%]
+..................................................s..................... [ 52%]
+............................................................s.s......... [ 53%]
+........................................................................ [ 54%]
+........................................................................ [ 56%]
+........................................................................ [ 57%]
+........................................................................ [ 58%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 62%]
+........................................................................ [ 63%]
+........................................................................ [ 64%]
+........................................................................ [ 66%]
+........................................................................ [ 67%]
+........................................................................ [ 68%]
+........................................................................ [ 69%]
+........................................................................ [ 71%]
+........................................................................ [ 72%]
+........................................................................ [ 73%]
+........................................................................ [ 74%]
+........................................................................ [ 76%]
+.................................................................s...... [ 77%]
+.......................................s................................ [ 78%]
+........................................................................ [ 79%]
+........................................................................ [ 81%]
+........................................................................ [ 82%]
+........................................................................ [ 83%]
+.................s...................................................... [ 84%]
+........................................................................ [ 86%]
+........................................................................ [ 87%]
+........................................................................ [ 88%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+........................................................................ [ 92%]
+........................................................................ [ 93%]
+........................................................................ [ 94%]
+........................................................................ [ 96%]
+........................................................................ [ 97%]
+........................................................................ [ 98%]
+........................................................................ [ 99%]
+.............                                                            [100%]
+============================== warnings summary ===============================
+..\..\..\..\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124: PytestRemovedIn10Warning:
+
+  Passing a non-Collection iterable to parametrize is deprecated.
+  Test: tests/analytics/test_negative_binomial.py::test_public_sklearn_checks, argvalues type: generator
+  Please convert to a list or tuple.
+  See https://docs.pytest.org/en/stable/deprecations.html#parametrize-iterators
+
+..\..\..\..\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124: PytestRemovedIn10Warning:
+
+  Passing a non-Collection iterable to parametrize is deprecated.
+  Test: tests/analytics/test_negative_binomial_learned.py::test_learned_sklearn_contract, argvalues type: generator
+  Please convert to a list or tuple.
+  See https://docs.pytest.org/en/stable/deprecations.html#parametrize-iterators
+
+..\..\..\..\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124: PytestRemovedIn10Warning:
+
+  Passing a non-Collection iterable to parametrize is deprecated.
+  Test: tests/analytics/test_negative_binomial_mode.py::test_mode_sklearn_contract, argvalues type: generator
+  Please convert to a list or tuple.
+  See https://docs.pytest.org/en/stable/deprecations.html#parametrize-iterators
+
+..\..\..\..\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\python.py:124: PytestRemovedIn10Warning:
+
+  Passing a non-Collection iterable to parametrize is deprecated.
+  Test: tests/analytics/test_spatial_embeddings.py::test_sklearn_contract, argvalues type: generator
+  Please convert to a list or tuple.
+  See https://docs.pytest.org/en/stable/deprecations.html#parametrize-iterators
+
+tests/analytics/test_bet_outcomes.py::test_ui_classifier_retains_probabilities_before_reporter_is_added
+tests/analytics/test_bet_tickets.py::test_ui_ticket_changes_refresh_saved_run_without_fitting
+tests/analytics/test_class_weighting.py::test_ui_consumed_weight_report_and_changed_power_invalidates_fit
+tests/analytics/test_class_weighting.py::test_ui_consumed_weight_report_and_changed_power_invalidates_fit
+tests/analytics/test_probability_calibration.py::test_ui_optional_calibration_requests_probabilities_and_survives_reuse[temperature]
+tests/analytics/test_probability_calibration.py::test_ui_optional_calibration_requests_probabilities_and_survives_reuse[sigmoid]
+tests/analytics/test_probability_calibration.py::test_ui_optional_calibration_requests_probabilities_and_survives_reuse[isotonic]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\sklearn\linear_model\_logistic.py:1457: FutureWarning:
+
+  'n_jobs' has no effect since 1.8 and will be removed in 1.10. You provided 'n_jobs=1', please leave it unspecified.
+
+tests/analytics/test_composition_adversarial.py: 2 warnings
+tests/analytics/test_composition_completion.py: 4 warnings
+tests/analytics/test_temporal_svc_calibration.py: 24 warnings
+tests/analytics/test_ui_svm.py: 10 warnings
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\sklearn\svm\_base.py:239: FutureWarning:
+
+  The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+
+tests/analytics/test_graph_speed.py::test_research_full_state_bridge_and_completed_budget_zero_updates
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\torch\backends\cuda\__init__.py:131: UserWarning:
+
+  Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:85.)
+
+tests/analytics/test_guarded_boundaries.py::test_group_scalar_inference_matches_reference[category-fold_id]
+tests/analytics/test_guarded_boundaries.py::test_group_scalar_inference_matches_reference[category-fold_id]
+  C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\src\xdiyo_analytics\evaluation\all_combinations.py:180: FutureWarning:
+
+  The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+
+tests/analytics/test_negative_binomial_penalties.py::test_penalty_grid_pipeline_and_saved_ui_run
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\sklearn\pipeline.py:649: ConvergenceWarning:
+
+  Negative Binomial regression did not converge; increase max_iter or inspect the predictors.
+
+tests/analytics/test_team_history.py::test_missing_scores_or_status_never_invents_result
+  C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\src\xdiyo_analytics\histories\team.py:91: FutureWarning:
+
+  The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+
+tests/analytics/test_ui_preparation_parity.py::test_explicit_postassembly_arithmetic_and_calendar_match_public_helpers[float32]
+tests/analytics/test_ui_preparation_parity.py::test_explicit_postassembly_arithmetic_and_calendar_match_public_helpers[float32]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\pandas\core\dtypes\astype.py:133: RuntimeWarning:
+
+  overflow encountered in cast
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [1] tests\analytics\test_execution_iterative.py:41: No observed usable CUDA device
+SKIPPED [2] tests\analytics\test_graph_determinism.py:80: CUDA not installed
+SKIPPED [1] tests\analytics\test_graph_determinism.py:161: CUDA not installed
+SKIPPED [3] tests\analytics\test_graph_goal_features.py:140: CUDA unavailable
+SKIPPED [1] tests\analytics\test_graph_owned_kl.py:17: Explicit free-GPU gate required
+SKIPPED [1] tests\analytics\test_graph_speed.py:119: CUDA unavailable
+SKIPPED [3] tests\analytics\test_graph_speed.py:139: CUDA unavailable
+SKIPPED [6] tests\analytics\test_graph_weight_normalization.py:116: CUDA is unavailable.
+SKIPPED [4] tests\analytics\test_input_residency.py:65: Explicit free-GPU gate required
+SKIPPED [4] tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required
+SKIPPED [5] ..\..\..\..\Documents\Programming\Python\.misc314\Lib\site-packages\_pytest\unittest.py:523: SCIPY_ARRAY_API is not set: not checking array_api input
+SKIPPED [2] tests\analytics\test_performance_inspection.py:17: Explicit free-GPU gate required
+SKIPPED [1] tests\analytics\test_temporal_graph.py:300: CUDA hardware/runtime unavailable
+5739 passed, 34 skipped, 58 warnings in 1227.97s (0:20:27)

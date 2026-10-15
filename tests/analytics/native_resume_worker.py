@@ -51,6 +51,23 @@ def main(directory, kind, mode):
         adapter.configure_input_cache(256 * 1024**2, 1024**3)
     control = TrainingControl(max_steps=4, restarts=1, seed=19,
         scheduler=ReduceOnPlateau(patience=1), early_stopping=EarlyStopping(patience=3))
+    scenario = os.environ.get('XDIYO_RESUME_BOUNDARY', '')
+    if scenario == 'numpy':
+        control = TrainingControl(max_steps=np.int64(2), restarts=np.int64(1), seed=np.int64(19),
+            scheduler=ReduceOnPlateau(patience=np.int64(1), factor=np.float32(.5)),
+            early_stopping=EarlyStopping(patience=np.int64(3), min_delta=np.float64(0)))
+    elif scenario in ('early_stopping', 'nonfinite_monitor'):
+        control = TrainingControl(max_steps=4, restarts=1, seed=19, monitor='train_loss',
+                                  early_stopping=EarlyStopping(patience=1))
+        from xdiyo_analytics.graphs.adapter import _Backend
+        from xdiyo_analytics.neural.adapter import CNNBackend
+        cls = _Backend if kind.startswith('gat') else CNNBackend
+        checkpoint_metrics = cls.checkpoint_metrics
+        def fixed_metrics(self, monitor, values):
+            values = checkpoint_metrics(self, monitor, values)
+            step_number = max(int(v['step']) for v in self.optimizer.state.values())
+            return dict(values, train_loss=float('nan') if scenario == 'nonfinite_monitor' and step_number == 2 else 1.)
+        cls.checkpoint_metrics = fixed_metrics
     updates = []
     step = torch.optim.AdamW.step
     def observe(opt, *args, **kwargs):
@@ -76,7 +93,16 @@ def main(directory, kind, mode):
                 result = original(self, target)
                 if Path(target).name == 'latest.json':
                     count += 1
-                    if count == 2:
+                    stop = count == 2
+                    if scenario in ('restart', 'early_stopping', 'nonfinite_monitor'):
+                        latest = json.loads(Path(target).read_text())
+                        from xdiyo_analytics.training.native_resume import read_checkpoint
+                        saved, _ = read_checkpoint(Path(target).parent/latest['directory'])
+                        if scenario == 'restart':
+                            stop = saved['attempt'] == 1 and saved['active'] is None
+                        else:
+                            stop = saved['active'] is not None and saved['active']['stopped'] and saved['active']['reason'] == scenario
+                    if stop:
                         torch.save(updates, directory/'prefix.pt')
                         os._exit(73)
                 return result

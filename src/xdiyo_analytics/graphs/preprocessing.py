@@ -123,12 +123,14 @@ class GraphPreprocessor:
             ready[part] = True
         return values[rows]
 
-    def cached_maps(self, snapshot, store):
+    def cached_maps(self, snapshot, store, *, reconstruction_targets=False):
         """Native source-row maps shared across issuances, bounded to 128 MiB.
 
         These are per-match grids already constructed in the receiving-team
         frame. No point pooling, temporal averaging or learned outputs occur.
         Arbitrary public snapshots retain the validating uncached path.
+        Positive-mass KL target checks apply only to auxiliary-loss consumers,
+        not ordinary inference. The cache identity separates both modes.
         """
         from .spatial import columns, grid_identity
         from ..neural.inputs import neural_maps
@@ -136,7 +138,7 @@ class GraphPreprocessor:
             raise ValueError('Cannot encode maps from a different event store.')
         cfg = self.config.heatmaps
         reconstruction = cfg.encoder.reconstruction
-        validate_kl = reconstruction is not None and reconstruction.loss == 'kl'
+        validate_kl = reconstruction_targets and reconstruction is not None and reconstruction.loss == 'kl'
         identity = (id(store), store.version, json.dumps(grid_identity(cfg), sort_keys=True), validate_kl)
         cache = self._map_cache
         if cache is not None and cache[0] != identity:
@@ -165,10 +167,10 @@ class GraphPreprocessor:
             ready[part] = True
         return maps[rows], available[rows]
 
-    def native_tensors(self, snapshot, device, store):
+    def native_tensors(self, snapshot, device, store, *, reconstruction_targets=False):
         snapshot._encoded_x = self.cached_edges(snapshot, store)
         if self.config.heatmaps is not None:
-            snapshot._prepared_maps = self.cached_maps(snapshot, store)
+            snapshot._prepared_maps = self.cached_maps(snapshot, store, reconstruction_targets=reconstruction_targets)
         return self.tensors(snapshot, device)
 
     def snapshot_columns(self, store):

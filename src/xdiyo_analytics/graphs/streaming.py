@@ -95,10 +95,10 @@ class GroupPlan:
 
 
 @release_temporary_frames
-def prepare_group(raw, preprocessor, device, store=None):
+def prepare_group(raw, preprocessor, device, store=None, *, reconstruction_targets=False):
     import torch
     positions, snap, home, away, meta, numeric = raw
-    data = preprocessor.native_tensors(snap, device, store) if store is not None else preprocessor.tensors(snap, device)
+    data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
     return (positions, data,
             torch.as_tensor(home, device=device), torch.as_tensor(away, device=device),
             torch.as_tensor(preprocessor.fixture(meta, numeric), dtype=torch.float32, device=device))
@@ -111,8 +111,9 @@ class PreparedGroups:
     additionally process each group inside a helper frame, so the previous
     tensors/autograd graph are gone before requesting the next one.
     """
-    def __init__(self, plan, preprocessor, device, input_cache_policy=None):
+    def __init__(self, plan, preprocessor, device, input_cache_policy=None, *, reconstruction_targets=False):
         self.plan, self.preprocessor, self.device = plan, preprocessor, device
+        self.reconstruction_targets = reconstruction_targets
         from ..training.residency import InputResident
         self._resident = InputResident(device, input_cache_policy)
         if self._resident.pool is not None:
@@ -126,7 +127,7 @@ class PreparedGroups:
     def lease(self, index):
         def cpu():
             p, prep = self._fixed_plan, self._fixed_preprocessor
-            return prepare_group(p.raw(index, columns=prep.snapshot_columns(p.store)), prep, 'cpu', p.store)
+            return prepare_group(p.raw(index, columns=prep.snapshot_columns(p.store)), prep, 'cpu', p.store, reconstruction_targets=self.reconstruction_targets)
         return self._resident.lease(index, cpu, lambda: self[index])
 
     def __len__(self):
@@ -134,4 +135,4 @@ class PreparedGroups:
 
     def __getitem__(self, index):
         return prepare_group(self.plan.raw(index, columns=self.preprocessor.snapshot_columns(self.plan.store)),
-                             self.preprocessor, self.device, self.plan.store)
+                             self.preprocessor, self.device, self.plan.store, reconstruction_targets=self.reconstruction_targets)

@@ -1,3 +1,22 @@
+# Current handoff: audit repairs await free GPU
+
+The 8e1b37f review introduced a new verification gate after the earlier completion.
+Read [audit-8e1b37f.md](audit-8e1b37f.md) and its environment receipt first.
+The four repairs are on the same isolated branch. Final CPU/compatibility results
+are recorded there. The production Bayesian recovery worker (last observed PID
+145340, launcher 139544, supervisors 141392/158592) is active; inspect full command
+lines and telemetry for it and all successors before doing any CUDA work.
+
+Once free, run the exact CUDA command in the audit document, preserving strict
+comparisons. Capture fresh source/runtime/test hashes and receipts. Fix any
+failure without relaxing checks; rerun affected CPU tests if runtime source
+changes. Update the audit status and commit locally, then pause the heartbeat.
+Do not push or merge. Do not rerun frozen fits or change their artifacts.
+The saved-fold benchmarks below were already completed and need not be repeated
+for this correctness audit unless a new failure/change requires it.
+
+---
+
 # Completion handoff: verification complete
 
 ## Completion status (2026-10-15)

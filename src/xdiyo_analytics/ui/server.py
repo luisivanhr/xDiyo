@@ -201,11 +201,22 @@ class BuilderState:
         return {'id': job_id}
 
     def _object(self, job):
-        if job.get('object') is None and '_retained' in job:
-            return job['_retained'].load()
-        return job['object']
+        # Hold a strong reference before eviction can remove the dictionary entry.
+        # Verified disk loading can proceed outside the lock.
+        with self._retention_lock:
+            result, retained = job.get('object'), job.get('_retained')
+        if result is not None:
+            return result
+        if retained is not None:
+            return retained.load()
+        raise KeyError('object')
 
     def _report(self, job):
+        # HTML publication/selection and eviction share the same lifetime lock.
+        with self._retention_lock:
+            return self._report_locked(job)
+
+    def _report_locked(self, job):
         from .retention import digest
         result = self._object(job)
         report = _result_report(result, job['recipe'])
@@ -222,8 +233,14 @@ class BuilderState:
             job['_html_key'] = key
             if '_retained' in job:
                 from .retention import RetainedDocument
-                job['_document'] = RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), document)
-                job.pop('html', None)
+                try:
+                    retained_document = RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), document)
+                except Exception as error:
+                    job['html'] = document
+                    job['retention'] = 'pinned: report retention failed: ' + str(error)
+                else:
+                    job['_document'] = retained_document
+                    job.pop('html', None)
             else:
                 job['html'] = document
         return job['html'] if 'html' in job else job['_document'].read()
@@ -243,11 +260,15 @@ class BuilderState:
                 result = job['object']
                 try:
                     retained = RetainedResult(result, job['recipe'])
+                    document = (RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), job['html'])
+                                if 'html' in job else None)
                 except Exception as error:
+                    # Optional retention is one transaction. A completed fit and
+                    # all in-memory payloads survive any spool/verification error.
                     job['retention'] = 'pinned: ' + str(error)
                     continue
-                if 'html' in job:
-                    job['_document'] = RetainedDocument(self.workspace / 'experiments' / '_ui_reports' / self.token / (uuid.uuid4().hex + '.html'), job['html'])
+                if document is not None:
+                    job['_document'] = document
                     total -= payload_bytes(job.pop('html'))
                 total -= payload_bytes(result)
                 job['_retained'] = retained

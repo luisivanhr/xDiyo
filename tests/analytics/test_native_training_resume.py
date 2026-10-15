@@ -144,3 +144,40 @@ def test_cuda_cold_process_resume_with_input_residency(tmp_path, kind):
     assert_exact(reference['backend'], completed['backend'])
     assert not completed['updates']
     assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'resumed.json').read_bytes()
+
+
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
+@pytest.mark.parametrize('boundary', ['numpy', 'restart', 'early_stopping', 'nonfinite_monitor'])
+def test_cold_resume_boundary_and_numpy_controls(tmp_path, kind, boundary):
+    worker = Path(__file__).with_name('native_resume_worker.py')
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES='-1', PYTHONDONTWRITEBYTECODE='1',
+               XDIYO_RESUME_BOUNDARY=boundary, XDIYO_RESUME_DEVICE='cpu', XDIYO_RESUME_CACHE='0')
+    for mode, code in [('reference', 0), ('interrupt', 73), ('resumed', 0), ('completed', 0)]:
+        run = subprocess.run([sys.executable, str(worker), str(tmp_path), kind, mode], env=env, capture_output=True, text=True)
+        assert run.returncode == code, run.stdout+run.stderr
+    load = lambda name: torch.load(tmp_path/name, map_location='cpu', weights_only=True)
+    reference, resumed, completed = load('reference.pt'), load('resumed.pt'), load('completed.pt')
+    assert_exact(reference['updates'], load('prefix.pt')+resumed['updates'])
+    for key in ['backend', 'rng']: assert_exact(reference[key], resumed[key])
+    assert_exact(reference['backend'], completed['backend'])
+    assert not completed['updates']
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'resumed.json').read_bytes()
+
+
+def test_numpy_control_and_checkpoint_metadata_are_plain_scalars(tmp_path):
+    import numpy as np
+    from xdiyo_analytics.training import TrainingControl, EarlyStopping, ReduceOnPlateau
+    from xdiyo_analytics.training.native_resume import write_checkpoint, read_checkpoint
+    c = TrainingControl(max_steps=np.int64(2), seed=np.uint64(19), restarts=np.int32(1),
+        early_stopping=EarlyStopping(np.int64(2), np.float32(0)),
+        scheduler=ReduceOnPlateau(np.int64(2), np.float32(.5), np.float64(1e-6)))
+    assert all(type(getattr(c,k)) is int for k in ['max_steps','seed','restarts'])
+    assert type(c.early_stopping.patience) is int and type(c.scheduler.patience) is int
+    state = dict(attempt=np.int64(2), restarts=np.int64(1), rows=[{'fold': np.int64(0)}],
+                 attempts=[], winner=None, winning_value=np.float32(1), winner_info=None,
+                 rng={}, active=None, stopped=np.bool_(True))
+    write_checkpoint(tmp_path, state, 'identity', {})
+    actual, manifest = read_checkpoint(tmp_path)
+    assert actual == state and manifest['complete'] is True
+    assert type(actual['attempt']) is int and type(actual['stopped']) is bool
+    assert type(actual['winning_value']) is float and type(actual['rows'][0]['fold']) is int

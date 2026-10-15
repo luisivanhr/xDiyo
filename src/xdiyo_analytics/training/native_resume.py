@@ -98,11 +98,27 @@ def restore_backend(backend, state):
     backend.model.train(state['training'])
 
 
+def _checkpoint_primitives(value):
+    """Normalize scalar metadata without copying model/optimizer tensor buffers."""
+    if isinstance(value, (np.bool_, np.integer)):
+        return value.item()
+    if isinstance(value, (np.float16, np.float32, np.float64)):
+        return float(value)
+    if isinstance(value, dict):
+        return {_checkpoint_primitives(k): _checkpoint_primitives(v) for k, v in value.items()}
+    if isinstance(value, tuple):
+        return tuple(_checkpoint_primitives(v) for v in value)
+    if isinstance(value, list):
+        return [_checkpoint_primitives(v) for v in value]
+    return value
+
+
 def write_checkpoint(directory, state, identity, profile):
     import torch
     directory = Path(directory)
     # The outer writer supplies a new staging directory. Never overwrite a
     # checkpoint or publish its commit marker before payload flush/verification.
+    state = _checkpoint_primitives(state)
     payload = directory/'training.pt'
     with payload.open('xb') as stream:
         torch.save(state, stream)
@@ -110,7 +126,7 @@ def write_checkpoint(directory, state, identity, profile):
         os.fsync(stream.fileno())
     digest = hashlib.sha256(payload.read_bytes()).hexdigest()
     manifest = dict(schema=1, kind='native-training', identity=identity, profile=profile,
-                    payload='training.pt', sha256=digest, complete=state['attempt'] > state['restarts'])
+                    payload='training.pt', sha256=digest, complete=bool(state['attempt'] > state['restarts']))
     with (directory/'training.json').open('x', encoding='utf-8') as stream:
         json.dump(manifest, stream, sort_keys=True)
         stream.flush()

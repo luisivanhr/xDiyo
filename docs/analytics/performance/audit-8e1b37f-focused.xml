@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="5" tests="44" time="426.181" timestamp="2026-10-15T21:11:20.113961+09:00" hostname="Ivan-tachi"><testcase classname="tests.analytics.test_graph_owned_kl" name="test_prevalidated_graph_kl_matches_mutable_updates[cpu]" time="1.919" /><testcase classname="tests.analytics.test_graph_owned_kl" name="test_prevalidated_graph_kl_matches_mutable_updates[cuda:0]" time="0.001"><skipped type="pytest.skip" message="Explicit free-GPU gate required">C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_graph_owned_kl.py:17: Explicit free-GPU gate required</skipped></testcase><testcase classname="tests.analytics.test_graph_owned_kl" name="test_native_grid_validation_once_per_cached_source_and_causal_errors" time="0.124" /><testcase classname="tests.analytics.test_graph_owned_kl" name="test_immutable_kl_target_validator_rejects_invalid_observed_maps[negative]" time="0.001" /><testcase classname="tests.analytics.test_graph_owned_kl" name="test_immutable_kl_target_validator_rejects_invalid_observed_maps[zero]" time="0.001" /><testcase classname="tests.analytics.test_graph_owned_kl" name="test_immutable_kl_target_validator_rejects_invalid_observed_maps[infinite]" time="0.001" /><testcase classname="tests.analytics.test_graph_owned_kl" name="test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[0]" time="0.342"><failure message="ValueError: Selected match-level statistics are absent from history.">tests\analytics\test_graph_owned_kl.py:118: in test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects
+    for name, expected in adapter.predict(query).items():
+                          ^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:117: in predict
+    return self.backend_.predict(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\execution.py:67: in wrapped
+    return function(owner, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:418: in predict
+    self._predict_group(groups[i], output)
+                        ^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:137: in __getitem__
+    return prepare_group(self.plan.raw(index, columns=self.preprocessor.snapshot_columns(self.plan.store)),
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:101: in prepare_group
+    data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_graph_owned_kl.py:117: in &lt;lambda&gt;
+    patch.setattr(prep, 'native_tensors', lambda snap, device, store, **kw: prep.tensors(snap, device))
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:202: in tensors
+    encoded = self.edges(snapshot)
+              ^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:81: in edges
+    return self._encode_edges(snapshot.edges)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:84: in _encode_edges
+    return np.concatenate((self.edge_scale.transform(self.numeric_edges(h)),
+                                                     ^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:55: in numeric_edges
+    raise ValueError("Selected match-level statistics are absent from history.")
+E   ValueError: Selected match-level statistics are absent from history.</failure></testcase><testcase classname="tests.analytics.test_graph_owned_kl" name="test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[134217728]" time="0.309"><failure message="ValueError: Selected match-level statistics are absent from history.">tests\analytics\test_graph_owned_kl.py:118: in test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects
+    for name, expected in adapter.predict(query).items():
+                          ^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:117: in predict
+    return self.backend_.predict(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\execution.py:67: in wrapped
+    return function(owner, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:418: in predict
+    self._predict_group(groups[i], output)
+                        ^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:137: in __getitem__
+    return prepare_group(self.plan.raw(index, columns=self.preprocessor.snapshot_columns(self.plan.store)),
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:101: in prepare_group
+    data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_graph_owned_kl.py:117: in &lt;lambda&gt;
+    patch.setattr(prep, 'native_tensors', lambda snap, device, store, **kw: prep.tensors(snap, device))
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:202: in tensors
+    encoded = self.edges(snapshot)
+              ^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:81: in edges
+    return self._encode_edges(snapshot.edges)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:84: in _encode_edges
+    return np.concatenate((self.edge_scale.transform(self.numeric_edges(h)),
+                                                     ^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:55: in numeric_edges
+    raise ValueError("Selected match-level statistics are absent from history.")
+E   ValueError: Selected match-level statistics are absent from history.</failure></testcase><testcase classname="tests.analytics.test_ui_retention_audit" name="test_request_snapshot_survives_concurrent_eviction[report]" time="0.005"><failure message="TypeError: launch_ui() takes 0 positional arguments but 1 was given">tests\analytics\test_ui_retention_audit.py:19: in test_request_snapshot_survives_concurrent_eviction
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.analytics.test_ui_retention_audit" name="test_request_snapshot_survives_concurrent_eviction[save_model]" time="0.003"><failure message="TypeError: launch_ui() takes 0 positional arguments but 1 was given">tests\analytics\test_ui_retention_audit.py:19: in test_request_snapshot_survives_concurrent_eviction
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.analytics.test_ui_retention_audit" name="test_optional_document_failure_preserves_new_and_older_completed_jobs[write]" time="0.004"><failure message="TypeError: launch_ui() takes 0 positional arguments but 1 was given">tests\analytics\test_ui_retention_audit.py:59: in test_optional_document_failure_preserves_new_and_older_completed_jobs
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.analytics.test_ui_retention_audit" name="test_optional_document_failure_preserves_new_and_older_completed_jobs[read]" time="0.002"><failure message="TypeError: launch_ui() takes 0 positional arguments but 1 was given">tests\analytics\test_ui_retention_audit.py:59: in test_optional_document_failure_preserves_new_and_older_completed_jobs
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.analytics.test_native_training_resume" name="test_fresh_process_resume_matches_uninterrupted_next_updates[gat]" time="19.719" /><testcase classname="tests.analytics.test_native_training_resume" name="test_fresh_process_resume_matches_uninterrupted_next_updates[gat_fixture]" time="18.995" /><testcase classname="tests.analytics.test_native_training_resume" name="test_fresh_process_resume_matches_uninterrupted_next_updates[cnn_classification]" time="18.701" /><testcase classname="tests.analytics.test_native_training_resume" name="test_fresh_process_resume_matches_uninterrupted_next_updates[cnn_regression]" time="17.899" /><testcase classname="tests.analytics.test_native_training_resume" name="test_prediction_finalization_requires_verified_native_checkpoint[gat]" time="0.559" /><testcase classname="tests.analytics.test_native_training_resume" name="test_prediction_finalization_requires_verified_native_checkpoint[cnn_classification]" time="0.329" /><testcase classname="tests.analytics.test_native_training_resume" name="test_prediction_finalization_requires_verified_native_checkpoint[cnn_regression]" time="0.315" /><testcase classname="tests.analytics.test_native_training_resume" name="test_corruption_and_inference_exports_are_not_training_checkpoints" time="0.003" /><testcase classname="tests.analytics.test_native_training_resume" name="test_checkpoint_rejects_changed_context_profile_and_corruption" time="0.235" /><testcase classname="tests.analytics.test_native_training_resume" name="test_finalization_ui_recipe_roundtrip_and_stale_weights_rejected" time="0.854" /><testcase classname="tests.analytics.test_native_training_resume" name="test_thinned_offers_do_not_capture_optimizer_buffers" time="0.177" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cuda_cold_process_resume_with_input_residency[gat]" time="0.001"><skipped type="pytest.skip" message="Explicit free-GPU gate required">C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required</skipped></testcase><testcase classname="tests.analytics.test_native_training_resume" name="test_cuda_cold_process_resume_with_input_residency[gat_fixture]" time="0.001"><skipped type="pytest.skip" message="Explicit free-GPU gate required">C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required</skipped></testcase><testcase classname="tests.analytics.test_native_training_resume" name="test_cuda_cold_process_resume_with_input_residency[cnn_classification]" time="0.000"><skipped type="pytest.skip" message="Explicit free-GPU gate required">C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required</skipped></testcase><testcase classname="tests.analytics.test_native_training_resume" name="test_cuda_cold_process_resume_with_input_residency[cnn_regression]" time="0.000"><skipped type="pytest.skip" message="Explicit free-GPU gate required">C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required</skipped></testcase><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[numpy-gat]" time="21.988" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[numpy-gat_fixture]" time="21.748" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[numpy-cnn_classification]" time="19.693" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[numpy-cnn_regression]" time="20.785" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[restart-gat]" time="19.453" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[restart-gat_fixture]" time="24.938" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[restart-cnn_classification]" time="18.870" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[restart-cnn_regression]" time="22.099" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[early_stopping-gat]" time="20.580" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[early_stopping-gat_fixture]" time="21.130" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[early_stopping-cnn_classification]" time="22.119" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[early_stopping-cnn_regression]" time="20.001" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[nonfinite_monitor-gat]" time="21.604" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[nonfinite_monitor-gat_fixture]" time="22.734" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[nonfinite_monitor-cnn_classification]" time="24.122" /><testcase classname="tests.analytics.test_native_training_resume" name="test_cold_resume_boundary_and_numpy_controls[nonfinite_monitor-cnn_regression]" time="19.359" /><testcase classname="tests.analytics.test_native_training_resume" name="test_numpy_control_and_checkpoint_metadata_are_plain_scalars" time="0.007" /></testsuite></testsuites>

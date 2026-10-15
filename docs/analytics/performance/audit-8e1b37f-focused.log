@@ -1,0 +1,116 @@
+.s....FFFFFF...........ssss.................                             [100%]
+================================== FAILURES ===================================
+____ test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[0] ____
+tests\analytics\test_graph_owned_kl.py:118: in test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects
+    for name, expected in adapter.predict(query).items():
+                          ^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:117: in predict
+    return self.backend_.predict(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\execution.py:67: in wrapped
+    return function(owner, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:418: in predict
+    self._predict_group(groups[i], output)
+                        ^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:137: in __getitem__
+    return prepare_group(self.plan.raw(index, columns=self.preprocessor.snapshot_columns(self.plan.store)),
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:101: in prepare_group
+    data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_graph_owned_kl.py:117: in <lambda>
+    patch.setattr(prep, 'native_tensors', lambda snap, device, store, **kw: prep.tensors(snap, device))
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:202: in tensors
+    encoded = self.edges(snapshot)
+              ^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:81: in edges
+    return self._encode_edges(snapshot.edges)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:84: in _encode_edges
+    return np.concatenate((self.edge_scale.transform(self.numeric_edges(h)),
+                                                     ^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:55: in numeric_edges
+    raise ValueError("Selected match-level statistics are absent from history.")
+E   ValueError: Selected match-level statistics are absent from history.
+_ test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[134217728] _
+tests\analytics\test_graph_owned_kl.py:118: in test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects
+    for name, expected in adapter.predict(query).items():
+                          ^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:117: in predict
+    return self.backend_.predict(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\execution.py:67: in wrapped
+    return function(owner, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\adapter.py:418: in predict
+    self._predict_group(groups[i], output)
+                        ^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:137: in __getitem__
+    return prepare_group(self.plan.raw(index, columns=self.preprocessor.snapshot_columns(self.plan.store)),
+src\xdiyo_analytics\graphs\streaming.py:19: in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\streaming.py:101: in prepare_group
+    data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_graph_owned_kl.py:117: in <lambda>
+    patch.setattr(prep, 'native_tensors', lambda snap, device, store, **kw: prep.tensors(snap, device))
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:202: in tensors
+    encoded = self.edges(snapshot)
+              ^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:81: in edges
+    return self._encode_edges(snapshot.edges)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:84: in _encode_edges
+    return np.concatenate((self.edge_scale.transform(self.numeric_edges(h)),
+                                                     ^^^^^^^^^^^^^^^^^^^^^
+src\xdiyo_analytics\graphs\preprocessing.py:55: in numeric_edges
+    raise ValueError("Selected match-level statistics are absent from history.")
+E   ValueError: Selected match-level statistics are absent from history.
+_________ test_request_snapshot_survives_concurrent_eviction[report] __________
+tests\analytics\test_ui_retention_audit.py:19: in test_request_snapshot_survives_concurrent_eviction
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given
+_______ test_request_snapshot_survives_concurrent_eviction[save_model] ________
+tests\analytics\test_ui_retention_audit.py:19: in test_request_snapshot_survives_concurrent_eviction
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given
+_ test_optional_document_failure_preserves_new_and_older_completed_jobs[write] _
+tests\analytics\test_ui_retention_audit.py:59: in test_optional_document_failure_preserves_new_and_older_completed_jobs
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given
+_ test_optional_document_failure_preserves_new_and_older_completed_jobs[read] _
+tests\analytics\test_ui_retention_audit.py:59: in test_optional_document_failure_preserves_new_and_older_completed_jobs
+    handle = launch_ui(tmp_path, open_browser=False, retention_bytes=0)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: launch_ui() takes 0 positional arguments but 1 was given
+============================== warnings summary ===============================
+tests/analytics/test_native_training_resume.py::test_prediction_finalization_requires_verified_native_checkpoint[gat]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\torch\backends\__init__.py:42: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:85.)
+    return self.getter()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [1] tests\analytics\test_graph_owned_kl.py:17: Explicit free-GPU gate required
+SKIPPED [4] tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required
+FAILED tests/analytics/test_graph_owned_kl.py::test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[0]
+FAILED tests/analytics/test_graph_owned_kl.py::test_kl_inference_accepts_later_observed_zero_map_but_loss_rejects[134217728]
+FAILED tests/analytics/test_ui_retention_audit.py::test_request_snapshot_survives_concurrent_eviction[report]
+FAILED tests/analytics/test_ui_retention_audit.py::test_request_snapshot_survives_concurrent_eviction[save_model]
+FAILED tests/analytics/test_ui_retention_audit.py::test_optional_document_failure_preserves_new_and_older_completed_jobs[write]
+FAILED tests/analytics/test_ui_retention_audit.py::test_optional_document_failure_preserves_new_and_older_completed_jobs[read]
+6 failed, 33 passed, 5 skipped, 1 warning in 426.19s (0:07:06)

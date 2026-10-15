@@ -5,6 +5,10 @@ local and Hostinger runtimes, datasets and production fits are unchanged.
 
 ## Status
 
+Follow-up review repairs: see [audit-8e1b37f.md](audit-8e1b37f.md). The
+completion evidence below describes the previously verified 8e1b37f revision;
+the repaired source requires its own final CUDA gate.
+
 Completed on 2026-10-15 after full process-command and GPU telemetry checks
 confirmed that the frozen worker and its successors had exited. No production
 worker was paused or modified. The remaining CUDA gates passed on implementation
@@ -31,6 +35,15 @@ the required streaming group itself can exceed the optional cache budget. This i
 not an absolute cap on CUDA allocator reserved memory or on the entire process.
 No learned activations are cached, no optimizer update is retried, and no global
 pinned-memory duplicate is created. Derived CPU sources remain reconstructible.
+
+Host ownership qualification: disabled residency shares the fitted preprocessor's
+source-row caches across streams. Enabled residency instead creates an isolated
+fixed plan and preprocessor per PreparedGroups stream, including copied fixture
+metadata/positions and its own lazily populated edge/map caches. Each cache is
+bounded separately at 128 MiB (up to 256 MiB per stream, plus plan/transient
+storage); these CPU copies are outside the GPU input budget. They are included
+in process RSS measurements. Training and validation can therefore duplicate
+CPU encodings; there is no claim that all CPU caches are shared.
 
 UI retention bytes estimate the tracked heavy result and rendered-document
 payloads, not total process RSS. Pinned jobs can exceed the target. Spools remain

@@ -1,0 +1,84 @@
+{
+  "base": "8e1b37f9553303bbfcd88f7ba59235f024f07615",
+  "branch": "codex/performance-owned-caches-resume",
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "audit_sha256": "41fe91ebe7fdd472104807503649db2240976812c5f894fabfd63b68a385726c",
+  "changed_source_and_tests": {
+    "src/xdiyo_analytics/graphs/adapter.py": "9079dafaf0a44047a2731b2ee1d3f15f5a67bd9a8d4ce3e7a781dec975bd20df",
+    "src/xdiyo_analytics/graphs/preprocessing.py": "bcd57f9933c3bab3950e001815935b9b83e4a22075b52a2ae978df3229fb1a6a",
+    "src/xdiyo_analytics/graphs/streaming.py": "cdfaee811cbde3f694b02a69059a3223d1492eb469e4aa41a2a82ecb8ba2b1ad",
+    "src/xdiyo_analytics/training/control.py": "eae89baeb4a6e07172913539ca35af8fae07b2a35d4f932be9dae000d8aa30ec",
+    "src/xdiyo_analytics/training/native_resume.py": "93d13bfb48863d8d3cf1d38afb672c314e62ba73d9c3f3315e2e3d91c4084bc8",
+    "src/xdiyo_analytics/ui/server.py": "54d42d965bfa9a350bf2457dacddf29318f661773f92d44b961a2864b46ed163",
+    "tests/analytics/native_resume_worker.py": "de0be178f8051141f47b6851d33a3a96b17c993400bda1dd4dfae94dd58a6bf9",
+    "tests/analytics/test_graph_owned_kl.py": "09e594dc0cdcfe70b8465d03b6ae416e27d7669341ff330a451c2c87e390624e",
+    "tests/analytics/test_native_training_resume.py": "fd5df29d59067a1e049e0897cf25c26880ffd7b089ae020207f8bcfe86c354be",
+    "tests/analytics/test_ui_retention_audit.py": "423b0abe56169388b425cdd44c8c64623ab37be1be5a4da96c0f5d471fbe333a"
+  },
+  "gpu_gate": {
+    "status": "waiting_for_production",
+    "worker_pid": 145340,
+    "launcher_pid": 139544,
+    "supervisor_pids": [
+      158592,
+      141392
+    ],
+    "execution": "long200_aux2_bayes11_fold03.json",
+    "observed_local_time": "2026-10-15T21:11:45+09:00"
+  },
+  "cpu_environment": {
+    "CUDA_VISIBLE_DEVICES": "-1",
+    "XDIYO_CUDA_CHECKS": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src;tests/analytics;."
+  },
+  "test_results": {
+    "audit-8e1b37f-integrated-final.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "34",
+      "tests": "5773",
+      "time": "1227.833",
+      "timestamp": "2026-10-15T21:20:34.758147+09:00",
+      "hostname": "Ivan-tachi"
+    },
+    "audit-8e1b37f-pandas22-final.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "411",
+      "time": "48.540",
+      "timestamp": "2026-10-15T21:15:17.434639+09:00",
+      "hostname": "Ivan-tachi"
+    },
+    "audit-8e1b37f-pandas30-final.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "411",
+      "time": "54.629",
+      "timestamp": "2026-10-15T21:16:07.682432+09:00",
+      "hostname": "Ivan-tachi"
+    },
+    "audit-8e1b37f-regressions.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "1",
+      "tests": "12",
+      "time": "14.353",
+      "timestamp": "2026-10-15T21:19:27.206396+09:00",
+      "hostname": "Ivan-tachi"
+    }
+  },
+  "python_executable": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe",
+  "commands": {
+    "integrated": "python -u -m pytest tests/analytics -q --tb=short --junitxml=docs/analytics/performance/audit-8e1b37f-integrated-final.xml",
+    "regressions": "python -u -m pytest tests/analytics/test_graph_owned_kl.py tests/analytics/test_ui_retention_audit.py -q --tb=short --junitxml=docs/analytics/performance/audit-8e1b37f-regressions.xml",
+    "compatibility": "See audit-8e1b37f.md for the exact file-selection command; isolated xdiyo-pandas22-followup and xdiyo-pandas30-followup interpreters."
+  },
+  "remaining": "Repaired-source deterministic CUDA gate; production worker still active. Quiet heartbeat reactivated. No merge or push."
+}

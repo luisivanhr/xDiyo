@@ -51,6 +51,7 @@ class TrainingControl:
         for name, value, minimum in (("max_steps", self.max_steps, 1), ("restarts", self.restarts, 0), ("seed", self.seed, 0)):
             if isinstance(value, bool) or not isinstance(value, Integral) or value < minimum:
                 raise ValueError(f"{name} must be an integer >= {minimum}.")
+            object.__setattr__(self, name, int(value))
         if self.direction not in {"minimize", "maximize"} or not isinstance(self.restore_best, bool):
             raise ValueError("direction must be minimize/maximize and restore_best boolean.")
         if self.monitor is not None and (not isinstance(self.monitor, str) or not self.monitor):
@@ -62,11 +63,15 @@ class TrainingControl:
             delta = self.early_stopping.min_delta
             if not isinstance(delta, Real) or not np.isfinite(delta) or delta < 0:
                 raise ValueError("min_delta must be finite and nonnegative.")
+            object.__setattr__(self, "early_stopping", replace(self.early_stopping,
+                patience=int(self.early_stopping.patience), min_delta=float(delta)))
         if self.scheduler is not None:
             policy = self.scheduler
             if not (np.isfinite(policy.factor) and 0 < policy.factor < 1 and
                     np.isfinite(policy.min_lr) and policy.min_lr > 0):
                 raise ValueError("Scheduler needs 0 < factor < 1 and positive finite min_lr.")
+            object.__setattr__(self, "scheduler", replace(policy, patience=int(policy.patience),
+                factor=float(policy.factor), min_lr=float(policy.min_lr)))
 
 
 @dataclass(frozen=True)
