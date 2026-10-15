@@ -117,3 +117,25 @@ def test_custom_crosswalk_nested_cells_do_not_mutate_cached_table(tmp_path, monk
         assert second.at[0, 'array'][0] == 1
         assert calls == [1]
     run()
+
+
+@pytest.mark.parametrize('size', [0, 3, 2050])
+def test_streaming_recovery_matches_frozen_reference_encoder(size):
+    import hashlib
+    from pathlib import Path
+    import types
+    path = Path(__file__).parent/'reference/recovery_01617da.txt'
+    source = path.read_bytes()
+    assert hashlib.sha256(source).hexdigest() == '10e608476ff89666a2a1440ee3ec8e21071b94b687fb2b7e549fbfe2d2367ceb'
+    reference = types.ModuleType('xdiyo_analytics.experiments._frozen_recovery')
+    reference.__package__ = 'xdiyo_analytics.experiments'
+    exec(compile(source, str(path), 'exec'), reference.__dict__)
+    frame = pd.DataFrame({'integer': pd.array(([1, None, 0]*((size+2)//3))[:size], dtype='Int64'),
+                          'text': pd.array((['é', None, '']*((size+2)//3))[:size], dtype='string'),
+                          'nested': ([{'x': [1, None, np.nan]}]*size)})
+    frame['category'] = pd.Categorical((['a', None, 'b']*((size+2)//3))[:size], categories=['b','a'], ordered=True)
+    frame['time'] = pd.date_range('2024-01-01', periods=size, tz='Asia/Tokyo')
+    frame.attrs = {'lineage': {'missing': pd.NA, 'scales': np.array([1., np.nan])}}
+    values = dict(frame=frame, series=frame.integer, empty=pd.DataFrame(),
+                  scalars=(np.inf, -np.inf, pd.NA, pd.NaT), array=np.array([[1., np.nan]]))
+    assert ''.join(_iter_pack_json(values)) == json.dumps(reference.pack(values), ensure_ascii=False, allow_nan=False)
