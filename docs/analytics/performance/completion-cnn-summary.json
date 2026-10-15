@@ -1,0 +1,19 @@
+{
+  "reference": {
+    "cold_seconds": 0.9229505999974208,
+    "warm_median_seconds": 0.07883479999873089,
+    "peak_working_set": 723554304,
+    "rss_after": 722022400,
+    "gc_tracked_objects": 346859
+  },
+  "candidate": {
+    "cold_seconds": 1.0320676999981515,
+    "warm_median_seconds": 0.0711221999990812,
+    "peak_working_set": 723120128,
+    "rss_after": 721494016,
+    "gc_tracked_objects": 347054
+  },
+  "warm_speedup": 1.1084415273957966,
+  "exact_loss_and_full_state_parity": true,
+  "notes": "Three alternating-order separate-process pairs, CPU only. Same 2000-row synthetic KL reconstruction population; every update includes post-update loss evaluation. Unrelated frozen GPU fit remained active."
+}

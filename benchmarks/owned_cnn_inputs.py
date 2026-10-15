@@ -11,7 +11,17 @@ from xdiyo_analytics.neural import HeatmapCNNModel, HeatmapCNNConfig, Reconstruc
 from xdiyo_analytics.training.contracts import FitContext
 
 
-def worker(kind, output):
+def worker(kind, output, device='cpu', cache_bytes=0):
+    if device.startswith('cuda'):
+        if os.environ.get('XDIYO_CUDA_CHECKS') != '1':
+            raise RuntimeError('Explicit free-GPU gate required')
+        for process in psutil.process_iter(['pid', 'cmdline']):
+            if process.pid != os.getpid() and any('gpu_worker.py' in x for x in (process.info['cmdline'] or [])):
+                raise RuntimeError('Active GPU worker; wait without interruption')
+        torch.cuda.reset_peak_memory_stats()
+    def synchronize():
+        if device.startswith('cuda'): torch.cuda.synchronize()
+
     torch.set_num_threads(1); torch.use_deterministic_algorithms(True)
     sources = {}
     if kind == 'reference':
@@ -36,11 +46,14 @@ def worker(kind, output):
     c = FitContext(X, pd.DataFrame(index=X.index), 'match', ('event_id',), 0, y=pd.DataFrame({'target':np.arange(2000)%3}))
     spec = HeatmapCNNModel(encoder=HeatmapCNNConfig(reconstruction=Reconstruction(loss='kl')), batch_size=128)
     process = psutil.Process(); rss_before = process.memory_info().rss
-    t = time.perf_counter(); backend = Backend(spec, 11, 'cpu'); backend.initialize(c)
+    from xdiyo_analytics.training.residency import InputCachePolicy
+    kwargs = {'input_cache_policy': InputCachePolicy(cache_bytes)} if kind == 'candidate' else {}
+    synchronize(); t = time.perf_counter(); backend = Backend(spec, 11, device, **kwargs); backend.initialize(c)
+    synchronize()
     cold = time.perf_counter()-t
     timings, metrics, digests = [], [], []
     for _ in range(5):
-        t = time.perf_counter(); values = backend.step(); values = backend.checkpoint_metrics('train_loss', values)
+        synchronize(); t = time.perf_counter(); values = backend.step(); values = backend.checkpoint_metrics('train_loss', values); synchronize()
         timings.append(time.perf_counter()-t); metrics.append(values)
         h = hashlib.sha256()
         def hash_state(value):
@@ -54,15 +67,16 @@ def worker(kind, output):
         hash_state(backend.model.state_dict()); hash_state(backend.optimizer.state_dict())
         hash_state([p.grad for p in backend.model.parameters()]); digests.append(h.hexdigest())
     info = process.memory_info()
-    result = dict(kind=kind, sources=sources, candidate_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), command=[sys.executable, *sys.argv], python=sys.version, torch=str(torch.__version__), numpy=np.__version__, pandas=pd.__version__,
+    result = dict(kind=kind, device=device, cache_bytes=cache_bytes, sources=sources, candidate_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), command=[sys.executable, *sys.argv], python=sys.version, torch=str(torch.__version__), numpy=np.__version__, pandas=pd.__version__,
                   rows=len(X), maps_shape=list(maps.shape), inputs_sha256=hashlib.sha256(maps.tobytes()).hexdigest(),
                   cold_seconds=cold, update_and_post_evaluation_seconds=timings, warm_median_seconds=statistics.median(timings[1:]),
                   metrics=metrics, per_update_state_sha256=digests, rss_before=rss_before, rss_after=info.rss,
                   peak_working_set=getattr(info,'peak_wset',None), gc_tracked_objects=len(gc.get_objects()),
-                  cuda_allocated=None, cuda_reserved=None, file_cache=None)
+                  cuda_allocated=torch.cuda.max_memory_allocated() if device.startswith('cuda') else None, cuda_reserved=torch.cuda.max_memory_reserved() if device.startswith('cuda') else None, file_cache=None)
     Path(output).write_text(json.dumps(result, indent=2),encoding='utf-8')
 
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(); parser.add_argument('--kind', choices=['reference','candidate']); parser.add_argument('--output', required=True)
-    args=parser.parse_args(); worker(args.kind,args.output)
+    parser.add_argument('--device', default='cpu'); parser.add_argument('--cache-bytes', type=int, default=0)
+    args=parser.parse_args(); worker(args.kind,args.output,args.device,args.cache_bytes)

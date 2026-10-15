@@ -1,0 +1,5 @@
+..........................................................ssss....s.s.   [100%]
+=========================== short test summary info ===========================
+SKIPPED [4] tests\analytics\test_input_residency.py:65: Explicit free-GPU gate required
+SKIPPED [2] tests\analytics\test_performance_inspection.py:17: Explicit free-GPU gate required
+64 passed, 6 skipped in 40.27s

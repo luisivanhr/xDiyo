@@ -3,7 +3,10 @@
 ## Scope
 
 Branch: `codex/performance-owned-caches-resume`, based on `2e3b967`.
-This is a **partial implementation, not merge-ready**. Neither this branch nor
+This branch is **not merge-ready until the remaining CUDA gates pass**.
+The current completion pass is documented in [completion.md](completion.md);
+that document supersedes the deferred-status matrix below. This file retains
+the earlier implementation and validation history. Neither this branch nor
 `codex/output-preserving-performance` has been merged. No frozen local/Hostinger
 runtime, saved fit, dataset, or production experiment was changed. GPU tests are
 masked explicitly; a separate Python GPU process (PID 83592) remained active.

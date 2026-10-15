@@ -1,0 +1,15 @@
+..............................F......................................... [ 17%]
+........................................................................ [ 35%]
+........................................................................ [ 53%]
+........................................................................ [ 70%]
+........................................................................ [ 88%]
+..............................................                           [100%]
+================================== FAILURES ===================================
+____ test_identity_registry_pickle_preserves_alias_guard_without_retention ____
+tests\analytics\test_performance_remaining.py:150: in test_identity_registry_pickle_preserves_alias_guard_without_retention
+    from joblib.externals import cloudpickle
+E   ImportError: cannot import name 'cloudpickle' from 'joblib.externals' (C:\Users\luisi\AppData\Local\Temp\xdiyo-pandas22-followup\Lib\site-packages\joblib\externals\__init__.py)
+- generated xml file: C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\docs\analytics\performance\completion-pandas22.xml -
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_performance_remaining.py::test_identity_registry_pickle_preserves_alias_guard_without_retention
+1 failed, 405 passed in 43.96s

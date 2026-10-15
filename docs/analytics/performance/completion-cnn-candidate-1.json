@@ -1,0 +1,81 @@
+{
+  "kind": "candidate",
+  "device": "cpu",
+  "cache_bytes": 0,
+  "sources": {
+    "adapter": "e21bb727ffc540351965de4ec74d123c836e14eea58d013834bf88ed70713615",
+    "network": "bcbd67e0322e47bca7ff110ac35d78d05cb59845dfb590de38fbf1fafac5c418",
+    "prepared": "245f0e52cb4b4dbf54aaceec143d69364a69c3c82fb87afd23ecf19ad893fb14"
+  },
+  "candidate_commit": "6745d596609967f28431db0d91d29886f6184054",
+  "command": [
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+    "benchmarks/owned_cnn_inputs.py",
+    "--kind",
+    "candidate",
+    "--output",
+    "docs/analytics/performance/completion-cnn-candidate-1.json"
+  ],
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "torch": "2.9.0+cu130",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "rows": 2000,
+  "maps_shape": [
+    2000,
+    2,
+    10,
+    10
+  ],
+  "inputs_sha256": "3dec7263e926c660d14bd7dd3e342d54c12381e5f29911a23003fcc37f8c950c",
+  "cold_seconds": 1.0320676999981515,
+  "update_and_post_evaluation_seconds": [
+    0.11282699999719625,
+    0.08996099999785656,
+    0.0824955999996746,
+    0.07653450000361772,
+    0.09021799999754876
+  ],
+  "warm_median_seconds": 0.08622829999876558,
+  "metrics": [
+    {
+      "train_loss": 1.1009352482855321,
+      "train_reconstruction_loss": 0.19703405924029085,
+      "train_objective": 1.1206386542095612
+    },
+    {
+      "train_loss": 1.1001921081840993,
+      "train_reconstruction_loss": 0.196635190775646,
+      "train_objective": 1.119855627261664
+    },
+    {
+      "train_loss": 1.0996064824759961,
+      "train_reconstruction_loss": 0.19626993375207916,
+      "train_objective": 1.1192334758512041
+    },
+    {
+      "train_loss": 1.0991823363304138,
+      "train_reconstruction_loss": 0.19593986964705,
+      "train_objective": 1.118776323295119
+    },
+    {
+      "train_loss": 1.0989251799583437,
+      "train_reconstruction_loss": 0.19564082698905888,
+      "train_objective": 1.1184892626572496
+    }
+  ],
+  "per_update_state_sha256": [
+    "7ad4f3c0678c9e87b4f9c165e72fb0b8f9ef637da93b460f41aea3953597a499",
+    "c9df0baa6334fa524457be649581c5f39a91955f3d7ac5d20ab6c62f52d203ee",
+    "1fcfe82cd1d75e0674407f950dd5c00d6b1b8aa3cdc9480ecedbc6d5db8f9141",
+    "e75bc3ebf2bcde9a77045ceb97c219b74d37312d4e7c2fa7fd4679fd8b8354b3",
+    "f087bff7a2d67ce1b1a48a4a41426361feecbbe869ce24066ca88f0146e208fd"
+  ],
+  "rss_before": 627695616,
+  "rss_after": 721113088,
+  "peak_working_set": 723103744,
+  "gc_tracked_objects": 347054,
+  "cuda_allocated": null,
+  "cuda_reserved": null,
+  "file_cache": null
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="3" failures="0" skipped="0" tests="3" time="10.433" timestamp="2026-10-15T17:33:31.897012+09:00" hostname="Ivan-tachi"><testcase classname="" name="tests.analytics.test_historical_result_reviews" time="0.000"><error message="collection failure">ImportError while importing test module 'C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_historical_result_reviews.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_historical_result_reviews.py:10: in &lt;module&gt;
+    from examples.repair_historical_results_20261008 import EVIDENCE, digest, patch_table, repair
+E   ModuleNotFoundError: No module named 'examples.repair_historical_results_20261008'</error></testcase><testcase classname="" name="tests.analytics.test_japan_enrichment" time="0.000"><error message="collection failure">ImportError while importing test module 'C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_japan_enrichment.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_japan_enrichment.py:6: in &lt;module&gt;
+    from examples.backfill_statistics import statistics_scope
+E   ModuleNotFoundError: No module named 'examples.backfill_statistics'</error></testcase><testcase classname="" name="tests.analytics.test_mexico_enrichment" time="0.000"><error message="collection failure">ImportError while importing test module 'C:\Users\luisi\.codex\worktrees\performance-owned-caches-resume\xDiyo\tests\analytics\test_mexico_enrichment.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\..\AppData\Local\Programs\Python\Python314\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\analytics\test_mexico_enrichment.py:7: in &lt;module&gt;
+    from examples.backfill_statistics import statistics_scope, match_fixtures
+E   ModuleNotFoundError: No module named 'examples.backfill_statistics'</error></testcase></testsuite></testsuites>
