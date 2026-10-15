@@ -56,9 +56,15 @@ class _SpatialEmbedding(TransformerMixin, BaseEstimator):
         self.input_names_ = np.asarray(names, dtype=object)
         selected = set(np.concatenate(self.blocks_))
         self.other_ = np.asarray([i for i in range(self.n_features_in_) if i not in selected and self.keep_other], dtype=int)
-        sample = np.vstack([values[:, cols] for cols in self.blocks_])
-        # An entirely absent training map cannot teach a basis or a median.
-        sample = sample[~np.isnan(sample).all(axis=1)]
+        # Preserve block-major, row-major order without retaining a stacked
+        # copy of wholly absent maps alongside the final observed matrix.
+        observed = [~np.isnan(values[:, cols]).all(axis=1) for cols in self.blocks_]
+        sample = np.empty((sum(int(mask.sum()) for mask in observed), len(self.blocks_[0])), dtype=values.dtype)
+        offset = 0
+        for cols, mask in zip(self.blocks_, observed):
+            stop = offset+int(mask.sum())
+            sample[offset:stop] = values[np.ix_(mask, cols)]
+            offset = stop
         if not len(sample) or np.isnan(sample).all(axis=0).any():
             raise ValueError('Spatial representation needs observed training values for every grid cell.')
         self.imputer_ = SimpleImputer(strategy='median', keep_empty_features=True).fit(sample)

@@ -140,12 +140,14 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                             season_starts=season_starts, population=population)
         return transitions
 
+    from .history import _eligible_history_index
+
     def history_rows(scope, venue='all'):
         if venue not in ('all', 'same'):
             raise ValueError('Historical venue must be all or same.')
         key = (scope, venue)
         if key not in histories:
-            histories[key] = eligible_history_rows(
+            histories[key] = _eligible_history_index(
                 history, group_by=(*group_by, 'side') if venue == 'same' else group_by, head_to_head=scope,
                 cutoffs=cutoffs, available_at=available_at,
             )
@@ -423,12 +425,37 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 if reference.shape[1] != source.shape[1]:
                     raise ValueError("Z-score reference must match the source column count.")
                 reference = reference.to_numpy(dtype=float, na_value=np.nan)
-            for row, positions in enumerate(candidates):
+            ema_states = {}
+            for row in range(len(candidates)):
+                positions = candidates.window(row, None if isinstance(node, EMA) else
+                                               node.periods if isinstance(node, Lag) else node.window)
                 if isinstance(node, Lag):
                     if len(positions) >= node.periods:
                         output[row] = values[positions[-node.periods]]
                     continue
                 if not len(positions):
+                    continue
+                if (isinstance(node, EMA) and len(candidates.groups[candidates.row_group[row]][0]) > 64
+                        and np.result_type(np.asarray(2 / (node.span + 1)).dtype, np.float64) == np.dtype('float64')):
+                    group = candidates.row_group[row]
+                    previous, means, counts = ema_states.get(group, (np.empty(0, dtype=int),
+                        np.full(values.shape[1], np.nan), np.zeros(values.shape[1], dtype=int)))
+                    # Irregular release or query order: recompute this history.
+                    if len(previous) > len(positions) or not np.array_equal(previous, positions[:len(previous)]):
+                        previous = np.empty(0, dtype=int)
+                        means = np.full(values.shape[1], np.nan)
+                        counts = np.zeros(values.shape[1], dtype=int)
+                    sample = values[positions[len(previous):]]
+                    alpha = 2 / (node.span + 1)
+                    for col in range(values.shape[1]):
+                        observed = sample[:, col]
+                        observed = observed[np.isfinite(observed)]
+                        for value in observed:
+                            means[col] = value if counts[col] == 0 else alpha * value + (1 - alpha) * means[col]
+                            counts[col] += 1
+                        if counts[col] >= node.min_periods:
+                            output[row, col] = means[col]
+                    ema_states[group] = (positions, means, counts)
                     continue
                 sample = values[positions if isinstance(node, EMA) else positions[-node.window:]]
                 for col in range(values.shape[1]):

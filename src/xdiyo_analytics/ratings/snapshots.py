@@ -45,7 +45,27 @@ class RatingRun:
                    description["initial_state"], tuple(description["scope"]),
                    tuple(description["streams"]), description["metadata"])
 
+    def _snapshot_groups(self, fields):
+        import pandas as pd
+        keys = ["stream", *self.scope, "team_id"]
+        groups = {}
+        for key, frame in self.snapshots.groupby(keys, sort=False, dropna=False):
+            order = ["recorded_at"] + (["snapshot_order"] if "snapshot_order" in frame else [])
+            frame = frame.sort_values(order, kind="stable")
+            if frame.duplicated(order).any():
+                raise ValueError("Duplicate snapshots for a team at one time.")
+            groups[key] = (
+                pd.to_datetime(frame["recorded_at"], utc=True).astype("datetime64[ns, UTC]").astype("int64").to_numpy(),
+                pd.to_datetime(frame["latest_kickoff_at"], utc=True).astype("datetime64[ns, UTC]").astype("int64").to_numpy(),
+                frame[list(fields)].to_numpy(dtype=float),
+            )
+        return groups
+
     def features(self, history, *, cutoffs=None, side="both", fields=None):
+        """Lookup earlier states, with initial states for unrated teams and NaN for missing query times."""
+        return self._features(history, cutoffs=cutoffs, side=side, fields=fields)
+
+    def _features(self, history, *, cutoffs=None, side="both", fields=None, groups=None):
         """Lookup earlier states and align them with every training/prediction row.
 
         Unrated teams receive the configured initial state. Missing query dates
@@ -68,18 +88,10 @@ class RatingRun:
             raise ValueError("Prediction cutoffs must not follow target kickoff.")
         if history[list(self.scope)].isna().any().any():
             raise ValueError("Rating scope identifiers must be nonmissing.")
-        keys = ["stream", *self.scope, "team_id"]
-        groups = {}
-        for key, frame in self.snapshots.groupby(keys, sort=False, dropna=False):
-            order = ["recorded_at"] + (["snapshot_order"] if "snapshot_order" in frame else [])
-            frame = frame.sort_values(order, kind="stable")
-            if frame.duplicated(order).any():
-                raise ValueError("Duplicate snapshots for a team at one time.")
-            groups[key] = (
-                pd.to_datetime(frame["recorded_at"], utc=True).astype("datetime64[ns, UTC]").astype("int64").to_numpy(),
-                pd.to_datetime(frame["latest_kickoff_at"], utc=True).astype("datetime64[ns, UTC]").astype("int64").to_numpy(),
-                frame[list(fields)].to_numpy(dtype=float),
-            )
+        if groups is None:
+            groups = self._snapshot_groups(fields)
+        elif callable(groups):
+            groups = groups()  # defer construction until query validation completes
         scopes = list(zip(*(history[name].tolist() for name in self.scope))) if self.scope else [()] * len(history)
         cutoff_ns = cutoff.astype("datetime64[ns, UTC]").astype("int64").to_numpy()
         valid = cutoff.notna().to_numpy() & kickoff.notna().to_numpy()

@@ -217,11 +217,17 @@ class BayesianRatingRun(RatingRun):
         # query team was not present in the saved history at all.
         import pandas as pd
         result = None
+        groups = None
         for competition, positions in history.groupby("competition_id", sort=False).indices.items():
             frame = history.iloc[positions]
             initial = team_summary(initial_team(self.model.parameters_for(competition)))
             base = RatingRun(self.snapshots, initial, self.scope, self.streams, self.metadata)
-            values = base.features(frame, cutoffs=times.iloc[positions], side=side, fields=fields)
+            def index_once():
+                nonlocal groups
+                if groups is None:
+                    groups = base._snapshot_groups(fields)
+                return groups
+            values = base._features(frame, cutoffs=times.iloc[positions], side=side, fields=fields, groups=index_once)
             if result is None:
                 result = pd.DataFrame(float("nan"), index=history.index, columns=values.columns)
             result.iloc[positions] = values.to_numpy()

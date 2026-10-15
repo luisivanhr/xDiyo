@@ -10,6 +10,18 @@ import pandas as pd
 from .core import Splitter, _Matches, _duration, _fold, _integer
 
 
+def _closed_overlap(starts, ends, merged):
+    """Closed query intervals against ordered, disjoint closed intervals."""
+    if not merged:
+        return np.zeros(len(starts), dtype=bool)
+    lower = pd.DatetimeIndex([pair[0] for pair in merged])
+    upper = pd.DatetimeIndex([pair[1] for pair in merged])
+    # Latest interval starting at/before each query end is the only candidate
+    # needed: earlier disjoint intervals also have earlier ends.
+    positions = lower.searchsorted(ends, side='right')-1
+    return (positions >= 0) & (upper.take(np.maximum(positions, 0)) >= starts)
+
+
 @dataclass
 class CPCV(Splitter):
     """Retrospective combinatorial purged CV, not a past-only deployment replay.
@@ -81,9 +93,7 @@ class CPCV(Splitter):
                     merged[-1] = (merged[-1][0], max(merged[-1][1], end))
                 else:
                     merged.append((start, end))
-            purged = np.zeros(len(candidate), dtype=bool)
-            for start, end in merged:
-                purged |= (starts[candidate] <= end) & (ends[candidate] >= start)
+            purged = _closed_overlap(starts[candidate], ends[candidate], merged)
             embargoed = np.zeros(len(candidate), dtype=bool)
             runs = np.split(np.asarray(selected), np.flatnonzero(np.diff(selected) != 1) + 1)
             for run in runs:

@@ -735,8 +735,18 @@ def fixture_features(run, history, times, fields):
         raise ValueError("Fixture queries need competition, teams, home/away side and kickoff.")
     team_fields = ("attack_mean", "defence_vulnerability_mean", "strength_index")
     team_values = run.features(history, cutoffs=times, side="both", fields=team_fields)
-    groups = {key: group.sort_values(["recorded_at", "snapshot_order"], kind="stable")
-              for key, group in run.league_snapshots.groupby("competition_id", sort=False)}
+    groups = {}
+    for key, group in run.league_snapshots.groupby("competition_id", sort=False):
+        group = group.sort_values(["recorded_at", "snapshot_order"], kind="stable")
+        # Release order is monotone after sorting, while latest contributing
+        # kickoff need not be. Walk back over ineligible equal/future kickoffs.
+        if not all(isinstance(group[name].dtype, pd.DatetimeTZDtype)
+                   for name in ('recorded_at', 'latest_kickoff_at')):
+            groups[key] = group  # retain legacy comparisons/errors for custom tables
+        else:
+            groups[key] = (pd.DatetimeIndex(group.recorded_at),
+                           pd.DatetimeIndex(group.latest_kickoff_at),
+                           group[['home_shape', 'home_rate']].to_numpy())
     want_probability = any(name.startswith("p_") for name in fields)
     for position, (_, row) in enumerate(history.iterrows()):
         time = times.iloc[position]
@@ -745,11 +755,18 @@ def fixture_features(run, history, times, fields):
         parameters = run.model.parameters_for(row.competition_id)
         home_state = initial_home(parameters)
         league = groups.get(row.competition_id)
-        if league is not None:
+        if isinstance(league, pd.DataFrame):
             eligible = league.recorded_at.le(time) & (league.latest_kickoff_at.isna() | league.latest_kickoff_at.lt(time))
             if eligible.any():
                 last = league.loc[eligible].iloc[-1]
                 home_state = GammaState(last.home_shape, last.home_rate)
+        elif league is not None:
+            recorded, latest, states = league
+            at = recorded.searchsorted(time, side='right')-1
+            while at >= 0 and (pd.isna(recorded[at]) or (pd.notna(latest[at]) and latest[at] >= time)):
+                at -= 1
+            if at >= 0:
+                home_state = GammaState(*states[at])
         values = team_values.iloc[position]
         hrole, arole = ("team", "opponent") if row.side == "home" else ("opponent", "team")
         get = lambda role, name: float(values[f"score::{role}::{name}"])

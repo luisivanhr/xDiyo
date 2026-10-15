@@ -75,6 +75,12 @@ def eligible_history_rows(history, *, group_by=("team_id", "competition_id"),
     finished kickoffs are the retrospective availability assumption: completion
     and publication times cannot be inferred from the current export.
     """
+    return list(_eligible_history_index(history, group_by=group_by,
+                 head_to_head=head_to_head, cutoffs=cutoffs, available_at=available_at))
+
+
+def _eligible_history_index(history, *, group_by=("team_id", "competition_id"),
+                            head_to_head=False, cutoffs=None, available_at=None):
     import numpy as np
 
     keys = list(dict.fromkeys(group_by))
@@ -102,17 +108,71 @@ def eligible_history_rows(history, *, group_by=("team_id", "competition_id"),
     if "event_id" not in identities:
         raise KeyError("History must include event_id.")
     match_ids = list(zip(*(history[name].tolist() for name in identities)))
-    result = [np.array([], dtype=int) for _ in range(len(history))]
+    groups = []
+    row_group = np.empty(len(history), dtype=int)
     for positions in history.groupby(keys, sort=False, dropna=False).indices.values():
         candidates = positions[valid[positions]]
         candidates = candidates[np.argsort(kick_ns[candidates], kind="stable")]
-        for row in positions:
-            if missing_target_time[row]:
-                continue
-            end = np.searchsorted(kick_ns[candidates], cutoff_ns[row], side="left")
+        row_group[positions] = len(groups)
+        groups.append((candidates, kick_ns[candidates]))
+    return _HistoryRows(groups, row_group, available_ns, cutoff_ns, missing_target_time, match_ids)
+
+
+class _HistoryRows:
+    """Invocation-local sorted indices; never retain every preceding prefix.
+
+    Public eligible_history_rows still returns independent arrays. Internally a
+    bounded query scans backwards in chunks, stopping after the same last k
+    eligible match slots (including observations with missing feature values).
+    """
+    def __init__(self, groups, row_group, available, cutoffs, missing, identities):
+        self.groups, self.row_group = groups, row_group
+        self.available, self.cutoffs = available, cutoffs
+        self.missing, self.identities = missing, identities
+        self._short_rows = {}
+
+    def __len__(self):
+        return len(self.row_group)
+
+    def __iter__(self):
+        for row in range(len(self)):
+            yield self[row]
+
+    def __getitem__(self, row):
+        return self.window(row)
+
+    def window(self, row, size=None):
+        import numpy as np
+        if row >= len(self) or row < -len(self):
+            raise IndexError(row)
+        if self.missing[row]:
+            return np.empty(0, dtype=int)
+        candidates, kicks = self.groups[self.row_group[row]]
+        # Bound memoization by group size, never by an unbounded history prefix.
+        if len(candidates) <= 64:
+            if row not in self._short_rows:
+                cutoff = self.cutoffs[row]
+                end = np.searchsorted(kicks, cutoff, side='left')
+                eligible = candidates[:end]
+                eligible = eligible[self.available[eligible] <= cutoff]
+                self._short_rows[row] = np.array([i for i in eligible if self.identities[i] != self.identities[row]], dtype=int)
+            values = self._short_rows[row]
+            return values.copy() if size is None else values[-size:].copy()
+        cutoff = self.cutoffs[row]
+        end = np.searchsorted(kicks, cutoff, side='left')
+        if size is None:
             eligible = candidates[:end]
-            eligible = eligible[available_ns[eligible] <= cutoff_ns[row]]
-            result[row] = np.array(
-                [i for i in eligible if match_ids[i] != match_ids[row]], dtype=int,
-            )
-    return result
+            eligible = eligible[self.available[eligible] <= cutoff]
+            return np.array([i for i in eligible if self.identities[i] != self.identities[row]], dtype=int)
+        selected = []
+        while end and len(selected) < size:
+            begin = max(0, end-max(64, size-len(selected)))
+            chunk = candidates[begin:end]
+            chunk = chunk[self.available[chunk] <= cutoff]
+            for i in chunk[::-1]:
+                if self.identities[i] != self.identities[row]:
+                    selected.append(i)
+                    if len(selected) == size:
+                        break
+            end = begin
+        return np.asarray(selected[::-1], dtype=int)
