@@ -404,18 +404,21 @@ class _Backend:
         teams = queries.iloc[positions].team_id.tolist()
         snap = self.store.snapshot(time, self.config, teams)
         data = self.preprocessor.tensors(snap, self.device)
-        z = self.model.encode(data).cpu().numpy()
-        priors = self.model.prior(data["league"], data["entry"]).cpu().numpy()
+        z = self.model.encode(data)
+        priors = self.model.prior(data["league"], data["entry"])
         lookup = {t: n for n, t in enumerate(snap.teams)}
-        for pos, team in zip(positions, teams):
+        indices = _torch().as_tensor([lookup[t] for t in teams], dtype=_torch().long, device=z.device)
+        z = z.index_select(0, indices).cpu().numpy()
+        priors = priors.index_select(0, indices).cpu().numpy()
+        for local, (pos, team) in enumerate(zip(positions, teams)):
             i = lookup[team]
             records[pos] = dict(team_id=team, issuance_at=time, history_cutoff=snap.cutoff,
                 support=snap.support[i], gate=snap.gate[i], league=snap.league[i], entry=snap.entry[i],
                 evidence=snap.evidence(team, self.config.layers), model_version=self.model_version,
                 event_store_version=self.store.version, forecast_policy=self.config.forecast_policy,
                 trained_through=self.trained_through,
-                **{f"z_{j}": float(v) for j, v in enumerate(z[i])},
-                **{f"prior_{j}": float(v) for j, v in enumerate(priors[i])})
+                **{f"z_{j}": float(v) for j, v in enumerate(z[local])},
+                **{f"prior_{j}": float(v) for j, v in enumerate(priors[local])})
 
     @configured_execution
     @release_temporary_frames

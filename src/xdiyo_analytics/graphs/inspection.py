@@ -15,10 +15,12 @@ def _attention_group(adapter, time, positions, queries, records):
     selected = np.flatnonzero(snap.edges.team_id.isin(teams))
     edges = list(snap.edges.iloc[selected].itertuples(index=False))
     for layer, alpha in enumerate(layers):
-        weights = alpha.cpu().numpy()
-        for i, edge in zip(selected, edges):
+        # Compute attention on the complete graph; transfer only requested rows.
+        indices = _torch().as_tensor(selected, dtype=_torch().long, device=alpha.device)
+        weights = alpha.index_select(0, indices).cpu().numpy()
+        for local, (i, edge) in enumerate(zip(selected, edges)):
             node = snap.receiver[i]
-            for head, weight in enumerate(weights[i]):
+            for head, weight in enumerate(weights[local]):
                 records.append(dict(team_id=int(edge.team_id), opponent_id=int(edge.opponent_id),
                     event_id=int(edge.event_id), competition_id=int(edge.competition_id),
                     season_id=int(edge.season_id), kickoff_at=edge.kickoff_at,
