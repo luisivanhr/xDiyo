@@ -94,12 +94,29 @@ class CountClassificationReporter(PredictionReporter):
             fold_ids = context.y.index.get_level_values("fold_id") if isinstance(context.y.index, pd.MultiIndex) and "fold_id" in context.y.index.names else pd.Index([getattr(context, "fold_id", None)] * len(context.y))
             row_positions = context.y.index.get_level_values("row_position") if isinstance(context.y.index, pd.MultiIndex) and "row_position" in context.y.index.names else context.y.index
             row_ps, row_classes = [], []
+            source_values = {}
             for i, (fid, pos) in enumerate(zip(fold_ids, row_positions)):
                 source = None if getattr(context, "pooling", None) == "mean" else getattr(context.fold_results.get(fid), "predictions", {}).get(self.probability_output) if hasattr(context, "fold_results") and fid in context.fold_results else None
                 if source is None:
                     row_ps.append(p[i]); row_classes.append(classes); continue
-                vals, local_classes = _probabilities(source.loc[[pos]], target, source.loc[[pos]].index)
-                row_ps.append(vals[0]); row_classes.append(local_classes)
+                # Retain the legacy path for duplicate source row identities.
+                if not source.index.is_unique:
+                    vals, local_classes = _probabilities(source.loc[[pos]], target, source.loc[[pos]].index)
+                    row_ps.append(vals[0]); row_classes.append(local_classes)
+                    continue
+                if fid not in source_values:
+                    requested = row_positions[fold_ids == fid]
+                    selected_source = source.loc[requested]
+                    vals, local_classes = _probabilities(selected_source, target, selected_source.index)
+                    # Position lookup is against unique source identities; pooled
+                    # occurrences may repeat one identity, so keep its first row.
+                    unique = ~selected_source.index.duplicated()
+                    source_values[fid] = (vals[unique], local_classes, selected_source.index[unique])
+                vals, local_classes, source_index = source_values[fid]
+                location = source_index.get_indexer([pos])[0]
+                if location < 0:
+                    source.loc[[pos]]  # preserve pandas' missing-identity error
+                row_ps.append(vals[location]); row_classes.append(local_classes)
             valid_p = np.array([np.isfinite(v).all() and (v >= 0).all() and np.isclose(v.sum(), 1., atol=1e-6, rtol=0) for v in row_ps])
             supported = np.array([int(value) in set(cls.tolist()) for value, cls in zip(observed, row_classes)])
             actual = np.array([v[list(cls).index(int(value))] if valid and int(value) in set(cls.tolist()) else (0.0 if valid else np.nan) for value, v, cls, valid in zip(observed, row_ps, row_classes, valid_p)])

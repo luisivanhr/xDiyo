@@ -36,10 +36,12 @@ class BankrollLedger:
         time = pd.to_datetime(time,utc=True)
         if pd.isna(time) or (self.events and time < self.events[-1]['time']):
             raise ValueError('Bankroll events must be chronological UTC timestamps.')
-        if not np.isfinite([self.wealth,self.reserve,self.cash]).all() or min(self.reserve,self.cash) < -1e-9:
+        wealth, reserve = self.wealth, self.reserve
+        cash = wealth-reserve
+        if not np.isfinite([wealth,reserve,cash]).all() or min(reserve,cash) < -1e-9:
             raise ValueError('Bankroll conservation or solvency violated.')
-        self.events.append(dict(time=time,kind=kind,ticket_id=ticket_id,amount=amount,wealth=self.wealth,
-                                reserve=self.reserve,cash=self.cash,realized_net_pnl=self.realized_net_pnl,currency=self.currency))
+        self.events.append(dict(time=time,kind=kind,ticket_id=ticket_id,amount=amount,wealth=wealth,
+                                reserve=reserve,cash=cash,realized_net_pnl=self.realized_net_pnl,currency=self.currency))
 
     def context(self,time,*,basis='realized_wealth'):
         exposure = []
@@ -169,8 +171,14 @@ def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, c
     settled = set()
     times = sorted(set(decision) | set(available.dropna()))
     columns = tuple(c for c,_ in (risk_limits.exposure_caps if risk_limits else ()))
+    # Every availability timestamp is an event. A ticket cannot be placed later
+    # than its availability (validated above); unfunded tickets never reopen.
+    by_time = {}
+    for key, stamp in available.items():
+        if pd.notna(stamp):
+            by_time.setdefault(stamp, []).append(key)
     for time in times:
-        due = [key for key in settlements.index if key not in settled and pd.notna(available.loc[key]) and available.loc[key] <= time]
+        due = by_time.get(time, ())
         for key in sorted(due,key=repr):
             if key in ledger.open_tickets:
                 stake = ledger.open_tickets[key]['stake']

@@ -237,7 +237,7 @@ def evaluate_metrics(y, predictions, metrics, *, metadata=None, source_folds=Non
             if spec.name == "count_ou_brier":
                 # Strict opt-in: validate the full population, including empty
                 # inputs/configuration, before the legacy complete-case path.
-                count_ou_brier(truth, prediction, **spec.parameters)
+                validated_score = count_ou_brier(truth, prediction, **spec.parameters)
                 mask = pd.Series(True, index=y.index)
             n, status, value = int(mask.sum()), "ok", np.nan
             if n == 0:
@@ -247,7 +247,8 @@ def evaluate_metrics(y, predictions, metrics, *, metadata=None, source_folds=Non
             elif spec.name == "roc_auc" and truth[mask].nunique() < 2:
                 status = "undefined_single_observed_class"
             else:
-                value = definition.function(truth.loc[mask], prediction.loc[mask], **spec.parameters)
+                value = (validated_score if spec.name == "count_ou_brier" and definition.function is count_ou_brier
+                         else definition.function(truth.loc[mask], prediction.loc[mask], **spec.parameters))
                 if not np.isscalar(value):
                     raise ValueError("Metrics must return scalar values; configure averaging explicitly.")
                 value = float(value)

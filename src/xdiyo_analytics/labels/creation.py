@@ -250,7 +250,7 @@ def create_labels(history, labels):
         columns = [name] if len(columns) == 1 else [f"{name}::{column}" for column in columns]
         index = history.index.take(rows)
         y = pd.DataFrame(values.copy(), index=index, columns=columns)
-        metadata = history.iloc[rows][context_columns].copy()
+        metadata = history[context_columns].iloc[rows].copy()
         identity_columns = tuple(match_keys)
         if unit == "match":
             metadata = metadata.rename(columns={"team_id": "home_id", "opponent_id": "away_id"}).drop(columns="side")

@@ -62,8 +62,16 @@ class EstimatorAdapter:
 
     def predict(self, context):
         result = {}
+        prepared_count = _prepared_count(self.estimator, context.X, self.prediction_methods)
         for method in self.prediction_methods:
-            values = getattr(self.estimator, method)(context.X)
+            if prepared_count is not None and method == 'predict':
+                estimator, mean = prepared_count
+                from .counts import NegativeBinomialRegressor
+                values = mean
+                if type(estimator) is NegativeBinomialRegressor and getattr(estimator, 'prediction_', 'mean') != 'mean':
+                    values = np.zeros_like(mean) if estimator.dispersion_ >= 1 else np.floor(mean * (1 - estimator.dispersion_))
+            else:
+                values = getattr(self.estimator, method)(context.X)
             if isinstance(values, (pd.Series, pd.DataFrame)) and not values.index.equals(context.X.index):
                 raise ValueError("Pandas estimator outputs must retain the prediction input index/order.")
             if method == "predict":
@@ -117,12 +125,15 @@ class EstimatorAdapter:
         from sklearn.linear_model import PoissonRegressor
         estimator = self.estimator
         inputs = context.X
-        if hasattr(estimator, 'steps') and isinstance(estimator.steps[-1][1], (NegativeBinomialRegressor, PoissonRegressor)):
+        if prepared_count is not None:
+            estimator, mean = prepared_count
+        elif hasattr(estimator, 'steps') and isinstance(estimator.steps[-1][1], (NegativeBinomialRegressor, PoissonRegressor)):
             if len(estimator.steps) > 1:
                 inputs = estimator[:-1].transform(inputs)
             estimator = estimator.steps[-1][1]
         if isinstance(estimator, (NegativeBinomialRegressor, PoissonRegressor)):
-            mean = estimator.predict_mean(inputs) if isinstance(estimator, NegativeBinomialRegressor) else estimator.predict(inputs)
+            if prepared_count is None:
+                mean = estimator.predict_mean(inputs) if isinstance(estimator, NegativeBinomialRegressor) else estimator.predict(inputs)
             dispersion = estimator.dispersion_ if isinstance(estimator, NegativeBinomialRegressor) else 0.
             columns = pd.MultiIndex.from_product([self.target_columns_, ['mean', 'dispersion']],
                                                 names=['target', 'parameter'])
@@ -130,3 +141,32 @@ class EstimatorAdapter:
                 np.column_stack([mean, np.full(len(mean), dispersion)]),
                 index=context.X.index, columns=columns)
         return result
+
+
+def _prepared_count(estimator, inputs, methods):
+    """Strict whitelist: unknown estimators/transformers keep the legacy calls."""
+    from sklearn.pipeline import Pipeline
+    from sklearn.impute import SimpleImputer
+    from sklearn.preprocessing import StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler
+    from sklearn.linear_model import PoissonRegressor
+    from .counts import NegativeBinomialRegressor
+    if tuple(methods) != ('predict',):
+        return None
+    model = estimator
+    if type(estimator) is Pipeline:
+        if not estimator.steps:
+            return None
+        model = estimator.steps[-1][1]
+        allowed = (SimpleImputer, StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler)
+        if any(step is not None and not (isinstance(step, str) and step == 'passthrough')
+               and (type(step) not in allowed or 'transform' in vars(step) or
+                    (type(step) is SimpleImputer and callable(step.strategy)))
+               for _, step in estimator.steps[:-1]):
+            return None
+    if type(model) not in (NegativeBinomialRegressor, PoissonRegressor) or any(
+            name in vars(model) for name in ('predict', 'predict_mean')):
+        return None
+    if type(estimator) is Pipeline and len(estimator.steps) > 1:
+        inputs = estimator[:-1].transform(inputs)
+    mean = model.predict_mean(inputs) if type(model) is NegativeBinomialRegressor else model.predict(inputs)
+    return model, mean

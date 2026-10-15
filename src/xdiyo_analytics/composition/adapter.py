@@ -67,7 +67,11 @@ class CompositeModelAdapter:
                     collected.setdefault(key,[]).append(frame)
                 self.audit_.append(dict(inner_fold=inner,train_keys=context.X.index[train].tolist(),
                                         test_keys=context.X.index[test].tolist(),fit_at=str(boundary)))
+                del models, training, prediction, bundle
             self.oof_ = {key:pd.concat(frames) for key,frames in collected.items()}
+            collected.clear()
+            # The loop variable otherwise keeps the last prediction chunk alive.
+            frame = None
             keys = [key for key in context.X.index if key in covered]
             if len(keys) < len(context.X) and self.training_plan.uncovered == 'error':
                 raise ValueError('Uncovered OOF warm-up rows; choose explicit drop policy.')
@@ -88,6 +92,7 @@ class CompositeModelAdapter:
                 if fits > self.training_plan.max_fits:
                     raise ValueError('Composition fitting budget exceeded.')
                 self.models_[name] = fit_node(node,replace(meta_context,X=inputs))
+            del meta_context, frames, inputs
             deployment = subset(context,np.flatnonzero(eligible.to_numpy()))
         else:
             keys = []

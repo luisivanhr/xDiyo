@@ -7,6 +7,8 @@ from numbers import Integral, Real
 import numpy as np
 import pandas as pd
 
+from .._identity import IdentityRegistry
+
 
 @dataclass(frozen=True)
 class EarlyStopping:
@@ -123,20 +125,21 @@ def run_iterations(backend_factory, context, control):
     """
     monitor = control.monitor or ("validation_loss" if context.validation is not None else "train_loss")
     direction = 1 if control.direction == "minimize" else -1
-    rows, attempts, seen, owned_states = [], [], [], []
+    rows, attempts = [], []
+    seen, owned_states = IdentityRegistry(), IdentityRegistry()
     winner, winning_value, winner_info = None, np.inf, None
     delta = control.early_stopping.min_delta if control.early_stopping else 0.0
     for attempt in range(control.restarts+1):
         backend = backend_factory(control.seed+attempt)
-        if any(backend is other for other in seen):
+        if backend in seen:
             raise ValueError("backend_factory must create a fresh backend for each attempt.")
-        seen.append(backend)
+        seen.add(backend)
         for name in ("estimator", "preprocessor"):
             state = getattr(backend, name, None)
             if state is not None:
-                if any(state is other for other in owned_states):
+                if state in owned_states:
                     raise ValueError("Restart backends must own fresh estimators and preprocessing.")
-                owned_states.append(state)
+                owned_states.add(state)
         if control.restore_best and not all(callable(getattr(backend, method, None)) for method in ("snapshot", "restore")):
             raise TypeError("Checkpoint restoration requires backend snapshot()/restore().")
         if control.scheduler and not all(callable(getattr(backend, method, None)) for method in ("get_learning_rate", "set_learning_rate")):
@@ -205,6 +208,7 @@ def run_iterations(backend_factory, context, control):
             winner, winning_value, winner_info = backend, retained_value, info.copy()
         if context.observer is not None:
             context.observer(TrainingEvent(context.fold_id, attempt, step, last_metrics.copy(), monitor, final=True))
+        del backend, state, checkpoint
     if winner is None:
         raise ValueError("No training attempt produced a finite monitored value.")
     summary = dict(monitor=monitor, direction=control.direction, restore_best=control.restore_best,

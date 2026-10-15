@@ -132,13 +132,15 @@ class NegativeBinomialRegressor(RegressorMixin, BaseEstimator):
                 beta[offset:] -= theta[width:-1]
             return beta
 
+        log_factorial = gammaln(y+1)
+
         def objective(theta):
             beta = unpack(theta)
             eta = design @ beta
             log_a = theta[-1]
             r = np.exp(-log_a)
             log_denom = np.logaddexp(0, eta + log_a)
-            ll = gammaln(y+r)-gammaln(r)-gammaln(y+1) + y*(eta+log_a) - (y+r)*log_denom
+            ll = gammaln(y+r)-gammaln(r)-log_factorial + y*(eta+log_a) - (y+r)*log_denom
             score_eta = y-(y+r)*expit(eta+log_a)
             score_log_a = r*(digamma(r)-digamma(y+r)+log_denom) + score_eta
             value = -ll.mean() + strength*(1-ratio)*np.dot(beta[offset:], beta[offset:])/2

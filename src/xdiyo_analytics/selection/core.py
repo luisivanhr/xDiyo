@@ -8,6 +8,7 @@ from uuid import uuid4
 import numpy as np
 import pandas as pd
 
+from .._identity import IdentityRegistry
 from ..analysis import PostTrainingAnalysis, PreTrainingAnalysis
 from ..datasets import ModelDataset
 from ..evaluation import Metric
@@ -113,14 +114,14 @@ def _validate_preparation(candidate):
 
 class _FreshModels:
     def __init__(self):
-        self.objects = []
+        self.objects = IdentityRegistry()
 
     def factory(self, candidate):
         model_factory = candidate.model_factory
         def create():
             model = model_factory()
             objects = _fitted_objects(model)
-            if any(obj is old for obj in objects for old in self.objects):
+            if any(obj in self.objects for obj in objects):
                 raise ValueError("Candidates must create fresh adapters/estimators across trials and folds.")
             self.objects.extend(objects)
             from ..training import IterativeAdapter
@@ -130,7 +131,7 @@ class _FreshModels:
                 def backend_factory(seed):
                     backend = original(seed)
                     states = _fitted_objects(backend)
-                    if any(item is old for item in states for old in self.objects):
+                    if any(item in self.objects for item in states):
                         raise ValueError("Iterative candidates must create fresh backends and model/preprocessing state.")
                     self.objects.extend(states)
                     return backend

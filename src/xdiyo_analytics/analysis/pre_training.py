@@ -89,16 +89,13 @@ class PreTrainingAnalysis:
                 rows = (np.arange(n) if partition == "all" else
                         np.unique(np.concatenate([rows_for(split_plan.folds[i]) for i in selected])))
                 if mode == "timeline":
-                    times = pd.to_datetime(dataset.metadata.iloc[rows]["kickoff_at"], utc=True)
+                    times = pd.to_datetime(dataset.metadata["kickoff_at"].iloc[rows], utc=True)
                     if times.isna().any():
                         raise ValueError("Timeline execution requires nonmissing kickoff timestamps.")
                     rows = rows[np.argsort(times.to_numpy(), kind="stable")]
                 scopes = [(None, rows)]
             for fold_id, positions in scopes:
-                frames = [frame.iloc[positions].copy(deep=True)
-                          for frame in (dataset.X, dataset.y, dataset.metadata)]
-                for frame in frames:
-                    frame.index = pd.Index(positions, name="row_position")
+                features = dataset.X
                 feature_source = getattr(reporter, "features_from", None)
                 if feature_source is not None:
                     candidates = [run for run in report.studies if run.name == feature_source and run.fold_id == fold_id]
@@ -106,7 +103,11 @@ class PreTrainingAnalysis:
                         candidates = [run for run in report.studies if run.name == feature_source and run.fold_id is None]
                     if len(candidates) != 1 or candidates[0].result.selection is None:
                         raise ValueError(f"features_from={feature_source!r} needs an earlier selector for the same fold/scope.")
-                    frames[0] = frames[0].loc[:, list(candidates[0].result.selection.columns)].copy()
+                    features = features.loc[:, list(candidates[0].result.selection.columns)]
+                frames = [frame.iloc[positions].copy(deep=True)
+                          for frame in (features, dataset.y, dataset.metadata)]
+                for frame in frames:
+                    frame.index = pd.Index(positions, name="row_position")
                 previous = {run.name: run.result for run in report.studies
                             if run.fold_id == fold_id and run.partition == partition and
                             np.array_equal(run.row_positions, positions)}
