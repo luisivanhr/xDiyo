@@ -1,0 +1,19 @@
+{
+  "reference": {
+    "cold_seconds": 1.088695700003882,
+    "warm_median_seconds": 0.09315680000145221,
+    "peak_working_set": 723124224,
+    "rss_after": 721760256,
+    "gc_tracked_objects": 346736
+  },
+  "candidate": {
+    "cold_seconds": 1.0989521000010427,
+    "warm_median_seconds": 0.09337885000059032,
+    "peak_working_set": 722866176,
+    "rss_after": 721129472,
+    "gc_tracked_objects": 346926
+  },
+  "warm_ratio": 0.9976220525404125,
+  "cold_ratio": 0.9906671091513898,
+  "exact_parity_all_pairs": true
+}

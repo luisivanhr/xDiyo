@@ -14,3 +14,6 @@ docs/analytics/data/gat_main_merge_20261013/*.log -whitespace
 
 # Frozen recovery reference is checked by its exact source checksum.
 tests/analytics/reference/recovery_01617da.txt -text
+
+# Preserve pytest failure excerpts verbatim in follow-up validation receipts.
+docs/analytics/performance/follow-up*.xml -whitespace
