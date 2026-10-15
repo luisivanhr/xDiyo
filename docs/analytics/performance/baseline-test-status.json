@@ -1,0 +1,13 @@
+{
+  "base": "01617da9f414d8929f4a2afd5d6ccd35d2d78512",
+  "baseline_source": "git archive 01617da src tests/analytics/test_ui_bayesian.py",
+  "test": "tests/analytics/test_ui_bayesian.py::test_bayesian_inventory_distinguishes_team_fixture_and_training_fields",
+  "baseline_result": "failed",
+  "candidate_result": "failed",
+  "reason": "Expected serializer inventory omits graphs.TemporalGraphSerializer and neural.HeatmapCNNSerializer, both already present at base.",
+  "unrelated_collection_errors": [
+    "test_historical_result_reviews.py: absent tracked examples.repair_historical_results_20261008",
+    "test_japan_enrichment.py and test_mexico_enrichment.py: absent tracked examples.backfill_statistics"
+  ],
+  "interpretation": "Relevant suites were selected by file to avoid those unrelated collection errors. The stale assertion was not changed."
+}
