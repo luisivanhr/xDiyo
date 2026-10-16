@@ -29,3 +29,6 @@ __all__ = ["CompositionReporter", "ClassWeightReporter", "Artifact", "StudyResul
 
 from .graphs import GATLossReporter, EmbeddingReporter, GraphAttentionWeightReporter
 __all__ += ["GATLossReporter", "EmbeddingReporter", "GraphAttentionWeightReporter"]
+
+from .graph_statistics import GraphStatisticsReporter
+__all__ += ["GraphStatisticsReporter"]

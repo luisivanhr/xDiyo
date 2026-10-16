@@ -1,0 +1,25 @@
+..............s....................s.s.s.s....................sss....... [ 21%]
+...........................sssss...sss.................................. [ 43%]
+....................................s.s.s.s.............sss............. [ 64%]
+...............ssss....s.s.....................................ssss..... [ 86%]
+.............................................                            [100%]
+============================== warnings summary ===============================
+tests/analytics/test_graph_speed.py::test_research_full_state_bridge_and_completed_budget_zero_updates
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\torch\backends\cuda\__init__.py:131: UserWarning:
+  
+  Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:85.)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [1] tests\analytics\test_temporal_graph.py:300: CUDA hardware/runtime unavailable
+SKIPPED [4] tests\analytics\test_graph_extensions.py:106: Explicit idle-GPU audit required.
+SKIPPED [3] tests\analytics\test_graph_extensions.py:317: Opt-in GPU audit: run only when research workers are idle.
+SKIPPED [5] tests\analytics\test_graph_statistics_repair.py:205: Explicit idle GPU audit required.
+SKIPPED [3] tests\analytics\test_graph_statistics_repair.py:251: Explicit idle GPU audit required.
+SKIPPED [1] tests\analytics\test_graph_speed.py:122: CUDA unavailable
+SKIPPED [3] tests\analytics\test_graph_speed.py:142: CUDA unavailable
+SKIPPED [3] tests\analytics\test_graph_goal_features.py:142: CUDA unavailable
+SKIPPED [4] tests\analytics\test_input_residency.py:65: Explicit free-GPU gate required
+SKIPPED [2] tests\analytics\test_performance_inspection.py:17: Explicit free-GPU gate required
+SKIPPED [4] tests\analytics\test_native_training_resume.py:130: Explicit free-GPU gate required
+300 passed, 33 skipped, 1 warning in 619.02s (0:10:19)

@@ -4,6 +4,7 @@ from zoneinfo import ZoneInfo
 import math
 import pandas as pd
 from .spatial import GraphHeatmaps
+from .extensions import BoundaryMemory, StatisticsForecast
 
 CLASS_ORDER = (1, 0, -1)  # Native Outcome(perspective="home"): win, draw, loss.
 ENTRY_ORDER = ("retained", "promoted", "relegated", "unknown")
@@ -30,13 +31,22 @@ class TemporalGraphConfig:
     heatmaps: GraphHeatmaps | None = None
     include_goal_features: bool = True
     deterministic: bool = False
+    boundary_memory: BoundaryMemory | None = None
+    statistics_forecast: StatisticsForecast | None = None
 
     def __post_init__(self):
+        for name, cls in (("boundary_memory", BoundaryMemory), ("statistics_forecast", StatisticsForecast)):
+            if getattr(self, name) is not None and not isinstance(getattr(self, name), cls):
+                raise TypeError(f"{name} must be {cls.__name__} or None.")
         if type(self.deterministic) is not bool:
             raise ValueError('deterministic must be a boolean.')
         if self.heatmaps is not None and not isinstance(self.heatmaps, GraphHeatmaps):
             raise TypeError('heatmaps must be GraphHeatmaps or None.')
         ZoneInfo(self.timezone)
+        if self.boundary_memory is not None and self.boundary_memory.policy == 'fixed_days':
+            anchor = pd.Timestamp(self.boundary_memory.anchor).tz_convert(self.timezone)
+            if anchor != anchor.normalize():
+                raise ValueError('Fixed-segment anchor must be local midnight in the model timezone.')
         if self.forecast_policy not in ("by_round", "one_day_ahead"):
             raise ValueError("forecast_policy must be by_round (By Round) or one_day_ahead (One Day Ahead).")
         for name in ("round_keys", "statistics", "fixture_features"):

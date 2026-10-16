@@ -33,6 +33,9 @@ def reference():
     original_asdict = adapter.asdict
     def legacy_asdict(value):
         result = original_asdict(value)
+        for name in ('boundary_memory', 'statistics_forecast'):
+            if result.get(name) is None:
+                result.pop(name, None)
         if result.get('deterministic') is False:
             result.pop('deterministic')
         return result

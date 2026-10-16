@@ -65,14 +65,27 @@ class TemporalNetwork(nn.Module):
             self.spatial_encoder = HeatmapEncoder(spatial.encoder, 2, spatial.grid.grid_size, spatial.grid.grid_size)
             edge_dim += spatial.encoder.embedding_dim + 2
         self.layers = nn.ModuleList([EdgeLayer(d, config.heads, edge_dim) for _ in range(config.layers)])
-        self.head = nn.Sequential(nn.Linear(4*d + fixture_dim, config.hidden_width),
+        self.statistics_config = config.statistics_forecast
+        original_dim = 4*d + fixture_dim
+        self.head = nn.Sequential(nn.Linear(original_dim, config.hidden_width),
                                   nn.ReLU(), nn.Linear(config.hidden_width, 3))
+
+        self.statistics_head = None
+        if config.statistics_forecast is not None:
+            from .statistics_network import StatisticsHead
+            self.statistics_head = StatisticsHead(config.statistics_forecast, original_dim, config.hidden_width)
+            route = config.statistics_forecast.route
+            if route != 'auxiliary':
+                width = self.statistics_head.summary_dim + (original_dim if route == 'combined' else 0)
+                self.head = nn.Sequential(nn.Linear(width, config.hidden_width), nn.ReLU(), nn.Linear(config.hidden_width, 3))
 
     def prior(self, league, entry):
         return self.global_prior + self.league(league) + (league != 0)[:, None] * self.entry(entry)
 
     def encode(self, data, *, return_attention=False, return_auxiliary=False, _validated_targets=False):
         h = self.prior(data["league"], data["entry"])
+        if 'initial_state' in data:
+            h = data['initial_state']
         x = data['x']
         auxiliary = h.sum()*0
         if self.spatial_encoder is not None:
@@ -100,9 +113,19 @@ class TemporalNetwork(nn.Module):
             return h, attention
         return (h, auxiliary) if return_auxiliary else h
 
-    def forward(self, data, home, away, fixture, *, return_auxiliary=False, _validated_targets=False):
+    def forward(self, data, home, away, fixture, *, return_auxiliary=False, return_statistics=False, _validated_targets=False):
         result = self.encode(data, return_auxiliary=return_auxiliary, _validated_targets=_validated_targets)
         h, auxiliary = result if return_auxiliary else (result, None)
         a, b = h[home], h[away]
-        logits = self.head(torch.cat((a, b, a-b, a*b, fixture), dim=1))
+        inputs = torch.cat((a, b, a-b, a*b, fixture), dim=1)
+        forecasts = None
+        if self.statistics_head is not None:
+            forecasts, summary = self.statistics_head(inputs)
+            if self.statistics_config.route == 'combined':
+                inputs = torch.cat((inputs, summary), dim=1)
+            elif self.statistics_config.route == 'bottleneck':
+                inputs = summary
+        logits = self.head(inputs)
+        if return_statistics:
+            return logits, auxiliary, forecasts
         return (logits, auxiliary) if return_auxiliary else logits

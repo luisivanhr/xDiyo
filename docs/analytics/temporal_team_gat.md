@@ -714,3 +714,9 @@ changes effective membership dates, model priors, embeddings or predictions.
 Missing or ambiguous fixture evidence for a cold team raises a clear error
 instead of silently assigning a current league. Names are resolved within each
 fold; custom metadata without competition names retains an ID label.
+## Optional boundary memory and future-statistic supervision
+
+See [boundary memory and statistics forecasts](gat_boundary_memory_statistics.md)
+for the opt-in configurations, exact temporal/gradient semantics, UI setup,
+native diagnostics, validation evidence and limitations. Full-history scalar GAT
+remains the default; neither addition is enabled by an old recipe.

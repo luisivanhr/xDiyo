@@ -40,19 +40,28 @@ class GroupPlan:
         self.descriptors = tuple((time, positions.copy()) for time, positions
                                  in issue.groupby(issue, sort=True).indices.items())
 
+        self.boundaries = ()
+        if config.boundary_memory is not None and self.descriptors:
+            from .memory import boundaries
+            self.boundaries = boundaries(store, config, self.descriptors[-1][0])
+
     def __len__(self):
         return len(self.descriptors)
 
     @release_temporary_frames
-    def raw(self, index, *, columns=None):
+    def raw(self, index, *, columns=None, since=None, extra_teams=()):
         time, positions = self.descriptors[index]
         meta = self.metadata.iloc[positions]
         # Series selection deep-copies pandas attrs. Read through a temporary
         # frame without attrs while returning the original metadata unchanged.
         inputs = pd.DataFrame(meta, copy=False)
         home_ids, away_ids = inputs.home_id.tolist(), inputs.away_id.tolist()
-        teams = set(home_ids) | set(away_ids)
-        snap = self.store.snapshot(time, self.config, teams, **({'_columns': columns} if columns is not None else {}))
+        teams = set(home_ids) | set(away_ids) | set(extra_teams)
+        if since is None and self.config.boundary_memory is not None:
+            from bisect import bisect_right
+            n = bisect_right(self.boundaries, self.config.history_cutoff(time))
+            since = self.boundaries[n-1] if n else None
+        snap = self.store.snapshot(time, self.config, teams, **({'_columns': columns} if columns is not None else {}), **({'_since': since} if since is not None else {}))
         indices = {t: i for i, t in enumerate(snap.teams)}
         home = np.array([indices[t] for t in home_ids], dtype=np.int64)
         away = np.array([indices[t] for t in away_ids], dtype=np.int64)
@@ -129,6 +138,20 @@ class PreparedGroups:
             p, prep = self._fixed_plan, self._fixed_preprocessor
             return prepare_group(p.raw(index, columns=prep.snapshot_columns(p.store)), prep, 'cpu', p.store, reconstruction_targets=self.reconstruction_targets)
         return self._resident.lease(index, cpu, lambda: self[index])
+
+    def segment_lease(self, index, since, teams):
+        """Cache immutable segment inputs only; learned carry is added by replay."""
+        teams = tuple(sorted(teams))
+        def build(plan, prep, device):
+            raw = plan.raw(index, columns=prep.snapshot_columns(plan.store),
+                           since=since, extra_teams=teams)
+            identities = tuple(raw[1].teams)
+            group = prepare_group(raw, prep, device, plan.store,
+                                  reconstruction_targets=self.reconstruction_targets)
+            return group, identities
+        return self._resident.lease(('segment', index, since, teams),
+            lambda: build(self._fixed_plan, self._fixed_preprocessor, 'cpu'),
+            lambda: build(self.plan, self.preprocessor, self.device))
 
     def __len__(self):
         return len(self.plan)

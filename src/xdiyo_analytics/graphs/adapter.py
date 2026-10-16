@@ -121,6 +121,10 @@ class TemporalGraphAdapter:
         with torch_threads(self.inner_threads):
             return self.backend_.encode_teams(queries)
 
+    def predict_statistics(self, context):
+        with torch_threads(self.inner_threads):
+            return self.backend_.predict_statistics(context)
+
     def attention_weights(self, queries):
         from .inspection import attention_weights
         return attention_weights(self, queries)
@@ -200,6 +204,24 @@ class _Backend:
         return PreparedGroups(self._plan(context), self.preprocessor, self.device, self.input_cache_policy,
                               reconstruction_targets=reconstruction_targets)
 
+    def _replay(self, groups):
+        if self.config.boundary_memory is None or not len(groups):
+            return None
+        from .memory import BoundaryReplay
+        return BoundaryReplay(self, groups.plan.descriptors[-1][0])
+
+    @contextmanager
+    def _group_lease(self, groups, index, replay=None):
+        if replay is not None:
+            # Learned carry is rebuilt per pass and never enters an input cache.
+            with replay.lease(groups, index) as group:
+                yield group, groups.reconstruction_targets
+        elif type(groups) is PreparedGroups:
+            with groups.lease(index) as group:
+                yield group, groups.reconstruction_targets
+        else:
+            yield groups[index], False
+
     @configured_execution
     @release_temporary_frames
     def initialize(self, context):
@@ -246,6 +268,9 @@ class _Backend:
             for i in range(len(self.validation_groups)):
                 self.validation_groups[i]
             self.validation_targets, self.validation_weights = self._targets(context.validation)
+        if self.config.statistics_forecast is not None:
+            from .supervision import initialize_statistics
+            initialize_statistics(self, context)
         self.refresh_version()
 
     def _targets(self, context):
@@ -299,15 +324,16 @@ class _Backend:
     @configured_execution
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
+        if self.config.statistics_forecast is not None:
+            from .supervision import statistics_loss
+            return statistics_loss(self, groups, targets, weights, backward)
+        replay = self._replay(groups)
         total_weight = weights.sum()
         scalars = []
         for i in range(len(groups)):
-            if type(groups) is PreparedGroups:
-                with groups.lease(i) as group:
-                    scalars.extend(self._group_loss(group, targets, weights, backward, total_weight, owned_targets=groups.reconstruction_targets))
-                    del group
-            else:
-                scalars.extend(self._group_loss(groups[i], targets, weights, backward, total_weight))
+            with self._group_lease(groups, i, replay) as (group, owned):
+                scalars.extend(self._group_loss(group, targets, weights, backward, total_weight, owned_targets=owned))
+                del group
         if not scalars:
             return 0.
         # One device-to-host transfer, then the *original* sequential Python
@@ -336,6 +362,9 @@ class _Backend:
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values['train_reconstruction_loss'] = self._reconstruction_loss
             values['train_objective'] = train_loss + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss + float(penalty.detach())
+        if self.config.statistics_forecast is not None:
+            values['train_statistics_loss'] = self._statistics_loss
+            values['train_objective'] = values.get('train_objective', train_loss + float(penalty.detach())) + self.config.statistics_forecast.weight*self._statistics_loss
         if self.validation_groups is not None:
             self.model.eval()
             with torch.no_grad():
@@ -343,13 +372,16 @@ class _Backend:
                 if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
                     values['validation_reconstruction_loss'] = self._reconstruction_loss
                     values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
+                if self.config.statistics_forecast is not None:
+                    values['validation_statistics_loss'] = self._statistics_loss
+                    values['validation_objective'] = values.get('validation_objective', values['validation_loss']) + self.config.statistics_forecast.weight*self._statistics_loss
         self.refresh_version()
         return values
 
     @configured_execution
     @timed('metric_replay')
     def checkpoint_metrics(self, monitor, values):
-        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss'):
+        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss', 'train_statistics_loss'):
             return values
         with inference_mode(self.model):
             loss = self._loss(self.train_groups, self.train_targets, self.train_weights)
@@ -358,6 +390,11 @@ class _Backend:
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values.update(train_reconstruction_loss=self._reconstruction_loss,
                           train_objective=loss+self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss+float(penalty))
+        if self.config.statistics_forecast is not None:
+            values['train_statistics_loss'] = self._statistics_loss
+            values['train_objective'] = loss + float(penalty) + self.config.statistics_forecast.weight*self._statistics_loss
+            if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
+                values['train_objective'] += self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
         return values
 
     @timed('fingerprint')
@@ -369,7 +406,15 @@ class _Backend:
         digest.update(json.dumps(self.preprocessor.state(), sort_keys=True).encode())
         # A representation version includes decay, policy and architectural
         # settings as well as learned coordinates and preprocessing.
+        if self.config.statistics_forecast is not None:
+            digest.update(json.dumps(self.statistics_scale.state(), sort_keys=True).encode())
         config_state = asdict(self.config)
+        if self.config.statistics_forecast is not None:
+            from .extensions import target_schema
+            config_state["statistics_forecast"]["targets"] = [target_schema(t) for t in self.config.statistics_forecast.targets]
+        for name in ('boundary_memory', 'statistics_forecast'):
+            if config_state[name] is None:
+                del config_state[name]
         if not config_state['deterministic']:
             del config_state['deterministic']  # Preserve pre-option artifact fingerprints.
         if config_state['include_goal_features']:
@@ -401,9 +446,43 @@ class _Backend:
         if len(issue) and min(self.config.history_cutoff(t) for t in issue) < self.trained_through:
             raise ValueError("Requested issuance precedes the fitted/validation-selection boundary.")
 
-    def _predict_group(self, group, output):
+    def _statistic_arrays(self, size):
+        arrays = {}
+        for t in self.config.statistics_forecast.targets:
+            if t.family == 'quantile':
+                from .extensions import quantile_column
+                for q in t.quantiles: arrays[quantile_column(t, q)] = np.full(size, np.nan)
+                continue
+            fields = ['mean']
+            if t.family != 'point': fields.append('std')
+            if t.family == 'negative_binomial': fields.append('dispersion')
+            if t.family == 'inflated_beta': fields += ['a', 'b', 'p_zero', 'p_one', 'p_interior', 'log_p_zero', 'log_p_one', 'log_p_interior']
+            for field in fields: arrays[t.name+'::'+field] = np.full(size, np.nan)
+        return arrays
+
+    def _predict_group(self, group, output, statistics=None):
         positions, data, home, away, fixture = group
-        output[positions] = self.model(data, home, away, fixture).softmax(-1).cpu().numpy()
+        if statistics is None:
+            logits = self.model(data, home, away, fixture)
+        else:
+            logits, _, forecasts = self.model(data, home, away, fixture, return_statistics=True)
+            for target, values in zip(self.config.statistics_forecast.targets, forecasts):
+                if target.family == 'quantile':
+                    from .extensions import quantile_column
+                    quantiles = values['quantiles'].cpu().numpy() * (100 if target.proportion else 1)
+                    for j, q in enumerate(target.quantiles): statistics[quantile_column(target, q)][positions] = quantiles[:, j]
+                    continue
+                values = dict(values)
+                if 'log_mixture' in values:
+                    logmix = values.pop('log_mixture')
+                    values.update(zip(('log_p_zero','log_p_one','log_p_interior'), logmix.unbind(1)))
+                    mixture = logmix.exp()
+                    values.update(zip(('p_zero','p_one','p_interior'), mixture.unbind(1)))
+                for field, value in values.items():
+                    if value is not None:
+                        factor = 100 if target.proportion and field in ('mean','std') else 1
+                        statistics[target.name+'::'+field][positions] = value.cpu().numpy()*factor
+        output[positions] = logits.softmax(-1).cpu().numpy()
 
     @configured_execution
     @release_temporary_frames
@@ -412,21 +491,29 @@ class _Backend:
         issue = self._validate(context)
         self._boundary(issue)
         output = np.empty((len(context.X), 3))
+        statistics = self._statistic_arrays(len(context.X)) if self.config.statistics_forecast is not None else None
         with inference_mode(self.model):
             groups = self._stream(context)
+            replay = self._replay(groups)
             for i in range(len(groups)):
-                self._predict_group(groups[i], output)
+                self._predict_group(replay.group(groups, i) if replay is not None else groups[i], output, statistics)
         columns = pd.MultiIndex.from_product([[self.target_name], self.output_classes], names=['target', 'class'])
         probabilities = pd.DataFrame(output, index=context.X.index, columns=columns)
         predicted = pd.DataFrame({self.target_name: [self.output_classes[i] for i in output.argmax(1)]}, index=context.X.index)
-        return {"predict_proba": probabilities, "predict": predicted}
+        result = {"predict_proba": probabilities, "predict": predicted}
+        if statistics is not None:
+            result['statistics'] = pd.DataFrame(statistics, index=context.X.index)
+        return result
 
-    def _encode_group(self, time, positions, queries, records):
+    def _encode_group(self, time, positions, queries, records, replay=None):
         teams = queries.iloc[positions].team_id.tolist()
-        snap = self.store.snapshot(time, self.config, teams)
-        data = self.preprocessor.native_tensors(snap, self.device, self.store)
+        if replay is None:
+            snap = self.store.snapshot(time, self.config, teams)
+            data = self.preprocessor.native_tensors(snap, self.device, self.store)
+        else:
+            snap, data = replay.snapshot(time, teams)
         z = self.model.encode(data)
-        priors = self.model.prior(data["league"], data["entry"])
+        priors = data.get('initial_state', self.model.prior(data['league'], data['entry']))
         lookup = {t: n for n, t in enumerate(snap.teams)}
         indices = _torch().as_tensor([lookup[t] for t in teams], dtype=_torch().long, device=z.device)
         z = z.index_select(0, indices).cpu().numpy()
@@ -440,6 +527,9 @@ class _Backend:
                 trained_through=self.trained_through,
                 **{f"z_{j}": float(v) for j, v in enumerate(z[local])},
                 **{f"prior_{j}": float(v) for j, v in enumerate(priors[local])})
+            if replay is not None:
+                records[pos].update(boundary_at=replay.start, evidence_scope='explicit_segment_edges',
+                                    state_mode='detached_boundary_memory')
 
     @configured_execution
     @release_temporary_frames
@@ -452,11 +542,19 @@ class _Backend:
         self._boundary(issue)
         records = [None] * len(queries)
         with inference_mode(self.model):
+            from .memory import BoundaryReplay
+            replay = BoundaryReplay(self, issue.max()) if self.config.boundary_memory is not None and len(issue) else None
             for time, positions in issue.groupby(issue, sort=True).indices.items():
-                self._encode_group(time, positions, queries, records)
+                self._encode_group(time, positions, queries, records, replay)
         frame = pd.DataFrame(records, index=queries.index)
         if len(frame):
             # Preserve IDs even when mixed with nullable context fields.
             frame["team_id"] = pd.array(queries.team_id.tolist(), dtype="UInt64")
             frame["league"] = pd.array([r["league"] for r in records], dtype="UInt64")
         return frame
+
+    @configured_execution
+    def predict_statistics(self, context):
+        if self.config.statistics_forecast is None:
+            raise ValueError('This model has no statistics forecast head.')
+        return self.predict(context)['statistics']

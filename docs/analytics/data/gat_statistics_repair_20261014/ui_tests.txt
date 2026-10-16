@@ -1,0 +1,39 @@
+✔ GAT deterministic mode is an editable opt-in and survives JSON export (2.3071ms)
+✔ native goal predictors can be disabled and exported as false (1.1707ms)
+✔ graph CNN and auxiliary reconstruction are independent opt-ins (2.7292ms)
+✔ standalone task, architecture and masks have typed editable form fields (1.4425ms)
+✔ memory and statistics are independent contextual opt-ins (3.3282ms)
+✔ quantile controls expose editable levels and learned output count (1.2736ms)
+✔ Composition child estimator has an editable native model selector (3.6531ms)
+✔ Chronological plan exposes mode choices and safety declarations (2.0885ms)
+✔ Reporter staking and complete-ticket gates are native component fields (0.172ms)
+✔ Classification schema preserves numeric and text labels distinctly (0.3519ms)
+✔ one template expands multiple stats with shared settings and independent clones (1.8291ms)
+✔ inventory window, span and lag defaults are materialized and named (0.3719ms)
+✔ period filtering, all-period union and same-key groups remain distinguishable (0.64ms)
+✔ collisions suffix names without modifying existing feature names (0.2348ms)
+✔ ambiguous templates and duplicate statistics are rejected (0.5743ms)
+(node:164192) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ empty pre_reporters features names the correction before Run while Prepare still discovers (9.2486ms)
+✔ empty post_reporters targets names the correction before Run while Prepare still discovers (5.524ms)
+✔ report embeds retained HTML and expands into a disposable native dialog without API execution (3.5748ms)
+✔ discovery updates reporter choices on the same page without a job-result host and only once (5.3552ms)
+✔ an older preparation cannot publish choices after feature edits (4.3331ms)
+✔ a run finishing after navigation away from results still refreshes reporter choices (3.9014ms)
+✔ run completion also populates choices and data or layout edits invalidate them (4.7926ms)
+✔ empty enabled outer selection discovers all folds on Evaluation without changing the live recipe (4.2934ms)
+✔ prepare preserves prior fold choice and selected run cannot overwrite the full outer list (4.8836ms)
+✔ prospective post IDs follow outer order and stale explicit subsets are cleared (6.1243ms)
+✔ a selected run without full discovery supplies only local post choices (3.4998ms)
+✔ SVR editable gamma, conditional fields and typed parameters (4.4915ms)
+✔ SVC editable gamma, conditional fields and typed parameters (2.5077ms)
+✔ calibrator exposes margin timing controls and sigmoid without enabling SVC probabilities (2.1361ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.3029

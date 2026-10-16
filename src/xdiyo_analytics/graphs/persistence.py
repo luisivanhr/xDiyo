@@ -41,6 +41,8 @@ class TemporalGraphSerializer:
             training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
         if getattr(adapter, "input_cache_policy", None) is not None:
             metadata["input_cache_policy"] = asdict(adapter.input_cache_policy)
+        if adapter.config.statistics_forecast is not None:
+            metadata['statistics_scale'] = backend.statistics_scale.state()
         (path/"graph.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
         adapter.training_history_.to_parquet(path/"training_history.parquet", compression="zstd", index=False)
         if self.embed_event_store:
@@ -72,6 +74,11 @@ class TemporalGraphSerializer:
         if config_state.get('heatmaps') is not None:
             from .spatial import GraphHeatmaps
             config_state['heatmaps'] = GraphHeatmaps.from_dict(config_state['heatmaps'])
+        from .extensions import BoundaryMemory, StatisticsForecast
+        if config_state.get('boundary_memory') is not None:
+            config_state['boundary_memory'] = BoundaryMemory(**config_state['boundary_memory'])
+        if config_state.get('statistics_forecast') is not None:
+            config_state['statistics_forecast'] = StatisticsForecast.from_dict(config_state['statistics_forecast'])
         config = TemporalGraphConfig(**config_state)
         from ..training.control import TrainingControl, EarlyStopping, ReduceOnPlateau
         control = dict(meta.get('control', {}))
@@ -88,6 +95,9 @@ class TemporalGraphSerializer:
         p = backend.preprocessor
         if tuple(meta["edge_feature_order"]) != p.edge_columns or tuple(meta["fixture_feature_order"]) != p.fixture_columns:
             raise ValueError("Saved feature order disagrees with the architecture configuration.")
+        if config.statistics_forecast is not None:
+            from .statistics import StatisticsScale
+            backend.statistics_scale = StatisticsScale.from_state(config.statistics_forecast, meta['statistics_scale'])
         # Loading weights must not advance the caller's initialization RNG.
         with torch.random.fork_rng(devices=[]):
             backend.model = TemporalNetwork(config, len(p.leagues),

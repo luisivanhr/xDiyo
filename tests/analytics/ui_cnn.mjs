@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {configure, componentEditor, makeNode} from '../../src/xdiyo_analytics/ui/static/forms.js';
+import {configure, componentEditor, makeNode, statisticsOutputPreview} from '../../src/xdiyo_analytics/ui/static/forms.js';
 
 class Element {
  constructor(tag) { this.tag=tag; this.nodeType=1; this.children=[]; this.value=''; this.checked=false; this.type=''; this.events={}; }
@@ -73,4 +73,70 @@ test('standalone task, architecture and masks have typed editable form fields',a
  assert.equal(find(root,'Enable Reconstruction','input').checked,false);
  assert.ok(find(root,'Pool size','input'));
  assert.ok(find(root,'Kernel size','input'));
+});
+// Opt-in temporal memory and ordered statistics controls use the native editor.
+test('memory and statistics are independent contextual opt-ins',async()=>{
+ let recipe=makeNode('graphs.TemporalGraphConfig');
+ const root=componentEditor(recipe,v=>{recipe=v;},null,['graphs.TemporalGraphConfig']);
+ for(const name of ['Boundary memory','Statistics forecast']) {
+  const field=find(root,'Enable '+name,'input');assert.equal(field.checked,false);
+  field.checked=true;field.events.change({target:field});await Promise.resolve();
+ }
+ assert.equal(recipe.params.boundary_memory.component,'graphs.BoundaryMemory');
+ assert.equal(recipe.params.statistics_forecast.component,'graphs.StatisticsForecast');
+ const route=find(root,'Route','select');route.value='2';route.onchange();await Promise.resolve();
+ assert.equal(recipe.params.statistics_forecast.params.route,'bottleneck');
+ const side=find(root,'Side','select');side.value='1';side.onchange();await Promise.resolve();
+ assert.equal(recipe.params.statistics_forecast.params.targets[0].params.side,'away');
+ const family=find(root,'Family','select');family.value='2';family.onchange();await Promise.resolve();
+ assert.equal(recipe.params.statistics_forecast.params.targets[0].params.family,'negative_binomial');
+ assert.deepEqual(JSON.parse(JSON.stringify(recipe)),recipe);
+});
+
+
+test('quantile controls expose editable levels and learned output count',async()=>{
+ let value=makeNode('graphs.StatisticTarget');const root=componentEditor(value,v=>{value=v;},null,['graphs.StatisticTarget']);
+ assert.ok(!find(root,'Quantiles'));
+ const family=find(root,'Family','select');family.value='4';family.onchange();await Promise.resolve();
+ assert.equal(value.params.family,'quantile');
+ assert.match(statisticsOutputPreview(value),/3 learned statistic outputs/);
+ const numbers=walk(root).filter(n=>n.tag==='input'&&n.type==='number');
+ const level=numbers.find(n=>n.value==.25);assert.ok(level);level.value='0.1';level.events.change({target:level});await Promise.resolve();
+ assert.equal(value.params.quantiles[0],.1);
+ value.params.quantiles=[.1,.1];assert.match(statisticsOutputPreview(value),/Invalid quantiles/);
+ value.params.quantiles=[.1];assert.match(statisticsOutputPreview(value),/1 learned statistic outputs/);
+ const target={component:'graphs.StatisticTarget',params:{family:'quantile',quantiles:[.25,.5,.75]}};
+ assert.match(statisticsOutputPreview({component:'graphs.StatisticsForecast',params:{targets:Array(8).fill(target)}}),/8 target channels · 24 learned statistic outputs/);
+});
+
+test('generic numeric target controls and full74 output preview',async()=>{
+ let value=makeNode('graphs.NumericStatisticTarget');
+ const root=componentEditor(value,v=>{value=v;},null,['graphs.NumericStatisticTarget']);
+ for(const label of ['Semantic name','Source column','Units','Support','Side','Period','Component','Transform','Scaling'])assert.ok(find(root,label),label);
+ const support=find(root,'Support','select');support.value='3';support.onchange();await Promise.resolve();
+ assert.equal(value.params.support,'bounded_continuous');
+ assert.ok(find(root,'Lower'));assert.ok(find(root,'Upper'));
+ const target={component:'graphs.NumericStatisticTarget',params:{quantiles:[.25,.5,.75]}};
+ assert.match(statisticsOutputPreview({component:'graphs.StatisticsForecast',params:{targets:Array(74).fill(target)}}),/74 target channels · 222 learned statistic outputs/);
+});
+
+
+test('integration retains editable residency and checkpoint finalization controls',async()=>{
+ for (const [id, names] of [
+  ['training.ExecutionPolicy',['input_cache_bytes','input_cache_headroom_bytes']],
+  ['training.CheckpointPolicy',['finalization']]]) {
+  let recipe=makeNode(id);
+  const root=componentEditor(recipe,value=>{recipe=value;},null,[id]);
+  const schema=components.find(c=>c.id===id);
+  for (const name of names) {
+   const field=schema.fields.find(f=>f.name===name);
+   const control=find(root,field.title,name==='finalization'?'select':'input');
+   assert.ok(control,`${id}.${name}`);
+   control.value=name==='finalization'?'1':'4096';
+   if(name==='finalization') control.onchange();
+   else control.events.change({target:control});
+   await Promise.resolve();
+   assert.equal(recipe.params[name],name==='finalization'?'prediction_only':4096);
+  }
+ }
 });

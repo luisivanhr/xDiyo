@@ -1,0 +1,21 @@
+{
+  "cpu": {
+    "passed": 300,
+    "skipped": 33,
+    "failures": 0,
+    "seconds": 619.004
+  },
+  "renderer": {
+    "passed": 31,
+    "failures": 0
+  },
+  "source_unchanged_through_continuation": true,
+  "gpu_executed": false,
+  "live_browser_executed": false,
+  "receipts": {
+    "cpu-regression.xml": "b13b83871af7e0305ccc0fc6a42227678ea9dc4fde8ccda92309411ddfe1cec2",
+    "cpu-regression.log": "a39b0545f84ebef02c698c24274de8043a7dc8638fa4e165d02116601018880a",
+    "ui-renderers.log": "7a0d9b5c1460752d48bf9ad4095f40c4defd081f5e001576ff5f829ee442a6fd",
+    "environment.json": "55ea14dcda92dd4d6c652d8592557fc8c51310a459c52f737b40d686dfeef683"
+  }
+}

@@ -33,8 +33,14 @@ def test_select_before_transfer_matches_frozen_inspection(monkeypatch,device,spa
     raw=(Path(__file__).parent/'reference/inspection_before_6ae5003.txt').read_bytes()
     assert hashlib.sha256(raw).hexdigest()==REFERENCE_SHA
     namespace={};exec(compile(raw,'frozen_inspection','exec'),namespace)
-    monkeypatch.setattr(adapter.backend_,'_encode_group',MethodType(namespace['_encode_group'],adapter.backend_))
-    monkeypatch.setattr(inspection,'_attention_group',namespace['_attention_group'])
+    def legacy_encode(backend, time, positions, queries, records, replay=None):
+        assert replay is None
+        return namespace['_encode_group'](backend, time, positions, queries, records)
+    def legacy_attention(adapter, time, positions, queries, records, replay=None):
+        assert replay is None
+        return namespace['_attention_group'](adapter, time, positions, queries, records)
+    monkeypatch.setattr(adapter.backend_,'_encode_group',MethodType(legacy_encode,adapter.backend_))
+    monkeypatch.setattr(inspection,'_attention_group',legacy_attention)
     pd.testing.assert_frame_equal(expected_embeddings,adapter.encode_teams(queries),check_exact=True)
     pd.testing.assert_frame_equal(expected_attention,adapter.attention_weights(queries),check_exact=True)
 

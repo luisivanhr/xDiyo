@@ -1,0 +1,23 @@
+{
+  "rows": 2000,
+  "targets": 74,
+  "directed_source_rows": 55976,
+  "timings_seconds": {
+    "old": [
+      0.1486367000034079,
+      0.14645359996939078,
+      0.14903090003645048
+    ],
+    "new": [
+      0.004869500000495464,
+      0.004238400026224554,
+      0.004257499997038394
+    ]
+  },
+  "scope": "label row-gather only; excludes parquet loading, validation, tensors and training",
+  "base_commit": "1619c32921a6f1c76af319d582b3241ba6e18fd4",
+  "implementation_sha256": {
+    "src\\xdiyo_analytics\\graphs\\statistics.py": "3e55c556006c3f23aa42264b24ed0caa1d910f34983a087056cc0c26fba305de",
+    "src\\xdiyo_analytics\\graphs\\extensions.py": "8cdc6ec62d8b2677711ee21a4363f5181731b8181b252a804bad57eac711bc5d"
+  }
+}

@@ -36,9 +36,9 @@ def decorate(components, stages):
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps',
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast',
              'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
-             'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
+             'reporting.GraphStatisticsReporter', 'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
     choices = {'forecast_policy':['by_round','one_day_ahead'], 'membership_policy':['first_fixture','explicit'],
                'mode':['tSNE','PCA'], 'init':['pca','random'], 'metric':['euclidean','cosine'], 'device':['cpu','auto','cuda:0']}
     for key in names:
@@ -51,16 +51,65 @@ def decorate(components, stages):
                 f.update(kind='select', choices=choices[name])
             if name == 'config':
                 f.update(kind='component', components=['graphs.TemporalGraphConfig'])
-            nested = {'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
+            nested = {'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
                       'reconstruction':'neural.Reconstruction', 'grid':'features.Heatmap'}
             if name in nested and key.startswith(('graphs.', 'neural.')):
                 f.update(kind='component', components=[nested[name]], initial_component=nested[name])
                 f['help'] = {
+                    'boundary_memory':'Optional detached state between chronological segments. Changes the model; full history remains the default. States rebuild under each evaluated weight version.',
+                    'statistics_forecast':'Optional supervised future-match statistic forecasts. Actual target statistics never enter fixture inputs; choose auxiliary, combined or strict bottleneck.',
                     'heatmaps':'Optional shared CNN over individual historical match maps. Disabled preserves scalar-only GAT. Requires heatmap_points; target-fixture maps are never inputs.',
                     'encoder':'Shared trainable convolutions, spatial pooling and flattened projection. Parameters are optimized with the prediction head.',
                     'reconstruction':'Optional auxiliary decoder with masked MSE or KL divergence. Disabled creates no decoder or extra loss. Validation prediction loss remains the default early-stopping metric.',
                     'grid':'Native deterministic grid construction. Keep side=both and orientation=team for receiver-aligned GAT edges. Default: player-only 10x10 unit-mass grids.',
                 }[name]
+            if key == 'graphs.BoundaryMemory':
+                f['help'] = {'policy':'Season: global union of league entry dates at local midnight. Fixed days: nonoverlapping calendar-day blocks, not a sliding window.',
+                    'days':'Number of local calendar days per fixed segment.', 'anchor':'Timezone-aware anchor, at local midnight in the model timezone.',
+                    'retention':'Once per boundary, mix carried embedding with current native prior: retention * carry + (1-retention) * prior. One preserves carry.'}.get(name, f['help'])
+                if name == 'policy':
+                    f.update(kind='select', choices=['season','fixed_days'])
+                    for obsolete in ('components','categories','initial_component'): f.pop(obsolete,None)
+                if name in ('days','anchor'): f['visible_when'] = {'policy':['fixed_days']}
+            if key == 'graphs.StatisticsForecast':
+                f['help'] = {'route':'Auxiliary: outcome uses original inputs. Combined: append forecast summaries. Bottleneck: outcome receives only forecast summaries. All train end-to-end.',
+                    'weight':'Positive multiplier for the mean of per-target observed-weight-normalized losses.',
+                    'point_loss':'Huber or MSE after train-only transformation and standardization. Probabilistic targets use negative log likelihood.',
+                    'targets':'Ordered side/period/native statistic targets. Missing targets are masked; each needs usable training coverage.'}.get(name, f['help'])
+                if name == 'route': f.update(kind='select', choices=['auxiliary','combined','bottleneck'])
+                if name == 'point_loss': f.update(kind='select', choices=['huber','mse'])
+                if name == 'targets':
+                    f.update(kind='list', item={'kind':'component','components':['graphs.StatisticTarget','graphs.NumericStatisticTarget'],'initial_component':'graphs.StatisticTarget'})
+                    f.pop('discovery',None)
+            if key == 'graphs.NumericStatisticTarget':
+                opts = {'support':['count','nonnegative_continuous','signed_continuous','bounded_continuous'],
+                        'transform':['identity','log1p','signed_log1p','affine'],
+                        'scaling':['standard','robust','none'], 'side':['home','away'],
+                        'period':['ALL','1ST','2ND'], 'family':['quantile']}
+                if name in opts: f.update(kind='select', choices=opts[name])
+                if name in ('lower','upper'): f.update(kind='number',step='any',required=True,nullable=False,visible_when={'support':['bounded_continuous']})
+                if name == 'quantiles': f.update(kind='list',item={'kind':'number','step':'any','min':0,'max':1})
+                f['help'] = {
+                    'source_column':'Exact directed own-team history column (team::...), or goals_for. Missing columns are errors; missing observations are masked.',
+                    'semantic_name':'Stable unique identity for this component; home and away are added automatically.',
+                    'units':'Explicit original units, for example count, percent, or normalized-coordinate squared.',
+                    'component':'Exact value, total or named geometric component. Must agree with the source column.',
+                    'support':'Counts require integers; signed values remain signed. Bounded continuous requires lower/upper and affine transform.',
+                    'transform':'Monotone transform before pinball loss. Use log1p for counts, identity/signed_log1p for signed values, affine for bounded values.',
+                    'scaling':'Fit only positive-weight fitting observations: standard deviation, robust interquartile range, or none. Constant scale becomes one.'
+                }.get(name, f['help'])
+            if key == 'graphs.StatisticTarget':
+                from ..graphs.extensions import STATISTICS
+                opts = {'statistic':list(STATISTICS), 'side':['home','away'], 'period':['ALL','1ST','2ND'],
+                        'family':['point','poisson','negative_binomial','inflated_beta','quantile']}
+                if name in opts: f.update(kind='select', choices=opts[name])
+                if name == 'quantiles': f.update(kind='list', item={'kind':'number','step':'any','min':0,'max':1}, visible_when={'family':['quantile']})
+                f['help'] = {'side':'Upcoming fixture home or away team; independent of historical edge receiver orientation.',
+                    'period':'ALL, 1ST or 2ND; exact native period coverage is required.',
+                    'statistic':'Exact native statistic identity. Goals currently support ALL only; missing periods are never replaced with totals.',
+                    'family':'Point: constrained mean. Counts: Poisson/NB. Possession: endpoint-inflated Beta. Quantile: independently learned ordered quantiles with pinball loss.',
+                    'quantiles':'Nonempty unique levels strictly inside (0,1); saved in ascending order. Default .25, .5, .75. Each side/period target learns one output per level. Ties in predicted values are allowed; no rounding.',
+                    'weight':'Positive relative target weight; target coverage is normalized separately.'}.get(name, f['help'])
             if key.startswith('neural.') or key == 'graphs.GraphHeatmaps':
                 details = {'task':'Classification learns fitting classes; regression predicts numeric targets. Configure the matching target in Labels.',
                            'channels':'Output channels of each convolution, in order. Default 8, 8.',
@@ -96,7 +145,7 @@ def decorate(components, stages):
                 f.update(kind='select', choices=['overall','per_fold'], default='per_fold')
                 f['help'] = 'Per fold selects one fitted model; overall keeps a separate panel or curve for each fold. Encoder coordinates are never averaged.'
             if name == 'metrics' and key.endswith('GATLossReporter'):
-                f.update(kind='multiselect', choices=['train_loss','validation_loss','train_reconstruction_loss','validation_reconstruction_loss','train_objective','validation_objective'],
+                f.update(kind='multiselect', choices=['train_loss','validation_loss','train_reconstruction_loss','validation_reconstruction_loss','train_objective','validation_objective','train_statistics_loss','validation_statistics_loss'],
                          help='Select stored prediction loss, optional reconstruction loss (MSE or KL), or combined objectives. Validation requires a held-out training tail; reconstruction curves require an enabled decoder.')
             if name == 'pooling':
                 f.update(choices=['occurrences','first','last'])

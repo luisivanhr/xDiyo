@@ -1,0 +1,153 @@
+{
+  "command": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe examples/benchmark_gat_statistics_loss.py --device cuda:0 --output docs/analytics/data/gat_statistics_repair_20261014/loss_cuda.json",
+  "python": "3.14.0",
+  "torch": "2.9.0+cu130",
+  "device": "cuda:0",
+  "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+  "rows": 256,
+  "groups": 8,
+  "targets": 6,
+  "source_hashes": {
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "78ae017bd99a1be2d5343cdb83aa70af54a0307e95b0fb167bfeb629ca781d56",
+    "src\\xdiyo_analytics\\graphs\\config.py": "b17b483324554e7397d602ab51489ab31425b4d9c360623b8111dad1f516ca48",
+    "src\\xdiyo_analytics\\graphs\\execution.py": "b53bf373460d83eb3f0eb78e14ed3aa2053112142170e15763861e33dd91851c",
+    "src\\xdiyo_analytics\\graphs\\extensions.py": "60ad55ec42c33aa9d11354d44a28f6c1e4feeb2c78cb5c966867f0bb1cc466ca",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "68e619ccf876a354e4c4cad4b18459c7e559cea1198f87dc073428253b704105",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "693748f2726a4361f03d145ff8e3fde415a3ce28a1a966753339ce34dcb5faa0",
+    "src\\xdiyo_analytics\\graphs\\memory.py": "2c0cce66ccf7f6573f8e3587ecd4950c7ee70eab8c7553323de891bff01ee018",
+    "src\\xdiyo_analytics\\graphs\\network.py": "ea7e8ec44d5d3f0235906a10eff81817c20f2a3d75293f42479514e2ebcc35ed",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "8235cee2933e42133c5b973c8dc7a0d82fd22b921637974c8b454a2211027a1e",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "0060bb123c4f29d90c02de7f78ae9fad2cc46ecbf558914c38ac05384fdd2aec",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "c1b0d9e7b9a04777c1284c9ead5d1312e456eae22bb4ce46eb9183c1fae2ab95",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\statistics.py": "8e22f76e958d1b1e7e0a0563fff36f2e9736645027bba7cbfafb26c1190a48bb",
+    "src\\xdiyo_analytics\\graphs\\statistics_network.py": "f3bfd7fe47004655779f65a8d0e0cb79be3f8f3819920efcbaa7c182d92dad95",
+    "src\\xdiyo_analytics\\graphs\\store.py": "ab684b83d5323711ab0f2108874bdd4040625e47a6ace2e59973ad6aa75d18b4",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "240471d39f31b3f567b3b1d2008b75d55828f67823b6390fe4974aa9606705fa",
+    "src\\xdiyo_analytics\\graphs\\supervision.py": "9a32ec10a59b64f2328be87e096fa242adad21c6d3bc6a3c4ea44d826f005402",
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "7c767be7a57916201d98d0839edd34b885fd22f3bdcaad143d3667858899ae8e"
+  },
+  "results": [
+    {
+      "family": "point",
+      "cache_preparation_seconds": 0.0425752000301145,
+      "uncached_seconds": [
+        0.047648999956436455,
+        0.04518849996384233,
+        0.04874150000978261,
+        0.04613299999618903,
+        0.04922790004638955,
+        0.048901000001933426
+      ],
+      "cached_seconds": [
+        0.032274400000460446,
+        0.0306350999744609,
+        0.03024529997492209,
+        0.029506699997000396,
+        0.030424099997617304,
+        0.03333629999542609
+      ],
+      "uncached_median": 0.048195249983109534,
+      "cached_median": 0.030529599986039102,
+      "speedup": 1.5786400740641464,
+      "losses_and_gradients_exact": true
+    },
+    {
+      "family": "poisson",
+      "cache_preparation_seconds": 0.004319900006521493,
+      "uncached_seconds": [
+        0.04736239998601377,
+        0.04687959997681901,
+        0.047268200025428087,
+        0.050861299969255924,
+        0.047858200035989285,
+        0.04885590000776574
+      ],
+      "cached_seconds": [
+        0.032902600010856986,
+        0.03273479995550588,
+        0.03724330000113696,
+        0.03064710000762716,
+        0.03198379999957979,
+        0.03129160002572462
+      ],
+      "uncached_median": 0.04761030001100153,
+      "cached_median": 0.03235929997754283,
+      "speedup": 1.4713019145668418,
+      "losses_and_gradients_exact": true
+    },
+    {
+      "family": "negative_binomial",
+      "cache_preparation_seconds": 0.0042505000019446015,
+      "uncached_seconds": [
+        0.08637650002492592,
+        0.0870596999884583,
+        0.08726080000633374,
+        0.08363319997442886,
+        0.08366230002138764,
+        0.08576499996706843
+      ],
+      "cached_seconds": [
+        0.06613390002166852,
+        0.06650969997281209,
+        0.06452040001749992,
+        0.06445030000759289,
+        0.06466849998105317,
+        0.06789099995512515
+      ],
+      "uncached_median": 0.08607074999599718,
+      "cached_median": 0.06540120000136085,
+      "speedup": 1.3160423661065277,
+      "losses_and_gradients_exact": true
+    },
+    {
+      "family": "inflated_beta",
+      "cache_preparation_seconds": 0.005232699972111732,
+      "uncached_seconds": [
+        0.19094790000235662,
+        0.19051980000222102,
+        0.18972650001524016,
+        0.19818749994738027,
+        0.19029969995608553,
+        0.19221400003880262
+      ],
+      "cached_seconds": [
+        0.16384130000369623,
+        0.17171720002079383,
+        0.1661405999911949,
+        0.16370729997288436,
+        0.16759740002453327,
+        0.1666642000200227
+      ],
+      "uncached_median": 0.19073385000228882,
+      "cached_median": 0.1664024000056088,
+      "speedup": 1.1462205472749185,
+      "losses_and_gradients_exact": true
+    },
+    {
+      "family": "quantile",
+      "cache_preparation_seconds": 0.004299400025047362,
+      "uncached_seconds": [
+        0.06146920000901446,
+        0.07564709999132901,
+        0.06293829996138811,
+        0.06059449998429045,
+        0.05631900002481416,
+        0.055949000001419336
+      ],
+      "cached_seconds": [
+        0.043777799990493804,
+        0.04265590000431985,
+        0.0387332999962382,
+        0.04095920000690967,
+        0.04215580003801733,
+        0.03951640002196655
+      ],
+      "uncached_median": 0.061031849996652454,
+      "cached_median": 0.0415575000224635,
+      "speedup": 1.4686121629949416,
+      "losses_and_gradients_exact": true
+    }
+  ],
+  "limitation": "Synthetic fixed labels, isolated statistics-head forward/backward only; not whole-model speed or accuracy evidence. Alternating paired six repeats; no optimizer update."
+}

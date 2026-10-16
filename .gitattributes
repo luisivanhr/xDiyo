@@ -19,3 +19,14 @@ tests/analytics/reference/recovery_01617da.txt -text
 docs/analytics/performance/follow-up*.xml -whitespace
 
 tests/analytics/reference/inspection_before_6ae5003.txt -text
+# Frozen base network and exact extension benchmark receipt bytes.
+tests/analytics/reference/gat_network_de32880.txt -text whitespace=cr-at-eol
+docs/analytics/data/gat_extensions_20261014/** -text whitespace=cr-at-eol
+
+# Exact frozen review references and bounded repair receipts.
+tests/analytics/reference/gat_*_f224a48.txt -text whitespace=cr-at-eol
+docs/analytics/data/gat_statistics_repair_20261014/** -text whitespace=cr-at-eol
+
+# Preserve native CPU integration receipts verbatim.
+docs/analytics/gat_feature_integration/*.log -text -whitespace
+docs/analytics/gat_feature_integration/*.xml -text -whitespace

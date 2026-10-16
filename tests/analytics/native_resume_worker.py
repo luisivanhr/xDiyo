@@ -17,6 +17,9 @@ def fixture(kind):
     if kind.startswith('gat'):
         from test_temporal_graph import sample, config, context
         from xdiyo_analytics.graphs import TemporalGraphAdapter
+        if kind in ('gat_memory', 'gat_statistics', 'gat_combined'):
+            from test_graph_integration_gates import extension_fixture
+            return extension_fixture(kind)
         store = sample()
         train = context(store, [1, 2, 3, 4]); train.validation = context(store, [5, 6])
         cfg = config(deterministic=True, fixture_features=('unused',) if kind == 'gat_fixture' else ())

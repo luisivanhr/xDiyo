@@ -1,0 +1,67 @@
+{
+  "base_commit": "f224a48401e0959e3c74af049f46bd90c60c1066",
+  "branch": "codex/gat-boundary-memory-stat-forecast",
+  "python": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe",
+  "environment": {
+    "PYTHONPATH": "src",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "XDIYO_RUN_GPU_AUDIT": "1"
+  },
+  "source_sha256": {
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "78ae017bd99a1be2d5343cdb83aa70af54a0307e95b0fb167bfeb629ca781d56",
+    "src\\xdiyo_analytics\\graphs\\config.py": "b17b483324554e7397d602ab51489ab31425b4d9c360623b8111dad1f516ca48",
+    "src\\xdiyo_analytics\\graphs\\execution.py": "b53bf373460d83eb3f0eb78e14ed3aa2053112142170e15763861e33dd91851c",
+    "src\\xdiyo_analytics\\graphs\\extensions.py": "60ad55ec42c33aa9d11354d44a28f6c1e4feeb2c78cb5c966867f0bb1cc466ca",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "68e619ccf876a354e4c4cad4b18459c7e559cea1198f87dc073428253b704105",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "693748f2726a4361f03d145ff8e3fde415a3ce28a1a966753339ce34dcb5faa0",
+    "src\\xdiyo_analytics\\graphs\\memory.py": "2c0cce66ccf7f6573f8e3587ecd4950c7ee70eab8c7553323de891bff01ee018",
+    "src\\xdiyo_analytics\\graphs\\network.py": "ea7e8ec44d5d3f0235906a10eff81817c20f2a3d75293f42479514e2ebcc35ed",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "8235cee2933e42133c5b973c8dc7a0d82fd22b921637974c8b454a2211027a1e",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "0060bb123c4f29d90c02de7f78ae9fad2cc46ecbf558914c38ac05384fdd2aec",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "c1b0d9e7b9a04777c1284c9ead5d1312e456eae22bb4ce46eb9183c1fae2ab95",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\statistics.py": "8e22f76e958d1b1e7e0a0563fff36f2e9736645027bba7cbfafb26c1190a48bb",
+    "src\\xdiyo_analytics\\graphs\\statistics_network.py": "f3bfd7fe47004655779f65a8d0e0cb79be3f8f3819920efcbaa7c182d92dad95",
+    "src\\xdiyo_analytics\\graphs\\store.py": "ab684b83d5323711ab0f2108874bdd4040625e47a6ace2e59973ad6aa75d18b4",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "240471d39f31b3f567b3b1d2008b75d55828f67823b6390fe4974aa9606705fa",
+    "src\\xdiyo_analytics\\graphs\\supervision.py": "9a32ec10a59b64f2328be87e096fa242adad21c6d3bc6a3c4ea44d826f005402",
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "7c767be7a57916201d98d0839edd34b885fd22f3bdcaad143d3667858899ae8e",
+    "src\\xdiyo_analytics\\reporting\\graph_quantiles.py": "ae3cae209dd9f4a7736f971a4c9a2333b655b70c8f8a980b99eef3d4fe08291d",
+    "src\\xdiyo_analytics\\reporting\\graph_statistics.py": "9b37aed6971c2a2a3c626df6033e7d3e12868c8e95f00a93d7ea51b0fd0bbf2a",
+    "src\\xdiyo_analytics\\ui\\graph_inventory.py": "3146d426d065669a1bbc320e71e07b20ecf561d2b5572ddb6b10f47e839f2614",
+    "src\\xdiyo_analytics\\ui\\inventory.json": "31482d276e277697244fcc709fba1f62aed2ec90203a2c920d856999a71e7ef9",
+    "src\\xdiyo_analytics\\ui\\static\\forms.js": "0c2134385613f2bf330202151fe2f306529e63190bf80baeb097dacf672d5298"
+  },
+  "verification": [
+    {
+      "command": "python -m pytest tests/analytics/test_graph_statistics_repair.py tests/analytics/test_graph_extensions.py tests/analytics/test_temporal_graph.py tests/analytics/test_graph_speed.py tests/analytics/test_graph_preparation_memory.py tests/analytics/test_graph_goal_features.py tests/analytics/test_graph_integration.py tests/analytics/test_graph_determinism.py tests/analytics/test_heatmap_cnn.py -q --disable-warnings --maxfail=1",
+      "result": "211 passed, 1 warning in 56.71s",
+      "scope": "Repair suite before the subsequent legacy-artifact test; bounded CUDA tests enabled."
+    },
+    {
+      "command": "python -m pytest tests/analytics/test_graph_statistics_repair.py::test_legacy_artifact_without_quantile_fields_keeps_identity tests/analytics/test_ui_inventory.py tests/analytics/test_ui_catalog_compatibility.py tests/analytics/test_ui_workflow.py -q --disable-warnings --maxfail=1",
+      "result": "44 passed in 22.66s",
+      "scope": "Additional legacy artifact and native Python UI/workflow tests."
+    },
+    {
+      "command": "node --experimental-vm-modules --test tests/analytics/ui_cnn.mjs tests/analytics/ui_composition.mjs tests/analytics/ui_svm.mjs tests/analytics/ui_feature_bundles.mjs tests/analytics/ui_feature_discovery.mjs",
+      "result": "29 passed, 0 failed",
+      "scope": "Native DOM renderer/event handler and discovery tests; raw log ui_tests.txt."
+    }
+  ],
+  "totals": {
+    "python_passed": 255,
+    "javascript_passed": 29
+  },
+  "benchmarks_match_final_graph_source": true,
+  "limitations": [
+    "Isolated synthetic loss-path timings, not whole-GAT epoch speedups.",
+    "No predictive performance or automatic quantile calibration claim.",
+    "No cross-process optimizer resume support.",
+    "Current six-statistic catalogue retained; arbitrary continuous columns and half-goal targets remain unsupported."
+  ],
+  "notes": [
+    "The initial expanded Node command omitted --experimental-vm-modules and could not construct its VM test harness. Rerun with the required flag passed all 29 tests.",
+    "Final subsequent reporter text clarifies that 80% intervals apply to parametric families and quantile intervals use configured endpoints; no numerical code changed."
+  ]
+}

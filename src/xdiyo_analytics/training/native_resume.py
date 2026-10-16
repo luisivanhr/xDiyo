@@ -80,14 +80,20 @@ def _preprocessing(backend):
 
 
 def capture_backend(backend):
-    return dict(model=_cpu(backend.model.state_dict()), optimizer=_cpu(backend.optimizer.state_dict()),
+    state = dict(model=_cpu(backend.model.state_dict()), optimizer=_cpu(backend.optimizer.state_dict()),
                 gradients=[None if p.grad is None else _cpu(p.grad) for p in backend.model.parameters()],
                 preprocessing=_preprocessing(backend), training=backend.model.training)
+    if hasattr(backend, 'statistics_scale'):
+        state['statistics_scale'] = deepcopy(backend.statistics_scale.state())
+    return state
 
 
 def restore_backend(backend, state):
     if _preprocessing(backend) != state['preprocessing']:
         raise ValueError('Training checkpoint preprocessing is incompatible with rebuilt inputs.')
+    if hasattr(backend, 'statistics_scale'):
+        if backend.statistics_scale.state() != state.get('statistics_scale'):
+            raise ValueError('Training checkpoint statistics scaling is incompatible with rebuilt labels.')
     backend.restore(state['model'])
     backend.optimizer.load_state_dict(state['optimizer'])
     parameters = list(backend.model.parameters())
@@ -238,7 +244,8 @@ def finalize_training(adapter, *, mode='retain', checkpoint=None):
         backend._input_resident.close()
     backend.optimizer.zero_grad(set_to_none=True)
     for name in ('optimizer', 'train_groups', 'validation_groups', 'train_targets', 'validation_targets',
-                 'train_weights', 'validation_weights', 'train', 'validation'):
+                 'train_weights', 'validation_weights', 'train', 'validation',
+                 'train_statistics', 'validation_statistics', '_statistics_observations'):
         backend.__dict__.pop(name, None)
     if hasattr(backend, 'preprocessor'):
         backend.preprocessor._edge_cache = None
