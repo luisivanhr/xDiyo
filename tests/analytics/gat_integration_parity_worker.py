@@ -1,13 +1,14 @@
-"""Run a pinned package in its own process; emits exact tiny CPU trajectory."""
+"""Run a pinned package in its own process; emits exact tiny same-device trajectory."""
 from pathlib import Path
 import sys
+import os
 source,out,kind=Path(sys.argv[1]),Path(sys.argv[2]),sys.argv[3]
 sys.path.insert(0,str(source/'src'))
 import torch
 import numpy as np
 import pandas as pd
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from test_temporal_graph import sample,config,context
 from xdiyo_analytics.graphs import TemporalGraphAdapter,TemporalGraphSerializer
 from xdiyo_analytics.graphs.adapter import _Backend
@@ -33,7 +34,13 @@ else:
         spec,store=graph_setup(reconstruction=Reconstruction(loss='kl'));cfg=spec.config
     else:store,cfg=sample(),config(deterministic=True)
     a=TemporalGraphAdapter(cfg,store);train=context(store,[1,2,3,4]);train.validation=context(store,[5,6]);query=context(store,[7,8],fit=False)
-b=_Backend(a.config,a.event_store,19,'cpu');b.initialize(train)
+device=os.environ.get('XDIYO_PARITY_DEVICE','cpu')
+if device.startswith('cuda'):
+    from xdiyo_analytics.graphs.execution import prepare_determinism
+    a.config=replace(a.config,deterministic=True)
+    prepare_determinism(a.config,device)
+a.configure_device(device)
+b=_Backend(a.config,a.event_store,19,device);b.initialize(train)
 trajectory=[cpu(dict(model=b.model.state_dict(),preprocessor=b.preprocessor.state(),groups=list(b.train_groups)))]
 for _ in range(2):
     values=b.checkpoint_metrics('train_loss',b.step())

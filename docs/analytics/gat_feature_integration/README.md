@@ -8,8 +8,11 @@ checks: **31 passed**, zero failures. Final CPU duration: **619.02 seconds**.
 The source and test hashes remained unchanged throughout continuation checks.
 One existing PyTorch TF32 API deprecation warning was emitted.
 
-The candidate is ready for review of the bounded CPU integration. It remains a
-local integration branch; CUDA verification and live-browser QA are not claimed.
+The authorized bounded CUDA gate also passed: **56 passed, zero failures or
+skips** (23 integration cases and 33 existing regressions). See
+[`cuda-verification.md`](cuda-verification.md) for commands, exact comparisons,
+continuation and reload coverage. Runtime source is unchanged from `c4e26d8`.
+The candidate remains local, unmerged and unpushed. Live-browser QA is not claimed.
 
 ## Scope and pinned sources
 
@@ -19,7 +22,8 @@ local integration branch; CUDA verification and live-browser QA are not claimed.
 - Merge base: `302aaa1efe3573ad742a2c5bad943e933889d291`.
 - The refreshed remote refs matched the supplied handoff. Main and the retained
   research worktree were not used for implementation. No experiment selection,
-  refit, GPU run, push, or merge to main is part of this work.
+  refit, push, or merge to main is part of this work. The user subsequently
+  authorized the bounded idle-GPU verification recorded below.
 
 ## Integration changes
 
@@ -96,8 +100,7 @@ directories. It never modifies the protected study source or artifacts. Runtime
 ## Remaining scope
 
 Bounded deterministic CUDA parity/continuation, same-device export/reload and
-CPU-reload tolerances for the integrated candidate require separate authorization
-and an idle GPU. The original branch's GPU receipts are historical evidence, not
-verification of this integration. No hosted CI, live-browser or integrated
-large-fold benchmark claim is made. A new research selection/refit is unnecessary
+CPU-reload tolerance checks now pass for this integrated candidate. These are
+fresh receipts, separate from the original feature branch receipts. No hosted
+CI, live-browser or integrated large-fold benchmark claim is made. A new research selection/refit is unnecessary
 for these integration gates. Keep the integration branch unmerged and unpushed.

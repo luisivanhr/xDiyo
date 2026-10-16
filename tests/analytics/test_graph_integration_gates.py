@@ -64,13 +64,17 @@ def activate_cpu_cache(monkeypatch):
 @pytest.mark.parametrize('heatmaps', [False, True])
 @pytest.mark.parametrize('memory', [False, True])
 @pytest.mark.parametrize('route', ['auxiliary', 'combined', 'bottleneck'])
-def test_combined_resident_exact_updates_and_no_learned_cache(monkeypatch, heatmaps, memory, route):
-    activate_cpu_cache(monkeypatch)
+def test_combined_resident_exact_updates_and_no_learned_cache(monkeypatch, heatmaps, memory, route, device='cpu'):
+    if device == 'cpu':
+        activate_cpu_cache(monkeypatch)
+    else:
+        from xdiyo_analytics.graphs.execution import prepare_determinism
+        prepare_determinism(config(deterministic=True), device)
     a, train, query = extension_fixture(heatmaps=heatmaps, memory=memory, route=route)
     b, _, _ = extension_fixture(heatmaps=heatmaps, memory=memory, route=route)
     b.configure_input_cache(1_000_000, 0)
-    x = _Backend(a.config, a.event_store, 3, 'cpu')
-    y = _Backend(b.config, b.event_store, 3, 'cpu', b.input_cache_policy)
+    x = _Backend(a.config, a.event_store, 3, device)
+    y = _Backend(b.config, b.event_store, 3, device, b.input_cache_policy)
     x.initialize(train); y.initialize(train)
     for _ in range(2):
         assert_exact(x.checkpoint_metrics('train_objective', x.step()), y.checkpoint_metrics('train_objective', y.step()))
@@ -135,10 +139,10 @@ def test_extension_finalization_reload_and_scaler_binding(tmp_path, kind):
 
 @pytest.mark.parametrize('kind', ['gat_memory','gat_statistics','gat_combined'])
 @pytest.mark.parametrize('boundary', ['', 'early_stopping'])
-def test_extensions_fresh_process_continuation(tmp_path,kind,boundary):
+def test_extensions_fresh_process_continuation(tmp_path,kind,boundary,device='cpu'):
     worker = Path(__file__).with_name('native_resume_worker.py')
-    env = dict(os.environ,CUDA_VISIBLE_DEVICES='-1',PYTHONDONTWRITEBYTECODE='1',
-               XDIYO_RESUME_DEVICE='cpu',XDIYO_RESUME_CACHE='1',XDIYO_RESUME_BOUNDARY=boundary)
+    env = dict(os.environ,CUDA_VISIBLE_DEVICES='0' if device.startswith('cuda') else '-1',PYTHONDONTWRITEBYTECODE='1',
+               CUBLAS_WORKSPACE_CONFIG=':4096:8', XDIYO_RESUME_DEVICE=device,XDIYO_RESUME_CACHE='1',XDIYO_RESUME_BOUNDARY=boundary)
     for mode,code in [('reference',0),('interrupt',73),('resumed',0),('completed',0)]:
         run = subprocess.run([sys.executable,str(worker),str(tmp_path),kind,mode],env=env,capture_output=True,text=True)
         assert run.returncode==code, run.stdout+run.stderr
@@ -151,25 +155,39 @@ def test_extensions_fresh_process_continuation(tmp_path,kind,boundary):
 
 
 @pytest.mark.parametrize('reference,kind',[(MAIN,'plain'),(MAIN,'cnn'),(FEATURE,'gat_memory'),(FEATURE,'gat_statistics'),(FEATURE,'gat_combined')])
-def test_pinned_source_two_update_parity_and_legacy_reload(tmp_path,reference,kind):
+def test_pinned_source_two_update_parity_and_legacy_reload(tmp_path,reference,kind,device='cpu'):
     # Full pinned Python package, independent imports/process and native config.
     root = Path(__file__).resolve().parents[2]
     archive=subprocess.check_output(['git','archive','--format=zip',reference,'src'],cwd=root)
     frozen=tmp_path/'frozen';frozen.mkdir()
     with zipfile.ZipFile(io.BytesIO(archive)) as z:z.extractall(frozen)
     worker=Path(__file__).with_name('gat_integration_parity_worker.py')
-    env=dict(os.environ,CUDA_VISIBLE_DEVICES='-1',PYTHONDONTWRITEBYTECODE='1')
+    env=dict(os.environ,CUDA_VISIBLE_DEVICES='0' if device.startswith('cuda') else '-1',PYTHONDONTWRITEBYTECODE='1',
+             CUBLAS_WORKSPACE_CONFIG=':4096:8',XDIYO_PARITY_DEVICE=device)
     for name,source in [('reference',frozen),('candidate',root)]:
         run=subprocess.run([sys.executable,str(worker),str(source),str(tmp_path/name),kind],env=env,capture_output=True,text=True)
         assert run.returncode==0,run.stdout+run.stderr
     load=lambda name:torch.load(tmp_path/name/'trajectory.pt',map_location='cpu',weights_only=True)
     assert_exact(load('reference'),load('candidate'))
     assert (tmp_path/'reference/outputs.json').read_bytes()==(tmp_path/'candidate/outputs.json').read_bytes()
-    serializer=TemporalGraphSerializer()
+    serializer=TemporalGraphSerializer(device=device)
     old=serializer.load(tmp_path/'reference/model'); new=serializer.load(tmp_path/'candidate/model')
     from test_heatmap_cnn import graph_setup
     query=context(old.event_store,[7,8],fit=False)
     for key,value in old.predict(query).items():pd.testing.assert_frame_equal(value,new.predict(query)[key],check_exact=True)
+    # The worker receipt is the pre-save output, not merely two reloaded models.
+    from xdiyo_analytics.experiments.recovery import unpack
+    before=unpack(json.loads((tmp_path/'candidate/outputs.json').read_text()))
+    for key,value in before['predictions'].items():pd.testing.assert_frame_equal(value,new.predict(query)[key],check_exact=True)
+    queries=pd.DataFrame({'team_id':[3,2,1], 'issuance_at':[pd.Timestamp('2020-02-02T12:00Z')]*3})
+    pd.testing.assert_frame_equal(before['embeddings'],new.encode_teams(queries),check_exact=True)
+    pd.testing.assert_frame_equal(before['attention'],new.attention_weights(queries),check_exact=True)
+    if device.startswith('cuda'):
+        cpu=TemporalGraphSerializer(device='cpu').load(tmp_path/'candidate/model')
+        for key,value in before['predictions'].items():
+            pd.testing.assert_frame_equal(value,cpu.predict(query)[key],check_exact=False,atol=1e-6,rtol=1e-5)
+        pd.testing.assert_frame_equal(before['embeddings'],cpu.encode_teams(queries),check_exact=False,atol=1e-6,rtol=1e-5)
+        pd.testing.assert_frame_equal(before['attention'],cpu.attention_weights(queries),check_exact=False,atol=1e-6,rtol=1e-5)
 
 
 def test_ui_retains_both_sets_of_controls():

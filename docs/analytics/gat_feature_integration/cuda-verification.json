@@ -1,0 +1,47 @@
+{
+  "runtime_candidate": "c4e26d855142cd4546ed6ddda905bbfcc30e7284",
+  "main": "861b00461943be7ff589c9bd7deace909e96c9c1",
+  "feature": "5ee87b5791f142f0c80432f1e0647d01f137a599",
+  "cuda_integration": {
+    "tests": 23,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 23,
+    "seconds": 212.736
+  },
+  "cuda_regression": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 33,
+    "seconds": 93.96
+  },
+  "cpu_helpers": {
+    "tests": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 23,
+    "passed": 33,
+    "seconds": 185.807
+  },
+  "source_and_tests_unchanged": true,
+  "checked_hash_count": 465,
+  "runtime_unchanged_from_candidate": true,
+  "same_device_comparison": "exact",
+  "cpu_reload_atol": 1e-06,
+  "cpu_reload_rtol": 1e-05,
+  "default_gpu_residency_enabled": false,
+  "live_browser_executed": false,
+  "large_fold_benchmark_executed": false,
+  "receipts": {
+    "cuda-integration.log": "166b95a7a8b113ed98d6ebe8c710dd09c09542058b6a217025dfe2139af5231e",
+    "cuda-integration.xml": "fece66170fc78d715314d562c6e97b5728aedec824f12a4c311361467da45058",
+    "cuda-regression.log": "9d1e96ffdb49e5c9a13c9b2579b9238e232b087f486913a2fb0c3019149c9d11",
+    "cuda-regression.xml": "fed73dc82b2ccd599093f341c087e220306037be1657d1d63109693b32113a89",
+    "cpu-gate-regression.log": "5770b2c07303a8e025f091c948d4295941fea3de5f630521cb45e6c9394e6861",
+    "cpu-gate-regression.xml": "ab4ac84c6d046f600b1ab117c90c3ba61ba3024b5d04f9e297a41e03952b783b",
+    "cuda-environment.json": "9f0730f72a1e765a98dce2f8db66bb3ed7d8736d71f132eed4205befa2d712e7"
+  }
+}
