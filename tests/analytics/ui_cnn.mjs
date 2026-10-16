@@ -140,3 +140,22 @@ test('integration retains editable residency and checkpoint finalization control
   }
  }
 });
+
+
+test('numeric targets discard inapplicable bounds and preserve typed identity fields',async()=>{
+ let value=makeNode('graphs.NumericStatisticTarget');
+ const root=componentEditor(value,v=>{value=v;},null,['graphs.NumericStatisticTarget']);
+ assert.equal(value.params.lower,undefined);assert.equal(value.params.upper,undefined);
+ for(const [label,text] of [['Semantic name','goals'],['Source column','goals_for'],['Units','count']]) {
+  const field=find(root,label,'input');field.value=text;field.events.change({target:field});await Promise.resolve();
+ }
+ let support=find(root,'Support','select');support.value='3';support.onchange();await Promise.resolve();
+ for(const [label,n] of [['Lower','0'],['Upper','100']]) {
+  const field=find(root,label,'input');field.value=n;field.events.change({target:field});await Promise.resolve();
+ }
+ assert.equal(value.params.lower,0);assert.equal(value.params.upper,100);
+ support=find(root,'Support','select');support.value='0';support.onchange();await Promise.resolve();
+ const saved=JSON.parse(JSON.stringify(value));
+ assert.equal(saved.params.lower,undefined);assert.equal(saved.params.upper,undefined);
+ assert.equal(saved.params.semantic_name,'goals');assert.equal(saved.params.source_column,'goals_for');assert.equal(saved.params.units,'count');
+});

@@ -76,7 +76,7 @@ corrected without weakening numerical assertions.
 | Combined residency | 12 combinations of heatmaps, memory and head route; actual residency-pool logic exercised on CPU with a simulated memory probe, exact cached/uncached updates, cache budget/hits, no initial-state cache; not a CUDA residency claim |
 | Inference and cleanup | Exact CPU save/load, selected-team exports, legacy artifacts, rejected schema/scaler changes, finalization then reload/resume |
 | Native continuation | Independent processes for memory/statistics/combined, regular update and early-stop interruption; exact gradient/model/AdamW/scaler/RNG/metric/winner state, plus completed-checkpoint zero-update check; existing default GAT/CNN continuation suite also included |
-| UI | JSON and Python recipes, catalog/inventory and renderer controls/events including residency/finalization; no live-browser QA performed |
+| UI | JSON and Python recipes, catalog/inventory and renderer controls/events including residency/finalization; bounded live-browser preparation, execution, export and report interaction verified; see browser-verification.md |
 
 ## Reproduction
 
@@ -101,6 +101,6 @@ directories. It never modifies the protected study source or artifacts. Runtime
 
 Bounded deterministic CUDA parity/continuation, same-device export/reload and
 CPU-reload tolerance checks now pass for this integrated candidate. These are
-fresh receipts, separate from the original feature branch receipts. No hosted
-CI, live-browser or integrated large-fold benchmark claim is made. A new research selection/refit is unnecessary
+fresh receipts, separate from the original feature branch receipts. Bounded live-browser checks also pass, with the numeric-target form repair and limitations documented in browser-verification.md. No hosted
+CI or integrated large-fold benchmark claim is made. A new research selection/refit is unnecessary
 for these integration gates. Keep the integration branch unmerged and unpushed.

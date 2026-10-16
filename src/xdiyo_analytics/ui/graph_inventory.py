@@ -87,11 +87,15 @@ def decorate(components, stages):
                         'scaling':['standard','robust','none'], 'side':['home','away'],
                         'period':['ALL','1ST','2ND'], 'family':['quantile']}
                 if name in opts: f.update(kind='select', choices=opts[name])
-                if name in ('lower','upper'): f.update(kind='number',step='any',required=True,nullable=False,visible_when={'support':['bounded_continuous']})
+                if name in ('lower','upper'): f.update(kind='number',step='any',required=True,nullable=False,clear_when_hidden=True,visible_when={'support':['bounded_continuous']})
                 if name == 'quantiles': f.update(kind='list',item={'kind':'number','step':'any','min':0,'max':1})
                 f['help'] = {
                     'source_column':'Exact directed own-team history column (team::...), or goals_for. Missing columns are errors; missing observations are masked.',
                     'semantic_name':'Stable unique identity for this component; home and away are added automatically.',
+                    'side':'Upcoming fixture home or away team; independent of historical edge receiver orientation.',
+                    'period':'ALL, 1ST or 2ND; must agree with the exact source column.',
+                    'lower':'Required lower bound for bounded continuous targets; removed for other support types.',
+                    'upper':'Required upper bound for bounded continuous targets; removed for other support types.',
                     'units':'Explicit original units, for example count, percent, or normalized-coordinate squared.',
                     'component':'Exact value, total or named geometric component. Must agree with the source column.',
                     'support':'Counts require integers; signed values remain signed. Bounded continuous requires lower/upper and affine transform.',

@@ -18968,7 +18968,7 @@
             "home",
             "away"
           ],
-          "help": "For uses this team’s values; against uses its opponent’s values; both creates separate outputs.",
+          "help": "Upcoming fixture home or away team; independent of historical edge receiver orientation.",
           "primary": true
         },
         {
@@ -18977,7 +18977,7 @@
           "required": false,
           "kind": "select",
           "default": "ALL",
-          "help": "Full match, first half or second half. Only periods present for the selected statistic are offered.",
+          "help": "ALL, 1ST or 2ND; must agree with the exact source column.",
           "primary": true,
           "choices": [
             "ALL",
@@ -19029,7 +19029,7 @@
           "required": true,
           "kind": "number",
           "default": null,
-          "help": "Lower for NumericStatisticTarget. Optional; leave disabled to use the standard behavior.",
+          "help": "Required lower bound for bounded continuous targets; removed for other support types.",
           "primary": true,
           "step": "any",
           "visible_when": {
@@ -19037,7 +19037,8 @@
               "bounded_continuous"
             ]
           },
-          "nullable": false
+          "nullable": false,
+          "clear_when_hidden": true
         },
         {
           "name": "upper",
@@ -19045,7 +19046,7 @@
           "required": true,
           "kind": "number",
           "default": null,
-          "help": "Upper for NumericStatisticTarget. Optional; leave disabled to use the standard behavior.",
+          "help": "Required upper bound for bounded continuous targets; removed for other support types.",
           "primary": true,
           "step": "any",
           "visible_when": {
@@ -19053,7 +19054,8 @@
               "bounded_continuous"
             ]
           },
-          "nullable": false
+          "nullable": false,
+          "clear_when_hidden": true
         },
         {
           "name": "weight",

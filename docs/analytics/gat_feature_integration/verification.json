@@ -11,13 +11,14 @@
   },
   "source_unchanged_through_continuation": true,
   "gpu_executed": true,
-  "live_browser_executed": false,
+  "live_browser_executed": true,
   "receipts": {
     "cpu-regression.xml": "b13b83871af7e0305ccc0fc6a42227678ea9dc4fde8ccda92309411ddfe1cec2",
     "cpu-regression.log": "a39b0545f84ebef02c698c24274de8043a7dc8638fa4e165d02116601018880a",
     "ui-renderers.log": "7a0d9b5c1460752d48bf9ad4095f40c4defd081f5e001576ff5f829ee442a6fd",
     "environment.json": "55ea14dcda92dd4d6c652d8592557fc8c51310a459c52f737b40d686dfeef683",
-    "cuda-verification.json": "2d99c782608fb81736f81d024d6db21d5906c03c100e2ffb8c2ba71ba50350f3"
+    "cuda-verification.json": "2d99c782608fb81736f81d024d6db21d5906c03c100e2ffb8c2ba71ba50350f3",
+    "browser-verification.json": "eb30b1a5ecb0294dc835b2e32575db9a9815140497b74b58e50149b3d59b9ab4"
   },
   "cuda": {
     "passed": 56,
@@ -32,5 +33,10 @@
     "skipped": 23,
     "passed": 33,
     "seconds": 185.807
+  },
+  "browser": {
+    "detail": "browser-verification.json",
+    "scope": "bounded synthetic one-fold CPU workflow",
+    "csv_download_verified": false
   }
 }

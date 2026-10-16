@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-16",
+  "base_commit": "a5e4ad42f231ddab574ed96bde8822bb25d74a80",
+  "browser": "Codex in-app browser, native localhost builder",
+  "scope": "Synthetic one-fold CPU run; no production data or frozen experiments modified",
+  "fix": "Clear numeric target lower/upper fields when support is not bounded_continuous",
+  "python_tests": {
+    "passed": 48,
+    "failed": 0
+  },
+  "renderer_tests": {
+    "passed": 32,
+    "failed": 0
+  },
+  "verified": [
+    "numeric target editing and bounded/count switching",
+    "preparation: 23 rows, 16 training and 7 scoring",
+    "checkpoint prediction_only finalization",
+    "JSON recipe save and actual Python export download",
+    "two-update CPU execution with boundary memory and numeric statistics",
+    "loss chart",
+    "PCA embedding league visibility, find-team and reset controls",
+    "attention empty-history state and populated history with newest matches on left",
+    "statistics table and forecast chart"
+  ],
+  "runs": [
+    "e14cd282-8c1a-47ac-b061-6f02d5491a8a",
+    "4bad29ad-e3f2-495a-bd26-824ee833c311"
+  ],
+  "limitations": [
+    "CSV download click timed out without a download event; populated data URL exists but download is not verified",
+    "One fold and PCA only; multi-fold switching, tSNE and real badge coverage not exercised",
+    "No new CUDA run: only UI metadata and renderer regression changed; earlier CUDA receipts retain their original scope"
+  ],
+  "export_sha256": "a754796465fa8c37be040fca32e5e20498685367cb72574d6dfeee40bcd7035a",
+  "hashes": {
+    "src/xdiyo_analytics/ui/graph_inventory.py": "3329aaab23f95d4192ec1d5da253034dd485f1aacd4600ddbfd8805cc2f418f1",
+    "src/xdiyo_analytics/ui/inventory.json": "84606d2097dd1e02600257488f4e24d9cc6a34fd5a43073b7782d5505abe3ec9",
+    "tests/analytics/ui_cnn.mjs": "4138da262e8464e4edc8088f73386eb554e839d957622b18b53cae9834e9f99d",
+    "docs/analytics/gat_feature_integration/browser-fix-tests.log": "f4e588ca5fba200f0f5f394a45d44e63dcabc3294a054468a556caecd89a0730",
+    "docs/analytics/gat_feature_integration/browser-fix-tests.xml": "ecb8705cf97a5c9faca03f2f6eb0b14b9953a60dc085c1be1f79d4667f1da9c0",
+    "docs/analytics/gat_feature_integration/browser-fix-renderers.log": "99f1e65aad5ac6132ef7d4505d0bfb9a7ed1771e5aa1e87f83cc6acdc49d081b",
+    "docs/analytics/gat_feature_integration/browser-attention.jpg": "2d9383d4a67a0cfa169b9361ea566d968a2c7a3341557b1c483844eefd5eef78",
+    "docs/analytics/gat_feature_integration/browser-statistics.jpg": "835691a4befa3cfcee5d704f33d9cc563b163e68dee6542fafd86e49bc26a7e3"
+  }
+}
