@@ -4,26 +4,31 @@
 
 **CPU integration gates passed: 300 passed, 33 CUDA-only skips, zero failures.**
 The 33 focused interaction cases are included in that total. Native renderer
-checks: **31 passed**, zero failures. Final CPU duration: **619.02 seconds**.
+checks: **31 passed**, zero failures. Final CPU duration: **619.004 seconds**.
 The source and test hashes remained unchanged throughout continuation checks.
 One existing PyTorch TF32 API deprecation warning was emitted.
 
 The authorized bounded CUDA gate also passed: **56 passed, zero failures or
 skips** (23 integration cases and 33 existing regressions). See
 [`cuda-verification.md`](cuda-verification.md) for commands, exact comparisons,
-continuation and reload coverage. Runtime source is unchanged from `c4e26d8`.
-The candidate remains local, unmerged and unpushed. Live-browser QA is not claimed.
+continuation and reload coverage. Neural model runtime source is unchanged from `c4e26d8`.
+The integration branch was pushed at `c06ab2e` and remains unmerged. Live-browser
+preparation, execution, export and report controls were verified; that pass fixed
+hidden numeric-target bounds and passed 48 focused Python and 32 renderer tests.
+The CSV follow-up passed 33 Python and 35 renderer/JavaScript tests and verifies
+completed downloads with exact saved-file contents;
+see [`csv-verification.md`](csv-verification.md).
 
 ## Scope and pinned sources
 
 - Integration branch: `codex/gat-feature-integration`, isolated worktree.
-- Current main/base: `861b00461943be7ff589c9bd7deace909e96c9c1`.
+- Pinned main/base: `861b00461943be7ff589c9bd7deace909e96c9c1`.
 - Feature tip: `5ee87b5791f142f0c80432f1e0647d01f137a599`.
 - Merge base: `302aaa1efe3573ad742a2c5bad943e933889d291`.
 - The refreshed remote refs matched the supplied handoff. Main and the retained
   research worktree were not used for implementation. No experiment selection,
-  refit, push, or merge to main is part of this work. The user subsequently
-  authorized the bounded idle-GPU verification recorded below.
+  refit or merge to main is part of this work. The user subsequently authorized
+  bounded idle-GPU verification and publishing the integration branch.
 
 ## Integration changes
 
@@ -60,7 +65,7 @@ default. No predictive benefit or new large-fold speedup is claimed.
 
 ## Evidence and acceptance matrix
 
-The final CPU and renderer receipts are `cpu-regression.log`,
+The original integration CPU and renderer receipts are `cpu-regression.log`,
 `cpu-regression.xml`, and `ui-renderers.log`. `environment.json` records runtime
 versions and SHA-256 hashes of the source and focused tests. The earlier failing
 regression log is retained as `initial-regression.log`; its failures were frozen
@@ -76,7 +81,7 @@ corrected without weakening numerical assertions.
 | Combined residency | 12 combinations of heatmaps, memory and head route; actual residency-pool logic exercised on CPU with a simulated memory probe, exact cached/uncached updates, cache budget/hits, no initial-state cache; not a CUDA residency claim |
 | Inference and cleanup | Exact CPU save/load, selected-team exports, legacy artifacts, rejected schema/scaler changes, finalization then reload/resume |
 | Native continuation | Independent processes for memory/statistics/combined, regular update and early-stop interruption; exact gradient/model/AdamW/scaler/RNG/metric/winner state, plus completed-checkpoint zero-update check; existing default GAT/CNN continuation suite also included |
-| UI | JSON and Python recipes, catalog/inventory and renderer controls/events including residency/finalization; bounded live-browser preparation, execution, export and report interaction verified; see browser-verification.md |
+| UI | JSON and Python recipes, catalog/inventory and renderer controls/events including residency/finalization; bounded live-browser preparation, execution, export and report interaction verified; CSV downloads match saved bytes exactly in inline/expanded views; see browser-verification.md and csv-verification.md |
 
 ## Reproduction
 
@@ -95,7 +100,7 @@ node --experimental-vm-modules --test tests/analytics/ui_cnn.mjs tests/analytics
 
 The parity worker extracts only the pinned Python package into test temporary
 directories. It never modifies the protected study source or artifacts. Runtime
- source remains fixed throughout checkpoint continuation tests.
+source remains fixed throughout checkpoint continuation tests.
 
 ## Remaining scope
 
@@ -103,4 +108,4 @@ Bounded deterministic CUDA parity/continuation, same-device export/reload and
 CPU-reload tolerance checks now pass for this integrated candidate. These are
 fresh receipts, separate from the original feature branch receipts. Bounded live-browser checks also pass, with the numeric-target form repair and limitations documented in browser-verification.md. No hosted
 CI or integrated large-fold benchmark claim is made. A new research selection/refit is unnecessary
-for these integration gates. Keep the integration branch unmerged and unpushed.
+for these integration gates. Keep the integration branch unmerged; branch pushes are authorized.

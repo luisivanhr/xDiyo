@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-16",
+  "base_commit": "c06ab2e3df12ac5eda8a6f8d019a8a1d90fe103e",
+  "browser": "Codex in-app browser",
+  "downloads": [
+    {
+      "view": "expanded",
+      "path": "C:\\Users\\luisi\\Downloads\\Accuracy and marginal uncertainty (1).csv",
+      "exact_bytes": true,
+      "bytes": 218,
+      "sha256": "7beac73224b333c844fd8de673d0c29c4548fe6afa5d44d6008b741ea34356dd",
+      "rows": 1,
+      "columns": [
+        "fold_id",
+        "target",
+        "family",
+        "n",
+        "missing",
+        "pinball",
+        "training_space_pinball",
+        "interval_label",
+        "interval_coverage"
+      ]
+    },
+    {
+      "view": "expanded-forecasts",
+      "path": "C:\\Users\\luisi\\Downloads\\post_statistics-forecasts-0.csv",
+      "exact_bytes": true,
+      "bytes": 1385,
+      "sha256": "95db420de0b91753a2fff6d4a2cc297dd09d5a1072d60060833bfd64b82ff416",
+      "rows": 7,
+      "columns": [
+        "fold_id",
+        "target",
+        "observed",
+        "quantile::0.25",
+        "quantile::0.5",
+        "quantile::0.75",
+        "median",
+        "interval_label",
+        "interval_lower",
+        "interval_upper"
+      ]
+    },
+    {
+      "view": "inline",
+      "path": "C:\\Users\\luisi\\Downloads\\Accuracy and marginal uncertainty (2).csv",
+      "exact_bytes": true,
+      "bytes": 218,
+      "sha256": "7beac73224b333c844fd8de673d0c29c4548fe6afa5d44d6008b741ea34356dd",
+      "rows": 1,
+      "columns": [
+        "fold_id",
+        "target",
+        "family",
+        "n",
+        "missing",
+        "pinball",
+        "training_space_pinball",
+        "interval_label",
+        "interval_coverage"
+      ]
+    }
+  ],
+  "console_errors": [],
+  "method": "Native UI clicks, completed download events, file reads, exact payload byte comparisons and parsed CSV row/column checks",
+  "sandbox": "allow-scripts allow-downloads (unchanged)",
+  "training_rerun": false,
+  "limitations": [
+    "Chrome completed-file validation was not repeated after the repair; its baseline data-URL and standalone Blob attempts did not complete in the managed session.",
+    "Previously exported standalone HTML retains its old embedded script; regenerate the report to receive the download handler."
+  ],
+  "tests": {
+    "python_passed": 33,
+    "renderer_passed": 35,
+    "failed": 0,
+    "skipped": 0
+  },
+  "hashes": {
+    "src/xdiyo_analytics/reporting/viewer.py": "a49a39ef80901de98ce2f6a112affcf91743572aa121ec6882d8d6ff2021e426",
+    "src/xdiyo_analytics/ui/static/app.js": "feeafa8cfde5fe44cf060cfeb1151a4e8f3c6aa39006382b02ebaef41b67a611",
+    "tests/analytics/report_csv_download.mjs": "a480f9764fa79505349b9c0af6deb5f174c592a24bc3bfea6dfc9edc50aa09ea",
+    "docs/analytics/gat_feature_integration/csv-tests.log": "b964906667e556cf96a06127b7a070b970d36ff7f2107592faa0353f6b412b22",
+    "docs/analytics/gat_feature_integration/csv-tests.xml": "8536f2035aa1b43ef337568842c1321961215ea9e5bb546a431a4b853599f424",
+    "docs/analytics/gat_feature_integration/csv-renderers.log": "a7f185fbff58d097b5239c8a4925d235300d6e141694f5c9498b0059ad263efc",
+    "docs/analytics/gat_feature_integration/csv-browser.jpg": "fb04602d1f0c468e35b7de7eeb95c139f235723061ebe70a65afe8217a9e0140"
+  }
+}

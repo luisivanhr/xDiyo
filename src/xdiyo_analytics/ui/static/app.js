@@ -70,8 +70,30 @@ const manual=(name,title,kind='value',defaultValue=null,extra={})=>({name,title,
 function table(data){const wrap=el('div',{class:'table-scroll'});const t=el('table'), head=el('tr');data.columns.forEach(c=>head.append(el('th',{},el('span',{text:c}))));t.append(el('thead',{},head));const body=el('tbody');for(const row of data.rows){const tr=el('tr');row.forEach(v=>tr.append(el('td',{text:v===null?'—':typeof v==='object'?JSON.stringify(v):v})));body.append(tr);}t.append(body);wrap.append(t);return wrap;}
 function showPreview(data){const view=el('div');for(const [name,value] of Object.entries(data)){if(value?.columns){const panel=section(name,`${value.count} rows · preview of the first ${value.rows.length}`,table(value));view.append(name==='metadata'?el('details',{class:'advanced'},el('summary',{text:'Fixture identifiers and context'}),panel):panel);}else if(name==='folds')view.append(section('Fold sizes','Counts refer to assembled dataset rows.',table({columns:['Fold','Train','Test','Score'],rows:value.map(v=>[v.fold,v.train,v.test,v.score])})));}return view;}
 function gridEditor(){const box=el('div');const grid=recipe.search.grid??={};const modelFields=tunableFields(recipe,spec);const draw=()=>{box.replaceChildren();for(const [key,values] of Object.entries(grid)){const field=modelFields.find(f=>f.name===key)||{kind:'number',title:key};const picker=valueEditor(key,next=>{if(next===key||Object.hasOwn(grid,next))return;delete grid[key];grid[next]=values;changed();draw();},{title:'Tuned parameter',choices:modelFields.filter(f=>['number','boolean','text','select'].includes(f.kind)&&!f.hidden).map(f=>({value:f.name,label:f.title}))});box.append(el('div',{class:'map-row'},el('div',{class:'inline'},picker,el('button',{text:'Remove',onclick:()=>{delete grid[key];changed();draw();}})),el('p',{class:'field-help',text:field.help}),listEditor(values,v=>{grid[key]=v;changed();},{item:{...field,default:field.default??1}})));}box.append(el('button',{text:'+ Add tuned parameter',onclick:()=>{const field=modelFields.find(f=>f.kind==='number'&&!Object.hasOwn(grid,f.name));if(field){grid[field.name]=[field.default??1];changed();draw();}}}));};draw();return box;}
+// Only a mounted report frame may request a CSV already in its supplied document.
+// Keep the opaque-origin sandbox and reject arbitrary URLs or substituted names.
+const reportCsvLinks=new WeakMap();
+function reportCsvDownload(event){
+ const data=event.data;
+ if(event.origin!=='null'||data?.type!=='xdiyo-csv-download'||typeof data.href!=='string'||typeof data.filename!=='string')return;
+ const frame=Array.from(document.querySelectorAll('iframe.report-frame')).find(f=>f.contentWindow===event.source);
+ if(!frame||!/^data:text\/csv;base64,[A-Za-z0-9+/]*={0,2}$/.test(data.href))return;
+ let links=reportCsvLinks.get(frame);
+ if(!links){
+  const doc=new DOMParser().parseFromString(frame.srcdoc,'text/html');
+  links=Array.from(doc.querySelectorAll('a.download[download]')).map(a=>[a.getAttribute('href'),a.getAttribute('download')]);
+  reportCsvLinks.set(frame,links);
+ }
+ if(!links.some(([href,name])=>href===data.href&&name===data.filename))return;
+ download(Uint8Array.from(atob(data.href.split(',')[1]),c=>c.charCodeAt(0)),data.filename,'text/csv;charset=utf-8');
+}
+window.addEventListener('message',reportCsvDownload);
 function showHtml(html){
- const frame=()=>el('iframe',{class:'report-frame',title:'Experiment report',sandbox:'allow-scripts allow-downloads',srcdoc:html});
+ const frame=()=>{
+  const item=el('iframe',{class:'report-frame',title:'Experiment report',sandbox:'allow-scripts allow-downloads',srcdoc:html});
+  item.addEventListener('load',()=>item.contentWindow?.postMessage({type:'xdiyo-csv-host'},'*'));
+  return item;
+ };
  const wrapper=el('div',{class:'report-view'}),embedded=frame();
  const expand=()=>{
   const dialog=el('dialog',{class:'report-dialog','aria-label':'Expanded experiment report'});

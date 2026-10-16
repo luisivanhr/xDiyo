@@ -87,6 +87,27 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere}.notes{font-size:13px}footer{col
 
 
 JS = r"""
+// Sandboxed embedded reports can ask the native builder to save their CSV.
+// Other hosts keep the standalone Blob path; no sandbox permission is relaxed.
+let csvDownloadHost=null;
+window.addEventListener('message',event=>{
+  if(event.source===window.parent && event.data?.type==='xdiyo-csv-host')csvDownloadHost=event.source;
+});
+// Materialize CSV bytes only on click; retain href as an offline fallback.
+document.querySelectorAll('a.download[download][href^="data:text/csv;base64,"]').forEach(link=>link.addEventListener('click',event=>{
+  if(csvDownloadHost){
+    event.preventDefault();
+    csvDownloadHost.postMessage({type:'xdiyo-csv-download',href:link.getAttribute('href'),filename:link.download},'*');
+    return;
+  }
+  const raw=atob(link.getAttribute('href').split(',')[1]);
+  const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:'text/csv;charset=utf-8'}));
+  event.preventDefault();
+  const anchor=document.createElement('a');anchor.href=url;anchor.download=link.download;
+  document.body.appendChild(anchor);anchor.click();anchor.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}));
 function visiblePlots(){
   document.querySelectorAll('.rating-view').forEach(el=>{if(!el.closest('details:not([open]), [hidden]')&&el.getClientRects().length)initializeRatings(el);});
   document.querySelectorAll('.spatial-view').forEach(el=>{if(!el.closest('details:not([open]), [hidden]')&&el.getClientRects().length)initializeSpatial(el);else if(el.spatialDispose)el.spatialDispose();});

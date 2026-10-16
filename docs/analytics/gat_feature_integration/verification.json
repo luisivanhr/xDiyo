@@ -18,7 +18,8 @@
     "ui-renderers.log": "7a0d9b5c1460752d48bf9ad4095f40c4defd081f5e001576ff5f829ee442a6fd",
     "environment.json": "55ea14dcda92dd4d6c652d8592557fc8c51310a459c52f737b40d686dfeef683",
     "cuda-verification.json": "2d99c782608fb81736f81d024d6db21d5906c03c100e2ffb8c2ba71ba50350f3",
-    "browser-verification.json": "eb30b1a5ecb0294dc835b2e32575db9a9815140497b74b58e50149b3d59b9ab4"
+    "browser-verification.json": "eb30b1a5ecb0294dc835b2e32575db9a9815140497b74b58e50149b3d59b9ab4",
+    "csv-verification.json": "3d93a3712c91607f247e6ecde802bed5eb8de7b187a34bfc0df1552d63ff051c"
   },
   "cuda": {
     "passed": 56,
@@ -37,6 +38,7 @@
   "browser": {
     "detail": "browser-verification.json",
     "scope": "bounded synthetic one-fold CPU workflow",
-    "csv_download_verified": false
+    "csv_download_verified": true,
+    "csv_detail": "csv-verification.json"
   }
 }

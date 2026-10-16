@@ -31,7 +31,9 @@ node --experimental-vm-modules --test tests/analytics/ui_cnn.mjs tests/analytics
 
 ## Limits
 
-The CSV link contains a populated data URL, but clicking it did not produce a download event or saved file in the in-app browser. CSV download is therefore unverified. This bounded check used one fold and PCA; it does not establish multi-fold interaction, tSNE, real badge coverage, SVG export or hosted CI. Earlier exact CUDA parity/continuation evidence remains scoped to its recorded runtime; this UI-only fix does not warrant another GPU run. The branch remains unmerged and unpushed.
+Update: the CSV issue recorded below was subsequently fixed and verified end to end in `csv-verification.md`. The original observation is retained as baseline evidence. The branch has since been pushed and remains unmerged.
+
+The CSV link contains a populated data URL, but clicking it did not produce a download event or saved file in the in-app browser. CSV download is therefore unverified. This bounded check used one fold and PCA; it does not establish multi-fold interaction, tSNE, real badge coverage, SVG export or hosted CI. Earlier exact CUDA parity/continuation evidence remains scoped to its recorded runtime; this UI-only fix does not warrant another GPU run. At the time of this original receipt, the branch was unmerged and unpushed.
 
 ![Populated attention view](browser-attention.jpg)
 ![Numeric statistics forecast](browser-statistics.jpg)
