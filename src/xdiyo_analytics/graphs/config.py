@@ -12,6 +12,33 @@ MATCH_KEYS = ("competition_id", "season_id", "event_id")
 
 
 @dataclass(frozen=True)
+class GraphExecution:
+    """Explicit experimental execution policy, independent of graph architecture.
+
+    Dependency modes preserve complete incoming neighborhoods of every required
+    receiver. Packing changes floating-point reductions and is not bitwise
+    equivalent to native execution. Budgets limit admission estimates for
+    optimized preparation and packing, not process RSS or allocator usage.
+    Native fallback retains native memory requirements and can exceed these
+    admission budgets. They do not reserve memory; unchanged peak memory needs
+    separate measured evidence for the workload and runtime.
+    """
+    mode: str = "dependency_packed"
+    host_memory_bytes: int = 128 * 1024**2
+    device_memory_bytes: int = 256 * 1024**2
+    max_graphs: int = 8
+    headroom_bytes: int = 1024**3
+
+    def __post_init__(self):
+        if self.mode not in ("native", "dependency", "dependency_lean", "dependency_packed"):
+            raise ValueError("Graph execution mode must be native, dependency, dependency_lean or dependency_packed.")
+        for name in ("host_memory_bytes", "device_memory_bytes", "max_graphs", "headroom_bytes"):
+            value = getattr(self, name)
+            if type(value) is not int or value < 1:
+                raise ValueError(f"{name} must be a positive integer.")
+
+
+@dataclass(frozen=True)
 class TemporalGraphConfig:
     timezone: str
     forecast_policy: str = "by_round"
@@ -33,9 +60,10 @@ class TemporalGraphConfig:
     deterministic: bool = False
     boundary_memory: BoundaryMemory | None = None
     statistics_forecast: StatisticsForecast | None = None
+    execution: GraphExecution | None = None
 
     def __post_init__(self):
-        for name, cls in (("boundary_memory", BoundaryMemory), ("statistics_forecast", StatisticsForecast)):
+        for name, cls in (("boundary_memory", BoundaryMemory), ("statistics_forecast", StatisticsForecast), ("execution", GraphExecution)):
             if getattr(self, name) is not None and not isinstance(getattr(self, name), cls):
                 raise TypeError(f"{name} must be {cls.__name__} or None.")
         if type(self.deterministic) is not bool:

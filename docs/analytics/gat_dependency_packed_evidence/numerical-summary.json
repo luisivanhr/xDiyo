@@ -1,0 +1,504 @@
+{
+  "plain-final-comparison": {
+    "comparison_file": "plain-final-comparison.json",
+    "fixed_weights": {
+      "logits": {
+        "max_absolute": 1.6689300537109375E-06,
+        "relative_l2": 1.6897771065962598E-07
+      },
+      "probabilities": {
+        "max_absolute": 3.5762786865234375E-07,
+        "relative_l2": 1.2357630199192156E-07
+      },
+      "quantiles": {
+        "max_absolute": 1.52587890625E-05,
+        "relative_l2": 2.1645812520361364E-08
+      }
+    },
+    "initial_loss_differences": {
+      "train": {
+        "outcome": {
+          "absolute": 4.147295840084553E-10,
+          "relative": 2.8895758178919753E-10
+        },
+        "statistics": {
+          "absolute": 4.3655745685100555E-09,
+          "relative": 1.6889791575174586E-09
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 3.9508449845016E-09,
+          "relative": 9.827964817095613E-10
+        }
+      },
+      "validation": {
+        "outcome": {
+          "absolute": 1.7491402104496956E-08,
+          "relative": 1.244800159646395E-08
+        },
+        "statistics": {
+          "absolute": 3.294553607702255E-08,
+          "relative": 1.2757730852011958E-08
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 5.043693818151951E-08,
+          "relative": 1.2648586691625577E-08
+        }
+      }
+    },
+    "post_update_loss_differences": {
+      "train_loss": {
+        "native": 1.3482557823735988,
+        "candidate": 1.3482557816896588,
+        "absolute": 6.83940015733242E-10,
+        "relative": 5.072776432148271E-10
+      },
+      "train_statistics_loss": {
+        "native": 2.58385417208774,
+        "candidate": 2.5838541893754154,
+        "absolute": 1.728767529129982E-08,
+        "relative": 6.690654402268946E-09
+      },
+      "train_objective": {
+        "native": 3.9321109755341013,
+        "candidate": 3.9321109921378365,
+        "absolute": 1.6603735275566578E-08,
+        "relative": 4.2226008825478996E-09
+      },
+      "validation_loss": {
+        "native": 1.3501305670943111,
+        "candidate": 1.3501305701211095,
+        "absolute": 3.026798367500305E-09,
+        "relative": 2.241856040645344E-09
+      },
+      "validation_statistics_loss": {
+        "native": 2.5812843833118677,
+        "candidate": 2.5812844950705767,
+        "absolute": 1.1175870895385742E-07,
+        "relative": 4.3295775419548135E-08
+      },
+      "validation_objective": {
+        "native": 3.931414950406179,
+        "candidate": 3.931415065191686,
+        "absolute": 1.1478550732135773E-07,
+        "relative": 2.9196996188229513E-08
+      }
+    },
+    "gradients": {
+      "max_absolute": 1.6689300537109375E-06,
+      "relative_l2": 4.0863049608548217E-07,
+      "near_zero_sign_flips": 0
+    },
+    "parameters": {
+      "max_absolute": 3.427267074584961E-07,
+      "relative_l2": 2.9954746337248435E-08,
+      "near_zero_sign_flips": 0
+    },
+    "adamw": {
+      "exp_avg": {
+        "max_absolute": 1.6391277313232422E-07,
+        "relative_l2": 4.108748192273869E-07
+      },
+      "exp_avg_sq": {
+        "max_absolute": 4.307366907596588E-09,
+        "relative_l2": 8.309970294484539E-07
+      },
+      "step": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "provenance": {
+      "input_hashes_match": true,
+      "initial_weights_exact": true,
+      "differing_source_files": [],
+      "harness_hashes_match": true,
+      "baseline_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-native-reverse\\receipt.json",
+      "candidate_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-packed-final\\receipt.json"
+    }
+  },
+  "bayes-final-comparison": {
+    "comparison_file": "bayes-final-comparison.json",
+    "fixed_weights": {
+      "logits": {
+        "max_absolute": 7.152557373046875E-07,
+        "relative_l2": 1.7392957612958145E-07
+      },
+      "probabilities": {
+        "max_absolute": 2.980232238769531E-07,
+        "relative_l2": 1.252105555161312E-07
+      },
+      "quantiles": {
+        "max_absolute": 1.52587890625E-05,
+        "relative_l2": 2.365590009136848E-08
+      }
+    },
+    "initial_loss_differences": {
+      "train": {
+        "outcome": {
+          "absolute": 8.149072527885437E-10,
+          "relative": 4.718061502348274E-10
+        },
+        "statistics": {
+          "absolute": 3.585591912269592E-08,
+          "relative": 1.3878821900193614E-08
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 3.6670826375484467E-08,
+          "relative": 8.506916805951658E-09
+        }
+      },
+      "validation": {
+        "outcome": {
+          "absolute": 2.7939677238464355E-09,
+          "relative": 1.5481225511955523E-09
+        },
+        "statistics": {
+          "absolute": 1.0454095900058746E-07,
+          "relative": 4.049074788967319E-08
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 1.073349267244339E-07,
+          "relative": 2.4468854255572907E-08
+        }
+      }
+    },
+    "post_update_loss_differences": {
+      "train_loss": {
+        "native": 1.0834958569903392,
+        "candidate": 1.0834958612103947,
+        "absolute": 4.220055416226387E-09,
+        "relative": 3.894851456053158E-09
+      },
+      "train_statistics_loss": {
+        "native": 2.582378311548382,
+        "candidate": 2.582378358580172,
+        "absolute": 4.7031790018081665E-08,
+        "relative": 1.8212587136344723E-08
+      },
+      "train_objective": {
+        "native": 3.665875174999769,
+        "candidate": 3.6658752262516145,
+        "absolute": 5.125184543430805E-08,
+        "relative": 1.3980793940784216E-08
+      },
+      "validation_loss": {
+        "native": 1.078502435295377,
+        "candidate": 1.0785024501383305,
+        "absolute": 1.4842953532934189E-08,
+        "relative": 1.37625591256723E-08
+      },
+      "validation_statistics_loss": {
+        "native": 2.5804970039753243,
+        "candidate": 2.5804970264434814,
+        "absolute": 2.246815711259842E-08,
+        "relative": 8.706910753233049E-09
+      },
+      "validation_objective": {
+        "native": 3.6589994392707013,
+        "candidate": 3.658999476581812,
+        "absolute": 3.731111064553261E-08,
+        "relative": 1.0197080175822417E-08
+      }
+    },
+    "gradients": {
+      "max_absolute": 1.6689300537109375E-06,
+      "relative_l2": 4.038379667552547E-07,
+      "near_zero_sign_flips": 0
+    },
+    "parameters": {
+      "max_absolute": 1.3168901205062866E-06,
+      "relative_l2": 7.108951622219354E-08,
+      "near_zero_sign_flips": 0
+    },
+    "adamw": {
+      "exp_avg": {
+        "max_absolute": 1.6391277313232422E-07,
+        "relative_l2": 4.0451010178296084E-07
+      },
+      "exp_avg_sq": {
+        "max_absolute": 5.820766091346741E-09,
+        "relative_l2": 8.479145030447576E-07
+      },
+      "step": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "provenance": {
+      "input_hashes_match": true,
+      "initial_weights_exact": true,
+      "differing_source_files": [
+        "src\\xdiyo_analytics\\graphs\\packing.py"
+      ],
+      "harness_hashes_match": true,
+      "baseline_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\bayes-native\\receipt.json",
+      "candidate_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\bayes-packed-final\\receipt.json"
+    }
+  },
+  "lean-isolation-comparison": {
+    "comparison_file": "lean-isolation-comparison.json",
+    "fixed_weights": {
+      "logits": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      },
+      "probabilities": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      },
+      "quantiles": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "initial_loss_differences": {
+      "train": {
+        "outcome": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "statistics": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "validation": {
+        "outcome": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "statistics": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      }
+    },
+    "post_update_loss_differences": {
+      "train_loss": {
+        "native": 1.348255781660555,
+        "candidate": 1.348255781660555,
+        "absolute": 0.0,
+        "relative": 0.0
+      },
+      "train_statistics_loss": {
+        "native": 2.583854172786232,
+        "candidate": 2.583854172786232,
+        "absolute": 0.0,
+        "relative": 0.0
+      },
+      "train_objective": {
+        "native": 3.9321109755195494,
+        "candidate": 3.9321109755195494,
+        "absolute": 0.0,
+        "relative": 0.0
+      },
+      "validation_loss": {
+        "native": 1.3501305647660047,
+        "candidate": 1.3501305647660047,
+        "absolute": 0.0,
+        "relative": 0.0
+      },
+      "validation_statistics_loss": {
+        "native": 2.581284381682053,
+        "candidate": 2.581284381682053,
+        "absolute": 0.0,
+        "relative": 0.0
+      },
+      "validation_objective": {
+        "native": 3.931414946448058,
+        "candidate": 3.931414946448058,
+        "absolute": 0.0,
+        "relative": 0.0
+      }
+    },
+    "gradients": {
+      "max_absolute": 0.0,
+      "relative_l2": 0.0,
+      "near_zero_sign_flips": 0
+    },
+    "parameters": {
+      "max_absolute": 0.0,
+      "relative_l2": 0.0,
+      "near_zero_sign_flips": 0
+    },
+    "adamw": {
+      "exp_avg": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      },
+      "exp_avg_sq": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      },
+      "step": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "provenance": {
+      "input_hashes_match": true,
+      "initial_weights_exact": true,
+      "differing_source_files": [],
+      "harness_hashes_match": true,
+      "baseline_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-dependency\\receipt.json",
+      "candidate_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-lean\\receipt.json"
+    }
+  },
+  "packing-isolation-comparison": {
+    "comparison_file": "packing-isolation-comparison.json",
+    "fixed_weights": {
+      "logits": {
+        "max_absolute": 1.6689300537109375E-06,
+        "relative_l2": 1.672511384805875E-07
+      },
+      "probabilities": {
+        "max_absolute": 3.5762786865234375E-07,
+        "relative_l2": 1.222656914784989E-07
+      },
+      "quantiles": {
+        "max_absolute": 1.52587890625E-05,
+        "relative_l2": 2.21616059865912E-08
+      }
+    },
+    "initial_loss_differences": {
+      "train": {
+        "outcome": {
+          "absolute": 4.591129254549742E-09,
+          "relative": 3.198811113562298E-09
+        },
+        "statistics": {
+          "absolute": 3.899913281202316E-09,
+          "relative": 1.5088213809874222E-09
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 8.491042535752058E-09,
+          "relative": 2.112197961067626E-09
+        }
+      },
+      "validation": {
+        "outcome": {
+          "absolute": 1.6851117834448814E-08,
+          "relative": 1.1992334322191016E-08
+        },
+        "statistics": {
+          "absolute": 3.7602148950099945E-08,
+          "relative": 1.4560943667029253E-08
+        },
+        "prior_penalty": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "objective": {
+          "absolute": 5.445326678454876E-08,
+          "relative": 1.3655802467510205E-08
+        }
+      }
+    },
+    "post_update_loss_differences": {
+      "train_loss": {
+        "native": 1.348255781660555,
+        "candidate": 1.3482557816896588,
+        "absolute": 2.9103830456733704E-11,
+        "relative": 2.158628270140885E-11
+      },
+      "train_statistics_loss": {
+        "native": 2.583854172786232,
+        "candidate": 2.5838541893754154,
+        "absolute": 1.658918336033821E-08,
+        "relative": 6.420324929734597E-09
+      },
+      "train_objective": {
+        "native": 3.9321109755195494,
+        "candidate": 3.9321109921378365,
+        "absolute": 1.6618287190794945E-08,
+        "relative": 4.226301672118797E-09
+      },
+      "validation_loss": {
+        "native": 1.3501305647660047,
+        "candidate": 1.3501305701211095,
+        "absolute": 5.3551048040390015E-09,
+        "relative": 3.966360694135616E-09
+      },
+      "validation_statistics_loss": {
+        "native": 2.581284381682053,
+        "candidate": 2.5812844950705767,
+        "absolute": 1.1338852345943451E-07,
+        "relative": 4.392717217215202E-08
+      },
+      "validation_objective": {
+        "native": 3.931414946448058,
+        "candidate": 3.931415065191686,
+        "absolute": 1.1874362826347351E-07,
+        "relative": 3.020378919064639E-08
+      }
+    },
+    "gradients": {
+      "max_absolute": 1.6689300537109375E-06,
+      "relative_l2": 4.0951933343513225E-07,
+      "near_zero_sign_flips": 0
+    },
+    "parameters": {
+      "max_absolute": 1.3243407011032104E-06,
+      "relative_l2": 7.765317245133302E-08,
+      "near_zero_sign_flips": 0
+    },
+    "adamw": {
+      "exp_avg": {
+        "max_absolute": 1.6391277313232422E-07,
+        "relative_l2": 4.10459522576107E-07
+      },
+      "exp_avg_sq": {
+        "max_absolute": 4.307366907596588E-09,
+        "relative_l2": 8.35160471438568E-07
+      },
+      "step": {
+        "max_absolute": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "provenance": {
+      "input_hashes_match": true,
+      "initial_weights_exact": true,
+      "differing_source_files": [],
+      "harness_hashes_match": true,
+      "baseline_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-lean\\receipt.json",
+      "candidate_receipt": "C:\\Users\\luisi\\.codex\\visualizations\\2026\\10\\16\\01a1447b-c10f-7ea2-a7b5-823976fc09c2\\gat-dependency-packed-evidence-20261017\\plain-packed-final\\receipt.json"
+    }
+  }
+}

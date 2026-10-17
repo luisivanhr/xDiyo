@@ -9,7 +9,7 @@ import torch
 from test_graph_preparation_memory import assert_exact
 
 
-@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback', 'cnn_classification', 'cnn_regression'])
 def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind):
     worker = Path(__file__).with_name('native_resume_worker.py')
     env = dict(os.environ, CUDA_VISIBLE_DEVICES='-1', PYTHONDONTWRITEBYTECODE='1')
@@ -18,6 +18,12 @@ def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind)
         assert run.returncode == code, run.stdout+run.stderr
     load = lambda name: torch.load(tmp_path/name, map_location='cpu', weights_only=True)
     reference, resumed = load('reference.pt'), load('resumed.pt')
+    if kind in ('gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'):
+        active = load('prefix-control.pt')
+        assert active['stale'] > 0 and active['best_step'] >= 1
+        assert active['schedule_stale'] == 0  # Patience-one scheduler already fired.
+        trace = reference['updates'][0]['execution_trace']
+        assert trace['fallback_groups'] == (trace['groups'] if kind == 'gat_dependency_fallback' else 0)
     assert_exact(reference['updates'], load('prefix.pt')+resumed['updates'])
     assert_exact(reference['backend'], resumed['backend'])
     assert_exact(reference['rng'], resumed['rng'])
@@ -27,6 +33,33 @@ def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind)
     assert run.returncode == 0, run.stdout+run.stderr
     assert not load('completed.pt')['updates']
     assert_exact(reference['backend'], load('completed.pt')['backend'])
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'completed.json').read_bytes()
+
+
+@pytest.mark.parametrize('execution_mode', ['native', 'dependency', 'dependency_lean'])
+def test_all_graph_execution_ablations_cold_resume_74_targets_and_ratings(tmp_path, execution_mode):
+    """Each UI ablation must preserve its own exact resumed trajectory."""
+    worker = Path(__file__).with_name('native_resume_worker.py')
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES='-1', PYTHONDONTWRITEBYTECODE='1',
+        XDIYO_RESUME_DEVICE='cpu', XDIYO_RESUME_CACHE='0', XDIYO_RESUME_BOUNDARY='',
+        XDIYO_RESUME_EXECUTION_MODE=execution_mode)
+    for mode, code in [('reference', 0), ('interrupt', 73), ('resumed', 0), ('completed', 0)]:
+        run = subprocess.run([sys.executable, str(worker), str(tmp_path),
+            'gat_dependency_statistics', mode], env=env, capture_output=True, text=True)
+        assert run.returncode == code, run.stdout+run.stderr
+    load = lambda name: torch.load(tmp_path/name, map_location='cpu', weights_only=True)
+    reference, resumed, completed = load('reference.pt'), load('resumed.pt'), load('completed.pt')
+    assert_exact(reference['updates'], load('prefix.pt')+resumed['updates'])
+    for key in ('backend', 'rng'):
+        assert_exact(reference[key], resumed[key])
+    assert_exact(reference['backend'], completed['backend'])
+    assert not completed['updates']
+    control = load('prefix-control.pt')
+    assert control['stale'] > 0 and control['best_step'] >= 1
+    assert control['schedule_stale'] == 0
+    assert reference['updates'][0]['execution_trace']['requested_mode'] == execution_mode
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'resumed.json').read_bytes()
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'completed.json').read_bytes()
 
 
 @pytest.mark.parametrize('kind', ['gat', 'cnn_classification', 'cnn_regression'])
@@ -94,6 +127,31 @@ def test_checkpoint_rejects_changed_context_profile_and_corruption(tmp_path):
         read_checkpoint(path)
 
 
+@pytest.mark.parametrize('change', [
+    {'mode': 'dependency_lean'}, {'host_memory_bytes': 128*1024**2+1},
+    {'device_memory_bytes': 256*1024**2+1}, {'max_graphs': 1}, {'headroom_bytes': 1024**3+1}])
+def test_dependency_real_training_checkpoint_rejects_execution_changes(tmp_path, change):
+    from dataclasses import replace
+    from graph_execution_fixture import execution_fixture
+    from xdiyo_analytics.graphs import TemporalGraphAdapter
+    from xdiyo_analytics.training import TrainingControl, CheckpointPolicy
+    from xdiyo_analytics.training.native_resume import read_checkpoint
+    torch.set_num_threads(1)
+    adapter, train, _ = execution_fixture(statistics=False)
+    control = TrainingControl(max_steps=1)
+    CheckpointPolicy().wrap(lambda: adapter, tmp_path/'runs', 'execution')().fit_controlled(train, control)
+    path = Path(adapter.training_checkpoint_)
+    _, manifest = read_checkpoint(path)
+    assert manifest['profile']['graph_execution']['mode'] == 'dependency_packed'
+    changed = replace(adapter.config, execution=replace(adapter.config.execution, **change))
+    replacement = TemporalGraphAdapter(changed, adapter.event_store)
+    writes = []
+    with pytest.raises(ValueError, match='fingerprint|execution profile'):
+        replacement.fit_resumable(train, control=control, checkpoint=path,
+                                  save_checkpoint=lambda writer: writes.append(writer))
+    assert not writes
+
+
 def test_finalization_ui_recipe_roundtrip_and_stale_weights_rejected(tmp_path):
     from xdiyo_analytics.ui.recipe import catalog_for_ui
     from xdiyo_analytics.training import CheckpointPolicy, TrainingControl
@@ -125,6 +183,29 @@ def test_thinned_offers_do_not_capture_optimizer_buffers(tmp_path, monkeypatch):
     monkeypatch.setattr(loop, 'capture_backend', recorded)
     CheckpointPolicy(every=100).wrap(lambda: adapter, tmp_path/'runs', 'thin')().fit_controlled(train, TrainingControl(max_steps=3))
     assert calls == [1]  # Only the selected backend at mandatory final publication.
+
+
+@pytest.mark.skipif(os.environ.get('XDIYO_CUDA_CHECKS') != '1', reason='Explicit free-GPU gate required')
+@pytest.mark.parametrize('kind', ['gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'])
+def test_cuda_dependency_cold_process_resume(tmp_path, kind):
+    """Fresh CUDA processes preserve the opted-in plan, AdamW and patience."""
+    worker = Path(__file__).with_name('native_resume_worker.py')
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES='0', CUBLAS_WORKSPACE_CONFIG=':4096:8',
+               XDIYO_RESUME_DEVICE='cuda:0', XDIYO_RESUME_CACHE='0', PYTHONDONTWRITEBYTECODE='1')
+    for mode, code in [('reference', 0), ('interrupt', 73), ('resumed', 0), ('completed', 0)]:
+        run = subprocess.run([sys.executable, str(worker), str(tmp_path), kind, mode], env=env, capture_output=True, text=True)
+        assert run.returncode == code, run.stdout+run.stderr
+    load = lambda name: torch.load(tmp_path/name, map_location='cpu', weights_only=True)
+    reference, resumed, completed = load('reference.pt'), load('resumed.pt'), load('completed.pt')
+    active = load('prefix-control.pt')
+    assert active['stale'] > 0 and active['best_step'] >= 1
+    assert_exact(reference['updates'], load('prefix.pt')+resumed['updates'])
+    for key in ('backend', 'rng'):
+        assert_exact(reference[key], resumed[key])
+    assert_exact(reference['backend'], completed['backend'])
+    assert not completed['updates']
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'resumed.json').read_bytes()
+    assert (tmp_path/'reference.json').read_bytes() == (tmp_path/'completed.json').read_bytes()
 
 
 @pytest.mark.skipif(os.environ.get('XDIYO_CUDA_CHECKS') != '1', reason='Explicit free-GPU gate required')

@@ -1,0 +1,29 @@
+{
+  "source_files": {
+    "C:\\Users\\luisi\\Documents\\Codex\\2026-10-16\\gat-speed-readonly-audit\\full-baseline-state.pt": "915b230cdf310a4d594c258d856959d5c68e7561eb34adc916065a7cd4e760ef",
+    "C:\\Users\\luisi\\Documents\\Codex\\2026-10-16\\gat-speed-readonly-audit\\full-candidate-state.pt": "d0d208a06eda2f801b458a000ff29764bb2105ce52617e66f95c1544ec82d027"
+  },
+  "tensor": "layers.1.u.weight",
+  "flat_index": 7380,
+  "native_gradient": 3.302396578419575e-08,
+  "candidate_gradient": -5.8954405801614485e-08,
+  "absolute_gradient_difference": 9.197837158581024e-08,
+  "gradient_sign_changed": true,
+  "native_parameter": 0.027439625933766365,
+  "candidate_parameter": 0.029062174260616302,
+  "observed_parameter_difference": 0.0016225483268499374,
+  "learning_rate": 0.001,
+  "epsilon": 1e-08,
+  "weight_decay": 0.001,
+  "native_first_step_gradient_update": -0.0007675714031068387,
+  "candidate_first_step_gradient_update": 0.0008549766344333307,
+  "formula_parameter_difference": 0.0016225480375401695,
+  "formula_absolute_residual": 2.893097679826373e-10,
+  "reconstructed_initial_parameter_difference": 2.8931005854881953e-10,
+  "notes": [
+    "Original files read only, unchanged before/after hashes.",
+    "First-step AdamW gradient term is -lr*g/(abs(g)+eps); equal initial decay cancels in the cross-mode difference.",
+    "This identifies amplification of a near-zero sign change; it does not establish full-training interchangeability.",
+    "No model or optimizer setting changed."
+  ]
+}

@@ -129,8 +129,8 @@ def catalog_for_ui():
     from ..graphs import GraphHeatmaps
     from ..neural import HeatmapCNNModel, HeatmapCNNConfig, Reconstruction, HeatmapCNNSerializer
     catalog.register('graphs.GraphHeatmaps', GraphHeatmaps, category='graph_config')
-    from ..graphs import BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast
-    for cls in (BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast):
+    from ..graphs import BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast, GraphExecution
+    for cls in (BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast, GraphExecution):
         catalog.register('graphs.' + cls.__name__, cls, category='graph_config')
     catalog.register('neural.HeatmapCNNModel', HeatmapCNNModel, category='model', title='Heatmap CNN')
     catalog.register('neural.HeatmapCNNConfig', HeatmapCNNConfig, category='neural_config')

@@ -18220,6 +18220,20 @@
             "graphs.StatisticsForecast"
           ],
           "initial_component": "graphs.StatisticsForecast"
+        },
+        {
+          "name": "execution",
+          "title": "Execution",
+          "required": false,
+          "kind": "component",
+          "annotation": "xdiyo_analytics.graphs.config.GraphExecution | None",
+          "default": null,
+          "help": "Optional experimental GAT execution. Disabled keeps native execution. Complete required incoming neighborhoods and mathematical objectives are preserved. Floating-point differences can change gradients, optimization trajectories and checkpoint selection; numerical interchangeability is unvalidated. No training or validation passes are skipped. Changing the saved mode or budgets invalidates training resume.",
+          "primary": true,
+          "components": [
+            "graphs.GraphExecution"
+          ],
+          "initial_component": "graphs.GraphExecution"
         }
       ],
       "accepts_extra": false
@@ -19097,6 +19111,79 @@
           "choices": [
             "quantile"
           ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.GraphExecution": {
+      "id": "graphs.GraphExecution",
+      "title": "GraphExecution",
+      "category": "graph_config",
+      "description": "Explicit experimental execution policy, independent of graph architecture.\n\nDependency modes preserve complete incoming neighborhoods of every required\nreceiver. Packing changes floating-point reductions and is not bitwise\nequivalent to native execution. Budgets limit admission estimates for\noptimized preparation and packing, not process RSS or allocator usage.\nNative fallback retains native memory requirements and can exceed these\nadmission budgets. They do not reserve memory; unchanged peak memory needs\nseparate measured evidence for the workload and runtime.",
+      "fields": [
+        {
+          "name": "mode",
+          "title": "Mode",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "dependency_packed",
+          "help": "Experimental execution ablation: native uses the original full graphs; dependency limits work to complete prediction dependency cones; dependency_lean also prepares only required inputs; dependency_packed also packs bounded disjoint graphs. Numerical results can differ in floating-point rounding. Keep native for bitwise legacy comparisons.",
+          "primary": true,
+          "choices": [
+            "native",
+            "dependency",
+            "dependency_lean",
+            "dependency_packed"
+          ]
+        },
+        {
+          "name": "host_memory_bytes",
+          "title": "Host memory bytes",
+          "required": false,
+          "kind": "number",
+          "annotation": "'int'",
+          "default": 134217728,
+          "help": "Positive byte budget for admission estimates of optimized dependency preparation and packing. Native fallback retains native memory requirements and may exceed this budget. This is not a hard process/RSS cap or a memory reservation; unchanged peak memory requires measured workload evidence. Default 134217728 bytes (128 MiB).",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "device_memory_bytes",
+          "title": "Device memory bytes",
+          "required": false,
+          "kind": "number",
+          "annotation": "'int'",
+          "default": 268435456,
+          "help": "Positive byte budget for admission estimates of optimized device workspace. Native fallback retains native requirements and may exceed this budget; allocator and third-party usage are not hard-capped. Unchanged peak memory requires measured workload evidence. Default 268435456 bytes (256 MiB).",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "max_graphs",
+          "title": "Max graphs",
+          "required": false,
+          "kind": "number",
+          "annotation": "'int'",
+          "default": 8,
+          "help": "Maximum disjoint issuance graphs per packed group. Set 1 to disable multi-graph packing while retaining the selected dependency preparation path.",
+          "step": 1,
+          "primary": true,
+          "min": 1
+        },
+        {
+          "name": "headroom_bytes",
+          "title": "Headroom bytes",
+          "required": false,
+          "kind": "number",
+          "annotation": "'int'",
+          "default": 1073741824,
+          "help": "Minimum free memory headroom in bytes required by execution planning. Default 1073741824 bytes (1 GiB). Budgets do not authorize exceeding available memory.",
+          "step": 1,
+          "primary": true,
+          "min": 1
         }
       ],
       "accepts_extra": false

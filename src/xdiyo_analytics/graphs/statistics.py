@@ -25,7 +25,7 @@ def labels(store, metadata, config, known_at):
         wanted = pd.MultiIndex.from_tuples([(*row, side) for row in requested], names=keys)
         loc = row_lookup.reindex(wanted)
         positions = loc.fillna(0).to_numpy(dtype=int)
-        valid = loc.notna().to_numpy()
+        valid = loc.notna().to_numpy(copy=True)
         valid &= store._finished[positions] & (store._available_ns[positions] != np.iinfo(np.int64).min) & (store._available_ns[positions] <= pd.Timestamp(known_at).value)
         sides[side] = (positions, valid)
     output = []

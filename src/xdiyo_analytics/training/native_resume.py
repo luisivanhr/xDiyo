@@ -56,7 +56,7 @@ def execution_profile(adapter):
     from dataclasses import asdict
     from .residency import InputCachePolicy
     device = str(adapter.device)
-    return dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
+    profile = dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
                 torch_build=hashlib.sha256(torch.__config__.show().encode()).hexdigest(),
                 platform=platform.platform(), device=device, threads=torch.get_num_threads(),
                 interop_threads=torch.get_num_interop_threads(),
@@ -71,6 +71,12 @@ def execution_profile(adapter):
                 cuda_build=torch.version.cuda,
                 gpu=torch.cuda.get_device_name(device) if device.startswith('cuda') else None,
                 capability=list(torch.cuda.get_device_capability(device)) if device.startswith('cuda') else None)
+    from ..graphs.config import TemporalGraphConfig
+    config = getattr(adapter, 'config', None)
+    if isinstance(config, TemporalGraphConfig):
+        # None is the legacy native policy, not an implicit opt-in to new modes.
+        profile['graph_execution'] = None if config.execution is None else asdict(config.execution)
+    return profile
 
 
 def _preprocessing(backend):
@@ -85,6 +91,10 @@ def capture_backend(backend):
                 preprocessing=_preprocessing(backend), training=backend.model.training)
     if hasattr(backend, 'statistics_scale'):
         state['statistics_scale'] = deepcopy(backend.statistics_scale.state())
+    if getattr(getattr(backend, 'config', None), 'execution', None) is not None:
+        reports = getattr(backend, '_execution_reports', {})
+        state['graph_execution_reports'] = {name: deepcopy(reports[name])
+            for name in ('train', 'validation', 'train_replay') if name in reports}
     return state
 
 
@@ -102,6 +112,10 @@ def restore_backend(backend, state):
     for parameter, gradient in zip(parameters, state['gradients']):
         parameter.grad = None if gradient is None else gradient.to(device=parameter.device, dtype=parameter.dtype).clone()
     backend.model.train(state['training'])
+    if getattr(getattr(backend, 'config', None), 'execution', None) is not None:
+        reports = state.get('graph_execution_reports', {})
+        backend._execution_reports = {name: deepcopy(reports[name])
+            for name in ('train', 'validation', 'train_replay') if name in reports}
 
 
 def _checkpoint_primitives(value):

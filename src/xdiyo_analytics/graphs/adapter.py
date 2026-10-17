@@ -98,6 +98,10 @@ class TemporalGraphAdapter:
         prepare_determinism(self.config, self.device)
         self.configure_threads(self.inner_threads)
         self.control = control or self.control
+        from .packed_execution import fallback_reason
+        if fallback_reason(self) is None and context.validation is not None:
+            if self.control.monitor not in (None, 'validation_loss') or self.control.direction != 'minimize':
+                raise ValueError('Dependency execution selects checkpoints and patience using validation outcome cross-entropy (validation_loss).')
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
                 lambda seed: _Backend(self.config, self.event_store, seed, self.device, getattr(self, "input_cache_policy", None)),
@@ -111,6 +115,11 @@ class TemporalGraphAdapter:
             timezone=self.config.timezone)
         if self.config.deterministic:
             self.training_summary_['deterministic'] = True
+        if self.config.execution is not None:
+            from .packed_execution import execution_metadata, fallback_reason
+            self.training_summary_['graph_execution'] = execution_metadata(self.config)
+            self.training_summary_['compatibility_fallback'] = fallback_reason(self.backend_)
+            self.training_summary_['execution_report'] = deepcopy(getattr(self.backend_, '_execution_reports', {}))
 
     def predict(self, context):
         with torch_threads(self.inner_threads):
@@ -324,6 +333,9 @@ class _Backend:
     @configured_execution
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
+        from .packed_execution import enabled, dependency_loss
+        if enabled(self):
+            return dependency_loss(self, groups, targets, weights, backward)
         if self.config.statistics_forecast is not None:
             from .supervision import statistics_loss
             return statistics_loss(self, groups, targets, weights, backward)
@@ -354,6 +366,8 @@ class _Backend:
         self.model.train()
         self.optimizer.zero_grad(set_to_none=True)
         train_loss = self._loss(self.train_groups, self.train_targets, self.train_weights, True)
+        if self.config.execution is not None:
+            self._execution_reports = {'train': deepcopy(self._execution_trace)}
         penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
         penalty.backward()
         with phase('optimizer'):
@@ -369,6 +383,8 @@ class _Backend:
             self.model.eval()
             with torch.no_grad():
                 values["validation_loss"] = self._loss(self.validation_groups, self.validation_targets, self.validation_weights)
+                if self.config.execution is not None:
+                    self._execution_reports['validation'] = deepcopy(self._execution_trace)
                 if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
                     values['validation_reconstruction_loss'] = self._reconstruction_loss
                     values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
@@ -385,6 +401,8 @@ class _Backend:
             return values
         with inference_mode(self.model):
             loss = self._loss(self.train_groups, self.train_targets, self.train_weights)
+            if self.config.execution is not None:
+                self._execution_reports['train_replay'] = deepcopy(self._execution_trace)
             penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
         values = dict(values, train_loss=loss)
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
@@ -412,7 +430,7 @@ class _Backend:
         if self.config.statistics_forecast is not None:
             from .extensions import target_schema
             config_state["statistics_forecast"]["targets"] = [target_schema(t) for t in self.config.statistics_forecast.targets]
-        for name in ('boundary_memory', 'statistics_forecast'):
+        for name in ('boundary_memory', 'statistics_forecast', 'execution'):
             if config_state[name] is None:
                 del config_state[name]
         if not config_state['deterministic']:
@@ -494,9 +512,16 @@ class _Backend:
         statistics = self._statistic_arrays(len(context.X)) if self.config.statistics_forecast is not None else None
         with inference_mode(self.model):
             groups = self._stream(context)
-            replay = self._replay(groups)
-            for i in range(len(groups)):
-                self._predict_group(replay.group(groups, i) if replay is not None else groups[i], output, statistics)
+            from .packed_execution import enabled
+            if enabled(self):
+                from .packing import stream_batches
+                for group, _, _ in stream_batches(self, groups):
+                    self._predict_group(group, output, statistics)
+                    del group
+            else:
+                replay = self._replay(groups)
+                for i in range(len(groups)):
+                    self._predict_group(replay.group(groups, i) if replay is not None else groups[i], output, statistics)
         columns = pd.MultiIndex.from_product([[self.target_name], self.output_classes], names=['target', 'class'])
         probabilities = pd.DataFrame(output, index=context.X.index, columns=columns)
         predicted = pd.DataFrame({self.target_name: [self.output_classes[i] for i in output.argmax(1)]}, index=context.X.index)

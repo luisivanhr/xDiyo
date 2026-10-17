@@ -1,0 +1,2161 @@
+{
+  "started_utc": "2026-10-17T10:50:46.009761+00:00",
+  "finished_utc": "2026-10-17T10:57:21.458193+00:00",
+  "arm": "plain",
+  "mode": "native",
+  "device": "cuda:0",
+  "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "torch": "2.9.0+cu130",
+  "cuda_version": "13.0",
+  "cudnn_version": 91200,
+  "gpu_name": "NVIDIA GeForce RTX 4070 SUPER",
+  "source": "C:\\Users\\luisi\\.codex\\worktrees\\gat-dependency-packed-execution\\xDiyo",
+  "source_head": "0cb13cac57255f5e2f8e0eeb692e2b6f22344381",
+  "source_sha256": {
+    "src\\xdiyo_analytics\\graphs\\__init__.py": "959403babc629851d9cdc650858eeaf348f63532ddb4401191333a707c1e691f",
+    "src\\xdiyo_analytics\\graphs\\adapter.py": "d0566c1f17facad5c075015ee6f3333056e6bb618701001fbdf23796e837cc32",
+    "src\\xdiyo_analytics\\graphs\\config.py": "f8a2ca9e01a53d270659c92a2cecab48f017dc19f32e5b93b7db1926d477a274",
+    "src\\xdiyo_analytics\\graphs\\dependency.py": "08c9f4d97e1de4fd3b50175012928bea8d8a2c7b91a32aa0dabd1cd2461e0f79",
+    "src\\xdiyo_analytics\\graphs\\execution.py": "b53bf373460d83eb3f0eb78e14ed3aa2053112142170e15763861e33dd91851c",
+    "src\\xdiyo_analytics\\graphs\\extensions.py": "8cdc6ec62d8b2677711ee21a4363f5181731b8181b252a804bad57eac711bc5d",
+    "src\\xdiyo_analytics\\graphs\\inspection.py": "f0cca8cfc0ca964abfea518f9b347f9396d5d9f4441e75db8ef132301b66208c",
+    "src\\xdiyo_analytics\\graphs\\integration.py": "693748f2726a4361f03d145ff8e3fde415a3ce28a1a966753339ce34dcb5faa0",
+    "src\\xdiyo_analytics\\graphs\\memory.py": "768a7ad9cefca34fcc6dfa3ee6938f8c7d5adc3a9ecb8ff366a07826a5597966",
+    "src\\xdiyo_analytics\\graphs\\network.py": "45d9dc853a775d95fd3444d323098075298899292bf88b4994d71e2f028222fd",
+    "src\\xdiyo_analytics\\graphs\\packed_execution.py": "4126eaf1139c31266797c758f3303dc1123a1362ab7333477c17ac23aeb2efe4",
+    "src\\xdiyo_analytics\\graphs\\packing.py": "58ca66e9550c46567c0d488ff165f6232317b7b4cd6d9759f6cf35a1bf716648",
+    "src\\xdiyo_analytics\\graphs\\persistence.py": "00b0a38506a6a977bd471a7bcd1a98d405d81cd7c0e25b9f5d0112c4f5578369",
+    "src\\xdiyo_analytics\\graphs\\preprocessing.py": "3d427cd01cf2ecee01a8d763061042caea8609aa1e134bb9fb15b1e4baa28c26",
+    "src\\xdiyo_analytics\\graphs\\profiling.py": "c1b0d9e7b9a04777c1284c9ead5d1312e456eae22bb4ce46eb9183c1fae2ab95",
+    "src\\xdiyo_analytics\\graphs\\spatial.py": "46973e8cc3e1081747acc7c0e52f005fb44ac26f0aada58fd10b3c098db960e7",
+    "src\\xdiyo_analytics\\graphs\\statistics.py": "7a9973c592063561f8442daff2fe3367009dd98cd41719bc8a60d1abd702e570",
+    "src\\xdiyo_analytics\\graphs\\statistics_network.py": "d769768c72753f0561e5b1aa517899f07edcb98b708f29773885c038f2c36ebf",
+    "src\\xdiyo_analytics\\graphs\\store.py": "d8a48adb28473a871224ab88ea6135adc49ad6e6d4537ebe51571d0e0930186e",
+    "src\\xdiyo_analytics\\graphs\\streaming.py": "fafa4917d5105a2f0eb96b7d77cd9170a2d4833d5dd1131d66da33d081da06b1",
+    "src\\xdiyo_analytics\\graphs\\supervision.py": "e9b0c312d1590bf096d6abf3fcb04b2759f9f0d87a4bb6f8ee5786cb9dfcabf1"
+  },
+  "script_sha256": "ee28e255efd4833980c20f0dd56c0e1b4798e116c39edc012e9bf1452beb04d5",
+  "input_root": "C:\\Users\\luisi\\Documents\\Codex\\2026-10-11\\task\\expanded-gat-11ffa446\\run",
+  "input_hashes": {
+    "INPUT_MANIFEST.json": "89054f75169d44ba01fa1fd1668f2636c8129a05d9a0c33b8b7c115b83166f08",
+    "baseline/model_history.parquet": "9e7e1d89a5dd57c1b71b14b469a417b9a98f5c735bb490ef195d309c7f3d6e51",
+    "baseline/fixtures.parquet": "153c01006b2a2a863701d1a8ee018db4c7f9fb66783e9803ee7b2aeffd9c59af",
+    "baseline/memberships_schedule_effective.parquet": "d3b84e4c7310c88a58cb0ecbf6c81da7797bcb6091c39216d760e35989991308",
+    "edge_stats_totals.parquet": "892946be0f2a8457388566819d87a1560b63da66c0829a063da9eb7699d49c6e",
+    "fixture_head.parquet": "cb26859190a4a5abca3d83853af5acc6122e495f85f0a6c1fcfcd39a9118d130",
+    "baseline/selection/fit.parquet": "5a65fc9db664da776908297dbd68304603c544d857144d5dcfb00a69a8594661",
+    "baseline/selection/validation.parquet": "0cb7d9f390d14e758231590c355d0cb331701e6cfea2b8bc87ba0b665f90df1b",
+    "baseline/selection/purged_selection_only.parquet": "ff20204a97998b15d6555597603b52d1353fc984e934bad9a887ee3c2d857cd4",
+    "long200_aux2_plain_selection.json": "e81e5b928c15d3c4ea6ca7cc0b508a66e8c0f42e8793da7a782ae68e27ac4c87",
+    "long200_aux2_bayes11_selection.json": "05b873e71a7ca2260eab2981d004e602ac793cf9f9ef66a6dae58c9cf434bf70",
+    "runtime_d1219063_long200_aux2/runner/data_adapter.py": "fd53d7f1be1bd9ce86ea585bf7e7472e286e5cffee249089a56f0155f846f482"
+  },
+  "inputs_unchanged": true,
+  "config": {
+    "timezone": "UTC",
+    "forecast_policy": "by_round",
+    "round_keys": [
+      "competition_id",
+      "season_id",
+      "tournament_id",
+      "round"
+    ],
+    "embedding_dim": 32,
+    "layers": 2,
+    "heads": 2,
+    "half_life_days": 180.0,
+    "seasonal_retention": 0.5,
+    "support_kappa": 5.0,
+    "hidden_width": 64,
+    "statistics": [
+      "team::total_shots",
+      "opponent::total_shots",
+      "team::shots_on_target",
+      "opponent::shots_on_target",
+      "team::outfield_cov_xy",
+      "opponent::outfield_cov_xy",
+      "team::abs_outfield_cov_xy",
+      "opponent::abs_outfield_cov_xy",
+      "team::ALL::accurateCross::total",
+      "opponent::ALL::accurateCross::total",
+      "team::ALL::accurateCross::value",
+      "opponent::ALL::accurateCross::value",
+      "team::ALL::accurateLongBalls::total",
+      "opponent::ALL::accurateLongBalls::total",
+      "team::ALL::accurateLongBalls::value",
+      "opponent::ALL::accurateLongBalls::value",
+      "team::ALL::accuratePasses::value",
+      "opponent::ALL::accuratePasses::value",
+      "team::ALL::aerialDuelsPercentage::value",
+      "opponent::ALL::aerialDuelsPercentage::value",
+      "team::ALL::ballPossession::value",
+      "opponent::ALL::ballPossession::value",
+      "team::ALL::bigChanceCreated::value",
+      "opponent::ALL::bigChanceCreated::value",
+      "team::ALL::blockedScoringAttempt::value",
+      "opponent::ALL::blockedScoringAttempt::value",
+      "team::ALL::cornerKicks::value",
+      "opponent::ALL::cornerKicks::value",
+      "team::ALL::dispossessed::value",
+      "opponent::ALL::dispossessed::value",
+      "team::ALL::dribblesPercentage::total",
+      "opponent::ALL::dribblesPercentage::total",
+      "team::ALL::dribblesPercentage::value",
+      "opponent::ALL::dribblesPercentage::value",
+      "team::ALL::duelWonPercent::value",
+      "opponent::ALL::duelWonPercent::value",
+      "team::ALL::finalThirdEntries::value",
+      "opponent::ALL::finalThirdEntries::value",
+      "team::ALL::fouledFinalThird::value",
+      "opponent::ALL::fouledFinalThird::value",
+      "team::ALL::fouls::value",
+      "opponent::ALL::fouls::value",
+      "team::ALL::freeKicks::value",
+      "opponent::ALL::freeKicks::value",
+      "team::ALL::goalKicks::value",
+      "opponent::ALL::goalKicks::value",
+      "team::ALL::goalkeeperSaves::value",
+      "opponent::ALL::goalkeeperSaves::value",
+      "team::ALL::groundDuelsPercentage::value",
+      "opponent::ALL::groundDuelsPercentage::value",
+      "team::ALL::interceptionWon::value",
+      "opponent::ALL::interceptionWon::value",
+      "team::ALL::offsides::value",
+      "opponent::ALL::offsides::value",
+      "team::ALL::passes::value",
+      "opponent::ALL::passes::value",
+      "team::ALL::shotsOffGoal::value",
+      "opponent::ALL::shotsOffGoal::value",
+      "team::ALL::throwIns::value",
+      "opponent::ALL::throwIns::value",
+      "team::ALL::totalClearance::value",
+      "opponent::ALL::totalClearance::value",
+      "team::ALL::totalShotsInsideBox::value",
+      "opponent::ALL::totalShotsInsideBox::value",
+      "team::ALL::totalShotsOutsideBox::value",
+      "opponent::ALL::totalShotsOutsideBox::value",
+      "team::ALL::totalTackle::value",
+      "opponent::ALL::totalTackle::value",
+      "team::ALL::wonTacklePercent::value",
+      "opponent::ALL::wonTacklePercent::value",
+      "team::ALL::yellowCards::value",
+      "opponent::ALL::yellowCards::value"
+    ],
+    "fixture_features": [],
+    "learning_rate": 0.001,
+    "weight_decay": 0.001,
+    "prior_penalty": 0.001,
+    "heatmaps": null,
+    "include_goal_features": true,
+    "deterministic": true,
+    "boundary_memory": null,
+    "statistics_forecast": {
+      "targets": [
+        {
+          "semantic_name": "goals",
+          "source_column": "goals_for",
+          "units": "goals",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "total_shots",
+          "source_column": "team::total_shots",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "shots_on_target",
+          "source_column": "team::shots_on_target",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "outfield_cov_xy",
+          "source_column": "team::outfield_cov_xy",
+          "units": "native_0_100_coordinate_product",
+          "support": "signed_continuous",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "identity",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "abs_outfield_cov_xy",
+          "source_column": "team::abs_outfield_cov_xy",
+          "units": "native_0_100_coordinate_product",
+          "support": "nonnegative_continuous",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "identity",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateCross__total",
+          "source_column": "team::ALL::accurateCross::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateCross__value",
+          "source_column": "team::ALL::accurateCross::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateLongBalls__total",
+          "source_column": "team::ALL::accurateLongBalls::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateLongBalls__value",
+          "source_column": "team::ALL::accurateLongBalls::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accuratePasses__value",
+          "source_column": "team::ALL::accuratePasses::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "aerialDuelsPercentage__value",
+          "source_column": "team::ALL::aerialDuelsPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "ballPossession__value",
+          "source_column": "team::ALL::ballPossession::value",
+          "units": "percentage points0\u2013100",
+          "support": "bounded_continuous",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "affine",
+          "scaling": "standard",
+          "lower": 0.0,
+          "upper": 100.0,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "bigChanceCreated__value",
+          "source_column": "team::ALL::bigChanceCreated::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "blockedScoringAttempt__value",
+          "source_column": "team::ALL::blockedScoringAttempt::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "cornerKicks__value",
+          "source_column": "team::ALL::cornerKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dispossessed__value",
+          "source_column": "team::ALL::dispossessed::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dribblesPercentage__total",
+          "source_column": "team::ALL::dribblesPercentage::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dribblesPercentage__value",
+          "source_column": "team::ALL::dribblesPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "duelWonPercent__value",
+          "source_column": "team::ALL::duelWonPercent::value",
+          "units": "percentage points0\u2013100",
+          "support": "bounded_continuous",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "affine",
+          "scaling": "standard",
+          "lower": 0.0,
+          "upper": 100.0,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "finalThirdEntries__value",
+          "source_column": "team::ALL::finalThirdEntries::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "fouledFinalThird__value",
+          "source_column": "team::ALL::fouledFinalThird::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "fouls__value",
+          "source_column": "team::ALL::fouls::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "freeKicks__value",
+          "source_column": "team::ALL::freeKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "goalKicks__value",
+          "source_column": "team::ALL::goalKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "goalkeeperSaves__value",
+          "source_column": "team::ALL::goalkeeperSaves::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "groundDuelsPercentage__value",
+          "source_column": "team::ALL::groundDuelsPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "interceptionWon__value",
+          "source_column": "team::ALL::interceptionWon::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "offsides__value",
+          "source_column": "team::ALL::offsides::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "passes__value",
+          "source_column": "team::ALL::passes::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "shotsOffGoal__value",
+          "source_column": "team::ALL::shotsOffGoal::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "throwIns__value",
+          "source_column": "team::ALL::throwIns::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalClearance__value",
+          "source_column": "team::ALL::totalClearance::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalShotsInsideBox__value",
+          "source_column": "team::ALL::totalShotsInsideBox::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalShotsOutsideBox__value",
+          "source_column": "team::ALL::totalShotsOutsideBox::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalTackle__value",
+          "source_column": "team::ALL::totalTackle::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "wonTacklePercent__value",
+          "source_column": "team::ALL::wonTacklePercent::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "yellowCards__value",
+          "source_column": "team::ALL::yellowCards::value",
+          "units": "count",
+          "support": "count",
+          "side": "home",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "goals",
+          "source_column": "goals_for",
+          "units": "goals",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "total_shots",
+          "source_column": "team::total_shots",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "shots_on_target",
+          "source_column": "team::shots_on_target",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "outfield_cov_xy",
+          "source_column": "team::outfield_cov_xy",
+          "units": "native_0_100_coordinate_product",
+          "support": "signed_continuous",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "identity",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "abs_outfield_cov_xy",
+          "source_column": "team::abs_outfield_cov_xy",
+          "units": "native_0_100_coordinate_product",
+          "support": "nonnegative_continuous",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "identity",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateCross__total",
+          "source_column": "team::ALL::accurateCross::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateCross__value",
+          "source_column": "team::ALL::accurateCross::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateLongBalls__total",
+          "source_column": "team::ALL::accurateLongBalls::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accurateLongBalls__value",
+          "source_column": "team::ALL::accurateLongBalls::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "accuratePasses__value",
+          "source_column": "team::ALL::accuratePasses::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "aerialDuelsPercentage__value",
+          "source_column": "team::ALL::aerialDuelsPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "ballPossession__value",
+          "source_column": "team::ALL::ballPossession::value",
+          "units": "percentage points0\u2013100",
+          "support": "bounded_continuous",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "affine",
+          "scaling": "standard",
+          "lower": 0.0,
+          "upper": 100.0,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "bigChanceCreated__value",
+          "source_column": "team::ALL::bigChanceCreated::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "blockedScoringAttempt__value",
+          "source_column": "team::ALL::blockedScoringAttempt::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "cornerKicks__value",
+          "source_column": "team::ALL::cornerKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dispossessed__value",
+          "source_column": "team::ALL::dispossessed::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dribblesPercentage__total",
+          "source_column": "team::ALL::dribblesPercentage::total",
+          "units": "attempt/opportunity count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "total",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "dribblesPercentage__value",
+          "source_column": "team::ALL::dribblesPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "duelWonPercent__value",
+          "source_column": "team::ALL::duelWonPercent::value",
+          "units": "percentage points0\u2013100",
+          "support": "bounded_continuous",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "affine",
+          "scaling": "standard",
+          "lower": 0.0,
+          "upper": 100.0,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "finalThirdEntries__value",
+          "source_column": "team::ALL::finalThirdEntries::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "fouledFinalThird__value",
+          "source_column": "team::ALL::fouledFinalThird::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "fouls__value",
+          "source_column": "team::ALL::fouls::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "freeKicks__value",
+          "source_column": "team::ALL::freeKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "goalKicks__value",
+          "source_column": "team::ALL::goalKicks::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "goalkeeperSaves__value",
+          "source_column": "team::ALL::goalkeeperSaves::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "groundDuelsPercentage__value",
+          "source_column": "team::ALL::groundDuelsPercentage::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "interceptionWon__value",
+          "source_column": "team::ALL::interceptionWon::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "offsides__value",
+          "source_column": "team::ALL::offsides::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "passes__value",
+          "source_column": "team::ALL::passes::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "shotsOffGoal__value",
+          "source_column": "team::ALL::shotsOffGoal::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "throwIns__value",
+          "source_column": "team::ALL::throwIns::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalClearance__value",
+          "source_column": "team::ALL::totalClearance::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalShotsInsideBox__value",
+          "source_column": "team::ALL::totalShotsInsideBox::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalShotsOutsideBox__value",
+          "source_column": "team::ALL::totalShotsOutsideBox::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "totalTackle__value",
+          "source_column": "team::ALL::totalTackle::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "wonTacklePercent__value",
+          "source_column": "team::ALL::wonTacklePercent::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        },
+        {
+          "semantic_name": "yellowCards__value",
+          "source_column": "team::ALL::yellowCards::value",
+          "units": "count",
+          "support": "count",
+          "side": "away",
+          "period": "ALL",
+          "component": "value",
+          "transform": "log1p",
+          "scaling": "standard",
+          "lower": null,
+          "upper": null,
+          "weight": 1.0,
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ],
+          "family": "quantile"
+        }
+      ],
+      "route": "combined",
+      "weight": 1.0,
+      "point_loss": "huber"
+    },
+    "execution": {
+      "mode": "native",
+      "host_memory_bytes": 134217728,
+      "device_memory_bytes": 268435456,
+      "max_graphs": 8,
+      "headroom_bytes": 268435456
+    }
+  },
+  "control": {
+    "max_steps": 100,
+    "early_stopping": null,
+    "scheduler": null,
+    "restarts": 0,
+    "seed": 17,
+    "monitor": "validation_loss",
+    "direction": "minimize",
+    "restore_best": true
+  },
+  "counts": {
+    "parameters": 107265,
+    "trainable_parameters": 107265,
+    "edge_numeric_channels": 74,
+    "edge_encoded_width": 163,
+    "fixture_features": 5,
+    "auxiliary_targets": 74,
+    "auxiliary_outputs": 222,
+    "outcome_head_input_width": 374,
+    "statistics_head_input_width": 152,
+    "league_categories": 13,
+    "training_groups": 592,
+    "validation_groups": 153
+  },
+  "initialization_seconds": 6.034906499990029,
+  "cold_preparation_seconds": 5.833624599996256,
+  "cold_preparation_counts": [
+    592,
+    153
+  ],
+  "cold_traces": [
+    {
+      "requested_mode": "native",
+      "groups": 592,
+      "batches": 592,
+      "fallback_groups": 592,
+      "max_host_bytes": 0,
+      "max_device_bytes": 0,
+      "descriptor_limit_bytes": 0,
+      "fallback_reasons": {
+        "native_requested": 592
+      },
+      "plan_sha256": "4bb13c29d98862fca960eaab65526ba78e09691f8412d3422b52283f4e81ac4f"
+    },
+    {
+      "requested_mode": "native",
+      "groups": 153,
+      "batches": 153,
+      "fallback_groups": 153,
+      "max_host_bytes": 0,
+      "max_device_bytes": 0,
+      "descriptor_limit_bytes": 0,
+      "fallback_reasons": {
+        "native_requested": 153
+      },
+      "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+    }
+  ],
+  "cold_preparation_records": [
+    {
+      "repeat": 0,
+      "seconds": 5.425953099998878,
+      "counts": [
+        592,
+        153
+      ],
+      "traces": [
+        {
+          "requested_mode": "native",
+          "groups": 592,
+          "batches": 592,
+          "fallback_groups": 592,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 592
+          },
+          "plan_sha256": "4bb13c29d98862fca960eaab65526ba78e09691f8412d3422b52283f4e81ac4f"
+        },
+        {
+          "requested_mode": "native",
+          "groups": 153,
+          "batches": 153,
+          "fallback_groups": 153,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 153
+          },
+          "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "seconds": 5.994405599980382,
+      "counts": [
+        592,
+        153
+      ],
+      "traces": [
+        {
+          "requested_mode": "native",
+          "groups": 592,
+          "batches": 592,
+          "fallback_groups": 592,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 592
+          },
+          "plan_sha256": "4bb13c29d98862fca960eaab65526ba78e09691f8412d3422b52283f4e81ac4f"
+        },
+        {
+          "requested_mode": "native",
+          "groups": 153,
+          "batches": 153,
+          "fallback_groups": 153,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 153
+          },
+          "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "seconds": 5.833624599996256,
+      "counts": [
+        592,
+        153
+      ],
+      "traces": [
+        {
+          "requested_mode": "native",
+          "groups": 592,
+          "batches": 592,
+          "fallback_groups": 592,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 592
+          },
+          "plan_sha256": "4bb13c29d98862fca960eaab65526ba78e09691f8412d3422b52283f4e81ac4f"
+        },
+        {
+          "requested_mode": "native",
+          "groups": 153,
+          "batches": 153,
+          "fallback_groups": 153,
+          "max_host_bytes": 0,
+          "max_device_bytes": 0,
+          "descriptor_limit_bytes": 0,
+          "fallback_reasons": {
+            "native_requested": 153
+          },
+          "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+        }
+      ]
+    }
+  ],
+  "cold_repeats": 3,
+  "seed": 17,
+  "initialization_host_peak": {
+    "rss": 1058942976,
+    "private": 2780790784,
+    "vms": 2780790784
+  },
+  "cold_host_peak": {
+    "rss": 1080713216,
+    "private": 2795241472,
+    "vms": 2795241472
+  },
+  "cold_cuda_memory": {
+    "allocated": 16198656,
+    "reserved": 23068672
+  },
+  "fixed_capture_seconds": 41.50735640001949,
+  "warm_start_memory": {
+    "rss": 1917190144,
+    "vms": 3916857344,
+    "num_page_faults": 7344479,
+    "peak_wset": 1929433088,
+    "wset": 1917190144,
+    "peak_paged_pool": 6334360,
+    "paged_pool": 6334264,
+    "peak_nonpaged_pool": 127512,
+    "nonpaged_pool": 127376,
+    "pagefile": 3916857344,
+    "peak_pagefile": 3929309184,
+    "private": 3916857344
+  },
+  "sampled_peak_host": {
+    "rss": 2067550208,
+    "private": 4242997248,
+    "vms": 4242997248
+  },
+  "os_memory_info": {
+    "rss": 2056028160,
+    "vms": 4231020544,
+    "num_page_faults": 14101607,
+    "peak_wset": 2067697664,
+    "wset": 2056028160,
+    "peak_paged_pool": 6339032,
+    "paged_pool": 6338936,
+    "peak_nonpaged_pool": 132568,
+    "nonpaged_pool": 130504,
+    "pagefile": 4231020544,
+    "peak_pagefile": 4243091456,
+    "private": 4231020544
+  },
+  "cuda_memory": {
+    "peak_allocated": 221363200,
+    "peak_reserved": 253755392
+  },
+  "records": [
+    {
+      "repeat": 0,
+      "steps": [
+        {
+          "step": 0,
+          "seconds": 84.34612729999935,
+          "components": {
+            "train_loss": 1.435261125319812,
+            "train_statistics_loss": 2.5847415280877613,
+            "train_objective": 4.020003182784251,
+            "validation_loss": 1.3501305670943111,
+            "validation_statistics_loss": 2.5812843833118677,
+            "validation_objective": 3.931414950406179
+          }
+        }
+      ],
+      "loss_phases": [
+        {
+          "population": "train",
+          "backward": true,
+          "seconds": 75.95487640000647,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "validation",
+          "backward": false,
+          "seconds": 8.354457300010836,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "train",
+          "backward": false,
+          "seconds": 22.613470599986613,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        }
+      ],
+      "train_metric_replay_seconds": 22.614131700014696,
+      "train_metric_replay_components": {
+        "train_loss": 1.3482557823735988,
+        "train_statistics_loss": 2.58385417208774,
+        "train_objective": 3.9321109755341013,
+        "validation_loss": 1.3501305670943111,
+        "validation_statistics_loss": 2.5812843833118677,
+        "validation_objective": 3.931414950406179
+      },
+      "validation_prediction_replay_seconds": 4.056250700028613,
+      "prediction_checksum": 261.23849073052406,
+      "detailed_phases": null,
+      "final_trace": {
+        "requested_mode": "native",
+        "groups": 153,
+        "batches": 153,
+        "fallback_groups": 153,
+        "max_host_bytes": 0,
+        "max_device_bytes": 0,
+        "descriptor_limit_bytes": 0,
+        "fallback_reasons": {
+          "native_requested": 153
+        },
+        "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+      },
+      "state_export_seconds": 0.009014800016302615
+    },
+    {
+      "repeat": 1,
+      "steps": [
+        {
+          "step": 0,
+          "seconds": 82.89633419999154,
+          "components": {
+            "train_loss": 1.435261125319812,
+            "train_statistics_loss": 2.5847415280877613,
+            "train_objective": 4.020003182784251,
+            "validation_loss": 1.3501305670943111,
+            "validation_statistics_loss": 2.5812843833118677,
+            "validation_objective": 3.931414950406179
+          }
+        }
+      ],
+      "loss_phases": [
+        {
+          "population": "train",
+          "backward": true,
+          "seconds": 77.22114259999944,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "validation",
+          "backward": false,
+          "seconds": 5.6685307000007015,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "train",
+          "backward": false,
+          "seconds": 24.00478459999431,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        }
+      ],
+      "train_metric_replay_seconds": 24.00528710000799,
+      "train_metric_replay_components": {
+        "train_loss": 1.3482557823735988,
+        "train_statistics_loss": 2.58385417208774,
+        "train_objective": 3.9321109755341013,
+        "validation_loss": 1.3501305670943111,
+        "validation_statistics_loss": 2.5812843833118677,
+        "validation_objective": 3.931414950406179
+      },
+      "validation_prediction_replay_seconds": 3.33760169998277,
+      "prediction_checksum": 261.23849073052406,
+      "detailed_phases": null,
+      "final_trace": {
+        "requested_mode": "native",
+        "groups": 153,
+        "batches": 153,
+        "fallback_groups": 153,
+        "max_host_bytes": 0,
+        "max_device_bytes": 0,
+        "descriptor_limit_bytes": 0,
+        "fallback_reasons": {
+          "native_requested": 153
+        },
+        "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+      },
+      "state_export_seconds": 0.009363299992401153
+    },
+    {
+      "repeat": 2,
+      "steps": [
+        {
+          "step": 0,
+          "seconds": 78.64287120001973,
+          "components": {
+            "train_loss": 1.435261125319812,
+            "train_statistics_loss": 2.5847415280877613,
+            "train_objective": 4.020003182784251,
+            "validation_loss": 1.3501305670943111,
+            "validation_statistics_loss": 2.5812843833118677,
+            "validation_objective": 3.931414950406179
+          }
+        }
+      ],
+      "loss_phases": [
+        {
+          "population": "train",
+          "backward": true,
+          "seconds": 72.825219499995,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "validation",
+          "backward": false,
+          "seconds": 5.810766999988118,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        },
+        {
+          "population": "train",
+          "backward": false,
+          "seconds": 24.58766329998616,
+          "trace": {
+            "requested_mode": "native",
+            "fallback_reasons": {
+              "native_requested": 1
+            },
+            "whole_pass_native": true
+          }
+        }
+      ],
+      "train_metric_replay_seconds": 24.588177099998575,
+      "train_metric_replay_components": {
+        "train_loss": 1.3482557823735988,
+        "train_statistics_loss": 2.58385417208774,
+        "train_objective": 3.9321109755341013,
+        "validation_loss": 1.3501305670943111,
+        "validation_statistics_loss": 2.5812843833118677,
+        "validation_objective": 3.931414950406179
+      },
+      "validation_prediction_replay_seconds": 3.3666158000123687,
+      "prediction_checksum": 261.23849073052406,
+      "detailed_phases": null,
+      "final_trace": {
+        "requested_mode": "native",
+        "groups": 153,
+        "batches": 153,
+        "fallback_groups": 153,
+        "max_host_bytes": 0,
+        "max_device_bytes": 0,
+        "descriptor_limit_bytes": 0,
+        "fallback_reasons": {
+          "native_requested": 153
+        },
+        "plan_sha256": "596a132017d84e2e27ab0d45f61166c662d6a4a1b032de53a3e5e5c74ff75eee"
+      },
+      "state_export_seconds": 0.009548700007144362
+    }
+  ],
+  "intrusive_profile": false,
+  "caller_flags_before": {
+    "deterministic_algorithms": false,
+    "deterministic_warn_only": false,
+    "cudnn_deterministic": false,
+    "cudnn_benchmark": false,
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cublas_workspace_config": ":4096:8"
+  },
+  "caller_flags_after": {
+    "deterministic_algorithms": false,
+    "deterministic_warn_only": false,
+    "cudnn_deterministic": false,
+    "cudnn_benchmark": false,
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cublas_workspace_config": ":4096:8"
+  },
+  "effective_execution_flags": {
+    "deterministic_algorithms": true,
+    "deterministic_warn_only": false,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cublas_workspace_config": ":4096:8"
+  },
+  "initial_state_export_seconds": 0.004931800009217113,
+  "warm_loop_elapsed_seconds": 327.8875100000005,
+  "warm_timed_workload_seconds": 327.85339680005563,
+  "concurrent_gpu_active": false,
+  "notes": [
+    "Fresh process per arm/mode; concurrent GPU users are not stopped.",
+    "Native step includes validation. Train checkpoint metric replay and historical validation prediction replay measured separately.",
+    "Prediction replay uses historical validation inputs internally and is not a public causal held-out prediction.",
+    "Every repeat restores one identical initialized model snapshot and a fresh AdamW; steps within each repeat are sequential.",
+    "Cold source cache reset before each cold repeat; this is logical source-cache cold, not OS/disk cold. Warm repeats retain the existing source cache.",
+    "With --state, fixed initial train/validation loss capture prewarms statistics observations identically before all timed warm repeats; no first repeat is discarded.",
+    "No full fit, checkpoint selection, test evaluation or canonical run changes.",
+    "Host sampled every2ms; initialization/cold/warm intervals recorded separately. Warm interval includes optional final CPU state exports; OS high-water is process lifetime.",
+    "Torch allocator peaks exclude driver/library/external allocations; estimates and measured receipts are not universal memory guarantees."
+  ],
+  "end_to_end_seconds": 395.5023838999914,
+  "end_to_end_scope": "Includes input verification, imports, initialization, cold preparation, optional state capture/exports, warm repeats and receipt construction; excludes output-directory creation and final receipt JSON write/print."
+}

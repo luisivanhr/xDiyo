@@ -102,8 +102,16 @@ class TemporalNetwork(nn.Module):
             z = torch.cat(encoded) if encoded else maps.new_empty((0, self.heatmap_config.encoder.embedding_dim))
             x = torch.cat((x, z, masks), dim=1)
         attention = []
-        for layer in self.layers:
-            value = layer(h, x, data["receiver"], data["sender"], data["log_weight"], data["gate"], return_attention=return_attention)
+        dependency_rows = data.get('_dependency_rows')
+        for i, layer in enumerate(self.layers):
+            rows = None if dependency_rows is None else dependency_rows[i]
+            if rows is None:
+                value = layer(h, x, data["receiver"], data["sender"], data["log_weight"], data["gate"], return_attention=return_attention)
+            else:
+                # Each required receiver retains its complete incoming list.
+                # Synchronous layers and residual inputs use the previous h.
+                value = layer(h, x[rows], data["receiver"][rows], data["sender"][rows],
+                              data["log_weight"][rows], data["gate"], return_attention=return_attention)
             if return_attention:
                 h, alpha = value
                 attention.append(alpha)

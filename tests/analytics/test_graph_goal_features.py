@@ -68,6 +68,7 @@ def legacy_version(backend):
     settings.pop('statistics_forecast', None)
     settings.pop('include_goal_features')
     settings.pop('heatmaps')
+    settings.pop('execution', None)
     return sha256((digest.hexdigest()+json.dumps(settings, sort_keys=True)).encode()).hexdigest()
 
 

@@ -36,7 +36,7 @@ def decorate(components, stages):
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast',
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.GraphExecution', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast',
              'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
              'reporting.GraphStatisticsReporter', 'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
     choices = {'forecast_policy':['by_round','one_day_ahead'], 'membership_policy':['first_fixture','explicit'],
@@ -51,11 +51,12 @@ def decorate(components, stages):
                 f.update(kind='select', choices=choices[name])
             if name == 'config':
                 f.update(kind='component', components=['graphs.TemporalGraphConfig'])
-            nested = {'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
+            nested = {'execution':'graphs.GraphExecution', 'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
                       'reconstruction':'neural.Reconstruction', 'grid':'features.Heatmap'}
             if name in nested and key.startswith(('graphs.', 'neural.')):
                 f.update(kind='component', components=[nested[name]], initial_component=nested[name])
                 f['help'] = {
+                    'execution':'Optional experimental GAT execution. Disabled keeps native execution. Complete required incoming neighborhoods and mathematical objectives are preserved. Floating-point differences can change gradients, optimization trajectories and checkpoint selection; numerical interchangeability is unvalidated. No training or validation passes are skipped. Changing the saved mode or budgets invalidates training resume.',
                     'boundary_memory':'Optional detached state between chronological segments. Changes the model; full history remains the default. States rebuild under each evaluated weight version.',
                     'statistics_forecast':'Optional supervised future-match statistic forecasts. Actual target statistics never enter fixture inputs; choose auxiliary, combined or strict bottleneck.',
                     'heatmaps':'Optional shared CNN over individual historical match maps. Disabled preserves scalar-only GAT. Requires heatmap_points; target-fixture maps are never inputs.',
@@ -63,6 +64,18 @@ def decorate(components, stages):
                     'reconstruction':'Optional auxiliary decoder with masked MSE or KL divergence. Disabled creates no decoder or extra loss. Validation prediction loss remains the default early-stopping metric.',
                     'grid':'Native deterministic grid construction. Keep side=both and orientation=team for receiver-aligned GAT edges. Default: player-only 10x10 unit-mass grids.',
                 }[name]
+            if key == 'graphs.GraphExecution':
+                f['help'] = {
+                    'mode':'Experimental execution ablation: native uses the original full graphs; dependency limits work to complete prediction dependency cones; dependency_lean also prepares only required inputs; dependency_packed also packs bounded disjoint graphs. Numerical results can differ in floating-point rounding. Keep native for bitwise legacy comparisons.',
+                    'host_memory_bytes':'Positive byte budget for admission estimates of optimized dependency preparation and packing. Native fallback retains native memory requirements and may exceed this budget. This is not a hard process/RSS cap or a memory reservation; unchanged peak memory requires measured workload evidence. Default 134217728 bytes (128 MiB).',
+                    'device_memory_bytes':'Positive byte budget for admission estimates of optimized device workspace. Native fallback retains native requirements and may exceed this budget; allocator and third-party usage are not hard-capped. Unchanged peak memory requires measured workload evidence. Default 268435456 bytes (256 MiB).',
+                    'max_graphs':'Maximum disjoint issuance graphs per packed group. Set 1 to disable multi-graph packing while retaining the selected dependency preparation path.',
+                    'headroom_bytes':'Minimum free memory headroom in bytes required by execution planning. Default 1073741824 bytes (1 GiB). Budgets do not authorize exceeding available memory.',
+                }[name]
+                if name == 'mode':
+                    f.update(kind='select', choices=['native','dependency','dependency_lean','dependency_packed'])
+                else:
+                    f.update(kind='number', min=1, step=1)
             if key == 'graphs.BoundaryMemory':
                 f['help'] = {'policy':'Season: global union of league entry dates at local midnight. Fixed days: nonoverlapping calendar-day blocks, not a sliding window.',
                     'days':'Number of local calendar days per fixed segment.', 'anchor':'Timezone-aware anchor, at local midnight in the model timezone.',

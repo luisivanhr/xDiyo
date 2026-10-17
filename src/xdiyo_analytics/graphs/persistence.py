@@ -2,7 +2,7 @@
 from dataclasses import asdict
 import json
 from pathlib import Path
-from .config import TemporalGraphConfig, CLASS_ORDER
+from .config import TemporalGraphConfig, GraphExecution, CLASS_ORDER
 from .adapter import TemporalGraphAdapter, _Backend, _torch
 from .preprocessing import GraphPreprocessor
 from .profiling import timed
@@ -71,6 +71,8 @@ class TemporalGraphSerializer:
         if tuple(meta["class_order"]) != CLASS_ORDER:
             raise ValueError("Unsupported saved class order.")
         config_state = dict(meta['config'])
+        if config_state.get('execution') is not None:
+            config_state['execution'] = GraphExecution(**config_state['execution'])
         if config_state.get('heatmaps') is not None:
             from .spatial import GraphHeatmaps
             config_state['heatmaps'] = GraphHeatmaps.from_dict(config_state['heatmaps'])

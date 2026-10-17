@@ -15,6 +15,14 @@ from xdiyo_analytics.experiments.recovery import pack
 
 def fixture(kind):
     if kind.startswith('gat'):
+        if kind in ('gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'):
+            from graph_execution_fixture import execution_fixture
+            requested = os.environ.get('XDIYO_RESUME_EXECUTION_MODE', 'dependency_packed') if kind == 'gat_dependency_statistics' else 'dependency_packed'
+            adapter, train, query = execution_fixture(mode=requested, statistics=kind == 'gat_dependency_statistics')
+            if kind == 'gat_dependency_fallback':
+                from dataclasses import replace
+                adapter.config = replace(adapter.config, execution=replace(adapter.config.execution, host_memory_bytes=1))
+            return adapter, train, query
         from test_temporal_graph import sample, config, context
         from xdiyo_analytics.graphs import TemporalGraphAdapter
         if kind in ('gat_memory', 'gat_statistics', 'gat_combined'):
@@ -54,6 +62,11 @@ def main(directory, kind, mode):
         adapter.configure_input_cache(256 * 1024**2, 1024**3)
     control = TrainingControl(max_steps=4, restarts=1, seed=19,
         scheduler=ReduceOnPlateau(patience=1), early_stopping=EarlyStopping(patience=3))
+    if kind in ('gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'):
+        # Keep the real validation outcome CE. A large significance threshold
+        # exercises nonzero patience and scheduler state before interruption.
+        control = TrainingControl(max_steps=4, restarts=1, seed=19,
+            scheduler=ReduceOnPlateau(patience=1), early_stopping=EarlyStopping(patience=3, min_delta=10.))
     scenario = os.environ.get('XDIYO_RESUME_BOUNDARY', '')
     if scenario == 'numpy':
         control = TrainingControl(max_steps=np.int64(2), restarts=np.int64(1), seed=np.int64(19),
@@ -81,6 +94,31 @@ def main(directory, kind, mode):
                             parameters=[p.detach().cpu().clone() for g in opt.param_groups for p in g['params']]))
         return result
     torch.optim.AdamW.step = observe
+    if kind in ('gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'):
+        from copy import deepcopy
+        from xdiyo_analytics.graphs.adapter import _Backend
+        backend_step = _Backend.step
+        def traced_step(self):
+            values = backend_step(self)
+            trace = deepcopy(self._execution_trace)
+            requested = self.config.execution.mode
+            assert trace['requested_mode'] == requested
+            if requested == 'native':
+                assert trace['whole_pass_native'] is True, trace
+                assert trace['fallback_reasons'] == {'native_requested': 1}, trace
+            elif kind == 'gat_dependency_fallback':
+                assert trace['fallback_groups'] == trace['groups'], trace
+                assert trace['fallback_reasons'] == {'descriptor_budget': trace['groups']}, trace
+            else:
+                assert trace['fallback_groups'] == 0, trace
+                if requested == 'dependency_packed':
+                    assert trace['batches'] < trace['groups'], trace
+                else:
+                    assert requested in ('dependency', 'dependency_lean')
+                    assert trace['batches'] == trace['groups'], trace
+            updates[-1]['execution_trace'] = trace
+            return values
+        _Backend.step = traced_step
     # Consume all global RNGs in callbacks; resume must restore their exact next values.
     def observer(event):
         random.random(); np.random.random(); torch.rand(1); torch.rand(1, device=device) if device.startswith("cuda") else None
@@ -106,6 +144,14 @@ def main(directory, kind, mode):
                         else:
                             stop = saved['active'] is not None and saved['active']['stopped'] and saved['active']['reason'] == scenario
                     if stop:
+                        if kind in ('gat_dependency', 'gat_dependency_statistics', 'gat_dependency_fallback'):
+                            latest = json.loads(Path(target).read_text())
+                            from xdiyo_analytics.training.native_resume import read_checkpoint
+                            saved, _ = read_checkpoint(Path(target).parent/latest['directory'])
+                            active = saved['active']
+                            torch.save({name: active[name] for name in (
+                                'best', 'best_step', 'progress_best', 'stale', 'schedule_stale', 'last_value')},
+                                directory/'prefix-control.pt')
                         torch.save(updates, directory/'prefix.pt')
                         os._exit(73)
                 return result

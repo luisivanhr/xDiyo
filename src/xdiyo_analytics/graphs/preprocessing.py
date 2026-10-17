@@ -97,6 +97,15 @@ class GraphPreprocessor:
         """
         if snapshot.store_version != store.version:
             raise ValueError('Cannot encode a snapshot from a different event store.')
+        return self.source_edges(store, snapshot.edges.index.to_numpy(dtype=np.int64))
+
+    def source_edges(self, store, rows, *, validate_rows=None):
+        """Select native rows while validating every currently causal row.
+
+        Reuses the existing bounded cache; no additional cache is retained.
+        """
+        rows = np.asarray(rows, dtype=np.int64)
+        population = rows if validate_rows is None else np.asarray(validate_rows, dtype=np.int64)
         identity = (id(store), store.version, tuple(self.edge_columns),
                     json.dumps(asdict(self.config), sort_keys=True),
                     json.dumps(self.state(), sort_keys=True))
@@ -105,17 +114,19 @@ class GraphPreprocessor:
             self._edge_cache = cache = None
         width = 2*len(self.edge_columns) + len(self.leagues) + 2
         count = len(store._history)
-        rows = snapshot.edges.index.to_numpy(dtype=np.int64)
         if count*(width*4+1) > self._edge_cache_limit:
             self._edge_cache = None
+            if validate_rows is not None and not np.array_equal(rows, population):
+                for start in range(0, len(population), 1024):
+                    self._encode_edges(store._history.iloc[population[start:start+1024]])
             return self._encode_edges(store._history.iloc[rows]).astype(np.float32)
-        if not len(rows):
+        if not len(rows) and not len(population):
             return self._encode_edges(store._history.iloc[rows]).astype(np.float32)
         if cache is None:
             cache = (identity, np.empty((count, width), dtype=np.float32), np.zeros(count, dtype=bool))
             self._edge_cache = cache
         _, values, ready = cache
-        unseen = rows[~ready[rows]]
+        unseen = population[~ready[population]]
         # Bound transient float64 encoding as well as the resident float32 cache.
         for start in range(0, len(unseen), 1024):
             part = unseen[start:start+1024]

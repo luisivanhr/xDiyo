@@ -1,10 +1,10 @@
 """Cutoff-safe temporal team graphs. Importing this package does not import torch."""
-from .config import TemporalGraphConfig, CLASS_ORDER
+from .config import TemporalGraphConfig, GraphExecution, CLASS_ORDER
 from .store import TemporalEventStore, GraphSnapshot
 from .adapter import TemporalGraphAdapter
 from .persistence import TemporalGraphSerializer
 
-__all__ = ["TemporalGraphConfig", "TemporalEventStore", "GraphSnapshot",
+__all__ = ["TemporalGraphConfig", "GraphExecution", "TemporalEventStore", "GraphSnapshot",
            "TemporalGraphAdapter", "TemporalGraphSerializer", "CLASS_ORDER"]
 
 from .integration import TemporalGraphModel
