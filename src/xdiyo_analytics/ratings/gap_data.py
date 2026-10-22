@@ -132,6 +132,48 @@ def gap_observations(history, statistics, *, available_at=None):
                                         *(f'{s}_{side}' for s in names for side in ('home', 'away'))])
 
 
+def gap_prediction_times(history, cutoffs):
+    """Require the scheduler's cutoffs; validate fixture and declared batch copies.
+
+    A nominal round label is insufficient for postponements. If supplied,
+    prediction_batch_id is the scheduler's actual batch identity within a
+    league-season. This function validates it, never guesses it from results.
+    """
+    from ..features.history import aligned_times
+    if cutoffs is None:
+        raise ValueError('GAP requires explicit production prediction cutoffs; no kickoff fallback.')
+    times = aligned_times(history, cutoffs, default='kickoff_at')
+    kickoff = aligned_times(history, None, default='kickoff_at')
+    if (times > kickoff).any():
+        raise ValueError('Prediction cutoffs must not follow target kickoff.')
+    keys = ['competition_id', 'season_id', 'event_id']
+    required = [*keys, 'team_id', 'opponent_id', 'side']
+    if history[required].isna().any().any() or not history.side.isin(['home', 'away']).all():
+        raise ValueError('GAP queries require nonmissing fixture/team identities and home/away sides.')
+    if history.duplicated(keys + ['side']).any():
+        raise ValueError('Duplicate GAP fixture perspective.')
+    work = history[required].copy()
+    work['cutoff'], work['kickoff'] = times.to_numpy(), kickoff.to_numpy()
+    for _, rows in work.groupby(keys, sort=False):
+        if rows[['cutoff', 'kickoff']].nunique(dropna=False).gt(1).any():
+            raise ValueError('Fixture perspectives must share kickoff and prediction cutoff.')
+        if rows.team_id.eq(rows.opponent_id).any():
+            raise ValueError('A team cannot play itself.')
+        if len(rows) == 2:
+            a, b = rows.iloc[0], rows.iloc[1]
+            if a.team_id != b.opponent_id or a.opponent_id != b.team_id:
+                raise ValueError('Fixture query perspectives must have reciprocal team identities.')
+    if 'prediction_batch_id' in history:
+        if history.prediction_batch_id.isna().any():
+            raise ValueError('Declared prediction batch IDs must be nonmissing.')
+        work['prediction_batch_id'] = history.prediction_batch_id.to_numpy()
+        if work.groupby(keys)['prediction_batch_id'].nunique().gt(1).any():
+            raise ValueError('Fixture perspectives must share the same prediction batch.')
+        if work.groupby(['competition_id', 'season_id', 'prediction_batch_id'])['cutoff'].nunique(dropna=False).gt(1).any():
+            raise ValueError('A prediction batch must have one frozen cutoff.')
+    return times
+
+
 @dataclass(frozen=True)
 class GAPSeason:
     """Known-at-cutoff membership for ONE league, season and statistic.
@@ -140,6 +182,8 @@ class GAPSeason:
     subsequent ones use proven retained/promoted/relegated movements. Donor IDs
     are promoted/relegated OUT OF this league's previous season. Evidence must
     identify reliable league/team mapping and membership provenance.
+    closed_at is an explicit season-completion boundary, required for parameter
+    fitting (not inferred from the last row of a possibly truncated dataset).
     """
     competition_id: object
     season_id: object
@@ -151,6 +195,7 @@ class GAPSeason:
     previous_season_id: object = None
     promoted_out: tuple = ()
     relegated_out: tuple = ()
+    closed_at: str | None = None
 
     def __post_init__(self):
         import pandas as pd
@@ -159,11 +204,17 @@ class GAPSeason:
         for value in (self.competition_id, self.season_id):
             if pd.isna(value):
                 raise ValueError('Reliable league and season identities are required.')
-        entry, known = pd.to_datetime(self.entry_at, utc=True), pd.to_datetime(self.known_at, utc=True)
+        from .gap import _time
+        entry, known = _time(self.entry_at), _time(self.known_at)
         if pd.isna(entry) or pd.isna(known) or known > entry:
             raise ValueError('Membership must be known at the season entry cutoff.')
         object.__setattr__(self, 'entry_at', entry.isoformat())
         object.__setattr__(self, 'known_at', known.isoformat())
+        if self.closed_at is not None:
+            closed = _time(self.closed_at)
+            if closed <= entry:
+                raise ValueError('A season closure must follow its entry cutoff.')
+            object.__setattr__(self, 'closed_at', closed.isoformat())
         object.__setattr__(self, 'members', tuple(tuple(m) for m in self.members))
         for name in ('promoted_out', 'relegated_out'):
             object.__setattr__(self, name, tuple(getattr(self, name)))
@@ -190,7 +241,7 @@ class GAPSeason:
 
 def gap_season_from_context(context, *, competition_id, season_id, statistic,
                             known_at, evidence, first_stat_season=False,
-                            promoted_out=(), relegated_out=()):
+                            promoted_out=(), relegated_out=(), closed_at=None):
     """Use validated TransitionContext/build_team_seasons evidence, not Glicko math.
 
     Caller supplies dated, verified outgoing cohorts because the context's
@@ -203,6 +254,14 @@ def gap_season_from_context(context, *, competition_id, season_id, statistic,
     if not first_stat_season and previous is None:
         raise ValueError('GAP requires an adjacent previous season or explicit first-stat coverage.')
     records = [r for (c, s, t), r in context.records.items() if (c, s) == key]
+    if not first_stat_season:
+        import pandas as pd
+        for record in records:
+            pc, ps = record.get('previous_competition_id'), record.get('previous_season_id')
+            if pd.isna(pc) or pd.isna(ps):
+                raise ValueError('GAP movement evidence must identify a known predecessor; explicit nulls are not inferred away.')
+            if record['movement'] == 'retained' and (pc, ps) != previous:
+                raise ValueError('Retained GAP predecessor contradicts the adjacent previous league-season.')
     return GAPSeason(competition_id, season_id, statistic, context.anchors[key], known_at,
                      tuple((r['team_id'], 'initial' if first_stat_season else r['movement']) for r in records),
-                     evidence, None if first_stat_season else previous[1], tuple(promoted_out), tuple(relegated_out))
+                     evidence, None if first_stat_season else previous[1], tuple(promoted_out), tuple(relegated_out), closed_at)

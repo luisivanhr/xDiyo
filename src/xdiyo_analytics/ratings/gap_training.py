@@ -7,15 +7,14 @@ from dataclasses import dataclass
 import math
 from .gap_core import GAPParameters
 from .gap import _Replay, _time
-from .gap_data import gap_observations
+from .gap_data import GAPSeason, gap_observations, gap_prediction_times
 
 
 def _samples(history, statistic, cutoffs, objective_mask, available_at):
     import numpy as np
     import pandas as pd
-    from ..features.history import aligned_times
     observations = gap_observations(history, (statistic,), available_at=available_at)
-    times = aligned_times(history, cutoffs, default='kickoff_at')
+    times = gap_prediction_times(history, cutoffs)
     if times.isna().any() or (times > pd.to_datetime(history.kickoff_at, utc=True)).any():
         raise ValueError('Objective cutoffs must be known and no later than fixture kickoff.')
     keys = ['competition_id', 'season_id', 'event_id']
@@ -76,8 +75,13 @@ class GAPFitResult:
 
 
 def tune_gap(history, *, statistic, seasons, fit_cutoff, target_start, initial,
-             cutoffs, objective_mask, maxiter, maxfev, xatol, fatol, available_at=None, initial_simplex=None):
+             cutoffs, objective_mask, maxiter, maxfev, xatol, fatol, available_at=None, initial_simplex=None,
+             target_seasons=None):
     """Fit one statistic pooled over the supplied preceding league-seasons.
+
+    Training plans require explicit closed_at evidence; target_seasons names
+    the disjoint upcoming league-seasons and target_start must match their
+    earliest entry. No held-out observations may enter even masked out.
 
     A transformed unconstrained simplex uses log(lambda), logit(phi1/phi2).
     Unrepresentable transformed candidates get infinite loss, not clipping.
@@ -97,12 +101,28 @@ def tune_gap(history, *, statistic, seasons, fit_cutoff, target_start, initial,
     fit, start = _time(fit_cutoff), _time(target_start)
     if fit > start:
         raise ValueError('Parameter fit cutoff must not follow target season start.')
-    seasons = tuple(seasons)
-    if any(_time(s.entry_at) >= start for s in seasons if s.statistic == statistic.name):
+    seasons = tuple(s for s in seasons if s.statistic == statistic.name)
+    targets = tuple(target_seasons or ())
+    if not targets or any(not isinstance(s, GAPSeason) or s.statistic != statistic.name for s in targets):
+        raise ValueError('Declare the held-out target seasons for the fitted statistic; a date alone is insufficient.')
+    if len({s.key for s in targets}) != len(targets) or len({s.competition_id for s in targets}) != len(targets):
+        raise ValueError('Target seasons must identify one upcoming season per league.')
+    if {s.key for s in seasons} & {s.key for s in targets}:
+        raise ValueError('Held-out target seasons must not appear in parameter training.')
+    if start != min(_time(s.entry_at) for s in targets):
+        raise ValueError('target_start must equal the earliest declared target season entry.')
+    if not seasons or any(s.closed_at is None or _time(s.closed_at) > fit for s in seasons):
+        raise ValueError('Every training season must have explicit closed_at evidence no later than the fit cutoff.')
+    if any(_time(s.entry_at) >= start for s in seasons):
         raise ValueError('Only preceding seasons belong in parameter training.')
     observations = _samples(history, statistic, cutoffs, objective_mask, available_at)
     if (observations.kickoff_at >= fit).any() or (observations.available_at > fit).any():
         raise ValueError('Training history includes observations after the parameter fit cutoff.')
+    if any((r.competition_id, r.season_id, statistic.name) not in {s.key for s in seasons}
+           for r in observations.itertuples()):
+        raise ValueError('Every training fixture must belong to a declared closed training season.')
+    # Verify exact target identities/predecessors without assimilating target outcomes.
+    _Replay(observations, (*seasons, *targets), ((statistic.name, initial),))
     # Validate the full objective contract before the optimizer catches numerical overflow.
     initial_loss, count = _loss(observations, statistic, seasons, initial)
     def decode(x):
@@ -142,7 +162,7 @@ def tune_gap(history, *, statistic, seasons, fit_cutoff, target_start, initial,
                       training_identities=observations[['competition_id', 'season_id', 'event_id']].to_dict('records'),
                       cutoff_policy='explicit_per_fixture', cutoffs=[t.isoformat() for t in observations.cutoff],
                       observations_sha256=hashlib.sha256(observations.to_json(date_format='iso', date_unit='ns').encode()).hexdigest(),
-                      target_start=start.isoformat(), state_policy='replay', statistic_definition=asdict(statistic),
+                      target_start=start.isoformat(), target_seasons=[asdict(s) for s in targets], state_policy='replay', statistic_definition=asdict(statistic),
                       season_plans=[asdict(s) for s in seasons], objective='sum_paired_absolute_errors / N')
     return GAPFitResult(statistic.name, decode(result.x), fit.isoformat(), float(result.fun), bool(result.success),
                         str(result.message), int(result.nit), int(result.nfev), provenance)

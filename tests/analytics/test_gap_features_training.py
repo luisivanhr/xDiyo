@@ -12,7 +12,7 @@ def test_named_run_fixture_frame_scope_order_keys_and_selected_latents(tmp_path)
     run = build(h,stats=('goals','corners'))
     defs = {**gap_feature_set('gap', ('goals','corners')), 'latent':Rating('gap',fields=('HA','HD','AA','AD'))}
     kept = {}
-    x = evaluate_features(h,defs,ratings={'gap':run},rating_runs=kept)
+    x = evaluate_features(h,defs,ratings={'gap':run},rating_runs=kept, cutoffs='kickoff_at')
     assert x.index.equals(h.index)
     assert list(x.columns[:2]) == ['gap_goals_diff','gap_corners_diff']
     assert kept['gap'] is run
@@ -22,20 +22,20 @@ def test_named_run_fixture_frame_scope_order_keys_and_selected_latents(tmp_path)
     assert not any('games_seen' in c or 'initialized' in c for c in x)
     assert x.iloc[0].gap_goals_diff == pytest.approx(.27)
     assert x.iloc[0].gap_goals_diff == x.iloc[2].gap_goals_diff
-    keyed = evaluate_features(h,defs,ratings={'gap':run},keyed=True)
+    keyed = evaluate_features(h,defs,ratings={'gap':run},keyed=True, cutoffs='kickoff_at')
     assert keyed.index.get_level_values('event_id').tolist() == h.event_id.tolist()
     assert keyed.index.get_level_values('team_id').tolist() == h.team_id.tolist()
     assert keyed.index.get_level_values('side').tolist() == h.side.tolist()
     assert keyed.attrs['prediction_cutoffs']['records'][0]['team_id'] == h.iloc[0].team_id
     assert keyed.attrs['prediction_cutoffs']['records'][0]['cutoff'] == h.iloc[0].kickoff_at.isoformat()
     pd.testing.assert_frame_equal(keyed.reset_index(drop=True), x.reset_index(drop=True))
-    inspected = evaluate_features(h,{'pred':GAPFixture('gap',('goals',),('home','away'))},ratings={'gap':run})
+    inspected = evaluate_features(h,{'pred':GAPFixture('gap',('goals',),('home','away'))},ratings={'gap':run}, cutoffs='kickoff_at')
     assert inspected.iloc[0].tolist() == pytest.approx([.54,.27])
     assert inspected.iloc[0].tolist() == inspected.iloc[2].tolist()
     run.save(tmp_path/'native')
     loaded = GAPRatingRun.load(tmp_path/'native')
-    pd.testing.assert_frame_equal(evaluate_features(h,defs,ratings={'gap':loaded}),x)
-    pd.testing.assert_frame_equal(loaded.diagnostics(h),run.diagnostics(h))
+    pd.testing.assert_frame_equal(evaluate_features(h,defs,ratings={'gap':loaded}, cutoffs='kickoff_at'),x)
+    pd.testing.assert_frame_equal(loaded.diagnostics(h, cutoffs='kickoff_at'),run.diagnostics(h, cutoffs='kickoff_at'))
 
 
 def test_opt_in_disabled_keeps_existing_outputs_and_never_fits(monkeypatch):
@@ -45,25 +45,25 @@ def test_opt_in_disabled_keeps_existing_outputs_and_never_fits(monkeypatch):
     baseline = FeatureBankPreset().build([('ALL','Match overview','cornerKicks')])
     assert not any('gap' in name.lower() or isinstance(expr,GAPFixture) for name,expr in baseline.items())
     h = pd.DataFrame(fixture(1,'2020-01-02'))
-    before = evaluate_features(h,{'home':IsHome()})
+    before = evaluate_features(h,{'home':IsHome()}, cutoffs='kickoff_at')
     def forbidden(*a,**k):
         pytest.fail('Imports/configuration/disabled GAP must not trigger fitting or replay')
     monkeypatch.setattr(ratings,'tune_gap',forbidden)
     monkeypatch.setattr(gap,'build_gap_ratings',forbidden)
     gap_feature_set('unused',('goals',))
-    pd.testing.assert_frame_equal(evaluate_features(h,{'home':IsHome()},ratings={'unused':object()}),before)
+    pd.testing.assert_frame_equal(evaluate_features(h,{'home':IsHome()},ratings={'unused':object()}, cutoffs='kickoff_at'),before)
     assert FeatureBankPreset().build([('ALL','Match overview','cornerKicks')]) == baseline
     with pytest.raises(KeyError,match='missing'):
-        evaluate_features(h,{'gap':GAPFixture('missing')})
+        evaluate_features(h,{'gap':GAPFixture('missing')}, cutoffs='kickoff_at')
     with pytest.raises(TypeError,match='GAPRatingRun'):
-        evaluate_features(h,{'gap':GAPFixture('bad')},ratings={'bad':object()})
+        evaluate_features(h,{'gap':GAPFixture('bad')},ratings={'bad':object()}, cutoffs='kickoff_at')
 
 
 def test_scope_metadata_allows_existing_match_assembly():
     from xdiyo_analytics.datasets import assemble_dataset
     from xdiyo_analytics.labels import LabelData
     h = pd.DataFrame(fixture(1,'2020-01-02')+fixture(2,'2020-01-04'))
-    x = evaluate_features(h,gap_feature_set('g',('goals',)),ratings={'g':build(h)},keyed=True)
+    x = evaluate_features(h,gap_feature_set('g',('goals',)),ratings={'g':build(h)},keyed=True, cutoffs='kickoff_at')
     assert x.attrs['feature_scopes'] == {'gap_goals_diff':'fixture'}
     metadata = h.loc[h.side.eq('home'),['competition_id','season_id','event_id','team_id','opponent_id']].rename(columns={'team_id':'home_id','opponent_id':'away_id'}).reset_index(drop=True)
     label = LabelData(y=pd.DataFrame({'target':[1.,1.]}), metadata=metadata, unit='match', perspective='home', identity_columns=('competition_id','season_id','event_id'), definition=None)
@@ -95,7 +95,8 @@ def test_pooling_stat_parameters_preserves_league_states():
 
 def test_tiny_optimizer_smoke_explicit_limit_and_fit_boundary():
     h = pd.DataFrame(fixture(1,'2020-01-02')+fixture(2,'2020-01-04',yh=3,ya=1))
-    options = dict(statistic=statistic(),seasons=[season_plan()],fit_cutoff='2020-12-31',target_start='2021-01-01',
+    options = dict(statistic=statistic(),seasons=[season_plan(closed_at='2020-12-30')],fit_cutoff='2020-12-31',target_start='2021-01-01',
+                   target_seasons=[season_plan(season=2021,entry='2021-01-01',previous=2020,members=((1,'retained'),(2,'retained')))],
                    initial=PARAMS,cutoffs=h.kickoff_at,objective_mask=[True]*4,maxiter=3,maxfev=8,xatol=1e-3,fatol=1e-3)
     result = tune_gap(h,**options)
     assert result.iterations <= 3 and result.evaluations <= 8
@@ -111,9 +112,9 @@ def test_tiny_optimizer_smoke_explicit_limit_and_fit_boundary():
     assert isinstance(result.success,bool) and result.message
     with pytest.raises(ValueError,match='simplex'):
         tune_gap(h,**options,initial_simplex=[[0,0,0]]*4)
-    with pytest.raises(ValueError,match='after the parameter fit cutoff'):
+    with pytest.raises(ValueError,match='closed_at'):
         tune_gap(h,**{**options,'fit_cutoff':'2020-01-03'})
-    with pytest.raises(ValueError,match='preceding seasons'):
+    with pytest.raises(ValueError,match='target_start'):
         tune_gap(h,**{**options,'target_start':'2020-01-01','fit_cutoff':'2019-12-31'})
 
 
@@ -155,8 +156,8 @@ def test_four_family_schema_and_existing_stat_selection():
     with pytest.raises(ValueError,match='period'):
         GAPStatistic.from_stat(h,'shots_off_target',Stat(None,'Shots','shotsOffGoal'),definition='x')
     run = build(h,stats=families)
-    x = evaluate_features(h,gap_feature_set('g',families),ratings={'g':run})
+    x = evaluate_features(h,gap_feature_set('g',families),ratings={'g':run}, cutoffs='kickoff_at')
     assert list(x) == [f'gap_{name}_diff' for name in families]
     assert x.iloc[2].tolist() == pytest.approx([.27,.675,.81,.405])
-    assert len(run.features(h).columns) == 32  # explicit state inspection only
-    assert run.fixture_features(h).shape[1] == 4
+    assert len(run.features(h, cutoffs='kickoff_at').columns) == 32  # explicit state inspection only
+    assert run.fixture_features(h, cutoffs='kickoff_at').shape[1] == 4

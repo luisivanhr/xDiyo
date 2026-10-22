@@ -7,15 +7,16 @@ of the paper. Prediction scheduling is supplied separately through cutoffs.
 from dataclasses import dataclass, asdict
 from pathlib import Path
 import json
+from numbers import Number
 
 from .gap_core import ALGORITHM, FIELDS, GAPParameters, GAPState, WheatcroftGAP, donor_mean
-from .gap_data import GAPSeason, GAPStatistic, gap_observations
+from .gap_data import GAPSeason, GAPStatistic, gap_observations, gap_prediction_times
 from .snapshots import RatingRun
 
 
 def _time(value):
     import pandas as pd
-    if isinstance(value, (int, float, bool)):
+    if isinstance(value, Number):
         raise ValueError('Use explicit datetimes, not numeric timestamps.')
     result = pd.to_datetime(value, utc=True)
     if result is None or pd.isna(result):
@@ -25,10 +26,11 @@ def _time(value):
 
 @dataclass(frozen=True)
 class GAPVintage:
-    """One pooled parameter triple per statistic, fixed over [start, end).
+    """One pooled triple per statistic for seasons entering in [start, end).
 
     fit_cutoff is the latest information used for parameter estimation. A
     synthetic example must say so in provenance; there are no default values.
+    A season keeps that vintage even for fixtures postponed beyond end.
     Adjacent vintages can be supplied to build_gap_ratings without fitting.
     """
     parameters: tuple
@@ -100,6 +102,8 @@ class _Replay:
             )
             members = dict(plan.members)
             for r in self.events[key]:
+                if plan.closed_at is not None and r['kickoff_at'] >= _time(plan.closed_at):
+                    raise ValueError('Season closure contradicts a fixture at or after its closed_at boundary.')
                 if r['kickoff_at'] < _time(plan.entry_at):
                     raise ValueError('Season entry cannot follow a fixture kickoff.')
                 if r['home_id'] not in members or r['away_id'] not in members:
@@ -114,6 +118,10 @@ class _Replay:
                         raise ValueError('Retained team is absent from previous membership.')
                     if movement != 'retained' and team in old:
                         raise ValueError('Incoming team was already in this league; movement evidence contradicts membership.')
+                if any(m == 'promoted' for _, m in plan.members) and not plan.relegated_out:
+                    raise ValueError('GAP initialization unavailable: empty donor group for promoted entrants.')
+                if any(m == 'relegated' for _, m in plan.members) and not plan.promoted_out:
+                    raise ValueError('GAP initialization unavailable: empty donor group for relegated entrants.')
                 if (set(plan.promoted_out) | set(plan.relegated_out)) - set(old):
                     raise ValueError('Donor IDs must belong to this league in the previous season.')
         for r in observations.to_dict('records'):
@@ -186,45 +194,35 @@ class GAPRatingRun:
         self.statistics = tuple(statistics)
         self.seasons = tuple(seasons)
         self.metadata = metadata
-        self.streams = tuple(s.name for s in statistics)
+        self.streams = tuple(s.name for s in self.statistics)
         self.scope = ('competition_id', 'season_id', 'gap_vintage')
         self.initial_state = dict.fromkeys(FIELDS, 0.0)
         self._numeric = RatingRun(snapshots, {**self.initial_state, 'initialized': 0.0, 'games_seen': 0.0, 'stat_updates': 0.0},
                                   self.scope, self.streams, metadata)
         _validate_vintages(self.vintages, self.streams)
-        if metadata.get('algorithm') != ALGORITHM or metadata.get('state_policy') != 'replay':
+        if (metadata.get('algorithm') != ALGORITHM or metadata.get('state_policy') != 'replay'
+                or metadata.get('schema') != 2 or metadata.get('vintage_selection') != 'season_entry'):
             raise ValueError('Unsupported GAP artifact algorithm/state policy.')
 
     def _query(self, history, cutoffs):
         import pandas as pd
-        from ..features.history import aligned_times
-        times = aligned_times(history, cutoffs, default='kickoff_at')
-        kickoff = aligned_times(history, None, default='kickoff_at')
-        if (times > kickoff).any():
-            raise ValueError('Prediction cutoffs must not follow target kickoff.')
+        times = gap_prediction_times(history, cutoffs)
         query = history.copy()
+        entries = _season_entries(self.seasons)
         indexes = []
-        for time in times:
-            if pd.isna(time):
+        for row, time in zip(history.itertuples(), times):
+            entry = entries.get((row.competition_id, row.season_id))
+            if pd.isna(time) or entry is None:
                 indexes.append(-1)
                 continue
-            candidates = [i for i, v in enumerate(self.vintages) if _time(v.valid_from) <= time < _time(v.valid_until)]
+            candidates = [i for i, v in enumerate(self.vintages) if _time(v.valid_from) <= entry < _time(v.valid_until)]
             if len(candidates) != 1:
-                raise ValueError('No parameter vintage valid at requested prediction cutoff; later-season fits cannot serve earlier rows.')
+                raise ValueError('No parameter vintage for this target season; later-season fits cannot serve earlier rows.')
             i = candidates[0]
-            if time < _time(self.vintages[i].fit_cutoff):
-                raise ValueError('GAP parameters were fitted after prediction cutoff.')
+            if time < _time(self.vintages[i].fit_cutoff) or time < _time(self.vintages[i].valid_from):
+                raise ValueError('GAP parameter vintage was not available at the prediction cutoff.')
             indexes.append(i)
         query['gap_vintage'] = indexes
-        plans = {p.key: p for p in self.seasons}
-        for row, vintage_index in zip(history.itertuples(), indexes):
-            if vintage_index < 0:
-                continue
-            vintage = self.vintages[vintage_index]
-            for stat in self.streams:
-                plan = plans.get((row.competition_id, row.season_id, stat))
-                if plan is not None and not (_time(vintage.valid_from) <= _time(plan.entry_at) < _time(vintage.valid_until)):
-                    raise ValueError('A GAP parameter vintage must remain fixed for its target season; no mid-season vintage switching.')
         return query, times
 
     def features(self, history, *, cutoffs=None, side='both', fields=None):
@@ -298,7 +296,7 @@ class GAPRatingRun:
         stage.mkdir()
         try:
             self.snapshots.to_parquet(stage / 'snapshots.parquet', index=False)
-            state = dict(schema=1, vintages=[v.to_dict() for v in self.vintages],
+            state = dict(schema=2, vintages=[v.to_dict() for v in self.vintages],
                          statistics=[asdict(s) for s in self.statistics], seasons=[asdict(s) for s in self.seasons], metadata=self.metadata)
             def scalar(value):
                 if hasattr(value, 'item'):
@@ -306,7 +304,7 @@ class GAPRatingRun:
                 raise TypeError(f'Unsupported JSON value {type(value).__name__}')
             (stage / 'state.json').write_text(json.dumps(state, indent=2, allow_nan=False, default=scalar), encoding='utf-8')
             hashes = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in stage.iterdir()}
-            (stage / 'gap.json').write_text(json.dumps({'schema': 1, 'files': hashes}, indent=2), encoding='utf-8')
+            (stage / 'gap.json').write_text(json.dumps({'schema': 2, 'files': hashes}, indent=2), encoding='utf-8')
             _publish(stage, target)
         except Exception:
             import shutil
@@ -321,14 +319,14 @@ class GAPRatingRun:
         import pandas as pd
         root = Path(directory).resolve()
         manifest = json.loads((root / 'gap.json').read_text(encoding='utf-8'))
-        if manifest.get('schema') != 1 or set(manifest.get('files', {})) != {'snapshots.parquet', 'state.json'}:
-            raise ValueError('Invalid GAP manifest.')
+        if manifest.get('schema') != 2 or set(manifest.get('files', {})) != {'snapshots.parquet', 'state.json'}:
+            raise ValueError('Invalid or legacy GAP manifest; rebuild schema-1 artifacts with the audited schema-2 producer.')
         for name, digest in manifest['files'].items():
             path = root / name
             if path.is_symlink() or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
                 raise ValueError(f'GAP artifact file missing or changed: {name}')
         state = json.loads((root / 'state.json').read_text(encoding='utf-8'))
-        if state.get('schema') != 1:
+        if state.get('schema') != 2:
             raise ValueError('Unsupported GAP artifact schema.')
         return cls(pd.read_parquet(root / 'snapshots.parquet'), tuple(GAPVintage.from_dict(v) for v in state['vintages']),
                    tuple(GAPStatistic(**s) for s in state['statistics']), tuple(GAPSeason(**s) for s in state['seasons']), state['metadata'])
@@ -344,6 +342,16 @@ def _validate_vintages(vintages, streams):
         if previous is not None and _time(vintage.valid_from) < _time(previous.valid_until):
             raise ValueError('Parameter vintages must be chronological and nonoverlapping.')
         previous = vintage
+
+
+def _season_entries(seasons):
+    entries = {}
+    for plan in seasons:
+        key, entry = (plan.competition_id, plan.season_id), _time(plan.entry_at)
+        if key in entries and entries[key] != entry:
+            raise ValueError('Statistic plans must agree on the league-season entry cutoff.')
+        entries[key] = entry
+    return entries
 
 
 def build_gap_ratings(history, *, statistics, seasons, vintages, data_cutoff,
@@ -363,6 +371,10 @@ def build_gap_ratings(history, *, statistics, seasons, vintages, data_cutoff,
     statistics, seasons, vintages = tuple(statistics), tuple(seasons), tuple(vintages)
     _validate_vintages(vintages, tuple(s.name for s in statistics))
     data_cutoff = _time(data_cutoff)
+    # Future membership/predecessor claims are not prerequisites for past states.
+    seasons = tuple(s for s in seasons if s.statistic in {stat.name for stat in statistics}
+                    and _time(s.entry_at) <= data_cutoff)
+    _season_entries(seasons)
     observations = gap_observations(history, statistics, available_at=available_at)
     # No values released after the source cutoff enter any state or artifact.
     observed = observations.loc[observations.available_at.le(data_cutoff) & observations.finished].copy()
@@ -372,12 +384,15 @@ def build_gap_ratings(history, *, statistics, seasons, vintages, data_cutoff,
         if start > data_cutoff:
             raise ValueError('Vintage starts after the declared data cutoff.')
         replay = _Replay(observed, seasons, vintage.parameters)
+        target_plans = {key: plan for key, plan in replay.plans.items() if start <= _time(plan.entry_at) < end}
+        if not target_plans:
+            raise ValueError('Parameter vintage has no target season; do not introduce mid-season vintages.')
         # An observation released at kickoff is usable only strictly afterward.
         releases = [max(r.available_at, r.kickoff_at + pd.Timedelta(1, 'ns')) for r in observed.itertuples()]
         times = sorted({start, *(_time(s.entry_at) for s in seasons), *releases})
-        times = [t for t in times if start <= t < end and t <= data_cutoff]
+        times = [t for t in times if start <= t <= data_cutoff]
         for time in times:
-            for key, plan in replay.plans.items():
+            for key, plan in target_plans.items():
                 if _time(plan.entry_at) > time:
                     continue
                 states, counts, updates, latest = replay.state_at(key, time)
@@ -390,7 +405,7 @@ def build_gap_ratings(history, *, statistics, seasons, vintages, data_cutoff,
     table = pd.DataFrame(snapshots, columns=columns)
     import hashlib
     source_digest = hashlib.sha256(observed.sort_values(['kickoff_at', 'competition_id', 'season_id', 'event_id']).to_json(date_format='iso', date_unit='ns').encode()).hexdigest()
-    metadata = dict(observations_sha256=source_digest, algorithm=ALGORITHM, schema=1, state_policy=state_policy, data_cutoff=data_cutoff.isoformat(),
+    metadata = dict(observations_sha256=source_digest, algorithm=ALGORITHM, schema=2, vintage_selection='season_entry', state_policy=state_policy, data_cutoff=data_cutoff.isoformat(),
                     initialization='zero_first_stat_season_then_retention_or_opposite_outgoing_cohort_mean',
                     missing_observations='skip_incomplete_pair_per_statistic', chronology='kickoff_replay_of_available_prefix',
                     transition_boundary='freeze_prior_season_at_entry', burn_in='home_pre_match_games_seen > 6',

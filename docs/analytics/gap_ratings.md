@@ -24,11 +24,16 @@ The supplied PDF was read and equations/season rules were checked visually.
   one statistic/league/season. `gap_season_from_context` accepts the existing
   `TransitionContext`/`build_team_seasons` movement evidence. It does not use
   Glicko transition mathematics. First-stat coverage must be declared; unknown
-  entrants, missing predecessors and empty donors fail clearly.
+  entrants, missing predecessors and empty donors fail clearly. The context
+  adapter preserves explicitly unknown predecessor evidence and rejects it.
+  Parameter fitting additionally requires a verified `closed_at` boundary for
+  every training season; it never infers closure from a dataset's last row.
 - `GAPVintage` records the parameter triples, fit cutoff, half-open validity
-  interval and provenance. `build_gap_ratings` takes chronological vintages
+  interval for target season entries and provenance. `build_gap_ratings` takes chronological vintages
   supplied by the caller. It never fits them. Queries cannot use later-season
-  fits for earlier rows or switch parameters within the same target season.
+  fits for earlier rows or switch parameters within the same target season. A
+  postponed fixture retains its original season vintage after the calendar
+  interval ends. The validity interval selects season entries, not query dates.
 - `GAPRatingRun.features` supplies `Rating('name', fields=('HA', ...))` through
   the existing numeric `RatingRun` lookup contract. `fixture_features` returns
   signed differences by default; explicit `fields=('home','away','difference')`
@@ -93,6 +98,7 @@ run = build_gap_ratings(
 )
 # This synthetic round has two fixtures for the same team: freeze both before
 # the first kickoff. In production supply the scheduler's actual cutoff Series.
+history['prediction_batch_id'] = 'synthetic-round-1'
 cutoffs = pd.Series(pd.Timestamp('2020-01-01', tz='UTC'), index=history.index)
 X = evaluate_features(history, gap_feature_set('gap', ('goals',)),
                       ratings={'gap': run}, cutoffs=cutoffs, keyed=True)
@@ -120,10 +126,15 @@ No automatic season refit command is provided or executed.
 2. **Production predictions use the scheduler's pre-round cutoffs.** Pass the
    same actual cutoff to both perspectives and every fixture in that prediction
    batch. `evaluate_features` retains those cutoff identities for assembly.
-   As in existing rating lookups, omitting cutoffs means row kickoff, which is
-   appropriate only for an explicitly chosen match-by-match query. GAP does not
-   infer round batches from nominal labels. Postponements use real availability
-   and the actual chosen prediction boundary.
+   **Omitting cutoffs is now an error**, including through `Rating`,
+   `GAPFixture` and diagnostics. Paired fixture rows must agree on cutoff,
+   kickoff and reciprocal teams. If the history supplies `prediction_batch_id`,
+   the whole declared batch within a league-season must have one cutoff.
+   The scheduler owns these actual batch IDs; GAP never guesses them from
+   nominal round labels, which can survive postponements. An explicitly chosen
+   match-by-match diagnostic can pass `cutoffs='kickoff_at'`, but that is not the
+   production pre-round schedule. Without batch IDs, callers remain responsible
+   for assigning the same explicit cutoff throughout each actual batch.
 3. **State chronology is separate from batch prediction.** At each release,
    reconstruct the available prefix in kickoff order. Several matches involving
    one team get ordinary sequential equations (6)-(7), not pooled residuals.
@@ -165,7 +176,15 @@ No automatic season refit command is provided or executed.
    equation (9) denominator is eligible matches, not twice that count. Whether
    burn-in belongs in the fitting mask is not unambiguously specified.
    `tune_gap` requires an initial triple, `maxiter`, `maxfev`, `xatol`, `fatol`,
-   fit cutoff and next-season start. It uses SciPy Nelder-Mead in
+   fit cutoff and next-season start. It also requires `target_seasons`, a
+   disjoint set of upcoming `GAPSeason` identities for the fitted statistic,
+   and `closed_at <= fit_cutoff` on every training plan. `target_start` must
+   equal the earliest target entry; the predecessor chain is checked using
+   those explicit identities. A target date alone does not establish a season
+   fold. Target-season rows are forbidden even when masked out of the loss.
+   Closure and population completeness are caller-supplied evidence; they
+   cannot be established from a possibly truncated history. It uses SciPy
+   Nelder-Mead in
    `(log(lambda), logit(phi1), logit(phi2))`; unrepresentable candidates receive
    infinite objective, rather than projecting onto the open-domain boundaries.
    Starts, limits, tolerances, sample identities/mask, cutoffs, input hash,
@@ -196,15 +215,20 @@ established by these tests.
 `snapshots.parquet` using the existing atomic artifact publisher and checksums.
 `GAPRatingRun.load(directory)` preserves vintage checks, streams, season/league
 identities, state policy, statistic definitions, source cutoff/hash and feature
-schema. It refuses changed artifacts. There is deliberately no `ratings.json`:
+schema. It refuses changed artifacts. Native schema 2 records season-bound
+vintage selection and enforces the explicit-cutoff query contract. Schema-1
+artifacts must be rebuilt: their old snapshots stopped at calendar vintage
+expiry, so silently reinterpreting them could omit postponed-match updates. There is deliberately no `ratings.json`:
 `RatingRun.load` cannot silently turn this into an unrestricted generic run.
 Existing artifacts are never overwritten. This task populated no real-data cache.
 
 This is a correctness-first prefix replay. It reconstructs histories for saved
 availability boundaries, so work/storage can grow quadratically with the number
 of events. It has not been benchmarked on real data. A saved run can forecast
-later fixtures within its vintage using the state through `metadata['data_cutoff']`;
-it does not fetch subsequent results. Rebuild explicitly to assimilate them.
+later fixtures in its declared target seasons using the state through `metadata['data_cutoff']`;
+it does not fetch subsequent results. Future season plans after that cutoff
+are not used or persisted as known membership. Rebuild explicitly to assimilate
+new results or season entries.
 No incremental continuation or automatic data preparation is hidden in imports,
 feature evaluation, configuration inspection or loading.
 
@@ -230,8 +254,11 @@ stopped, restarted, reconfigured or otherwise changed.
 
 ## Verification
 
-Final result: **188 passed in 9.76 seconds** on the focused CPU-only suite.
-The documented synthetic example also passed; `git diff --check` was clean.
+Initial implementation result: **188 passed in 9.76 seconds**. The subsequent
+critical review and its current regression results are recorded in
+[GAP critical review](gap_review.md).
+The documented synthetic example also passed on the initial implementation.
+The review reruns it against the stricter API.
 
 The focused command covers GAP numerical/replay/features/training tests,
 `test_ratings.py`, `test_rating_transitions.py`, `test_bayesian_features.py`,
