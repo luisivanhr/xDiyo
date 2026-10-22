@@ -9,7 +9,7 @@ from .expressions import (
     RollingMean, RollingStd, RollingSkewness, RollingZScore, Stat, MatchScore,
 )
 from .history import eligible_history_rows, league_season_team_counts
-from .ratings import BayesianFixture, BayesianRating, MatchResultGlicko, Rating, StatGlicko
+from .ratings import GAPFixture, BayesianFixture, BayesianRating, MatchResultGlicko, Rating, StatGlicko
 from .league import League, LeaveOneOut, LeaguePopulation, reduce_league
 from .warmup import WarmStart, SeededEMA, evaluate_warm_start
 from .transitions import TransitionContext
@@ -302,6 +302,17 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 result = (stat_values(node.source, node.side), h2h)
             else:
                 raise TypeError("ForAgainst takes a Stat, MatchScore, Heatmap or SpatialPointSummary reference.")
+        elif isinstance(node, GAPFixture):
+            if h2h:
+                raise ValueError("H2H rating streams are not implemented.")
+            if ratings is None or node.name not in ratings:
+                raise KeyError(f"Supply the named GAPRatingRun through ratings: {node.name}")
+            from ..ratings.gap import GAPRatingRun
+            run = ratings[node.name]
+            if not isinstance(run, GAPRatingRun):
+                raise TypeError("GAPFixture requires a GAPRatingRun.")
+            retain_rating(run)
+            result = (run.fixture_features(history, cutoffs=cutoffs, statistics=node.statistics, fields=node.fields), h2h)
         elif isinstance(node, (BayesianRating, BayesianFixture)):
             if h2h:
                 raise ValueError("H2H rating streams are not implemented; use H2H with historical statistic operators.")
@@ -542,7 +553,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         # This is expression semantics, never inferred from equal values.
         # Temporal operators use each team's history and therefore stay team
         # scoped even when their child describes a fixture.
-        if isinstance(node, (BayesianFixture, SpatialFixtureDistance)):
+        if isinstance(node, (GAPFixture, BayesianFixture, SpatialFixtureDistance)):
             return "fixture"
         if isinstance(node, (Constant, Real)):
             return "constant"

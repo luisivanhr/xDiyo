@@ -14,3 +14,12 @@ __all__ = ["Glicko2", "PairwiseRatingEngine", "glicko_state", "build_ratings", "
            "GlickoTransition", "RatingTransition", "BayesianParameters", "GammaState", "TeamState",
            "BayesianConfig", "BayesianModel", "BayesianRatingRun", "build_bayesian_ratings",
            "BayesianTrainingResult", "BayesianScoreAdapter", "BayesianScoreSerializer", "train_bayesian"]
+
+from .gap_core import GAPParameters, GAPState, GAPPrediction, WheatcroftGAP
+from .gap_data import GAPStatistic, GAPSeason, derive_shots_off_target, gap_season_from_context
+from .gap import GAPVintage, GAPRatingRun, build_gap_ratings
+from .gap_training import GAPFitResult, gap_mae, tune_gap
+
+__all__ += ["GAPParameters", "GAPState", "GAPPrediction", "WheatcroftGAP", "GAPStatistic",
+            "GAPSeason", "derive_shots_off_target", "gap_season_from_context", "GAPVintage",
+            "GAPRatingRun", "build_gap_ratings", "GAPFitResult", "gap_mae", "tune_gap"]

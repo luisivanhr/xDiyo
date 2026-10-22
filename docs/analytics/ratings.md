@@ -188,3 +188,8 @@ below 1.3e-11. These precision checks are distinct from exact legacy-engine pari
 
 The package wheel builds and imports in an isolated interpreter without installs.
 See [verification evidence, source hashes and saved runs](ratings_check.json).
+
+The opt-in [paper GAP ratings](gap_ratings.md) preserve raw paired statistic
+counts and expose signed fixture differences through named runs. GAP uses its
+own count-aware producer; it does not reinterpret statistic comparisons as
+Glicko games or change any existing rating default.

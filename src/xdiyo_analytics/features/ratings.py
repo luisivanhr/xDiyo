@@ -75,3 +75,23 @@ class BayesianFixture(Expr):
     def __post_init__(self):
         if self.name is not None and self.model is not None:
             raise ValueError("Choose a named Bayesian run or a fixed model, not both.")
+
+@dataclass(frozen=True)
+class GAPFixture(Expr):
+    """Read a named GAP run; default exports signed home-minus-away differences.
+
+    No fitting or replay is triggered. Home/away predictions can be explicitly
+    selected for inspection. Diagnostics are available only on the run itself.
+    """
+    name: str
+    statistics: tuple | None = None
+    fields: tuple = ('difference',)
+
+
+def gap_feature_set(name, statistics):
+    """Explicit opt-in mapping using the existing feature naming convention."""
+    from ..ratings.gap_core import STATISTICS
+    statistics = tuple(statistics)
+    if not statistics or len(set(statistics)) != len(statistics) or set(statistics) - set(STATISTICS):
+        raise ValueError('Choose distinct paper GAP statistics.')
+    return {f'gap_{stat}_diff': GAPFixture(name, (stat,)) for stat in statistics}
