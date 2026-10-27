@@ -1,0 +1,37 @@
+{
+  "base_commit": "abc5b29d457557d2569781973cb403484a9ed8a7",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "numpy": "2.3.5",
+  "tests": {
+    "passed": 185,
+    "failed": 0,
+    "warnings": 4,
+    "seconds": 65.26
+  },
+  "publication_audit": {
+    "publications": 289,
+    "fixtures": 92983,
+    "finite_regular_fixtures": 92855,
+    "excluded_belgian_playoffs": 128
+  },
+  "browser": "Native builder: Season countdown selected; format selector switched from auto to scotland. Total rounds and team count override controls visible. Temporary tab and server closed.",
+  "commands": [
+    "PYTHONPATH=src python -m pytest tests/analytics/test_season_countdown.py tests/analytics/test_season_progress.py tests/analytics/test_ui_workflow.py tests/analytics/test_ui_inventory.py tests/analytics/test_fixture_assembly.py tests/analytics/test_feature_presets_context.py tests/analytics/test_ui_catalog_compatibility.py tests/analytics/test_derived_standings.py -q --disable-warnings --junitxml=docs/analytics/season-countdown/tests.xml",
+    "PYTHONPATH=src python docs/analytics/season-countdown/audit.py"
+  ],
+  "sha256": {
+    "src/xdiyo_analytics/features/countdown.py": "2e55f2f96f5fea7f81a3f7701b5689e549f131d2a7e685e8aec64ee994c7dc72",
+    "src/xdiyo_analytics/features/__init__.py": "6d329cff030d6ac7a5f38f847e09daacfc41aedeae54d2c34818f5faf91dd05a",
+    "src/xdiyo_analytics/features/contextual.py": "a60a0542be2ece90af58623b312dab044d1227ffefa2cbca857aae2cf9d35f4b",
+    "src/xdiyo_analytics/features/evaluation.py": "7c8f8cc9b62f4f9047c4233883de36c45994e6230c8c10e365135ed60751fec2",
+    "src/xdiyo_analytics/ui/catalog.py": "07745fd9969cf40c8c63c6f95f3dabe6602db24ebafb55abbe0d70547f1c2694",
+    "src/xdiyo_analytics/ui/recipe.py": "94ff1fb4925cc716621e0ba7134cfc2a83f409851b9770e2f0dc7054125c0bdf",
+    "src/xdiyo_analytics/ui/build_inventory.py": "45d5bb91a1b49a05e50b9982207349def1055d35cb0b4925ba1a7d0f416ed2af",
+    "src/xdiyo_analytics/ui/inventory.json": "b67ec45514aafdd3699b2417e9052cb8c1807cfede9f0fca841293afe3c1c1c7",
+    "tests/analytics/test_season_countdown.py": "0ae7de576eb79017db05447abc99aae93044200efe548ae1c50bc46e006e6f62",
+    "docs/analytics/season-countdown/audit.py": "0d37f023bf0fa07d8a9e577666f0e823dade1be99af927104f7c385d30042067",
+    "docs/analytics/season-countdown/publication-audit.csv": "48f66acfe331390b009f68e76d6ccbaad7f619c1c5863f737ecffd6986386f2b",
+    "docs/analytics/season-countdown/tests.xml": "76dbe70b3a2063996334834b324f1bd3628e896be2a3ca063aba33203c13a6c6"
+  }
+}

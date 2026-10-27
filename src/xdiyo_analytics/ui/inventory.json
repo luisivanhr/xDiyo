@@ -19174,6 +19174,53 @@
         }
       ],
       "accepts_extra": false
+    },
+    "features.SeasonCountdown": {
+      "id": "features.SeasonCountdown",
+      "title": "Season countdown",
+      "category": "feature",
+      "description": "Remaining season rounds in [0, 1], using the round at actual kickoff.",
+      "fields": [
+        {
+          "name": "total_rounds",
+          "title": "Total rounds",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.",
+          "primary": true,
+          "min": 2,
+          "step": 1
+        },
+        {
+          "name": "format",
+          "title": "Format",
+          "required": false,
+          "kind": "select",
+          "default": "auto",
+          "help": "Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use the round active at kickoff.",
+          "primary": true,
+          "choices": [
+            "auto",
+            "double",
+            "single",
+            "scotland",
+            "japan_transition"
+          ]
+        },
+        {
+          "name": "team_count",
+          "title": "Team count",
+          "required": false,
+          "kind": "number",
+          "default": null,
+          "help": "Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.",
+          "primary": true,
+          "min": 2,
+          "step": 1
+        }
+      ],
+      "accepts_extra": false
     }
   },
   "stages": {
@@ -19476,6 +19523,19 @@
             "input.StandingsRun"
           ],
           "initial_component": "input.StandingsRun"
+        },
+        {
+          "name": "schedule_history",
+          "title": "Schedule history",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional full fixture schedule for SeasonCountdown. Recipes load it automatically before modelling filters. Use a version appropriate to the prediction cutoff.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
         }
       ],
       "accepts_extra": false

@@ -21,6 +21,7 @@ from .spatial_distribution import SpatialEntropy, SpatialConcentration, distribu
 from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance, deviation_values, fixture_values
 from .movement import TeamMovement, movement_records, statistical_context
 from .standings import DerivedStandings
+from .countdown import SeasonCountdown, season_countdown
 from .weighted import RollingWeightedMean, weighted_values
 
 
@@ -28,7 +29,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                       cutoffs=None, available_at=None, team_counts=None, ratings=None,
                       team_seasons=None, season_starts=None, keyed=False, heatmaps=None,
                       rating_runs=None, standings_history=None, standings_available_at=None,
-                      standings_run=None):
+                      standings_run=None, schedule_history=None):
     """Evaluate a mapping of output names to expressions; preserve row/index order.
 
     rating_runs optionally receives the RatingRun objects used by this evaluation
@@ -247,6 +248,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                       (kicks.iloc[i] - kicks.iloc[rows[-1]]).total_seconds() / 86400
                       for i, rows in enumerate(history_rows(h2h))]
             result = (pd.DataFrame({'rest_days': values}, index=history.index), h2h)
+        elif isinstance(node, SeasonCountdown):
+            result = (season_countdown(history, node, schedule_history=schedule_history, team_seasons=team_seasons).to_frame('season_countdown'), h2h)
         elif isinstance(node, (CalendarFeature, SeasonProgress)):
             result = (evaluate_context_features(history, {'calendar': node}), h2h)
         elif isinstance(node, Constant):
@@ -565,7 +568,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         # This is expression semantics, never inferred from equal values.
         # Temporal operators use each team's history and therefore stay team
         # scoped even when their child describes a fixture.
-        if isinstance(node, (BayesianFixture, SpatialFixtureDistance)):
+        if isinstance(node, (BayesianFixture, SpatialFixtureDistance, SeasonCountdown)):
             return "fixture"
         if isinstance(node, (Constant, Real)):
             return "constant"

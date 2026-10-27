@@ -16,6 +16,7 @@ from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
+    'schedule_history': 'Optional full fixture schedule for SeasonCountdown. Recipes load it automatically before modelling filters. Use a version appropriate to the prediction cutoff.',
     'standings_history': 'Optional complete standings team history. Recipes load the unfiltered result population automatically.',
     'standings_available_at': 'Availability series/column for the complete standings history, honoring reviewed bounds.',
     'standings_run': 'Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.',
@@ -536,6 +537,13 @@ def build():
                     f.update(help='For uses this team; against uses its opponent; both creates separate outputs.')
                 elif name == 'normalize':
                     f.update(help='Divide cumulative position by N only. Lower is better; form ranks always use (N-R)/(N-1).')
+            if key == 'features.SeasonCountdown':
+                c['title'] = 'Season countdown'
+                f['primary'] = True
+                if name == 'format':
+                    f.update(kind='select', choices=['auto', 'double', 'single', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use the round active at kickoff.')
+                else:
+                    f.update(kind='number', min=2, step=1, help='Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.')
             if key == 'features.SeasonProgress' and name == 'total_rounds':
                 c['title'] = 'Season progress'
                 f.update(kind='number', min=1, step=1, primary=True, title='Total rounds override', visible_when={'mode':['rounds']}, clear_when_hidden=True,
@@ -698,7 +706,7 @@ def build():
     # Explicit auxiliary data controls instead of an untyped object textbox.
     for key in ('feature_options','rating_options'):
         for f in stages[key]['fields']:
-            if f['name'] in ('team_counts','team_seasons','season_starts','transition_context','standings_history','standings_available_at'):
+            if f['name'] in ('team_counts','team_seasons','season_starts','transition_context','standings_history','standings_available_at','schedule_history'):
                 f.update(kind='component',components=['input.Table'],initial_component='input.Table')
             if f['name']=='standings_run':
                 f.update(kind='component',components=['input.StandingsRun'],initial_component='input.StandingsRun')
@@ -927,11 +935,11 @@ def build():
     composition_widgets(components)
     from .graph_inventory import decorate as graph_widgets
     graph_widgets(components, stages)
-    for key in ('features.DerivedStandings', 'input.StandingsRun'):
+    for key in ('features.DerivedStandings', 'features.SeasonCountdown', 'input.StandingsRun'):
         for field in components[key]['fields']:
             field.pop('annotation', None)
     for field in stages['feature_options']['fields']:
-        if field['name'].startswith('standings_'):
+        if field['name'].startswith('standings_') or field['name'] == 'schedule_history':
             field.pop('annotation', None)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 

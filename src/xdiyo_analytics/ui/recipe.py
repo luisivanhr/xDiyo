@@ -232,6 +232,23 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         standings_options = {**data_options, 'tables': ['matches', 'team_seasons'], 'include_awarded': True}
         standings_data = load_seasons(**standings_options)
         standings_source = build_team_history(standings_data)
+    def countdown_nodes(value):
+        if isinstance(value, dict):
+            if value.get('component') == 'features.SeasonCountdown':
+                yield value.get('params', {})
+            for child in value.values():
+                yield from countdown_nodes(child)
+        elif isinstance(value, list):
+            for child in value:
+                yield from countdown_nodes(child)
+    countdown_data = None
+    countdown_specs = list(countdown_nodes([recipe.get('features', {}), recipe.get('context_features', {})]))
+    if countdown_specs:
+        tables = ['matches']
+        if any(p.get('total_rounds') is None and p.get('team_count') is None
+               and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
+            tables.append('team_seasons')
+        countdown_data = load_seasons(**{**data_options, 'tables': tables, 'include_awarded': True})
     data = load_seasons(**data_options)
     heatmaps = data.tables.get('heatmap_points')
     if heatmaps is not None:
@@ -254,6 +271,10 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                                 for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
+    if countdown_data is not None:
+        options.setdefault('schedule_history', countdown_data.matches)
+        if 'team_seasons' in countdown_data.tables:
+            options.setdefault('team_seasons', countdown_data['team_seasons'])
     if needs_standings_source:
         options.setdefault('standings_history', standings_source)
         options.setdefault('team_seasons', standings_data['team_seasons'])
@@ -344,7 +365,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     calendar.update(catalog.build(recipe.get('context_features', {})))
     if calendar:
         from ..features.contextual import evaluate_context_features
-        extra = evaluate_context_features(dataset.metadata, calendar)
+        extra = evaluate_context_features(dataset.metadata, calendar, schedule_history=options.get('schedule_history'), team_seasons=options.get('team_seasons'))
         if set(extra).intersection(dataset.X):
             raise ValueError('Context features must have distinct names from existing inputs.')
         dataset.X = pd.concat([dataset.X, extra], axis=1)

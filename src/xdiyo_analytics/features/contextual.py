@@ -113,7 +113,7 @@ def season_progress(metadata, expression):
     return rounds / totals
 
 
-def evaluate_context_features(metadata, definitions):
+def evaluate_context_features(metadata, definitions, *, schedule_history=None, team_seasons=None):
     """Evaluate named CalendarFeature/SeasonProgress expressions with stable rows.
 
     Works on team history or assembled match metadata. Calling after assembly
@@ -123,10 +123,14 @@ def evaluate_context_features(metadata, definitions):
     """
     import numpy as np
     import pandas as pd
+    from .countdown import SeasonCountdown, season_countdown
     columns = {}
     for name, expression in definitions.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Context feature names must be nonempty strings.")
+        if isinstance(expression, SeasonCountdown):
+            columns[name] = season_countdown(metadata, expression, schedule_history=schedule_history, team_seasons=team_seasons)
+            continue
         if isinstance(expression, SeasonProgress):
             columns[name] = season_progress(metadata, expression)
             continue
