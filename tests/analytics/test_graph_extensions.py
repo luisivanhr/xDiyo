@@ -295,7 +295,7 @@ def test_disabled_network_exact_against_base_revision(cnn):
     pre=base.preprocessor
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(11)
-        base.model=module.TemporalNetwork(cfg,len(pre.leagues),2*len(pre.edge_columns)+len(pre.leagues)+2,2*len(pre.fixture_columns)+len(pre.leagues)+1)
+        base.model=module.TemporalNetwork(cfg,len(pre.leagues),pre.edge_dim,pre.fixture_dim)
     # The frozen network predates the internal owned-target keyword. Keep its
     # original validation/math; adapt only the invocation contract in this test.
     original_forward = base.model.forward

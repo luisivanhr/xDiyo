@@ -29,6 +29,7 @@ def main():
     from test_graph_speed import reference
     from test_graph_preparation_memory import assert_exact
     from xdiyo_analytics.graphs import store,adapter,preprocessing,streaming
+    from xdiyo_analytics.graphs.observed_gap import migrate_gap_config
     from xdiyo_analytics.graphs.config import TemporalGraphConfig,CLASS_ORDER
     from xdiyo_analytics.graphs.network import TemporalNetwork
     from xdiyo_analytics.training.contracts import FitContext
@@ -42,7 +43,7 @@ def main():
            ('history.parquet','team_seasons.parquet','schedule.parquet','graph.json','weights.pt')]]
     hashes={str(p.relative_to(args.fold)):digest(p) for p in files}
     meta=json.loads((args.fold/'model/graph.json').read_text())
-    cfg=TemporalGraphConfig(**meta['config'])
+    cfg=TemporalGraphConfig(**migrate_gap_config(meta['config']))
     saved=torch.load(args.fold/'model/weights.pt',map_location='cuda:0',weights_only=True)
     frame=pd.read_parquet(args.fold/'train_metadata.parquet')
     ctx=FitContext(X=pd.DataFrame(index=frame.index),metadata=frame,layout='match',match_columns=(),fold_id=2,
@@ -61,7 +62,7 @@ def main():
         backend.preprocessor=pre
         with torch.random.fork_rng(devices=[]):
             backend.model=TemporalNetwork(cfg,len(pre.leagues),2*len(pre.edge_columns)+len(pre.leagues)+2,
-                2*len(pre.fixture_columns)+len(pre.leagues)+1).to('cuda:0')
+                pre.fixture_dim).to('cuda:0')
         backend.model.load_state_dict(saved)
         backend.refresh_version(); assert backend.model_version==meta['model_version']
         backend.output_classes=CLASS_ORDER

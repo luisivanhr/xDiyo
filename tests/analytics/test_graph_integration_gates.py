@@ -161,6 +161,15 @@ def test_pinned_source_two_update_parity_and_legacy_reload(tmp_path,reference,ki
     archive=subprocess.check_output(['git','archive','--format=zip',reference,'src'],cwd=root)
     frozen=tmp_path/'frozen';frozen.mkdir()
     with zipfile.ZipFile(io.BytesIO(archive)) as z:z.extractall(frozen)
+    if kind in ('gat_statistics', 'gat_combined'):
+        # The pinned statistics code predates pandas 3's read-only arrays.
+        # Only give its existing Boolean mask owned storage; leave all numeric
+        # expressions and parity assertions unchanged in this temporary copy.
+        statistics = frozen/'src/xdiyo_analytics/graphs/statistics.py'
+        text = statistics.read_text(encoding='utf-8')
+        old = 'valid = loc.notna().to_numpy()'
+        assert text.count(old) == 1
+        statistics.write_text(text.replace(old, 'valid = loc.notna().to_numpy(copy=True)'), encoding='utf-8')
     worker=Path(__file__).with_name('gat_integration_parity_worker.py')
     env=dict(os.environ,CUDA_VISIBLE_DEVICES='0' if device.startswith('cuda') else '-1',PYTHONDONTWRITEBYTECODE='1',
              CUBLAS_WORKSPACE_CONFIG=':4096:8',XDIYO_PARITY_DEVICE=device)

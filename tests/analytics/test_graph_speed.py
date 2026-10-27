@@ -11,7 +11,8 @@ import pandas as pd
 import pytest
 torch = pytest.importorskip('torch')
 
-from test_temporal_graph import sample, config, context
+from test_temporal_graph import sample, context
+from test_graph_preparation_memory import config
 from test_graph_preparation_memory import assert_exact
 from xdiyo_analytics.graphs import TemporalEventStore, GraphProfile
 from xdiyo_analytics.graphs.adapter import _Backend
@@ -33,11 +34,18 @@ def reference():
     original_asdict = adapter.asdict
     def legacy_asdict(value):
         result = original_asdict(value)
-        for name in ('boundary_memory', 'statistics_forecast'):
+        for name in ('boundary_memory', 'statistics_forecast', 'goal_auxiliary'):
             if result.get(name) is None:
                 result.pop(name, None)
         if result.get('deterministic') is False:
             result.pop('deterministic')
+        if 'temporal_mode' in result:
+            assert result.pop('temporal_mode') == 'snapshot'
+            result.pop('time_scales_days')
+            for name in ('time_encoding', 'age_scale_days', 'gap_scale_days'):
+                result.pop(name)
+        for name in ('fixture_gap_encoding', 'observed_gap_scale_days', 'observed_gap_recent_days', 'sender_state_mode'):
+            result.pop(name, None)
         return result
     adapter.asdict = legacy_asdict
     adapter.GraphPreprocessor = modules['preprocessing'].GraphPreprocessor
@@ -146,7 +154,7 @@ def test_full_update_gradient_optimizer_rng_and_continuation(device, reconstruct
         store, cfg = sample(), config()
     else:
         spec, store = graph_setup(Reconstruction(loss=reconstruction))
-        cfg = spec.config
+        cfg = replace(spec.config, fixture_gap_encoding='legacy_standardized_gap_v1')
     oldmod = reference()
     oldstore = oldmod['store'].TemporalEventStore(store.history,store.team_seasons,
                                                 schedule=store.schedule, provenance=store.provenance)

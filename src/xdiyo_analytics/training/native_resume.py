@@ -83,12 +83,25 @@ def capture_backend(backend):
     state = dict(model=_cpu(backend.model.state_dict()), optimizer=_cpu(backend.optimizer.state_dict()),
                 gradients=[None if p.grad is None else _cpu(p.grad) for p in backend.model.parameters()],
                 preprocessing=_preprocessing(backend), training=backend.model.training)
+    if hasattr(getattr(backend, 'config', None), 'sender_state_mode'):
+        state['graph_semantics'] = dict(sender_state_mode=backend.config.sender_state_mode,
+            fixture_schema=backend.preprocessor.fixture_schema)
     if hasattr(backend, 'statistics_scale'):
         state['statistics_scale'] = deepcopy(backend.statistics_scale.state())
     return state
 
 
 def restore_backend(backend, state):
+    if hasattr(getattr(backend, 'config', None), 'sender_state_mode'):
+        expected = dict(sender_state_mode=backend.config.sender_state_mode,
+                        fixture_schema=backend.preprocessor.fixture_schema)
+        actual = state.get('graph_semantics')
+        if actual is None:
+            from ..graphs.observed_gap import LEGACY_GAP_ENCODING
+            if backend.config.sender_state_mode != 'updated' or backend.config.fixture_gap_encoding != LEGACY_GAP_ENCODING:
+                raise ValueError('Legacy continuation cannot select a corrected schema or sender mode.')
+        elif actual != expected:
+            raise ValueError('Training checkpoint sender mode or fixture schema is incompatible.')
     if _preprocessing(backend) != state['preprocessing']:
         raise ValueError('Training checkpoint preprocessing is incompatible with rebuilt inputs.')
     if hasattr(backend, 'statistics_scale'):
@@ -245,7 +258,7 @@ def finalize_training(adapter, *, mode='retain', checkpoint=None):
     backend.optimizer.zero_grad(set_to_none=True)
     for name in ('optimizer', 'train_groups', 'validation_groups', 'train_targets', 'validation_targets',
                  'train_weights', 'validation_weights', 'train', 'validation',
-                 'train_statistics', 'validation_statistics', '_statistics_observations'):
+                 'train_statistics', 'validation_statistics', '_statistics_observations', 'train_goals', 'validation_goals'):
         backend.__dict__.pop(name, None)
     if hasattr(backend, 'preprocessor'):
         backend.preprocessor._edge_cache = None

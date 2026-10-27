@@ -34,6 +34,11 @@ def _attention_group(adapter, time, positions, queries, records, replay=None):
                     model_version=backend.model_version, event_store_version=backend.store.version))
                 if replay is not None:
                     records[-1].update(boundary_at=replay.start, evidence_scope='explicit_segment_edges')
+                elif adapter.config.temporal_mode != 'snapshot':
+                    records[-1]['state_mode'] = adapter.config.temporal_mode
+                    if adapter.config.temporal_mode == 'historical':
+                        records[-1].update(sender_query_at=edge.kickoff_at,
+                            sender_history_cutoff=adapter.config.history_cutoff(edge.kickoff_at))
 
 
 @configured_execution

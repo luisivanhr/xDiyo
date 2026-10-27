@@ -125,6 +125,11 @@ class TemporalGraphAdapter:
         with torch_threads(self.inner_threads):
             return self.backend_.predict_statistics(context)
 
+    def predict_goals(self, context):
+        """Separate marginal goal rates, with the same public prediction boundary."""
+        with torch_threads(self.inner_threads):
+            return self.backend_.predict_goals(context)
+
     def attention_weights(self, queries):
         from .inspection import attention_weights
         return attention_weights(self, queries)
@@ -162,9 +167,10 @@ class TemporalGraphAdapter:
 class _Backend:
     supports_sample_weight = True
 
-    def __init__(self, config, store, seed, device, input_cache_policy=None):
+    def __init__(self, config, store, seed, device, input_cache_policy=None, *, preprocessor_state=None):
         self.input_cache_policy = input_cache_policy
         self.config, self.store, self.seed, self.device = config, store, seed, device
+        self.frozen_preprocessor_state = deepcopy(preprocessor_state)
 
     def _validate(self, context, fitting=False):
         if context.layout != "match" or not context.X.index.equals(context.metadata.index) or not context.X.index.is_unique:
@@ -175,6 +181,7 @@ class _Backend:
         if context.metadata.home_id.eq(context.metadata.away_id).any():
             raise ValueError("A fixture needs different teams.")
         issue = self.store.issue_times(context.metadata, self.config)
+        self.store.assert_targets_unobserved(context.metadata, issue, self.config)
         if fitting:
             if context.y.shape[1] != 1 or not context.y.index.equals(context.X.index):
                 raise ValueError("Fitting requires one aligned home/draw/away target.")
@@ -227,36 +234,40 @@ class _Backend:
     def initialize(self, context):
         torch = _torch()
         from .network import TemporalNetwork
-        from ..data.availability import respect_result_availability
         self._validate(context, fitting=True)
         if len(context.X) == 0:
             raise ValueError("Fitting population cannot be empty.")
         self.target_name = context.y.columns[0]
         self.output_classes = CLASS_ORDER
-        self.fitting_boundary = respect_result_availability(context.metadata,
-            self.config.labels_known_at(context.metadata.kickoff_at)).max()
+        self.fitting_boundary = self.store.label_availability(context.metadata, self.config).max()
         self.trained_through = self.fitting_boundary
         if context.validation is not None:
             validation_issue = self._validate(context.validation, fitting=True)
             if len(validation_issue) == 0 or min(self.config.history_cutoff(t) for t in validation_issue) < self.fitting_boundary:
                 raise ValueError("Fitting labels must be known before validation issuance.")
             self.trained_through = max(self.trained_through,
-                respect_result_availability(context.validation.metadata,
-                    self.config.labels_known_at(context.validation.metadata.kickoff_at)).max())
+                self.store.label_availability(context.validation.metadata, self.config).max())
         plan = self._plan(context)
         numeric, leagues = plan.fitting_inputs()
         largest = max(self.config.history_cutoff(time) for time, _ in plan.descriptors)
         fitting_history = self.store.eligible(largest)
-        self.preprocessor = GraphPreprocessor(self.config).fit(
+        if self.config.temporal_mode == 'historical':
+            latest_issue = max(time for time, _ in plan.descriptors)
+            memberships = self.store._memberships
+            leagues.update(memberships.loc[memberships.entry_at.le(latest_issue), 'competition_id'].tolist())
+        self.preprocessor = (GraphPreprocessor(self.config).fit(
             fitting_history, (), context.metadata, numeric, extra_leagues=leagues)
+            if self.frozen_preprocessor_state is None else
+            GraphPreprocessor.from_state(self.config, self.frozen_preprocessor_state))
         del fitting_history
         # fork_rng avoids altering the caller's CPU random stream.
         with torch.random.fork_rng(devices=[]):
             torch.random.default_generator.manual_seed(self.seed)
             self.model = TemporalNetwork(self.config, len(self.preprocessor.leagues),
-                2*len(self.preprocessor.edge_columns)+1+len(self.preprocessor.leagues)+1,
-                2*len(self.preprocessor.fixture_columns)+len(self.preprocessor.leagues)+1).to(self.device)
-        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
+                self.preprocessor.edge_dim,
+                self.preprocessor.fixture_dim).to(self.device)
+        from .goal_network import optimizer_groups
+        self.optimizer = torch.optim.AdamW(optimizer_groups(self.model, self.config), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
         del numeric
         self.train_groups = PreparedGroups(plan, self.preprocessor, self.device, self.input_cache_policy, reconstruction_targets=True)
@@ -271,6 +282,9 @@ class _Backend:
         if self.config.statistics_forecast is not None:
             from .supervision import initialize_statistics
             initialize_statistics(self, context)
+        if self.config.goal_auxiliary is not None:
+            from .goals import initialize_goals
+            initialize_goals(self, context)
         self.refresh_version()
 
     def _targets(self, context):
@@ -324,6 +338,9 @@ class _Backend:
     @configured_execution
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
+        if self.config.goal_auxiliary is not None:
+            from .goals import goal_loss
+            return goal_loss(self, groups, targets, weights, backward)
         if self.config.statistics_forecast is not None:
             from .supervision import statistics_loss
             return statistics_loss(self, groups, targets, weights, backward)
@@ -359,6 +376,9 @@ class _Backend:
         with phase('optimizer'):
             self.optimizer.step()
         values = {"train_loss": train_loss}
+        if self.config.goal_auxiliary is not None:
+            values.update(train_goal_loss=self._goal_loss, train_regularization=float(penalty.detach()),
+                          train_objective=train_loss + self.config.goal_auxiliary.beta*self._goal_loss + float(penalty.detach()))
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values['train_reconstruction_loss'] = self._reconstruction_loss
             values['train_objective'] = train_loss + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss + float(penalty.detach())
@@ -369,6 +389,10 @@ class _Backend:
             self.model.eval()
             with torch.no_grad():
                 values["validation_loss"] = self._loss(self.validation_groups, self.validation_targets, self.validation_weights)
+                if self.config.goal_auxiliary is not None:
+                    current_penalty = float(self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum()))
+                    values.update(validation_goal_loss=self._goal_loss, validation_regularization=current_penalty,
+                        validation_objective=values['validation_loss']+self.config.goal_auxiliary.beta*self._goal_loss+current_penalty)
                 if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
                     values['validation_reconstruction_loss'] = self._reconstruction_loss
                     values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
@@ -381,12 +405,15 @@ class _Backend:
     @configured_execution
     @timed('metric_replay')
     def checkpoint_metrics(self, monitor, values):
-        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss', 'train_statistics_loss'):
+        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss', 'train_statistics_loss', 'train_goal_loss'):
             return values
         with inference_mode(self.model):
             loss = self._loss(self.train_groups, self.train_targets, self.train_weights)
             penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
         values = dict(values, train_loss=loss)
+        if self.config.goal_auxiliary is not None:
+            values.update(train_goal_loss=self._goal_loss, train_regularization=float(penalty),
+                          train_objective=loss + self.config.goal_auxiliary.beta*self._goal_loss + float(penalty))
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values.update(train_reconstruction_loss=self._reconstruction_loss,
                           train_objective=loss+self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss+float(penalty))
@@ -409,6 +436,26 @@ class _Backend:
         if self.config.statistics_forecast is not None:
             digest.update(json.dumps(self.statistics_scale.state(), sort_keys=True).encode())
         config_state = asdict(self.config)
+        from .observed_gap import LEGACY_GAP_ENCODING, GAP_CONFIG_FIELDS
+        if self.config.fixture_gap_encoding == LEGACY_GAP_ENCODING:
+            for name in GAP_CONFIG_FIELDS:
+                del config_state[name]
+        if self.config.sender_state_mode == 'updated':
+            del config_state['sender_state_mode']  # Original propagation fingerprint.
+        if config_state['goal_auxiliary'] is None:
+            del config_state['goal_auxiliary']  # Preserve every pre-goal model fingerprint.
+        elif self.config.goal_auxiliary.architecture == 'linear':
+            # New fields are inactive defaults for the original flexible head.
+            for name in ('likelihood', 'competitions', 'initial_alpha', 'dispersion_learning_rate'):
+                config_state['goal_auxiliary'].pop(name)
+        if self.config.temporal_mode == 'snapshot' or self.config.time_encoding == 'log1p_v1':
+            # Logarithmic encoding was implicit in legacy temporal fingerprints.
+            # Its rational scales are inactive. Rational models include all three.
+            for name in ('time_encoding', 'age_scale_days', 'gap_scale_days'):
+                del config_state[name]
+        if config_state['temporal_mode'] == 'snapshot':
+            del config_state['temporal_mode']
+            del config_state['time_scales_days']  # Preserve existing baseline artifact fingerprints.
         if self.config.statistics_forecast is not None:
             from .extensions import target_schema
             config_state["statistics_forecast"]["targets"] = [target_schema(t) for t in self.config.statistics_forecast.targets]
@@ -445,6 +492,22 @@ class _Backend:
     def _boundary(self, issue):
         if len(issue) and min(self.config.history_cutoff(t) for t in issue) < self.trained_through:
             raise ValueError("Requested issuance precedes the fitted/validation-selection boundary.")
+
+    @configured_execution
+    @release_temporary_frames
+    def predict_goals(self, context):
+        if self.config.goal_auxiliary is None:
+            raise ValueError('Goal predictions require goal_auxiliary enabled.')
+        self._boundary(self._validate(context))
+        output = np.empty((len(context.X), 2))
+        with inference_mode(self.model):
+            groups = self._stream(context)
+            for i in range(len(groups)):
+                with groups.lease(i) as group:
+                    positions, data, home, away, fixture = group
+                    _, rates = self.model(data, home, away, fixture, return_goals=True)
+                    output[positions] = rates.cpu().numpy()
+        return pd.DataFrame(output, index=context.X.index, columns=['lambda_home', 'lambda_away'])
 
     def _statistic_arrays(self, size):
         arrays = {}
@@ -530,6 +593,9 @@ class _Backend:
             if replay is not None:
                 records[pos].update(boundary_at=replay.start, evidence_scope='explicit_segment_edges',
                                     state_mode='detached_boundary_memory')
+            elif self.config.temporal_mode != 'snapshot':
+                records[pos].update(state_mode=self.config.temporal_mode,
+                                    evidence_scope='historical_queries' if self.config.temporal_mode == 'historical' else 'snapshot_edges')
 
     @configured_execution
     @release_temporary_frames

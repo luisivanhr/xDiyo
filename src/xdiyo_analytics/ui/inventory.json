@@ -18220,6 +18220,186 @@
             "graphs.StatisticsForecast"
           ],
           "initial_component": "graphs.StatisticsForecast"
+        },
+        {
+          "name": "temporal_mode",
+          "title": "Temporal mode",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "snapshot",
+          "help": "Snapshot keeps the existing GAT. Time features adds match age and historical gaps. Historical also queries opponents before each encounter. The new modes require memory, statistics supervision and heatmaps off.",
+          "primary": true,
+          "choices": [
+            "snapshot",
+            "time_features",
+            "historical"
+          ]
+        },
+        {
+          "name": "time_scales_days",
+          "title": "Time scales days",
+          "required": false,
+          "kind": "list",
+          "annotation": "'tuple'",
+          "default": [
+            7.0,
+            30.0,
+            180.0
+          ],
+          "help": "Positive half-lives in days for explicit age and historical-gap features. Used by time features and historical modes; default 7, 30, 180.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "step": "any",
+            "min": 0
+          },
+          "visible_when": {
+            "temporal_mode": [
+              "time_features",
+              "historical"
+            ]
+          }
+        },
+        {
+          "name": "time_encoding",
+          "title": "Time encoding",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "rational_decay_v1",
+          "help": "Rational decay uses fixed bounded time features. Log1p reproduces the original temporal experiments. Neither changes the snapshot baseline.",
+          "primary": true,
+          "choices": [
+            "rational_decay_v1",
+            "log1p_v1"
+          ],
+          "visible_when": {
+            "temporal_mode": [
+              "time_features",
+              "historical"
+            ]
+          }
+        },
+        {
+          "name": "age_scale_days",
+          "title": "Age scale days",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 180.0,
+          "help": "Fixed rational age scale in days, where the first age coordinate equals 0.5. Default 180; not fitted to the archive.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "visible_when": {
+            "temporal_mode": [
+              "time_features",
+              "historical"
+            ],
+            "time_encoding": [
+              "rational_decay_v1"
+            ]
+          }
+        },
+        {
+          "name": "gap_scale_days",
+          "title": "Gap scale days",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 7.0,
+          "help": "Fixed rational scale for both observed pre-match history gaps. Default 7 days; not necessarily physiological rest.",
+          "step": "any",
+          "primary": true,
+          "min": 0,
+          "visible_when": {
+            "temporal_mode": [
+              "time_features",
+              "historical"
+            ],
+            "time_encoding": [
+              "rational_decay_v1"
+            ]
+          }
+        },
+        {
+          "name": "goal_auxiliary",
+          "title": "Goal auxiliary",
+          "required": false,
+          "kind": "component",
+          "annotation": "xdiyo_analytics.graphs.extensions.GoalAuxiliary | None",
+          "default": null,
+          "help": "Optional parallel linear goal head with raw-count marginal Poisson supervision. Outcome probabilities keep their existing head. Requires other graph extensions disabled.",
+          "primary": true,
+          "components": [
+            "graphs.GoalAuxiliary"
+          ],
+          "initial_component": "graphs.GoalAuxiliary"
+        },
+        {
+          "name": "fixture_gap_encoding",
+          "title": "Fixture gap encoding",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "bounded_observed_gap_v1",
+          "help": "Bounded observed gap encodes elapsed days since the latest eligible archived match, plus missing-history and 30-day availability flags. Legacy standardized gap reproduces existing saved models.",
+          "primary": true,
+          "choices": [
+            "bounded_observed_gap_v1",
+            "legacy_standardized_gap_v1"
+          ]
+        },
+        {
+          "name": "observed_gap_scale_days",
+          "title": "Observed gap scale days",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 7.0,
+          "help": "Fixed 7-day scale for bounded observed gap version 1. This is archive coverage at forecast issuance, not physiological rest.",
+          "step": 1,
+          "primary": true,
+          "min": 7,
+          "max": 7,
+          "visible_when": {
+            "fixture_gap_encoding": [
+              "bounded_observed_gap_v1"
+            ]
+          }
+        },
+        {
+          "name": "observed_gap_recent_days",
+          "title": "Observed gap recent days",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 30.0,
+          "help": "Fixed 30-day threshold for observed-gap version 1. Exactly 30 days counts as recent.",
+          "step": 1,
+          "primary": true,
+          "min": 30,
+          "max": 30,
+          "visible_when": {
+            "fixture_gap_encoding": [
+              "bounded_observed_gap_v1"
+            ]
+          }
+        },
+        {
+          "name": "sender_state_mode",
+          "title": "Sender state mode",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "updated",
+          "help": "Updated uses each opponent state from the previous layer. Layer zero uses its trainable initial prior in both sender projections; receivers still update. Requires memory off and snapshot or time-features mode.",
+          "primary": true,
+          "choices": [
+            "updated",
+            "layer_zero"
+          ]
         }
       ],
       "accepts_extra": false
@@ -19097,6 +19277,108 @@
           "choices": [
             "quantile"
           ]
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.GoalAuxiliary": {
+      "id": "graphs.GoalAuxiliary",
+      "title": "GoalAuxiliary",
+      "category": "graph_config",
+      "description": "Parallel raw-count supervision; None in TemporalGraphConfig disables it.",
+      "fields": [
+        {
+          "name": "beta",
+          "title": "Beta",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 0.1,
+          "help": "Weight on the per-fixture goal likelihood, globally averaged over fixtures. Zero leaves the goal head unused.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "architecture",
+          "title": "Architecture",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "linear",
+          "help": "Flexible joint-fixture linear rates, or shared attack/defence projections with competition scoring effects.",
+          "primary": true,
+          "choices": [
+            "linear",
+            "attack_defence"
+          ]
+        },
+        {
+          "name": "rate_floor",
+          "title": "Rate floor",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 1e-06,
+          "help": "Positive offset added after softplus; default 0.000001.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "detach_encoder",
+          "title": "Detach encoder",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": false,
+          "help": "Diagnostic control: train the goal head without goal gradients reaching the shared encoder.",
+          "primary": true
+        },
+        {
+          "name": "likelihood",
+          "title": "Likelihood",
+          "required": false,
+          "kind": "select",
+          "annotation": "'str'",
+          "default": "poisson",
+          "help": "Poisson, independent negative-binomial marginals, or one integrated shared-Gamma joint loss.",
+          "primary": true,
+          "choices": [
+            "poisson",
+            "independent_nb",
+            "shared_gamma"
+          ]
+        },
+        {
+          "name": "competitions",
+          "title": "Competitions",
+          "required": false,
+          "kind": "list",
+          "annotation": "tuple[int, ...]",
+          "default": [],
+          "help": "Supported target fixture competition identities for the structured decoder.",
+          "primary": true
+        },
+        {
+          "name": "initial_alpha",
+          "title": "Initial alpha",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 0.1,
+          "help": "Initial pooled overdispersion for negative-binomial and shared-Gamma heads.",
+          "step": "any",
+          "primary": true
+        },
+        {
+          "name": "dispersion_learning_rate",
+          "title": "Dispersion learning rate",
+          "required": false,
+          "kind": "number",
+          "annotation": "'float'",
+          "default": 0.05,
+          "help": "Learning rate for the pooled dispersion scalar; its weight decay is zero.",
+          "step": "any",
+          "primary": true
         }
       ],
       "accepts_extra": false

@@ -58,6 +58,7 @@ def main():
     import psutil
     import torch
     from test_graph_speed import reference
+    from xdiyo_analytics.graphs.observed_gap import migrate_gap_config
     from xdiyo_analytics.graphs.config import TemporalGraphConfig, CLASS_ORDER
     from xdiyo_analytics.graphs.execution import prepare_determinism
     if args.native_deterministic:
@@ -106,7 +107,7 @@ def main():
     meta = json.loads((args.fold/'model/graph.json').read_text())
     if meta['config']['heatmaps'] is not None or meta['config']['fixture_features']:
         raise ValueError('This audit harness expects the supplied scalar expanded-totals fold.')
-    cfg = TemporalGraphConfig(**meta['config'])
+    cfg = TemporalGraphConfig(**migrate_gap_config(meta['config']))
     event_store = modules['store'].TemporalEventStore(pd.read_parquet(args.fold/'model/history.parquet'),
         pd.read_parquet(args.fold/'model/team_seasons.parquet'), schedule=pd.read_parquet(args.fold/'model/schedule.parquet'))
     assert event_store.version == meta['event_store_version']
@@ -163,7 +164,7 @@ def main():
         backend.preprocessor=pre
         with torch.random.fork_rng(devices=[]):
             backend.model=TemporalNetwork(cfg,len(pre.leagues),2*len(pre.edge_columns)+len(pre.leagues)+2,
-                2*len(pre.fixture_columns)+len(pre.leagues)+1).to(args.device)
+                pre.fixture_dim).to(args.device)
         saved=torch.load(args.fold/'model/weights.pt',map_location=args.device,weights_only=True)
         backend.model.load_state_dict(saved)
         backend.refresh_version()

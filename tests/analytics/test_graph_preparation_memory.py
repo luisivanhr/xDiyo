@@ -8,10 +8,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from test_temporal_graph import config, context, sample, neural
+from test_temporal_graph import config as current_config, context, sample, neural
 from xdiyo_analytics.graphs import TemporalEventStore, TemporalGraphAdapter, TemporalGraphSerializer
 from xdiyo_analytics.graphs.adapter import _Backend
 from xdiyo_analytics.training import TrainingControl
+
+
+def config(**kwargs):
+    return current_config(fixture_gap_encoding='legacy_standardized_gap_v1', **kwargs)
 
 
 def reference_module(name):
@@ -26,7 +30,7 @@ def reference_module(name):
         original_asdict = module.asdict
         def legacy_asdict(value):
             result = original_asdict(value)
-            for name in ('boundary_memory', 'statistics_forecast'):
+            for name in ('boundary_memory', 'statistics_forecast', 'goal_auxiliary'):
                 if result.get(name) is None:
                     result.pop(name, None)
             from xdiyo_analytics.graphs import TemporalGraphConfig
@@ -37,6 +41,13 @@ def reference_module(name):
                 result.pop('include_goal_features', None)
                 assert value.deterministic is False
                 result.pop('deterministic', None)
+                assert value.temporal_mode == 'snapshot'
+                result.pop('temporal_mode', None)
+                result.pop('time_scales_days', None)
+                for name in ('time_encoding', 'age_scale_days', 'gap_scale_days'):
+                    result.pop(name, None)
+                for name in ('fixture_gap_encoding', 'observed_gap_scale_days', 'observed_gap_recent_days', 'sender_state_mode'):
+                    result.pop(name, None)
             return result
         module.asdict = legacy_asdict
     return module

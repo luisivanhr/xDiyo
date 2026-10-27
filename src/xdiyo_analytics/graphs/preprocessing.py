@@ -5,6 +5,7 @@ from dataclasses import asdict
 import json
 from .config import ENTRY_ORDER
 from .profiling import phase, timed
+from .observed_gap import LEGACY_GAP_ENCODING, BOUNDED_GAP_ENCODING, encode_observed_gap
 
 
 class MaskedScale:
@@ -49,6 +50,44 @@ class GraphPreprocessor:
         # preprocessor. No graph/device/learned-output cache is retained.
         self._edge_cache = None
         self._map_cache = None
+        self._temporal_index = None
+
+    @property
+    def temporal_columns(self):
+        if self.config.temporal_mode == 'snapshot':
+            return ()
+        from .temporal import time_feature_names
+        return time_feature_names(self.config)
+
+    @property
+    def edge_dim(self):
+        return 2*len(self.edge_columns) + len(self.leagues) + 2 + len(self.temporal_columns)
+
+    @property
+    def fixture_encoded_columns(self):
+        columns = []
+        for name in self.fixture_columns:
+            if self.config.fixture_gap_encoding == BOUNDED_GAP_ENCODING and name in ('home_rest_days', 'away_rest_days'):
+                side = name.split('_', 1)[0]
+                columns.extend(f'{side}_{suffix}' for suffix in
+                               ('observed_gap_r7', 'no_eligible_history', 'no_eligible_observation_30d'))
+            else:
+                columns.append(name + '__standardized')
+        columns.extend(name + '__missing' for name in self.fixture_columns
+                       if self.config.fixture_gap_encoding == LEGACY_GAP_ENCODING or name not in ('home_rest_days', 'away_rest_days'))
+        columns.extend(('competition_id=unknown', *(f'competition_id={key}' for key, _ in sorted(self.leagues.items(), key=lambda item: item[1]))))
+        return tuple(columns)
+
+    @property
+    def fixture_dim(self):
+        return len(self.fixture_encoded_columns)
+
+    @property
+    def fixture_schema(self):
+        return dict(encoding=self.config.fixture_gap_encoding,
+                    scale_days=self.config.observed_gap_scale_days,
+                    recent_days=self.config.observed_gap_recent_days,
+                    encoded_feature_order=list(self.fixture_encoded_columns), encoded_dim=self.fixture_dim)
 
     def numeric_edges(self, frame):
         if not set(self.edge_columns) <= set(frame):
@@ -71,7 +110,12 @@ class GraphPreprocessor:
             categories.update(x for x in snap.league if x is not None)
         self.leagues = {int(key): n+1 for n, key in enumerate(sorted(categories))}
         self.edge_scale = MaskedScale().fit(self.numeric_edges(history))
-        self.fixture_scale = MaskedScale().fit(numeric)
+        values = np.asarray(numeric, dtype=float).copy()
+        if self.config.fixture_gap_encoding == BOUNDED_GAP_ENCODING:
+            # These two positions remain in legacy scaler state for compatible
+            # column mapping, but the corrected encoding never scales them.
+            values[:, 1:3] = np.nan
+        self.fixture_scale = MaskedScale().fit(values)
         return self
 
     def one_hot(self, leagues):
@@ -169,9 +213,20 @@ class GraphPreprocessor:
 
     def native_tensors(self, snapshot, device, store, *, reconstruction_targets=False):
         snapshot._encoded_x = self.cached_edges(snapshot, store)
+        if self.config.temporal_mode != 'snapshot':
+            from .temporal import TemporalHistoryIndex, TimeIndexedPlan, time_encoding_key
+            index = self._temporal_index
+            if index is None or index.store is not store or index.config != self.config:
+                self._temporal_index = index = TemporalHistoryIndex(store, self.config)
+            snapshot._temporal_x = index.features(snapshot.edges.index, snapshot.issuance.value)
+            snapshot._temporal_encoding_key = time_encoding_key(self.config)
         if self.config.heatmaps is not None:
             snapshot._prepared_maps = self.cached_maps(snapshot, store, reconstruction_targets=reconstruction_targets)
-        return self.tensors(snapshot, device)
+        data = self.tensors(snapshot, device)
+        if self.config.temporal_mode == 'historical':
+            snapshot._temporal_plan = TimeIndexedPlan(index, snapshot, self.config.layers)
+            data.update(snapshot._temporal_plan.tensors(self, device))
+        return data
 
     def snapshot_columns(self, store):
         """Keep only causal graph metadata and optional deterministic maps."""
@@ -187,8 +242,35 @@ class GraphPreprocessor:
     def fixture(self, fixtures, numeric):
         # Keep caller metadata attrs intact without copying them onto a Series.
         inputs = pd.DataFrame(fixtures, copy=False)
-        return np.concatenate((self.fixture_scale.transform(numeric),
-                               self.one_hot(inputs.competition_id)), axis=1)
+        values = np.asarray(numeric, dtype=float)
+        if values.shape != (len(inputs), len(self.fixture_columns)):
+            raise ValueError('Fixture numeric schema has an incompatible shape.')
+        if self.config.fixture_gap_encoding == LEGACY_GAP_ENCODING:
+            return np.concatenate((self.fixture_scale.transform(values),
+                                   self.one_hot(inputs.competition_id)), axis=1)
+        ordinary = [i for i in range(len(self.fixture_columns)) if i not in (1, 2)]
+        # Transform only unrelated fields. No standardized gap or generic gap
+        # missingness coordinate is computed or appended to the model tensor.
+        scaler = MaskedScale()
+        scaler.mean = self.fixture_scale.mean[ordinary]
+        scaler.scale = self.fixture_scale.scale[ordinary]
+        scaled = scaler.transform(values[:, ordinary])
+        columns = {index: scaled[:, j:j+1] for j, index in enumerate(ordinary)}
+        for side, index in (('home', 1), ('away', 2)):
+            names = [f'{side}_observed_gap_days', f'{side}_latest_eligible_observed_at',
+                     f'{side}_has_eligible_observation']
+            if not set(names) <= set(inputs):
+                raise ValueError('Corrected fixture gaps require eligible-observation provenance.')
+            known = inputs[names[2]].to_numpy()
+            timestamps = pd.to_datetime(inputs[names[1]], utc=True)
+            if known.dtype.kind != 'b' or not np.array_equal(timestamps.notna().to_numpy(), known):
+                raise ValueError('Observed-gap timestamps and eligibility provenance disagree.')
+            if not np.array_equal(values[:, index], inputs[names[0]].to_numpy(float), equal_nan=True):
+                raise ValueError('Observed-gap duration and provenance disagree.')
+            columns[index] = encode_observed_gap(values[:, index], known,
+                scale_days=self.config.observed_gap_scale_days, recent_days=self.config.observed_gap_recent_days)
+        return np.concatenate((*[columns[i] for i in range(len(self.fixture_columns))],
+                               scaled[:, len(ordinary):], self.one_hot(inputs.competition_id)), axis=1)
 
     def tensors(self, snapshot, device):
         import torch
@@ -200,6 +282,12 @@ class GraphPreprocessor:
         else:
             with phase('row_encoding'):
                 encoded = self.edges(snapshot)
+        if self.config.temporal_mode != 'snapshot':
+            from .temporal import time_encoding_key
+            if (not hasattr(snapshot, '_temporal_x') or
+                    getattr(snapshot, '_temporal_encoding_key', None) != time_encoding_key(self.config)):
+                raise ValueError('Time features require native_tensors with the full immutable event store.')
+            encoded = np.concatenate((encoded, snapshot._temporal_x), axis=1)
         result = dict(x=tensor(encoded),
                     receiver=tensor(snapshot.receiver, torch.long),
                     sender=tensor(snapshot.sender, torch.long),
@@ -216,8 +304,11 @@ class GraphPreprocessor:
         return result
 
     def state(self):
-        return dict(leagues=list(self.leagues.items()), edge_scale=self.edge_scale.state(),
-                    fixture_scale=self.fixture_scale.state())
+        state = dict(leagues=list(self.leagues.items()), edge_scale=self.edge_scale.state(),
+                     fixture_scale=self.fixture_scale.state())
+        if self.config.fixture_gap_encoding == BOUNDED_GAP_ENCODING:
+            state['fixture_schema'] = self.fixture_schema
+        return state
 
     @classmethod
     def from_state(cls, config, state):
@@ -225,4 +316,11 @@ class GraphPreprocessor:
         obj.leagues = dict(state["leagues"])
         obj.edge_scale = MaskedScale.from_state(state["edge_scale"])
         obj.fixture_scale = MaskedScale.from_state(state["fixture_scale"])
+        if obj.fixture_scale.mean.shape != (len(obj.fixture_columns),) or obj.fixture_scale.scale.shape != (len(obj.fixture_columns),):
+            raise ValueError('Saved fixture scaler width disagrees with the input schema.')
+        if config.fixture_gap_encoding == BOUNDED_GAP_ENCODING:
+            if state.get('fixture_schema') != obj.fixture_schema:
+                raise ValueError('Saved corrected fixture schema is missing or inconsistent.')
+        elif 'fixture_schema' in state and state['fixture_schema'] != obj.fixture_schema:
+            raise ValueError('Saved legacy fixture schema is inconsistent.')
         return obj

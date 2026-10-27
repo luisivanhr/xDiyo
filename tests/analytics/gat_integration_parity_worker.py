@@ -35,6 +35,10 @@ else:
     else:store,cfg=sample(),config(deterministic=True)
     a=TemporalGraphAdapter(cfg,store);train=context(store,[1,2,3,4]);train.validation=context(store,[5,6]);query=context(store,[7,8],fit=False)
 device=os.environ.get('XDIYO_PARITY_DEVICE','cpu')
+if hasattr(a.config, 'fixture_gap_encoding'):
+    # The pinned reference predates the observed-gap input repair. Compare its
+    # explicit legacy transform; corrected-schema parity has separate tests.
+    a.config=replace(a.config,fixture_gap_encoding='legacy_standardized_gap_v1')
 if device.startswith('cuda'):
     from xdiyo_analytics.graphs.execution import prepare_determinism
     a.config=replace(a.config,deterministic=True)

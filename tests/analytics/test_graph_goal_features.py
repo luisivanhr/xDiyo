@@ -68,6 +68,13 @@ def legacy_version(backend):
     settings.pop('statistics_forecast', None)
     settings.pop('include_goal_features')
     settings.pop('heatmaps')
+    assert settings.pop('temporal_mode') == 'snapshot'
+    settings.pop('time_scales_days')
+    assert settings.pop('goal_auxiliary') is None
+    for name in ('time_encoding', 'age_scale_days', 'gap_scale_days'):
+        settings.pop(name)
+    for name in ('fixture_gap_encoding', 'observed_gap_scale_days', 'observed_gap_recent_days', 'sender_state_mode'):
+        settings.pop(name)
     return sha256((digest.hexdigest()+json.dumps(settings, sort_keys=True)).encode()).hexdigest()
 
 
@@ -86,7 +93,7 @@ def test_default_matches_legacy_preparation_gradients_update_and_fingerprint(mon
     import xdiyo_analytics.graphs.adapter as module
     store = period_store()
     ctx = context(store, [1, 2, 3]); ctx.validation = context(store, [5])
-    c = config(statistics=CHANNELS)
+    c = config(statistics=CHANNELS, fixture_gap_encoding='legacy_standardized_gap_v1')
     with torch_threads(1):
         current = _Backend(c, store, 17, 'cpu'); current.initialize(ctx)
         class LegacyPreprocessor(GraphPreprocessor):
@@ -144,7 +151,7 @@ def test_half_columns_masks_and_score_independence():
     not torch.cuda.is_available(), reason='CUDA unavailable'))])
 def test_native_persistence_and_legacy_key_omission(tmp_path, enabled, head_width, device):
     store = period_store()
-    c = config(statistics=CHANNELS, include_goal_features=enabled,
+    c = config(statistics=CHANNELS, include_goal_features=enabled, fixture_gap_encoding='legacy_standardized_gap_v1',
                fixture_features=tuple(f'causal_fixture_{i}' for i in range(head_width)))
     def inputs(positions, fit=True):
         ctx = context(store, positions, fit=fit)

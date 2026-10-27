@@ -6,6 +6,51 @@ opponent-independent team embeddings. It has no learned team-ID vectors and no
 persistent recurrent team state. The default dimensions and decay constants are
 starting hyperparameters; the bounded pilot did not establish a predictive advantage.
 
+The default `temporal_mode="snapshot"` preserves this model. The opt-in
+`"time_features"` and `"historical"` modes add explicit timing and, for the latter,
+opponent states at each historical encounter. New temporal configurations use
+`time_encoding="rational_decay_v1"`: `tau/(tau+days)`, with fixed
+`age_scale_days=180.0` and `gap_scale_days=7.0`, alongside the existing half-life
+and missingness channels. The 14-coordinate layout is unchanged. Select
+`"log1p_v1"` to reproduce the original experiments; recognized old checkpoints
+load with their original logarithmic semantics. Predictive benefit of the bounded
+representation remains untested. See the
+[temporal research log and experiment checkpoints](gat_temporal_research.md)
+for their information boundaries, comparison protocol and validation status.
+
+An optional parallel goal head is configured with
+`goal_auxiliary=GoalAuxiliary(beta=0.1)`; the default is `None`. It supervises raw
+home/away goal counts through summed marginal Poisson losses, with a single linear
+head and `softplus(z)+1e-6` rates. Outcome inference keeps its existing head.
+Use `adapter.predict_goals(context)` for separate rate diagnostics. Goals must be
+available and correctly aligned for every fitting/validation fixture. Memory,
+statistics supervision and heatmaps must remain disabled with this option.
+The research log records its bounded snapshot comparison and interpretation.
+
+Structured auxiliary rates are available with
+`GoalAuxiliary(architecture="attack_defence", competitions=(competition_id,))`.
+Shared bias-free attack and defence maps act on each pre-match team embedding.
+Competition-specific scoring and home intercepts define exponential home/away
+rates; known neutral venues omit the home term. Unknown venue status uses that
+term. Supported likelihoods are `"poisson"`, `"independent_nb"`, and
+`"shared_gamma"`. The latter integrates one Gamma multiplier shared by both
+scores in a fixture. NB and shared Gamma use a single positive pooled dispersion
+parameter, initialized at 0.1, with its own learning rate of 0.05 and no weight
+decay. Scoring/home intercepts also have no weight decay; common parameters keep
+the native optimizer settings. These choices are research settings, not defaults
+for the outcome model.
+
+Every active objective is reduced once per fixture with the native global
+population weights. Structured likelihoods include exact factorial terms and
+use float64 count arithmetic. The flexible Poisson training loss omits its
+constant factorial terms, which are restored for reported proper log scores.
+Neither family sends rates or latent-shock diagnostics into the outcome head.
+The structured reporting view uses fixed fitting-population centering offsets;
+prediction batches never determine those offsets. Parameters, configuration and
+offsets persist with the model. The
+[four-study suite](../../experiments/gat_four_study_suite_20261026_01/README.md)
+records frozen initialization, correctness evidence and evaluation status.
+
 An [optional heatmap CNN](heatmap_cnn.md) adds shared, jointly trained spatial edge
 features. Its reconstruction branch is independently optional. Both are disabled
 by default; the CNN also supports standalone classification and regression.
@@ -720,3 +765,28 @@ See [boundary memory and statistics forecasts](gat_boundary_memory_statistics.md
 for the opt-in configurations, exact temporal/gradient semantics, UI setup,
 native diagnostics, validation evidence and limitations. Full-history scalar GAT
 remains the default; neither addition is enabled by an old recipe.
+## Observed-gap and sender-state versions
+
+New configurations use `fixture_gap_encoding='bounded_observed_gap_v1'`.
+For each side, the fixture inputs are the elapsed time from the latest eligible
+archived match kickoff to forecast issuance, transformed as `d/(d+7)`, plus
+`no_eligible_history` and `no_eligible_observation_30d`. Known observations use
+`(d/(d+7), 0, int(d>30))`; absent eligible history uses `(0,1,1)`.
+The constants 7 and 30 are fixed by this version. Exactly 30 days is recent.
+These coordinates bypass numeric standardization and do not get extra missing
+masks. Raw duration and observation timestamps are diagnostic metadata only.
+This is an observed archive gap, not a measurement of physiological rest.
+
+Saved artifacts without these fields explicitly retain
+`legacy_standardized_gap_v1`, including the original feature width, transform
+and fingerprint. Corrected artifacts persist the encoded feature order, width,
+version and constants. Partial or contradictory metadata is rejected.
+
+`sender_state_mode='updated'` remains the default. The research control
+`'layer_zero'` uses the trainable initial global/league/movement prior for both
+sender key and sender value at every layer. Receiver states still update, as
+do own-history messages, edge/time projections and attention. Priors are
+recomputed within each forward pass and remain attached to autograd. The
+control rejects boundary memory and historical recursion. Model fingerprints
+and training continuations distinguish the two sender modes even though their
+parameter shapes agree.

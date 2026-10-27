@@ -34,6 +34,9 @@ class TemporalGraphSerializer:
             control=asdict(adapter.control),
             edge_feature_order=backend.preprocessor.edge_columns,
             fixture_feature_order=backend.preprocessor.fixture_columns,
+            fixture_encoded_feature_order=backend.preprocessor.fixture_encoded_columns,
+            fixture_encoded_dimension=backend.preprocessor.fixture_dim,
+            fixture_gap_schema=backend.preprocessor.fixture_schema,
             fitting_boundary=backend.fitting_boundary.isoformat(),
             trained_through=backend.trained_through.isoformat(),
             model_version=backend.model_version, event_store_version=adapter.event_store.version,
@@ -41,6 +44,8 @@ class TemporalGraphSerializer:
             training_summary=adapter.training_summary_, inner_threads=adapter.inner_threads)
         if getattr(adapter, "input_cache_policy", None) is not None:
             metadata["input_cache_policy"] = asdict(adapter.input_cache_policy)
+        if adapter.config.temporal_mode != 'snapshot':
+            metadata['temporal_feature_order'] = backend.preprocessor.temporal_columns
         if adapter.config.statistics_forecast is not None:
             metadata['statistics_scale'] = backend.statistics_scale.state()
         (path/"graph.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
@@ -70,11 +75,21 @@ class TemporalGraphSerializer:
             raise ValueError("Load requires the exact event_store matching the saved fingerprint.")
         if tuple(meta["class_order"]) != CLASS_ORDER:
             raise ValueError("Unsupported saved class order.")
-        config_state = dict(meta['config'])
+        from .observed_gap import migrate_gap_config, BOUNDED_GAP_ENCODING
+        config_state = migrate_gap_config(meta['config'])
+        encoding_fields = {'time_encoding', 'age_scale_days', 'gap_scale_days'}
+        present = encoding_fields.intersection(config_state)
+        if present and present != encoding_fields:
+            raise ValueError('Saved temporal encoding metadata is incomplete.')
+        if not present:
+            # Absence is a legacy migration, never the new constructor default.
+            config_state['time_encoding'] = 'log1p_v1'
         if config_state.get('heatmaps') is not None:
             from .spatial import GraphHeatmaps
             config_state['heatmaps'] = GraphHeatmaps.from_dict(config_state['heatmaps'])
-        from .extensions import BoundaryMemory, StatisticsForecast
+        from .extensions import BoundaryMemory, StatisticsForecast, GoalAuxiliary
+        if config_state.get('goal_auxiliary') is not None:
+            config_state['goal_auxiliary'] = GoalAuxiliary(**config_state['goal_auxiliary'])
         if config_state.get('boundary_memory') is not None:
             config_state['boundary_memory'] = BoundaryMemory(**config_state['boundary_memory'])
         if config_state.get('statistics_forecast') is not None:
@@ -95,14 +110,26 @@ class TemporalGraphSerializer:
         p = backend.preprocessor
         if tuple(meta["edge_feature_order"]) != p.edge_columns or tuple(meta["fixture_feature_order"]) != p.fixture_columns:
             raise ValueError("Saved feature order disagrees with the architecture configuration.")
+        fields = {'fixture_encoded_feature_order', 'fixture_encoded_dimension', 'fixture_gap_schema'}
+        present = fields.intersection(meta)
+        if present and present != fields:
+            raise ValueError('Saved encoded fixture metadata is incomplete.')
+        if config.fixture_gap_encoding == BOUNDED_GAP_ENCODING and not present:
+            raise ValueError('Corrected artifacts require explicit encoded fixture metadata.')
+        if present and (tuple(meta['fixture_encoded_feature_order']) != p.fixture_encoded_columns or
+                        meta['fixture_encoded_dimension'] != p.fixture_dim or meta['fixture_gap_schema'] != p.fixture_schema):
+            raise ValueError('Saved encoded fixture metadata disagrees with preprocessing.')
+        if tuple(meta.get('temporal_feature_order', ())) != p.temporal_columns:
+            raise ValueError('Saved temporal feature order disagrees with the architecture configuration; '
+                             'legacy temporal artifacts require the logarithmic feature order.')
         if config.statistics_forecast is not None:
             from .statistics import StatisticsScale
             backend.statistics_scale = StatisticsScale.from_state(config.statistics_forecast, meta['statistics_scale'])
         # Loading weights must not advance the caller's initialization RNG.
         with torch.random.fork_rng(devices=[]):
             backend.model = TemporalNetwork(config, len(p.leagues),
-                2*len(p.edge_columns)+1+len(p.leagues)+1,
-                2*len(p.fixture_columns)+len(p.leagues)+1).to(adapter.device)
+                p.edge_dim,
+                p.fixture_dim).to(adapter.device)
         backend.model.load_state_dict(torch.load(path/"weights.pt", map_location=adapter.device, weights_only=True))
         backend.target_name = meta["target_name"]
         backend.output_classes = tuple(meta.get("output_classes", CLASS_ORDER))

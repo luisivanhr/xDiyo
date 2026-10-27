@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from test_temporal_graph import sample, config, context
+from test_temporal_graph import sample, context
+from test_graph_preparation_memory import config
 from test_graph_speed import reference
 from test_graph_preparation_memory import assert_exact
 from xdiyo_analytics.graphs import TemporalEventStore

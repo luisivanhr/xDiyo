@@ -138,10 +138,12 @@ def test_attention_keeps_selectable_roster_when_no_edges_exist(trained, monkeypa
     assert 'initializeAttention' in report.to_html()
 
 
-@pytest.mark.parametrize('deterministic', [False, True])
-def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_path, deterministic):
+@pytest.mark.parametrize('deterministic,temporal_mode', [
+    (False, 'snapshot'), (True, 'snapshot'), (True, 'time_features'), (True, 'historical')])
+def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_path, deterministic, temporal_mode):
     recipe = graph_recipe(ui_recipe,tmp_path)
-    recipe['model']['params']['config']['params']['deterministic'] = deterministic
+    recipe['model']['params']['config']['params'].update(
+        deterministic=deterministic, temporal_mode=temporal_mode, time_scales_days=[7., 30., 180.], layers=2)
     prepared = prepare_recipe(recipe)
     assert prepared.outputs['graph_inputs'] is not None
     assert prepared.dataset.y.iloc[:,0].eq(1).all()
@@ -157,11 +159,14 @@ def test_recipe_prepare_fit_reuse_export_and_saved_prediction(ui_recipe, tmp_pat
     namespace = {}
     exec(exported.split('prepared =')[0], namespace)
     assert namespace['recipe']['model']['params']['config']['params']['deterministic'] is deterministic
+    assert namespace['recipe']['model']['params']['config']['params']['temporal_mode'] == temporal_mode
     assert catalog_for_ui().build(json.loads(json.dumps(recipe['model']))).config.deterministic is deterministic
     assert catalog_for_ui().build(json.loads(json.dumps(recipe['model']))).config.embedding_dim == 4
     from xdiyo_analytics.ui.recipe import predict_recipe
     model_path = save_model(result.training, tmp_path/'ui_model', fold_id=0)
     assert load_model(model_path).model.config.deterministic is deterministic
+    assert load_model(model_path).model.config.temporal_mode == temporal_mode
+    assert load_model(model_path).model.config.time_scales_days == (7., 30., 180.)
     future = deepcopy(recipe)
     future['prediction'].update(model_path=str(model_path), rounds={'Alpha':[8]})
     aligned, predictions = predict_recipe(future)
@@ -217,6 +222,11 @@ def test_catalog_fields_and_defaults():
     from xdiyo_analytics.graphs import TemporalGraphConfig
     from dataclasses import fields
     assert {f.name for f in fields(TemporalGraphConfig)} == {f['name'] for f in schema['graphs.TemporalGraphConfig']['fields']}
+    settings = {f['name']: f for f in schema['graphs.TemporalGraphConfig']['fields']}
+    assert settings['temporal_mode']['default'] == 'snapshot'
+    assert settings['time_encoding']['default'] == 'rational_decay_v1'
+    assert settings['time_encoding']['choices'] == ['rational_decay_v1', 'log1p_v1']
+    assert settings['age_scale_days']['default'] == 180. and settings['gap_scale_days']['default'] == 7.
     mode = next(f for f in schema['reporting.EmbeddingReporter']['fields'] if f['name']=='mode')
     assert mode['choices'] == ['tSNE','PCA'] and mode['default']=='tSNE'
     assert schema['reporting.GATLossReporter']['category']=='post_reporter'

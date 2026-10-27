@@ -44,6 +44,12 @@ class GraphSnapshot:
     store_version: str
 
     def evidence(self, team, layers):
+        if hasattr(self, '_temporal_source') and not hasattr(self, '_temporal_plan'):
+            from .temporal import TemporalHistoryIndex, TimeIndexedPlan
+            store, config = self._temporal_source
+            self._temporal_plan = TimeIndexedPlan(TemporalHistoryIndex(store, config), self, config.layers)
+        if hasattr(self, '_temporal_plan'):
+            return self._temporal_plan.evidence(team, layers)
         frontier, event_keys = {team}, set()
         for _ in range(layers):
             selected = self.edges[self.edges.team_id.isin(frontier)]
@@ -148,6 +154,10 @@ class TemporalEventStore:
         # conversion also handles pandas versions with different time storage.
         self._kickoff_ns = self._history.kickoff_at.array.asi8.copy()
         self._available_ns = self._available.astype('datetime64[ns, UTC]').array.asi8.copy()
+        self._event_home_rows = {
+            key: int(row) for key, row in zip(
+                identities(self._history.loc[self._history.side.eq('home')], MATCH_KEYS),
+                self._history.index[self._history.side.eq('home')])}
         self._finished = self._history.status.eq('finished').to_numpy(dtype=bool, na_value=False)
         # Convert exact IDs to dense source codes once. Arrow-backed integer
         # columns otherwise box every edge ID again at every issuance. Only
@@ -269,14 +279,38 @@ class TemporalEventStore:
         crossed = (counts[receiver] - self._entries_at_event[rows]).astype(float)
         logw = -math.log(2) * age / config.half_life_days + crossed * math.log(config.seasonal_retention)
         support = np.bincount(receiver, weights=np.exp(logw), minlength=len(nodes))
-        return GraphSnapshot(issuance, cutoff, nodes, e, receiver, sender, logw, support,
+        snapshot = GraphSnapshot(issuance, cutoff, nodes, e, receiver, sender, logw, support,
                              support / (support + config.support_kappa),
                              tuple(leagues), tuple(entries),
                              self.version)
+        if config.temporal_mode == 'historical':
+            snapshot._temporal_source = (self, config)
+        return snapshot
 
     def eligible(self, cutoff):
         """All completed, previous-day edges, honoring existing reviewed bounds."""
         return self._history.iloc[self._eligible_rows(cutoff)].copy()
+
+    def assert_targets_unobserved(self, fixtures, issuance, config):
+        """Reject a target already in full eligible history, including old segments."""
+        cutoffs = {t: config.history_cutoff(t).value for t in issuance.unique()}
+        for key, time in zip(identities(fixtures, MATCH_KEYS), issuance):
+            row = self._event_home_rows.get(key)
+            if row is None:
+                continue
+            cutoff = cutoffs[time]
+            if (self._finished[row] and self._kickoff_ns[row] < cutoff
+                    and np.iinfo(np.int64).min < self._available_ns[row] <= cutoff):
+                raise ValueError('Forecast target is already present in eligible event history; check schedule and issuance timestamps.')
+
+    def label_availability(self, fixtures, config):
+        """Use the later target/history release bound for fitting and selection."""
+        from ..data.availability import respect_result_availability
+        result = respect_result_availability(fixtures, config.labels_known_at(fixtures.kickoff_at))
+        historical = pd.Series([
+            self._available.iloc[self._event_home_rows[key]] if key in self._event_home_rows else pd.NaT
+            for key in identities(fixtures, MATCH_KEYS)], index=fixtures.index, dtype='datetime64[ns, UTC]')
+        return result.mask(historical.notna() & result.lt(historical), historical)
 
     def _eligible_rows(self, cutoff):
         bound = pd.Timestamp(cutoff)

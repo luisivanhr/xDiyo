@@ -5,6 +5,47 @@ import pandas as pd
 
 
 @dataclass(frozen=True)
+class GoalAuxiliary:
+    """Parallel raw-count supervision; None in TemporalGraphConfig disables it."""
+    beta: float = .1
+    architecture: str = 'linear'
+    rate_floor: float = 1e-6
+    detach_encoder: bool = False
+    likelihood: str = 'poisson'
+    competitions: tuple[int, ...] = ()
+    initial_alpha: float = .1
+    dispersion_learning_rate: float = .05
+
+    def __post_init__(self):
+        if self.architecture not in ('linear', 'attack_defence'):
+            raise ValueError('Goal auxiliary architecture must be linear or attack_defence.')
+        if self.likelihood not in ('poisson', 'independent_nb', 'shared_gamma'):
+            raise ValueError('Unknown goal likelihood.')
+        if self.architecture == 'linear' and self.likelihood != 'poisson':
+            raise ValueError('The legacy linear goal head uses the Poisson objective.')
+        competitions = tuple(self.competitions)
+        if any(type(c) is not int for c in competitions) or len(set(competitions)) != len(competitions):
+            raise ValueError('Goal competitions must be unique integer identities.')
+        if self.architecture == 'attack_defence' and not competitions:
+            raise ValueError('Structured goal heads require supported target competitions.')
+        object.__setattr__(self, 'competitions', competitions)
+        for name in ('initial_alpha', 'dispersion_learning_rate'):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f'{name} must be finite and positive.')
+        for name, positive in (('beta', False), ('rate_floor', True)):
+            value = getattr(self, name)
+            if (isinstance(value, bool) or not isinstance(value, (int, float))
+                    or not math.isfinite(value) or value < 0 or (positive and value == 0)):
+                raise ValueError(f'{name} must be finite and {"positive" if positive else "nonnegative"}.')
+            object.__setattr__(self, name, float(value))
+        if not 1.1754943508222875e-38 <= self.rate_floor <= 3.4028234663852886e38:
+            raise ValueError('rate_floor must be a positive normal float32 value.')
+        if type(self.detach_encoder) is not bool:
+            raise ValueError('detach_encoder must be a boolean.')
+
+
+@dataclass(frozen=True)
 class BoundaryMemory:
     """Fixed global chronological segments; None in TemporalGraphConfig disables."""
     policy: str = 'season'
