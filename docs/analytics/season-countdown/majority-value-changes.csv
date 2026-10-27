@@ -1,0 +1,42 @@
+publication,event_id,home,away,kickoff,assigned_round,total_rounds,old_effective_round,new_effective_round,old_countdown,new_countdown,direction
+Championship_12_13,3434240,Bristol City,Watford,2013-01-29T19:45:00+00:00,24,46,29,28,0.37777777777777777,0.4,less_progress_than_cluster
+Championship_20_21,9266059,Millwall,Watford,2021-01-26T19:00:00+00:00,22,46,26,25,0.4444444444444444,0.4666666666666667,less_progress_than_cluster
+Championship_20_21,9290653,Middlesbrough,Rotherham United,2021-01-27T19:00:00+00:00,21,46,26,25,0.4444444444444444,0.4666666666666667,less_progress_than_cluster
+Championship_20_21,9297122,Coventry City,Sheffield Wednesday,2021-01-27T19:00:00+00:00,24,46,26,25,0.4444444444444444,0.4666666666666667,less_progress_than_cluster
+Championship_26_27,16966646,Wolverhampton,Portsmouth,2026-10-20T18:45:00+00:00,6,46,8,7,0.8444444444444444,0.8666666666666667,less_progress_than_cluster
+J1_18_18,8016558,Cerezo Osaka,Nagoya Grampus,2018-11-06T10:00:00+00:00,28,34,32,31,0.06060606060606061,0.09090909090909091,less_progress_than_cluster
+J1_20_20,8704599,FC Tokyo,Sanfrecce Hiroshima,2020-12-12T05:00:00+00:00,31,34,32,31,0.06060606060606061,0.09090909090909091,less_progress_than_cluster
+La_Liga_26_27,17122851,Levante UD,Athletic Club,2026-10-21T18:00:00+00:00,6,38,7,6,0.8378378378378378,0.8648648648648649,less_progress_than_cluster
+Premier_League_17_18,7759902,Burnley,Chelsea,2018-04-19T18:45:00+00:00,31,38,35,34,0.08108108108108109,0.10810810810810811,less_progress_than_cluster
+Premier_League_18_19,8167494,Tottenham Hotspur,Crystal Palace,2019-04-03T18:45:00+00:00,31,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premier_League_18_19,8170431,Chelsea,Brighton & Hove Albion,2019-04-03T18:45:00+00:00,27,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premier_League_20_21,9258868,Burnley,Manchester United,2021-01-12T20:15:00+00:00,1,38,18,17,0.5405405405405406,0.5675675675675675,less_progress_than_cluster
+Premier_League_20_21,9277342,Tottenham Hotspur,Fulham,2021-01-13T20:15:00+00:00,16,38,18,17,0.5405405405405406,0.5675675675675675,less_progress_than_cluster
+Premier_League_20_21,9501660,Aston Villa,Everton,2021-05-13T17:00:00+00:00,19,38,36,35,0.05405405405405406,0.08108108108108109,less_progress_than_cluster
+Premier_League_20_21,9507199,Manchester United,Liverpool FC,2021-05-13T19:15:00+00:00,34,38,36,35,0.05405405405405406,0.08108108108108109,less_progress_than_cluster
+Premiership_10_11,1570113,Motherwell,Heart of Midlothian,2010-12-14T19:45:00+00:00,15,38,17,15,0.5675675675675675,0.6216216216216216,less_progress_than_cluster
+Premiership_10_11,1580162,Celtic,Kilmarnock,2010-12-21T19:45:00+00:00,17,38,18,17,0.5405405405405406,0.5675675675675675,less_progress_than_cluster
+Premiership_10_11,1380264,Hamilton Academical,Kilmarnock,2011-01-29T15:00:00+00:00,24,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1594279,Aberdeen,Celtic,2011-02-01T19:45:00+00:00,16,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1594280,St. Johnstone,Hamilton Academical,2011-02-01T19:45:00+00:00,16,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1594281,Hibernian,St. Mirren,2011-02-02T19:45:00+00:00,16,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1594283,Motherwell,Kilmarnock,2011-02-02T19:45:00+00:00,16,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1594284,Rangers,Heart of Midlothian,2011-02-02T19:45:00+00:00,16,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_10_11,1685432,Celtic,Hibernian,2011-04-06T18:45:00+00:00,30,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_cluster
+Premiership_10_11,1380311,Aberdeen,Hibernian,2011-04-09T14:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_10_11,1380312,Celtic,St. Mirren,2011-04-09T14:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_10_11,1380313,Dundee United,St. Johnstone,2011-04-09T14:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_10_11,1380315,Heart of Midlothian,Motherwell,2011-04-09T14:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_10_11,1380316,Kilmarnock,Inverness Caledonian Thistle,2011-04-09T14:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_10_11,1380314,Hamilton Academical,Rangers,2011-04-10T11:45:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_cluster
+Premiership_12_13,2913031,Dundee FC,Kilmarnock,2013-01-27T15:00:00+00:00,16,38,24,23,0.3783783783783784,0.40540540540540543,less_progress_than_cluster
+Premiership_13_14,3971489,Celtic,Kilmarnock,2014-01-29T19:45:00+00:00,22,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_13_14,3964779,Celtic,St. Mirren,2014-02-02T15:00:00+00:00,2,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_15_16,6993009,Partick Thistle,Motherwell,2016-02-02T19:45:00+00:00,17,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_15_16,6981707,St. Johnstone,Aberdeen,2016-02-06T15:00:00+00:00,22,38,25,24,0.35135135135135137,0.3783783783783784,less_progress_than_cluster
+Premiership_15_16,6993013,Heart of Midlothian,Inverness Caledonian Thistle,2016-03-01T19:45:00+00:00,17,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_cluster
+Premiership_20_21,8736144,Motherwell,Ross County,2020-10-24T14:00:00+00:00,10,38,12,11,0.7027027027027027,0.7297297297297297,less_progress_than_cluster
+Premiership_21_22,9935158,Ross County,Hibernian,2021-11-24T19:45:00+00:00,12,38,14,13,0.6486486486486487,0.6756756756756757,less_progress_than_cluster
+Premiership_23_24,11742862,Dundee FC,Ross County,2023-10-24T18:45:00+00:00,8,38,9,8,0.7837837837837838,0.8108108108108109,less_progress_than_cluster
+Premiership_23_24,11773106,St. Johnstone,Motherwell,2023-11-07T19:45:00+00:00,9,38,12,11,0.7027027027027027,0.7297297297297297,less_progress_than_cluster
+Serie_A_19_20,8446404,Brescia,Sassuolo,2019-12-18T19:45:00+00:00,7,38,17,16,0.5675675675675675,0.5945945945945946,less_progress_than_cluster

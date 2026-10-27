@@ -1,0 +1,94 @@
+{
+  "source_commit": "9edc7a69783dfcf688b7bc824632c6f1856dcd48",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "numpy": "2.3.5",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "244",
+    "time": "59.433",
+    "timestamp": "2026-10-27T18:44:46.135759+09:00",
+    "hostname": "Ivan-tachi"
+  },
+  "countdown_tests": 57,
+  "publication_audit": {
+    "publications": 289,
+    "fixtures": 92983,
+    "eligible": 92855,
+    "excluded": 128,
+    "unexplained_missing": 0,
+    "independent_reference": true,
+    "hand_verified_rounds": 14
+  },
+  "comparison": {
+    "reference_commit": "dc11b3a01c2cfd0f8abab710e1405f3d050888e1",
+    "reference_source_sha256": "b9286e3e0dba95093650800728347e0362ac777dd78dd3f1d268f25c5118668a",
+    "candidate_source_sha256": "8da32f39b22a7b0bf061689dbda8e061ac134964bac767829ce02a7b0f7cef81",
+    "publications": 289,
+    "fixtures": 92983,
+    "changed": 41,
+    "less_progress": 41,
+    "more_progress": 0,
+    "missing_masks_unchanged": true
+  },
+  "commands": [
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "tests/analytics/test_season_countdown.py",
+      "tests/analytics/test_season_progress.py",
+      "tests/analytics/test_ui_workflow.py",
+      "tests/analytics/test_ui_inventory.py",
+      "tests/analytics/test_fixture_assembly.py",
+      "tests/analytics/test_feature_presets_context.py",
+      "tests/analytics/test_ui_catalog_compatibility.py",
+      "tests/analytics/test_derived_standings.py",
+      "tests/analytics/test_team_history.py",
+      "-q",
+      "--disable-warnings",
+      "--tb=short",
+      "--junitxml=docs/analytics/season-countdown/majority-tests.xml"
+    ],
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\docs\\analytics\\season-countdown\\audit.py"
+    ],
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\docs\\analytics\\season-countdown\\compare_majority.py"
+    ]
+  ],
+  "sha256": {
+    "docs/analytics/season-countdown/README.md": "85a4a1e448afef5feb436c259745521769100dc94fe7bb79f8aceeebbd53e01e",
+    "docs/analytics/season-countdown/audit.py": "bac2061742b836ecdf00e6db1a3bd2e5fe5fd4579d2de7b9cd63185bd8475779",
+    "docs/analytics/season-countdown/compare_majority.py": "2084922933d7da98733b5d58b1428413b94b244997c8a6885767568ba790f84f",
+    "docs/analytics/season-countdown/majority-effective-round-checks.json": "9083533ac1cc1ce4a1d28cd368fd051392d84fa80676eab0223c492b21b803ba",
+    "docs/analytics/season-countdown/verify_majority.py": "6a1abc80950331f06b048e878ec610f58ef6630c39d5ab0976b7b908bd8f904b",
+    "src/xdiyo_analytics/features/countdown.py": "8da32f39b22a7b0bf061689dbda8e061ac134964bac767829ce02a7b0f7cef81",
+    "src/xdiyo_analytics/histories/team.py": "d1f1d6de3dfc6cfd5b6a9987d9f44c996abac462cdba6cb27591e8c978dbb6d4",
+    "src/xdiyo_analytics/ui/__init__.py": "7fec0d4597a2ed70bdb965c51eef583ee2af764e419f2b5777ae9676668a848a",
+    "src/xdiyo_analytics/ui/build_inventory.py": "30e9e194fa01c6ccb2fa6ab17665407167df3aa0291712bdaabe248e6dd09745",
+    "src/xdiyo_analytics/ui/countdown_migration.py": "b3ec87a356df592bc00fff438fbf8007c4aaa571089bc652f12cdd9c10d93095",
+    "src/xdiyo_analytics/ui/inventory.json": "65e4496709bb75a17c64866900515234ab2444b72fec1d9617a1c54e4a0fedd0",
+    "src/xdiyo_analytics/ui/recipe.py": "4b1ee01529265550604155658c6bf963e7a148b3fda334d4b73a3e88805de01c",
+    "tests/analytics/test_season_countdown.py": "e2db0a36718d96782086e9c0edb43318dc841a76680a24c7537628e6c1c28f7e",
+    "docs/analytics/season-countdown/majority-change-counts.csv": "ee60f15cf5d95a5594f141852050386845677ffc92540d42a5c3525d5187e56a",
+    "docs/analytics/season-countdown/majority-publication-audit.csv": "c4a27aedd9fc6af106c5d3c87b29e00a65255367885b0179e2505c9e8f6eaad4",
+    "docs/analytics/season-countdown/majority-value-changes.csv": "a8a21925b059f15d1132a3e30003cb870feb7685712f5824a6f6ea37f8f30c0e",
+    "docs/analytics/season-countdown/majority-audit.log": "0cbba5197b632e09eace59809e9c00cd1f2ca79311f657d1a54a87d95e430a3e",
+    "docs/analytics/season-countdown/majority-comparison.log": "05078c405316afb9bec2e084a119cadcb116ea8d709ddcaa2aa20733e44ea720",
+    "docs/analytics/season-countdown/majority-tests.log": "2b7913c4a2440c883acefcdb7831e9280dd37b091a54fcc37893c5216afee0a6",
+    "docs/analytics/season-countdown/majority-tests.xml": "6b6631f24408b69eb04d164ecad2295813e5f10ba5412bd965e8c9826c46b4b4",
+    "docs/analytics/season-countdown/majority-comparison.json": "49d04f828a25c0ed322a50adc68d6744c93be9ee10b6ab42a09d2d858642ba1c"
+  },
+  "browser": "Native browser confirmed fresh Season countdown has format/total/team controls and no schedule_mode. See majority-ui.png. Temporary tab/server closed.",
+  "limitations": [
+    "Targeted regression suite, not full application suite.",
+    "Observed progress assumes truthful actual kickoff/status and complete season membership.",
+    "Legacy schedule_mode recipes require explicit semantic migration; no frozen experiments rerun."
+  ]
+}
