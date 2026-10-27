@@ -2,11 +2,22 @@
 
 Default is a validated dry run. No collector records or unrelated tables change.
 Old match columns/rows remain byte-for-value identical; new evidence is sparse.
+Application is recoverable, not a simultaneous four-file atomic switch: exclude
+concurrent readers during publication. A durable pending journal precedes the
+first replacement; after interruption rerun the same command with --apply to
+roll forward before manifest hash checks. Dry runs never recover or publish.
+Changed/missing pending payloads or unexpected live bytes stop recovery. Do not
+delete the journal or remaining .standings-tmp files while recovery is pending.
+The OS lock excludes concurrent invocations of this repair, releases on process
+exit, and leaves a reusable lock file. This covers process interruption, not a
+hardware/power-loss durability guarantee across every filesystem.
 """
 import argparse
 from collections import Counter
+from contextlib import contextmanager
 from hashlib import sha256
 import json
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -21,6 +32,96 @@ EVIDENCE = Path('docs/analytics/data/bundesliga_20220318_review.json')
 
 def digest(path):
     return sha256(path.read_bytes()).hexdigest()
+
+
+@contextmanager
+def _publication_lock(root):
+    """OS-owned lock: process termination releases it; retain the lock inode."""
+    with (root / '.bundesliga-standings.lock').open('a+b') as lock:
+        lock.seek(0, os.SEEK_END)
+        if not lock.tell():
+            lock.write(b'0')
+            lock.flush()
+        lock.seek(0)
+        try:
+            if os.name == 'nt':
+                import msvcrt
+                msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            raise RuntimeError('Another Bundesliga standings publication is active.') from exc
+        try:
+            yield
+        finally:
+            lock.seek(0)
+            if os.name == 'nt':
+                msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
+
+
+def _target(root, relative):
+    path = (root / relative).resolve()
+    if not path.is_relative_to(root) or path == root:
+        raise ValueError('Publication path must stay inside the dataset.')
+    return path
+
+
+def _finish_publication(root, journal, evidence_hash):
+    """Roll forward only known before/after bytes; preflight the entire set."""
+    plan = json.loads(journal.read_text(encoding='utf-8'))
+    if plan.get('version') != 1 or plan.get('evidence_sha256') != evidence_hash:
+        raise ValueError('Pending publication evidence/version differs; recovery stopped.')
+    files = plan['receipt']['files']
+    paths = [_target(root, item['path']) for item in files]
+    if not files or len(set(paths)) != len(paths):
+        raise ValueError('Pending publication has empty or duplicate targets.')
+    for item, path in zip(files, paths):
+        current = digest(path)
+        temporary = path.with_suffix(path.suffix + '.standings-tmp')
+        if current == item['after']:
+            continue
+        if current != item['before']:
+            raise ValueError(f'Publication target changed outside the pending repair: {path}')
+        if not temporary.exists() or digest(temporary) != item['after']:
+            raise ValueError(f'Pending publication payload missing or changed: {temporary}')
+    for item, path in zip(files, paths):
+        current = digest(path)
+        if current == item['after']:
+            continue
+        if current != item['before']:
+            raise ValueError(f'Publication target changed during recovery: {path}')
+        temporary = path.with_suffix(path.suffix + '.standings-tmp')
+        if digest(temporary) != item['after']:
+            raise ValueError(f'Pending publication payload changed during recovery: {temporary}')
+        temporary.replace(path)
+    if any(digest(path) != item['after'] for item, path in zip(files, paths)):
+        raise ValueError('Publication verification failed; recovery journal retained.')
+    journal.unlink()
+    return plan['receipt']
+
+
+def _publish(root, journal, pending, receipt):
+    # Prepared Parquet/JSON files are flushed before the durable journal becomes
+    # visible. Never consume a payload before recording how to recover it.
+    for temporary, path in pending:
+        with temporary.open('r+b') as stream:
+            os.fsync(stream.fileno())
+    for item in receipt['files']:
+        if digest(_target(root, item['path'])) != item['before']:
+            raise ValueError('Source changed during preparation; nothing published.')
+    if journal.exists():
+        raise ValueError('Recover the existing pending publication first.')
+    draft = journal.with_suffix('.journal-tmp')
+    plan = dict(version=1, evidence_sha256=receipt['evidence_sha256'], receipt=receipt)
+    with draft.open('w', encoding='utf-8', newline='\n') as stream:
+        json.dump(plan, stream, ensure_ascii=False, indent=2)
+        stream.flush()
+        os.fsync(stream.fileno())
+    draft.replace(journal)
+    return _finish_publication(root, journal, receipt['evidence_sha256'])
 
 
 def repaired_tables(matches, statistics, nested, review):
@@ -84,7 +185,20 @@ def repaired_tables(matches, statistics, nested, review):
 
 def repair(root, *, apply=False, evidence=EVIDENCE):
     root = Path(root).resolve()
+    evidence = Path(evidence)
+    if apply:
+        with _publication_lock(root):
+            return _repair(root, apply=True, evidence=evidence)
+    return _repair(root, apply=False, evidence=evidence)
+
+
+def _repair(root, *, apply, evidence):
     review = json.loads(evidence.read_text(encoding='utf-8'))
+    journal = _target(root, review['season'] + '.standings-pending.json')
+    if journal.exists():
+        if not apply:
+            raise RuntimeError('Interrupted standings publication: rerun with --apply to recover before reading manifests.')
+        return _finish_publication(root, journal, digest(evidence))
     pub_path = root / (review['season'] + '.manifest.json')
     pub = json.loads(pub_path.read_text(encoding='utf-8'))
     manifest_path = root / pub['manifest']
@@ -146,13 +260,7 @@ def repair(root, *, apply=False, evidence=EVIDENCE):
         temporary.write_text(json.dumps(content, ensure_ascii=False, indent=2)+'\n', encoding='utf-8', newline=newline)
         receipt['files'].append(dict(path=path.relative_to(root).as_posix(), before=digest(path), after=digest(temporary)))
         pending.append((temporary, path))
-    # All source checks, coverage checks and round trips precede replacement.
-    for item in receipt['files']:
-        if digest(root/item['path']) != item['before']:
-            raise ValueError('Source changed during preparation; nothing published.')
-    for temporary, path in pending:
-        temporary.replace(path)
-    return receipt
+    return _publish(root, journal, pending, receipt)
 
 
 if __name__ == '__main__':

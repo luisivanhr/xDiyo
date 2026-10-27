@@ -1,0 +1,30 @@
+{
+  "base_commit": "7156b381e3f9e352b936db2cb3273a648c3db292",
+  "reviewed_commit": "abc5b29d457557d2569781973cb403484a9ed8a7",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "pyarrow": "25.0.1",
+  "command": "PYTHONPATH=src python -m pytest tests/analytics/test_derived_standings.py tests/analytics/test_standings_publication.py tests/analytics/test_standings_missing_fixture.py tests/analytics/test_season_countdown.py tests/analytics/test_fixture_assembly.py -q --disable-warnings --maxfail=2",
+  "passed": 142,
+  "failed": 0,
+  "seconds": 62.61,
+  "safeguards": [
+    "All mutation tests use isolated temporary roots.",
+    "Published dataset verify_hashes checks and 128 subsequent provider positions pass.",
+    "Five hard process exits: before replacements and after each of four replacements; each resumes in a fresh process.",
+    "Real Parquet/native/nested/manifest interrupted repairs recover before normal source hash checks.",
+    "All 14 partial approved-score presence masks rejected.",
+    "Null ordinary overrides preserve snapshots; approved 0-0 respects ruling date."
+  ],
+  "limitations": [
+    "Publication is recoverable roll-forward, not a simultaneous four-file reader-atomic switch.",
+    "Exclude other readers/writers during publication. The OS lock serializes this repair script only.",
+    "Process-interruption tests do not establish hardware/power-loss durability on every filesystem."
+  ],
+  "sha256": {
+    "src/xdiyo_analytics/ratings/standings.py": "af5d2b0610f3a65007e1c4b20e18c945ae1ad5828ecccd1df7a5fbfd2f3bdf6c",
+    "examples/repair_bundesliga_standings_20261027.py": "0d12525b67ff58e0eb05b7a94a2a275ce28262b12c623784586991d691090590",
+    "tests/analytics/test_derived_standings.py": "5919dcef8d8d033f0c4157a3bc6222bc1556b948fb7825db6348b652afc00557",
+    "tests/analytics/test_standings_publication.py": "16691fe94224f63d536eb27332f02b6f3481fbc0c2f4bb20849aedd97270638f"
+  }
+}

@@ -98,6 +98,13 @@ def _canonical(history, roster, available_at):
         for field in ("round", "kickoff_at", "status", "_available", "tournament_id", "stage_json", "is_awarded", "play_status", "result_review_json", "standings_result_available_at"):
             if field in home and not _equal(home[field], away[field]):
                 raise ValueError(f"Inconsistent paired {field} for {key}.")
+        approved = [r.get(field) for r in (home, away)
+                    for field in ('standings_goals_for', 'standings_goals_against')]
+        present = [pd.notna(value) for value in approved]
+        if any(present) and not all(present):
+            raise ValueError(f"Incomplete approved standings score pair for {key}; both scores on both team rows are required.")
+        if not any(present) and pd.notna(home.get('standings_result_available_at')):
+            raise ValueError(f"Approved standings release for {key} requires a complete approved score pair.")
         for field, other in (("goals_for", "goals_against"), ("standings_goals_for", "standings_goals_against")):
             if field in home and (other not in away or not _equal(home[field], away[other]) or not _equal(away[field], home[other])):
                 raise ValueError(f"Inconsistent paired {field} for {key}.")
@@ -114,7 +121,7 @@ def _canonical(history, roster, available_at):
             stage = json.loads(home['stage_json']) if isinstance(home['stage_json'], str) else home['stage_json']
             if not isinstance(stage, dict) or set(stage) - {'round'}:
                 raise ValueError(f"Unsupported stage metadata for {key}; supply verified independent standings_table_id/rule or resolve carry/reset rules.")
-        explicit = 'standings_goals_for' in home and pd.notna(home['standings_goals_for'])
+        explicit = all(present)
         special = (pd.notna(home.get('is_awarded')) and bool(home.get('is_awarded'))) or (pd.notna(home.get('result_review_json')) and bool(home.get('result_review_json')))
         if special and not explicit:
             raise ValueError(f"Awarded/revised result {key} needs approved standings_goals_for/against and known standings_result_available_at.")
@@ -123,6 +130,8 @@ def _canonical(history, roster, available_at):
             if pd.isna(release):
                 raise ValueError("Approved standings scores need a known ruling/result release time.")
             release = pd.to_datetime(release, utc=True)
+            if pd.isna(release):
+                raise ValueError('Approved standings scores need a known ruling/result release time.')
             if pd.notna(available):
                 available = max(available, release)
         elif any(pd.notna(home[c]) and home[c] != 0 for c in extra if c.startswith(('team_score_', 'opponent_score_'))):

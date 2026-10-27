@@ -348,3 +348,68 @@ def test_conflicting_paired_cutoffs_are_rejected():
     cutoffs.iloc[0]-=pd.Timedelta(seconds=1)
     with pytest.raises(ValueError,match='identical standings prediction cutoffs'):
         build_standings(h,team_seasons=m,cutoffs=cutoffs)
+
+
+@pytest.mark.parametrize('mask',range(1,15))
+def test_partial_approved_score_pairs_never_fall_back(mask):
+    h,m=population(4)
+    event=h.event_id.iloc[0]
+    selected=h.index[h.event_id.eq(event)]
+    h['standings_goals_for']=np.nan
+    h['standings_goals_against']=np.nan
+    h['standings_result_available_at']=pd.NaT
+    # Include the symmetric partial pair that previously bypassed validation:
+    # home for missing / against present, away for present / against missing.
+    for bit,(row,field) in enumerate((r,f) for r in selected for f in
+                                    ('standings_goals_for','standings_goals_against')):
+        if mask & (1<<bit):
+            h.loc[row,field]=0
+    h['standings_result_available_at']=pd.to_datetime(h['standings_result_available_at'],utc=True)
+    h.loc[selected,'standings_result_available_at']=h.kickoff_at.max()+pd.Timedelta(days=5)
+    with pytest.raises(ValueError,match='Incomplete approved standings score pair'):
+        build_standings(h,team_seasons=m,available_at='release')
+
+
+@pytest.mark.parametrize('field',['standings_goals_for','standings_goals_against'])
+def test_one_approved_score_column_rejected(field):
+    h,m=population(4)
+    h[field]=0
+    with pytest.raises(ValueError,match='Incomplete approved'):
+        build_standings(h,team_seasons=m,available_at='release')
+
+
+def test_null_overrides_preserve_ordinary_results_but_release_only_is_rejected():
+    h,m=population(4)
+    original=build_standings(h,team_seasons=m,available_at='release')
+    h['standings_goals_for']=np.nan;h['standings_goals_against']=np.nan
+    h['standings_result_available_at']=pd.NaT
+    ordinary=build_standings(h,team_seasons=m,available_at='release')
+    pd.testing.assert_frame_equal(original.snapshots,ordinary.snapshots)
+    h['standings_result_available_at']=h.release
+    with pytest.raises(ValueError,match='requires a complete approved score pair'):
+        build_standings(h,team_seasons=m,available_at='release')
+
+
+def test_zero_zero_approved_override_obeys_ruling_date():
+    h,m=population(4)
+    event=h.event_id.iloc[0]
+    mask=h.event_id.eq(event)
+    h['standings_goals_for']=np.nan;h['standings_goals_against']=np.nan
+    h.loc[mask,['standings_goals_for','standings_goals_against']]=0
+    release=h.kickoff_at.iloc[0]+pd.Timedelta(days=1)
+    h['standings_result_available_at']=pd.Series(pd.NaT,index=h.index,dtype='datetime64[ns, UTC]')
+    h.loc[mask,'standings_result_available_at']=release
+    query=h.loc[h.kickoff_at.eq(h.kickoff_at.max())]
+    before=build_standings(h,team_seasons=m,queries=query,cutoffs=release-pd.Timedelta(1,'ns'),available_at='release')
+    after=build_standings(h,team_seasons=m,queries=query,cutoffs=release,available_at='release')
+    assert all(event not in p['contributing_events'] for p in before.publications)
+    assert any(event in p['contributing_events'] for p in after.publications)
+
+
+def test_nat_string_is_not_a_known_approved_ruling_date():
+    h,m=population(4)
+    h['standings_goals_for']=h.goals_for
+    h['standings_goals_against']=h.goals_against
+    h['standings_result_available_at']='NaT'
+    with pytest.raises(ValueError,match='known ruling/result release time'):
+        build_standings(h,team_seasons=m,available_at='release')

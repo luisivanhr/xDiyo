@@ -33,3 +33,33 @@ The native replay retains totals and provenance: peak Python allocations about 4
 Final relevant suite: **289 passed, 1 skipped**, with seven existing dependency/test deprecation warnings. This includes 40 original standings tests and five real repaired-season tests. After a final help-text correction, 21 inventory/catalogue tests passed again. See `regression.xml` and `verification.json` for exact command and final source hashes.
 
 The native CLI example prepares raw-only plus [3,6] features and a six-column match-layout recipe successfully. JSON/Python round trips, assembly and constructor/inventory compatibility are tested. The browser-dependent existing saved-rating test is skipped if Playwright is unavailable; the built-in Browser was separately used to select Derived Standings, set [3,6], enable cumulative output/normalization and verify persistence after reload. No browser console errors or warnings were observed. The Python Playwright skip is an existing saved-Bayesian-run test, not the standings interaction check. No physical-device matrix is claimed. No official head-to-head ranking, deductions, points halving, cup overtime/shootout rules, arbitrary incomplete schedules or incremental checkpoint continuation are claimed.
+
+
+## Follow-up repair of the abc5b29 review
+
+Approved standings overrides now require both scores on both paired team rows.
+Partial pairs, release timestamps without approved scores, and parsed missing
+ruling dates raise instead of falling back to ordinary results. All-null sparse
+override fields retain ordinary scoring; valid zero scores remain valid.
+
+The Bundesliga repair stages and validates all four payloads, flushes them, and
+publishes a pending journal before replacing any live file. On interruption,
+rerun the same command with `--apply`: recovery validates every live/pending hash
+and completes known before-to-after transitions **before** reading the possibly
+mixed manifests. Dry runs stop with recovery instructions and never mutate the
+dataset. External edits, damaged/missing pending payloads, or changed evidence
+stop recovery without additional replacements. Keep the journal and remaining
+`.standings-tmp` payloads until recovery finishes. An OS-owned lock prevents two
+instances of this repair from publishing concurrently and releases on exit.
+
+This is recoverable roll-forward publication, not a simultaneous four-file
+atomic switch. Keep readers and other writers off these files while publishing
+or recovering. Process-interruption recovery is tested; universal hardware or
+power-loss durability is not claimed.
+
+Validation: **142 passed**, including all 14 incomplete score masks, fresh-process
+retry after termination at each of five publication boundaries, real-file copy
+interruptions, external-change guards, locking, published source hash validation,
+128 subsequent provider positions, recipe/export integration, countdown and
+fixture assembly regressions. The live dataset was not republished or modified.
+Exact source hashes and command: [repair receipt](review-abc5b29-repairs.json).
