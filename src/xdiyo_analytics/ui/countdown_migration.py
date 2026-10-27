@@ -1,4 +1,4 @@
-"""Explicit, copy-only migration to the majority-started countdown policy."""
+"""Explicit, copy-only migration to the nearest scheduled round-cluster countdown policy."""
 from copy import deepcopy
 
 
@@ -17,7 +17,7 @@ def reject_obsolete_countdown(recipe):
     for node, path in _nodes(recipe):
         if 'schedule_mode' in node.get('params', {}):
             raise ValueError(f'{path}: SeasonCountdown schedule_mode was removed. '
-                'Use migrate_season_countdown_recipe explicitly; values now use the majority-started policy.')
+                'Use migrate_season_countdown_recipe explicitly; values now use the nearest scheduled round-cluster policy.')
 
 
 def migrate_season_countdown_recipe(recipe):
@@ -26,8 +26,8 @@ def migrate_season_countdown_recipe(recipe):
     Removing the old mode is a semantic migration, not old-value compatibility.
     Explicit schedule_history inputs are preserved: if they contain archived
     snapshots, replace them with one consistent fixture history before preparing.
-    Legacy total_rounds-only custom sources also need verified membership or
-    the existing team_count override to establish their majority threshold.
+    A total_rounds override is sufficient for custom denominators; membership
+    or team_count is needed only when inferring the planned season length.
     """
     migrated = deepcopy(recipe)
     changes = []
@@ -39,5 +39,5 @@ def migrate_season_countdown_recipe(recipe):
                 raise ValueError(f'{path}: unrecognized legacy schedule_mode {previous!r}.')
             del params['schedule_mode']
             changes.append(dict(path=path, removed_schedule_mode=previous,
-                policy='majority_started', values_may_change=True))
+                policy='nearest_scheduled_cluster', values_may_change=True))
     return migrated, changes

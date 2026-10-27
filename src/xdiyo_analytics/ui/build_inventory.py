@@ -16,7 +16,7 @@ from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
-    'schedule_history': 'Full fixture history for SeasonCountdown. Recipes load it before filters. Only established actual starts strictly before the prediction cutoff activate a round; no schedule snapshots are required.',
+    'schedule_history': 'Full fixture history for SeasonCountdown. Recipes load it before filters. Upcoming scheduled dates are used. Outliers use the closest main round-cluster interval; no schedule snapshots or played-status evidence are required.',
     'standings_history': 'Optional complete standings team history. Recipes load the unfiltered result population automatically.',
     'standings_available_at': 'Availability series/column for the complete standings history, honoring reviewed bounds.',
     'standings_run': 'Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.',
@@ -541,9 +541,9 @@ def build():
                 c['title'] = 'Season countdown'
                 f['primary'] = True
                 if name == 'format':
-                    f.update(kind='select', choices=['auto', 'double', 'single', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use observed progress at the prediction cutoff: more than half the expected fixtures must already have started.')
+                    f.update(kind='select', choices=['auto', 'double', 'single', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Fixtures outside their own main round cluster use the closest scheduled round-cluster interval, ties toward the later round, never below their original round.')
                 else:
-                    f.update(kind='number', min=2, step=1, help='Optional override for every selected season. Team count determines the fixed majority threshold even when total rounds is overridden. Otherwise complete membership and verified formats are used, never downloaded match counts.')
+                    f.update(kind='number', min=2, step=1, help='Optional override for every selected season. Complete membership and verified formats infer planned length, never downloaded match counts. A total-round override does not require membership.')
             if key == 'features.SeasonProgress' and name == 'total_rounds':
                 c['title'] = 'Season progress'
                 f.update(kind='number', min=1, step=1, primary=True, title='Total rounds override', visible_when={'mode':['rounds']}, clear_when_hidden=True,

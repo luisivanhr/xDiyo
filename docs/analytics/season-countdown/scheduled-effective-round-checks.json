@@ -1,0 +1,100 @@
+[
+  {
+    "publication": "J1_16_16",
+    "event_id": 7003382,
+    "total_rounds": 34,
+    "effective_round": 18,
+    "rationale": "Kofu-Kobe: second-stage round 1 on July 2 equals season round 18."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258081,
+    "total_rounds": 38,
+    "effective_round": 34,
+    "rationale": "Kilmarnock-Hearts: opening championship split round, April 27."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258131,
+    "total_rounds": 38,
+    "effective_round": 34,
+    "rationale": "Livingston-Ross County: opening relegation split round, April 27."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258084,
+    "total_rounds": 38,
+    "effective_round": 38,
+    "rationale": "Celtic-St Mirren: final championship split round, May 18."
+  },
+  {
+    "publication": "Liga_MX_Apertura_19_20",
+    "event_id": 8262406,
+    "total_rounds": 19,
+    "effective_round": 19,
+    "rationale": "Puebla-Necaxa: final round 19 of the odd-team regular season, November 23 UTC."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15272830,
+    "total_rounds": 18,
+    "effective_round": 1,
+    "rationale": "Yokohama-Machida: opening east regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15272831,
+    "total_rounds": 18,
+    "effective_round": 1,
+    "rationale": "Kyoto-Kobe: opening west regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15345966,
+    "total_rounds": 18,
+    "effective_round": 18,
+    "rationale": "Machida-Urawa: final east regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15345880,
+    "total_rounds": 18,
+    "effective_round": 18,
+    "rationale": "Hiroshima-Nagoya: final west regional group round."
+  },
+  {
+    "publication": "Premier_League_23_24",
+    "event_id": 12226774,
+    "total_rounds": 38,
+    "effective_round": 36,
+    "rationale": "Chelsea-Tottenham, May 2 18:30 UTC, assigned 26 outside its February main cluster. Round 35 ends April 28 15:30 (99 hours away); round 36 starts May 3 19:00 (24.5 hours away). Nearest is 36 before any round-36 start."
+  },
+  {
+    "publication": "J1_16_16",
+    "event_id": 7003326,
+    "total_rounds": 34,
+    "effective_round": 16,
+    "rationale": "FC Tokyo-Hiroshima, June 15 10:00 UTC: original first-stage round 10. Round 15 cluster ends June 11 10:00 (96 hours away); round 16 is June 18 10:00 (72 hours away). Nearest is 16; immutable phase remains first stage."
+  },
+  {
+    "publication": "Championship_12_13",
+    "event_id": 3434240,
+    "total_rounds": 46,
+    "effective_round": 29,
+    "rationale": "Bristol City-Watford, January 29 19:45, original 24. Round 29 largest 96-hour cluster contains six games January 26 15:00 to January 29 19:45. January 30 is outside 96 hours from January 26. Target lies on round-29 endpoint."
+  },
+  {
+    "publication": "J1_18_18",
+    "event_id": 8016558,
+    "total_rounds": 34,
+    "effective_round": 32,
+    "rationale": "Cerezo-Nagoya, November 6 10:00, original 28 outside September main cluster. Round 32 has nine games November 6 10:00 to November 10 06:00 (92 hours); target lies at its start."
+  },
+  {
+    "publication": "Championship_20_21",
+    "event_id": 9266059,
+    "total_rounds": 46,
+    "effective_round": 26,
+    "rationale": "Millwall-Watford, January 26 19:00, original 22. Round 26 has equal-size five-game clusters January 22 19:45-January 26 19:00 and January 24 12:30-January 27 19:00. Earliest five-game cluster wins; target is its endpoint."
+  }
+]

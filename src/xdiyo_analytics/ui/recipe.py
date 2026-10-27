@@ -247,7 +247,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     countdown_specs = list(countdown_nodes([recipe.get('features', {}), recipe.get('context_features', {})]))
     if countdown_specs:
         tables = ['matches']
-        if any(p.get('team_count') is None
+        if any(p.get('total_rounds') is None and p.get('team_count') is None
                and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
             tables.append('team_seasons')
         countdown_data = load_seasons(**{**data_options, 'tables': tables, 'include_awarded': True})

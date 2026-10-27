@@ -1,44 +1,42 @@
-# Season countdown: observed league progress
+# Season countdown: scheduled round progress
 
-`SeasonCountdown()` is one fixed causal clock, selectable as **Season countdown** in Features & ratings. It uses immutable assigned season-round ordinals and evidence that other fixtures actually started. It does not reconstruct an official calendar or use round-date clusters. `SeasonProgress` is unchanged.
+`SeasonCountdown()` is selectable as **Season countdown** in Features & ratings. It assigns an effective season round from the schedule available when making the prediction, before matches start. `SeasonProgress`, standings and the underlying dataset are unchanged.
 
-## Fixed rule
+## One fixed rule
 
-1. Determine the expected fixtures in a round from complete league-season membership and the verified format. For ordinary single/double round robin it is `floor(n/2)`, including odd-team byes. Downloads never set this denominator.
-2. A round activates after **strictly more than half** those expected fixtures have actually started. Its activation timestamp is the kickoff of the required start in chronological order. At a prediction cutoff, only kickoffs **strictly before** that cutoff count. A simultaneous group is therefore wholly absent at its kickoff and present immediately after it.
-3. The observed round is the highest activated season round, defaulting to 1. The target effective round is `max(assigned season round, observed round)`.
-4. `season_countdown = (total_rounds - effective_round) / (total_rounds - 1)`.
+1. Within each competition-season/calendar, group unique fixtures by immutable assigned season-round ordinal.
+2. For each round, select its largest scheduled cluster spanning **at most 96 hours**. On equal fixture counts choose the earliest cluster start. Its interval runs from the earliest to the latest kickoff in that cluster.
+3. A fixture inside its own round's main interval keeps its assigned ordinal, including before the first kickoff. An isolated advanced fixture cannot displace a larger main cluster.
+4. Otherwise choose the closest round-cluster interval. Distance is zero inside an interval, and otherwise is distance to its nearest endpoint. Equal-distance ties choose the later season-round ordinal. Clamp the answer below by the fixture's original ordinal. With no usable interval, retain the original ordinal.
+5. `season_countdown = (total_rounds - effective_round) / (total_rounds - 1)`.
 
-For 20 teams, ten fixtures are expected and six must start. One advanced round-38 fixture cannot finish the league clock for other fixtures. An advanced target itself still uses its assigned round, as required by the maximum rule. A postponed target can advance once newer rounds meet the majority threshold. A sparse download might establish no newer round at all; it never reduces the threshold.
+Following the user's final clarification, there is **no prediction-batch override**. A mixed selection or its row order never assigns a common round. There is no activation threshold, `schedule_mode`, ambiguity flag, manual selector or additional feature parameter. Every eligible fixture with valid kickoff, round and prediction cutoff receives a value. Intentional playoff exclusions and missing required metadata retain missing outputs; malformed identities and conflicting schedule copies still fail validation.
 
-Activation tables are built once per competition/season/calendar. Batch binary searches use the supplied prediction cutoffs, including recipe `cutoff_hours`, without rebuilding a schedule per target. Fixture output is `fixture::alias`; team-row output repeats the same value when the cutoffs agree. Context features after assembly use the same aligned cutoffs. Conflicting paired metadata or fixture cutoffs are rejected.
+For example, a round-26 catch-up scheduled inside round 35's main interval receives round 35 even if every match is marked `notstarted`. When it falls between round 35 and round 36, the closer interval wins, regardless of whether either round has begun. Ordinary round-35 fixtures stay at 35 even if a later round's interval overlaps.
 
-## Evidence and causality
+Intervals are built once per competition-season/calendar. Bounded vectorized distance comparisons reuse them for all queries. Unique fixture identities prevent paired team rows from changing cluster counts. Subsets evaluated with the same full schedule receive identical values.
 
-A bare scheduled timestamp does not prove play. The native fixture table must retain `status`, optional `play_status` and `is_awarded` evidence:
+## Pre-match information contract
 
-- Ordinary `finished`, `inprogress`, `in_progress`, `interrupted` and `abandoned` statuses establish a start.
-- Explicit `played`, `abandoned`, `resumed`, `completed` or `played_then_awarded` reviews establish play, including a later awarded outcome.
-- `not_played`, `unplayed`, `cancelled`, `canceled` and `not_started` reviews veto a start. Otherwise an awarded result alone is insufficient evidence.
-- Scheduled, postponed, cancelled, unknown or missing status alone does not count. Missing kickoff/ordinal cannot activate a round. The feature does not read scores, standings or result-release times; a started and later resumed match counts from its actual initial start, not from completion.
+Upcoming scheduled dates are valid pre-match inputs. The feature never consults starts, played status, scores, results, standings or result-release timestamps. Prediction cutoffs retain native alignment and validity checks (no later than target kickoff); they do not filter upcoming schedule context.
 
-The cutoff defaults to target kickoff and cannot be later. A later fixture date, while still later than an earlier cutoff, cannot change that earlier output. No future kickoff contributes to its observed round. This assumes the source preserves truthful actual kickoff and played-status evidence; it cannot undo a subsequent correction to an incorrectly recorded historical start. Complete membership, format and immutable assigned rounds are season metadata. This is an **observed progress convention**, not an exact official calendar.
+Use the schedule available to the prediction. A historical export may contain subsequently revised dates. This feature does **not** reconstruct unavailable historical schedule knowledge, and recomputing from such an export can change earlier outputs. No archived schedule versions are required. Sparse schedules can make a catch-up look like its own round's main cluster; provide the full schedule before model-population filtering whenever possible.
 
-## Formats and thresholds
+## Verified competition formats
 
-| Competition | Planned rounds | Expected fixtures per round |
-| --- | --- | --- |
-| Ordinary double round robin | even n: `2(n-1)`; odd n: `2n` | `floor(n/2)` |
-| Mexico Apertura / Clausura | even n: `n-1`; odd n: `n`; separate published tournament clocks | `floor(n/2)` |
-| Scotland Premiership | 33 + 5 = 38, continuous through split | 6 across both split groups; majority 4 |
-| Japan J1 2015 / 2016 | 34 across two stages | 9; majority 5 |
-| Japan 2026 transition | 18 per independent ten-team group | 5 per group; majority 3 |
+| Competition | Planned rounds / calendar |
+| --- | --- |
+| Ordinary double round robin | even n: `2(n-1)`; odd n: `2n` |
+| Mexico Apertura / Clausura | even n: `n-1`; odd n: `n`; separate published tournament clocks |
+| Scotland Premiership | 33 + 5 = 38, continuous through both split groups |
+| Japan J1 2015 / 2016 | 34 across two stages |
+| Japan 2026 transition | 18 per independent ten-team regional group |
 
-Regular-season eligibility is explicit. Scotland permits tournament IDs 54, 92066 and 92067; Japan transition permits 171852 and 171853. Other stages/playoffs cannot activate rounds and have missing countdowns. Mexico's historical Clausura 2010/11 uses ID 28; later Clausura uses 16753. Belgian playoffs remain excluded. If an imputer is used downstream, exclude those fixtures from the modelling population as well.
+Regular-season eligibility is explicit. Scotland permits tournament IDs 54, 92066 and 92067; Japan transition permits 171852 and 171853 and never borrows clusters across groups. Mexico's historical Clausura 2010/11 uses ID 28; later Clausura uses 16753. Belgian playoffs and unrecognized stages are excluded from both cluster construction and feature values.
 
-J1 2015 numbering is already continuous. J1 2016's second stage receives offset 17 based on **original phase identity**, never actual kickoff. The packaged 306-fixture crosswalk was matched to the [official J.League table](https://data.j-league.or.jp/SFMS01/search?competition_frame_ids=1&competition_years=2016&lang=en) by home team, away team and assigned round. Custom fixtures need explicit `season_phase` 1 or 2 if their identity is not verified. Conflicts with verified identity are rejected. See [phase provenance](j1-phase-provenance.json).
+J1 2015 numbering is already continuous. J1 2016 second-stage rounds receive offset 17 from **original phase identity**, never kickoff date. The packaged 306-fixture crosswalk was matched to the [official J.League table](https://data.j-league.or.jp/SFMS01/search?competition_frame_ids=1&competition_years=2016&lang=en) by home team, away team and assigned round. Custom fixtures need explicit `season_phase` 1 or 2 unless their identity is verified. Conflicting phase evidence is rejected. Native labels retain phase metadata so context and fixture features agree. See [phase provenance](j1-phase-provenance.json).
 
-For ordinary formats, provide the complete `team_seasons` table or the existing `team_count` override. **Overriding `total_rounds` alone no longer removes that requirement:** it cannot establish a majority threshold. Fixed Scotland and Japanese-transition formats establish twelve and twenty season teams respectively; contradictory team-count overrides are rejected. Cancelled/incomplete seasons retain planned lengths rather than the highest downloaded round.
+When inferring ordinary season length, provide complete `team_seasons` or the existing `team_count` override. An explicit `total_rounds` is sufficient without membership. Scotland and Japanese-transition fixed formats retain their verified denominators and reject contradictory team-count overrides. Cancelled/incomplete seasons keep planned lengths rather than the highest downloaded round.
 
 ## Native use and recipes
 
@@ -56,47 +54,28 @@ features = evaluate_features(
 )
 ```
 
-The builder loads the full fixture history and needed membership before modelling filters; source rows excluded from the prediction population can still establish starts. This does not include them as training targets. `schedule_history` remains an optional ordinary fixture table, **not** an archived schedule/snapshot store. No snapshot timestamps or `schedule_mode` are needed. UI, JSON and Python exports expose only the existing format, total-round and team-count settings.
+The builder loads full schedule context and needed membership before modelling filters. This does not add fixtures to the training population. UI, JSON and Python exports retain only `format`, `total_rounds` and `team_count`. Match-layout output is `fixture::alias` once per match; team output repeats the same value; context features resolve the same calendar.
 
 ```json
 {"features": {"season_countdown": {"component": "features.SeasonCountdown", "params": {}}}}
 ```
 
-## Explicit migration
+## Explicit legacy migration
 
-Old recipes containing `schedule_mode` fail with a migration instruction. They are not silently interpreted as the new policy. Use the copy-only helper, inspect its change records, then save a new recipe:
+Recipes containing removed `schedule_mode` fail with a migration instruction. `migrate_season_countdown_recipe(old_recipe)` returns a copied recipe and change records identifying `nearest_scheduled_cluster` and `values_may_change=True`. It visits nested/context features, rejects unknown modes, preserves explicit auxiliary input paths and is idempotent. Replace an old auxiliary file containing repeated archived snapshots with one consistent schedule. Review the result and save it to a new file; the helper never overwrites a recipe, prepared artifact or run.
 
-```python
-import json
-from pathlib import Path
-from xdiyo_analytics.ui import migrate_season_countdown_recipe
+Recipes without the removed setting retain their constructor shape, but recalculated values can change from the rejected majority policy. Saved recipes, feature artifacts and frozen experiments are not silently rewritten or retrained.
 
-old = json.loads(Path("old-recipe.json").read_text(encoding="utf-8"))
-updated, changes = migrate_season_countdown_recipe(old)
-print(changes)  # each removed mode explicitly records that values may change
-with Path("majority-recipe.json").open("x", encoding="utf-8") as stream:
-    json.dump(updated, stream, indent=2)
-```
+## Reproducible verification
 
-The helper visits nested features and context features, rejects unknown legacy modes, does not mutate the original and is idempotent. It preserves explicit auxiliary input paths. If an old path contains repeated archived snapshots, replace it with one consistent fixture history or remove that override to use the native dataset. Legacy custom recipes with only a total-round override also need full membership or `team_count`. This is a semantic migration, not old-value parity or permission to reuse frozen experiment outputs.
+From the repository root, with `PYTHONPATH=src`:
 
-## Validation
+- `python docs/analytics/season-countdown/verify_scheduled.py`: after committing implementation, verifies exact source bytes against Git blobs, runs the regression suite and both scripts below, then writes `scheduled-verification.json`. Generated text receipts use canonical LF bytes to keep committed checksums reproducible.
+- `python docs/analytics/season-countdown/audit_scheduled.py`: checks frozen expected eligible/excluded counts for all 289 publications / 92,983 fixtures, exact agreement with an independent exhaustive-cluster/per-target-distance oracle, and hand-inspected effective rounds. Unexplained missingness, all-NaN output, finite playoff values and incorrect representative rounds fail.
+- `python docs/analytics/season-countdown/compare_scheduled.py`: compares every fixture with frozen majority-rule commit `643c2029`; emits changed fixture identities, old/new rounds and countdowns without requiring old-value parity.
 
-Run from the repository root with `PYTHONPATH=src`:
+`scheduled-effective-round-checks.json` records 14 independently specified examples, including Chelsea-Tottenham (nearest round 36), FC Tokyo-Hiroshima (nearest round 16), Bristol City-Watford (29), Cerezo-Nagoya (32), Millwall-Watford (26), both Scottish split groups, Mexico and both Japanese transition groups. Their rationales include scheduled interval endpoints.
 
-- `python docs/analytics/season-countdown/audit.py`: independent eligibility/count checks and a slow per-target count oracle for all 289 publications / 92,983 fixtures. It must match every output exactly and reject unexplained missingness, all-NaN output, finite playoff values and wrong hand-verified rounds. Writes `majority-publication-audit.csv`.
-- `python docs/analytics/season-countdown/compare_majority.py`: compare against fixed pre-change commit `dc11b3a`, report changed fixtures/direction rather than assert old-value parity. Writes `majority-value-changes.csv`, `majority-change-counts.csv`, `majority-comparison.json`.
-- `python docs/analytics/season-countdown/verify_j1_phases.py --html PATH_TO_OFFICIAL_HTML`: reproduce the immutable official phase join without writing dataset files.
-
-`expected-publication-counts.csv` and `majority-effective-round-checks.json` contain independently reviewed count and 14 representative-round expectations, including three changed fixtures with counted starts. They are not regenerated from the new outputs. The tests additionally cover strict majority/instant boundaries, advanced singletons, later-date mutations, partial downloads, status evidence, season resets, special formats, one activation build per calendar, duplicate indices, recipe migration and team/fixture/context/export consistency.
-
-Earlier `review-*`, `published-value-parity.json`, `publication-audit.csv`, `tests.xml` and `verification.json` are **historical receipts**, not certification of this replacement. The old comparison script belongs to its original release. New receipts use the `majority-` prefix. No model fit or frozen experiment is needed.
+All earlier receipts, including `majority-*`, `review-*`, `publication-audit.csv`, `tests.xml` and `verification.json`, remain historical evidence of their original releases. New results use `scheduled-*`. No models or frozen experiments are rerun.
 
 Format references: [Scotland 33+5](https://spfl.co.uk/news/post-split-qa-season-202324), [Japan regional rounds](https://www.jleague.jp/news/article/32817/), [Mexico 2019 calendar](https://lmxwebsite.s3.amazonaws.com/docs/publicaciones/ligamx/CALENDARIO-LIGA-MX-TORNEO-APERTURA-2019.pdf).
-
-
-## Changes measured against dc11b3a
-
-The new policy changes **41 of 92,983 fixtures**, all toward less observed progress (a higher countdown). Eligibility and missingness remain unchanged: 92,855 finite league fixtures and 128 excluded Belgian playoff fixtures.
-
-For example, Bristol City-Watford on 29 January 2013 was assigned round 24. Only five of the twelve round-29 fixtures had started before its kickoff, short of the required seven, so its effective round is 28 instead of the old cluster rule's 29. Cerezo Osaka-Nagoya on 6 November 2018 similarly uses round 31 instead of 32: round 32 had no earlier starts, one simultaneous start and eight later starts. These are expected conservative differences, not parity failures. See the complete `majority-value-changes.csv` and the independent round-check rationales.

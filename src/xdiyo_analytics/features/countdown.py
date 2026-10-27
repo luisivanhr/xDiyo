@@ -7,13 +7,13 @@ from .expressions import Expr
 
 @dataclass(frozen=True)
 class SeasonCountdown(Expr):
-    """Observed league progress from a fixed strict-majority-of-starts rule.
+    """Scheduled season round, adjusting outliers to the nearest round cluster.
 
-    A round activates after more than half its format-expected fixtures have
-    actually started, strictly before the prediction cutoff. Expected counts
-    come from complete membership or fixed verified formats, never downloads.
-    The effective round is max(assigned season ordinal, observed active round).
-    Playoffs are excluded; Scotland's split continues the same 38-round clock.
+    Each round uses its largest scheduled cluster spanning at most 96 hours.
+    Fixtures inside their own cluster retain their assigned ordinal; outliers
+    use the closest cluster interval, ties going to the later round, with their
+    original ordinal as a lower bound. Playoffs are excluded. Scheduled context
+    is used before kickoff; results and played status are irrelevant.
     """
     total_rounds: int | None = None
     format: str = 'auto'
@@ -41,7 +41,7 @@ def _schedule(frame):
     if missing:
         raise ValueError(f'SeasonCountdown needs schedule identity columns: {sorted(missing)}')
     names = _KEYS + ['round'] + [c for c in ('kickoff_at', 'kickoff_utc', 'tournament_id',
-             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase', 'status', 'play_status', 'is_awarded') if c in frame]
+             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase') if c in frame]
     data = frame[names].reset_index(drop=True).copy()
     data.attrs = {}
     if {'side', 'team_id', 'opponent_id'} <= set(data) and 'home_id' not in data:
@@ -58,55 +58,73 @@ def _schedule(frame):
     invalid = data['round'].notna() & (~np.isfinite(data['round']) | (data['round'] < 1) | (data['round'] % 1 != 0))
     if invalid.any():
         raise ValueError('SeasonCountdown numeric rounds must be finite positive integers.')
-    fields = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id', 'status', 'play_status', 'is_awarded') if c in data]
+    fields = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id') if c in data]
     if (data.groupby(_KEYS, dropna=False)[fields].nunique(dropna=False) > 1).any().any():
         raise ValueError('SeasonCountdown found inconsistent fixture schedule copies.')
     return data
 
 
-def _started(games):
-    """Establish actual starts without inferring them from a scheduled timestamp.
+def _round_clusters(calendar):
+    """Largest <=96-hour window of unique fixtures; earliest start wins ties.
 
-    A played/abandoned/resumed review establishes play even for an awarded
-    result. An unplayed review vetoes it; an otherwise awarded result alone
-    does not establish that the match started. No score fields are consulted.
+    Return sorted ordinals and nanosecond interval endpoints. Only the native
+    schedule is used, including upcoming fixtures. Build once per calendar.
     """
-    import pandas as pd
-    status = games.get('status', pd.Series('', index=games.index)).fillna('').str.lower()
-    play = games.get('play_status', pd.Series('', index=games.index)).fillna('').str.lower()
-    reviewed = play.isin(['played', 'abandoned', 'resumed', 'completed', 'played_then_awarded'])
-    unplayed = play.isin(['not_played', 'unplayed', 'cancelled', 'canceled', 'not_started'])
-    awarded = games.get('is_awarded', pd.Series(False, index=games.index)).fillna(False).astype(bool)
-    established = status.isin(['finished', 'inprogress', 'in_progress', 'interrupted', 'abandoned'])
-    return (reviewed | (established & ~awarded)) & ~unplayed
-
-
-def _activations(calendar, expected, latest_cutoff):
-    """One order statistic per round, then a prefix maximum for batch lookups."""
     import numpy as np
-    majority = expected // 2 + 1
-    started = calendar.loc[calendar._eligible & calendar._ordinal.notna()
-                           & calendar.kickoff_at.lt(latest_cutoff) & _started(calendar)]
-    activations = []
-    for round_, group in started.groupby('_ordinal', sort=False):
-        if len(group) >= majority:
-            times = group.kickoff_at.astype('datetime64[ns, UTC]').astype('int64').to_numpy()
-            activations.append((np.partition(times, majority - 1)[majority - 1], round_))
-    activations.sort()
-    if not activations:
-        return np.array([], dtype='int64'), np.array([], dtype=float)
-    times = np.array([a[0] for a in activations], dtype='int64')
-    rounds = np.maximum.accumulate(np.array([a[1] for a in activations], dtype=float))
-    return times, rounds
+    usable = calendar.loc[calendar._eligible & calendar._ordinal.notna()
+                          & calendar.kickoff_at.notna()].drop_duplicates(_KEYS)
+    clusters = []
+    span = 96 * 60 * 60 * 1_000_000_000
+    for ordinal, group in usable.groupby('_ordinal', sort=True):
+        times = np.sort(group.kickoff_at.astype('datetime64[ns, UTC]').astype('int64').to_numpy())
+        left = best_left = best_right = 0
+        for right in range(len(times)):
+            while int(times[right]) - int(times[left]) > span:
+                left += 1
+            # Strict improvement preserves the earliest cluster on a size tie.
+            if right - left > best_right - best_left:
+                best_left, best_right = left, right
+        clusters.append((ordinal, times[best_left], times[best_right]))
+    return (np.array([c[0] for c in clusters], dtype=float),
+            np.array([c[1] for c in clusters], dtype='int64'),
+            np.array([c[2] for c in clusters], dtype='int64'))
+
+
+def _nearest_rounds(ordinals, instants, clusters):
+    """Vectorized interval distances, bounded across queries rather than per row.
+
+    Compare unsigned nanosecond distances to avoid signed overflow even across
+    the complete pandas timestamp range. Later ordinal wins an exact tie.
+    """
+    import numpy as np
+    rounds, starts, ends = clusters
+    result = ordinals.copy()
+    if not len(rounds):
+        return result
+    # Flip the sign bit: signed timestamps become ordered unsigned integers.
+    def ordered(values):
+        return values.view('uint64') ^ np.uint64(1 << 63)
+    starts_u, ends_u = ordered(starts), ordered(ends)
+    for first in range(0, len(instants), 4096):
+        last = first + 4096
+        time = ordered(instants[first:last])[:, None]
+        distance = np.maximum(starts_u, time) - np.minimum(ends_u, time)
+        # Distance is zero for times inside the interval (not unsigned wrap).
+        distance[(time >= starts_u) & (time <= ends_u)] = 0
+        assigned = ordinals[first:last]
+        own = (assigned[:, None] == rounds) & (time >= starts_u) & (time <= ends_u)
+        nearest = rounds[len(rounds) - 1 - distance[:, ::-1].argmin(axis=1)]
+        result[first:last] = np.where(own.any(axis=1), assigned, np.maximum(assigned, nearest))
+    return result
 
 
 def season_countdown(metadata, expression, *, schedule_history=None, team_seasons=None, cutoffs=None):
-    """Compute each calendar once and search strict-before activation times.
+    """Resolve scheduled rounds before kickoff, without results or activation.
 
-    schedule_history is an ordinary fixture table (no archived snapshots).
-    It must preserve actual kickoff and played-status evidence. Team membership
-    must describe the complete season, including teams absent from downloads.
-    This is an observed progress convention, not an official round reassignment.
+    schedule_history is the schedule available to the prediction (not a snapshot
+    archive). Historical exports may contain revised dates; this function cannot
+    reconstruct what dates were known at an earlier issuance. Cutoffs retain the
+    native alignment/validation contract but do not gate scheduled context.
     """
     import numpy as np
     import pandas as pd
@@ -158,9 +176,9 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
             if n is not None and n != fixed:
                 raise ValueError(f'SeasonCountdown {mode} requires {fixed} season teams.')
             n = fixed
-        if n is None:
+        if n is None and expression.total_rounds is None:
             if team_seasons is None:
-                raise ValueError('SeasonCountdown needs full team_seasons or team_count to determine the majority threshold, even with total_rounds.')
+                raise ValueError('SeasonCountdown needs full team_seasons or team_count to infer total_rounds.')
             roster = team_seasons.loc[team_seasons.competition_id.eq(key[0]) & team_seasons.season_id.eq(key[1])]
             observed = set()
             for column in ('team_id', 'home_id', 'away_id'):
@@ -195,22 +213,18 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
                 raise ValueError(f'SeasonCountdown query {field} conflicts with schedule_history.')
         effective = joined._ordinal.to_numpy(dtype=float, na_value=np.nan, copy=True)
         query_times = times.iloc[rows.index].reset_index(drop=True)
-        # Scotland uses six fixtures across both split groups per round; Japan's
-        # transition has independent ten-team calendars, five fixtures each.
+        # Scotland's split remains continuous; Japanese transition groups have
+        # independent calendars even when their scheduled intervals overlap.
         calendars = games.groupby('tournament_id', sort=False, dropna=False) if mode == 'japan_transition' else [(None, games)]
         for calendar_id, calendar in calendars:
             selected = joined.tournament_id.eq(calendar_id).fillna(False) if mode == 'japan_transition' else pd.Series(True, index=joined.index)
-            selected &= query_times.notna() & joined._eligible.fillna(False)
+            selected &= joined.kickoff_at.notna() & joined._ordinal.notna() & joined._eligible.fillna(False)
             positions = np.flatnonzero(selected)
             if not len(positions):
                 continue
-            activation_times, active_rounds = _activations(calendar, 5 if mode == 'japan_transition' else n // 2, query_times.iloc[positions].max())
-            instants = query_times.iloc[positions].astype('datetime64[ns, UTC]').astype('int64').to_numpy()
-            indices = np.searchsorted(activation_times, instants, side='left') - 1
-            observed = np.ones(len(indices))
-            exists = indices >= 0
-            observed[exists] = active_rounds[indices[exists]]
-            effective[positions] = np.maximum(effective[positions], observed)
+            clusters = _round_clusters(calendar)
+            instants = joined.kickoff_at.iloc[positions].astype('datetime64[ns, UTC]').astype('int64').to_numpy()
+            effective[positions] = _nearest_rounds(effective[positions], instants, clusters)
         effective[~(joined._eligible.fillna(False) & query_times.notna() & joined.kickoff_at.notna()).to_numpy()] = np.nan
         output[rows.index] = (total - effective) / (total - 1)
     return pd.Series(output, index=metadata.index, dtype=float)

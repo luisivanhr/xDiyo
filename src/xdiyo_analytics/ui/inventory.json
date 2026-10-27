@@ -19179,7 +19179,7 @@
       "id": "features.SeasonCountdown",
       "title": "Season countdown",
       "category": "feature",
-      "description": "Observed league progress from a fixed strict-majority-of-starts rule.",
+      "description": "Scheduled season round, adjusting outliers to the nearest round cluster.",
       "fields": [
         {
           "name": "total_rounds",
@@ -19187,7 +19187,7 @@
           "required": false,
           "kind": "number",
           "default": null,
-          "help": "Optional override for every selected season. Team count determines the fixed majority threshold even when total rounds is overridden. Otherwise complete membership and verified formats are used, never downloaded match counts.",
+          "help": "Optional override for every selected season. Complete membership and verified formats infer planned length, never downloaded match counts. A total-round override does not require membership.",
           "primary": true,
           "min": 2,
           "step": 1
@@ -19198,7 +19198,7 @@
           "required": false,
           "kind": "select",
           "default": "auto",
-          "help": "Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use observed progress at the prediction cutoff: more than half the expected fixtures must already have started.",
+          "help": "Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Fixtures outside their own main round cluster use the closest scheduled round-cluster interval, ties toward the later round, never below their original round.",
           "primary": true,
           "choices": [
             "auto",
@@ -19214,7 +19214,7 @@
           "required": false,
           "kind": "number",
           "default": null,
-          "help": "Optional override for every selected season. Team count determines the fixed majority threshold even when total rounds is overridden. Otherwise complete membership and verified formats are used, never downloaded match counts.",
+          "help": "Optional override for every selected season. Complete membership and verified formats infer planned length, never downloaded match counts. A total-round override does not require membership.",
           "primary": true,
           "min": 2,
           "step": 1
@@ -19530,7 +19530,7 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Full fixture history for SeasonCountdown. Recipes load it before filters. Only established actual starts strictly before the prediction cutoff activate a round; no schedule snapshots are required.",
+          "help": "Full fixture history for SeasonCountdown. Recipes load it before filters. Upcoming scheduled dates are used. Outliers use the closest main round-cluster interval; no schedule snapshots or played-status evidence are required.",
           "primary": false,
           "components": [
             "input.Table"

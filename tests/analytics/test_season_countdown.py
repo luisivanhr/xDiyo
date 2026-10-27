@@ -1,4 +1,4 @@
-"""Fixed causal majority-started countdown and native integration."""
+"""Nearest scheduled round-cluster countdown and native integration."""
 from copy import deepcopy
 from importlib.resources import files
 import json
@@ -43,64 +43,107 @@ def test_invalid_rounds(bad):
         season_countdown(schedule((bad,),(0,)),clock())
 
 
-def test_majority_boundary_postponements_and_advanced_singleton():
-    h=schedule((1,5,3,3,3,1,1,1),(0,1,2,3,4,2,4,5))
-    # Four expected games per round, strict majority is three. Round 5 singleton
-    # never moves other games. At the third r3 kickoff itself, only two count.
-    np.testing.assert_allclose(season_countdown(h,clock()),[1,0,.5,.5,.5,1,1,.5])
-    h.index=[8]*len(h)
-    paired=pd.concat([h,h]).iloc[::-1]
-    np.testing.assert_allclose(season_countdown(paired,clock()),np.tile([1,0,.5,.5,.5,1,1,.5],2)[::-1])
+def delayed_schedule():
+    # Round 1 main cluster is day 0 (three fixtures); its catch-up is day 30.
+    return schedule((1,1,1,1,35,35,35),(0,0,0,30,29,30,31))
 
 
-def test_simultaneous_starts_and_nanosecond_strict_boundary():
-    h=schedule((3,3,3,1),(7,7,7,8))
-    query=h.iloc[[3]]
-    boundary=h.kickoff_at.iloc[0]
-    assert season_countdown(query,clock(),schedule_history=h,cutoffs=boundary).iloc[0]==1
-    assert season_countdown(query,clock(),schedule_history=h,cutoffs=boundary+pd.Timedelta(nanoseconds=1)).iloc[0]==.5
-    assert season_countdown(query,clock(),schedule_history=h,cutoffs=boundary-pd.Timedelta(nanoseconds=1)).iloc[0]==1
+def test_pre_match_round_and_postponed_fixture_before_any_start():
+    h=delayed_schedule().assign(status='notstarted')
+    early=pd.Timestamp('2019-12-01',tz='UTC')
+    got=season_countdown(h,clock(38,20),cutoffs=early)
+    np.testing.assert_array_equal(got,[1,1,1,3/37,3/37,3/37,3/37])
+    # A shared early cutoff never delays round assignment until actual play.
+    pd.testing.assert_series_equal(got,season_countdown(h,clock(38,20)))
 
 
-def test_future_mutation_outcomes_and_input_permutation_safety():
-    h=schedule((1,2,2,2,1,4,4,4),(0,7,7,7,8,20,20,20))
-    target=h.iloc[[4]];x=season_countdown(target,clock(),schedule_history=h)
-    assert x.iloc[0]==.75
-    changed=h.copy();changed.loc[[5,6,7],'kickoff_at']+=pd.Timedelta(days=100)
-    changed=changed.assign(goals_for=999,status_code=999,available_at='2100-01-01')
-    pd.testing.assert_series_equal(x,season_countdown(target,clock(),schedule_history=changed.iloc[::-1]))
-    # Losing or adding future downloaded fixtures cannot lower the threshold.
-    pd.testing.assert_series_equal(x,season_countdown(target,clock(),schedule_history=h.iloc[:5]))
+@pytest.mark.parametrize('status',['notstarted','postponed','cancelled','finished','inprogress','unknown',None])
+def test_played_status_results_and_unresolved_batch_do_not_change_schedule(status):
+    h=delayed_schedule()
+    expected=season_countdown(h,clock(38,20))
+    changed=h.assign(status=status,play_status='unplayed',is_awarded=True,
+        goals_for=999,goals_against=0,result_available_at='2100-01-01',
+        prediction_batch_round=38,prediction_batch_id='mixed')
+    pd.testing.assert_series_equal(expected,season_countdown(changed,clock(38,20)))
+    pd.testing.assert_series_equal(expected,season_countdown(h.drop(columns='status'),clock(38,20)))
 
 
-def test_partial_downloads_do_not_define_threshold_and_total_override_needs_membership():
-    h=schedule((4,4,1),(1,2,3))
-    assert season_countdown(h,clock()).iloc[-1]==1  # 2 of expected 4 is not a majority
-    with pytest.raises(ValueError,match='majority threshold'):
-        season_countdown(h,SeasonCountdown(total_rounds=5))
-    roster=pd.DataFrame(dict(competition_id=1,season_id=1,team_id=range(8)))
-    assert season_countdown(h,SeasonCountdown(5),team_seasons=roster).iloc[-1]==1
+def test_nearest_interval_and_later_ordinal_ties_with_original_lower_bound():
+    h=schedule((1,1,1,1,1,1,3,3,5,5),(0,0,0,12,14,40,10,12,16,18))
+    got=season_countdown(h,clock())
+    # Day 12 is inside round 3; day 14 equidistant from r3/r5 => r5;
+    # day 40 falls after both and is closest to r5, without any ambiguity NaN.
+    np.testing.assert_array_equal(got,[1,1,1,.5,0,0,.5,.5,0,0])
+    advanced=schedule((5,5,5,5,2,2),(30,30,30,8,7,9))
+    assert season_countdown(advanced,clock()).iloc[3]==0 # never below assigned 5
 
 
-@pytest.mark.parametrize('status',['notstarted','postponed','cancelled','unknown',None])
-def test_scheduled_timestamps_do_not_establish_start(status):
-    h=schedule((3,3,3,1),(0,0,0,1),status=[status]*3+['notstarted'])
-    assert season_countdown(h,clock()).iloc[-1]==1
+def test_main_cluster_largest_earliest_tie_and_exact_96_hour_span():
+    from xdiyo_analytics.features.countdown import _round_clusters
+    h=schedule((3,3,3,3,3),(20,21,1,5,40)).assign(_ordinal=3.,_eligible=True)
+    rounds,starts,ends=_round_clusters(h)
+    assert rounds.tolist()==[3]
+    assert pd.Timestamp(starts[0],tz='UTC')==h.kickoff_at.iloc[2]
+    assert pd.Timestamp(ends[0],tz='UTC')==h.kickoff_at.iloc[3]
+    # One nanosecond beyond 96 hours breaks the earlier tied cluster.
+    h['kickoff_at']=h.kickoff_at.astype('datetime64[ns, UTC]')
+    h.loc[3,'kickoff_at']+=pd.Timedelta(nanoseconds=1)
+    _,starts,_=_round_clusters(h)
+    assert pd.Timestamp(starts[0],tz='UTC')==h.kickoff_at.iloc[0]
 
 
-@pytest.mark.parametrize('play,awarded,expected',[
-    ('not_played',False,1),('unplayed',True,1),(None,True,1),
-    ('abandoned',True,.5),('resumed',False,.5),('played',True,.5)])
-def test_reviewed_play_evidence_and_awards(play,awarded,expected):
-    h=schedule((3,3,3,1),(0,0,0,1),play_status=[play]*3+[None],is_awarded=[awarded]*3+[False])
-    h['result_available_at']='2100-01-01' # completion/result release is irrelevant to actual start
-    assert season_countdown(h,clock()).iloc[-1]==expected
+def test_own_cluster_wins_over_overlapping_later_round_and_advanced_singleton():
+    h=schedule((1,1,1,5,5,5,5),(0,0,0,0,30,31,32))
+    np.testing.assert_array_equal(season_countdown(h,clock()),[1,1,1,0,0,0,0])
+    # Even overlapping main clusters do not reassign ordinary round-1 games.
+    h=schedule((1,1,3,3),(0,1,0,1))
+    np.testing.assert_array_equal(season_countdown(h,clock()),[1,1,.5,.5])
+
+
+def test_row_order_duplicate_team_rows_and_queries_share_full_schedule():
+    h=delayed_schedule()
+    expected=season_countdown(h,clock(38,20))
+    shuffled=h.sample(frac=1,random_state=7)
+    pd.testing.assert_series_equal(expected,season_countdown(shuffled,clock(38,20)).sort_index())
+    subset=h.iloc[[6,3,0]]
+    pd.testing.assert_series_equal(expected.loc[subset.index],season_countdown(subset,clock(38,20),schedule_history=shuffled))
+    paired=pd.concat([h,h]).iloc[::-1];paired.index=[8]*len(paired)
+    np.testing.assert_array_equal(season_countdown(paired,clock(38,20),schedule_history=h),np.tile(expected,2)[::-1])
+    # Repeated copies never add votes to another main cluster.
+    repeat=pd.concat([h,h.iloc[[3]*8]])
+    assert season_countdown(repeat,clock(38,20)).iloc[-1]==3/37
+
+
+def test_calendar_uses_scheduled_context_not_cutoff_or_batch_override():
+    h=delayed_schedule()
+    query=h.iloc[[3]].assign(prediction_batch_round=37)
+    assert season_countdown(query,clock(38,20),schedule_history=h,cutoffs=h.kickoff_at.iloc[0]).iloc[0]==3/37
+    # Future scheduled context may change a historical export; no claim that
+    # unavailable archived schedule knowledge has been reconstructed.
+    changed=h.copy();changed.loc[4:,'kickoff_at']+=pd.Timedelta(days=100)
+    assert season_countdown(query,clock(38,20),schedule_history=changed).iloc[0]==1
+
+
+def test_total_override_needs_no_threshold_or_membership():
+    h=delayed_schedule()
+    pd.testing.assert_series_equal(season_countdown(h,SeasonCountdown(38)),season_countdown(h,clock(38,20)))
+    with pytest.raises(ValueError,match='infer total_rounds'):
+        season_countdown(h,SeasonCountdown(format='double'))
+
+
+def test_no_clusters_retain_original_ordinal_and_extreme_timestamps():
+    from xdiyo_analytics.features.countdown import _nearest_rounds
+    assigned=np.array([1.,3.]);times=np.array([-9_000_000_000_000_000_000,9_000_000_000_000_000_000],dtype='int64')
+    empty=(np.array([]),np.array([],dtype='int64'),np.array([],dtype='int64'))
+    np.testing.assert_array_equal(_nearest_rounds(assigned,times,empty),assigned)
+    clusters=(np.array([2.,4.]),times.copy(),times.copy())
+    np.testing.assert_array_equal(_nearest_rounds(assigned,times,clusters),[2,4])
 
 
 def test_missing_values_and_conflicting_fixture_copies():
     h=schedule((1,None,3),(0,7,14));h.loc[2,'kickoff_at']=pd.NaT
     np.testing.assert_allclose(season_countdown(h,clock()),[1,np.nan,np.nan],equal_nan=True)
-    for field,value in [('round',2),('status','notstarted'),('home_id',99)]:
+    for field,value in [('round',2),('home_id',99)]:
         base=h.assign(home_id=1,away_id=2)
         broken=pd.concat([base,base.iloc[[0]].assign(**{field:value})])
         with pytest.raises(ValueError,match='inconsistent fixture'):
@@ -123,23 +166,23 @@ def test_native_formats_and_exclusions(league,n,total,tournament):
     assert np.isnan(season_countdown(h,SeasonCountdown(team_count=n)).iloc[1])
 
 
-def test_scotland_both_split_groups_share_six_fixture_threshold():
-    h=schedule((34,34,34,34,1,38),(0,0,0,1,2,0),source_league='Premiership',tournament_id=[92066,92066,92067,92067,54,999])
-    assert season_countdown(h,SeasonCountdown()).iloc[4]==4/37
-    before=h.iloc[[4]]
-    assert season_countdown(before,SeasonCountdown(),schedule_history=h,cutoffs=h.kickoff_at.iloc[3]).iloc[0]==1
+def test_scotland_split_stages_share_continuous_calendar():
+    h=schedule((1,1,1,1,34,34,38),(0,0,0,32,30,32,50),
+        source_league='Premiership',tournament_id=[54]*4+[92066,92067,999])
+    assert season_countdown(h,SeasonCountdown()).iloc[3]==4/37
+    assert season_countdown(h.iloc[[3]],SeasonCountdown(),schedule_history=h,cutoffs=h.kickoff_at.iloc[0]).iloc[0]==4/37
+    assert np.isnan(season_countdown(h,SeasonCountdown()).iloc[-1])
     with pytest.raises(ValueError,match='tournament_id'):
         season_countdown(h.drop(columns='tournament_id'),SeasonCountdown())
 
 
 def test_japan_phase_identity_and_independent_transition_calendars():
-    h=schedule((10,2,2,2,2,2,1),(20,10,10,10,10,10,21),source_league='J1',source_season='16_16',season_phase=[1,2,2,2,2,2,1],tournament_id=82)
-    # 18 teams: 9 games, majority 5. Season round 19 is activated, not false 27.
-    assert season_countdown(h,SeasonCountdown(team_count=18)).iloc[0]==15/33
+    h=schedule((10,10,10,10,2,2),(0,0,0,20,19,21),source_league='J1',source_season='16_16',season_phase=[1,1,1,1,2,2],tournament_id=82)
+    assert season_countdown(h,SeasonCountdown(team_count=18)).iloc[3]==15/33 # ordinal19, not false27
     with pytest.raises(ValueError,match='original season_phase'):
         season_countdown(h.drop(columns='season_phase'),SeasonCountdown(team_count=18))
-    g=schedule((18,18,18,1,1),(0,0,0,1,1),source_league='J1_Transition',tournament_id=[171852]*4+[171853])
-    np.testing.assert_array_equal(season_countdown(g,SeasonCountdown()),[0,0,0,0,1])
+    g=schedule((1,1,1,1,18,18,1),(0,0,0,30,30,30,30),source_league='J1_Transition',tournament_id=[171852]*6+[171853])
+    np.testing.assert_array_equal(season_countdown(g,SeasonCountdown()),[1,1,1,0,0,0,1])
 
 
 def test_verified_japan_resource_is_date_independent():
@@ -153,19 +196,20 @@ def test_verified_japan_resource_is_date_independent():
         _japan_phases(reference.assign(season_phase=3-reference.season_phase))
 
 
-def test_season_reset_and_odd_team_byes():
-    h=schedule((3,3,3,1),(0,0,0,1))
+def test_season_and_competition_reset_and_odd_team_byes():
+    h=schedule((1,1,1,1,3,3),(0,0,0,30,30,30))
     later=schedule((1,),(370,)).assign(season_id=2)
-    x=season_countdown(pd.concat([h,later]),clock(n=9)) # 9 teams still four games, majority three
-    assert x.iloc[-2]==.5 and x.iloc[-1]==1
+    other=schedule((1,),(30,)).assign(competition_id=2)
+    x=season_countdown(pd.concat([h,later,other]),clock(n=9))
+    assert x.iloc[3]==.5 and x.iloc[-2]==1 and x.iloc[-1]==1
 
 
-def test_activations_built_once_per_calendar_not_per_target(monkeypatch):
+def test_clusters_built_once_per_calendar_not_per_target(monkeypatch):
     import xdiyo_analytics.features.countdown as module
-    original=module._activations;calls=[]
+    original=module._round_clusters;calls=[]
     def tracked(*args):
         calls.append(len(args[0]));return original(*args)
-    monkeypatch.setattr(module,'_activations',tracked)
+    monkeypatch.setattr(module,'_round_clusters',tracked)
     h=schedule(tuple(np.repeat(range(1,6),4)),tuple(np.repeat(range(5),4)))
     season_countdown(h,clock())
     assert calls==[20]
@@ -206,7 +250,7 @@ def test_ui_json_python_team_fixture_context_and_cutoff_alignment(ui_recipe):
     h.index=np.arange(100,108)
     times=h.kickoff_at-pd.Timedelta(days=1)
     features=evaluate_features(h,{'clock':clock()},cutoffs=times)
-    assert features.clock.iloc[-1]==1 # third kickoff equals cutoff
+    assert features.clock.iloc[-1]==1 # a singleton is inside its own main cluster
     from xdiyo_analytics.features.contextual import evaluate_context_features
     extra=evaluate_context_features(h,{'clock':clock()},cutoffs=times)
     np.testing.assert_array_equal(features.clock,extra.clock)
@@ -225,7 +269,7 @@ def test_roster_validation_and_historical_mexico_id():
 def test_audit_rejects_unexplained_missing_outputs():
     import importlib.util
     from pathlib import Path
-    path=Path(__file__).resolve().parents[2]/'docs/analytics/season-countdown/audit.py'
+    path=Path(__file__).resolve().parents[2]/'docs/analytics/season-countdown/audit_scheduled.py'
     spec=importlib.util.spec_from_file_location('majority_audit',path)
     audit=importlib.util.module_from_spec(spec);spec.loader.exec_module(audit)
     h=schedule((1,2,1),(0,7,14),tournament_id=[38,38,999])
@@ -242,10 +286,10 @@ def test_audit_rejects_unexplained_missing_outputs():
         audit.validate_publication('Pro_League_20_21',h,pd.Series([1.,0.,np.nan]),expected,checks)
 
 
-def test_missing_status_never_counts_and_live_start_does():
-    h=schedule((3,3,3,1),(0,0,0,1))
-    assert season_countdown(h.drop(columns='status'),clock()).iloc[-1]==1
-    assert season_countdown(h.assign(status='inprogress'),clock()).iloc[-1]==.5
+def test_status_differences_in_copies_do_not_change_schedule():
+    h=delayed_schedule()
+    copy=h.assign(status='notstarted')
+    np.testing.assert_array_equal(season_countdown(pd.concat([h,copy]),clock(38,20)),np.tile(season_countdown(h,clock(38,20)),2))
 
 
 def test_migration_preserves_auxiliary_files_and_refuses_unknown_modes(ui_recipe):
@@ -265,3 +309,37 @@ def test_fixed_format_membership_and_unknown_formats_fail_clearly():
     for fmt in ('scotland','japan_transition'):
         with pytest.raises(ValueError,match='requires'):
             season_countdown(h.assign(tournament_id=54 if fmt=='scotland' else 171852),SeasonCountdown(format=fmt,team_count=18))
+
+
+def test_real_pipeline_preserves_postponement_and_explicit_japan_phase():
+    from xdiyo_analytics.data.loading import SeasonData
+    from xdiyo_analytics.histories import build_team_history
+    from xdiyo_analytics.labels import create_labels, Outcome
+    from xdiyo_analytics.datasets import assemble_dataset
+    from xdiyo_analytics.features.contextual import evaluate_context_features
+    h=schedule((10,10,10,10,2,2),(0,0,0,20,19,21),source_league='J1',source_season='16_16',season_phase=[1,1,1,1,2,2],tournament_id=82)
+    matches=h.assign(home_id=np.arange(6)*2+1,away_id=np.arange(6)*2+2,
+        home_score_current=1,away_score_current=0,
+        kickoff_utc=h.kickoff_at.astype('datetime64[ns, UTC]').astype('int64')//10**9).drop(columns='kickoff_at')
+    history=build_team_history(SeasonData({'matches':matches},{}))
+    expr=SeasonCountdown(team_count=18)
+    features=evaluate_features(history,{'clock':expr},schedule_history=matches,keyed=True,
+        cutoffs=pd.Timestamp('2019-12-01',tz='UTC'))
+    labels=create_labels(history,{'outcome':Outcome(perspective='home')})['outcome']
+    dataset=assemble_dataset(features,labels,layout='match')
+    context=evaluate_context_features(dataset.metadata,{'clock':expr},schedule_history=matches,
+        cutoffs=pd.Timestamp('2019-12-01',tz='UTC'))
+    np.testing.assert_array_equal(dataset.X['fixture::clock'],context.clock)
+    assert dataset.X['fixture::clock'].iloc[3]==15/33
+    assert 'season_phase' in dataset.metadata
+    assert dataset.X.columns.tolist()==['fixture::clock']
+
+
+def test_chunked_queries_preserve_order_and_exact_nanosecond_ties():
+    from xdiyo_analytics.features.countdown import _nearest_rounds
+    n=8201
+    assigned=np.ones(n)
+    instants=np.tile(np.array([9,10,11,12,13,14],dtype='int64'),1367)[:n]
+    clusters=(np.array([2.,3.]),np.array([8,14],dtype='int64'),np.array([10,16],dtype='int64'))
+    want=np.array([2 if t<12 else 3 for t in instants])
+    np.testing.assert_array_equal(_nearest_rounds(assigned,instants,clusters),want)
