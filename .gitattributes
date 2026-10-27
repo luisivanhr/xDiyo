@@ -30,3 +30,9 @@ docs/analytics/data/gat_statistics_repair_20261014/** -text whitespace=cr-at-eol
 # Preserve native CPU integration receipts verbatim.
 docs/analytics/gat_feature_integration/*.log -text -whitespace
 docs/analytics/gat_feature_integration/*.xml -text -whitespace
+
+# Exact standings validation receipts and published checksum evidence.
+docs/analytics/derived-standings-validation/** -text whitespace=cr-at-eol
+docs/analytics/data/bundesliga_20220318_review.json -text whitespace=cr-at-eol
+data/xDiyo_data/Bundesliga_21_22.manifest.json -text whitespace=cr-at-eol
+data/xDiyo_data/_tables/competition=35/season=37166/versions/07b621a9b819494b8fd34a41cf8f4ff4/manifest.json -text whitespace=cr-at-eol

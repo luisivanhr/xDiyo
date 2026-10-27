@@ -1,0 +1,73 @@
+{
+  "status": "applied",
+  "original_matches": 305,
+  "matches": 306,
+  "original_rows_preserved": true,
+  "evidence_sha256": "d8d71cb4f0ad2ab3d46387b45701893113f9533e627bc9dd76d8cae1111db201",
+  "coverage": {
+    "status": "balanced_with_reviewed_award",
+    "expected_matches": 306,
+    "saved_matches": 306,
+    "ordinary_matches": 305,
+    "reviewed_awarded_matches": 1,
+    "scope": "Complete result schedule, including the separately reviewed abandoned/awarded fixture",
+    "ordinary_played_audit": {
+      "status": "incomplete",
+      "scope": "reviewed regular-season format and listed external fixtures",
+      "teams": 18,
+      "expected_matches": 306,
+      "saved_matches": 306,
+      "played_matches": 305,
+      "meetings_per_pair": 2,
+      "issues": [
+        "nonplayed_or_awarded_rows_require_separate_review"
+      ],
+      "pair_imbalances": [
+        {
+          "team_ids": [
+            2527,
+            2542
+          ],
+          "expected": 2,
+          "actual": 1
+        }
+      ],
+      "required_fixtures": [
+        {
+          "home_id": 2542,
+          "away_id": 2527,
+          "round": 27,
+          "date_utc": "2022-03-18",
+          "score": [
+            0,
+            2
+          ],
+          "status": "missing",
+          "event_ids": []
+        }
+      ]
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=37166/versions/07b621a9b819494b8fd34a41cf8f4ff4/matches.parquet",
+      "before": "744352b1440d06e3dcc8417aa24b593da7e715207c941bc27b18d0e7d12a365f",
+      "after": "c017271b0090dd17c6fc0f55a483ff4e6e48ccf408f18d6a26c2aca79efabd8f"
+    },
+    {
+      "path": "Bundesliga_21_22.parquet",
+      "before": "c264e7824721a3afa0780923cfddc72fb80704f762e5e23f0955670be4933ff4",
+      "after": "5ef37893afa62d02205b4abf9e8765d0bef29b2b3a48a5cc6a09526da73e8a78"
+    },
+    {
+      "path": "_tables/competition=35/season=37166/versions/07b621a9b819494b8fd34a41cf8f4ff4/manifest.json",
+      "before": "4703a6789257f349e384987c952b75d3eafd0f6040d0fedd7a9ee914e7e02fcf",
+      "after": "f1cb4e24de0e59c8d5820d58c8fc3ba58b982bbc2dd0fad8ff280c2b4b904570"
+    },
+    {
+      "path": "Bundesliga_21_22.manifest.json",
+      "before": "06134e66d35e7c7aebfc8f2d4cbf55110ea7fe5990f9755023642441488115bc",
+      "after": "c3294be7c9cf5885cbf9fd53708909554bb305646dfbc8d1cf33be533c23e9da"
+    }
+  ]
+}

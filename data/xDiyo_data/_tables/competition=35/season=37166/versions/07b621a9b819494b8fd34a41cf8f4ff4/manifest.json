@@ -23,7 +23,7 @@
   },
   "match_awarded_contract": {
     "is_awarded": {
-      "meaning": "Provider awarded-result flag, independent of status and status_code",
+      "meaning": "Effective awarded flag including reviewed supplements; provider_is_awarded preserves supplied source flags.",
       "missing_field": "False when omitted from a valid provider event object",
       "source_field": "event.isAwarded",
       "unknown": "Null when event metadata is unavailable or the flag is null or non-boolean"
@@ -41,6 +41,11 @@
       "source_field": "event.startTimestamp",
       "timezone": "UTC",
       "unit": "seconds_since_unix_epoch"
+    },
+    "result_available_at": {
+      "meaning": "Conservative end of ruling day in Europe/Berlin; exact publication time is unknown. Never kickoff plus three hours.",
+      "timezone": "UTC",
+      "unit": "Arrow timestamp"
     }
   },
   "parser_version": "2",
@@ -519,9 +524,9 @@
     },
     "matches": {
       "file": "matches.parquet",
-      "rows": 305,
-      "bytes": 29380,
-      "sha256": "744352b1440d06e3dcc8417aa24b593da7e715207c941bc27b18d0e7d12a365f"
+      "rows": 306,
+      "bytes": 35258,
+      "sha256": "c017271b0090dd17c6fc0f55a483ff4e6e48ccf408f18d6a26c2aca79efabd8f"
     },
     "passing_edges": {
       "bytes": 1970,
@@ -580,5 +585,87 @@
     "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
     "audit": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\audits\\statistics_backfill\\a91c03e3382045389270\\Bundesliga_21_22.cells.json",
     "audit_sha256": "27731c462d0cb79007c8bfa83416497f4fc65587a9178b8557b0629deb3fa7f6"
-  }
+  },
+  "fixture_coverage": {
+    "status": "balanced_with_reviewed_award",
+    "expected_matches": 306,
+    "saved_matches": 306,
+    "ordinary_matches": 305,
+    "reviewed_awarded_matches": 1,
+    "scope": "Complete result schedule, including the separately reviewed abandoned/awarded fixture",
+    "ordinary_played_audit": {
+      "status": "incomplete",
+      "scope": "reviewed regular-season format and listed external fixtures",
+      "teams": 18,
+      "expected_matches": 306,
+      "saved_matches": 306,
+      "played_matches": 305,
+      "meetings_per_pair": 2,
+      "issues": [
+        "nonplayed_or_awarded_rows_require_separate_review"
+      ],
+      "pair_imbalances": [
+        {
+          "team_ids": [
+            2527,
+            2542
+          ],
+          "expected": 2,
+          "actual": 1
+        }
+      ],
+      "required_fixtures": [
+        {
+          "home_id": 2542,
+          "away_id": 2527,
+          "round": 27,
+          "date_utc": "2022-03-18",
+          "score": [
+            0,
+            2
+          ],
+          "status": "missing",
+          "event_ids": []
+        }
+      ]
+    }
+  },
+  "result_reviews": {
+    "1000000011784": {
+      "season": "Bundesliga_21_22",
+      "competition_id": 35,
+      "season_id": 37166,
+      "event_id": 1000000011784,
+      "native_event_id": null,
+      "identity_policy": "Reserved supplemental workbook namespace; no guessed provider event ID",
+      "source_match_id": 11784,
+      "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+      "sheet": "Matches_Results",
+      "row": 76556,
+      "round": 27,
+      "home_id": 2542,
+      "away_id": 2527,
+      "kickoff": "2022-03-18T19:30:00Z",
+      "kickoff_evidence": "Workbook 20:30 Europe/Berlin (CET); scheduled kickoff, not a verified whistle timestamp",
+      "played_score": [
+        0,
+        2
+      ],
+      "awarded_score": [
+        0,
+        2
+      ],
+      "play_status": "abandoned",
+      "classification": "abandoned_then_awarded",
+      "ruling_date": "2022-03-24",
+      "result_available_at": "2022-03-24T23:00:00Z",
+      "availability_policy": "Conservative end of ruling day in Europe/Berlin; exact publication time is unknown. Never kickoff plus three hours.",
+      "sources": [
+        "https://www.dfb.de/fileadmin/_dfbdam/257416-220324_VfL_Bochum.pdf",
+        "https://www.bundesliga.com/en/bundesliga/matchday/2021-2022/27/vfl-bochum-1848-vs-borussia-moenchengladbach/liveticker"
+      ],
+      "unavailable_components": "No supplemental statistics, pregame positions, incidents, lineups, heatmaps or xG. Second-half totals are not treated as completed-half statistics."
+    }
+  },
+  "complete_scope": "Collector cohort plus reviewed supplemental fixture; original capture/component coverage is retained separately."
 }

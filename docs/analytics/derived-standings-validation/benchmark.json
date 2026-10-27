@@ -1,0 +1,62 @@
+{
+  "results": [
+    {
+      "delayed": false,
+      "fixtures": 380,
+      "cutoffs": 38,
+      "windows": [
+        1,
+        3,
+        6,
+        12,
+        30
+      ],
+      "preparation": {
+        "seconds": 1.0616277999943122,
+        "peak_python_bytes": 2776035
+      },
+      "native_replay": {
+        "seconds": 0.2496763999806717,
+        "peak_python_bytes": 4987631
+      },
+      "pandas_grouped": {
+        "seconds": 2.1673165999818593,
+        "peak_python_bytes": 1162831
+      },
+      "exact_rank_parity": true,
+      "grouped_over_native_seconds": 8.680502442960723,
+      "memory_measure": "tracemalloc peak Python allocations; not process RSS"
+    },
+    {
+      "delayed": true,
+      "fixtures": 380,
+      "cutoffs": 38,
+      "windows": [
+        1,
+        3,
+        6,
+        12,
+        30
+      ],
+      "preparation": {
+        "seconds": 1.0529018000233918,
+        "peak_python_bytes": 2747513
+      },
+      "native_replay": {
+        "seconds": 0.29272540006786585,
+        "peak_python_bytes": 4930333
+      },
+      "pandas_grouped": {
+        "seconds": 2.15470119996462,
+        "peak_python_bytes": 1092821
+      },
+      "exact_rank_parity": true,
+      "grouped_over_native_seconds": 7.360827586075795,
+      "memory_measure": "tracemalloc peak Python allocations; not process RSS"
+    }
+  ],
+  "source_hashes": {
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\examples\\benchmark_derived_standings.py": "e3431b6146c610727fe056d5ebd698ca1fe97f69c2b5e11c28db5bb2801a301a",
+    "src/xdiyo_analytics/ratings/standings.py": "6b67bd08167ae6d3af347d5842a0c43eb88badb22ecb113aa88a98806f174f8e"
+  }
+}

@@ -16,6 +16,9 @@ from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
+    'standings_history': 'Optional complete standings team history. Recipes load the unfiltered result population automatically.',
+    'standings_available_at': 'Availability series/column for the complete standings history, honoring reviewed bounds.',
+    'standings_run': 'Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.',
     'finalization': 'Retain is the default. Prediction only releases native training buffers after a completed verified training checkpoint; inference and export remain available. Resume requires that checkpoint.',
     'left': 'First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.',
     'right': 'Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.',
@@ -204,6 +207,7 @@ HELP = {
 }
 
 DESCRIPTIONS = {
+    'features.DerivedStandings': 'Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. All ranks stay initial until every first-round result is available; no cross-season history. Separate from provider standings.',
     'features.SpatialHistoricalDeviation': 'Observed JS distance from each match’s own prior mean map. Wrap in Rolling mean or Lag to use past deviations as predictors. Inner and outer windows are separate. Default is a 6x6 player-only grid; any grid size of at least 2 is supported.',
     'features.SpatialFixtureDistance': 'One match-level JS distance between the two teams’ prior mean maps. Choose style similarity or a directional opponent-context comparison. Defaults to 6x6; change Source → Grid size for another resolution.',
     'training.SpatialPCA': 'Fit a shared PCA basis on training-fold historical maps only. Declare ordered home/away grid-column blocks with the same resolution and team frame. Missing cells use training medians. Place before ordinary scalers/imputers to retain named columns.',
@@ -522,6 +526,16 @@ def build():
             if key == 'context.CalendarFeature' and name == 'kind':
                 f.update(kind='select', choices=['month_sin','month_cos','weekday','round'], primary=True,
                          help='UTC fixture context. Month uses sin/cos(2π × month / 12); weekday is Monday=0; round is numeric.')
+            if key == 'features.DerivedStandings':
+                f['primary'] = True
+                if name == 'normalized_ranks':
+                    f.update(kind='list', item={'kind':'number', 'step':1, 'min':1}, help='Ordered positive match windows, e.g. 3, 6 or 1, 5, 12, 30. Each ranks a separate league-wide form table; higher is better. Empty requires cumulative position enabled.')
+                elif name == 'include_raw':
+                    f.update(help='Add cumulative season position without changing form ranks.')
+                elif name == 'side':
+                    f.update(help='For uses this team; against uses its opponent; both creates separate outputs.')
+                elif name == 'normalize':
+                    f.update(help='Divide cumulative position by N only. Lower is better; form ranks always use (N-R)/(N-1).')
             if key == 'features.SeasonProgress' and name == 'total_rounds':
                 c['title'] = 'Season progress'
                 f.update(kind='number', min=1, step=1, primary=True, title='Total rounds override', visible_when={'mode':['rounds']}, clear_when_hidden=True,
@@ -684,8 +698,10 @@ def build():
     # Explicit auxiliary data controls instead of an untyped object textbox.
     for key in ('feature_options','rating_options'):
         for f in stages[key]['fields']:
-            if f['name'] in ('team_counts','team_seasons','season_starts','transition_context'):
+            if f['name'] in ('team_counts','team_seasons','season_starts','transition_context','standings_history','standings_available_at'):
                 f.update(kind='component',components=['input.Table'],initial_component='input.Table')
+            if f['name']=='standings_run':
+                f.update(kind='component',components=['input.StandingsRun'],initial_component='input.StandingsRun')
             if f['name']=='ratings':
                 f.update(kind='map', title='Saved rating runs', primary=True,
                          item={'kind':'component','components':['input.BayesianRatingRun','input.RatingRun'],
@@ -911,6 +927,12 @@ def build():
     composition_widgets(components)
     from .graph_inventory import decorate as graph_widgets
     graph_widgets(components, stages)
+    for key in ('features.DerivedStandings', 'input.StandingsRun'):
+        for field in components[key]['fields']:
+            field.pop('annotation', None)
+    for field in stages['feature_options']['fields']:
+        if field['name'].startswith('standings_'):
+            field.pop('annotation', None)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 
 

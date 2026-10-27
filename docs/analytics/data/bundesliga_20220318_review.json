@@ -1,0 +1,29 @@
+{
+  "season": "Bundesliga_21_22",
+  "competition_id": 35,
+  "season_id": 37166,
+  "event_id": 1000000011784,
+  "native_event_id": null,
+  "identity_policy": "Reserved supplemental workbook namespace; no guessed provider event ID",
+  "source_match_id": 11784,
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "sheet": "Matches_Results",
+  "row": 76556,
+  "round": 27,
+  "home_id": 2542,
+  "away_id": 2527,
+  "kickoff": "2022-03-18T19:30:00Z",
+  "kickoff_evidence": "Workbook 20:30 Europe/Berlin (CET); scheduled kickoff, not a verified whistle timestamp",
+  "played_score": [0, 2],
+  "awarded_score": [0, 2],
+  "play_status": "abandoned",
+  "classification": "abandoned_then_awarded",
+  "ruling_date": "2022-03-24",
+  "result_available_at": "2022-03-24T23:00:00Z",
+  "availability_policy": "Conservative end of ruling day in Europe/Berlin; exact publication time is unknown. Never kickoff plus three hours.",
+  "sources": [
+    "https://www.dfb.de/fileadmin/_dfbdam/257416-220324_VfL_Bochum.pdf",
+    "https://www.bundesliga.com/en/bundesliga/matchday/2021-2022/27/vfl-bochum-1848-vs-borussia-moenchengladbach/liveticker"
+  ],
+  "unavailable_components": "No supplemental statistics, pregame positions, incidents, lineups, heatmaps or xG. Second-half totals are not treated as completed-half statistics."
+}

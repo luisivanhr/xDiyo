@@ -1,0 +1,42 @@
+{
+  "matches": 306,
+  "teams": 18,
+  "provider_rows": 128,
+  "skip_mismatches": 23,
+  "repaired_mismatches": 0,
+  "comparison_cutoff": "Target kickoff diagnostic only; production default remains frozen original-round issuance",
+  "release_proxy": "Kickoff plus three hours, raised by reviewed ruling bound",
+  "ruling_bound": "2022-03-24T23:00:00Z",
+  "source": {
+    "seasons": [
+      "21_22"
+    ],
+    "leagues": [
+      "Bundesliga"
+    ],
+    "tables": [
+      "matches",
+      "pregame",
+      "team_seasons"
+    ],
+    "sources": [
+      {
+        "season": "Bundesliga_21_22",
+        "version": "07b621a9b819494b8fd34a41cf8f4ff4",
+        "manifest_path": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\data\\xDiyo_data\\_tables\\competition=35\\season=37166\\versions\\07b621a9b819494b8fd34a41cf8f4ff4\\manifest.json",
+        "tables": [
+          "matches",
+          "pregame",
+          "team_seasons"
+        ],
+        "include_awarded": true,
+        "excluded_awarded_event_ids": [],
+        "awarded_flag_available": true
+      }
+    ],
+    "include_awarded": true
+  },
+  "replay_source_sha256": "ddac0c0774eb42400a701c118ef8ae19b6039f6c74acf2a6a89c9c40c9dbef58",
+  "script": "tests/analytics/test_standings_missing_fixture.py",
+  "script_sha256": "682bc0452f9e37bfa5f025e573b09badedaa5305c1755c306783b505dde08ff2"
+}

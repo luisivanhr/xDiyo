@@ -61,6 +61,7 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
         "competition_id", "tournament_id", "season_id", "season_year", "round",
         "status", "status_code", "is_awarded", "provider_is_awarded",
         "play_status", "completion_date", "result_available_at", "result_review_json",
+        "stage_json", "standings_table_id", "standings_rule", "standings_result_available_at",
     ) if name in matches]
     seconds = matches["kickoff_utc"]
     # Arrow floats can overflow before pandas applies errors='coerce'. Mask
@@ -87,6 +88,16 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
             part[label] = matches[name] if name in matches else pd.Series(
                 pd.NA, index=part.index, dtype="Float64",
             )
+        # Preserve score-basis evidence for opt-in derived standings validation.
+        for prefix, role in ((side, "team"), (opponent, "opponent")):
+            for field in ("extra1", "extra2", "overtime", "penalties"):
+                column = f"{prefix}_score_{field}"
+                if column in matches:
+                    part[f"{role}_score_{field}"] = matches[column]
+        for prefix, label in ((side, "standings_goals_for"), (opponent, "standings_goals_against")):
+            column = f"{prefix}_standings_goals"
+            if column in matches:
+                part[label] = matches[column]
         rows.append(part)
     history = pd.concat(rows, ignore_index=True)
     history.attrs = {}

@@ -1,0 +1,65 @@
+{
+  "python": "3.12.14",
+  "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+  "tests": 290,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 1,
+  "seconds": 82.554,
+  "command": "python -m pytest tests/analytics/test_derived_standings.py tests/analytics/test_standings_missing_fixture.py tests/analytics/test_team_history.py tests/analytics/test_ratings.py tests/analytics/test_rating_transitions.py tests/analytics/test_fixture_assembly.py tests/analytics/test_ui_inventory.py tests/analytics/test_ui_catalog_compatibility.py tests/analytics/test_ui_workflow.py tests/analytics/test_ui_recipe_cutoffs.py tests/analytics/test_ui_saved_ratings.py tests/analytics/test_season_progress.py tests/analytics/test_supplemental_fixtures.py tests/analytics/test_historical_result_reviews.py tests/analytics/test_completion_boundary_repairs.py -q -p no:cacheprovider --tb=short --basetemp C:/Users/luisi/AppData/Local/Temp/xdiyo-standings-final --junitxml=docs/analytics/derived-standings-validation/regression.xml",
+  "environment": {
+    "PYTHONPATH": "src",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "source_hashes": {
+    "src/xdiyo_analytics/features/standings.py": "64c76d2c508034c3b291b49de86f0a1848245e4082a996befe4ade00494e524f",
+    "src/xdiyo_analytics/ratings/standings.py": "6b67bd08167ae6d3af347d5842a0c43eb88badb22ecb113aa88a98806f174f8e",
+    "src/xdiyo_analytics/features/evaluation.py": "d72b51853dbf1cf9b23192ca59b2bb6d0fb29a67c3ea0f1d5914895a0966a76e",
+    "src/xdiyo_analytics/histories/team.py": "25b24ef736e6d46660132703e3f5e5d6a7de1622ffb1bccebb4639ed04ebc9ba",
+    "src/xdiyo_analytics/features/__init__.py": "a674a6e87652e4dbd359a0dd0cf397a8a87f92094861da42ee216e0dca70c6d0",
+    "src/xdiyo_analytics/ratings/__init__.py": "da58b55248f8828f71e96a147491d8be78acd09fa8abec3a4ab0a2a209046206",
+    "src/xdiyo_analytics/ui/recipe.py": "76d42428b9e0987f59d66a6e05a8741ddc704f306bdda789e4373cd5fb54f172",
+    "src/xdiyo_analytics/ui/catalog.py": "c2a7bc69d07778db6a1c609e9ed4aa480381ba96c34f3b69517cf4a9dc18bdea",
+    "src/xdiyo_analytics/ui/build_inventory.py": "e00a479fecc52a2feeb26a6cb1ce03c9b02bf17bba4ff0c1db38ac372b45b584",
+    "src/xdiyo_analytics/ui/inventory.json": "73ea6cc819d5a1207cf2246be30411f99aaa59e5245c58496cf397dc6b3b3bd2",
+    "tests/analytics/test_derived_standings.py": "359381ff4ec642d050275aeb42cebef7b9eeb08954c0d8b357ddf88019c8e9ad",
+    "tests/analytics/test_standings_missing_fixture.py": "682bc0452f9e37bfa5f025e573b09badedaa5305c1755c306783b505dde08ff2",
+    "examples/repair_bundesliga_standings_20261027.py": "590159e45478dfa8944a473b984e5e27321867018a3687190956d8b21481ac2d",
+    "docs/analytics/data/bundesliga_20220318_review.json": "d8d71cb4f0ad2ab3d46387b45701893113f9533e627bc9dd76d8cae1111db201"
+  },
+  "xml_sha256": "ade03dda9463dd5c890c118df761782d032368274c07fed00524ccd28a779e80",
+  "final_inventory_check": {
+    "command": "python -m pytest tests/analytics/test_ui_inventory.py tests/analytics/test_ui_catalog_compatibility.py -q -p no:cacheprovider --tb=short --junitxml=docs/analytics/derived-standings-validation/final-inventory.xml",
+    "passed": 21,
+    "xml_sha256": "af694e57b49b8f8f99168509b79ed336b4f3b3055264be600abd6418a06720cb",
+    "reason": "Final ASCII help text in the new standings side field; no numerical source changes after full suite."
+  },
+  "browser": {
+    "interface": "Built-in Browser",
+    "title": "Football experiment builder",
+    "flow": "Features & ratings -> Derived Standings -> [3,6] and Include raw -> Normalize -> reload",
+    "result": "Configured values retained after reload",
+    "errors": [],
+    "warnings": [],
+    "screenshot_sha256": "40458b39199cc5df33a533305547656968149ddc8ec86d5841bd71d6409e4617",
+    "limit": "Captured before final ASCII side-help correction; no screenshot of that text-only correction claimed."
+  },
+  "git_index_source_sha256": {
+    "src/xdiyo_analytics/features/standings.py": "6ff26c71510e34e70b4326899abb388aada50a4c3c98a8b8994d2ff41a29f91a",
+    "src/xdiyo_analytics/ratings/standings.py": "36815c2def5695accb70551ceda19d96b1cfaf5f93e481968cc89c22028db9b1",
+    "src/xdiyo_analytics/features/evaluation.py": "e22920f1ecc0a3f55e0ea35d566610177ac03712f0a7191bfe38018db4077e4e",
+    "src/xdiyo_analytics/histories/team.py": "68bd923113aea018a61cafe75f867ae70875050a6e1779be2b329292c6ea6c62",
+    "src/xdiyo_analytics/features/__init__.py": "679a745a359d97141627bcea9f37fc36b31b6a820c5ce3f564bd0780c619cf7f",
+    "src/xdiyo_analytics/ratings/__init__.py": "08f8c66cde0c0bbc2e082bba56f6b3c466a3ebbe30c2400786f4f0ee3be7cb70",
+    "src/xdiyo_analytics/ui/recipe.py": "f0141aa7d8ca346130f57d945dab19c55f6d2e7cd411badea51078b8f3c1258d",
+    "src/xdiyo_analytics/ui/catalog.py": "228e190764fa60870043614658e964e68961f2c2c48c87f784f9f905e7551a0a",
+    "src/xdiyo_analytics/ui/build_inventory.py": "bf03c6c222462fe0d31aadb88d37a316def3640a9fce48020de99cf600bc101c",
+    "src/xdiyo_analytics/ui/inventory.json": "7ba70031d4017d953e2b5ef749b6aa84daf687aa6ad3f7992df74081c5ccb546",
+    "tests/analytics/test_derived_standings.py": "24330b335405e93f7e79b5e7fe7bc359498359c0a4d73d2ad7cfc3df0a440ab5",
+    "tests/analytics/test_standings_missing_fixture.py": "682bc0452f9e37bfa5f025e573b09badedaa5305c1755c306783b505dde08ff2",
+    "examples/repair_bundesliga_standings_20261027.py": "590159e45478dfa8944a473b984e5e27321867018a3687190956d8b21481ac2d",
+    "docs/analytics/data/bundesliga_20220318_review.json": "d8d71cb4f0ad2ab3d46387b45701893113f9533e627bc9dd76d8cae1111db201"
+  },
+  "hash_policy": "source_hashes are tested Windows working-tree bytes; git_index_source_sha256 records Git-normalized publication bytes."
+}

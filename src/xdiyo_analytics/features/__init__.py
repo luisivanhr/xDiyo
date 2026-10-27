@@ -4,6 +4,7 @@ from .expressions import (
     EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
     RollingMean, RollingStd, RollingSkewness, RollingZScore, Stat, MatchScore,
 )
+from .standings import DerivedStandings
 from .evaluation import evaluate_features
 from .history import eligible_history_rows, league_season_team_counts
 from .ratings import BayesianFixture, BayesianRating, Rating, MatchResultGlicko, StatGlicko
@@ -22,6 +23,7 @@ from .movement import TeamMovement
 from .weighted import RollingWeightedMean
 
 __all__ = [
+    "DerivedStandings",
     "RollingWeightedMean",
     "SpatialHistoricalDeviation", "SpatialFixtureDistance",
     "TeamMovement",

@@ -19100,6 +19100,80 @@
         }
       ],
       "accepts_extra": false
+    },
+    "features.DerivedStandings": {
+      "id": "features.DerivedStandings",
+      "title": "DerivedStandings",
+      "category": "feature",
+      "description": "Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. All ranks stay initial until every first-round result is available; no cross-season history. Separate from provider standings.",
+      "fields": [
+        {
+          "name": "normalized_ranks",
+          "title": "Normalized ranks",
+          "required": false,
+          "kind": "list",
+          "default": [
+            5
+          ],
+          "help": "Ordered positive match windows, e.g. 3, 6 or 1, 5, 12, 30. Each ranks a separate league-wide form table; higher is better. Empty requires cumulative position enabled.",
+          "primary": true,
+          "item": {
+            "kind": "number",
+            "step": 1,
+            "min": 1
+          }
+        },
+        {
+          "name": "include_raw",
+          "title": "Include raw",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Add cumulative season position without changing form ranks.",
+          "primary": true
+        },
+        {
+          "name": "normalize",
+          "title": "Normalize",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Divide cumulative position by N only. Lower is better; form ranks always use (N-R)/(N-1).",
+          "primary": true
+        },
+        {
+          "name": "side",
+          "title": "Side",
+          "required": false,
+          "kind": "text",
+          "default": "for",
+          "choices": [
+            "for",
+            "against",
+            "both"
+          ],
+          "help": "For uses this team; against uses its opponent; both creates separate outputs.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "input.StandingsRun": {
+      "id": "input.StandingsRun",
+      "title": "StandingsRun",
+      "category": "input",
+      "description": "",
+      "fields": [
+        {
+          "name": "directory",
+          "title": "Directory",
+          "required": true,
+          "kind": "text",
+          "help": "Directory containing previously saved rating states.",
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
     }
   },
   "stages": {
@@ -19363,6 +19437,45 @@
             "input.Table"
           ],
           "initial_component": "input.Table"
+        },
+        {
+          "name": "standings_history",
+          "title": "Standings history",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional complete standings team history. Recipes load the unfiltered result population automatically.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
+        },
+        {
+          "name": "standings_available_at",
+          "title": "Standings available at",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Availability series/column for the complete standings history, honoring reviewed bounds.",
+          "primary": false,
+          "components": [
+            "input.Table"
+          ],
+          "initial_component": "input.Table"
+        },
+        {
+          "name": "standings_run",
+          "title": "Standings run",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.",
+          "primary": false,
+          "components": [
+            "input.StandingsRun"
+          ],
+          "initial_component": "input.StandingsRun"
         }
       ],
       "accepts_extra": false

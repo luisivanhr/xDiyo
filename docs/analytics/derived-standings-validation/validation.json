@@ -1,0 +1,688 @@
+{
+  "base_commit": "0cb13cac57255f5e2f8e0eeb692e2b6f22344381",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "numpy": "2.3.5",
+  "command": "examples/validate_derived_standings.py --data-root C:/Users/luisi/Documents/Programming/Python/xDiyo/data/xDiyo_data --output docs/analytics/derived-standings-validation",
+  "source_hashes": {
+    "src/xdiyo_analytics/ratings/standings.py": "6b67bd08167ae6d3af347d5842a0c43eb88badb22ecb113aa88a98806f174f8e",
+    "src/xdiyo_analytics/features/standings.py": "64c76d2c508034c3b291b49de86f0a1848245e4082a996befe4ade00494e524f",
+    "src/xdiyo_analytics/features/evaluation.py": "d72b51853dbf1cf9b23192ca59b2bb6d0fb29a67c3ea0f1d5914895a0966a76e",
+    "tests/analytics/test_derived_standings.py": "359381ff4ec642d050275aeb42cebef7b9eeb08954c0d8b357ddf88019c8e9ad",
+    "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\examples\\validate_derived_standings.py": "285f4161063fc23df58c84085626bc6f3f1157b5d0715a5c1d57fe772f3d4166"
+  },
+  "populations": [
+    {
+      "league": "Premier_League",
+      "season": "22_23",
+      "matches": 380,
+      "teams": 20,
+      "source": {
+        "seasons": [
+          "22_23"
+        ],
+        "leagues": [
+          "Premier_League"
+        ],
+        "tables": [
+          "matches",
+          "pregame",
+          "team_seasons"
+        ],
+        "sources": [
+          {
+            "season": "Premier_League_22_23",
+            "version": "61212e624d8b4e88a40772dd15d043b4",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=41886\\versions\\61212e624d8b4e88a40772dd15d043b4\\manifest.json",
+            "tables": [
+              "matches",
+              "pregame",
+              "team_seasons"
+            ],
+            "include_awarded": true,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": true
+      },
+      "oracle_rows": 3800,
+      "exact_oracle_parity": true,
+      "delayed_oracle_parity": true,
+      "replay": {
+        "seconds": 1.3585587999550626,
+        "peak_python_bytes": 4712679
+      },
+      "brute": {
+        "seconds": 34.82947310002055,
+        "peak_python_bytes": 2374706
+      },
+      "lookup": {
+        "seconds": 0.2857023999094963,
+        "peak_python_bytes": 3338587
+      },
+      "three_repeated_lookups": {
+        "seconds": 0.21852080000098795,
+        "peak_python_bytes": 1559316
+      },
+      "delayed_replay": {
+        "seconds": 1.8249336000299081,
+        "peak_python_bytes": 4759741
+      },
+      "comparison": {
+        "n": 740,
+        "exact_match_rate": 0.7472972972972973,
+        "mean_absolute_error": 0.3945945945945946,
+        "max_absolute_error": 8.0
+      },
+      "aligned": {
+        "n": 316,
+        "exact_match_rate": 0.9240506329113924,
+        "mean_absolute_error": 0.10126582278481013,
+        "max_absolute_error": 3.0
+      },
+      "categories": {
+        "exact": 553,
+        "cutoff_mismatch": 163,
+        "unexplained_official_rules_or_source": 17,
+        "shared_ties": 7
+      },
+      "representative_mismatches": [
+        {
+          "event_id": 10385500,
+          "team_id": 31,
+          "team_name": "Leicester City",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 9.0,
+          "provider": 12.0,
+          "error": 3.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385500,
+          "team_id": 42,
+          "team_name": "Arsenal",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 2.0,
+          "provider": 4.0,
+          "error": 2.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385527,
+          "team_id": 43,
+          "team_name": "Fulham",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 9.0,
+          "provider": 11.0,
+          "error": 2.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385527,
+          "team_id": 3,
+          "team_name": "Wolverhampton",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 13.0,
+          "provider": 15.0,
+          "error": 2.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385530,
+          "team_id": 60,
+          "team_name": "Bournemouth",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 2.0,
+          "provider": 5.0,
+          "error": 3.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385737,
+          "team_id": 34,
+          "team_name": "Leeds United",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 6.0,
+          "provider": 7.0,
+          "error": 1.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385743,
+          "team_id": 39,
+          "team_name": "Newcastle United",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T14:00:00+00:00",
+          "derived": 2.0,
+          "provider": 3.0,
+          "error": 1.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10385510,
+          "team_id": 35,
+          "team_name": "Manchester United",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T16:30:00+00:00",
+          "derived": 13.0,
+          "provider": 16.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10385510,
+          "team_id": 50,
+          "team_name": "Brentford",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-13T16:30:00+00:00",
+          "derived": 9.0,
+          "provider": 11.0,
+          "error": 2.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10385528,
+          "team_id": 37,
+          "team_name": "West Ham United",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-14T13:00:00+00:00",
+          "derived": 16.0,
+          "provider": 19.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10385528,
+          "team_id": 14,
+          "team_name": "Nottingham Forest",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-14T13:00:00+00:00",
+          "derived": 16.0,
+          "provider": 18.0,
+          "error": 2.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10385525,
+          "team_id": 33,
+          "team_name": "Tottenham Hotspur",
+          "cutoff": "2022-08-13T11:30:00+00:00",
+          "kickoff": "2022-08-14T15:30:00+00:00",
+          "derived": 1.0,
+          "provider": 7.0,
+          "error": 6.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        }
+      ],
+      "publication_count": 38,
+      "gate_closed_publications": 1
+    },
+    {
+      "league": "Premier_League",
+      "season": "23_24",
+      "matches": 380,
+      "teams": 20,
+      "source": {
+        "seasons": [
+          "23_24"
+        ],
+        "leagues": [
+          "Premier_League"
+        ],
+        "tables": [
+          "matches",
+          "pregame",
+          "team_seasons"
+        ],
+        "sources": [
+          {
+            "season": "Premier_League_23_24",
+            "version": "a13ab544b9ea4f0e82bfbc8969a3ed83",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=17\\season=52186\\versions\\a13ab544b9ea4f0e82bfbc8969a3ed83\\manifest.json",
+            "tables": [
+              "matches",
+              "pregame",
+              "team_seasons"
+            ],
+            "include_awarded": true,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": true
+      },
+      "oracle_rows": 3800,
+      "exact_oracle_parity": true,
+      "delayed_oracle_parity": true,
+      "replay": {
+        "seconds": 1.9175974000245333,
+        "peak_python_bytes": 4607785
+      },
+      "brute": {
+        "seconds": 27.60220379999373,
+        "peak_python_bytes": 2378644
+      },
+      "lookup": {
+        "seconds": 0.23292540002148598,
+        "peak_python_bytes": 3337132
+      },
+      "three_repeated_lookups": {
+        "seconds": 0.1833170000463724,
+        "peak_python_bytes": 1525318
+      },
+      "delayed_replay": {
+        "seconds": 1.441415200009942,
+        "peak_python_bytes": 4748009
+      },
+      "comparison": {
+        "n": 740,
+        "exact_match_rate": 0.6324324324324324,
+        "mean_absolute_error": 0.572972972972973,
+        "max_absolute_error": 7.0
+      },
+      "aligned": {
+        "n": 306,
+        "exact_match_rate": 0.7581699346405228,
+        "mean_absolute_error": 0.35947712418300654,
+        "max_absolute_error": 7.0
+      },
+      "categories": {
+        "exact": 468,
+        "cutoff_mismatch": 198,
+        "unexplained_official_rules_or_source": 72,
+        "shared_ties": 2
+      },
+      "representative_mismatches": [
+        {
+          "event_id": 11352399,
+          "team_id": 15,
+          "team_name": "Sheffield United",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-18T18:45:00+00:00",
+          "derived": 15.0,
+          "provider": 16.0,
+          "error": 1.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 11352358,
+          "team_id": 50,
+          "team_name": "Brentford",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T14:00:00+00:00",
+          "derived": 8.0,
+          "provider": 9.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352358,
+          "team_id": 43,
+          "team_name": "Fulham",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T14:00:00+00:00",
+          "derived": 5.0,
+          "provider": 6.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352367,
+          "team_id": 60,
+          "team_name": "Bournemouth",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T14:00:00+00:00",
+          "derived": 10.0,
+          "provider": 11.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352367,
+          "team_id": 44,
+          "team_name": "Liverpool FC",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T14:00:00+00:00",
+          "derived": 10.0,
+          "provider": 13.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352428,
+          "team_id": 3,
+          "team_name": "Wolverhampton",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T14:00:00+00:00",
+          "derived": 15.0,
+          "provider": 16.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352407,
+          "team_id": 35,
+          "team_name": "Manchester United",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T16:30:00+00:00",
+          "derived": 5.0,
+          "provider": 8.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352407,
+          "team_id": 33,
+          "team_name": "Tottenham Hotspur",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T16:30:00+00:00",
+          "derived": 8.0,
+          "provider": 11.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352389,
+          "team_id": 39,
+          "team_name": "Newcastle United",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T19:00:00+00:00",
+          "derived": 1.0,
+          "provider": 5.0,
+          "error": 4.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352389,
+          "team_id": 17,
+          "team_name": "Manchester City",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-19T19:00:00+00:00",
+          "derived": 3.0,
+          "provider": 6.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352337,
+          "team_id": 40,
+          "team_name": "Aston Villa",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-20T13:00:00+00:00",
+          "derived": 20.0,
+          "provider": 19.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 11352418,
+          "team_id": 38,
+          "team_name": "Chelsea",
+          "cutoff": "2023-08-18T18:45:00+00:00",
+          "kickoff": "2023-08-20T15:30:00+00:00",
+          "derived": 10.0,
+          "provider": 13.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        }
+      ],
+      "publication_count": 38,
+      "gate_closed_publications": 1
+    },
+    {
+      "league": "Bundesliga",
+      "season": "22_23",
+      "matches": 306,
+      "teams": 18,
+      "source": {
+        "seasons": [
+          "22_23"
+        ],
+        "leagues": [
+          "Bundesliga"
+        ],
+        "tables": [
+          "matches",
+          "pregame",
+          "team_seasons"
+        ],
+        "sources": [
+          {
+            "season": "Bundesliga_22_23",
+            "version": "af088c34deeb432088ae44054dc65dfa",
+            "manifest_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=35\\season=42268\\versions\\af088c34deeb432088ae44054dc65dfa\\manifest.json",
+            "tables": [
+              "matches",
+              "pregame",
+              "team_seasons"
+            ],
+            "include_awarded": true,
+            "excluded_awarded_event_ids": [],
+            "awarded_flag_available": true
+          }
+        ],
+        "include_awarded": true
+      },
+      "oracle_rows": 3060,
+      "exact_oracle_parity": true,
+      "delayed_oracle_parity": true,
+      "replay": {
+        "seconds": 1.2000123000470921,
+        "peak_python_bytes": 3935124
+      },
+      "brute": {
+        "seconds": 22.145749100018293,
+        "peak_python_bytes": 2162114
+      },
+      "lookup": {
+        "seconds": 0.17308229999616742,
+        "peak_python_bytes": 2830031
+      },
+      "three_repeated_lookups": {
+        "seconds": 0.11689109995495528,
+        "peak_python_bytes": 1403826
+      },
+      "delayed_replay": {
+        "seconds": 1.1308667999692261,
+        "peak_python_bytes": 3883340
+      },
+      "comparison": {
+        "n": 594,
+        "exact_match_rate": 0.7323232323232324,
+        "mean_absolute_error": 0.3653198653198653,
+        "max_absolute_error": 6.0
+      },
+      "aligned": {
+        "n": 104,
+        "exact_match_rate": 0.9807692307692307,
+        "mean_absolute_error": 0.019230769230769232,
+        "max_absolute_error": 1.0
+      },
+      "categories": {
+        "exact": 435,
+        "cutoff_mismatch": 157,
+        "shared_ties": 1,
+        "unexplained_official_rules_or_source": 1
+      },
+      "representative_mismatches": [
+        {
+          "event_id": 10388294,
+          "team_id": 2671,
+          "team_name": "1. FC K\u00f6ln",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T13:30:00+00:00",
+          "derived": 3.0,
+          "provider": 4.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388294,
+          "team_id": 36360,
+          "team_name": "RB Leipzig",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T13:30:00+00:00",
+          "derived": 10.0,
+          "provider": 11.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388320,
+          "team_id": 2569,
+          "team_name": "TSG Hoffenheim",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T13:30:00+00:00",
+          "derived": 14.0,
+          "provider": 16.0,
+          "error": 2.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388328,
+          "team_id": 2534,
+          "team_name": "SV Werder Bremen",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T13:30:00+00:00",
+          "derived": 8.0,
+          "provider": 9.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388314,
+          "team_id": 2527,
+          "team_name": "Borussia M'gladbach",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T16:30:00+00:00",
+          "derived": 3.0,
+          "provider": 5.0,
+          "error": 2.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388314,
+          "team_id": 2530,
+          "team_name": "FC Schalke 04",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-13T16:30:00+00:00",
+          "derived": 14.0,
+          "provider": 18.0,
+          "error": 4.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388299,
+          "team_id": 2547,
+          "team_name": "1. FC Union Berlin",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-14T13:30:00+00:00",
+          "derived": 3.0,
+          "provider": 6.0,
+          "error": 3.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388299,
+          "team_id": 2556,
+          "team_name": "1. FSV Mainz 05",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-14T13:30:00+00:00",
+          "derived": 6.0,
+          "provider": 7.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388310,
+          "team_id": 2524,
+          "team_name": "VfL Wolfsburg",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-14T15:30:00+00:00",
+          "derived": 8.0,
+          "provider": 13.0,
+          "error": 5.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388310,
+          "team_id": 2672,
+          "team_name": "FC Bayern M\u00fcnchen",
+          "cutoff": "2022-08-12T18:30:00+00:00",
+          "kickoff": "2022-08-14T15:30:00+00:00",
+          "derived": 1.0,
+          "provider": 6.0,
+          "error": 5.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        },
+        {
+          "event_id": 10388316,
+          "team_id": 2527,
+          "team_name": "Borussia M'gladbach",
+          "cutoff": "2022-08-19T18:30:00+00:00",
+          "kickoff": "2022-08-19T18:30:00+00:00",
+          "derived": 3.0,
+          "provider": 4.0,
+          "error": 1.0,
+          "boundary_aligned": true,
+          "category": "shared_ties"
+        },
+        {
+          "event_id": 10388311,
+          "team_id": 2673,
+          "team_name": "Borussia Dortmund",
+          "cutoff": "2022-08-19T18:30:00+00:00",
+          "kickoff": "2022-08-20T13:30:00+00:00",
+          "derived": 2.0,
+          "provider": 3.0,
+          "error": 1.0,
+          "boundary_aligned": false,
+          "category": "cutoff_mismatch"
+        }
+      ],
+      "publication_count": 34,
+      "gate_closed_publications": 1
+    }
+  ]
+}

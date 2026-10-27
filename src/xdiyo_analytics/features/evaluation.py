@@ -20,13 +20,15 @@ from .point_geometry import SpatialPointSummary, point_summary_source, point_sum
 from .spatial_distribution import SpatialEntropy, SpatialConcentration, distribution_values, validate_distribution_source
 from .spatial_distance import SpatialHistoricalDeviation, SpatialFixtureDistance, deviation_values, fixture_values
 from .movement import TeamMovement, movement_records, statistical_context
+from .standings import DerivedStandings
 from .weighted import RollingWeightedMean, weighted_values
 
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
                       cutoffs=None, available_at=None, team_counts=None, ratings=None,
                       team_seasons=None, season_starts=None, keyed=False, heatmaps=None,
-                      rating_runs=None):
+                      rating_runs=None, standings_history=None, standings_available_at=None,
+                      standings_run=None):
     """Evaluate a mapping of output names to expressions; preserve row/index order.
 
     rating_runs optionally receives the RatingRun objects used by this evaluation
@@ -116,6 +118,17 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             while key in retained_ratings:
                 key += ":rating"
             retained_ratings[key] = run
+    standings_producer = standings_run
+    standings_windows = []
+    def find_standings(value):
+        from dataclasses import fields, is_dataclass
+        if isinstance(value, DerivedStandings):
+            standings_windows.extend(w for w in value.normalized_ranks if w not in standings_windows)
+        elif is_dataclass(value):
+            for field in fields(value):
+                find_standings(getattr(value, field.name))
+    for expression in features.values():
+        find_standings(expression)
     counts = team_counts
     population = None
     transitions = None
@@ -204,11 +217,21 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             evaluation_stack.pop()
 
     def evaluate_node(node, h2h=False, rating_policy=None):
-        nonlocal counts, population, movement_evidence
+        nonlocal counts, population, movement_evidence, standings_producer
         cache_key = (node, h2h, rating_policy)
         if cache_key in cache:
             return cache[cache_key]
-        if isinstance(node, TeamMovement):
+        if isinstance(node, DerivedStandings):
+            if h2h or rating_policy is not None:
+                raise ValueError("DerivedStandings owns league-wide season scope; H2H/warm starts do not apply.")
+            if standings_producer is None:
+                from ..ratings.standings import build_standings
+                source = history if standings_history is None else standings_history
+                release = available_at if standings_history is None else standings_available_at
+                standings_producer = build_standings(source, team_seasons=team_seasons,
+                    normalized_ranks=standings_windows, queries=history, cutoffs=cutoffs, available_at=release)
+            result = (standings_producer.features(history, node, cutoffs=cutoffs), h2h)
+        elif isinstance(node, TeamMovement):
             if movement_evidence is None:
                 movement_evidence = movement_records(history, team_seasons)
                 if any(pd.notna(record.get('previous_competition_id')) for record in movement_evidence.values()):
@@ -557,7 +580,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return "team"
 
     outputs, spatial_metadata, warm_audits, feature_scopes = [], {}, {}, {}
-    point_audits, weighted_audits = {}, {}
+    point_audits, weighted_audits, standings_audits = {}, {}, {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
@@ -579,6 +602,10 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                      for key in weighted_descendants))
         if entries:
             weighted_audits[name] = entries
+        derived_audits = [cache[key][0].attrs['standings_audit'] for key in weighted_descendants
+                          if 'standings_audit' in cache[key][0].attrs]
+        if derived_audits:
+            standings_audits[name] = derived_audits
         if frame.attrs.get('warm_start_audit') is not None:
             warm_audits[name] = frame.attrs['warm_start_audit']
         else:
@@ -597,7 +624,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                             if child in descendants for audit in value.attrs.get('warm_start_audit', [])]
             if child_audits:
                 warm_audits[name] = child_audits
-        names = [name] if frame.shape[1] == 1 else [f"{name}::{col}" for col in frame.columns]
+        names = [name] if frame.shape[1] == 1 and not isinstance(node, DerivedStandings) else [f"{name}::{col}" for col in frame.columns]
         scope = "fixture" if output_scope(node) == "fixture" else "team"
         feature_scopes.update(dict.fromkeys(names, scope))
         if 'point_map_coverage' in frame.attrs:
@@ -631,6 +658,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "warm_start_audit": warm_audits,
         "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
+    if standings_audits:
+        result.attrs['derived_standings'] = standings_audits
     if distance_audits:
         result.attrs['spatial_distance_audit'] = distance_audits
     if weighted_audits:

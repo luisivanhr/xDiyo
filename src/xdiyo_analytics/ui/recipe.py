@@ -114,6 +114,8 @@ def catalog_for_ui():
     catalog.register('input.OddsSeries', OddsSeries, category='odds_input')
     catalog.register('input.TeamCatalog', TeamCatalog.from_json, category='input')
     catalog.register('input.RatingRun', RatingRun.load, category='input')
+    from ..ratings import StandingsRun
+    catalog.register('input.StandingsRun', StandingsRun.load, category='input')
     catalog.register('input.BayesianModel', BayesianModel.load, category='input',
                      description='Load fixed Bayesian parameter JSON trained before the prediction period. Loading parameters does not fit them on this recipe history.')
     catalog.register('input.BayesianRatingRun', BayesianRatingRun.load, category='input',
@@ -215,6 +217,21 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         label = recipe['labels'].get(recipe['target'], {})
         if label.get('component') != 'labels.Outcome' or label.get('params', {}).get('perspective') != 'home' or label.get('params', {}).get('source') is not None:
             raise ValueError('Temporal GAT requires labels.Outcome(perspective="home") from match goals.')
+    def needs_standings(value):
+        if isinstance(value, dict):
+            return value.get('component') == 'features.DerivedStandings' or any(needs_standings(v) for v in value.values())
+        return isinstance(value, list) and any(needs_standings(v) for v in value)
+    derived_standings = needs_standings(recipe.get('features', {}))
+    standings_source = None
+    saved_standings_options = recipe.get('feature_options', {})
+    needs_standings_source = (derived_standings and not saved_standings_options.get('standings_run')
+                              and saved_standings_options.get('standings_history') is None)
+    if needs_standings_source:
+        # Standings must see the full result population even when the modelling
+        # population excludes awarded games or lacks statistics/odds.
+        standings_options = {**data_options, 'tables': ['matches', 'team_seasons'], 'include_awarded': True}
+        standings_data = load_seasons(**standings_options)
+        standings_source = build_team_history(standings_data)
     data = load_seasons(**data_options)
     heatmaps = data.tables.get('heatmap_points')
     if heatmaps is not None:
@@ -237,6 +254,14 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                                 for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
+    if needs_standings_source:
+        options.setdefault('standings_history', standings_source)
+        options.setdefault('team_seasons', standings_data['team_seasons'])
+    if derived_standings and options.get('standings_history') is not None:
+        if options.get('available_at') is not None and options.get('standings_available_at') is None:
+            if not isinstance(options['available_at'], str):
+                raise ValueError('With separate standings history, supply standings_available_at for full-population release times.')
+            options['standings_available_at'] = options['available_at']
     if heatmaps is not None:
         options.setdefault('heatmaps', heatmaps)
     if 'team_seasons' in data.tables:
