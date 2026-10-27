@@ -7,27 +7,21 @@ from .expressions import Expr
 
 @dataclass(frozen=True)
 class SeasonCountdown(Expr):
-    """Remaining season rounds in [0, 1], using the round at actual kickoff.
+    """Observed league progress from a fixed strict-majority-of-starts rule.
 
-    Auto recognizes published league formats. Supply complete team_seasons and
-    schedule_history to evaluate a filtered population. Explicit team_count or
-    total_rounds handles custom/partial sources. Playoffs have missing values;
-    Scotland's five split rounds are part of its 38-round league season.
-    Round anchors are the first kickoff in each round's largest 96-hour cluster
-    (earliest cluster wins ties). as_of requires complete timestamped snapshots;
-    retrospective explicitly accepts final revised schedules, which are not
-    evidence of what was published at an earlier prediction cutoff.
+    A round activates after more than half its format-expected fixtures have
+    actually started, strictly before the prediction cutoff. Expected counts
+    come from complete membership or fixed verified formats, never downloads.
+    The effective round is max(assigned season ordinal, observed active round).
+    Playoffs are excluded; Scotland's split continues the same 38-round clock.
     """
     total_rounds: int | None = None
     format: str = 'auto'
     team_count: int | None = None
-    schedule_mode: str = 'as_of'
 
     def __post_init__(self):
         if self.format not in ('auto', 'double', 'single', 'scotland', 'japan_transition'):
             raise ValueError('SeasonCountdown format must be auto, double, single, scotland or japan_transition.')
-        if self.schedule_mode not in ('as_of', 'retrospective'):
-            raise ValueError('SeasonCountdown schedule_mode must be as_of or retrospective.')
         for name in ('total_rounds', 'team_count'):
             value = getattr(self, name)
             if value is not None and (isinstance(value, bool) or not isinstance(value, Integral) or value < 2):
@@ -47,7 +41,7 @@ def _schedule(frame):
     if missing:
         raise ValueError(f'SeasonCountdown needs schedule identity columns: {sorted(missing)}')
     names = _KEYS + ['round'] + [c for c in ('kickoff_at', 'kickoff_utc', 'tournament_id',
-             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase') if c in frame]
+             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase', 'status', 'play_status', 'is_awarded') if c in frame]
     data = frame[names].reset_index(drop=True).copy()
     data.attrs = {}
     if {'side', 'team_id', 'opponent_id'} <= set(data) and 'home_id' not in data:
@@ -64,37 +58,68 @@ def _schedule(frame):
     invalid = data['round'].notna() & (~np.isfinite(data['round']) | (data['round'] < 1) | (data['round'] % 1 != 0))
     if invalid.any():
         raise ValueError('SeasonCountdown numeric rounds must be finite positive integers.')
-    fields = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id') if c in data]
+    fields = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id', 'status', 'play_status', 'is_awarded') if c in data]
     if (data.groupby(_KEYS, dropna=False)[fields].nunique(dropna=False) > 1).any().any():
         raise ValueError('SeasonCountdown found inconsistent fixture schedule copies.')
     return data
 
 
-def _anchor(times):
-    """Linear sliding cluster on sorted timestamps; isolated catch-ups lose."""
+def _started(games):
+    """Establish actual starts without inferring them from a scheduled timestamp.
+
+    A played/abandoned/resumed review establishes play even for an awarded
+    result. An unplayed review vetoes it; an otherwise awarded result alone
+    does not establish that the match started. No score fields are consulted.
+    """
     import pandas as pd
-    if times.notna().sum() == 0:
-        return pd.NaT
-    width = pd.Timedelta(days=4).value
-    # pandas may use microseconds; normalize explicitly to nanoseconds.
-    values = times.dropna().sort_values().astype('datetime64[ns, UTC]').astype('int64').to_numpy()
-    end, best, start = 0, 0, 0
-    for i in range(len(values)):
-        while end < len(values) and int(values[end]) - int(values[i]) <= width:
-            end += 1
-        if end - i > best:
-            best, start = end - i, i
-    return pd.Timestamp(values[start], tz='UTC')
+    status = games.get('status', pd.Series('', index=games.index)).fillna('').str.lower()
+    play = games.get('play_status', pd.Series('', index=games.index)).fillna('').str.lower()
+    reviewed = play.isin(['played', 'abandoned', 'resumed', 'completed', 'played_then_awarded'])
+    unplayed = play.isin(['not_played', 'unplayed', 'cancelled', 'canceled', 'not_started'])
+    awarded = games.get('is_awarded', pd.Series(False, index=games.index)).fillna(False).astype(bool)
+    established = status.isin(['finished', 'inprogress', 'in_progress', 'interrupted', 'abandoned'])
+    return (reviewed | (established & ~awarded)) & ~unplayed
 
 
-def _retrospective_countdown(metadata, expression, *, schedule_history=None, team_seasons=None):
-    """Return one value per query row; use full schedule solely for the clock."""
+def _activations(calendar, expected, latest_cutoff):
+    """One order statistic per round, then a prefix maximum for batch lookups."""
+    import numpy as np
+    majority = expected // 2 + 1
+    started = calendar.loc[calendar._eligible & calendar._ordinal.notna()
+                           & calendar.kickoff_at.lt(latest_cutoff) & _started(calendar)]
+    activations = []
+    for round_, group in started.groupby('_ordinal', sort=False):
+        if len(group) >= majority:
+            times = group.kickoff_at.astype('datetime64[ns, UTC]').astype('int64').to_numpy()
+            activations.append((np.partition(times, majority - 1)[majority - 1], round_))
+    activations.sort()
+    if not activations:
+        return np.array([], dtype='int64'), np.array([], dtype=float)
+    times = np.array([a[0] for a in activations], dtype='int64')
+    rounds = np.maximum.accumulate(np.array([a[1] for a in activations], dtype=float))
+    return times, rounds
+
+
+def season_countdown(metadata, expression, *, schedule_history=None, team_seasons=None, cutoffs=None):
+    """Compute each calendar once and search strict-before activation times.
+
+    schedule_history is an ordinary fixture table (no archived snapshots).
+    It must preserve actual kickoff and played-status evidence. Team membership
+    must describe the complete season, including teams absent from downloads.
+    This is an observed progress convention, not an official round reassignment.
+    """
     import numpy as np
     import pandas as pd
+    from .history import aligned_times
     query = _schedule(metadata)
+    cutoff_frame = metadata.assign(kickoff_at=query.kickoff_at.to_numpy())
+    times = aligned_times(cutoff_frame, cutoffs, default='kickoff_at').reset_index(drop=True)
+    if (times.notna() & query.kickoff_at.notna() & times.gt(query.kickoff_at)).any():
+        raise ValueError('SeasonCountdown cutoffs must be no later than target kickoff.')
     source = _schedule(metadata if schedule_history is None else schedule_history)
-    records = []
-    for key, population in source.groupby(_KEYS[:2], sort=False, dropna=False):
+    output = np.full(len(query), np.nan)
+    for key, rows in query.groupby(_KEYS[:2], sort=False):
+        population = source.loc[source.competition_id.eq(key[0]) & source.season_id.eq(key[1])]
         games = population.drop_duplicates(_KEYS).copy()
         leagues = games.get('source_league', pd.Series(dtype=str)).dropna().unique()
         seasons = games.get('source_season', pd.Series(dtype=str)).dropna().unique()
@@ -128,9 +153,14 @@ def _retrospective_countdown(metadata, expression, *, schedule_history=None, tea
                 raise ValueError('Japan transition countdown needs regional tournament_id.')
             eligible &= games.tournament_id.isin([171852, 171853])
         n = expression.team_count
-        if n is None and expression.total_rounds is None and mode not in ('scotland', 'japan_transition'):
+        fixed = 12 if mode == 'scotland' else 20 if mode == 'japan_transition' else None
+        if fixed is not None:
+            if n is not None and n != fixed:
+                raise ValueError(f'SeasonCountdown {mode} requires {fixed} season teams.')
+            n = fixed
+        if n is None:
             if team_seasons is None:
-                raise ValueError('SeasonCountdown team-count inference needs full team_seasons; supply team_count for a custom schedule.')
+                raise ValueError('SeasonCountdown needs full team_seasons or team_count to determine the majority threshold, even with total_rounds.')
             roster = team_seasons.loc[team_seasons.competition_id.eq(key[0]) & team_seasons.season_id.eq(key[1])]
             observed = set()
             for column in ('team_id', 'home_id', 'away_id'):
@@ -154,33 +184,36 @@ def _retrospective_countdown(metadata, expression, *, schedule_history=None, tea
             raise ValueError(f'SeasonCountdown round exceeds total_rounds={total} for {key}.')
         games['_ordinal'] = ordinal
         games['_eligible'] = eligible
-        games['_total'] = total
-        games['_effective'] = ordinal.where(eligible & games.kickoff_at.notna())
+        fields = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id') if c in query and c in games]
+        joined = rows.merge(games[_KEYS + fields + ['_ordinal','_eligible']], on=_KEYS,
+            how='left', suffixes=('', '_source'), validate='many_to_one', indicator=True, sort=False)
+        if joined['_merge'].ne('both').any():
+            raise ValueError('SeasonCountdown query fixture is absent from schedule_history.')
+        for field in fields:
+            a, b = joined[field], joined[field + '_source']
+            if (~(a.eq(b) | (a.isna() & b.isna()))).any():
+                raise ValueError(f'SeasonCountdown query {field} conflicts with schedule_history.')
+        effective = joined._ordinal.to_numpy(dtype=float, na_value=np.nan, copy=True)
+        query_times = times.iloc[rows.index].reset_index(drop=True)
+        # Scotland uses six fixtures across both split groups per round; Japan's
+        # transition has independent ten-team calendars, five fixtures each.
         calendars = games.groupby('tournament_id', sort=False, dropna=False) if mode == 'japan_transition' else [(None, games)]
-        for _, calendar in calendars:
-            valid = calendar[calendar._eligible & calendar._ordinal.notna() & calendar.kickoff_at.notna()]
-            anchors = [(r, _anchor(g.kickoff_at)) for r, g in valid.groupby('_ordinal', sort=True)]
-            for r, anchor in anchors:
-                selected = valid.index[valid.kickoff_at.ge(anchor)]
-                old = games.loc[selected, '_effective'].fillna(0)
-                games.loc[selected, '_effective'] = np.maximum(old, r)
-            idx = valid.index
-            games.loc[idx, '_effective'] = np.maximum(games.loc[idx, '_effective'], games.loc[idx, '_ordinal'])
-        games['_value'] = (total - games['_effective']) / (total - 1)
-        records.append(games)
-    lookup = pd.concat(records, ignore_index=True) if records else source.assign(_value=np.nan, _effective=np.nan, _total=np.nan)
-    # Reject conflicting query metadata instead of silently using another schedule.
-    comparison = ['round', 'kickoff_at'] + [c for c in ('source_league', 'source_season', 'tournament_id', 'season_phase', 'home_id', 'away_id') if c in query and c in lookup]
-    joined = query.merge(lookup[_KEYS + comparison + ['_value', '_effective', '_total']], on=_KEYS,
-                         how='left', suffixes=('', '_source'), validate='many_to_one', indicator=True, sort=False)
-    if joined['_merge'].ne('both').any():
-        raise ValueError('SeasonCountdown query fixture is absent from schedule_history.')
-    for field in comparison:
-        a, b = joined[field], joined[field + '_source']
-        if (~(a.eq(b) | (a.isna() & b.isna()))).any():
-            raise ValueError(f'SeasonCountdown query {field} conflicts with schedule_history.')
-    result = pd.Series(joined['_value'].to_numpy(), index=metadata.index, dtype=float)
-    return result
+        for calendar_id, calendar in calendars:
+            selected = joined.tournament_id.eq(calendar_id).fillna(False) if mode == 'japan_transition' else pd.Series(True, index=joined.index)
+            selected &= query_times.notna() & joined._eligible.fillna(False)
+            positions = np.flatnonzero(selected)
+            if not len(positions):
+                continue
+            activation_times, active_rounds = _activations(calendar, 5 if mode == 'japan_transition' else n // 2, query_times.iloc[positions].max())
+            instants = query_times.iloc[positions].astype('datetime64[ns, UTC]').astype('int64').to_numpy()
+            indices = np.searchsorted(activation_times, instants, side='left') - 1
+            observed = np.ones(len(indices))
+            exists = indices >= 0
+            observed[exists] = active_rounds[indices[exists]]
+            effective[positions] = np.maximum(effective[positions], observed)
+        effective[~(joined._eligible.fillna(False) & query_times.notna() & joined.kickoff_at.notna()).to_numpy()] = np.nan
+        output[rows.index] = (total - effective) / (total - 1)
+    return pd.Series(output, index=metadata.index, dtype=float)
 
 
 def _japan_phases(games):
@@ -204,47 +237,3 @@ def _japan_phases(games):
     if known.isna().any():
         raise ValueError('Japan 2016 requires original season_phase (1 or 2) or a verified packaged fixture identity; kickoff cannot identify phase.')
     return known
-
-
-def season_countdown(metadata, expression, *, schedule_history=None, team_seasons=None, cutoffs=None):
-    """Use an issuance-known complete snapshot, or explicit retrospective input.
-
-    as_of requires schedule_history.schedule_snapshot_at on every row. Each
-    timestamp identifies a complete competition/season snapshot, including its
-    planned future fixtures. Select the latest snapshot at or before each query
-    cutoff; later revisions never enter those anchors. Callers must supply
-    truthful publication times and complete snapshots, not per-row capture times.
-    """
-    import numpy as np
-    import pandas as pd
-    if expression.schedule_mode == 'retrospective':
-        return _retrospective_countdown(metadata, expression, schedule_history=schedule_history, team_seasons=team_seasons)
-    if schedule_history is None or 'schedule_snapshot_at' not in schedule_history:
-        raise ValueError('SeasonCountdown as_of needs complete schedule_history snapshots with schedule_snapshot_at; choose schedule_mode="retrospective" explicitly to use final revised schedules.')
-    query = _schedule(metadata)
-    from .history import aligned_times
-    cutoff_frame = metadata.assign(kickoff_at=query.kickoff_at.to_numpy())
-    times = aligned_times(cutoff_frame, cutoffs, default='kickoff_at').reset_index(drop=True)
-    if times.isna().any() or times.gt(query.kickoff_at).any():
-        raise ValueError('SeasonCountdown requires known cutoffs no later than target kickoff.')
-    source = schedule_history.copy(deep=False)
-    source = source.assign(schedule_snapshot_at=pd.to_datetime(source.schedule_snapshot_at, utc=True, errors='raise', format='mixed'))
-    if source.schedule_snapshot_at.isna().any():
-        raise ValueError('SeasonCountdown schedule_snapshot_at must be known for every snapshot row.')
-    output = np.full(len(query), np.nan)
-    for key, rows in query.groupby(_KEYS[:2], sort=False):
-        population = source.loc[source.competition_id.eq(key[0]) & source.season_id.eq(key[1])]
-        # Match precision explicitly: pandas 3 may parse snapshots in microseconds
-        # while an issuance cutoff carries nanoseconds. Never round a cutoff.
-        snapshots = population.schedule_snapshot_at.drop_duplicates().sort_values().astype('datetime64[ns, UTC]')
-        if snapshots.empty:
-            raise ValueError(f'No schedule snapshot for {key}.')
-        chosen = snapshots.searchsorted(times.iloc[rows.index], side='right') - 1
-        if (chosen < 0).any():
-            raise ValueError(f'No schedule snapshot known at the requested cutoff for {key}.')
-        for position in np.unique(chosen):
-            selected = rows.index[chosen == position]
-            snapshot = population.loc[population.schedule_snapshot_at.eq(snapshots.iloc[position])]
-            values = _retrospective_countdown(metadata.iloc[selected], expression, schedule_history=snapshot, team_seasons=team_seasons)
-            output[selected] = values.to_numpy()
-    return pd.Series(output, index=metadata.index, dtype=float)

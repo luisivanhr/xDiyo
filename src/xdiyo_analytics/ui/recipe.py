@@ -60,6 +60,8 @@ def validate_recipe(recipe):
     duplicate_ratings = set(saved_ratings) & set(recipe.get('ratings', {}))
     if duplicate_ratings:
         raise ValueError(f'Saved and generated rating names must be distinct: {sorted(duplicate_ratings)}')
+    from .countdown_migration import reject_obsolete_countdown
+    reject_obsolete_countdown(recipe)
     recipe = deepcopy(recipe)
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
     for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:
@@ -244,10 +246,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     countdown_data = None
     countdown_specs = list(countdown_nodes([recipe.get('features', {}), recipe.get('context_features', {})]))
     if countdown_specs:
-        if any(p.get('schedule_mode', 'as_of') == 'as_of' for p in countdown_specs) and not recipe.get('feature_options', {}).get('schedule_history'):
-            raise ValueError('SeasonCountdown as_of requires explicit schedule_history snapshots; select retrospective explicitly for final exported schedules.')
         tables = ['matches']
-        if any(p.get('total_rounds') is None and p.get('team_count') is None
+        if any(p.get('team_count') is None
                and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
             tables.append('team_seasons')
         countdown_data = load_seasons(**{**data_options, 'tables': tables, 'include_awarded': True})

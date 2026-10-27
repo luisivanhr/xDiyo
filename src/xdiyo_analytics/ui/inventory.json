@@ -19179,7 +19179,7 @@
       "id": "features.SeasonCountdown",
       "title": "Season countdown",
       "category": "feature",
-      "description": "Remaining season rounds in [0, 1], using the round at actual kickoff.",
+      "description": "Observed league progress from a fixed strict-majority-of-starts rule.",
       "fields": [
         {
           "name": "total_rounds",
@@ -19187,7 +19187,7 @@
           "required": false,
           "kind": "number",
           "default": null,
-          "help": "Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.",
+          "help": "Optional override for every selected season. Team count determines the fixed majority threshold even when total rounds is overridden. Otherwise complete membership and verified formats are used, never downloaded match counts.",
           "primary": true,
           "min": 2,
           "step": 1
@@ -19198,7 +19198,7 @@
           "required": false,
           "kind": "select",
           "default": "auto",
-          "help": "Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use the round active at kickoff.",
+          "help": "Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use observed progress at the prediction cutoff: more than half the expected fixtures must already have started.",
           "primary": true,
           "choices": [
             "auto",
@@ -19214,23 +19214,10 @@
           "required": false,
           "kind": "number",
           "default": null,
-          "help": "Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.",
+          "help": "Optional override for every selected season. Team count determines the fixed majority threshold even when total rounds is overridden. Otherwise complete membership and verified formats are used, never downloaded match counts.",
           "primary": true,
           "min": 2,
           "step": 1
-        },
-        {
-          "name": "schedule_mode",
-          "title": "Schedule mode",
-          "required": false,
-          "kind": "select",
-          "default": "as_of",
-          "help": "As of requires complete issuance-known schedule snapshots in advanced schedule history. Retrospective explicitly assumes final revised schedules; it is not historical publication-time evidence.",
-          "primary": true,
-          "choices": [
-            "as_of",
-            "retrospective"
-          ]
         }
       ],
       "accepts_extra": false
@@ -19543,7 +19530,7 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Complete fixture schedule snapshots for SeasonCountdown as_of mode, with schedule_snapshot_at publication timestamps. Retrospective mode alone automatically loads final exported schedules before filters.",
+          "help": "Full fixture history for SeasonCountdown. Recipes load it before filters. Only established actual starts strictly before the prediction cutoff activate a round; no schedule snapshots are required.",
           "primary": false,
           "components": [
             "input.Table"
