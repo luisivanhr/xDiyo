@@ -1,0 +1,1214 @@
+publication,event_id,home,away,kickoff,assigned_round,total_rounds,old_effective_round,new_effective_round,old_countdown,new_countdown,direction
+Bundesliga_10_11,1641833,Hamburger SV,FC St. Pauli,2011-02-16T17:45:00+00:00,21,34,22,23,0.36363636363636365,0.3333333333333333,more_progress_than_majority
+Bundesliga_13_14,3976581,VfB Stuttgart,FC Bayern München,2014-01-29T19:00:00+00:00,17,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+Bundesliga_19_20,8645516,SV Werder Bremen,Eintracht Frankfurt,2020-06-03T18:30:00+00:00,24,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Bundesliga_20_21,9342076,Arminia Bielefeld,SV Werder Bremen,2021-03-10T17:30:00+00:00,20,34,24,25,0.30303030303030304,0.2727272727272727,more_progress_than_majority
+Bundesliga_20_21,9483434,Hertha BSC,SC Freiburg,2021-05-06T16:30:00+00:00,30,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+Bundesliga_20_21,9483435,1. FSV Mainz 05,Hertha BSC,2021-05-03T16:00:00+00:00,29,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+Bundesliga_20_21,9483436,FC Schalke 04,Hertha BSC,2021-05-12T16:00:00+00:00,31,34,32,33,0.06060606060606061,0.030303030303030304,more_progress_than_majority
+Bundesliga_21_22,10175230,1. FSV Mainz 05,Borussia Dortmund,2022-03-16T17:30:00+00:00,25,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+Bundesliga_21_22,10194917,FC Augsburg,1. FSV Mainz 05,2022-04-06T16:30:00+00:00,26,34,28,29,0.18181818181818182,0.15151515151515152,more_progress_than_majority
+Bundesliga_23_24,11880344,FC Bayern München,1. FC Union Berlin,2024-01-24T19:30:00+00:00,13,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+Bundesliga_23_24,11996503,1. FSV Mainz 05,1. FC Union Berlin,2024-02-07T17:30:00+00:00,18,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+Bundesliga_25_26,15380505,Hamburger SV,Bayer 04 Leverkusen,2026-03-04T19:30:00+00:00,17,34,24,25,0.30303030303030304,0.2727272727272727,more_progress_than_majority
+Bundesliga_2_17_18,7702149,Darmstadt 98,1. FC Kaiserslautern,2018-02-21T17:30:00+00:00,19,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Bundesliga_2_18_19,8130636,Erzgebirge Aue,1. FC Köln,2019-02-27T18:30:00+00:00,20,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Bundesliga_2_18_19,8163685,SpVgg Greuther Fürth,SG Dynamo Dresden,2019-04-04T17:00:00+00:00,25,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+Bundesliga_2_19_20,8663369,Hannover 96,SG Dynamo Dresden,2020-06-03T16:30:00+00:00,26,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Bundesliga_2_19_20,8664211,Arminia Bielefeld,SG Dynamo Dresden,2020-06-15T18:30:00+00:00,28,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+Bundesliga_2_20_21,9115404,VfL Osnabrück,Darmstadt 98,2020-10-28T17:30:00+00:00,4,34,5,6,0.8787878787878788,0.8484848484848485,more_progress_than_majority
+Bundesliga_2_20_21,9384106,VfL Osnabrück,SSV Jahn Regensburg,2021-04-14T16:30:00+00:00,24,34,28,29,0.18181818181818182,0.15151515151515152,more_progress_than_majority
+Bundesliga_2_20_21,9413638,Hannover 96,FC Würzburger Kickers,2021-04-08T16:30:00+00:00,25,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+Bundesliga_2_20_21,9471107,Holstein Kiel,SV Sandhausen,2021-05-04T16:30:00+00:00,30,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+Bundesliga_2_20_21,9472284,Fortuna Düsseldorf,Karlsruher SC,2021-05-03T18:30:00+00:00,28,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+Bundesliga_2_20_21,9472340,SV Sandhausen,Hamburger SV,2021-04-22T18:30:00+00:00,29,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Bundesliga_2_21_22,9950629,FC St. Pauli,SV Sandhausen,2021-11-24T17:30:00+00:00,13,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Championship_10_11,1608019,Millwall,Barnsley,2011-01-28T19:45:00+00:00,22,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_10_11,1608030,Hull City,Queens Park Rangers,2011-01-29T15:00:00+00:00,20,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_10_11,1609628,Crystal Palace,Norwich City,2011-01-29T15:00:00+00:00,23,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_10_11,1616252,Scunthorpe United,Nottingham Forest,2011-02-16T19:45:00+00:00,21,46,31,32,0.3333333333333333,0.3111111111111111,more_progress_than_majority
+Championship_11_12,1782203,Hull City,Birmingham City,2011-12-07T19:45:00+00:00,12,46,20,21,0.5777777777777777,0.5555555555555556,more_progress_than_majority
+Championship_11_12,1782245,Birmingham City,Ipswich Town,2012-01-11T19:45:00+00:00,15,46,25,26,0.4666666666666667,0.4444444444444444,more_progress_than_majority
+Championship_11_12,1782484,Burnley,Birmingham City,2012-04-03T18:45:00+00:00,35,46,40,41,0.13333333333333333,0.1111111111111111,more_progress_than_majority
+Championship_12_13,3434240,Bristol City,Watford,2013-01-29T19:45:00+00:00,24,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_12_13,2756684,Huddersfield Town,Crystal Palace,2013-01-30T19:45:00+00:00,29,46,29,30,0.37777777777777777,0.35555555555555557,more_progress_than_majority
+Championship_12_13,3545092,Millwall,Sheffield Wednesday,2013-04-09T18:45:00+00:00,32,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_12_13,3572828,Cardiff City,Barnsley,2013-04-09T18:45:00+00:00,37,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_12_13,3686195,Millwall,Blackburn Rovers,2013-04-23T18:45:00+00:00,37,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_13_14,4467900,Wigan Athletic,Queens Park Rangers,2013-10-30T19:45:00+00:00,10,46,13,14,0.7333333333333333,0.7111111111111111,more_progress_than_majority
+Championship_13_14,4420902,Charlton Athletic,Doncaster Rovers,2013-11-26T19:45:00+00:00,4,46,16,17,0.6666666666666666,0.6444444444444445,more_progress_than_majority
+Championship_13_14,3967717,Ipswich Town,Reading,2014-01-25T15:00:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_13_14,3967723,Blackpool,Doncaster Rovers,2014-01-25T15:00:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_13_14,3967733,Blackburn Rovers,Derby County,2014-01-25T15:00:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_13_14,3967735,Leicester City,Middlesbrough,2014-01-25T15:00:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_13_14,4864748,Sheffield Wednesday,Wigan Athletic,2014-02-11T19:45:00+00:00,7,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,4919948,Yeovil Town,Millwall,2014-02-11T19:45:00+00:00,27,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,4920026,Huddersfield Town,Nottingham Forest,2014-02-11T19:45:00+00:00,27,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,4920108,Brighton & Hove Albion,Leeds United,2014-02-11T19:45:00+00:00,27,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,4940540,Watford,Birmingham City,2014-02-11T19:45:00+00:00,27,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,4920122,Bolton Wanderers,Burnley,2014-02-11T20:00:00+00:00,27,46,30,27,0.35555555555555557,0.4222222222222222,less_progress_than_majority
+Championship_13_14,5012190,Leeds United,Charlton Athletic,2014-04-01T18:45:00+00:00,31,46,39,40,0.15555555555555556,0.13333333333333333,more_progress_than_majority
+Championship_13_14,5128176,Blackburn Rovers,Brighton & Hove Albion,2014-04-01T18:45:00+00:00,31,46,39,40,0.15555555555555556,0.13333333333333333,more_progress_than_majority
+Championship_13_14,5128180,Wigan Athletic,Leicester City,2014-04-01T18:45:00+00:00,34,46,39,40,0.15555555555555556,0.13333333333333333,more_progress_than_majority
+Championship_14_15,5583924,Rotherham United,Bolton Wanderers,2015-01-27T19:45:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_14_15,5583930,Sheffield Wednesday,Birmingham City,2015-01-27T19:45:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_14_15,5583940,Millwall,Reading,2015-01-27T19:45:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_14_15,5583942,Derby County,Blackburn Rovers,2015-01-27T19:45:00+00:00,27,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_14_15,5584146,Blackburn Rovers,Bolton Wanderers,2015-03-11T19:45:00+00:00,36,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_14_15,6713483,Reading,Birmingham City,2015-04-22T19:00:00+00:00,38,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_15_16,7033628,Hull City,Brentford,2016-04-26T18:45:00+00:00,36,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_16_17,7310599,Reading,Fulham,2017-01-24T20:00:00+00:00,24,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_16_17,7312075,Brighton & Hove Albion,Cardiff City,2017-01-24T19:45:00+00:00,24,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_16_17,7315768,Fulham,Blackburn Rovers,2017-03-14T19:45:00+00:00,28,46,37,38,0.2,0.17777777777777778,more_progress_than_majority
+Championship_16_17,7332126,Brentford,Wolverhampton,2017-03-14T19:45:00+00:00,33,46,37,38,0.2,0.17777777777777778,more_progress_than_majority
+Championship_17_18,7756934,Derby County,Cardiff City,2018-04-24T18:45:00+00:00,38,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_17_18,7769159,Nottingham Forest,Barnsley,2018-04-24T18:45:00+00:00,40,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_18_19,8113084,Derby County,Millwall,2019-02-20T19:45:00+00:00,29,46,33,34,0.28888888888888886,0.26666666666666666,more_progress_than_majority
+Championship_20_21,8901660,Huddersfield Town,Bournemouth,2021-04-13T16:30:00+00:00,38,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_20_21,9262025,Bournemouth,Millwall,2021-01-12T19:45:00+00:00,21,46,23,24,0.5111111111111111,0.4888888888888889,more_progress_than_majority
+Championship_20_21,9266059,Millwall,Watford,2021-01-26T19:00:00+00:00,22,46,25,26,0.4666666666666667,0.4444444444444444,more_progress_than_majority
+Championship_20_21,9269364,Luton Town,Queens Park Rangers,2021-01-12T19:00:00+00:00,23,46,23,24,0.5111111111111111,0.4888888888888889,more_progress_than_majority
+Championship_20_21,9290653,Middlesbrough,Rotherham United,2021-01-27T19:00:00+00:00,21,46,25,26,0.4666666666666667,0.4444444444444444,more_progress_than_majority
+Championship_20_21,9297122,Coventry City,Sheffield Wednesday,2021-01-27T19:00:00+00:00,24,46,25,26,0.4666666666666667,0.4444444444444444,more_progress_than_majority
+Championship_20_21,9297125,Queens Park Rangers,Wycombe Wanderers,2021-03-09T19:00:00+00:00,24,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_20_21,9297126,Reading,Brentford,2021-02-10T19:00:00+00:00,24,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_20_21,9297129,Sheffield Wednesday,Wycombe Wanderers,2021-02-09T19:00:00+00:00,25,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_20_21,9317884,Rotherham United,Cardiff City,2021-02-09T19:00:00+00:00,23,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_20_21,9348435,Blackburn Rovers,Swansea City,2021-03-09T18:00:00+00:00,25,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_20_21,9348436,Barnsley,Derby County,2021-03-10T19:00:00+00:00,28,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_20_21,9348437,Rotherham United,Queens Park Rangers,2021-04-13T18:00:00+00:00,29,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_20_21,9446231,Sheffield Wednesday,Swansea City,2021-04-13T17:00:00+00:00,29,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_20_21,9446232,Rotherham United,Coventry City,2021-04-15T18:00:00+00:00,36,46,41,42,0.1111111111111111,0.08888888888888889,more_progress_than_majority
+Championship_21_22,9591978,Middlesbrough,Cardiff City,2022-04-27T18:45:00+00:00,39,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_21_22,10045765,Reading,Luton Town,2022-01-19T20:00:00+00:00,23,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_21_22,10051923,Reading,Fulham,2022-01-11T20:00:00+00:00,25,46,26,27,0.4444444444444444,0.4222222222222222,more_progress_than_majority
+Championship_21_22,10056122,Hull City,Blackburn Rovers,2022-01-19T19:45:00+00:00,24,46,27,28,0.4222222222222222,0.4,more_progress_than_majority
+Championship_21_22,10057393,West Bromwich Albion,Preston North End,2022-01-26T20:00:00+00:00,25,46,28,29,0.4,0.37777777777777777,more_progress_than_majority
+Championship_21_22,10064604,Sheffield United,Middlesbrough,2022-03-08T19:45:00+00:00,26,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_21_22,10064687,Millwall,Preston North End,2022-02-01T19:45:00+00:00,23,46,29,30,0.37777777777777777,0.35555555555555557,more_progress_than_majority
+Championship_21_22,10068884,Swansea City,Luton Town,2022-02-01T19:45:00+00:00,25,46,29,30,0.37777777777777777,0.35555555555555557,more_progress_than_majority
+Championship_21_22,10081749,Coventry City,Luton Town,2022-03-08T19:45:00+00:00,26,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_21_22,10081784,Swansea City,Fulham,2022-03-08T19:45:00+00:00,26,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_21_22,10081817,Middlesbrough,Fulham,2022-04-06T18:45:00+00:00,30,46,40,41,0.13333333333333333,0.1111111111111111,more_progress_than_majority
+Championship_21_22,10081819,Bournemouth,Peterborough United,2022-03-08T19:45:00+00:00,26,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_21_22,10081842,West Bromwich Albion,Bournemouth,2022-04-06T19:00:00+00:00,30,46,40,41,0.13333333333333333,0.1111111111111111,more_progress_than_majority
+Championship_21_22,10125805,Nottingham Forest,Coventry City,2022-04-06T18:45:00+00:00,30,46,40,41,0.13333333333333333,0.1111111111111111,more_progress_than_majority
+Championship_21_22,10141932,Barnsley,Stoke City,2022-03-08T19:45:00+00:00,24,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_21_22,10156029,Blackburn Rovers,Millwall,2022-03-08T19:45:00+00:00,33,46,36,37,0.2222222222222222,0.2,more_progress_than_majority
+Championship_22_23,10689510,Coventry City,Wigan Athletic,2022-11-08T19:45:00+00:00,4,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10695721,Blackpool,Middlesbrough,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10695722,Watford,Reading,2022-11-08T20:00:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10695723,Cardiff City,Hull City,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10695724,Queens Park Rangers,Huddersfield Town,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10695725,Sheffield United,Rotherham United,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10703622,Birmingham City,Swansea City,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10704856,Bristol City,Preston North End,2022-10-12T18:45:00+00:00,9,46,14,15,0.7111111111111111,0.6888888888888889,more_progress_than_majority
+Championship_22_23,10705626,Stoke City,Luton Town,2022-11-08T19:45:00+00:00,9,46,20,9,0.5777777777777777,0.8222222222222222,less_progress_than_majority
+Championship_22_23,10722020,Sunderland,Millwall,2022-12-03T12:30:00+00:00,9,46,21,22,0.5555555555555556,0.5333333333333333,more_progress_than_majority
+Championship_22_23,10990128,Rotherham United,Sunderland,2023-02-21T19:45:00+00:00,29,46,33,29,0.28888888888888886,0.37777777777777777,less_progress_than_majority
+Championship_22_23,10995542,Reading,Sheffield United,2023-03-07T20:00:00+00:00,29,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_22_23,11001851,Huddersfield Town,Bristol City,2023-03-07T19:45:00+00:00,29,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_22_23,11004038,Norwich City,Birmingham City,2023-02-21T19:45:00+00:00,29,46,33,29,0.28888888888888886,0.37777777777777777,less_progress_than_majority
+Championship_22_23,11009539,Swansea City,Stoke City,2023-02-21T19:45:00+00:00,29,46,33,29,0.28888888888888886,0.37777777777777777,less_progress_than_majority
+Championship_22_23,11009542,Millwall,Burnley,2023-02-21T19:45:00+00:00,29,46,33,29,0.28888888888888886,0.37777777777777777,less_progress_than_majority
+Championship_22_23,11009543,Blackburn Rovers,Blackpool,2023-02-21T19:45:00+00:00,29,46,33,29,0.28888888888888886,0.37777777777777777,less_progress_than_majority
+Championship_22_23,11010440,West Bromwich Albion,Wigan Athletic,2023-03-07T20:00:00+00:00,29,46,35,36,0.24444444444444444,0.2222222222222222,more_progress_than_majority
+Championship_22_23,11012837,Luton Town,Cardiff City,2023-01-31T19:45:00+00:00,29,46,29,30,0.37777777777777777,0.35555555555555557,more_progress_than_majority
+Championship_22_23,11101108,Sheffield United,West Bromwich Albion,2023-04-26T19:00:00+00:00,38,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_22_23,11195423,Rotherham United,Cardiff City,2023-04-27T19:00:00+00:00,38,46,44,45,0.044444444444444446,0.022222222222222223,more_progress_than_majority
+Championship_23_24,11961087,Southampton,Hull City,2024-02-20T19:45:00+00:00,29,46,33,34,0.28888888888888886,0.26666666666666666,more_progress_than_majority
+Championship_23_24,11961088,Ipswich Town,Rotherham United,2024-02-20T19:45:00+00:00,29,46,33,34,0.28888888888888886,0.26666666666666666,more_progress_than_majority
+Championship_23_24,11973564,Plymouth Argyle,West Bromwich Albion,2024-02-20T19:45:00+00:00,29,46,33,34,0.28888888888888886,0.26666666666666666,more_progress_than_majority
+Championship_23_24,11976095,Cardiff City,Blackburn Rovers,2024-02-20T19:45:00+00:00,29,46,33,34,0.28888888888888886,0.26666666666666666,more_progress_than_majority
+Championship_24_25,13192229,Blackburn Rovers,Portsmouth,2025-01-15T19:45:00+00:00,16,46,26,27,0.4444444444444444,0.4222222222222222,more_progress_than_majority
+Championship_24_25,13240711,Plymouth Argyle,Oxford United,2025-01-14T19:45:00+00:00,19,46,26,27,0.4444444444444444,0.4222222222222222,more_progress_than_majority
+Championship_24_25,13244342,Cardiff City,Watford,2025-01-14T19:45:00+00:00,19,46,26,27,0.4444444444444444,0.4222222222222222,more_progress_than_majority
+Championship_24_25,13608629,Derby County,Preston North End,2025-04-02T18:45:00+00:00,39,46,39,40,0.15555555555555556,0.13333333333333333,more_progress_than_majority
+Championship_25_26,15234031,Blackburn Rovers,Sheffield Wednesday,2026-02-03T19:45:00+00:00,19,46,30,31,0.35555555555555557,0.3333333333333333,more_progress_than_majority
+Championship_25_26,15376225,Hull City,Watford,2026-02-03T19:45:00+00:00,26,46,30,31,0.35555555555555557,0.3333333333333333,more_progress_than_majority
+Championship_25_26,15376246,Sheffield United,Oxford United,2026-02-03T19:45:00+00:00,26,46,30,31,0.35555555555555557,0.3333333333333333,more_progress_than_majority
+Championship_25_26,15422419,Charlton Athletic,Portsmouth,2026-02-17T19:45:00+00:00,19,46,32,33,0.3111111111111111,0.28888888888888886,more_progress_than_majority
+Championship_25_26,15441237,Bristol City,Wrexham,2026-02-17T19:45:00+00:00,32,46,32,33,0.3111111111111111,0.28888888888888886,more_progress_than_majority
+Championship_26_27,16966646,Wolverhampton,Portsmouth,2026-10-20T18:45:00+00:00,6,46,7,8,0.8666666666666667,0.8444444444444444,more_progress_than_majority
+Eredivisie_10_11,1555079,Roda JC Kerkrade,FC Utrecht,2010-11-24T19:00:00+00:00,14,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+Eredivisie_10_11,1379234,Willem II Tilburg,De Graafschap,2010-11-24T19:45:00+00:00,14,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+Eredivisie_10_11,1569832,Excelsior,NAC Breda,2010-12-15T19:00:00+00:00,17,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+Eredivisie_10_11,1582866,FC Twente,Heracles Almelo,2011-01-19T17:45:00+00:00,19,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_10_11,1599728,VVV-Venlo,FC Utrecht,2011-01-19T17:45:00+00:00,19,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_10_11,1592281,AFC Ajax,Feyenoord,2011-01-19T19:45:00+00:00,19,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_10_11,1595544,AZ Alkmaar,NEC Nijmegen,2011-01-19T19:45:00+00:00,19,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_11_12,2382237,ADO Den Haag,AZ Alkmaar,2012-02-08T18:00:00+00:00,20,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+Eredivisie_11_12,2421670,De Graafschap,FC Twente,2012-03-21T17:30:00+00:00,20,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+Eredivisie_13_14,4419782,ADO Den Haag,Vitesse,2013-10-02T13:30:00+00:00,6,34,8,9,0.7878787878787878,0.7575757575757576,more_progress_than_majority
+Eredivisie_13_14,4589242,ADO Den Haag,SC Heerenveen,2013-12-04T17:45:00+00:00,9,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+Eredivisie_13_14,4960780,FC Groningen,FC Twente,2014-02-12T18:45:00+00:00,20,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_13_14,3945613,FC Groningen,Vitesse,2014-03-22T17:45:00+00:00,29,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_13_14,3945603,SC Heerenveen,NEC Nijmegen,2014-03-22T18:45:00+00:00,29,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_13_14,3945601,PSV Eindhoven,Roda JC Kerkrade,2014-03-22T19:45:00+00:00,29,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_13_14,3945597,AZ Alkmaar,PEC Zwolle,2014-03-23T13:30:00+00:00,29,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_13_14,3945599,RKC Waalwijk,AFC Ajax,2014-04-02T16:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Eredivisie_13_14,3945605,FC Twente,ADO Den Haag,2014-04-02T16:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Eredivisie_13_14,3945607,Go Ahead Eagles,NAC Breda,2014-04-02T16:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Eredivisie_13_14,3945609,FC Utrecht,SC Cambuur,2014-04-02T16:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Eredivisie_13_14,3945611,Heracles Almelo,Feyenoord,2014-04-02T16:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Eredivisie_14_15,6502766,PSV Eindhoven,Feyenoord,2014-12-17T19:45:00+00:00,14,34,16,17,0.5454545454545454,0.5151515151515151,more_progress_than_majority
+Eredivisie_17_18,7668659,Sparta Rotterdam,Vitesse,2018-01-16T19:00:00+00:00,15,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+Eredivisie_17_18,7668660,FC Utrecht,Feyenoord,2018-01-24T19:00:00+00:00,15,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_18_19,7827075,AFC Ajax,PEC Zwolle,2019-03-13T17:30:00+00:00,24,34,25,26,0.2727272727272727,0.24242424242424243,more_progress_than_majority
+Eredivisie_18_19,7827135,NAC Breda,PEC Zwolle,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827138,FC Utrecht,SC Heerenveen,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827146,FC Emmen,FC Groningen,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827148,Fortuna Sittard,Feyenoord,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827149,VVV-Venlo,Vitesse,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827150,Excelsior,AZ Alkmaar,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827151,ADO Den Haag,Willem II Tilburg,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827152,PSV Eindhoven,Heracles Almelo,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,7827153,De Graafschap,AFC Ajax,2019-05-15T17:30:00+00:00,33,34,34,33,0.0,0.030303030303030304,less_progress_than_majority
+Eredivisie_18_19,8045602,Feyenoord,VVV-Venlo,2018-12-06T19:00:00+00:00,11,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_19_20,8246343,AFC Ajax,Fortuna Sittard,2019-09-25T18:45:00+00:00,4,34,7,8,0.8181818181818182,0.7878787878787878,more_progress_than_majority
+Eredivisie_19_20,8364606,PSV Eindhoven,FC Groningen,2019-09-25T16:30:00+00:00,4,34,7,8,0.8181818181818182,0.7878787878787878,more_progress_than_majority
+Eredivisie_19_20,8364607,Feyenoord,AZ Alkmaar,2019-09-26T18:00:00+00:00,4,34,7,8,0.8181818181818182,0.7878787878787878,more_progress_than_majority
+Eredivisie_20_21,9342543,Willem II Tilburg,ADO Den Haag,2021-02-24T15:30:00+00:00,21,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_20_21,9343514,FC Groningen,Feyenoord,2021-02-24T17:45:00+00:00,21,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_20_21,9462973,AFC Ajax,FC Utrecht,2021-04-22T16:45:00+00:00,21,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_21_22,9723545,AZ Alkmaar,Fortuna Sittard,2021-12-02T17:45:00+00:00,2,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_21_22,9772849,Feyenoord,Heracles Almelo,2021-12-01T19:00:00+00:00,4,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_22_23,10382040,FC Twente,Excelsior,2022-08-31T19:00:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Eredivisie_22_23,10382124,Feyenoord,SC Cambuur,2022-11-10T19:00:00+00:00,12,34,13,14,0.6363636363636364,0.6060606060606061,more_progress_than_majority
+Eredivisie_22_23,10382129,AFC Ajax,Vitesse,2022-11-09T19:00:00+00:00,12,34,13,14,0.6363636363636364,0.6060606060606061,more_progress_than_majority
+Eredivisie_22_23,10582149,PSV Eindhoven,FC Volendam,2022-08-31T16:45:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Eredivisie_22_23,10596985,AZ Alkmaar,NEC Nijmegen,2022-09-01T18:00:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Eredivisie_22_23,11012360,RKC Waalwijk,Go Ahead Eagles,2023-02-01T19:00:00+00:00,17,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_22_23,11175972,Go Ahead Eagles,RKC Waalwijk,2023-04-19T16:45:00+00:00,25,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Eredivisie_23_24,11401871,FC Twente,Vitesse,2023-09-27T18:00:00+00:00,3,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Eredivisie_23_24,11401873,AZ Alkmaar,Heracles Almelo,2023-09-28T18:00:00+00:00,3,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Eredivisie_23_24,11401878,RKC Waalwijk,AFC Ajax,2023-12-06T19:00:00+00:00,7,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_23_24,11401909,AZ Alkmaar,NEC Nijmegen,2023-12-06T18:00:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_23_24,11558910,PSV Eindhoven,Go Ahead Eagles,2023-09-27T16:45:00+00:00,3,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Eredivisie_23_24,11742856,AFC Ajax,FC Volendam,2023-11-02T19:00:00+00:00,3,34,10,11,0.7272727272727273,0.696969696969697,more_progress_than_majority
+Eredivisie_23_24,11996574,Almere City FC,Fortuna Sittard,2024-01-24T17:45:00+00:00,18,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+Eredivisie_24_25,12448268,AFC Ajax,Fortuna Sittard,2024-09-18T18:00:00+00:00,3,34,5,6,0.8787878787878788,0.8484848484848485,more_progress_than_majority
+Eredivisie_24_25,12448332,AZ Alkmaar,Fortuna Sittard,2025-02-23T15:45:00+00:00,23,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_24_25,12904880,AFC Ajax,FC Utrecht,2024-12-04T19:00:00+00:00,5,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Eredivisie_24_25,13345139,Feyenoord,Almere City FC,2025-02-22T19:00:00+00:00,20,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_24_25,13349043,FC Twente,NEC Nijmegen,2025-02-23T13:30:00+00:00,20,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_24_25,13349044,AFC Ajax,Go Ahead Eagles,2025-02-23T13:30:00+00:00,20,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Eredivisie_24_25,13558864,Feyenoord,FC Groningen,2025-04-02T18:00:00+00:00,25,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+Eredivisie_25_26,14053685,Feyenoord,Fortuna Sittard,2025-09-17T18:00:00+00:00,3,34,5,6,0.8787878787878788,0.8484848484848485,more_progress_than_majority
+Eredivisie_25_26,14468218,AZ Alkmaar,PEC Zwolle,2025-09-24T18:00:00+00:00,3,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Eredivisie_25_26,15269642,AZ Alkmaar,Excelsior,2026-01-21T17:45:00+00:00,16,34,19,20,0.45454545454545453,0.42424242424242425,more_progress_than_majority
+Eredivisie_25_26,15294982,Go Ahead Eagles,SC Heerenveen,2026-02-11T17:45:00+00:00,20,34,22,23,0.36363636363636365,0.3333333333333333,more_progress_than_majority
+Eredivisie_25_26,15390794,NEC Nijmegen,FC Utrecht,2026-02-11T20:00:00+00:00,18,34,22,23,0.36363636363636365,0.3333333333333333,more_progress_than_majority
+J1_10_10,1294211,Sanfrecce Hiroshima,Nagoya Grampus,2010-04-21T10:00:00+00:00,4,34,7,8,0.8181818181818182,0.7878787878787878,more_progress_than_majority
+J1_10_10,1294274,Kashima Antlers,Shonan Bellmare,2010-07-14T10:00:00+00:00,11,34,12,13,0.6666666666666666,0.6363636363636364,more_progress_than_majority
+J1_10_10,1294275,Kawasaki Frontale,RB Omiya Ardija,2010-07-14T10:00:00+00:00,11,34,12,13,0.6666666666666666,0.6363636363636364,more_progress_than_majority
+J1_10_10,1294276,Gamba Osaka,Kyoto Sanga FC,2010-07-14T10:00:00+00:00,11,34,12,13,0.6666666666666666,0.6363636363636364,more_progress_than_majority
+J1_10_10,1294277,Sanfrecce Hiroshima,Cerezo Osaka,2010-07-14T10:00:00+00:00,11,34,12,13,0.6666666666666666,0.6363636363636364,more_progress_than_majority
+J1_11_11,1716426,Vegalta Sendai,Nagoya Grampus,2011-07-02T05:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716427,Urawa Red Diamonds,Gamba Osaka,2011-07-02T09:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716428,Avispa Fukuoka,Ventforet Kofu,2011-07-02T09:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716423,Shimizu S-Pulse,Kashima Antlers,2011-07-02T09:30:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716424,Albirex Niigata,Montedio Yamagata,2011-07-02T10:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716425,Cerezo Osaka,Kashiwa Reysol,2011-07-02T10:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716429,Yokohama F. Marinos,Kawasaki Frontale,2011-07-03T09:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716430,Jubilo Iwata,Vissel Kobe,2011-07-03T10:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1716431,RB Omiya Ardija,Sanfrecce Hiroshima,2011-07-03T10:00:00+00:00,2,34,18,2,0.48484848484848486,0.9696969696969697,less_progress_than_majority
+J1_11_11,1634734,Montedio Yamagata,Urawa Red Diamonds,2011-07-06T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634749,Albirex Niigata,Ventforet Kofu,2011-07-06T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634736,Ventforet Kofu,Shimizu S-Pulse,2011-07-09T09:30:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634731,Kawasaki Frontale,Avispa Fukuoka,2011-07-09T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634732,Vissel Kobe,Nagoya Grampus,2011-07-09T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634733,Kashiwa Reysol,Vegalta Sendai,2011-07-09T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634735,Jubilo Iwata,Yokohama F. Marinos,2011-07-09T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634739,Kashima Antlers,Albirex Niigata,2011-07-10T09:30:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634738,Sanfrecce Hiroshima,Cerezo Osaka,2011-07-10T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634740,RB Omiya Ardija,Gamba Osaka,2011-07-10T10:00:00+00:00,3,34,18,3,0.48484848484848486,0.9393939393939394,less_progress_than_majority
+J1_11_11,1634741,Kashiwa Reysol,Sanfrecce Hiroshima,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634742,Nagoya Grampus,Kashima Antlers,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634743,Yokohama F. Marinos,Montedio Yamagata,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634744,Cerezo Osaka,Jubilo Iwata,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634745,Avispa Fukuoka,RB Omiya Ardija,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634746,Urawa Red Diamonds,Kawasaki Frontale,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634747,Gamba Osaka,Vissel Kobe,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634748,Vegalta Sendai,Shimizu S-Pulse,2011-07-13T10:00:00+00:00,4,34,18,4,0.48484848484848486,0.9090909090909091,less_progress_than_majority
+J1_11_11,1634750,Shimizu S-Pulse,Albirex Niigata,2011-07-16T09:30:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634756,Ventforet Kofu,Gamba Osaka,2011-07-16T09:30:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634751,Vissel Kobe,Cerezo Osaka,2011-07-16T10:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634752,Kawasaki Frontale,Kashiwa Reysol,2011-07-16T10:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634757,Kashima Antlers,Vegalta Sendai,2011-07-17T09:30:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634754,RB Omiya Ardija,Yokohama F. Marinos,2011-07-17T10:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634755,Montedio Yamagata,Nagoya Grampus,2011-07-17T10:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634758,Jubilo Iwata,Urawa Red Diamonds,2011-07-17T10:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634753,Sanfrecce Hiroshima,Avispa Fukuoka,2011-07-18T09:00:00+00:00,5,34,18,5,0.48484848484848486,0.8787878787878788,less_progress_than_majority
+J1_11_11,1634763,Urawa Red Diamonds,Ventforet Kofu,2011-07-23T09:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634759,Cerezo Osaka,Shimizu S-Pulse,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634760,Albirex Niigata,Kawasaki Frontale,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634761,Kashiwa Reysol,Kashima Antlers,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634762,Nagoya Grampus,Sanfrecce Hiroshima,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634764,Vegalta Sendai,RB Omiya Ardija,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634765,Gamba Osaka,Jubilo Iwata,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634767,Yokohama F. Marinos,Vissel Kobe,2011-07-23T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634766,Avispa Fukuoka,Montedio Yamagata,2011-07-24T10:00:00+00:00,6,34,18,6,0.48484848484848486,0.8484848484848485,less_progress_than_majority
+J1_11_11,1634803,Kashima Antlers,Gamba Osaka,2011-07-27T10:00:00+00:00,10,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+J1_11_11,1634793,Kashima Antlers,Cerezo Osaka,2011-08-17T10:00:00+00:00,9,34,21,22,0.3939393939393939,0.36363636363636365,more_progress_than_majority
+J1_11_11,1634794,Gamba Osaka,Nagoya Grampus,2011-08-17T10:00:00+00:00,9,34,21,22,0.3939393939393939,0.36363636363636365,more_progress_than_majority
+J1_12_12,2366706,FC Tokyo,Kashiwa Reysol,2012-06-27T10:00:00+00:00,9,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+J1_12_12,2366710,Gamba Osaka,Nagoya Grampus,2012-06-27T10:00:00+00:00,9,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+J1_14_14,4990916,Cerezo Osaka,Kawasaki Frontale,2014-07-15T10:00:00+00:00,12,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+J1_14_14,5399318,Sanfrecce Hiroshima,Yokohama F. Marinos,2014-07-15T10:00:00+00:00,12,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+J1_15_15,6661214,Gamba Osaka,Kashima Antlers,2015-06-03T10:00:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+J1_15_15,6661223,Kashiwa Reysol,Urawa Red Diamonds,2015-06-03T10:00:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+J1_16_16,7003326,FC Tokyo,Sanfrecce Hiroshima,2016-06-15T10:00:00+00:00,10,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+J1_16_16,7003354,Gamba Osaka,Urawa Red Diamonds,2016-06-15T10:00:00+00:00,10,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+J1_16_16,7003295,Urawa Red Diamonds,FC Tokyo,2016-06-22T10:30:00+00:00,13,34,16,17,0.5454545454545454,0.5151515151515151,more_progress_than_majority
+J1_17_17,7325560,Gamba Osaka,Kashima Antlers,2017-07-05T10:00:00+00:00,13,34,17,18,0.5151515151515151,0.48484848484848486,more_progress_than_majority
+J1_17_17,7325565,Kawasaki Frontale,Urawa Red Diamonds,2017-07-05T10:00:00+00:00,13,34,17,18,0.5151515151515151,0.48484848484848486,more_progress_than_majority
+J1_18_18,7713040,Cerezo Osaka,Kashima Antlers,2018-07-25T10:00:00+00:00,14,34,17,18,0.5151515151515151,0.48484848484848486,more_progress_than_majority
+J1_18_18,7903567,Yokohama F. Marinos,Shimizu S-Pulse,2018-08-29T10:30:00+00:00,18,34,24,25,0.30303030303030304,0.2727272727272727,more_progress_than_majority
+J1_18_18,7918451,Shonan Bellmare,Kawasaki Frontale,2018-09-26T10:30:00+00:00,18,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+J1_18_18,7959195,Nagoya Grampus,Hokkaido Consadole Sapporo,2018-10-28T06:00:00+00:00,18,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+J1_18_18,8011591,Jubilo Iwata,Shonan Bellmare,2018-10-30T10:00:00+00:00,28,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+J1_18_18,8016558,Cerezo Osaka,Nagoya Grampus,2018-11-06T10:00:00+00:00,28,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+J1_19_19,8236441,Kawasaki Frontale,Oita Trinita,2019-07-27T10:00:00+00:00,20,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+J1_19_19,8236404,Sanfrecce Hiroshima,Kawasaki Frontale,2019-07-31T10:00:00+00:00,16,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+J1_19_19,8236403,Urawa Red Diamonds,Kashima Antlers,2019-07-31T10:30:00+00:00,16,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+J1_20_20,8990852,Sagan Tosu,Hokkaido Consadole Sapporo,2020-09-16T10:30:00+00:00,12,34,16,17,0.5454545454545454,0.5151515151515151,more_progress_than_majority
+J1_20_20,9025617,Sagan Tosu,Gamba Osaka,2020-10-07T10:00:00+00:00,10,34,20,21,0.42424242424242425,0.3939393939393939,more_progress_than_majority
+J1_20_20,8997095,Shonan Bellmare,Sagan Tosu,2020-10-21T10:30:00+00:00,13,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+J1_20_20,8967790,Sanfrecce Hiroshima,Nagoya Grampus,2020-11-11T10:00:00+00:00,7,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+J1_20_20,8704633,Shonan Bellmare,Yokohama F. Marinos,2020-11-11T10:30:00+00:00,26,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+J1_20_20,9198290,Kashiwa Reysol,Oita Trinita,2020-12-09T10:00:00+00:00,27,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+J1_20_20,8704599,FC Tokyo,Sanfrecce Hiroshima,2020-12-12T05:00:00+00:00,31,34,31,32,0.09090909090909091,0.06060606060606061,more_progress_than_majority
+J1_21_21,9602161,Gamba Osaka,Oita Trinita,2021-07-27T10:00:00+00:00,3,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+J1_21_21,9602162,Hokkaido Consadole Sapporo,Gamba Osaka,2021-07-30T09:00:00+00:00,4,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+J1_21_21,9672269,Vegalta Sendai,Gamba Osaka,2021-08-03T10:00:00+00:00,5,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+J1_21_21,9672270,Gamba Osaka,Yokohama F. Marinos,2021-08-06T10:00:00+00:00,6,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+J1_21_21,9309393,Yokohama F. Marinos,Nagoya Grampus,2021-08-12T10:00:00+00:00,18,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+J1_21_21,9744262,Sanfrecce Hiroshima,Vissel Kobe,2021-09-05T09:00:00+00:00,24,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+J1_21_21,9672539,Hokkaido Consadole Sapporo,Cerezo Osaka,2021-09-08T10:00:00+00:00,19,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+J1_21_21,9309465,Kawasaki Frontale,Vissel Kobe,2021-09-29T10:00:00+00:00,28,38,30,31,0.21621621621621623,0.1891891891891892,more_progress_than_majority
+J1_22_22,10094372,Vissel Kobe,Kawasaki Frontale,2022-05-18T10:00:00+00:00,11,34,13,14,0.6363636363636364,0.6060606060606061,more_progress_than_majority
+J1_22_22,10094367,Urawa Red Diamonds,Yokohama F. Marinos,2022-05-18T10:30:00+00:00,11,34,13,14,0.6363636363636364,0.6060606060606061,more_progress_than_majority
+J1_22_22,10351249,Gamba Osaka,Sanfrecce Hiroshima,2022-06-29T10:00:00+00:00,15,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+J1_22_22,10447302,Kawasaki Frontale,Sagan Tosu,2022-08-31T10:00:00+00:00,20,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+J1_22_22,10605452,Avispa Fukuoka,Gamba Osaka,2022-08-31T10:00:00+00:00,24,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+J1_22_22,10608589,Yokohama F. Marinos,Shonan Bellmare,2022-09-07T10:00:00+00:00,25,34,28,29,0.18181818181818182,0.15151515151515152,more_progress_than_majority
+J1_22_22,10094475,Kyoto Sanga FC,Yokohama F. Marinos,2022-09-14T10:00:00+00:00,26,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+J1_22_22,10094476,Vissel Kobe,FC Tokyo,2022-09-14T10:00:00+00:00,26,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+J1_22_22,10094472,Urawa Red Diamonds,Cerezo Osaka,2022-09-14T10:30:00+00:00,26,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+J1_22_22,10527725,Nagoya Grampus,Kawasaki Frontale,2022-09-14T10:30:00+00:00,22,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+J1_22_22,10730552,Shimizu S-Pulse,Jubilo Iwata,2022-10-22T07:00:00+00:00,31,34,32,33,0.06060606060606061,0.030303030303030304,more_progress_than_majority
+J1_23_23,11009514,Urawa Red Diamonds,Sagan Tosu,2023-05-10T10:30:00+00:00,10,34,12,13,0.6666666666666666,0.6363636363636364,more_progress_than_majority
+J1_23_23,11009494,Urawa Red Diamonds,Sanfrecce Hiroshima,2023-05-31T10:30:00+00:00,11,34,15,16,0.5757575757575758,0.5454545454545454,more_progress_than_majority
+J1_23_23,11009452,Urawa Red Diamonds,Shonan Bellmare,2023-06-28T10:30:00+00:00,12,34,18,19,0.48484848484848486,0.45454545454545453,more_progress_than_majority
+J1_24_24,12091011,Yokohama F. Marinos,Gamba Osaka,2024-04-10T10:00:00+00:00,3,38,7,8,0.8378378378378378,0.8108108108108109,more_progress_than_majority
+J1_24_24,12250295,Yokohama F. Marinos,Kashiwa Reysol,2024-05-29T10:00:00+00:00,9,38,16,17,0.5945945945945946,0.5675675675675675,more_progress_than_majority
+J1_24_24,12280821,Yokohama F. Marinos,Sanfrecce Hiroshima,2024-06-19T10:00:00+00:00,13,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+J1_24_24,12280830,Yokohama F. Marinos,Sagan Tosu,2024-07-03T10:00:00+00:00,16,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+J1_24_24,12784059,Nagoya Grampus,Albirex Niigata,2024-09-18T10:00:00+00:00,29,38,30,31,0.21621621621621623,0.1891891891891892,more_progress_than_majority
+J1_24_24,12819879,Cerezo Osaka,Gamba Osaka,2024-10-02T10:00:00+00:00,29,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+J1_24_24,12004508,Urawa Red Diamonds,Kawasaki Frontale,2024-11-22T10:00:00+00:00,28,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+J1_25_25,13274664,Kawasaki Frontale,Yokohama F. Marinos,2025-04-09T10:00:00+00:00,5,38,9,10,0.7837837837837838,0.7567567567567568,more_progress_than_majority
+J1_25_25,13383674,Kawasaki Frontale,Yokohama FC,2025-05-14T10:00:00+00:00,14,38,16,17,0.5945945945945946,0.5675675675675675,more_progress_than_majority
+J1_25_25,13383679,Yokohama F. Marinos,Kashiwa Reysol,2025-05-14T10:00:00+00:00,14,38,16,17,0.5945945945945946,0.5675675675675675,more_progress_than_majority
+J1_25_25,13383655,Kawasaki Frontale,Urawa Red Diamonds,2025-05-21T10:00:00+00:00,13,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+J1_25_25,13383666,Yokohama F. Marinos,Vissel Kobe,2025-05-21T10:00:00+00:00,13,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+J1_25_25,13383684,Kawasaki Frontale,Albirex Niigata,2025-06-25T10:00:00+00:00,15,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+J1_25_25,13383686,Yokohama F. Marinos,FC Tokyo,2025-06-25T10:30:00+00:00,15,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+J1_25_25,13274665,Vissel Kobe,Sanfrecce Hiroshima,2025-07-02T10:00:00+00:00,5,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+J1_Transition_26_26,15345935,Machida Zelvia,Tokyo Verdy,2026-05-13T10:00:00+00:00,12,18,16,17,0.11764705882352941,0.058823529411764705,more_progress_than_majority
+J2_11_11,1716432,Kataller Toyama,Tokushima Vortis,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716434,Sagan Tosu,Tochigi SC,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716436,Kyoto Sanga FC,Roasso Kumamoto,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716437,Gainare Tottori,FC Gifu,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716438,Oita Trinita,Yokohama FC,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716440,JEF United Chiba,Shonan Bellmare,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716441,Tokyo Verdy,Mito Hollyhock,2011-06-29T10:00:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716433,Fagiano Okayama,FC Tokyo,2011-06-29T10:30:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716435,Thespa Gunma,Ehime FC,2011-06-29T10:30:00+00:00,2,38,18,2,0.5405405405405406,0.972972972972973,less_progress_than_majority
+J2_11_11,1716439,Hokkaido Consadole Sapporo,Giravanz Kitakyushu,2011-07-06T10:00:00+00:00,2,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+J2_11_11,1635027,Tokushima Vortis,Giravanz Kitakyushu,2011-08-05T10:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635030,Tochigi SC,Gainare Tottori,2011-08-06T09:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635031,Tokyo Verdy,Kyoto Sanga FC,2011-08-06T09:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635028,Ehime FC,Kataller Toyama,2011-08-06T10:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635029,Sagan Tosu,Thespa Gunma,2011-08-06T10:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635034,Fagiano Okayama,Roasso Kumamoto,2011-08-06T10:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635026,FC Gifu,FC Tokyo,2011-08-07T09:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635033,Yokohama FC,Mito Hollyhock,2011-08-07T09:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635032,Shonan Bellmare,Oita Trinita,2011-08-07T10:00:00+00:00,3,38,23,3,0.40540540540540543,0.9459459459459459,less_progress_than_majority
+J2_11_11,1635036,Thespa Gunma,Tokushima Vortis,2011-08-31T10:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635037,Kyoto Sanga FC,Ehime FC,2011-09-01T10:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635035,Mito Hollyhock,Hokkaido Consadole Sapporo,2011-09-03T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635038,Kataller Toyama,Oita Trinita,2011-09-03T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635039,FC Gifu,Fagiano Okayama,2011-09-03T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635042,Giravanz Kitakyushu,Yokohama FC,2011-09-03T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635041,Gainare Tottori,Sagan Tosu,2011-09-04T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635044,FC Tokyo,Tochigi SC,2011-09-04T09:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635040,Roasso Kumamoto,Shonan Bellmare,2011-09-04T10:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635043,JEF United Chiba,Tokyo Verdy,2011-09-04T10:00:00+00:00,4,38,26,4,0.32432432432432434,0.918918918918919,less_progress_than_majority
+J2_11_11,1635045,Sagan Tosu,Fagiano Okayama,2011-09-14T10:00:00+00:00,5,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+J2_11_11,1635048,Hokkaido Consadole Sapporo,Tokyo Verdy,2011-09-21T10:00:00+00:00,5,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+J2_11_11,1635046,Ehime FC,Yokohama FC,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635047,Tokushima Vortis,Roasso Kumamoto,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635049,Tochigi SC,FC Gifu,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635050,FC Tokyo,Giravanz Kitakyushu,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635051,Shonan Bellmare,Kataller Toyama,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635052,JEF United Chiba,Kyoto Sanga FC,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635053,Gainare Tottori,Thespa Gunma,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635054,Oita Trinita,Mito Hollyhock,2011-09-28T10:00:00+00:00,5,38,29,5,0.24324324324324326,0.8918918918918919,less_progress_than_majority
+J2_11_11,1635056,Roasso Kumamoto,Tochigi SC,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635057,Thespa Gunma,FC Gifu,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635058,Kataller Toyama,Sagan Tosu,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635060,Tokyo Verdy,Tokushima Vortis,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635062,Giravanz Kitakyushu,Shonan Bellmare,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635063,Kyoto Sanga FC,Hokkaido Consadole Sapporo,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635064,Oita Trinita,Ehime FC,2011-10-19T10:00:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635055,Mito Hollyhock,JEF United Chiba,2011-10-19T10:30:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635059,Yokohama FC,FC Tokyo,2011-10-19T10:30:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635061,Fagiano Okayama,Gainare Tottori,2011-10-19T10:30:00+00:00,6,38,31,6,0.1891891891891892,0.8648648648648649,less_progress_than_majority
+J2_11_11,1635065,Tokushima Vortis,Hokkaido Consadole Sapporo,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635066,Thespa Gunma,Yokohama FC,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635067,Sagan Tosu,JEF United Chiba,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635068,FC Tokyo,Oita Trinita,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635069,Shonan Bellmare,Kyoto Sanga FC,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635070,Gainare Tottori,Roasso Kumamoto,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635071,Tochigi SC,Tokyo Verdy,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635072,FC Gifu,Giravanz Kitakyushu,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635073,Ehime FC,Mito Hollyhock,2011-10-26T10:00:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_11_11,1635074,Fagiano Okayama,Kataller Toyama,2011-10-26T10:30:00+00:00,7,38,32,7,0.16216216216216217,0.8378378378378378,less_progress_than_majority
+J2_12_12,3156241,Matsumoto Yamaga FC,FC Gifu,2012-10-18T10:00:00+00:00,36,42,38,39,0.0975609756097561,0.07317073170731707,more_progress_than_majority
+J2_12_12,3156239,Tokushima Vortis,Kyoto Sanga FC,2012-10-25T10:00:00+00:00,36,42,39,40,0.07317073170731707,0.04878048780487805,more_progress_than_majority
+J2_13_13,4182851,Tochigi SC,Ehime FC,2013-09-11T10:00:00+00:00,26,42,32,33,0.24390243902439024,0.21951219512195122,more_progress_than_majority
+J2_16_16,7109511,V-Varen Nagasaki,Mito Hollyhock,2016-09-07T10:00:00+00:00,8,42,30,31,0.2926829268292683,0.2682926829268293,more_progress_than_majority
+J2_16_16,7109512,Roasso Kumamoto,Yokohama FC,2016-09-07T10:00:00+00:00,9,42,30,31,0.2926829268292683,0.2682926829268293,more_progress_than_majority
+J2_17_17,7632526,Ehime FC,Kyoto Sanga FC,2017-11-08T10:00:00+00:00,33,42,40,41,0.04878048780487805,0.024390243902439025,more_progress_than_majority
+J2_18_18,7702791,Albirex Niigata,Ventforet Kofu,2018-06-20T10:00:00+00:00,17,42,19,20,0.5609756097560976,0.5365853658536586,more_progress_than_majority
+J2_18_18,7702732,Fagiano Okayama,Tokyo Verdy,2018-06-27T10:30:00+00:00,15,42,20,21,0.5365853658536586,0.5121951219512195,more_progress_than_majority
+J2_18_18,7702796,Ventforet Kofu,Zweigen Kanazawa,2018-07-04T10:00:00+00:00,18,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+J2_18_18,7911548,Fagiano Okayama,Tokushima Vortis,2018-08-22T10:00:00+00:00,26,42,29,30,0.3170731707317073,0.2926829268292683,more_progress_than_majority
+J2_18_18,7918446,Avispa Fukuoka,Yokohama FC,2018-09-12T10:00:00+00:00,26,42,32,33,0.24390243902439024,0.21951219512195122,more_progress_than_majority
+J2_18_18,7703049,Ventforet Kofu,RB Omiya Ardija,2018-09-19T10:00:00+00:00,32,42,33,34,0.21951219512195122,0.1951219512195122,more_progress_than_majority
+J2_18_18,7924556,Kamatamare Sanuki,Montedio Yamagata,2018-09-19T10:00:00+00:00,26,42,33,34,0.21951219512195122,0.1951219512195122,more_progress_than_majority
+J2_18_18,7992355,Renofa Yamaguchi FC,Machida Zelvia,2018-10-17T10:00:00+00:00,26,42,37,38,0.12195121951219512,0.0975609756097561,more_progress_than_majority
+J2_18_18,8011590,Kamatamare Sanuki,Machida Zelvia,2018-10-31T10:00:00+00:00,35,42,39,40,0.07317073170731707,0.04878048780487805,more_progress_than_majority
+J2_19_19,8367197,Kagoshima United,FC Gifu,2019-10-30T10:00:00+00:00,23,42,38,39,0.0975609756097561,0.07317073170731707,more_progress_than_majority
+J2_20_20,8858439,RB Omiya Ardija,Avispa Fukuoka,2020-09-16T10:00:00+00:00,9,42,19,20,0.5609756097560976,0.5365853658536586,more_progress_than_majority
+J2_21_21,9309892,RB Omiya Ardija,Kyoto Sanga FC,2021-03-24T10:00:00+00:00,3,42,4,5,0.926829268292683,0.9024390243902439,more_progress_than_majority
+J2_21_21,9309683,SC Sagamihara,Ehime FC,2021-05-27T10:00:00+00:00,15,42,15,16,0.6585365853658537,0.6341463414634146,more_progress_than_majority
+J2_21_21,9729689,Zweigen Kanazawa,V-Varen Nagasaki,2021-08-25T10:00:00+00:00,24,42,26,27,0.3902439024390244,0.36585365853658536,more_progress_than_majority
+J2_22_22,10161030,Oita Trinita,Mito Hollyhock,2022-03-09T10:00:00+00:00,1,42,3,4,0.9512195121951219,0.926829268292683,more_progress_than_majority
+J2_22_22,10306164,RB Omiya Ardija,Iwate Grulla Morioka,2022-05-18T10:00:00+00:00,15,42,16,17,0.6341463414634146,0.6097560975609756,more_progress_than_majority
+J2_22_22,10310228,Iwate Grulla Morioka,Montedio Yamagata,2022-06-15T09:00:00+00:00,16,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+J2_22_22,10527726,Tokyo Verdy,Tokushima Vortis,2022-08-24T10:00:00+00:00,27,42,32,33,0.24390243902439024,0.21951219512195122,more_progress_than_majority
+J2_22_22,10648806,Montedio Yamagata,Fagiano Okayama,2022-08-31T10:00:00+00:00,8,42,33,34,0.21951219512195122,0.1951219512195122,more_progress_than_majority
+J2_22_22,10655993,RB Omiya Ardija,Montedio Yamagata,2022-10-05T10:00:00+00:00,33,42,39,40,0.07317073170731707,0.04878048780487805,more_progress_than_majority
+J2_23_23,11020971,Jubilo Iwata,Tochigi SC,2023-03-29T10:00:00+00:00,6,42,6,7,0.8780487804878049,0.8536585365853658,more_progress_than_majority
+J2_23_23,11020973,Shimizu S-Pulse,Thespa Gunma,2023-03-29T10:00:00+00:00,6,42,6,7,0.8780487804878049,0.8536585365853658,more_progress_than_majority
+J2_23_23,11020806,Jubilo Iwata,Ventforet Kofu,2023-06-28T10:00:00+00:00,21,42,22,23,0.4878048780487805,0.4634146341463415,more_progress_than_majority
+J2_23_23,11020807,Shimizu S-Pulse,Blaublitz Akita,2023-06-28T10:00:00+00:00,21,42,22,23,0.4878048780487805,0.4634146341463415,more_progress_than_majority
+J2_23_23,11680527,Thespa Gunma,Zweigen Kanazawa,2023-09-27T10:00:00+00:00,31,42,36,37,0.14634146341463414,0.12195121951219512,more_progress_than_majority
+J2_24_24,12386177,V-Varen Nagasaki,Iwaki FC,2024-06-26T10:00:00+00:00,19,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+J2_24_24,12782064,Tokushima Vortis,Shimizu S-Pulse,2024-09-18T10:00:00+00:00,29,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+J2_24_24,12007823,Ventforet Kofu,Roasso Kumamoto,2024-09-25T10:00:00+00:00,30,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+J2_25_25,13482208,RB Omiya Ardija,Ehime FC,2025-06-08T05:00:00+00:00,17,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+J2_25_25,13482209,Kataller Toyama,Mito Hollyhock,2025-06-08T05:00:00+00:00,17,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+La_Liga_11_12,1989299,Espanyol,Granada,2012-01-21T17:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989309,Real Racing Club,Getafe,2012-01-21T17:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989317,Real Sociedad,Atlético Madrid,2012-01-21T19:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989315,Real Betis,Sevilla,2012-01-21T21:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989305,Osasuna,Valencia,2012-01-22T11:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989307,Rayo Vallecano,Mallorca,2012-01-22T15:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989313,Málaga CF,FC Barcelona,2012-01-22T17:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989301,Levante UD,Real Zaragoza,2012-01-22T18:45:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989311,Real Madrid,Athletic Club,2012-01-22T20:30:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1989303,Villarreal,Sporting Gijón,2012-01-23T20:00:00+00:00,1,38,19,1,0.5135135135135135,1.0,less_progress_than_majority
+La_Liga_11_12,1795143,Getafe,Real Racing Club,2012-05-01T10:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795144,Granada,Espanyol,2012-05-01T16:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795140,Sporting Gijón,Villarreal,2012-05-01T18:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795137,Atlético Madrid,Real Sociedad,2012-05-02T16:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795139,FC Barcelona,Málaga CF,2012-05-02T18:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795141,Sevilla,Real Betis,2012-05-02T18:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795145,Real Zaragoza,Levante UD,2012-05-02T18:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795146,Mallorca,Rayo Vallecano,2012-05-02T18:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795138,Athletic Club,Real Madrid,2012-05-02T20:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_11_12,1795142,Valencia,Osasuna,2012-05-02T20:00:00+00:00,20,38,36,20,0.05405405405405406,0.4864864864864865,less_progress_than_majority
+La_Liga_14_15,5764422,Real Madrid,Sevilla,2015-02-04T19:45:00+00:00,16,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+La_Liga_15_16,6965737,Sporting Gijón,FC Barcelona,2016-02-17T17:30:00+00:00,16,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+La_Liga_16_17,7409698,Celta Vigo,Real Madrid,2017-05-17T19:00:00+00:00,21,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+La_Liga_18_19,7895405,Villarreal,Real Madrid,2019-01-03T20:30:00+00:00,17,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+La_Liga_19_20,8465034,FC Barcelona,Real Madrid,2019-12-18T19:00:00+00:00,10,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+La_Liga_20_21,8966150,Real Sociedad,Athletic Club,2021-04-07T19:00:00+00:00,29,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+La_Liga_20_21,8966201,FC Barcelona,Granada,2021-04-29T17:00:00+00:00,33,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+La_Liga_20_21,8966214,Cádiz,Real Madrid,2021-04-21T20:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966216,Athletic Club,Atlético Madrid,2021-04-25T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966218,Real Sociedad,Celta Vigo,2021-04-22T19:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966219,Celta Vigo,Osasuna,2021-04-25T16:30:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966220,Levante UD,Sevilla,2021-04-21T17:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966221,Granada,Eibar,2021-04-22T19:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966222,Osasuna,Valencia,2021-04-21T17:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966223,Real Madrid,Real Betis,2021-04-24T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966224,Huesca,Getafe,2021-04-25T12:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966225,Sevilla,Granada,2021-04-25T16:30:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966226,Villarreal,FC Barcelona,2021-04-25T14:15:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966227,Eibar,Real Sociedad,2021-04-26T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966228,Real Valladolid,Cádiz,2021-04-24T14:15:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966229,Valencia,Deportivo Alavés,2021-04-24T16:30:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966230,Elche,Real Valladolid,2021-04-21T19:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966231,Elche,Levante UD,2021-04-24T12:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_20_21,8966244,Deportivo Alavés,Villarreal,2021-04-21T19:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966245,Atlético Madrid,Huesca,2021-04-22T17:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966246,Real Betis,Athletic Club,2021-04-21T18:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,8966247,FC Barcelona,Getafe,2021-04-22T20:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+La_Liga_20_21,9128118,Athletic Club,FC Barcelona,2021-01-06T20:00:00+00:00,2,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+La_Liga_21_22,9971194,Real Madrid,Athletic Club,2021-12-01T20:00:00+00:00,9,38,15,16,0.6216216216216216,0.5945945945945946,more_progress_than_majority
+La_Liga_21_22,10114814,Mallorca,Real Sociedad,2022-03-02T20:00:00+00:00,21,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+La_Liga_22_23,10408343,Real Betis,FC Barcelona,2023-02-01T20:00:00+00:00,17,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+La_Liga_22_23,10408366,Real Madrid,Elche,2023-02-15T20:00:00+00:00,21,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+La_Liga_22_23,10408521,Real Madrid,Valencia,2023-02-02T20:00:00+00:00,17,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+La_Liga_23_24,11369459,Atlético Madrid,Rayo Vallecano,2024-01-31T20:00:00+00:00,20,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+La_Liga_23_24,11369463,Getafe,Real Madrid,2024-02-01T20:00:00+00:00,20,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+La_Liga_23_24,11813986,Mallorca,Cádiz,2023-11-29T20:00:00+00:00,13,38,14,15,0.6486486486486487,0.6216216216216216,more_progress_than_majority
+La_Liga_24_25,13096804,Villarreal,Rayo Vallecano,2024-12-18T20:30:00+00:00,12,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+La_Liga_24_25,13128822,Espanyol,Valencia,2024-12-18T20:30:00+00:00,13,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+La_Liga_24_25,13199638,Valencia,Real Madrid,2025-01-03T20:00:00+00:00,12,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+La_Liga_24_25,13637082,FC Barcelona,Osasuna,2025-03-27T20:00:00+00:00,27,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+La_Liga_25_26,14083211,Real Betis,Real Madrid,2026-04-24T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083202,Deportivo Alavés,Mallorca,2026-04-25T12:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083245,Getafe,FC Barcelona,2026-04-25T14:15:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083255,Valencia,Girona FC,2026-04-25T16:30:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083242,Atlético Madrid,Athletic Club,2026-04-25T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083239,Rayo Vallecano,Real Sociedad,2026-04-26T12:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083252,Real Oviedo,Elche,2026-04-26T14:15:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083231,Osasuna,Sevilla,2026-04-26T16:30:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083248,Villarreal,Celta Vigo,2026-04-26T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_25_26,14083221,Espanyol,Levante UD,2026-04-27T19:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+La_Liga_26_27,16421055,Atlético Madrid,Málaga CF,2026-08-19T19:00:00+00:00,1,38,1,2,1.0,0.972972972972973,more_progress_than_majority
+La_Liga_26_27,16421051,Real Madrid,Real Sociedad,2026-08-26T19:00:00+00:00,1,38,2,3,0.972972972972973,0.9459459459459459,more_progress_than_majority
+La_Liga_26_27,16815992,Celta Vigo,Osasuna,2026-08-27T18:30:00+00:00,1,38,2,3,0.972972972972973,0.9459459459459459,more_progress_than_majority
+La_Liga_26_27,16421059,FC Barcelona,Athletic Club,2026-08-27T19:00:00+00:00,1,38,2,3,0.972972972972973,0.9459459459459459,more_progress_than_majority
+La_Liga_26_27,17122851,Levante UD,Athletic Club,2026-10-21T18:00:00+00:00,6,38,6,7,0.8648648648648649,0.8378378378378378,more_progress_than_majority
+La_Liga_2_10_11,1571462,Real Betis,Barcelona Atlètic,2010-12-08T17:00:00+00:00,14,42,15,16,0.6585365853658537,0.6341463414634146,more_progress_than_majority
+La_Liga_2_10_11,1574228,CD Tenerife,Granada,2011-01-26T20:30:00+00:00,15,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+La_Liga_2_11_12,1989327,Real Valladolid,CD Alcoyano,2011-10-25T16:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989323,Villarreal B U23,Hércules CF,2011-10-25T20:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989347,Celta Vigo,Girona FC,2011-10-25T20:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989367,Almería,Gimnàstic de Tarragona,2011-10-26T16:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989343,Elche,Córdoba,2011-10-26T18:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989333,Huesca,Barcelona Atlètic,2011-10-26T19:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989339,Numancia,Guadalajara,2011-10-26T19:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989355,Recreativo de Huelva,Real Murcia,2011-10-26T19:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989373,Xerez CD,CE Sabadell,2011-10-26T19:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989359,UD Las Palmas,AD Alcorcón,2011-10-26T20:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1989365,FC Cartagena,Deportivo de A Coruña,2011-10-27T18:00:00+00:00,1,42,10,1,0.7804878048780488,1.0,less_progress_than_majority
+La_Liga_2_11_12,1796588,Córdoba,FC Cartagena,2012-05-22T19:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796589,Girona FC,Villarreal B U23,2012-05-22T19:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796584,AD Alcorcón,CE Sabadell,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796585,Guadalajara,Barcelona Atlètic,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796586,CD Alcoyano,Hércules CF,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796590,Real Murcia,Huesca,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796591,Celta Vigo,Xerez CD,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796592,Elche,UD Las Palmas,2012-05-23T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796587,Gimnàstic de Tarragona,Deportivo de A Coruña,2012-05-23T20:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796593,Almería,Numancia,2012-05-24T18:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_11_12,1796594,Real Valladolid,Recreativo de Huelva,2012-05-24T20:00:00+00:00,30,42,40,30,0.04878048780487805,0.2926829268292683,less_progress_than_majority
+La_Liga_2_12_13,3218129,Huesca,Barcelona Atlètic,2012-10-31T19:00:00+00:00,10,42,11,12,0.7560975609756098,0.7317073170731707,more_progress_than_majority
+La_Liga_2_14_15,6705004,Deportivo Alavés,Osasuna,2015-03-18T20:00:00+00:00,24,42,29,30,0.3170731707317073,0.2926829268292683,more_progress_than_majority
+La_Liga_2_16_17,7296388,Levante UD,Rayo Vallecano,2016-12-14T19:45:00+00:00,16,42,18,19,0.5853658536585366,0.5609756097560976,more_progress_than_majority
+La_Liga_2_16_17,7309550,UCAM Murcia,Levante UD,2017-01-11T19:00:00+00:00,19,42,20,21,0.5365853658536586,0.5121951219512195,more_progress_than_majority
+La_Liga_2_17_18,7682295,Osasuna,Gimnàstic de Tarragona,2018-01-18T18:00:00+00:00,17,42,22,23,0.4878048780487805,0.4634146341463415,more_progress_than_majority
+La_Liga_2_17_18,7772125,Huesca,Albacete Balompié,2018-04-12T18:00:00+00:00,33,42,34,35,0.1951219512195122,0.17073170731707318,more_progress_than_majority
+La_Liga_2_19_20,8285420,Rayo Vallecano,Albacete Balompié,2020-06-10T18:00:00+00:00,20,42,31,32,0.2682926829268293,0.24390243902439024,more_progress_than_majority
+La_Liga_2_19_20,8428150,CF Fuenlabrada,Real Zaragoza,2019-10-16T19:00:00+00:00,6,42,11,12,0.7560975609756098,0.7317073170731707,more_progress_than_majority
+La_Liga_2_19_20,8581123,Mirandés,Real Zaragoza,2020-02-19T20:00:00+00:00,24,42,28,29,0.34146341463414637,0.3170731707317073,more_progress_than_majority
+La_Liga_2_20_21,9140644,CE Sabadell,Almería,2020-11-05T18:00:00+00:00,1,42,10,11,0.7804878048780488,0.7560975609756098,more_progress_than_majority
+La_Liga_2_20_21,9143881,AD Alcorcón,SD Ponferradina,2020-11-05T18:00:00+00:00,6,42,10,11,0.7804878048780488,0.7560975609756098,more_progress_than_majority
+La_Liga_2_20_21,9204572,Girona FC,UD Logroñés,2020-12-10T18:00:00+00:00,2,42,17,18,0.6097560975609756,0.5853658536585366,more_progress_than_majority
+La_Liga_2_20_21,9286034,Mirandés,Rayo Vallecano,2021-01-19T18:00:00+00:00,21,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+La_Liga_2_21_22,10061215,CD Lugo,Almería,2022-01-19T20:00:00+00:00,21,42,23,24,0.4634146341463415,0.43902439024390244,more_progress_than_majority
+La_Liga_2_22_23,10409203,SD Ponferradina,Burgos Club de Fútbol,2022-12-05T20:00:00+00:00,18,42,18,19,0.5853658536585366,0.5609756097560976,more_progress_than_majority
+La_Liga_2_24_25,13097336,Levante UD,Málaga CF,2024-11-27T18:00:00+00:00,13,42,16,17,0.6341463414634146,0.6097560975609756,more_progress_than_majority
+La_Liga_2_24_25,13097432,CD Castellón,Racing de Ferrol,2024-11-27T18:00:00+00:00,13,42,16,17,0.6341463414634146,0.6097560975609756,more_progress_than_majority
+La_Liga_2_24_25,13097734,CD Eldense,Huesca,2024-11-20T19:00:00+00:00,13,42,15,16,0.6585365853658537,0.6341463414634146,more_progress_than_majority
+La_Liga_2_24_25,13119478,CD Tenerife,Levante UD,2025-01-07T20:30:00+00:00,14,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+La_Liga_2_24_25,13276649,CD Tenerife,Deportivo de A Coruña,2025-01-29T20:00:00+00:00,19,42,24,25,0.43902439024390244,0.4146341463414634,more_progress_than_majority
+La_Liga_2_24_25,13493495,Racing de Ferrol,Burgos Club de Fútbol,2025-03-05T19:00:00+00:00,24,42,29,30,0.3170731707317073,0.2926829268292683,more_progress_than_majority
+Liga_MX_Apertura_10_11,1454914,CD Guadalajara,Tecos FC,2010-09-05T23:00:00+00:00,4,17,6,7,0.6875,0.625,more_progress_than_majority
+Liga_MX_Apertura_10_11,1390040,CD Guadalajara,Mazatlán FC,2010-10-07T01:45:00+00:00,2,17,10,11,0.4375,0.375,more_progress_than_majority
+Liga_MX_Apertura_11_12,1779892,Jaguares F.C.,Mazatlán FC,2011-09-04T17:00:00+00:00,3,17,7,8,0.625,0.5625,more_progress_than_majority
+Liga_MX_Apertura_11_12,1779901,Club América,Jaguares F.C.,2011-09-15T01:30:00+00:00,4,17,8,9,0.5625,0.5,more_progress_than_majority
+Liga_MX_Apertura_12_13,3180273,Club Puebla,Club América,2012-10-26T02:00:00+00:00,13,17,14,15,0.1875,0.125,more_progress_than_majority
+Liga_MX_Apertura_12_13,3180275,CF Monterrey,CD Toluca,2012-11-08T02:30:00+00:00,13,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_13_14,4100017,CD Guadalajara,Santos Laguna,2013-10-31T01:00:00+00:00,1,17,15,16,0.125,0.0625,more_progress_than_majority
+Liga_MX_Apertura_14_15,5812912,CD Guadalajara,Leones Negros,2014-09-07T22:00:00+00:00,3,17,7,8,0.625,0.5625,more_progress_than_majority
+Liga_MX_Apertura_15_16,6769517,CF Pachuca,Cruz Azul,2015-11-15T02:06:00+00:00,12,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_17_18,7590168,Lobos BUAP,Club Tijuana,2017-10-18T00:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590166,Querétaro FC,Cruz Azul,2017-10-18T01:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590160,Tigres UANL,Veracruz,2017-10-18T01:45:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590169,Pumas UNAM,Club León,2017-10-18T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590159,Atlas FC,Mazatlán FC,2017-10-18T02:30:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590171,Santos Laguna,Club Necaxa,2017-10-19T00:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590161,CF Pachuca,CD Toluca,2017-10-19T00:06:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590167,Club Puebla,CF Monterrey,2017-10-19T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7590170,Club América,CD Guadalajara,2017-10-19T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Apertura_17_18,7631712,Atlas FC,Tigres UANL,2017-11-02T03:00:00+00:00,8,17,15,16,0.125,0.0625,more_progress_than_majority
+Liga_MX_Apertura_20_21,9018845,Club Tijuana,FC Juárez,2020-10-01T00:06:00+00:00,11,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Apertura_20_21,8746566,Santos Laguna,Club Tijuana,2020-10-12T00:06:00+00:00,12,17,13,14,0.25,0.1875,more_progress_than_majority
+Liga_MX_Apertura_21_22,9605195,CF Pachuca,Atlético San Luis,2021-11-04T01:00:00+00:00,5,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_21_22,9605193,Cruz Azul,Club León,2021-11-04T03:00:00+00:00,11,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_21_22,9605202,Pumas UNAM,Santos Laguna,2021-11-05T01:00:00+00:00,11,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_22_23,10367233,Club Puebla,FC Juárez,2022-08-27T00:00:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367248,Mazatlán FC,Club América,2022-08-27T02:05:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367252,Cruz Azul,Querétaro FC,2022-08-27T22:00:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367247,Tigres UANL,Club Necaxa,2022-08-28T00:05:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367243,CD Guadalajara,Pumas UNAM,2022-08-28T02:05:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367253,CD Toluca,CF Pachuca,2022-08-28T17:00:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367244,Club León,Atlas FC,2022-08-29T00:00:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367246,Santos Laguna,Atlético San Luis,2022-08-29T00:05:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367250,Club Tijuana,CF Monterrey,2022-08-29T02:05:00+00:00,11,17,16,11,0.0625,0.375,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367255,Atlético San Luis,Club Tijuana,2022-09-02T00:00:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367258,Querétaro FC,Club Puebla,2022-09-02T02:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367262,Club Necaxa,Club León,2022-09-03T00:00:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367254,FC Juárez,Cruz Azul,2022-09-03T02:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367259,CF Pachuca,Santos Laguna,2022-09-03T22:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367256,CF Monterrey,Mazatlán FC,2022-09-04T00:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367260,Atlas FC,Pumas UNAM,2022-09-04T00:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367261,Club América,Tigres UANL,2022-09-04T02:05:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367272,CD Toluca,CD Guadalajara,2022-09-04T22:30:00+00:00,12,17,16,12,0.0625,0.3125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367270,Club León,FC Juárez,2022-09-07T00:00:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367267,Santos Laguna,Club Necaxa,2022-09-07T00:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367257,Club América,Atlético San Luis,2022-09-07T02:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367269,CF Monterrey,Cruz Azul,2022-09-07T02:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367268,Tigres UANL,CD Toluca,2022-09-08T00:00:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367271,Club Puebla,CF Pachuca,2022-09-08T00:00:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367263,Club Tijuana,CD Guadalajara,2022-09-08T02:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367266,Pumas UNAM,Querétaro FC,2022-09-08T02:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367278,Mazatlán FC,Atlas FC,2022-09-08T02:05:00+00:00,13,17,16,13,0.0625,0.25,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367265,FC Juárez,CF Monterrey,2022-09-10T02:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367280,Querétaro FC,Santos Laguna,2022-09-10T22:00:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367264,Club Necaxa,Club América,2022-09-11T00:00:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367279,Tigres UANL,Club León,2022-09-11T00:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367274,CD Toluca,Pumas UNAM,2022-09-11T02:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367277,CD Guadalajara,Club Puebla,2022-09-11T02:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367275,Cruz Azul,Mazatlán FC,2022-09-11T21:00:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367273,Atlas FC,Atlético San Luis,2022-09-11T23:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367281,CF Pachuca,Club Tijuana,2022-09-12T01:05:00+00:00,14,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367237,CD Guadalajara,Tigres UANL,2022-09-14T02:00:00+00:00,9,17,16,14,0.0625,0.1875,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367196,Club América,Santos Laguna,2022-09-15T02:05:00+00:00,5,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10679217,FC Juárez,CF Pachuca,2022-09-15T02:05:00+00:00,8,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367282,Club Puebla,Tigres UANL,2022-09-17T00:00:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367290,Mazatlán FC,CD Toluca,2022-09-17T02:00:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367286,CF Monterrey,Atlas FC,2022-09-18T00:05:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367276,Club América,CD Guadalajara,2022-09-18T01:00:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367288,Pumas UNAM,Cruz Azul,2022-09-18T22:00:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367287,Santos Laguna,FC Juárez,2022-09-19T00:05:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367291,Club León,Querétaro FC,2022-09-19T00:05:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367285,Atlético San Luis,CF Pachuca,2022-09-19T02:00:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10367289,Club Tijuana,Club Necaxa,2022-09-19T02:05:00+00:00,15,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_22_23,10544937,Club Puebla,Pumas UNAM,2022-09-24T02:05:00+00:00,7,17,16,15,0.0625,0.125,less_progress_than_majority
+Liga_MX_Apertura_23_24,11341802,Tigres UANL,Santos Laguna,2023-08-31T03:00:00+00:00,5,17,6,7,0.6875,0.625,more_progress_than_majority
+Liga_MX_Apertura_23_24,11583848,Querétaro FC,Club América,2023-09-21T02:06:00+00:00,2,17,8,9,0.5625,0.5,more_progress_than_majority
+Liga_MX_Apertura_23_24,11717262,CF Monterrey,Club Tijuana,2023-10-26T01:00:00+00:00,4,17,13,14,0.25,0.1875,more_progress_than_majority
+Liga_MX_Apertura_23_24,11341874,FC Juárez,Atlético San Luis,2023-10-26T03:00:00+00:00,11,17,13,14,0.25,0.1875,more_progress_than_majority
+Liga_MX_Apertura_23_24,11697220,CF Monterrey,Santos Laguna,2023-11-09T02:00:00+00:00,10,17,16,17,0.0625,0.0,more_progress_than_majority
+Liga_MX_Apertura_25_26,13984769,CD Guadalajara,Tigres UANL,2025-09-18T01:05:00+00:00,1,17,8,9,0.5625,0.5,more_progress_than_majority
+Liga_MX_Apertura_26_26,16997436,Pumas UNAM,Club León,2026-09-11T03:05:00+00:00,7,17,7,8,0.625,0.5625,more_progress_than_majority
+Liga_MX_Clausura_15_16,6973326,Mazatlán FC,Jaguares F.C.,2016-03-27T02:30:00+00:00,6,17,11,12,0.375,0.3125,more_progress_than_majority
+Liga_MX_Clausura_16_17,7376579,Jaguares F.C.,Club León,2017-04-12T00:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376574,Tigres UANL,CD Guadalajara,2017-04-12T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376580,Veracruz,Club Puebla,2017-04-12T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376578,Querétaro FC,Club Tijuana,2017-04-13T00:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376572,Santos Laguna,CF Monterrey,2017-04-13T00:30:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376576,Club América,Club Necaxa,2017-04-13T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376577,CF Pachuca,Mazatlán FC,2017-04-13T02:06:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376575,Atlas FC,Pumas UNAM,2017-04-13T02:30:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_16_17,7376573,CD Toluca,Cruz Azul,2017-04-14T02:00:00+00:00,10,17,13,10,0.25,0.4375,less_progress_than_majority
+Liga_MX_Clausura_19_20,8525058,Club Puebla,Club América,2020-02-05T02:30:00+00:00,1,17,4,5,0.8125,0.75,more_progress_than_majority
+Liga_MX_Clausura_19_20,8525059,Club Necaxa,CF Monterrey,2020-02-06T02:30:00+00:00,1,17,4,5,0.8125,0.75,more_progress_than_majority
+Liga_MX_Clausura_20_21,9251779,Tigres UANL,Cruz Azul,2021-02-18T03:00:00+00:00,6,17,6,7,0.6875,0.625,more_progress_than_majority
+Liga_MX_Clausura_20_21,9296894,CF Monterrey,Club León,2021-03-11T03:00:00+00:00,3,17,10,11,0.4375,0.375,more_progress_than_majority
+Liga_MX_Clausura_20_21,9251827,FC Juárez,Tigres UANL,2021-04-15T02:00:00+00:00,5,17,14,15,0.1875,0.125,more_progress_than_majority
+Liga_MX_Clausura_20_21,9251854,CF Monterrey,CD Guadalajara,2021-04-22T02:10:00+00:00,12,17,15,16,0.125,0.0625,more_progress_than_majority
+Liga_MX_Clausura_21_22,10055172,Santos Laguna,Tigres UANL,2022-01-13T02:06:00+00:00,1,17,1,2,1.0,0.9375,more_progress_than_majority
+Liga_MX_Clausura_21_22,10020040,Club León,Atlas FC,2022-01-20T03:00:00+00:00,1,17,2,3,0.9375,0.875,more_progress_than_majority
+Liga_MX_Clausura_21_22,10183721,CF Monterrey,FC Juárez,2022-03-16T03:06:00+00:00,5,17,10,11,0.4375,0.375,more_progress_than_majority
+Liga_MX_Clausura_21_22,10020131,CD Toluca,CF Monterrey,2022-04-07T00:00:00+00:00,4,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Clausura_21_22,10233197,Club Tijuana,Atlético San Luis,2022-04-07T02:06:00+00:00,9,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Clausura_21_22,10221367,CF Pachuca,Tigres UANL,2022-04-08T00:00:00+00:00,9,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Clausura_21_22,10223123,CD Guadalajara,CF Monterrey,2022-04-14T01:05:00+00:00,12,17,13,14,0.25,0.1875,more_progress_than_majority
+Liga_MX_Clausura_22_23,11015818,Atlas FC,CD Toluca,2023-02-02T02:05:00+00:00,1,17,4,5,0.8125,0.75,more_progress_than_majority
+Liga_MX_Clausura_22_23,10911786,Cruz Azul,Atlas FC,2023-02-23T02:05:00+00:00,7,17,8,9,0.5625,0.5,more_progress_than_majority
+Liga_MX_Clausura_22_23,10911787,Santos Laguna,CD Toluca,2023-02-24T02:00:00+00:00,7,17,8,9,0.5625,0.5,more_progress_than_majority
+Liga_MX_Clausura_22_23,11015219,Querétaro FC,Cruz Azul,2023-03-30T03:05:00+00:00,4,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Clausura_23_24,11911193,Club León,Tigres UANL,2024-01-18T01:00:00+00:00,1,17,1,2,1.0,0.9375,more_progress_than_majority
+Liga_MX_Clausura_23_24,11911184,CF Pachuca,Club León,2024-02-08T03:10:00+00:00,2,17,5,6,0.75,0.6875,more_progress_than_majority
+Liga_MX_Clausura_23_24,11911137,Club Puebla,Querétaro FC,2024-02-24T01:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911133,Club Necaxa,CF Pachuca,2024-02-24T03:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911132,FC Juárez,CF Monterrey,2024-02-24T03:10:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911135,Club León,Atlético San Luis,2024-02-24T23:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911128,Tigres UANL,Atlas FC,2024-02-25T01:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911136,CD Guadalajara,Pumas UNAM,2024-02-25T01:05:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911131,Club América,Cruz Azul,2024-02-25T03:10:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911130,CD Toluca,Club Tijuana,2024-02-25T18:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911129,Santos Laguna,Mazatlán FC,2024-02-26T00:00:00+00:00,8,17,9,8,0.5,0.5625,less_progress_than_majority
+Liga_MX_Clausura_23_24,11911121,Tigres UANL,FC Juárez,2024-02-29T01:00:00+00:00,9,17,9,10,0.5,0.4375,more_progress_than_majority
+Liga_MX_Clausura_23_24,11911124,Club Tijuana,CF Monterrey,2024-02-29T03:00:00+00:00,9,17,9,10,0.5,0.4375,more_progress_than_majority
+Liga_MX_Clausura_23_24,12154131,FC Juárez,Club Puebla,2024-03-24T01:00:00+00:00,7,17,12,13,0.3125,0.25,more_progress_than_majority
+Liga_MX_Clausura_24_25,13256016,CF Pachuca,Club León,2025-02-06T03:10:00+00:00,1,17,5,6,0.75,0.6875,more_progress_than_majority
+Liga_MX_Clausura_25_26,15238992,CD Guadalajara,Club León,2026-03-19T02:07:00+00:00,9,17,11,12,0.375,0.3125,more_progress_than_majority
+Ligue_1_11_12,1763665,Thonon Evian Grand Genève F.C,Olympique Lyonnais,2012-05-10T19:00:00+00:00,34,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+Ligue_1_12_13,3243867,Sochaux,Thonon Evian Grand Genève F.C,2012-11-07T17:30:00+00:00,10,38,11,12,0.7297297297297297,0.7027027027027027,more_progress_than_majority
+Ligue_1_12_13,3260813,Olympique de Marseille,Olympique Lyonnais,2012-11-28T20:00:00+00:00,10,38,14,15,0.6486486486486487,0.6216216216216216,more_progress_than_majority
+Ligue_1_12_13,2720936,Saint-Étienne,Ajaccio,2013-04-24T16:30:00+00:00,33,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Ligue_1_12_13,2720950,Stade Rennais,Troyes,2013-04-24T16:30:00+00:00,33,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Ligue_1_13_14,4820742,Saint-Étienne,Thonon Evian Grand Genève F.C,2014-01-08T19:45:00+00:00,17,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Ligue_1_13_14,4932006,Olympique de Marseille,Valenciennes,2014-01-29T18:00:00+00:00,21,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_1_14_15,5509412,Lille,Thonon Evian Grand Genève F.C,2015-01-07T19:30:00+00:00,14,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Ligue_1_14_15,6688883,Thonon Evian Grand Genève F.C,Lorient,2015-03-04T18:00:00+00:00,26,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Ligue_1_14_15,5509776,Olympique Lyonnais,Bastia,2015-04-15T16:30:00+00:00,32,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Ligue_1_15_16,6771026,Bordeaux,Paris Saint-Germain,2016-05-11T18:30:00+00:00,35,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Ligue_1_15_16,6771030,Lille,Angers,2016-04-27T16:30:00+00:00,35,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Ligue_1_15_16,6925869,Nice,Nantes,2015-11-04T17:30:00+00:00,9,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Ligue_1_15_16,7008218,Bastia,Nantes,2016-03-09T17:30:00+00:00,27,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Ligue_1_15_16,7017414,GFC Ajaccio,Olympique de Marseille,2016-03-09T17:30:00+00:00,28,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Ligue_1_16_17,7300828,Nantes,Stade Malherbe Caen,2017-01-18T19:00:00+00:00,17,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Ligue_1_16_17,7339684,Bastia,Nantes,2017-03-01T18:30:00+00:00,24,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Ligue_1_16_17,7362960,Metz,Olympique Lyonnais,2017-04-05T17:00:00+00:00,16,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Ligue_1_16_17,7398859,AS Monaco,Saint-Étienne,2017-05-17T19:00:00+00:00,31,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Ligue_1_17_18,7438696,Stade Rennais,AS Monaco,2018-04-04T16:45:00+00:00,31,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Ligue_1_17_18,7782309,Stade Malherbe Caen,Toulouse,2018-04-25T16:45:00+00:00,33,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Ligue_1_18_19,7821611,Stade Malherbe Caen,Nantes,2019-02-13T18:30:00+00:00,23,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Ligue_1_18_19,8081225,Toulouse,Olympique Lyonnais,2019-01-16T18:00:00+00:00,17,38,20,17,0.4864864864864865,0.5675675675675675,less_progress_than_majority
+Ligue_1_18_19,8081226,Angers,Bordeaux,2019-01-15T18:00:00+00:00,17,38,20,17,0.4864864864864865,0.5675675675675675,less_progress_than_majority
+Ligue_1_18_19,8081227,AS Monaco,Nice,2019-01-16T18:00:00+00:00,17,38,20,17,0.4864864864864865,0.5675675675675675,less_progress_than_majority
+Ligue_1_18_19,8081229,Nîmes Olympique,Nantes,2019-01-16T18:00:00+00:00,17,38,20,17,0.4864864864864865,0.5675675675675675,less_progress_than_majority
+Ligue_1_18_19,8081230,Saint-Étienne,Olympique de Marseille,2019-01-16T20:00:00+00:00,17,38,20,17,0.4864864864864865,0.5675675675675675,less_progress_than_majority
+Ligue_1_18_19,8084622,Guingamp,Stade Rennais,2019-01-16T18:00:00+00:00,18,38,20,18,0.4864864864864865,0.5405405405405406,less_progress_than_majority
+Ligue_1_18_19,8089133,Amiens SC,Angers,2019-01-08T18:00:00+00:00,18,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Ligue_1_18_19,8089134,Nantes,Montpellier,2019-01-08T18:00:00+00:00,18,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Ligue_1_18_19,8089135,Paris Saint-Germain,Montpellier,2019-02-20T20:00:00+00:00,17,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Ligue_1_18_19,8102608,Nîmes Olympique,Angers,2019-01-23T18:00:00+00:00,20,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Ligue_1_18_19,8114653,Nantes,Saint-Étienne,2019-01-30T20:00:00+00:00,22,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_1_18_19,8122939,Bordeaux,Guingamp,2019-02-20T18:00:00+00:00,23,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Ligue_1_18_19,8130741,Saint-Étienne,RC Strasbourg,2019-02-13T18:00:00+00:00,23,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Ligue_1_18_19,8174656,Nantes,Paris Saint-Germain,2019-04-17T17:00:00+00:00,28,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Ligue_1_20_21,8850701,Paris Saint-Germain,Metz,2020-09-16T19:00:00+00:00,1,38,3,4,0.9459459459459459,0.918918918918919,more_progress_than_majority
+Ligue_1_20_21,8858170,Olympique de Marseille,Saint-Étienne,2020-09-17T19:00:00+00:00,1,38,3,4,0.9459459459459459,0.918918918918919,more_progress_than_majority
+Ligue_1_20_21,8909435,RC Lens,Paris Saint-Germain,2020-09-10T19:00:00+00:00,2,38,2,3,0.972972972972973,0.9459459459459459,more_progress_than_majority
+Ligue_1_20_21,9173040,RC Lens,Nantes,2020-11-25T18:00:00+00:00,8,38,11,12,0.7297297297297297,0.7027027027027027,more_progress_than_majority
+Ligue_1_20_21,9216939,Olympique de Marseille,RC Lens,2021-01-20T20:00:00+00:00,9,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Ligue_1_20_21,9304444,Lorient,Dijon,2021-01-27T20:00:00+00:00,20,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Ligue_1_20_21,9332599,Olympique de Marseille,Nice,2021-02-17T20:00:00+00:00,11,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Ligue_1_20_21,9343516,Nîmes Olympique,Lorient,2021-02-24T18:00:00+00:00,21,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Ligue_1_20_21,9362861,Olympique de Marseille,Stade Rennais,2021-03-10T18:00:00+00:00,22,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Ligue_1_21_22,9594914,Nantes,Stade Rennais,2022-05-11T19:00:00+00:00,36,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+Ligue_1_21_22,9799261,Nice,Olympique de Marseille,2021-10-27T19:00:00+00:00,3,38,11,12,0.7297297297297297,0.7027027027027027,more_progress_than_majority
+Ligue_1_21_22,10056696,Clermont Foot,RC Strasbourg,2022-01-19T18:00:00+00:00,19,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Ligue_1_21_22,10062932,Lille,Lorient,2022-01-19T18:00:00+00:00,20,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Ligue_1_21_22,10062934,Montpellier,Troyes,2022-01-19T18:00:00+00:00,20,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Ligue_1_21_22,10097623,Olympique Lyonnais,Olympique de Marseille,2022-02-01T20:00:00+00:00,14,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_1_22_23,10648386,Lorient,Olympique Lyonnais,2022-09-07T17:00:00+00:00,2,38,6,7,0.8648648648648649,0.8378378378378378,more_progress_than_majority
+Ligue_1_23_24,11815217,Olympique de Marseille,Olympique Lyonnais,2023-12-06T20:00:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Ligue_1_23_24,11820586,Stade Brestois,RC Strasbourg,2023-12-07T19:30:00+00:00,12,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Ligue_1_23_24,11842698,Montpellier,Clermont Foot,2023-11-29T18:00:00+00:00,8,34,13,14,0.6363636363636364,0.6060606060606061,more_progress_than_majority
+Ligue_1_23_24,12181413,Lorient,Paris Saint-Germain,2024-04-24T17:00:00+00:00,29,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Ligue_1_23_24,12184778,AS Monaco,Lille,2024-04-24T19:00:00+00:00,29,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Ligue_1_23_24,12184790,Olympique de Marseille,Nice,2024-04-24T19:00:00+00:00,29,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Ligue_1_25_26,14167914,Paris Saint-Germain,Nantes,2026-04-22T17:00:00+00:00,26,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Ligue_2_10_11,1569366,Thonon Evian Grand Genève F.C,Stade Lavallois,2010-12-14T19:00:00+00:00,17,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Ligue_2_11_12,2155448,Arles,Guingamp,2011-11-22T18:00:00+00:00,14,38,14,15,0.6486486486486487,0.6216216216216216,more_progress_than_majority
+Ligue_2_12_13,3648719,Stade Malherbe Caen,Istres FC,2013-03-24T19:30:00+00:00,28,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Ligue_2_13_14,5425088,Stade Malherbe Caen,Nîmes Olympique,2014-05-13T18:00:00+00:00,28,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Ligue_2_20_21,9486429,Toulouse,Pau FC,2021-05-12T17:00:00+00:00,35,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Ligue_2_21_22,9595419,Bastia,Nancy,2021-08-11T17:00:00+00:00,3,38,3,4,0.9459459459459459,0.918918918918919,more_progress_than_majority
+Ligue_2_21_22,10065522,Chamois Niortais,USL Dunkerque,2022-02-01T18:00:00+00:00,21,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_2_21_22,10079095,Auxerre,Paris FC,2022-02-01T18:00:00+00:00,22,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_2_21_22,10079096,Pau FC,Nîmes Olympique,2022-02-01T18:00:00+00:00,22,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_2_21_22,10080608,Valenciennes,Nancy,2022-02-01T18:00:00+00:00,22,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Ligue_2_24_25,12451233,Ajaccio,Bastia,2024-12-03T18:30:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Premier_League_10_11,1588800,Blackpool,Liverpool FC,2011-01-12T20:00:00+00:00,19,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premier_League_10_11,1592366,Blackpool,Tottenham Hotspur,2011-02-22T20:00:00+00:00,18,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premier_League_10_11,1588346,Arsenal,Stoke City,2011-02-23T19:45:00+00:00,18,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premier_League_11_12,2155438,Tottenham Hotspur,Everton,2012-01-11T19:45:00+00:00,1,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Premier_League_12_13,2754990,Chelsea,Southampton,2013-01-16T19:45:00+00:00,17,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premier_League_12_13,3645979,Manchester City,Wigan Athletic,2013-04-17T18:45:00+00:00,29,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_12_13,3645981,West Ham United,Manchester United,2013-04-17T18:45:00+00:00,29,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_12_13,3673639,Fulham,Chelsea,2013-04-17T19:00:00+00:00,29,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_13_14,5089630,West Ham United,Hull City,2014-03-26T19:45:00+00:00,29,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Premier_League_13_14,3965625,Liverpool FC,Sunderland,2014-03-26T20:00:00+00:00,29,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Premier_League_14_15,6687033,Leicester City,Chelsea,2015-04-29T18:45:00+00:00,27,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_15_16,7030823,Arsenal,West Bromwich Albion,2016-04-21T18:45:00+00:00,30,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_16_17,7374908,Manchester City,Manchester United,2017-04-27T19:00:00+00:00,26,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_16_17,7389501,Leicester City,Tottenham Hotspur,2017-05-18T18:45:00+00:00,34,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Premier_League_17_18,7437969,Arsenal,Manchester City,2018-03-01T19:45:00+00:00,28,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premier_League_17_18,7759902,Burnley,Chelsea,2018-04-19T18:45:00+00:00,31,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_17_18,7769665,Swansea City,Southampton,2018-05-08T18:45:00+00:00,31,38,37,31,0.02702702702702703,0.1891891891891892,less_progress_than_majority
+Premier_League_17_18,7769666,Leicester City,Arsenal,2018-05-09T18:45:00+00:00,31,38,37,31,0.02702702702702703,0.1891891891891892,less_progress_than_majority
+Premier_League_17_18,7769667,Tottenham Hotspur,Newcastle United,2018-05-09T19:00:00+00:00,31,38,37,31,0.02702702702702703,0.1891891891891892,less_progress_than_majority
+Premier_League_17_18,7769668,West Ham United,Manchester United,2018-05-10T18:45:00+00:00,31,38,37,31,0.02702702702702703,0.1891891891891892,less_progress_than_majority
+Premier_League_17_18,7769669,Chelsea,Huddersfield Town,2018-05-09T18:45:00+00:00,35,38,37,35,0.02702702702702703,0.08108108108108109,less_progress_than_majority
+Premier_League_17_18,7769670,Manchester City,Brighton & Hove Albion,2018-05-09T19:00:00+00:00,31,38,37,31,0.02702702702702703,0.1891891891891892,less_progress_than_majority
+Premier_League_18_19,8151144,Manchester United,Manchester City,2019-04-24T19:00:00+00:00,31,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Premier_League_18_19,8167494,Tottenham Hotspur,Crystal Palace,2019-04-03T18:45:00+00:00,31,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Premier_League_18_19,8170431,Chelsea,Brighton & Hove Albion,2019-04-03T18:45:00+00:00,27,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Premier_League_19_20,8532930,West Ham United,Liverpool FC,2020-01-29T19:45:00+00:00,18,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premier_League_19_20,8674007,Aston Villa,Sheffield United,2020-06-17T17:00:00+00:00,28,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premier_League_19_20,8674008,Manchester City,Arsenal,2020-06-17T19:15:00+00:00,28,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premier_League_20_21,8897063,Leeds United,Chelsea,2021-03-13T12:30:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897064,Leicester City,Sheffield United,2021-03-14T14:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897067,Fulham,Manchester City,2021-03-13T20:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897069,Everton,Burnley,2021-03-13T17:30:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897073,Manchester United,West Ham United,2021-03-14T19:15:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897076,Arsenal,Tottenham Hotspur,2021-03-14T16:30:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897078,Crystal Palace,West Bromwich Albion,2021-03-13T15:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897079,Newcastle United,Aston Villa,2021-03-12T20:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897081,Southampton,Brighton & Hove Albion,2021-03-14T12:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897082,Chelsea,Everton,2021-03-08T18:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897083,Wolverhampton,Liverpool FC,2021-03-15T20:00:00+00:00,28,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,8897087,Aston Villa,Wolverhampton,2021-03-06T17:30:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897090,Liverpool FC,Fulham,2021-03-07T14:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897091,Burnley,Arsenal,2021-03-06T12:30:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897095,West Bromwich Albion,Newcastle United,2021-03-07T12:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897097,Brighton & Hove Albion,Leicester City,2021-03-06T20:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897099,Manchester City,Manchester United,2021-03-07T16:30:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897101,Sheffield United,Southampton,2021-03-06T15:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897105,West Ham United,Leeds United,2021-03-08T20:00:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897106,Tottenham Hotspur,Crystal Palace,2021-03-07T19:15:00+00:00,27,38,29,27,0.24324324324324326,0.2972972972972973,less_progress_than_majority
+Premier_League_20_21,8897126,Leicester City,West Bromwich Albion,2021-04-22T19:00:00+00:00,32,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Premier_League_20_21,9258868,Burnley,Manchester United,2021-01-12T20:15:00+00:00,1,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premier_League_20_21,9277342,Tottenham Hotspur,Fulham,2021-01-13T20:15:00+00:00,16,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premier_League_20_21,9282832,Aston Villa,Newcastle United,2021-01-23T20:00:00+00:00,11,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premier_League_20_21,9326472,Everton,Manchester City,2021-02-17T20:15:00+00:00,16,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premier_League_20_21,9356100,Aston Villa,Tottenham Hotspur,2021-03-21T19:30:00+00:00,18,38,29,28,0.24324324324324326,0.2702702702702703,less_progress_than_majority
+Premier_League_20_21,9501660,Aston Villa,Everton,2021-05-13T17:00:00+00:00,19,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Premier_League_20_21,9502921,Southampton,Crystal Palace,2021-05-11T19:15:00+00:00,32,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Premier_League_20_21,9507199,Manchester United,Liverpool FC,2021-05-13T19:15:00+00:00,34,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Premier_League_21_22,10045752,Southampton,Brentford,2022-01-11T19:45:00+00:00,18,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premier_League_21_22,10045754,West Ham United,Norwich City,2022-01-12T19:45:00+00:00,18,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premier_League_21_22,10054009,Brentford,Manchester United,2022-01-19T20:00:00+00:00,17,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premier_League_21_22,10065225,Leicester City,Tottenham Hotspur,2022-01-19T19:30:00+00:00,17,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premier_League_21_22,10085333,Burnley,Watford,2022-02-05T18:00:00+00:00,17,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Premier_League_21_22,10114687,Burnley,Tottenham Hotspur,2022-02-23T19:30:00+00:00,13,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premier_League_21_22,10114688,Watford,Crystal Palace,2022-02-23T19:30:00+00:00,18,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premier_League_21_22,10114693,Liverpool FC,Leeds United,2022-02-23T19:45:00+00:00,19,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premier_League_21_22,10114694,Arsenal,Wolverhampton,2022-02-24T19:45:00+00:00,20,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premier_League_21_22,10144875,Arsenal,Liverpool FC,2022-03-16T20:15:00+00:00,27,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premier_League_21_22,10144887,Leeds United,Aston Villa,2022-03-10T19:45:00+00:00,20,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premier_League_21_22,10144888,Everton,Newcastle United,2022-03-17T19:45:00+00:00,20,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premier_League_21_22,10144889,Southampton,Newcastle United,2022-03-10T19:30:00+00:00,21,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premier_League_21_22,10144893,Wolverhampton,Watford,2022-03-10T19:30:00+00:00,19,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premier_League_21_22,10196711,Everton,Leicester City,2022-04-20T18:45:00+00:00,18,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_21_22,10196712,Chelsea,Arsenal,2022-04-20T18:45:00+00:00,25,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_21_22,10196713,Burnley,Southampton,2022-04-21T18:45:00+00:00,30,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_21_22,10196714,Manchester City,Brighton & Hove Albion,2022-04-20T19:00:00+00:00,30,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_21_22,10196717,Newcastle United,Crystal Palace,2022-04-20T18:45:00+00:00,30,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Premier_League_21_22,10236815,Tottenham Hotspur,Arsenal,2022-05-12T18:45:00+00:00,22,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+Premier_League_22_23,10913240,Fulham,Chelsea,2023-01-12T20:00:00+00:00,7,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premier_League_22_23,10913242,Manchester City,Tottenham Hotspur,2023-01-19T20:00:00+00:00,7,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Premier_League_22_23,10979293,Crystal Palace,Manchester United,2023-01-18T20:00:00+00:00,7,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Premier_League_22_23,11007089,Manchester United,Leeds United,2023-02-08T20:00:00+00:00,8,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premier_League_22_23,11047751,Arsenal,Everton,2023-03-01T19:45:00+00:00,7,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premier_League_22_23,11047752,Liverpool FC,Wolverhampton,2023-03-01T20:00:00+00:00,7,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premier_League_22_23,11055512,Brighton & Hove Albion,Crystal Palace,2023-03-15T19:30:00+00:00,8,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premier_League_22_23,11055513,Southampton,Brentford,2023-03-15T19:30:00+00:00,7,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premier_League_22_23,11077408,Bournemouth,Brighton & Hove Albion,2023-04-04T18:45:00+00:00,7,38,29,7,0.24324324324324326,0.8378378378378378,less_progress_than_majority
+Premier_League_22_23,11077461,Leeds United,Nottingham Forest,2023-04-04T18:45:00+00:00,7,38,29,7,0.24324324324324326,0.8378378378378378,less_progress_than_majority
+Premier_League_22_23,11077466,Leicester City,Aston Villa,2023-04-04T18:45:00+00:00,7,38,29,7,0.24324324324324326,0.8378378378378378,less_progress_than_majority
+Premier_League_22_23,11077467,West Ham United,Newcastle United,2023-04-05T19:00:00+00:00,7,38,29,7,0.24324324324324326,0.8378378378378378,less_progress_than_majority
+Premier_League_22_23,11077468,Chelsea,Liverpool FC,2023-04-04T19:00:00+00:00,8,38,29,8,0.24324324324324326,0.8108108108108109,less_progress_than_majority
+Premier_League_22_23,11077474,Manchester United,Brentford,2023-04-05T19:00:00+00:00,25,38,29,25,0.24324324324324326,0.35135135135135137,less_progress_than_majority
+Premier_League_22_23,11157237,Brighton & Hove Albion,Manchester United,2023-05-04T19:00:00+00:00,28,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_22_23,11227333,Newcastle United,Brighton & Hove Albion,2023-05-18T18:30:00+00:00,25,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+Premier_League_22_23,11230171,Manchester United,Chelsea,2023-05-25T19:00:00+00:00,32,38,37,38,0.02702702702702703,0.0,more_progress_than_majority
+Premier_League_23_24,11352315,Brighton & Hove Albion,Wolverhampton,2024-01-22T19:45:00+00:00,21,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premier_League_23_24,12190322,Arsenal,Chelsea,2024-04-23T19:00:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12190332,Wolverhampton,Bournemouth,2024-04-24T18:45:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12190336,Manchester United,Sheffield United,2024-04-24T19:00:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12190339,Everton,Liverpool FC,2024-04-24T19:00:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12190340,Crystal Palace,Newcastle United,2024-04-24T19:00:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12190341,Brighton & Hove Albion,Manchester City,2024-04-25T19:00:00+00:00,29,38,34,29,0.10810810810810811,0.24324324324324326,less_progress_than_majority
+Premier_League_23_24,12226774,Chelsea,Tottenham Hotspur,2024-05-02T18:30:00+00:00,26,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Premier_League_24_25,12436552,Nottingham Forest,Brentford,2025-05-01T18:30:00+00:00,34,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Premier_League_24_25,13344418,Everton,Liverpool FC,2025-02-12T19:30:00+00:00,15,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premier_League_25_26,15999228,Manchester City,Crystal Palace,2026-05-13T19:00:00+00:00,31,38,36,37,0.05405405405405406,0.02702702702702703,more_progress_than_majority
+Premiership_10_11,1570113,Motherwell,Heart of Midlothian,2010-12-14T19:45:00+00:00,15,38,15,17,0.6216216216216216,0.5675675675675675,more_progress_than_majority
+Premiership_10_11,1580162,Celtic,Kilmarnock,2010-12-21T19:45:00+00:00,17,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premiership_10_11,1594187,Dundee United,Motherwell,2011-01-12T19:45:00+00:00,17,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premiership_10_11,1594188,Hamilton Academical,Celtic,2011-01-12T19:45:00+00:00,18,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premiership_10_11,1594279,Aberdeen,Celtic,2011-02-01T19:45:00+00:00,16,38,24,16,0.3783783783783784,0.5945945945945946,less_progress_than_majority
+Premiership_10_11,1594280,St. Johnstone,Hamilton Academical,2011-02-01T19:45:00+00:00,16,38,24,16,0.3783783783783784,0.5945945945945946,less_progress_than_majority
+Premiership_10_11,1594281,Hibernian,St. Mirren,2011-02-02T19:45:00+00:00,16,38,24,16,0.3783783783783784,0.5945945945945946,less_progress_than_majority
+Premiership_10_11,1594283,Motherwell,Kilmarnock,2011-02-02T19:45:00+00:00,16,38,24,16,0.3783783783783784,0.5945945945945946,less_progress_than_majority
+Premiership_10_11,1594284,Rangers,Heart of Midlothian,2011-02-02T19:45:00+00:00,16,38,24,16,0.3783783783783784,0.5945945945945946,less_progress_than_majority
+Premiership_10_11,1380273,Motherwell,St. Mirren,2011-02-23T19:45:00+00:00,25,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_10_11,1653724,St. Johnstone,Aberdeen,2011-03-02T19:45:00+00:00,26,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premiership_10_11,1619175,Dundee United,Heart of Midlothian,2011-03-16T19:45:00+00:00,22,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_10_11,1693855,St. Johnstone,Rangers,2011-04-05T17:00:00+00:00,20,38,31,33,0.1891891891891892,0.13513513513513514,more_progress_than_majority
+Premiership_10_11,1685432,Celtic,Hibernian,2011-04-06T18:45:00+00:00,30,38,31,33,0.1891891891891892,0.13513513513513514,more_progress_than_majority
+Premiership_10_11,1380299,Aberdeen,Rangers,2011-04-13T18:45:00+00:00,30,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_10_11,1694684,Rangers,St. Mirren,2011-04-16T14:00:00+00:00,18,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_10_11,1613165,Dundee United,Rangers,2011-04-19T18:45:00+00:00,15,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_10_11,1380272,Kilmarnock,Celtic,2011-04-20T18:30:00+00:00,25,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_10_11,1716611,Inverness Caledonian Thistle,Celtic,2011-05-04T17:00:00+00:00,31,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_11_12,1898479,Hibernian,St. Johnstone,2011-09-28T18:45:00+00:00,3,38,9,10,0.7837837837837838,0.7567567567567568,more_progress_than_majority
+Premiership_11_12,1768360,Celtic,Dunfermline Athletic,2011-11-23T19:45:00+00:00,2,38,15,16,0.6216216216216216,0.5945945945945946,more_progress_than_majority
+Premiership_11_12,2353270,Dunfermline Athletic,Kilmarnock,2012-02-07T19:45:00+00:00,18,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_11_12,1768798,Heart of Midlothian,Celtic,2012-02-08T19:45:00+00:00,25,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_11_12,2364002,Motherwell,Hibernian,2012-02-22T19:45:00+00:00,17,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_11_12,2404538,Inverness Caledonian Thistle,St. Johnstone,2012-03-28T18:45:00+00:00,22,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Premiership_12_13,3185295,Motherwell,Dundee United,2012-11-07T19:45:00+00:00,9,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Premiership_12_13,2913031,Dundee FC,Kilmarnock,2013-01-27T15:00:00+00:00,16,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Premiership_12_13,2762704,Inverness Caledonian Thistle,Kilmarnock,2013-02-13T19:45:00+00:00,24,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premiership_12_13,2913047,Dundee FC,St. Mirren,2013-03-06T19:45:00+00:00,24,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_13_14,4657626,St. Mirren,Ross County,2013-11-17T15:00:00+00:00,12,38,13,14,0.6756756756756757,0.6486486486486487,more_progress_than_majority
+Premiership_13_14,3971489,Celtic,Kilmarnock,2014-01-29T19:45:00+00:00,22,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premiership_13_14,3964779,Celtic,St. Mirren,2014-02-02T15:00:00+00:00,2,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premiership_13_14,4996112,Aberdeen,Celtic,2014-02-25T19:45:00+00:00,25,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_13_14,4996116,St. Johnstone,Motherwell,2014-02-25T19:45:00+00:00,25,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_13_14,4996124,Ross County,Inverness Caledonian Thistle,2014-02-25T19:45:00+00:00,11,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_13_14,4996110,Dundee United,St. Johnstone,2014-03-12T19:45:00+00:00,24,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premiership_13_14,5105132,Inverness Caledonian Thistle,Hibernian,2014-03-12T19:45:00+00:00,25,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premiership_13_14,4996108,Motherwell,Inverness Caledonian Thistle,2014-03-19T19:45:00+00:00,21,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_13_14,3971559,Heart of Midlothian,Aberdeen,2014-04-02T18:45:00+00:00,29,38,32,33,0.16216216216216217,0.13513513513513514,more_progress_than_majority
+Premiership_14_15,6091178,Aberdeen,St. Mirren,2014-09-30T18:45:00+00:00,3,38,8,9,0.8108108108108109,0.7837837837837838,more_progress_than_majority
+Premiership_14_15,5587698,Celtic,Partick Thistle,2014-12-03T19:45:00+00:00,1,38,14,15,0.6486486486486487,0.6216216216216216,more_progress_than_majority
+Premiership_14_15,5587588,Aberdeen,Ross County,2015-02-07T15:00:00+00:00,23,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_14_15,6654747,Partick Thistle,Celtic,2015-02-11T19:45:00+00:00,19,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_15_16,6993009,Partick Thistle,Motherwell,2016-02-02T19:45:00+00:00,17,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premiership_15_16,6981707,St. Johnstone,Aberdeen,2016-02-06T15:00:00+00:00,22,38,24,26,0.3783783783783784,0.32432432432432434,more_progress_than_majority
+Premiership_15_16,6993010,Ross County,Heart of Midlothian,2016-02-10T19:45:00+00:00,25,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_15_16,6993012,Partick Thistle,St. Johnstone,2016-02-23T19:45:00+00:00,20,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Premiership_15_16,6993013,Heart of Midlothian,Inverness Caledonian Thistle,2016-03-01T19:45:00+00:00,17,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premiership_15_16,7019799,Partick Thistle,Aberdeen,2016-03-08T19:45:00+00:00,27,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_15_16,7014371,St. Johnstone,Inverness Caledonian Thistle,2016-03-09T19:45:00+00:00,25,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_15_16,6773495,St. Johnstone,Ross County,2016-03-16T19:45:00+00:00,30,38,30,31,0.21621621621621623,0.1891891891891892,more_progress_than_majority
+Premiership_16_17,7255528,Heart of Midlothian,Rangers,2016-11-30T19:45:00+00:00,10,38,15,16,0.6216216216216216,0.5945945945945946,more_progress_than_majority
+Premiership_16_17,7092249,Aberdeen,Kilmarnock,2016-12-06T19:45:00+00:00,15,38,16,17,0.5945945945945946,0.5675675675675675,more_progress_than_majority
+Premiership_16_17,7295223,Celtic,Hamilton Academical,2016-12-13T19:45:00+00:00,10,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premiership_16_17,7298655,Celtic,Partick Thistle,2016-12-20T19:45:00+00:00,2,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_16_17,7092247,Celtic,St. Johnstone,2017-01-25T19:45:00+00:00,15,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premiership_16_17,7304547,Aberdeen,Motherwell,2017-02-15T19:45:00+00:00,10,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premiership_17_18,7452623,Rangers,Aberdeen,2017-11-29T19:45:00+00:00,10,38,15,16,0.6216216216216216,0.5945945945945946,more_progress_than_majority
+Premiership_17_18,7627914,Motherwell,Celtic,2017-11-29T19:45:00+00:00,10,38,15,16,0.6216216216216216,0.5945945945945946,more_progress_than_majority
+Premiership_17_18,7452657,Celtic,Partick Thistle,2017-12-20T19:45:00+00:00,15,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premiership_17_18,7711964,Kilmarnock,Dundee FC,2018-02-13T19:45:00+00:00,25,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premiership_17_18,7736551,Kilmarnock,St. Johnstone,2018-03-07T19:45:00+00:00,23,38,28,30,0.2702702702702703,0.21621621621621623,more_progress_than_majority
+Premiership_17_18,7753716,St. Johnstone,Hamilton Academical,2018-03-28T18:45:00+00:00,25,38,31,32,0.1891891891891892,0.16216216216216217,more_progress_than_majority
+Premiership_17_18,7738586,Hibernian,Hamilton Academical,2018-04-03T18:45:00+00:00,29,38,32,29,0.16216216216216217,0.24324324324324326,less_progress_than_majority
+Premiership_17_18,7744249,Motherwell,Aberdeen,2018-04-03T18:45:00+00:00,29,38,32,29,0.16216216216216217,0.24324324324324326,less_progress_than_majority
+Premiership_17_18,7744250,Ross County,Partick Thistle,2018-04-03T18:45:00+00:00,29,38,32,29,0.16216216216216217,0.24324324324324326,less_progress_than_majority
+Premiership_17_18,7738587,Celtic,Dundee FC,2018-04-04T18:45:00+00:00,29,38,32,29,0.16216216216216217,0.24324324324324326,less_progress_than_majority
+Premiership_18_19,7831137,Hibernian,Rangers,2018-12-19T19:45:00+00:00,10,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_18_19,7831139,Celtic,Motherwell,2018-12-19T19:45:00+00:00,10,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_18_19,7831213,Celtic,St. Johnstone,2019-01-30T19:45:00+00:00,15,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Premiership_18_19,8172141,St. Johnstone,St. Mirren,2019-03-27T19:45:00+00:00,30,38,30,31,0.21621621621621623,0.1891891891891892,more_progress_than_majority
+Premiership_19_20,8258667,Heart of Midlothian,Celtic,2019-12-18T19:45:00+00:00,12,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_19_20,8258838,Rangers,Ross County,2020-01-29T19:45:00+00:00,17,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Premiership_19_20,8258846,St. Johnstone,Celtic,2020-01-29T19:45:00+00:00,17,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Premiership_20_21,8736144,Motherwell,Ross County,2020-10-24T14:00:00+00:00,10,38,11,12,0.7297297297297297,0.7027027027027027,more_progress_than_majority
+Premiership_20_21,8736238,Hamilton Academical,St. Mirren,2021-03-20T15:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,8736240,St. Johnstone,Ross County,2021-03-20T15:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,8736241,Motherwell,Livingston,2021-03-06T15:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736247,Rangers,St. Mirren,2021-03-06T15:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736248,Celtic,Rangers,2021-03-21T12:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,8736249,Ross County,Kilmarnock,2021-03-06T15:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736250,Dundee United,Celtic,2021-03-07T12:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736251,Livingston,Hibernian,2021-03-20T15:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,8736252,St. Mirren,Celtic,2021-02-10T20:00:00+00:00,25,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Premiership_20_21,8736255,Dundee United,Aberdeen,2021-03-20T15:00:00+00:00,32,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,8736265,Livingston,Rangers,2021-03-03T18:00:00+00:00,30,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736268,Celtic,Aberdeen,2021-02-27T15:00:00+00:00,30,38,33,30,0.13513513513513514,0.21621621621621623,less_progress_than_majority
+Premiership_20_21,8736269,St. Mirren,Ross County,2021-02-27T15:00:00+00:00,30,38,33,30,0.13513513513513514,0.21621621621621623,less_progress_than_majority
+Premiership_20_21,8736271,Kilmarnock,Dundee United,2021-02-27T15:00:00+00:00,30,38,33,30,0.13513513513513514,0.21621621621621623,less_progress_than_majority
+Premiership_20_21,8736275,St. Johnstone,Hibernian,2021-03-06T15:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736280,Aberdeen,Hamilton Academical,2021-03-06T15:00:00+00:00,31,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8736283,Hibernian,Motherwell,2021-02-27T15:00:00+00:00,30,38,33,30,0.13513513513513514,0.21621621621621623,less_progress_than_majority
+Premiership_20_21,8736294,Hamilton Academical,St. Johnstone,2021-03-03T18:00:00+00:00,30,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,8834985,St. Johnstone,Aberdeen,2020-08-20T18:30:00+00:00,2,38,4,5,0.918918918918919,0.8918918918918919,more_progress_than_majority
+Premiership_20_21,8995606,St. Mirren,Celtic,2020-09-16T18:45:00+00:00,3,38,7,8,0.8378378378378378,0.8108108108108109,more_progress_than_majority
+Premiership_20_21,9242026,Livingston,Celtic,2021-01-20T20:15:00+00:00,18,38,24,25,0.3783783783783784,0.35135135135135137,more_progress_than_majority
+Premiership_20_21,9264416,Celtic,Aberdeen,2021-02-17T18:00:00+00:00,4,38,29,33,0.24324324324324326,0.13513513513513514,more_progress_than_majority
+Premiership_20_21,9325883,St. Mirren,Motherwell,2021-02-24T18:00:00+00:00,11,38,33,30,0.13513513513513514,0.21621621621621623,less_progress_than_majority
+Premiership_20_21,9336617,St. Mirren,Hamilton Academical,2021-02-17T18:00:00+00:00,12,38,29,33,0.24324324324324326,0.13513513513513514,more_progress_than_majority
+Premiership_20_21,9361997,Kilmarnock,Motherwell,2021-03-20T15:00:00+00:00,27,38,33,32,0.13513513513513514,0.16216216216216217,less_progress_than_majority
+Premiership_20_21,9362010,Livingston,Hamilton Academical,2021-03-13T15:00:00+00:00,25,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_20_21,9362012,Ross County,Hibernian,2021-03-13T15:00:00+00:00,29,38,33,31,0.13513513513513514,0.1891891891891892,less_progress_than_majority
+Premiership_21_22,9573895,Rangers,St. Johnstone,2021-12-15T19:45:00+00:00,14,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_21_22,9574066,Ross County,Celtic,2021-12-15T19:45:00+00:00,14,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_21_22,9574485,St. Mirren,Celtic,2021-12-22T19:45:00+00:00,19,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premiership_21_22,9574512,Hibernian,Aberdeen,2021-12-22T19:45:00+00:00,19,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premiership_21_22,9935157,Livingston,Hibernian,2021-12-08T19:45:00+00:00,13,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premiership_21_22,9935158,Ross County,Hibernian,2021-11-24T19:45:00+00:00,12,38,13,15,0.6756756756756757,0.6216216216216216,more_progress_than_majority
+Premiership_21_22,10013647,St. Johnstone,Ross County,2021-12-22T19:45:00+00:00,17,38,19,20,0.5135135135135135,0.4864864864864865,more_progress_than_majority
+Premiership_21_22,10035833,St. Mirren,Motherwell,2022-02-01T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10035834,Ross County,Aberdeen,2022-02-01T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10035835,Dundee FC,Dundee United,2022-02-01T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10035836,Celtic,Rangers,2022-02-02T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10035837,Livingston,St. Johnstone,2022-02-01T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10054069,Hibernian,Heart of Midlothian,2022-02-01T19:45:00+00:00,22,38,24,22,0.3783783783783784,0.43243243243243246,less_progress_than_majority
+Premiership_21_22,10116344,Aberdeen,St. Johnstone,2022-02-15T19:45:00+00:00,24,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Premiership_22_23,10698044,Ross County,Motherwell,2022-10-04T18:45:00+00:00,7,38,9,7,0.7837837837837838,0.8378378378378378,less_progress_than_majority
+Premiership_22_23,10703649,Heart of Midlothian,St. Mirren,2023-01-13T19:45:00+00:00,7,38,21,22,0.4594594594594595,0.43243243243243246,more_progress_than_majority
+Premiership_22_23,10717734,Kilmarnock,St. Johnstone,2022-10-05T18:45:00+00:00,7,38,9,7,0.7837837837837838,0.8378378378378378,less_progress_than_majority
+Premiership_22_23,10746681,Celtic,Livingston,2022-12-21T19:45:00+00:00,7,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premiership_22_23,10746682,Aberdeen,Rangers,2022-12-20T20:00:00+00:00,7,38,17,18,0.5675675675675675,0.5405405405405406,more_progress_than_majority
+Premiership_22_23,10962799,Motherwell,St. Mirren,2023-02-15T19:45:00+00:00,17,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_23_24,11742862,Dundee FC,Ross County,2023-10-24T18:45:00+00:00,8,38,8,9,0.8108108108108109,0.7837837837837838,more_progress_than_majority
+Premiership_23_24,11757890,St. Mirren,Hibernian,2023-11-08T19:45:00+00:00,12,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Premiership_23_24,11773106,St. Johnstone,Motherwell,2023-11-07T19:45:00+00:00,9,38,11,12,0.7297297297297297,0.7027027027027027,more_progress_than_majority
+Premiership_23_24,11813346,Aberdeen,Livingston,2023-12-20T19:45:00+00:00,12,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_23_24,11813349,Rangers,St. Johnstone,2023-12-20T19:45:00+00:00,12,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Premiership_23_24,11813923,Hibernian,Rangers,2024-01-24T19:45:00+00:00,18,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premiership_23_24,11813924,St. Johnstone,Aberdeen,2024-01-24T19:45:00+00:00,18,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premiership_23_24,11814981,Heart of Midlothian,Dundee FC,2024-01-23T19:45:00+00:00,12,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premiership_23_24,11945128,Rangers,Ross County,2024-02-14T19:45:00+00:00,20,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_23_24,11945129,Ross County,Hibernian,2024-03-13T19:45:00+00:00,19,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_23_24,11945130,Aberdeen,Motherwell,2024-02-14T19:45:00+00:00,20,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Premiership_23_24,11945131,Dundee FC,Aberdeen,2024-03-13T19:45:00+00:00,19,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Premiership_24_25,13055147,Celtic,Dundee United,2025-01-08T19:45:00+00:00,11,38,22,11,0.43243243243243246,0.7297297297297297,less_progress_than_majority
+Premiership_24_25,13055148,Dundee FC,Rangers,2025-01-09T20:00:00+00:00,11,38,22,11,0.43243243243243246,0.7297297297297297,less_progress_than_majority
+Premiership_24_25,13055152,Kilmarnock,Motherwell,2025-01-08T19:45:00+00:00,11,38,22,11,0.43243243243243246,0.7297297297297297,less_progress_than_majority
+Premiership_25_26,14608146,Dundee United,Aberdeen,2025-09-23T18:45:00+00:00,3,38,5,6,0.8918918918918919,0.8648648648648649,more_progress_than_majority
+Premiership_25_26,14608157,Falkirk FC,Hibernian,2025-09-23T18:45:00+00:00,3,38,5,6,0.8918918918918919,0.8648648648648649,more_progress_than_majority
+Premiership_25_26,15335315,Livingston,St. Mirren,2026-01-20T19:45:00+00:00,11,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Premiership_26_27,16362067,Dundee United,Dundee FC,2026-08-22T16:45:00+00:00,3,38,3,4,0.9459459459459459,0.918918918918919,more_progress_than_majority
+Premiership_26_27,16890989,Hibernian,Kilmarnock,2026-09-15T18:45:00+00:00,3,38,6,3,0.8648648648648649,0.9459459459459459,less_progress_than_majority
+Premiership_26_27,16890990,Falkirk FC,Heart of Midlothian,2026-09-15T18:45:00+00:00,3,38,6,3,0.8648648648648649,0.9459459459459459,less_progress_than_majority
+Premiership_26_27,16890991,Motherwell,Aberdeen,2026-09-15T18:45:00+00:00,3,38,6,3,0.8648648648648649,0.9459459459459459,less_progress_than_majority
+Pro_League_10_11,1378175,Cercle Brugge,Standard Liège,2010-12-26T12:00:00+00:00,21,30,21,22,0.3103448275862069,0.27586206896551724,more_progress_than_majority
+Pro_League_10_11,1378168,KAA Gent,Club Brugge KV,2010-12-26T17:00:00+00:00,21,30,21,22,0.3103448275862069,0.27586206896551724,more_progress_than_majority
+Pro_League_10_11,1378167,RSC Anderlecht,Koninklijke Lierse Sportkring,2010-12-26T19:30:00+00:00,21,30,21,22,0.3103448275862069,0.27586206896551724,more_progress_than_majority
+Pro_League_10_11,1588130,KAS Eupen,KV Mechelen,2011-01-18T19:30:00+00:00,15,30,22,23,0.27586206896551724,0.2413793103448276,more_progress_than_majority
+Pro_League_10_11,1588131,KV Kortrijk,KSC Lokeren Oost-Vlaanderen,2011-01-18T19:30:00+00:00,17,30,22,23,0.27586206896551724,0.2413793103448276,more_progress_than_majority
+Pro_League_10_11,1609639,KRC Genk,Sint-Truidense VV,2011-02-02T19:30:00+00:00,21,30,24,21,0.20689655172413793,0.3103448275862069,less_progress_than_majority
+Pro_League_10_11,1609640,KSC Lokeren Oost-Vlaanderen,Cercle Brugge,2011-02-02T19:30:00+00:00,20,30,24,21,0.20689655172413793,0.3103448275862069,less_progress_than_majority
+Pro_League_10_11,1609641,KAS Eupen,SV Zulte Waregem,2011-02-02T19:30:00+00:00,21,30,24,21,0.20689655172413793,0.3103448275862069,less_progress_than_majority
+Pro_League_10_11,1609642,KV Mechelen,KV Kortrijk,2011-02-02T19:30:00+00:00,21,30,24,21,0.20689655172413793,0.3103448275862069,less_progress_than_majority
+Pro_League_10_11,1609643,RC Sporting Charleroi,K. Beerschot V.A.,2011-02-02T19:30:00+00:00,21,30,24,21,0.20689655172413793,0.3103448275862069,less_progress_than_majority
+Pro_League_10_11,1609653,KVC Westerlo,KSC Lokeren Oost-Vlaanderen,2011-02-16T19:30:00+00:00,21,30,26,27,0.13793103448275862,0.10344827586206896,more_progress_than_majority
+Pro_League_10_11,1609654,K. Beerschot V.A.,KAA Gent,2011-02-16T19:30:00+00:00,20,30,26,27,0.13793103448275862,0.10344827586206896,more_progress_than_majority
+Pro_League_10_11,1609663,Sint-Truidense VV,Cercle Brugge,2011-02-27T17:00:00+00:00,22,30,27,28,0.10344827586206896,0.06896551724137931,more_progress_than_majority
+Pro_League_12_13,3485684,RC Sporting Charleroi,Cercle Brugge,2013-02-20T17:30:00+00:00,24,30,27,28,0.10344827586206896,0.06896551724137931,more_progress_than_majority
+Pro_League_12_13,3574490,RC Sporting Charleroi,SV Zulte Waregem,2013-03-03T17:00:00+00:00,28,30,28,29,0.06896551724137931,0.034482758620689655,more_progress_than_majority
+Pro_League_15_16,6961103,KSC Lokeren Oost-Vlaanderen,RSC Anderlecht,2015-12-23T19:30:00+00:00,16,30,20,21,0.3448275862068966,0.3103448275862069,more_progress_than_majority
+Pro_League_17_18,7676306,KV Oostende,KRC Genk,2018-01-16T19:30:00+00:00,21,30,21,22,0.3103448275862069,0.27586206896551724,more_progress_than_majority
+Pro_League_19_20,8367928,Royal Antwerp FC,KAA Gent,2019-11-21T19:30:00+00:00,5,30,15,16,0.5172413793103449,0.4827586206896552,more_progress_than_majority
+Pro_League_19_20,8556445,RC Sporting Charleroi,Club Brugge KV,2020-01-29T19:30:00+00:00,5,30,23,24,0.2413793103448276,0.20689655172413793,more_progress_than_majority
+Pro_League_19_20,8564922,RC Sporting Charleroi,KV Mechelen,2020-02-11T19:30:00+00:00,23,30,25,26,0.1724137931034483,0.13793103448275862,more_progress_than_majority
+Pro_League_19_20,8575819,Standard Liège,Club Brugge KV,2020-02-12T19:30:00+00:00,25,30,25,26,0.1724137931034483,0.13793103448275862,more_progress_than_majority
+Pro_League_19_20,8575858,SK Beveren,KV Kortrijk,2020-02-12T19:30:00+00:00,25,30,25,26,0.1724137931034483,0.13793103448275862,more_progress_than_majority
+Pro_League_19_20,8575841,Royal Antwerp FC,KRC Genk,2020-02-13T19:30:00+00:00,25,30,25,26,0.1724137931034483,0.13793103448275862,more_progress_than_majority
+Pro_League_20_21,8833055,Standard Liège,Royal Excel Mouscron,2020-12-20T17:15:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833061,KRC Genk,KV Kortrijk,2020-12-19T19:45:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833087,SK Beveren,Royal Antwerp FC,2020-12-20T19:45:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833089,RC Sporting Charleroi,RSC Anderlecht,2020-12-18T19:45:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833093,Oud-Heverlee Leuven,KV Mechelen,2020-12-20T15:00:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833100,SV Zulte Waregem,Sint-Truidense VV,2020-12-19T17:30:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833116,Club Brugge KV,KAA Gent,2020-12-20T12:30:00+00:00,17,34,18,17,0.48484848484848486,0.5151515151515151,less_progress_than_majority
+Pro_League_20_21,8833123,Royal Excel Mouscron,RSC Anderlecht,2021-01-26T20:00:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833124,RC Sporting Charleroi,Oud-Heverlee Leuven,2021-01-27T20:00:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833125,KRC Genk,SV Zulte Waregem,2021-01-27T17:45:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833126,Standard Liège,RC Sporting Charleroi,2021-01-24T17:15:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833127,KV Kortrijk,Cercle Brugge,2021-01-23T17:30:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833128,RSC Anderlecht,SK Beveren,2021-01-22T19:45:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833129,Cercle Brugge,Club Brugge KV,2021-01-28T17:45:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833130,Sint-Truidense VV,Royal Excel Mouscron,2021-01-23T17:30:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833131,KAS Eupen,Royal Antwerp FC,2021-01-26T17:45:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833132,Oud-Heverlee Leuven,KAA Gent,2021-01-24T19:45:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833133,KV Oostende,Standard Liège,2021-01-28T20:00:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833134,KAA Gent,Sint-Truidense VV,2021-01-27T20:00:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833135,KRC Genk,RSC Anderlecht,2021-02-07T17:15:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833136,Oud-Heverlee Leuven,K. Beerschot V.A.,2021-01-30T17:30:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833137,Sint-Truidense VV,Cercle Brugge,2021-01-31T19:45:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833138,Royal Excel Mouscron,KV Kortrijk,2021-02-05T19:45:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833139,Club Brugge KV,KRC Genk,2021-01-24T12:30:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833140,KV Mechelen,KAS Eupen,2021-01-23T15:15:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833141,KV Oostende,Sint-Truidense VV,2021-02-06T15:15:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833142,Royal Antwerp FC,KV Oostende,2021-01-23T19:45:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833143,SV Zulte Waregem,K. Beerschot V.A.,2021-01-24T15:00:00+00:00,21,34,30,21,0.12121212121212122,0.3939393939393939,less_progress_than_majority
+Pro_League_20_21,8833144,SK Beveren,KV Mechelen,2021-01-26T17:45:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833145,KAA Gent,KAS Eupen,2021-02-07T19:45:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833146,Royal Antwerp FC,SK Beveren,2021-01-29T19:45:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833147,K. Beerschot V.A.,KV Kortrijk,2021-01-27T17:45:00+00:00,22,34,30,22,0.12121212121212122,0.36363636363636365,less_progress_than_majority
+Pro_League_20_21,8833148,KV Mechelen,KRC Genk,2021-01-30T15:15:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833149,SV Zulte Waregem,KV Oostende,2021-01-31T15:00:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833150,KAS Eupen,Royal Excel Mouscron,2021-01-30T17:30:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833151,KV Kortrijk,RC Sporting Charleroi,2021-01-30T19:45:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833152,Standard Liège,Oud-Heverlee Leuven,2021-02-06T19:45:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833158,RSC Anderlecht,KAA Gent,2021-01-31T17:15:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833161,Club Brugge KV,Standard Liège,2021-01-31T12:30:00+00:00,23,34,30,23,0.12121212121212122,0.3333333333333333,less_progress_than_majority
+Pro_League_20_21,8833175,Sint-Truidense VV,Oud-Heverlee Leuven,2021-01-17T19:45:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833176,K. Beerschot V.A.,Club Brugge KV,2021-01-17T17:15:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833186,RC Sporting Charleroi,KV Mechelen,2021-01-16T19:45:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833187,Cercle Brugge,Standard Liège,2021-01-17T15:00:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833188,SK Beveren,SV Zulte Waregem,2021-01-16T17:30:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833192,KV Oostende,KV Kortrijk,2021-01-16T15:15:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833197,KAS Eupen,RSC Anderlecht,2021-01-15T19:45:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833199,Royal Excel Mouscron,KRC Genk,2021-01-16T17:30:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833200,KAA Gent,Royal Antwerp FC,2021-01-17T12:30:00+00:00,20,34,30,20,0.12121212121212122,0.42424242424242425,less_progress_than_majority
+Pro_League_20_21,8833204,RC Sporting Charleroi,Sint-Truidense VV,2021-03-05T19:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833206,KAS Eupen,Oud-Heverlee Leuven,2021-03-06T15:15:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833212,Royal Antwerp FC,KV Kortrijk,2021-03-06T19:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833215,RSC Anderlecht,KV Mechelen,2021-03-07T17:15:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833216,KV Kortrijk,SV Zulte Waregem,2021-02-27T19:45:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833217,KAA Gent,KV Oostende,2021-03-08T19:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833218,K. Beerschot V.A.,Royal Excel Mouscron,2021-02-28T15:00:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833219,Royal Excel Mouscron,Standard Liège,2021-03-07T12:30:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833221,KRC Genk,Cercle Brugge,2021-03-07T19:45:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833222,Club Brugge KV,SV Zulte Waregem,2021-03-07T15:00:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833223,Cercle Brugge,SK Beveren,2021-02-27T15:15:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833227,Sint-Truidense VV,KAS Eupen,2021-02-28T19:45:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833228,KV Oostende,KV Mechelen,2021-02-27T17:30:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833230,RC Sporting Charleroi,KRC Genk,2021-02-26T19:45:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833231,Oud-Heverlee Leuven,Royal Antwerp FC,2021-03-01T19:45:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833237,SK Beveren,K. Beerschot V.A.,2021-03-06T17:30:00+00:00,29,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_20_21,8833242,KV Mechelen,Standard Liège,2021-01-20T17:45:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833243,KAA Gent,Royal Excel Mouscron,2021-02-15T19:45:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833244,Royal Antwerp FC,Cercle Brugge,2021-01-20T20:00:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833246,KRC Genk,KAA Gent,2021-01-21T20:00:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833248,KV Kortrijk,Sint-Truidense VV,2021-01-20T15:30:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833250,Standard Liège,Royal Antwerp FC,2021-02-14T12:30:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833253,SV Zulte Waregem,Oud-Heverlee Leuven,2021-01-21T17:45:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833254,Club Brugge KV,KV Oostende,2021-01-20T20:00:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833255,Standard Liège,RSC Anderlecht,2021-02-28T12:30:00+00:00,28,34,30,28,0.12121212121212122,0.18181818181818182,less_progress_than_majority
+Pro_League_20_21,8833256,Royal Excel Mouscron,SK Beveren,2021-01-19T17:45:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833257,SK Beveren,RC Sporting Charleroi,2021-02-20T19:45:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833258,SK Beveren,Club Brugge KV,2021-02-06T17:30:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833259,KAS Eupen,K. Beerschot V.A.,2021-01-20T17:45:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833260,RSC Anderlecht,RC Sporting Charleroi,2021-01-19T20:00:00+00:00,25,34,30,25,0.12121212121212122,0.2727272727272727,less_progress_than_majority
+Pro_League_20_21,8833262,Royal Antwerp FC,Sint-Truidense VV,2021-02-21T19:45:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833263,Oud-Heverlee Leuven,KV Kortrijk,2021-02-12T19:45:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833264,SV Zulte Waregem,Standard Liège,2021-02-21T15:00:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833265,K. Beerschot V.A.,Royal Antwerp FC,2021-02-07T12:30:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833266,Cercle Brugge,KV Mechelen,2021-02-06T17:30:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833267,Royal Excel Mouscron,Cercle Brugge,2021-02-20T17:30:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833268,RC Sporting Charleroi,SV Zulte Waregem,2021-02-07T15:00:00+00:00,24,34,30,24,0.12121212121212122,0.30303030303030304,less_progress_than_majority
+Pro_League_20_21,8833269,KAS Eupen,KV Oostende,2021-02-20T15:15:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833270,KV Mechelen,KAA Gent,2021-02-19T19:45:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833271,KRC Genk,K. Beerschot V.A.,2021-02-21T17:15:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833272,K. Beerschot V.A.,KV Mechelen,2021-02-14T15:00:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833273,Club Brugge KV,Oud-Heverlee Leuven,2021-02-22T19:45:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,8833274,Cercle Brugge,RSC Anderlecht,2021-02-14T19:45:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833276,Sint-Truidense VV,SV Zulte Waregem,2021-02-13T17:30:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,8833277,RSC Anderlecht,KV Kortrijk,2021-02-21T12:30:00+00:00,27,34,30,27,0.12121212121212122,0.21212121212121213,less_progress_than_majority
+Pro_League_20_21,9187059,KAS Eupen,KV Mechelen,2020-12-03T16:00:00+00:00,10,34,14,15,0.6060606060606061,0.5757575757575758,more_progress_than_majority
+Pro_League_20_21,9253232,KAS Eupen,KRC Genk,2021-01-06T19:45:00+00:00,18,34,19,30,0.45454545454545453,0.12121212121212122,more_progress_than_majority
+Pro_League_20_21,9343162,SK Beveren,KAS Eupen,2021-02-17T16:00:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,9343321,KV Oostende,KRC Genk,2021-02-17T18:00:00+00:00,26,34,30,26,0.12121212121212122,0.24242424242424243,less_progress_than_majority
+Pro_League_20_21,9382743,KAA Gent,Club Brugge KV,2021-03-15T19:45:00+00:00,28,34,30,31,0.12121212121212122,0.09090909090909091,more_progress_than_majority
+Pro_League_20_21,9384695,RC Sporting Charleroi,Club Brugge KV,2021-03-12T19:45:00+00:00,26,34,30,29,0.12121212121212122,0.15151515151515152,less_progress_than_majority
+Pro_League_21_22,9565144,Oud-Heverlee Leuven,KRC Genk,2022-02-09T20:00:00+00:00,25,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+Pro_League_21_22,9797302,RSC Anderlecht,KAA Gent,2021-09-23T18:45:00+00:00,5,34,8,9,0.7878787878787878,0.7575757575757576,more_progress_than_majority
+Pro_League_21_22,9797303,Royal Antwerp FC,KRC Genk,2021-09-22T18:45:00+00:00,5,34,8,9,0.7878787878787878,0.7575757575757576,more_progress_than_majority
+Pro_League_21_22,10097612,KV Kortrijk,Royal Antwerp FC,2022-02-02T17:45:00+00:00,21,34,25,26,0.2727272727272727,0.24242424242424243,more_progress_than_majority
+Pro_League_21_22,10105605,SV Zulte Waregem,KV Oostende,2022-02-09T17:45:00+00:00,22,34,26,27,0.24242424242424243,0.21212121212121213,more_progress_than_majority
+Pro_League_21_22,10120070,KRC Genk,KV Mechelen,2022-02-16T17:45:00+00:00,24,34,27,28,0.21212121212121213,0.18181818181818182,more_progress_than_majority
+Pro_League_21_22,10149609,KAA Gent,RFC Seraing,2022-02-23T17:45:00+00:00,28,34,28,29,0.18181818181818182,0.15151515151515152,more_progress_than_majority
+Pro_League_21_22,10156311,Standard Liège,K. Beerschot V.A.,2022-03-02T17:45:00+00:00,19,34,29,30,0.15151515151515152,0.12121212121212122,more_progress_than_majority
+Pro_League_22_23,10585001,RSC Anderlecht,KAA Gent,2022-09-01T18:30:00+00:00,5,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Pro_League_22_23,10585002,Royal Antwerp FC,Royale Union Saint-Gilloise,2022-08-31T18:30:00+00:00,5,34,6,7,0.8484848484848485,0.8181818181818182,more_progress_than_majority
+Pro_League_22_23,11012075,KAS Eupen,KRC Genk,2023-02-01T17:45:00+00:00,22,34,23,24,0.3333333333333333,0.30303030303030304,more_progress_than_majority
+Pro_League_23_24,11369952,RWDM Brussels,KAS Eupen,2024-01-24T14:00:00+00:00,21,30,21,22,0.3103448275862069,0.27586206896551724,more_progress_than_majority
+Pro_League_23_24,11618167,Club Brugge KV,KRC Genk,2023-09-28T18:45:00+00:00,5,30,8,9,0.7586206896551724,0.7241379310344828,more_progress_than_majority
+Pro_League_23_24,11618168,Royal Antwerp FC,KAA Gent,2023-09-27T18:45:00+00:00,5,30,8,9,0.7586206896551724,0.7241379310344828,more_progress_than_majority
+Pro_League_23_24,11618169,RWDM Brussels,Royale Union Saint-Gilloise,2023-09-28T16:30:00+00:00,5,30,8,9,0.7586206896551724,0.7241379310344828,more_progress_than_majority
+Pro_League_24_25,12782887,Cercle Brugge,KAA Gent,2024-09-26T18:45:00+00:00,5,30,8,9,0.7586206896551724,0.7241379310344828,more_progress_than_majority
+Pro_League_25_26,14607840,KRC Genk,RC Sporting Charleroi,2025-09-17T18:30:00+00:00,5,30,7,8,0.7931034482758621,0.7586206896551724,more_progress_than_majority
+Pro_League_25_26,14607841,Club Brugge KV,KVC Westerlo,2025-09-24T18:30:00+00:00,5,30,8,9,0.7586206896551724,0.7241379310344828,more_progress_than_majority
+Pro_League_26_27,16358520,Sint-Truidense VV,Royale Union Saint-Gilloise,2026-09-02T18:30:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Pro_League_26_27,16707660,RSC Anderlecht,KV Kortrijk,2026-09-03T18:30:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Pro_League_26_27,16846415,KAA Gent,Oud-Heverlee Leuven,2026-09-03T18:30:00+00:00,3,34,4,5,0.9090909090909091,0.8787878787878788,more_progress_than_majority
+Serie_A_10_11,1437459,Inter,Cesena,2011-01-19T19:45:00+00:00,16,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_11_12,2013935,ACR Siena 1904,Fiorentina,2011-12-20T17:00:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013937,Cagliari,AC Milan,2011-12-20T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013985,Udinese,Juventus,2011-12-21T17:00:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013939,SSC Napoli,Genoa,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013941,Atalanta,Cesena,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013943,Bologna,AS Roma,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013945,Inter,Lecce,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013947,Lazio,Chievo Verona,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013981,Novara,Palermo,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,2013983,Parma,Catania,2011-12-21T19:45:00+00:00,1,38,16,1,0.5945945945945946,1.0,less_progress_than_majority
+Serie_A_11_12,1842071,Catania,AS Roma,2012-02-08T19:00:00+00:00,18,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Serie_A_11_12,2404024,Parma,Fiorentina,2012-03-07T17:30:00+00:00,23,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_11_12,2404026,Bologna,Juventus,2012-03-07T17:30:00+00:00,23,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_11_12,2404028,Cesena,Catania,2012-03-07T17:30:00+00:00,22,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_11_12,2616556,Atalanta,Chievo Verona,2012-04-24T16:30:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616558,Cagliari,Catania,2012-04-24T16:30:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616560,Novara,Lazio,2012-04-25T10:30:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616564,Udinese,Inter,2012-04-25T13:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616566,ACR Siena 1904,Bologna,2012-04-25T13:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616570,Lecce,SSC Napoli,2012-04-25T13:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616572,Palermo,Parma,2012-04-25T13:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616574,AS Roma,Fiorentina,2012-04-25T13:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616562,AC Milan,Genoa,2012-04-25T16:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_11_12,2616568,Cesena,Juventus,2012-04-25T16:00:00+00:00,33,38,34,33,0.10810810810810811,0.13513513513513514,less_progress_than_majority
+Serie_A_12_13,3670003,Sampdoria,Inter,2013-04-03T16:30:00+00:00,29,38,30,31,0.21621621621621623,0.1891891891891892,more_progress_than_majority
+Serie_A_14_15,6706679,Parma,Udinese,2015-04-08T16:30:00+00:00,24,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Serie_A_15_16,6968531,Sassuolo,Torino,2016-01-20T19:45:00+00:00,16,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_16_17,7310221,Pescara,Fiorentina,2017-02-01T19:45:00+00:00,19,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Serie_A_17_18,7744568,Udinese,Fiorentina,2018-04-03T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7744569,Torino,FC Crotone,2018-04-04T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7744571,Genoa,Cagliari,2018-04-03T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7744572,Benevento,Hellas Verona,2018-04-04T15:00:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7744573,Chievo Verona,Sassuolo,2018-04-04T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7744574,Atalanta,Sampdoria,2018-04-03T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_17_18,7754243,AC Milan,Inter,2018-04-04T16:30:00+00:00,27,38,30,27,0.21621621621621623,0.2972972972972973,less_progress_than_majority
+Serie_A_18_19,7935927,AC Milan,Genoa,2018-10-31T19:30:00+00:00,1,38,10,11,0.7567567567567568,0.7297297297297297,more_progress_than_majority
+Serie_A_19_20,8337970,Lazio,Hellas Verona,2020-02-05T19:45:00+00:00,17,38,22,23,0.43243243243243246,0.40540540540540543,more_progress_than_majority
+Serie_A_19_20,8446404,Brescia,Sassuolo,2019-12-18T19:45:00+00:00,7,38,16,17,0.5945945945945946,0.5675675675675675,more_progress_than_majority
+Serie_A_19_20,8675003,Torino,Parma,2020-06-20T17:30:00+00:00,25,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_19_20,8675004,Inter,Sampdoria,2020-06-21T19:45:00+00:00,25,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_19_20,8675005,Atalanta,Sassuolo,2020-06-21T17:30:00+00:00,25,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_19_20,8675006,Hellas Verona,Cagliari,2020-06-20T19:45:00+00:00,25,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_20_21,8970310,Lazio,Atalanta,2020-09-30T18:45:00+00:00,1,38,2,3,0.972972972972973,0.9459459459459459,more_progress_than_majority
+Serie_A_20_21,9365740,Torino,Sassuolo,2021-03-17T14:00:00+00:00,24,38,27,28,0.2972972972972973,0.2702702702702703,more_progress_than_majority
+Serie_A_20_21,9397946,Juventus,SSC Napoli,2021-04-07T16:45:00+00:00,3,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Serie_A_20_21,9423207,Inter,Sassuolo,2021-04-07T16:45:00+00:00,28,38,29,30,0.24324324324324326,0.21621621621621623,more_progress_than_majority
+Serie_A_21_22,10269142,US Salernitana 1919,Venezia,2022-05-05T16:00:00+00:00,20,38,35,36,0.08108108108108109,0.05405405405405406,more_progress_than_majority
+Serie_A_23_24,11406783,Udinese,AS Roma,2024-04-25T18:00:00+00:00,32,38,33,34,0.13513513513513514,0.10810810810810811,more_progress_than_majority
+Serie_A_23_24,11406912,Torino,Lazio,2024-02-22T19:45:00+00:00,21,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Serie_A_23_24,11930405,Inter,Atalanta,2024-02-28T19:45:00+00:00,21,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_24_25,12504620,Inter,Bologna,2025-01-15T19:45:00+00:00,19,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_24_25,12504676,Fiorentina,Inter,2025-02-06T19:45:00+00:00,14,38,23,24,0.40540540540540543,0.3783783783783784,more_progress_than_majority
+Serie_A_24_25,13416148,Bologna,AC Milan,2025-02-27T19:45:00+00:00,9,38,26,27,0.32432432432432434,0.2972972972972973,more_progress_than_majority
+Serie_A_25_26,14844287,Inter,Lecce,2026-01-14T19:45:00+00:00,16,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_25_26,14844293,Hellas Verona,Bologna,2026-01-15T17:30:00+00:00,16,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_25_26,14844296,Como,AC Milan,2026-01-15T19:45:00+00:00,16,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_A_25_26,15462526,AC Milan,Como,2026-02-18T19:45:00+00:00,24,38,25,26,0.35135135135135137,0.32432432432432434,more_progress_than_majority
+Serie_B_10_11,1454249,Reggina 1914,AlbinoLeffe,2010-12-08T14:00:00+00:00,17,42,18,19,0.5853658536585366,0.5609756097560976,more_progress_than_majority
+Serie_B_10_11,1550183,L.R. Vicenza,ACR Siena 1904,2010-12-08T14:00:00+00:00,14,42,18,19,0.5853658536585366,0.5609756097560976,more_progress_than_majority
+Serie_B_11_12,2385105,Brescia,Torino,2012-02-26T11:30:00+00:00,26,42,28,29,0.34146341463414637,0.3170731707317073,more_progress_than_majority
+Serie_B_12_13,3412234,Varese,Brescia,2013-01-22T17:30:00+00:00,21,42,22,23,0.4878048780487805,0.4634146341463415,more_progress_than_majority
+Serie_B_13_14,4842672,Varese,Novara,2014-01-19T11:30:00+00:00,20,42,21,22,0.5121951219512195,0.4878048780487805,more_progress_than_majority
+Serie_B_14_15,6009112,L.R. Vicenza,Latina,2014-09-10T18:30:00+00:00,1,42,2,3,0.975609756097561,0.9512195121951219,more_progress_than_majority
+Serie_B_16_17,7195692,Ternana,Pisa,2016-09-07T18:30:00+00:00,1,42,2,3,0.975609756097561,0.9512195121951219,more_progress_than_majority
+Serie_B_17_18,7737250,Perugia,Brescia,2018-03-06T17:00:00+00:00,28,42,28,30,0.34146341463414637,0.2926829268292683,more_progress_than_majority
+Serie_B_17_18,7737251,Cesena,Pro Vercelli,2018-03-06T17:30:00+00:00,28,42,28,30,0.34146341463414637,0.2926829268292683,more_progress_than_majority
+Serie_B_17_18,7743407,Foggia,Empoli,2018-04-02T10:30:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_17_18,7743408,US Avellino 1912,Bari,2018-04-02T13:00:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_17_18,7743411,Carpi,Venezia,2018-04-02T15:30:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_17_18,7743413,Parma,Palermo,2018-04-02T18:30:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_17_18,7743283,Brescia,Virtus Entella,2018-04-03T16:00:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_17_18,7743412,Pro Vercelli,Perugia,2018-04-03T16:00:00+00:00,29,42,33,29,0.21951219512195122,0.3170731707317073,less_progress_than_majority
+Serie_B_18_19,8047745,Spezia,Benevento,2018-11-18T14:00:00+00:00,10,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Serie_B_19_20,8682856,Ascoli,Cremonese,2020-06-17T16:30:00+00:00,25,38,28,29,0.2702702702702703,0.24324324324324326,more_progress_than_majority
+Serie_B_20_21,9464686,Pordenone,Pisa,2021-04-24T14:00:00+00:00,30,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Serie_B_20_21,9473022,Pescara,Virtus Entella,2021-04-27T12:00:00+00:00,34,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Serie_B_20_21,9485471,Empoli,Chievo Verona,2021-04-27T14:00:00+00:00,32,38,34,35,0.10810810810810811,0.08108108108108109,more_progress_than_majority
+Serie_B_21_22,10035720,Benevento,Monza,2022-01-13T19:30:00+00:00,18,38,18,19,0.5405405405405406,0.5135135135135135,more_progress_than_majority
+Serie_B_21_22,10079517,Cittadella,Cosenza,2022-01-30T13:30:00+00:00,19,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_B_21_22,10079523,L.R. Vicenza,Alessandria,2022-01-30T13:30:00+00:00,19,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_B_21_22,10079524,Parma,FC Crotone,2022-01-30T13:30:00+00:00,19,38,20,21,0.4864864864864865,0.4594594594594595,more_progress_than_majority
+Serie_B_23_24,11692881,Lecco,Spezia,2023-11-08T17:30:00+00:00,2,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Serie_B_23_24,11692884,Palermo,Brescia,2023-11-08T17:30:00+00:00,2,38,12,13,0.7027027027027027,0.6756756756756757,more_progress_than_majority
+Serie_B_24_25,13799381,Mantova,Catanzaro,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799382,Modena,Cesena,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799383,Pisa,Cremonese,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799384,Palermo,Carrarese,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799385,Spezia,Cosenza,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799391,Juve Stabia,Sampdoria,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799392,Südtirol,Bari,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799401,Cittadella,US Salernitana 1919,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799402,Brescia,Reggiana,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_24_25,13799403,Sassuolo,Frosinone,2025-05-13T18:30:00+00:00,34,38,38,34,0.0,0.10810810810810811,less_progress_than_majority
+Serie_B_25_26,15007362,Juve Stabia,Bari,2025-12-04T18:30:00+00:00,10,38,14,15,0.6486486486486487,0.6216216216216216,more_progress_than_majority

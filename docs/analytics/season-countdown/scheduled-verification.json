@@ -1,0 +1,96 @@
+{
+  "source_commit": "b298dbdcf6d9fdfd4b38bb5a89dcfea866a89c5b",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "numpy": "2.3.5",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "354",
+    "time": "66.139",
+    "timestamp": "2026-10-27T19:57:16.185293+09:00",
+    "hostname": "Ivan-tachi"
+  },
+  "countdown_tests": 59,
+  "publication_audit": {
+    "publications": 289,
+    "fixtures": 92983,
+    "eligible": 92855,
+    "excluded": 128,
+    "unexplained_missing": 0,
+    "independent_reference": true,
+    "hand_verified_rounds": 14
+  },
+  "comparison": {
+    "reference_commit": "643c20297cf4e2233c50d91a62bf097d18d7f985",
+    "reference_source_sha256": "ba5fd41214fdbe31ddbf024a0aed814465674720509a26375aeebe0cb264a33f",
+    "candidate_source_sha256": "a164eb96b0104adeda0d87480a9d4e9ba2d17b3beeb24ae5de676e6d24ed40e4",
+    "publications": 289,
+    "fixtures": 92983,
+    "changed": 1213,
+    "less_progress": 520,
+    "more_progress": 693,
+    "missing_masks_unchanged": true
+  },
+  "commands": [
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "tests/analytics/test_season_countdown.py",
+      "tests/analytics/test_season_progress.py",
+      "tests/analytics/test_ui_workflow.py",
+      "tests/analytics/test_ui_inventory.py",
+      "tests/analytics/test_fixture_assembly.py",
+      "tests/analytics/test_feature_presets_context.py",
+      "tests/analytics/test_ui_catalog_compatibility.py",
+      "tests/analytics/test_derived_standings.py",
+      "tests/analytics/test_team_history.py",
+      "tests/analytics/test_prediction_fixtures.py",
+      "tests/analytics/test_labels.py",
+      "-q",
+      "--disable-warnings",
+      "--tb=short",
+      "--junitxml=docs/analytics/season-countdown/scheduled-tests.xml"
+    ],
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\docs\\analytics\\season-countdown\\audit_scheduled.py"
+    ],
+    [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\docs\\analytics\\season-countdown\\compare_scheduled.py"
+    ]
+  ],
+  "sha256": {
+    "src/xdiyo_analytics/features/countdown.py": "a164eb96b0104adeda0d87480a9d4e9ba2d17b3beeb24ae5de676e6d24ed40e4",
+    "src/xdiyo_analytics/ui/build_inventory.py": "83f977ac93b16f99c762a4fbbb67c51cbe69ae1ca3814b83c25b070fd33ed501",
+    "src/xdiyo_analytics/ui/inventory.json": "7c70d7cb4214ffdea56f80da935072a05d5058157bf0b6ec9fd4b11dfdbe7555",
+    "src/xdiyo_analytics/ui/countdown_migration.py": "b0399b723216226650a8ac2eebdaa67db38a0277ead5e41cba0bad0f6215d9a7",
+    "src/xdiyo_analytics/ui/recipe.py": "0e71351980b3d92b87fe3092852ec95e7669502650841eaddddb86fe95016151",
+    "src/xdiyo_analytics/labels/creation.py": "a3599646e0290340dec11d3cc2266b1f3c4795088f26e454c92e86b7f35f83c6",
+    "tests/analytics/test_season_countdown.py": "061d0277e203eac9d684381f686560dcf02a28eb3fea19a70d57a6115054fddc",
+    "docs/analytics/season-countdown/audit_scheduled.py": "0fedf1fdae0c80390e874b022b045daf42a08882e14a17795a3d91f48e776fd0",
+    "docs/analytics/season-countdown/compare_scheduled.py": "3e6b7bd1949658eb4654013e7e1328091686d3f6cc0e88de6f33e747366277f7",
+    "docs/analytics/season-countdown/verify_scheduled.py": "995ba0ef807c562b5ad50580e0cc93e951b70c1bb3d807bbe213a1c296b7c140",
+    "docs/analytics/season-countdown/scheduled-effective-round-checks.json": "3d2e4b16ac98d7aeda5e0daea62bb07f8bc7de8ea8ee97418389a9ea742d4400",
+    "docs/analytics/season-countdown/scheduled-change-counts.csv": "089fe24ebaf9e1037abdf06aa3e17faa81b91f9b378b89c09511ba9792f90f83",
+    "docs/analytics/season-countdown/scheduled-publication-audit.csv": "cbaffaf0c9671b1edc39661186d3daf56f0a1e4c0ed27a6de113fe85e25bb30e",
+    "docs/analytics/season-countdown/scheduled-value-changes.csv": "150d1b7c334aa435e1214127c786f690a6fa3d856f9706851cf3d7c123ab8d3b",
+    "docs/analytics/season-countdown/scheduled-audit.log": "4a40d208a1be4038fe0b8c4fa9e27118f59c3a7cebfc25cf1e52809bb02d790f",
+    "docs/analytics/season-countdown/scheduled-comparison.log": "e5ddd6cceb63fdef37c1dc4290be1c4ce315452b0cbbce83f275aa143ab23ef6",
+    "docs/analytics/season-countdown/scheduled-tests.log": "9f5f864844abe197abd18b52dfc6bd64b76adcbf5c52de5b35c3a17dfa2bba0c",
+    "docs/analytics/season-countdown/scheduled-tests.xml": "25225207c04b8f5c55bc9abef1e205e0b552556ae627e3e4ab9851d7e86d53e9",
+    "docs/analytics/season-countdown/scheduled-comparison.json": "472e202693f70e09a299e061e489991df10b55a0b2ab05704e453543c90e1d9f"
+  },
+  "hash_basis": "Verified source bytes equal Git blobs; generated artifacts use canonical LF bytes.",
+  "previous_receipts_preserved": true,
+  "limitations": [
+    "Targeted regression suite, not full application suite.",
+    "Historical exports may contain revised dates; unavailable historical schedule knowledge is not reconstructed.",
+    "Sparse schedules may not identify a displaced fixture; full schedule context is recommended.",
+    "No batch-round override, schedule_mode, model training or frozen experiment updates."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "reference_commit": "643c20297cf4e2233c50d91a62bf097d18d7f985",
+  "reference_source_sha256": "ba5fd41214fdbe31ddbf024a0aed814465674720509a26375aeebe0cb264a33f",
+  "candidate_source_sha256": "a164eb96b0104adeda0d87480a9d4e9ba2d17b3beeb24ae5de676e6d24ed40e4",
+  "publications": 289,
+  "fixtures": 92983,
+  "changed": 1213,
+  "less_progress": 520,
+  "more_progress": 693,
+  "missing_masks_unchanged": true
+}
