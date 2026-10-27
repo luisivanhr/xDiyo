@@ -26,6 +26,7 @@ packages = ["utils", "xdiyo_analytics", "xdiyo_analytics.graphs", "xdiyo_analyti
 package-dir = {"xdiyo_analytics" = "src/xdiyo_analytics", "xdiyo_analytics.reporting.team_assets" = "docs/analytics/team_assets"}
 
 [tool.setuptools.package-data]
+"xdiyo_analytics.features" = ["data/*.csv"]
 "xdiyo_analytics.reporting.team_assets" = ["catalog.json", "badges/*", "SOURCE_LICENSE.txt", "README.md"]
 "xdiyo_analytics.reporting.templates" = ["assets/*.html", "assets/*.js", "assets/*.css", "assets/*.md"]
 "xdiyo_analytics.ui" = ["static/*.html", "static/*.js", "static/*.css", "inventory.json"]

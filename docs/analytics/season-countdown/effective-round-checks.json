@@ -1,0 +1,79 @@
+[
+  {
+    "publication": "Premier_League_23_24",
+    "event_id": 12226774,
+    "total_rounds": 38,
+    "effective_round": 35,
+    "rationale": "Chelsea-Tottenham: assigned 26, played May 2 during round 35."
+  },
+  {
+    "publication": "J1_16_16",
+    "event_id": 7003326,
+    "total_rounds": 34,
+    "effective_round": 15,
+    "rationale": "FC Tokyo-Hiroshima: first-stage round 10 on June 15; between round 15 June 11 and round 16 June 18."
+  },
+  {
+    "publication": "J1_16_16",
+    "event_id": 7003382,
+    "total_rounds": 34,
+    "effective_round": 18,
+    "rationale": "Kofu-Kobe: second-stage round 1 on July 2 equals season round 18."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258081,
+    "total_rounds": 38,
+    "effective_round": 34,
+    "rationale": "Kilmarnock-Hearts: opening championship split round, April 27."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258131,
+    "total_rounds": 38,
+    "effective_round": 34,
+    "rationale": "Livingston-Ross County: opening relegation split round, April 27."
+  },
+  {
+    "publication": "Premiership_23_24",
+    "event_id": 12258084,
+    "total_rounds": 38,
+    "effective_round": 38,
+    "rationale": "Celtic-St Mirren: final championship split round, May 18."
+  },
+  {
+    "publication": "Liga_MX_Apertura_19_20",
+    "event_id": 8262406,
+    "total_rounds": 19,
+    "effective_round": 19,
+    "rationale": "Puebla-Necaxa: final round 19 of the odd-team regular season, November 23 UTC."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15272830,
+    "total_rounds": 18,
+    "effective_round": 1,
+    "rationale": "Yokohama-Machida: opening east regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15272831,
+    "total_rounds": 18,
+    "effective_round": 1,
+    "rationale": "Kyoto-Kobe: opening west regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15345966,
+    "total_rounds": 18,
+    "effective_round": 18,
+    "rationale": "Machida-Urawa: final east regional group round."
+  },
+  {
+    "publication": "J1_Transition_26_26",
+    "event_id": 15345880,
+    "total_rounds": 18,
+    "effective_round": 18,
+    "rationale": "Hiroshima-Nagoya: final west regional group round."
+  }
+]

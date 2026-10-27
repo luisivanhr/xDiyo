@@ -249,7 +249,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                       for i, rows in enumerate(history_rows(h2h))]
             result = (pd.DataFrame({'rest_days': values}, index=history.index), h2h)
         elif isinstance(node, SeasonCountdown):
-            result = (season_countdown(history, node, schedule_history=schedule_history, team_seasons=team_seasons).to_frame('season_countdown'), h2h)
+            result = (season_countdown(history, node, schedule_history=schedule_history, team_seasons=team_seasons, cutoffs=cutoffs).to_frame('season_countdown'), h2h)
         elif isinstance(node, (CalendarFeature, SeasonProgress)):
             result = (evaluate_context_features(history, {'calendar': node}), h2h)
         elif isinstance(node, Constant):

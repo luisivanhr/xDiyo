@@ -1,0 +1,34 @@
+{
+  "source_url": "https://data.j-league.or.jp/SFMS01/search?competition_frame_ids=1&competition_years=2016&lang=en",
+  "retrieved": "2026-10-27",
+  "html_sha256": "59ee919a6df106bc31938a8ddb9e55b0a2424f206509cfd830eeef73ba0275b9",
+  "join_keys": [
+    "home_id",
+    "away_id",
+    "round"
+  ],
+  "joined": 306,
+  "first_stage": 153,
+  "second_stage": 153,
+  "team_crosswalk": {
+    "FC-Tokyo": 3147,
+    "Fukuoka": 3143,
+    "G-Osaka": 3138,
+    "Hiroshima": 3135,
+    "Iwata": 3132,
+    "Kashima": 3134,
+    "Kashiwa": 3140,
+    "Kawasaki-F": 5127,
+    "Kobe": 3146,
+    "Kofu": 5762,
+    "Nagoya": 3136,
+    "Niigata": 5128,
+    "Omiya": 5130,
+    "Sendai": 3148,
+    "Shonan": 21905,
+    "Tosu": 21904,
+    "Urawa": 3145,
+    "Yokohama F\uff65M": 3137
+  },
+  "note": "Phase comes from official Tournaments field. Kickoff dates and scores were not used to assign phase."
+}

@@ -1,0 +1,78 @@
+{
+  "base_commit": "7e8252c772e76514b31dc97319ef7fa5ff042f11",
+  "reviewed_commit": "7156b381e3f9e352b936db2cb3273a648c3db292",
+  "source_status": "Verified working-tree source before commit; see containing Git commit for publication identity.",
+  "python": "3.12.14",
+  "pandas": "3.0.1",
+  "numpy": "2.3.5",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "215",
+    "time": "61.917",
+    "timestamp": "2026-10-27T18:02:44.891664+09:00",
+    "hostname": "Ivan-tachi"
+  },
+  "countdown_tests": 54,
+  "publication_audit": {
+    "publications": 289,
+    "fixtures": 92983,
+    "finite_eligible": 92855,
+    "expected_excluded": 128,
+    "unexplained_missing": 0,
+    "hand_verified_rounds": 11
+  },
+  "parity": {
+    "reference_commit": "7156b381e3f9e352b936db2cb3273a648c3db292",
+    "reference_source_sha256": "8d26a5f9535fa32f3760d6ae2d6326cd70315416c487d30c880f3dc6e21212d1",
+    "candidate_source_sha256": "8f442ffa73f21bba636c6fc031287d287bb609e062ca66a872bfd52a66da5a21",
+    "publications": 289,
+    "fixtures": 92983,
+    "comparison": "exact Series equality including index, dtype and NaN positions",
+    "passed": true
+  },
+  "browser": "Native browser verified Season countdown selection, as_of default, retrospective selection, visible explanation. Screenshot review-ui.png. Temporary tab and server closed; no preparation or training launched.",
+  "packaging": {
+    "wheel_sha256": "db0135888bdca1e61f245d7f5f3e9025ee0bb3d18edc6cff89b227c9c653c5e3",
+    "resource": "xdiyo_analytics/features/data/j1_2016_phases.csv",
+    "rows": 306,
+    "isolated_import": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-countdown-wheel-review\\xdiyo_analytics-0.1.0-py3-none-any.whl\\xdiyo_analytics\\features\\__init__.py",
+    "source_and_csv_match": true
+  },
+  "limitations": [
+    "Targeted integration suite, not full application suite.",
+    "Bundled final exports do not provide historical schedule snapshots. as_of requires truthful complete snapshots supplied by caller.",
+    "Previous mode-less countdown recipes must explicitly choose retrospective to retain the final-schedule assumption."
+  ],
+  "commands": [
+    "PYTHONPATH=src python -m pytest tests/analytics/test_season_countdown.py tests/analytics/test_season_progress.py tests/analytics/test_ui_workflow.py tests/analytics/test_ui_inventory.py tests/analytics/test_fixture_assembly.py tests/analytics/test_feature_presets_context.py tests/analytics/test_ui_catalog_compatibility.py tests/analytics/test_derived_standings.py -q --disable-warnings --junitxml=docs/analytics/season-countdown/review-tests.xml",
+    "PYTHONPATH=src python docs/analytics/season-countdown/audit.py",
+    "PYTHONPATH=src python docs/analytics/season-countdown/compare_7156b381.py",
+    "PYTHONPATH=src python docs/analytics/season-countdown/verify_j1_phases.py --html C:/Users/luisi/AppData/Local/Temp/xdiyo-j1-2016-official.html",
+    "TMPDIR=C:/Users/luisi/AppData/Local/Temp/xdiyo-countdown-build-temp python -m pip --disable-pip-version-check wheel . --no-index --no-build-isolation --no-deps --wheel-dir C:/Users/luisi/AppData/Local/Temp/xdiyo-countdown-wheel-review"
+  ],
+  "sha256": {
+    "pyproject.toml": "70629005b14524bb8cfc5f271705c843139878984becff855e907def8d0072b0",
+    "src/xdiyo_analytics/features/countdown.py": "8f442ffa73f21bba636c6fc031287d287bb609e062ca66a872bfd52a66da5a21",
+    "src/xdiyo_analytics/features/contextual.py": "4f73b14cbad4a0c8683f9b45dd8a9f2a78f0d8bf97f3be5d57b64fe2551a57ee",
+    "src/xdiyo_analytics/features/evaluation.py": "ff0f2b044c41996fdfaf187a98dd8b3e9e72d905b32a790b57050280388ac2ed",
+    "src/xdiyo_analytics/features/data/j1_2016_phases.csv": "550bb7d0e82121e2c01ce9b0e722266ae4c7f609cc8038c049acd6f83b950a05",
+    "src/xdiyo_analytics/ui/recipe.py": "2dc0e6ca98fca057cd2da7cbb7df1a17e799517a96146f304c336358a9401c50",
+    "src/xdiyo_analytics/ui/build_inventory.py": "19c1fe3863efd19e6f580c3ad76e2b1c5b3c472c773258c8ef6abe3f08a1eab6",
+    "src/xdiyo_analytics/ui/inventory.json": "655848921daff6b1ceb75044b461791803c6935bce56f5eea19706f2069e9de9",
+    "tests/analytics/test_season_countdown.py": "bb3dd86cf4fb6fde6e0b4fbb9f84afb21a21f5dec884b1ed21fbf22f553920dc",
+    "docs/analytics/season-countdown/audit.py": "e1f4de46eaa7a2620b2c789b7996857a28d692a25e23f1feb2e2dad4244e536a",
+    "docs/analytics/season-countdown/verify_j1_phases.py": "4e496e09cc9b089f5bd25cd1500bec189289c8fb2d052bf7accf93d89f5a8aaf",
+    "docs/analytics/season-countdown/compare_7156b381.py": "392cdfa9ad79e7b5eed3a59dd2ef3c39aa894f4283d3baffb71cea878b9f8266",
+    "docs/analytics/season-countdown/expected-publication-counts.csv": "6b979802c2ac505b5ba71bf79b32871c184e7ff0bbec3ba0c72b12d57305cadb",
+    "docs/analytics/season-countdown/effective-round-checks.json": "23cdef6a1f5705359a400522d3ed8cb28299e965705ce0c70bc9e06ab8ad7644",
+    "docs/analytics/season-countdown/j1-phase-provenance.json": "6c55e3d6939d5efc48e82b9ba317c0f5fcbf502b3bbea67d93079a079cdd2887",
+    "docs/analytics/season-countdown/review-tests.xml": "de0e62eb103b788bfc485f6cf74865f3dce4104b01b14806a7cb6d12ff70e79e",
+    "docs/analytics/season-countdown/review-publication-audit.csv": "ba652567a74f3c45b27deacac66bf34d0b66b8e86ea55d43acd223ea5a4b7184",
+    "docs/analytics/season-countdown/published-value-parity.json": "fff625d9e74cc3793f1cbac8c98a981fd3b95067476966b0e2cf5e5385ac07ca",
+    "docs/analytics/season-countdown/review-wheel.json": "0b92b5a6f2f8d008f420a1a1a9e97772e9cc53cd4758ad27e0375c7c0f292613",
+    "docs/analytics/season-countdown/review-ui.png": "35454edff7726de905d37955243b3363b9e307a5d43421e90f51de7ed8598959"
+  }
+}

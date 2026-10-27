@@ -19218,6 +19218,19 @@
           "primary": true,
           "min": 2,
           "step": 1
+        },
+        {
+          "name": "schedule_mode",
+          "title": "Schedule mode",
+          "required": false,
+          "kind": "select",
+          "default": "as_of",
+          "help": "As of requires complete issuance-known schedule snapshots in advanced schedule history. Retrospective explicitly assumes final revised schedules; it is not historical publication-time evidence.",
+          "primary": true,
+          "choices": [
+            "as_of",
+            "retrospective"
+          ]
         }
       ],
       "accepts_extra": false
@@ -19530,7 +19543,7 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Optional full fixture schedule for SeasonCountdown. Recipes load it automatically before modelling filters. Use a version appropriate to the prediction cutoff.",
+          "help": "Complete fixture schedule snapshots for SeasonCountdown as_of mode, with schedule_snapshot_at publication timestamps. Retrospective mode alone automatically loads final exported schedules before filters.",
           "primary": false,
           "components": [
             "input.Table"

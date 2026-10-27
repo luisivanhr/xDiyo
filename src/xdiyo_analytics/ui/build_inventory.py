@@ -16,7 +16,7 @@ from ..features.point_geometry import POINT_FIELDS
 
 
 HELP = {
-    'schedule_history': 'Optional full fixture schedule for SeasonCountdown. Recipes load it automatically before modelling filters. Use a version appropriate to the prediction cutoff.',
+    'schedule_history': 'Complete fixture schedule snapshots for SeasonCountdown as_of mode, with schedule_snapshot_at publication timestamps. Retrospective mode alone automatically loads final exported schedules before filters.',
     'standings_history': 'Optional complete standings team history. Recipes load the unfiltered result population automatically.',
     'standings_available_at': 'Availability series/column for the complete standings history, honoring reviewed bounds.',
     'standings_run': 'Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.',
@@ -542,6 +542,8 @@ def build():
                 f['primary'] = True
                 if name == 'format':
                     f.update(kind='select', choices=['auto', 'double', 'single', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Postponed fixtures use the round active at kickoff.')
+                elif name == 'schedule_mode':
+                    f.update(kind='select', choices=['as_of', 'retrospective'], help='As of requires complete issuance-known schedule snapshots in advanced schedule history. Retrospective explicitly assumes final revised schedules; it is not historical publication-time evidence.')
                 else:
                     f.update(kind='number', min=2, step=1, help='Optional override for every selected season. Disabled uses complete team membership and the competition format, never the maximum downloaded round.')
             if key == 'features.SeasonProgress' and name == 'total_rounds':

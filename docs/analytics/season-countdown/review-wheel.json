@@ -1,0 +1,7 @@
+{
+  "wheel_sha256": "db0135888bdca1e61f245d7f5f3e9025ee0bb3d18edc6cff89b227c9c653c5e3",
+  "resource": "xdiyo_analytics/features/data/j1_2016_phases.csv",
+  "rows": 306,
+  "isolated_import": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-countdown-wheel-review\\xdiyo_analytics-0.1.0-py3-none-any.whl\\xdiyo_analytics\\features\\__init__.py",
+  "source_and_csv_match": true
+}

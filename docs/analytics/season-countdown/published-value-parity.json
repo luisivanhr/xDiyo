@@ -1,0 +1,9 @@
+{
+  "reference_commit": "7156b381e3f9e352b936db2cb3273a648c3db292",
+  "reference_source_sha256": "8d26a5f9535fa32f3760d6ae2d6326cd70315416c487d30c880f3dc6e21212d1",
+  "candidate_source_sha256": "8f442ffa73f21bba636c6fc031287d287bb609e062ca66a872bfd52a66da5a21",
+  "publications": 289,
+  "fixtures": 92983,
+  "comparison": "exact Series equality including index, dtype and NaN positions",
+  "passed": true
+}

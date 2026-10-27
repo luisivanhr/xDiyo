@@ -244,6 +244,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     countdown_data = None
     countdown_specs = list(countdown_nodes([recipe.get('features', {}), recipe.get('context_features', {})]))
     if countdown_specs:
+        if any(p.get('schedule_mode', 'as_of') == 'as_of' for p in countdown_specs) and not recipe.get('feature_options', {}).get('schedule_history'):
+            raise ValueError('SeasonCountdown as_of requires explicit schedule_history snapshots; select retrospective explicitly for final exported schedules.')
         tables = ['matches']
         if any(p.get('total_rounds') is None and p.get('team_count') is None
                and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
@@ -365,7 +367,19 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     calendar.update(catalog.build(recipe.get('context_features', {})))
     if calendar:
         from ..features.contextual import evaluate_context_features
-        extra = evaluate_context_features(dataset.metadata, calendar, schedule_history=options.get('schedule_history'), team_seasons=options.get('team_seasons'))
+        context_cutoffs = None
+        if countdown_specs:
+            from ..features.history import aligned_times
+            keys = ['competition_id', 'season_id', 'event_id']
+            if 'team_id' in dataset.metadata:
+                keys.append('team_id')
+            timing = history[keys].copy()
+            timing['_context_cutoff'] = aligned_times(history, options.get('cutoffs'), default='kickoff_at').to_numpy()
+            if timing.groupby(keys, dropna=False)._context_cutoff.nunique(dropna=False).gt(1).any():
+                raise ValueError('Context countdown requires matching fixture prediction cutoffs.')
+            joined = dataset.metadata[keys].merge(timing.drop_duplicates(keys), on=keys, how='left', validate='many_to_one', sort=False)
+            context_cutoffs = pd.Series(joined._context_cutoff.to_numpy(), index=dataset.metadata.index)
+        extra = evaluate_context_features(dataset.metadata, calendar, schedule_history=options.get('schedule_history'), team_seasons=options.get('team_seasons'), cutoffs=context_cutoffs)
         if set(extra).intersection(dataset.X):
             raise ValueError('Context features must have distinct names from existing inputs.')
         dataset.X = pd.concat([dataset.X, extra], axis=1)
