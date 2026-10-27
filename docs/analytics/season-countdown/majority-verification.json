@@ -65,7 +65,7 @@
   "sha256": {
     "docs/analytics/season-countdown/README.md": "85a4a1e448afef5feb436c259745521769100dc94fe7bb79f8aceeebbd53e01e",
     "docs/analytics/season-countdown/audit.py": "bac2061742b836ecdf00e6db1a3bd2e5fe5fd4579d2de7b9cd63185bd8475779",
-    "docs/analytics/season-countdown/compare_majority.py": "2084922933d7da98733b5d58b1428413b94b244997c8a6885767568ba790f84f",
+    "docs/analytics/season-countdown/compare_majority.py": "d1336aff70622ee674eded7c933dc2250485168b2b5ded6b0353ea527f439e79",
     "docs/analytics/season-countdown/majority-effective-round-checks.json": "9083533ac1cc1ce4a1d28cd368fd051392d84fa80676eab0223c492b21b803ba",
     "docs/analytics/season-countdown/verify_majority.py": "6a1abc80950331f06b048e878ec610f58ef6630c39d5ab0976b7b908bd8f904b",
     "src/xdiyo_analytics/features/countdown.py": "8da32f39b22a7b0bf061689dbda8e061ac134964bac767829ce02a7b0f7cef81",
@@ -90,5 +90,25 @@
     "Targeted regression suite, not full application suite.",
     "Observed progress assumes truthful actual kickoff/status and complete season membership.",
     "Legacy schedule_mode recipes require explicit semantic migration; no frozen experiments rerun."
-  ]
+  ],
+  "comparison_refresh": {
+    "committed_script_revision": "9ff1c9387b80946f8116e23bd6d33271ed5de395",
+    "script": "docs/analytics/season-countdown/compare_majority.py",
+    "script_sha256": "d1336aff70622ee674eded7c933dc2250485168b2b5ded6b0353ea527f439e79",
+    "script_hash_basis": "Exact Git blob bytes (LF); these exact bytes were executed.",
+    "previous_recorded_sha256": "2084922933d7da98733b5d58b1428413b94b244997c8a6885767568ba790f84f",
+    "cause": "Working copy had one CRLF newline; Git blob has LF only. Normalized source is identical.",
+    "command": [
+      "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "docs/analytics/season-countdown/compare_majority.py"
+    ],
+    "scope": "Comparison only, across all 289 publications / 92983 fixtures. Full audit and test suite were not rerun; their earlier receipts are preserved.",
+    "results_unchanged": true,
+    "protected_receipt_sha256": {
+      "majority-tests.xml": "6b6631f24408b69eb04d164ecad2295813e5f10ba5412bd965e8c9826c46b4b4",
+      "majority-tests.log": "2b7913c4a2440c883acefcdb7831e9280dd37b091a54fcc37893c5216afee0a6",
+      "majority-audit.log": "0cbba5197b632e09eace59809e9c00cd1f2ca79311f657d1a54a87d95e430a3e",
+      "majority-publication-audit.csv": "c4a27aedd9fc6af106c5d3c87b29e00a65255367885b0179e2505c9e8f6eaad4"
+    }
+  }
 }
