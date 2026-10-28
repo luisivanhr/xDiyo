@@ -20,6 +20,15 @@ POLICY = "independent_3_1_0_first_round_complete_v1"
 TOTALS = ("played", "wins", "draws", "losses", "points", "gf", "ga", "gd")
 
 
+def _json_scalar(value):
+    """Unbox NumPy scalars without stringifying IDs or relaxing strict JSON."""
+    if isinstance(value, np.generic):
+        native = value.item()
+        if not isinstance(native, np.generic):
+            return native
+    raise TypeError(f'Object of type {type(value).__name__} is not JSON serializable')
+
+
 def _id(value):
     if pd.isna(value) or isinstance(value, bool):
         raise ValueError("Standings identities must be nonmissing exact IDs.")
@@ -272,7 +281,7 @@ class StandingsRun:
             r = dict(m, scope=list(m['scope']), kickoff=m['kickoff'].isoformat(), available=None if pd.isna(m['available']) else m['available'].isoformat())
             fixtures.append(r)
         body = dict(version=2 if 'venues' in self._metadata else 1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
-        payload = json.dumps(body, allow_nan=False, indent=2)
+        payload = json.dumps(body, default=_json_scalar, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
         (path/'standings.json').write_text(payload+'\n', encoding='utf-8')
 

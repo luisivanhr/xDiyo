@@ -146,6 +146,9 @@ release policy and publication provenance. `StandingsRun.load()` supports exact
 saved-cutoff lookup only; it is **not an incremental/resumable checkpoint**. Public
 properties return copies. A new source, membership, release policy, cutoff set or
 window configuration requires a new run; there is no process-global mutable cache.
+JSON persistence converts NumPy scalars to native Python values, retaining exact
+integer IDs as JSON numbers, including IDs beyond 2^53. This applies to both
+artifact versions; nonfinite values and unsupported objects still raise errors.
 
 Within one feature evaluation, all DerivedStandings descendants share one producer
 with the union of requested windows and venues. Output-only selections are separate from state.
