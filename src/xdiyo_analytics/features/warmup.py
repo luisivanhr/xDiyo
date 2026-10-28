@@ -215,6 +215,9 @@ def evaluate_warm_start(node, context, evaluate, candidates, *, h2h=False, group
                     # Object comparison preserves unsigned IDs beyond int64;
                     # Arrow's scalar inference can otherwise overflow here.
                     team_rows = team_rows[history[name].iloc[team_rows].astype(object).eq(value).fillna(False).to_numpy(dtype=bool)]
+            if operator.venue in ('home', 'away'):
+                team_rows = team_rows[history.side.iloc[team_rows].eq(operator.venue).to_numpy(dtype=bool)]
+                league_rows = league_rows[history.side.iloc[league_rows].eq(operator.venue).to_numpy(dtype=bool)]
             priors = []
             for col in range(values.shape[1]):
                 team_sample, league_sample = values[team_rows, col], values[league_rows, col]

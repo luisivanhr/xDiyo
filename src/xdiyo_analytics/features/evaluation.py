@@ -45,7 +45,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     operators and EMA process its cells using the same temporal eligibility as
     statistics. Raw current-match Heatmap values cannot be prediction features.
     Their venue='same' restricts eligible history to the target venue before the
-    match window; venue='all' keeps both. Spatial history is reduced in focal-team
+    match window; venue='all' keeps both. Fixed 'home'/'away' selects that
+    historical venue regardless of the target fixture side. Spatial history is reduced in focal-team
     coordinates, then home-oriented final Away grids rotate by 180 degrees.
     RegionMass integrates source cells in the focal frame. Spatial descriptors
     in result.attrs['spatial_features'] travel through dataset assembly.
@@ -121,10 +122,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             retained_ratings[key] = run
     standings_producer = standings_run
     standings_windows = []
+    standings_venues = []
     def find_standings(value):
         from dataclasses import fields, is_dataclass
         if isinstance(value, DerivedStandings):
             standings_windows.extend(w for w in value.normalized_ranks if w not in standings_windows)
+            selected_venues = ('home', 'away') if value.venue == 'same' else (value.venue,)
+            standings_venues.extend(v for v in selected_venues if v not in standings_venues)
         elif is_dataclass(value):
             for field in fields(value):
                 find_standings(getattr(value, field.name))
@@ -157,12 +161,12 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     from .history import _eligible_history_index
 
     def history_rows(scope, venue='all'):
-        if venue not in ('all', 'same'):
-            raise ValueError('Historical venue must be all or same.')
+        if venue not in ('all', 'same', 'home', 'away'):
+            raise ValueError('Historical venue must be all, same, home or away.')
         key = (scope, venue)
         if key not in histories:
             histories[key] = _eligible_history_index(
-                history, group_by=(*group_by, 'side') if venue == 'same' else group_by, head_to_head=scope,
+                history, group_by=group_by, head_to_head=scope, venue=venue,
                 cutoffs=cutoffs, available_at=available_at,
             )
         return histories[key]
@@ -230,7 +234,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 source = history if standings_history is None else standings_history
                 release = available_at if standings_history is None else standings_available_at
                 standings_producer = build_standings(source, team_seasons=team_seasons,
-                    normalized_ranks=standings_windows, queries=history, cutoffs=cutoffs, available_at=release)
+                    normalized_ranks=standings_windows, queries=history, cutoffs=cutoffs, available_at=release, venues=standings_venues)
             result = (standings_producer.features(history, node, cutoffs=cutoffs), h2h)
         elif isinstance(node, TeamMovement):
             if movement_evidence is None:
@@ -411,11 +415,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                       node, cutoffs=cutoffs, available_at=available_at, group_by=group_by,
                                       scope=source_scope), source_scope)
         elif isinstance(node, (Lag, RollingMean, RollingStd, RollingSkewness, RollingZScore, EMA)):
-            if node.venue not in ('all', 'same'):
-                raise ValueError('Historical venue must be all or same.')
+            if node.venue not in ('all', 'same', 'home', 'away'):
+                raise ValueError('Historical venue must be all, same, home or away.')
             if isinstance(node.source, (League, LeaveOneOut)):
                 if node.venue != 'all':
-                    raise ValueError('Same venue is a team-history option, not a league-population option.')
+                    raise ValueError('Venue selection is a team-history option, not a league-population option.')
                 if h2h:
                     raise ValueError("H2H cannot change a league population.")
                 if population is None:

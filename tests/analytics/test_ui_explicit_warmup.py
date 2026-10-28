@@ -21,9 +21,7 @@ def test_explicit_modes_controls_roundtrip_exports(browser_ui):
         'dispersion':WarmStart(RollingStd(Stat('ALL','Match overview','cornerKicks'),5,ddof=0),
             SeededEMA(mode='uniform',alpha=.25,handoff=LinearFade(1,2))),
         'was_promoted':TeamMovement(), 'was_relegated':TeamMovement('relegated')})
-    # Ordinary statistics omit the default venue field in the builder; venue
-    # controls are reserved for spatial features by the existing UI contract.
-    recipe['features']['dispersion']['params']['source']['params'].pop('venue')
+    # Ordinary and spatial histories both expose the native venue setting.
     import_recipe(page,recipe)
     page.get_by_role('link',name='Features & ratings',exact=True).click()
     assert save_recipe(page,handle)==recipe

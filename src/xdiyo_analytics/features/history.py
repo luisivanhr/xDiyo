@@ -80,10 +80,14 @@ def eligible_history_rows(history, *, group_by=("team_id", "competition_id"),
 
 
 def _eligible_history_index(history, *, group_by=("team_id", "competition_id"),
-                            head_to_head=False, cutoffs=None, available_at=None):
+                            head_to_head=False, cutoffs=None, available_at=None, venue="all"):
     import numpy as np
 
-    keys = list(dict.fromkeys(group_by))
+    if venue not in ('all', 'same', 'home', 'away'):
+        raise ValueError('Historical venue must be all, same, home or away.')
+    if venue != 'all' and ('side' not in history or not history.side.isin(['home', 'away']).all()):
+        raise ValueError('Venue history requires valid home/away side metadata.')
+    keys = list(dict.fromkeys((*group_by, 'side') if venue == 'same' else group_by))
     if "team_id" not in keys:
         raise ValueError("Historical groups must include team_id.")
     if head_to_head and "opponent_id" not in keys:
@@ -99,6 +103,8 @@ def _eligible_history_index(history, *, group_by=("team_id", "competition_id"),
         raise KeyError("Historical operators require match status.")
     finished = history["status"].eq("finished").fillna(False).to_numpy(dtype=bool)
     valid = finished & kickoff.notna().to_numpy() & available.notna().to_numpy()
+    if venue in ("home", "away"):
+        valid &= history.side.eq(venue).to_numpy(dtype=bool)
     # Force one unit before comparing timestamps from different pandas backends.
     def nanos(series):
         return series.astype("datetime64[ns, UTC]").astype("int64").to_numpy()

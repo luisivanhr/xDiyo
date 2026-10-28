@@ -225,9 +225,12 @@ class StandingsRun:
         scope = tuple(self._metadata['scope'])
         if set(expression.normalized_ranks) - set(self._metadata['windows']):
             raise ValueError('Requested form windows are absent from saved standings.')
+        venues = ('home', 'away') if expression.venue == 'same' else (expression.venue,)
+        if set(venues) - set(self._metadata.get('venues', ['all'])):
+            raise ValueError('Requested venues are absent from saved standings; rebuild the required venue tables.')
         queries = _query_keys(history, scope, self._fixtures, cutoffs)
         if self._lookup is None:
-            self._lookup = {tuple(r[c] for c in (*scope, 'recorded_at', 'team_id', 'window')):r
+            self._lookup = {tuple(r[c] for c in (*scope, 'recorded_at', 'team_id', 'window')) + (r.get('venue', 'all'),):r
                             for r in self._snapshots.to_dict('records')}
         lookup = self._lookup
         columns, output, audits = [], [], []
@@ -235,19 +238,24 @@ class StandingsRun:
         selected = ([0] if expression.include_raw else []) + list(expression.normalized_ranks)
         for role in roles:
             for w in selected:
-                columns.append(role + '::' + (f'form_rank_{w}' if w else ('season_position_over_n' if expression.normalize else 'season_position')))
-        for skey, q, team, opponent in queries:
+                columns.append(role + '::' + ('' if expression.venue == 'all' else expression.venue + '::') + (f'form_rank_{w}' if w else ('season_position_over_n' if expression.normalize else 'season_position')))
+        for (skey, q, team, opponent), event in zip(queries, history.event_id.tolist()):
+            focal_venue = 'home' if self._fixtures[(*skey, _id(event))]['home'] == team else 'away'
             values, audit = [], []
             for role in roles:
                 t = team if role == 'team' else opponent
+                venue = expression.venue
+                if venue == 'same':
+                    venue = focal_venue if role == 'team' else ('away' if focal_venue == 'home' else 'home')
                 for w in selected:
-                    row = lookup.get((*skey, q, t, w))
+                    row = lookup.get((*skey, q, t, w, venue))
                     if row is None:
                         raise ValueError('Saved standings do not cover this exact query cutoff; rebuild from full source history.')
                     rank, n = row['rank'], row['team_count']
                     values.append((n-rank)/(n-1) if w else rank/n if expression.normalize else rank)
                     audit.append(dict(team_id=t, window=w, effective_count=row['effective_count'],
-                                      publication_id=row['publication_id'], gate_open=row['gate_open']))
+                                      publication_id=row['publication_id'], gate_open=row['gate_open'],
+                                      **({'venue': venue} if expression.venue != 'all' else {})))
             output.append(values)
             audits.append(audit)
         result = pd.DataFrame(output, index=history.index, columns=columns, dtype=float)
@@ -263,7 +271,7 @@ class StandingsRun:
         for m in self._fixtures.values():
             r = dict(m, scope=list(m['scope']), kickoff=m['kickoff'].isoformat(), available=None if pd.isna(m['available']) else m['available'].isoformat())
             fixtures.append(r)
-        body = dict(version=1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
+        body = dict(version=2 if 'venues' in self._metadata else 1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
         payload = json.dumps(body, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
         (path/'standings.json').write_text(payload+'\n', encoding='utf-8')
@@ -272,7 +280,7 @@ class StandingsRun:
     def load(cls, directory):
         path = Path(directory)
         body = json.loads((path/'standings.json').read_text(encoding='utf-8'))
-        if body['version'] != 1 or body['metadata']['policy'] != POLICY:
+        if body['version'] not in (1, 2) or body['metadata']['policy'] != POLICY:
             raise ValueError('Unsupported standings artifact version/policy.')
         fixtures = {}
         for m in body['fixtures']:
@@ -283,7 +291,7 @@ class StandingsRun:
         return cls(pd.read_parquet(path/'snapshots.parquet'), body['publications'], body['metadata'], fixtures)
 
 
-def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None):
+def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',)):
     """Build complete tables once per distinct scope/cutoff, without fitting.
 
     history must include the complete schedule/results. queries may be a subset.
@@ -291,9 +299,16 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     Explicit cutoffs must be actual native issuance times, never outcome times.
     Missing/unfinished results do not consume form slots. Late releases insert in
     kickoff/event chronology; already emitted snapshots are never revised.
+    Optional venues builds league-wide home-only/away-only tables, filtering
+    before each team's last-w matches. The full first-round gate is unchanged.
+    Default all-venue artifacts retain their original schema and state identity.
     """
     from ..features.standings import DerivedStandings
     windows = DerivedStandings(normalized_ranks, include_raw=True).normalized_ranks
+    if isinstance(venues, str) or not isinstance(venues, (tuple, list)) or not venues or any(v not in ('all', 'home', 'away') for v in venues):
+        raise ValueError('Standings venues must be a nonempty sequence of all, home and/or away.')
+    venues = tuple(dict.fromkeys(venues))
+    extended = venues != ('all',)
     scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at)
     queries = history if queries is None else queries
     query_rows = _query_keys(queries, scope, fixtures, cutoffs)
@@ -307,37 +322,42 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
         matches = groups[skey]
         first = {m['event'] for m in matches if m['round'] == 1}
         events = sorted((m for m in matches if m['valid']), key=lambda m:(max(m['available'], m['kickoff']+pd.Timedelta(1,'ns')), m['kickoff'], str(m['event'])))
-        histories = {t:[] for t in teams}
-        totals = {w:{t:[0]*8 for t in teams} for w in (0,*windows)}
-        used, cursor = [], 0
-        for q in sorted(times):
-            while cursor < len(events) and events[cursor]['available'] <= q and events[cursor]['kickoff'] < q:
-                m = events[cursor]
-                cursor += 1
-                used.append(m['event'])
-                for team, gf, ga in ((m['home'],m['gf'],m['ga']),(m['away'],m['ga'],m['gf'])):
-                    contribution = (1,int(gf>ga),int(gf==ga),int(gf<ga),3*int(gf>ga)+int(gf==ga),gf,ga,gf-ga)
-                    past = histories[team]
-                    order = (m['kickoff'], type(m['event']).__name__, m['event'])
-                    at = bisect_left(past, order, key=lambda entry:entry[0])
-                    late += int(at < len(past))
-                    for w in (0,*windows):
-                        if w and at < len(past)+1-w:
+        for venue in venues:
+            histories = {t:[] for t in teams}
+            totals = {w:{t:[0]*8 for t in teams} for w in (0,*windows)}
+            used, cursor = [], 0
+            for q in sorted(times):
+                while cursor < len(events) and events[cursor]['available'] <= q and events[cursor]['kickoff'] < q:
+                    m = events[cursor]
+                    cursor += 1
+                    used.append(m['event'])
+                    for team, gf, ga, side in ((m['home'],m['gf'],m['ga'],'home'),(m['away'],m['ga'],m['gf'],'away')):
+                        if venue != 'all' and venue != side:
                             continue
-                        dropped = past[-w][1] if w and len(past) >= w else (0,)*8
-                        totals[w][team] = [a+b-c for a,b,c in zip(totals[w][team],contribution,dropped)]
-                    past.insert(at,(order,contribution))
-            gate = first <= set(used)
-            pid = len(publications)
-            publications.append(dict(scope=list(skey), cutoff=q.isoformat(), gate_open=gate,
-                pending_first_round=sorted(first-set(used),key=str), contributing_events=list(used),
-                latest_kickoff=None if not used else max(fixtures[(*skey,e)]['kickoff'] for e in used).isoformat()))
-            for w in (0,*windows):
-                rows = [totals[w][t] if gate else [0]*8 for t in teams]
-                for t, arithmetic, rank in zip(teams, rows, competition_ranks(rows)):
-                    snapshots.append(dict(zip(scope,skey), team_id=t, recorded_at=q, window=w, rank=rank,
-                        team_count=len(teams), effective_count=min(w,len(histories[t])) if w else len(histories[t]),
-                        gate_open=gate, publication_id=pid, **dict(zip(TOTALS,arithmetic))))
+                        contribution = (1,int(gf>ga),int(gf==ga),int(gf<ga),3*int(gf>ga)+int(gf==ga),gf,ga,gf-ga)
+                        past = histories[team]
+                        order = (m['kickoff'], type(m['event']).__name__, m['event'])
+                        at = bisect_left(past, order, key=lambda entry:entry[0])
+                        late += int(at < len(past))
+                        for w in (0,*windows):
+                            if w and at < len(past)+1-w:
+                                continue
+                            dropped = past[-w][1] if w and len(past) >= w else (0,)*8
+                            totals[w][team] = [a+b-c for a,b,c in zip(totals[w][team],contribution,dropped)]
+                        past.insert(at,(order,contribution))
+                gate = first <= set(used)
+                pid = len(publications)
+                publications.append(dict(scope=list(skey), cutoff=q.isoformat(), gate_open=gate,
+                    **({"venue": venue} if extended else {}),
+                    pending_first_round=sorted(first-set(used),key=str), contributing_events=list(used),
+                    latest_kickoff=None if not used else max(fixtures[(*skey,e)]['kickoff'] for e in used).isoformat()))
+                for w in (0,*windows):
+                    rows = [totals[w][t] if gate else [0]*8 for t in teams]
+                    for t, arithmetic, rank in zip(teams, rows, competition_ranks(rows)):
+                        snapshots.append(dict(zip(scope,skey), team_id=t, recorded_at=q, window=w, rank=rank,
+                            **({"venue": venue} if extended else {}),
+                            team_count=len(teams), effective_count=min(w,len(histories[t])) if w else len(histories[t]),
+                            gate_open=gate, publication_id=pid, **dict(zip(TOTALS,arithmetic))))
     metadata = dict(policy=POLICY, scope=list(scope), windows=list(windows), source_sha256=identity,
         state_sha256=sha256(json.dumps([identity,sorted(windows),POLICY]).encode()).hexdigest(),
         query_sha256=sha256(repr(sorted((str(k),sorted(str(t) for t in v)) for k,v in requested.items())).encode()).hexdigest(),
@@ -345,4 +365,7 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
         availability='earlier_finished_kickoff_proxy_with_reviewed_bounds' if available_at is None else 'explicit_with_reviewed_bounds',
         skipped=skipped, late_team_insertions=late, table_computations=len(publications),
         persistence='exact_cutoff_lookup_only', schedule='verified_balanced_single_or_double_round_robin')
+    if extended:
+        metadata['venues'] = list(venues)
+        metadata['state_sha256'] = sha256(json.dumps([identity, sorted(windows), sorted(venues), POLICY]).encode()).hexdigest()
     return StandingsRun(pd.DataFrame(snapshots), publications, metadata, fixtures)

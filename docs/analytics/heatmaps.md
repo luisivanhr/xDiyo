@@ -157,15 +157,10 @@ population pooling and seeded warm-up priors for heatmap cells remain unsupporte
 ## Venue history
 
 The existing `Lag`, `RollingMean`, `RollingStd`, `RollingZScore` and `EMA` accept
-`venue="all"` (default) or `venue="same"`. This also works with ordinary statistics.
-In the **UI**, the venue selector is shown only for expressions containing a
-Heatmap source, including nested regional summaries. Switching to an ordinary
-statistic removes the venue override and restores all-venue history. The Python
-API retains its existing capabilities.
-In the **UI**, the venue selector is shown only for expressions containing a
-Heatmap source, including nested regional summaries. Switching to an ordinary
-statistic removes the venue override and restores all-venue history. The Python
-API retains its existing capabilities.
+`venue="all"` (default), `"same"`, `"home"` or `"away"`. This also works with
+ordinary statistics and scores. The **UI** exposes the selector for all these
+sources. Fixed home/away views select that historical venue independently of the
+target fixture side and the map's for/against perspective; see [venue histories](venue_history.md).
 
 ```python
 same_venue = RollingMean(Heatmap(method="gaussian"), window=5, venue="same")
@@ -177,7 +172,7 @@ before an away fixture it selects previous away appearances. Filtering happens
 **before** taking the last five matches. Existing cutoff, availability, missing
 observation and partial-window rules still apply. H2H adds its opponent restriction.
 Each nested historical operator owns its own venue choice. League populations
-reject same venue because that option concerns a focal team's history.
+require all venues because venue filtering here concerns a focal team's history.
 
 ## RegionMass and spatial metadata
 

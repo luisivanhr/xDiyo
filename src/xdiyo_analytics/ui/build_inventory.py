@@ -335,8 +335,7 @@ def build():
                 if name == 'score_field': f.update(kind='select', choices=['current'], title='Score basis', help='Native current score from the matches table. It is not universally regulation time. No reconstruction from halves, extra time or penalties, and no fallback to another score field.')
                 if name == 'side': f.update(kind='select', choices=['for','against','both'], help='For is goals scored by the focal team; against is goals conceded; both creates separate scored and conceded columns. Wrap in Rolling mean or Lag to use previous matches only.')
             if name == 'venue' and key.startswith('features.'):
-                f.update(visible_when_contains={'source':['features.Heatmap','features.SpatialPointSummary']}, clear_when_hidden=True)
-                f.update(kind='select', choices=[{'value':'all','label':'All venues'}, {'value':'same','label':'Same venue as target fixture'}], primary=True, help='All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.')
+                f.update(kind='select', choices=[{'value':'all','label':'All venues'}, {'value':'same','label':'Same venue as target fixture'}, {'value':'home','label':'Home matches only'}, {'value':'away','label':'Away matches only'}], primary=True, help='All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.')
             if key == 'features.RegionMass':
                 if name == 'region': f.update(kind='select', choices=['own_half','opponent_half'], primary=True, help='Integrate the grid over the focal team’s own or opponent half. A cell crossing halfway contributes proportionally. Density is multiplied by area; mass sums proportions; count sums points.')
                 if name == 'source': f.update(kind='component', components=['features.Heatmap','features.Lag','features.RollingMean','features.EMA'], initial_component='features.RollingMean')
@@ -521,7 +520,6 @@ def build():
                     f.update(help='Minimum paired finite observations with strictly positive weights, unlike ordinary Rolling mean which counts finite values.')
                 elif name == 'venue':
                     f.pop('visible_when_contains', None)
-                    f['visible_when_any_contains'] = {operand:['features.Heatmap','features.SpatialPointSummary'] for operand in ('source','weights')}
                 elif name in ('source_available_at', 'weights_available_at'):
                     f.update(kind='text', help='Optional UTC datetime column in team history for this input. Missing or late release masks the input within the fixed window. Disabled uses shared fixture availability. The column must already exist in the supplied history.')
             if key == 'context.CalendarFeature' and name == 'kind':
@@ -535,6 +533,8 @@ def build():
                     f.update(help='Add cumulative season position without changing form ranks.')
                 elif name == 'side':
                     f.update(help='For uses this team; against uses its opponent; both creates separate outputs.')
+                elif name == 'venue':
+                    f.update(help='Build league-wide form tables from each team\'s all, home-only or away-only matches before taking its window. Same chooses each selected team\'s current fixture venue; the opponent has the opposite venue. Independent of For/Against.')
                 elif name == 'normalize':
                     f.update(help='Divide cumulative position by N only. Lower is better; form ranks always use (N-R)/(N-1).')
             if key == 'features.SeasonCountdown':

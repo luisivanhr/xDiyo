@@ -12,7 +12,9 @@ thirds/channels/rectangles, entropy and concentration summaries.
 See [spatial distances and fitted map representations](spatial_extensions.md)
 for Phase C/D features and configurable grid resolution.
 `Lag`, `RollingMean`, `RollingStd`, `RollingSkewness`, `RollingZScore` and `EMA` accept
-`venue="all"` or `venue="same"` for both ordinary and spatial team histories.
+`venue="all"`, `"same"`, `"home"` or `"away"` for both ordinary and spatial team histories.
+See [fixed venue histories and form ranks](venue_history.md) for scored/conceded
+views, filtering before windows, and a native 18-predictor fixture recipe.
 
 See [arithmetic composition and fitted identity indicators](feature_composition.md)
 for reusable absolute values, sums, products, differences, ratios and categorical

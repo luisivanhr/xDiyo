@@ -221,7 +221,8 @@ class HeatmapReporter:
                 raise ValueError(f'Spatial feature {name!r} is incomplete. Inspect it before selecting individual cells.')
             if spec['kind'] == 'grid' and len(spec['columns']) != spec['grid_size']**2:
                 raise ValueError(f'Spatial feature {name!r} has an incomplete grid.')
-            operations = ', '.join(('Rolling mean' if o['operator'] == 'RollingMean' else o['operator']) + (f" {o['window']} matches" if o.get('window') else f" lag {o['periods']}" if o.get('periods') else f" span {o['span']}" if o.get('span') else '') + (' · same venue' if o.get('venue') == 'same' else ' · all venues') for o in spec.get('operators', []))
+            venue_labels = {'all': 'all venues', 'same': 'same venue', 'home': 'home matches only', 'away': 'away matches only'}
+            operations = ', '.join(('Rolling mean' if o['operator'] == 'RollingMean' else o['operator']) + (f" {o['window']} matches" if o.get('window') else f" lag {o['periods']}" if o.get('periods') else f" span {o['span']}" if o.get('span') else '') + ' · ' + venue_labels[o.get('venue', 'all')] for o in spec.get('operators', []))
             label = ' · '.join(filter(None, [spec.get('feature', family), spec.get('side'), spec.get('region'), operations]))
             entry = families.setdefault(family, dict(label=label, spec=spec, sides={}, scale=[0., 0.]))
             entry['sides'][spec.get('fixture_side') or 'team'] = spec
@@ -278,6 +279,6 @@ class HeatmapReporter:
                            tables={'fixtures':summary, **point_coverage_tables(context, kept), **distance_coverage_tables(context, kept), **weighted_coverage_tables(context, kept)}, notes=[
             'Panels show the exact prepared feature values for this fixture; no additional averaging is applied.',
             'Home-oriented grids share one pitch frame: Home goal left, Away goal right. Against describes opponents historically faced by each focal team.',
-            'The displayed feature declares all-venue or same-venue history. Missing values remain unavailable.',
+            'The displayed feature declares all-venue, same-venue, home-only or away-only history. Missing values remain unavailable.',
             'Point summaries use unit-weight activity observations, population spatial spread and the team-relative frame. Coverage tables are diagnostics, not additional predictors.',
             f'{len(fixtures)} fixtures available. Live views cache at most {self.cache_size} fixture/feature pairs. Offline exports embed the chosen population.'])

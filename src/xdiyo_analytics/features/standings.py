@@ -8,6 +8,9 @@ from .expressions import Expr
 class DerivedStandings(Expr):
     """Rank every team using its own last-w matches; never average past ranks.
 
+    venue selects all, fixed home/away history, or each selected team's current
+    fixture venue (same). Venue filtering precedes each team's last-w window.
+    For/against selects the team whose rank is returned, independently of venue.
     Form ranks are (N-R)/(N-1). Optional cumulative position is R or R/N.
     Complete verified membership and schedule are required. The first round
     must be completed and available before any noninitial ranks are published.
@@ -17,6 +20,7 @@ class DerivedStandings(Expr):
     include_raw: bool = False
     normalize: bool = False
     side: str = "for"
+    venue: str = "all"
 
     def __post_init__(self):
         windows = () if self.normalized_ranks is None else self.normalized_ranks
@@ -31,5 +35,7 @@ class DerivedStandings(Expr):
             raise TypeError("include_raw and normalize must be booleans.")
         if not windows and not self.include_raw:
             raise ValueError("Select at least one form window or include_raw=True.")
+        if self.venue not in ('all', 'same', 'home', 'away'):
+            raise ValueError('venue must be all, same, home or away.')
         if self.side not in ("for", "against", "both"):
             raise ValueError("side must be for, against or both.")

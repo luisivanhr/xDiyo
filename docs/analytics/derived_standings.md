@@ -148,7 +148,7 @@ properties return copies. A new source, membership, release policy, cutoff set o
 window configuration requires a new run; there is no process-global mutable cache.
 
 Within one feature evaluation, all DerivedStandings descendants share one producer
-with the union of requested windows. Output-only selections are separate from state.
+with the union of requested windows and venues. Output-only selections are separate from state.
 Canonical paired events are validated once. An availability-ordered replay maintains
 integer totals and kickoff-ordered per-team histories; late entries update only
 windows containing the entry. Each requested cutoff re-ranks complete tables once.
@@ -161,6 +161,28 @@ The builder exposes the feature and arbitrary window list, raw/normalized switch
 side selection, auxiliary source tables and saved `input.StandingsRun`. JSON and
 Python exports use native constructors. `examples/derived_standings.py` demonstrates
 both direct evaluation and recipe preparation, without training.
+
+### Home-only and away-only tables
+
+`DerivedStandings([3], venue="home")` ranks the complete league roster using each
+team's last three available home results. `venue="away"` does the same for away
+results; `venue="same"` selects each requested team's current fixture venue.
+`side="against"` selects the opponent's rank, independently of venue: fixed home
+means that opponent's home form even if it currently plays away. With same venue,
+the opponent's actual venue is opposite the focal team's. The first-round gate,
+strict cutoffs, season/table boundaries, approved-score rules and ranking order
+remain unchanged. Cumulative position also uses the selected venue.
+
+New names include the venue, e.g. `home_form::team::home::form_rank_3` before
+match assembly. Default `venue="all"` keeps existing column names and values.
+Extended saved runs use artifact version 2 and record their venue tables in
+metadata, snapshots, publication provenance and state identity. All-only saves
+retain version 1; both versions load. Requesting an absent saved venue raises an
+error. Provider `NormalizedStanding` remains a provider-table feature; it cannot
+recover venue tables by filtering provider positions.
+
+See [venue histories](venue_history.md) and `examples/venue_history.py` for the
+paper-inspired goals and rank configuration.
 
 ## Reference and validation
 

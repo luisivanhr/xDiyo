@@ -301,10 +301,13 @@ def test_full_source_subset_queries_and_current_target_exclusion():
         assert not set(q.event_id)&set(pub['contributing_events'])
 
 
-def test_roundtrip_python_recipe_prepares_without_fit(tmp_path):
+@pytest.mark.parametrize('venue_views', [False, True])
+def test_roundtrip_python_recipe_prepares_without_fit(tmp_path, venue_views):
     import hashlib
     from xdiyo_analytics.ui.recipe import export_python,prepare_recipe
     from examples.derived_standings import recipe
+    if venue_views:
+        from examples.venue_history import recipe
     h,m=population(4)
     m=m.assign(movement='other_entry',got_promoted=False,got_demoted=False)
     home=h.loc[h.side.eq('home')]
@@ -323,7 +326,7 @@ def test_roundtrip_python_recipe_prepares_without_fit(tmp_path):
     (tmp_path/'Premier_League_22_23.manifest.json').write_text(json.dumps(dict(schema_version='2',complete=True,matches=len(matches),season_file='Premier_League_22_23.parquet',manifest='_tables/competition=17/season=1/versions/v1/manifest.json')))
     r=recipe(tmp_path);r['split']['params'].update(train_size=2,test_size=1)
     prepared=prepare_recipe(r)
-    assert prepared.dataset.X.shape==(12,6)
+    assert prepared.dataset.X.shape==(12,18 if venue_views else 6)
     namespace={}
     # Execute only exported preparation, explicitly never its run_recipe line.
     exec(export_python(r).split('result = run_recipe')[0],namespace)
@@ -333,7 +336,8 @@ def test_roundtrip_python_recipe_prepares_without_fit(tmp_path):
     from xdiyo_analytics.data import load_seasons
     from xdiyo_analytics.histories import build_team_history
     native=load_seasons(tmp_path,['22_23'],leagues=['Premier_League'],tables=['matches','team_seasons'])
-    run=build_standings(build_team_history(native),team_seasons=native['team_seasons'],normalized_ranks=[3,6])
+    run=build_standings(build_team_history(native),team_seasons=native['team_seasons'],normalized_ranks=[3,6],
+        venues=['all','home','away'] if venue_views else ['all'])
     saved=tmp_path/'saved';run.save(saved)
     r['feature_options']['standings_run']={'component':'input.StandingsRun','params':{'directory':str(saved)}}
     manifest['tables'].pop('team_seasons')

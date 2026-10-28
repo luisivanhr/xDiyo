@@ -95,6 +95,8 @@ def evaluate_seeded(node, context, evaluate, candidates, *, h2h, group_by):
             rows = rows[history.season_id.iloc[rows].astype(object).eq(previous[1]).to_numpy()]
         for name in extras:
             rows = rows[history[name].iloc[rows].astype(object).eq(history[name].iloc[row]).fillna(False).to_numpy(dtype=bool)]
+        if op.venue in ('home', 'away'):
+            rows = rows[history.side.iloc[rows].eq(op.venue).to_numpy(dtype=bool)]
         return ordered(rows)[-op.window:]
 
     def state(rows, col):

@@ -617,8 +617,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -627,6 +626,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -736,8 +743,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -746,6 +752,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -993,14 +1007,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1009,6 +1016,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -1059,14 +1074,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1075,6 +1083,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -1139,8 +1155,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1149,19 +1164,17 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
-          "primary": true,
-          "visible_when_any_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ],
-            "weights": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          }
+          "primary": true
         },
         {
           "name": "source_available_at",
@@ -1237,14 +1250,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1253,6 +1259,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -1304,14 +1318,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1320,6 +1327,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -1392,14 +1407,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1408,6 +1416,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -1458,14 +1474,7 @@
           "required": false,
           "kind": "select",
           "default": "all",
-          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. The match window is applied after this filter.",
-          "visible_when_contains": {
-            "source": [
-              "features.Heatmap",
-              "features.SpatialPointSummary"
-            ]
-          },
-          "clear_when_hidden": true,
+          "help": "All venues uses every eligible previous match. Same venue uses previous home matches before a home fixture, or previous away matches before an away fixture. Fixed home/away always selects that historical venue, even when the team currently plays at the opposite venue. This is independent of for/against; the match window is applied after filtering.",
           "choices": [
             {
               "value": "all",
@@ -1474,6 +1483,14 @@
             {
               "value": "same",
               "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
             }
           ],
           "primary": true
@@ -19153,6 +19170,33 @@
             "both"
           ],
           "help": "For uses this team; against uses its opponent; both creates separate outputs.",
+          "primary": true
+        },
+        {
+          "name": "venue",
+          "title": "Venue",
+          "required": false,
+          "kind": "select",
+          "default": "all",
+          "help": "Build league-wide form tables from each team's all, home-only or away-only matches before taking its window. Same chooses each selected team's current fixture venue; the opponent has the opposite venue. Independent of For/Against.",
+          "choices": [
+            {
+              "value": "all",
+              "label": "All venues"
+            },
+            {
+              "value": "same",
+              "label": "Same venue as target fixture"
+            },
+            {
+              "value": "home",
+              "label": "Home matches only"
+            },
+            {
+              "value": "away",
+              "label": "Away matches only"
+            }
+          ],
           "primary": true
         }
       ],

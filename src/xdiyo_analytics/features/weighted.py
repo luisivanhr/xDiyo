@@ -32,8 +32,8 @@ class RollingWeightedMean(Expr):
                 raise ValueError(f'{name} must be a positive integer.')
         if self.min_periods > self.window:
             raise ValueError('min_periods cannot exceed window.')
-        if self.venue not in ('all', 'same'):
-            raise ValueError('Historical venue must be all or same.')
+        if self.venue not in ('all', 'same', 'home', 'away'):
+            raise ValueError('Historical venue must be all, same, home or away.')
         for name in ('source_available_at', 'weights_available_at'):
             value = getattr(self, name)
             if value is not None and (not isinstance(value, str) or not value):

@@ -86,8 +86,11 @@ outside this addition's supported interfaces.
 In **Features & ratings**, add **Rolling Mean**, set its source to **Match Score**,
 select **Score basis: current**, **Side: for**, **Window: 20**, and
 **Min periods: 1**. Repeat with **Side: against**. Use the two names above.
-The venue control remains specific to heatmaps in the builder; scores default
-to all venues. Score sources are separate from statistics bundles.
+The historical operator's venue control defaults to all venues and also offers
+same venue, home matches only and away matches only, independently of the score
+perspective. For example, against with home-only means goals conceded in this
+team's past home matches. See [venue histories](venue_history.md).
+Score sources are separate from statistics bundles.
 
 The native recipe fragment is:
 

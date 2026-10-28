@@ -25,8 +25,8 @@ def validate_options(node):
             raise ValueError(f'{name} must be a positive integer.')
     if node.min_periods > node.window:
         raise ValueError('min_periods cannot exceed window.')
-    if node.venue not in ('all', 'same'):
-        raise ValueError('Historical venue must be all or same.')
+    if node.venue not in ('all', 'same', 'home', 'away'):
+        raise ValueError('Historical venue must be all, same, home or away.')
     _tolerance(node.mass_tolerance)
 
 

@@ -5,8 +5,11 @@ Features & ratings. Its score-basis and perspective dropdowns describe the nativ
 values used. See the [compact four-column goals recipe](match_scores.md).
 
 For spatial predictors and fixture pitch views, see [heatmap features](heatmaps.md#experiment-builder).
-Choose Heatmap inside a historical feature and select all-venue or same-venue
-history. This selector appears only for heatmap-based sources; ordinary statistics do not show it. RegionMass can summarize either half. Add Heatmap Reporter under
+Choose a historical feature and select all venues, same venue, home matches only,
+or away matches only. This selector is available for statistics, scores and spatial
+sources, independently of for/against. Derived Standings offers the same venue
+choices for league-wide form tables. See [venue histories](venue_history.md).
+RegionMass can summarize either half. Add Heatmap Reporter under
 Pre-training analysis; spatial feature choices appear after preparation.
 Choose a fold, fixture and feature to view both teams with names and local badges.
 The viewer fetches those retained values on demand without recalculating features.

@@ -324,7 +324,7 @@ def test_generic_recipe_example_and_nested_wrappers():
     assert len(nested.attrs['weighted_history_audit']['nested'])==1
 
 
-def test_ui_venue_visible_for_either_spatial_operand():
+def test_ui_venue_visible_for_ordinary_and_spatial_operands():
     import shutil, subprocess
     from pathlib import Path
     executable=shutil.which('node')
@@ -338,7 +338,7 @@ def test_ui_venue_visible_for_either_spatial_operand():
     const context={};vm.createContext(context);vm.runInContext(fn,context);
     const f=JSON.parse(process.argv[2]);
     const stat={component:'features.Stat'},spatial={component:'features.Abs',params:{source:{component:'features.SpatialPointSummary'}}};
-    assert.equal(context.visible(f,{source:stat,weights:stat},[f]),false);
+    assert.equal(context.visible(f,{source:stat,weights:stat},[f]),true);
     assert.equal(context.visible(f,{source:spatial,weights:stat},[f]),true);
     assert.equal(context.visible(f,{source:stat,weights:spatial},[f]),true);
     assert.equal(context.visible(f,{source:spatial,weights:spatial},[f]),true);
