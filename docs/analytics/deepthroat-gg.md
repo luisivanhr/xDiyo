@@ -38,6 +38,10 @@ its competition, pooling home and away appearances. Short histories of 6..n-1
 use their actual count as the mean denominator. Incomplete paired goal scores
 are excluded from both teams' windows. A result is released to both
 perspectives only when both release times are known; the later time controls.
+Both perspectives must also have exactly the same prediction cutoff (compared
+as UTC instants); mismatches fail before feature evaluation. Missing scores,
+including pandas nullable integers and floats, are excluded before computing
+outcomes. Input histories are not modified.
 Native historical eligibility still requires a finished match, kickoff
 strictly before the cutoff, result availability no later than the cutoff, and
 exclusion of the target match. Omitted availability uses the native
@@ -100,14 +104,17 @@ RPS = mean(sum((cumulative_probability - cumulative_outcome)**2, first 2 classes
 
 Retrospective leave-one-match-out queries exclude the exact query index even
 with duplicate vectors. k>N-1 is recorded as infeasible. All exact objective
-ties are recorded, choosing the smallest candidate. One maximum-k sklearn
-KD-tree query supplies cumulative sums/frequencies for all k. At equal
-distances the installed sklearn KD-tree's maximum-k ordering defines the
-prefixes; case order and dependency versions are retained. This tie convention
-is not claimed to match FNN or rebuilding a separate tree for every omitted
-match. Final fitted KNN models use sklearn's ordinary tie behavior (class-vote
-ties follow its sorted class order); this is another explicit implementation
-detail, not a paper-established choice.
+ties are recorded, choosing the smallest candidate. For each omitted match,
+both sklearn models are fitted on the remaining population in original row
+order. Those fitted KD trees are reused across candidates, but predictions
+are queried at each actual k. They match independently refitting both sklearn
+estimators for every candidate, including tied distances. Maximum-k prefixes
+and deleting self from a tree fitted on all rows are deliberately avoided:
+neither preserves the selected-k predictor's tie behavior. Final fitted models
+use this same ordinary sklearn policy. Case order and dependency versions are
+retained; class-vote ties follow sklearn's sorted class order. This is an
+implementation choice, not a claim of parity with the authors' FNN code.
+New artifacts record `native_sklearn_selected_k_leave_one_out_v2` explicitly.
 
 Research assumptions: **Euclidean distance, uniform neighbor weights, no
 additional scaling**. Final goal forecasts remain decimal neighbor means.
@@ -176,7 +183,7 @@ new output folder and never overwrites an earlier study.
   fixture assigns a nanosecond timestamp into a microsecond column. They are
   explicitly retained as inherited failures, not skipped or weakened here.
 
-Final checks: **165 passed, 2 inherited failures** in the 167-test pandas 3
+Original `104c8c9` checks: **165 passed, 2 inherited failures** in the 167-test pandas 3
 regression set; **91 passed** in the pandas 2 research/UI/standings set. The
 20 new tests pass in both environments. Exact commands, versions, hashes and
 the two base reproductions are recorded in `deepthroat-gg-verification.json`.
@@ -199,20 +206,24 @@ seasons. See `deepthroat-gg-benchmark.json` for measured time, sampled process
 RSS, exact source hashes and selected configurations. Memory is sampled at
 10 ms, so it is a measured lower bound on instantaneous peak RSS.
 
-The final run took **3.53 seconds**: 3.19 s preparation, 0.16 s selection/fitting/
+The original `104c8c9` run took **3.53 seconds**: 3.19 s preparation, 0.16 s selection/fitting/
 holdout scoring, 0.18 s persistence. Peak RSS was **183.6 MiB**, **13.2 MiB**
 above its imported-runtime baseline. It selected n=30, goal k=72, outcome k=51
 from 87 development fixtures and scored 38 held-out fixtures. These numbers
-describe the synthetic fixture only.
+describe the synthetic fixture only and used the now-replaced maximum-k prefix
+search. Repair verification and updated timings are recorded separately in
+`deepthroat-gg-repair.md`; the original receipts remain historical evidence.
 
 The first **proposed, not launched** real study is one competition, at most
 5,000 fixtures, an explicitly reviewed membership/availability table, one
 chronological final-season holdout, n=9..100 then k=3..350, one CPU worker.
 Review dates and included seasons before execution. Float64 six-feature bundles
-alone cost about 22 MB at 5,000 fixtures; 350-neighbor indices and cumulative
-two-goal/three-class arrays add roughly 84 MB before temporaries, pandas metadata,
-native indexes and fitted models. Full process memory is larger. KD-tree query
-time is data-dependent; the tiny synthetic time is not a reliable real-data
+alone cost about 22 MB at 5,000 fixtures; per-candidate two-goal/three-class
+predictions and maximum-k diagnostic indices add roughly 84 MB before
+temporaries, pandas metadata, native indexes and fitted models. The repaired
+search builds two trees per omitted match and calls both predictors at every
+feasible k. This costs more than the invalid maximum-k shortcut. Full process
+memory is larger. KD-tree query time is data-dependent; the tiny synthetic time is not a reliable real-data
 estimate. Start with a 1,000-fixture preparation/profile checkpoint, measure
 time/RSS, then decide whether the 5,000-fixture study fits the agreed budget.
 

@@ -1,0 +1,120 @@
+{
+  "reviewed_parent": "104c8c9b469550c13639a9f56e6dc301c5988d6a",
+  "branch": "codex/deepthroat-gg-research",
+  "real_data_experiments_run": false,
+  "source_sha256": {
+    "src/xdiyo_analytics/research/deepthroat_features.py": "025e4a55ba2691ac32557f1bf7955f0e19e7ade40d8c553b8a45d735246a8be1",
+    "src/xdiyo_analytics/research/deepthroat_gg.py": "103e5dd017e4c5ca7705514d66d237b50489632c976f179adbc012f50296e6a2",
+    "tests/analytics/test_deepthroat_gg.py": "e7eac09aa61634cb2be585383206fe40297fa13af6f1282000715437ebd0a89b",
+    "examples/deepthroat_gg_synthetic.py": "79da4eff6b87d688168b959e520b927581f6256dcfbd40e503b638f47401ea56"
+  },
+  "source_hash_basis": "working-tree file bytes; exact library hashes also included in repaired benchmark",
+  "tests": {
+    "deepthroat-gg-repair-pandas3-tests": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "2",
+        "skipped": "0",
+        "tests": "185",
+        "time": "72.559",
+        "timestamp": "2026-10-29T22:56:02.732860+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "research_tests": 32,
+      "failures": [
+        {
+          "test": "tests.analytics.test_match_score.test_current_ignores_disagreeing_halves_extra_time_and_penalties",
+          "message": "AssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (12, 21)\n[right]: (12, 13)"
+        },
+        {
+          "test": "tests.analytics.test_match_score.test_frozen_round_boundaries_availability_postponements_and_perturbations",
+          "message": "TypeError: Invalid value '2024-01-10 11:00:00.000000001+00:00' for dtype 'datetime64[us, UTC]'"
+        }
+      ]
+    },
+    "deepthroat-gg-repair-pandas2-tests": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "185",
+        "time": "59.608",
+        "timestamp": "2026-10-29T22:56:05.804741+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "research_tests": 32,
+      "failures": [
+        {
+          "test": "tests.analytics.test_match_score.test_current_ignores_disagreeing_halves_extra_time_and_penalties",
+          "message": "AssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (12, 21)\n[right]: (12, 13)"
+        }
+      ]
+    },
+    "deepthroat-gg-repair-pandas2-base": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "1",
+        "time": "1.275",
+        "timestamp": "2026-10-29T22:59:01.196698+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "research_tests": 0,
+      "failures": [
+        {
+          "test": "tests.analytics.test_match_score.test_current_ignores_disagreeing_halves_extra_time_and_penalties",
+          "message": "AssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (12, 21)\n[right]: (12, 13)"
+        }
+      ]
+    }
+  },
+  "environments": {
+    "pandas3": {
+      "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "python": "3.12.14",
+      "versions": {
+        "numpy": "2.3.5",
+        "pandas": "3.0.1",
+        "scikit-learn": "1.9.1",
+        "pyarrow": "25.0.1",
+        "joblib": "1.6.0"
+      }
+    },
+    "pandas2": {
+      "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+      "python": "3.14.0",
+      "versions": {
+        "numpy": "2.4.6",
+        "pandas": "2.3.3",
+        "scikit-learn": "1.9.0",
+        "pyarrow": "22.0.0",
+        "joblib": "1.5.2"
+      }
+    }
+  },
+  "commands": [
+    "PYTHONPATH=src; C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe -m pytest tests/analytics/test_deepthroat_gg.py tests/analytics/test_ui_knn.py tests/analytics/test_ui_svm.py tests/analytics/test_ui_inventory.py tests/analytics/test_ui_workflow.py tests/analytics/test_derived_standings.py tests/analytics/test_standings_serialization.py tests/analytics/test_match_score.py tests/analytics/test_match_goals.py -q --junitxml=docs/analytics/deepthroat-gg-repair-pandas3-tests.xml",
+    "PYTHONPATH=src; C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe -m pytest tests/analytics/test_deepthroat_gg.py tests/analytics/test_ui_knn.py tests/analytics/test_ui_svm.py tests/analytics/test_ui_inventory.py tests/analytics/test_ui_workflow.py tests/analytics/test_derived_standings.py tests/analytics/test_standings_serialization.py tests/analytics/test_match_score.py tests/analytics/test_match_goals.py -q --junitxml=docs/analytics/deepthroat-gg-repair-pandas2-tests.xml",
+    "From isolated d38ae319 base: PYTHONPATH=src; .misc314/Scripts/python.exe -m pytest tests/analytics/test_match_score.py -k current_ignores -q --junitxml=<research>/docs/analytics/deepthroat-gg-repair-pandas2-base.xml",
+    "PYTHONPATH=src; C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe examples/deepthroat_gg_synthetic.py --output C:/Users/luisi/AppData/Local/Temp/deepthroat-gg-repair-20261029"
+  ],
+  "receipts_sha256": {
+    "deepthroat-gg-repair-benchmark.json": "76979e486cbfe5cb8e1cf5fc8f8989ecd61800c7635c688c00832eb7e4e1f56e",
+    "deepthroat-gg-repair-benchmark.log": "fa32c7702b772777b9e065a3c52b64d2906ebff773d5b41e9214e363e2be4840",
+    "deepthroat-gg-repair-pandas2-base.log": "7481ed915eac4b67fb9b6c69938eb3682b4a1e9b22dd49b06ad0e55ba1d98c67",
+    "deepthroat-gg-repair-pandas2-base.xml": "21008ddf8783ec29645ba417a2fe84ab8d3bb250c4b901e077e3c80f7c9b19ed",
+    "deepthroat-gg-repair-pandas2-tests.log": "1e81e784e48bca1b4fdbda4f14a206d276b92d315e8b5fdf31434f3d39b3ec15",
+    "deepthroat-gg-repair-pandas2-tests.xml": "9c7b69752fa714025978f3af5aaabc23e5d866f024e4216c6fa8bf3ce83d75af",
+    "deepthroat-gg-repair-pandas3-tests.log": "051abcfb1cd1831c4360b197896bbfae6049db0805d0d77e7b975352d3087db5",
+    "deepthroat-gg-repair-pandas3-tests.xml": "b47455f73146975e0cb12d246ed6320a78863f5b51bb5563556a2c2ee490d7fc"
+  },
+  "limitations": [
+    "Broader suite retains two inherited MatchScore failures on pandas3 and one on pandas2.",
+    "Tested installed sklearn 1.9.0 and 1.9.1, not reviewer sklearn 1.8.0.",
+    "Synthetic performance only; no real-data study or browser rerun."
+  ]
+}

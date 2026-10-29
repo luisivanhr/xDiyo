@@ -12,13 +12,14 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor, NearestNeighbors
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from ..splits import Fold, SplitPlan
 from ..training import EstimatorAdapter, TrainingRunner, save_model
 from .deepthroat_features import FEATURES, POLICY, prepare_bundles, windows
 
 CLASS_ORDER = (1, 0, -1)
+NEIGHBOR_POLICY = 'native_sklearn_selected_k_leave_one_out_v2'
 
 
 def joint_score_rmse(actual, predicted):
@@ -52,10 +53,12 @@ class OutcomeAdapter(EstimatorAdapter):
 
 
 def select_neighbors(X, goals, outcomes, k_values=range(3, 351)):
-    """One leave-self-out KD query, cumulative uniform predictions for every k.
+    """Score the same sklearn predictors used for final fitting/persistence.
 
-    Distance ties retain sklearn's KD-tree query ordering. The single maximum-k
-    query defines all prefixes, including duplicate feature vectors.
+    Fit each held-out population once, preserving its original row order, and
+    reuse its KD trees across k. Query each actual k: maximum-k prefixes and
+    deleting self from a full-population tree do not preserve distance ties.
+    The returned diagnostic indices describe the maximum feasible k only.
     """
     ks = windows(k_values, 3)
     X, goals, outcomes = np.asarray(X, float), np.asarray(goals, float), np.asarray(outcomes)
@@ -64,19 +67,33 @@ def select_neighbors(X, goals, outcomes, k_values=range(3, 351)):
     feasible = [k for k in ks if k <= len(X)-1]
     if not feasible:
         raise ValueError('No feasible k: leave-one-out fitting population must have at least three other matches.')
-    neighbors = NearestNeighbors(n_neighbors=max(feasible), algorithm='kd_tree', metric='euclidean', n_jobs=1).fit(X)
-    indices = neighbors.kneighbors(return_distance=False)  # X=None excludes each query's own index, including duplicates.
-    if (indices == np.arange(len(X))[:, None]).any():
-        raise AssertionError('Leave-one-out query returned itself.')
-    score_sum = np.cumsum(goals[indices], axis=1)
-    class_sum = np.cumsum(outcomes[indices, None] == np.array(CLASS_ORDER), axis=1)
+    score_predictions = np.empty((len(feasible), len(X), 2))
+    probabilities = np.zeros((len(feasible), len(X), 3))
+    indices = np.empty((len(X), max(feasible)), dtype=np.intp)
+    rows = np.arange(len(X))
+    for held_out in rows:
+        train = rows[rows != held_out]
+        # With explicit kd_tree, k controls the query, not construction of the
+        # fitted tree. Independent per-k refits are the regression oracle.
+        regressor = KNeighborsRegressor(n_neighbors=max(feasible), weights='uniform', metric='euclidean', algorithm='kd_tree', n_jobs=1).fit(X[train], goals[train])
+        classifier = KNeighborsClassifier(n_neighbors=max(feasible), weights='uniform', metric='euclidean', algorithm='kd_tree', n_jobs=1).fit(X[train], outcomes[train])
+        query = X[held_out:held_out+1]
+        class_positions = [CLASS_ORDER.index(value) for value in classifier.classes_]
+        for j, k in enumerate(feasible):
+            regressor.set_params(n_neighbors=k)
+            classifier.set_params(n_neighbors=k)
+            score_predictions[j, held_out] = regressor.predict(query)[0]
+            probabilities[j, held_out, class_positions] = classifier.predict_proba(query)[0]
+        indices[held_out] = train[regressor.kneighbors(query, return_distance=False)[0]]
+    candidate_index = {k: j for j, k in enumerate(feasible)}
     records = []
     for k in ks:
         if k not in feasible:
             records.append(dict(k=k, status='infeasible', rows=len(X), reason='k exceeds N-1'))
         else:
             records.append(dict(k=k, status='evaluated', rows=len(X),
-                joint_rmse=joint_score_rmse(goals, score_sum[:, k-1]/k), rps=rps(outcomes, class_sum[:, k-1]/k)))
+                joint_rmse=joint_score_rmse(goals, score_predictions[candidate_index[k]]),
+                rps=rps(outcomes, probabilities[candidate_index[k]])))
     table = pd.DataFrame(records)
     valid = table[table.status.eq('evaluated')]
     best = {metric: int(valid.loc[valid[metric].idxmin(), 'k']) for metric in ('joint_rmse', 'rps')}
@@ -197,7 +214,8 @@ def save_research(results, recipe, history, roster, path):
         membership=POLICY, features=FEATURES, classes=CLASS_ORDER, missing_class='zero probability',
         selection='signed Pearson n, then separate retrospective leave-self-out k; ties choose smallest',
         distance='Euclidean', weights='uniform', scaling='none', rounding='none',
-        neighbor_ties='sklearn KD-tree maximum-k query prefixes; input case order is preserved',
+        neighbor_policy=NEIGHBOR_POLICY,
+        neighbor_ties='native sklearn selected-k queries on each fitting population; original case order preserved',
         availability=recipe.available_at or 'retrospective kickoff proxy with native completion bounds',
         versions={'python': platform.python_version(), **{p: importlib.metadata.version(p) for p in ('numpy','pandas','scikit-learn','pyarrow','joblib')}}, competitions=[])
     for i, result in enumerate(results):

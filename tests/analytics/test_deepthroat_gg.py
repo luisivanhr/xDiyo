@@ -102,10 +102,10 @@ def test_neighbors_self_exclusion_metrics_and_infeasible():
     assert not (indices == np.arange(8)[:,None]).any()
     assert table.status.tolist() == ['evaluated','evaluated','infeasible','infeasible']
     for k in [3,7]:
-        p = np.mean(y[indices[:,:k],None] == [1,0,-1], axis=1)
+        predictions, p = independent_loo(X, goals, y, k)
         row = table[table.k.eq(k)].iloc[0]
         assert row.rps == rps(y, p)
-        assert row.joint_rmse == joint_score_rmse(goals, goals[indices[:,:k]].mean(1))
+        assert row.joint_rmse == joint_score_rmse(goals, predictions)
     with pytest.raises(ValueError, match='No feasible'):
         select_neighbors(X[:3], goals[:3], y[:3])
 
@@ -121,6 +121,7 @@ def test_recipe_native_models_exports_and_persistence(tmp_path):
     result = results[0]
     manifest = save_research(results, recipe, h, roster, tmp_path/'research')
     assert manifest['classes'] == (1,0,-1)
+    assert manifest['neighbor_policy'] == 'native_sklearn_selected_k_leave_one_out_v2'
     assert result.k_table.iloc[-1].status == 'infeasible'
     for name, run in [('goals',result.goals),('outcomes',result.outcomes)]:
         fold = run.folds[0]
@@ -260,3 +261,134 @@ def test_signed_pearson_and_exact_tie_policy():
 def test_invalid_scoring_inputs_fail(metric,args):
     with pytest.raises(ValueError):
         metric(*args)
+
+
+def independent_loo(X, goals, outcomes, k):
+    """Refit both actual estimators independently for every candidate and row."""
+    from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+    predictions, probabilities = [], []
+    for row in range(len(X)):
+        keep = np.arange(len(X)) != row
+        params = dict(n_neighbors=k, weights='uniform', metric='euclidean',
+                      algorithm='kd_tree', n_jobs=1)
+        reg = KNeighborsRegressor(**params).fit(X[keep], goals[keep])
+        clf = KNeighborsClassifier(**params).fit(X[keep], outcomes[keep])
+        query = X[row:row+1]
+        predictions.append(reg.predict(query)[0])
+        native = dict(zip(clf.classes_, clf.predict_proba(query)[0]))
+        probabilities.append([native.get(c, 0.) for c in (1, 0, -1)])
+    return np.array(predictions), np.array(probabilities)
+
+
+@pytest.mark.parametrize('kind', ['duplicate', 'equidistant', 'tree_splits', 'untied', 'missing_class'])
+@pytest.mark.parametrize('reverse', [False, True])
+def test_selected_k_matches_independent_sklearn_loo(kind, reverse):
+    rng = np.random.default_rng(13)
+    size = 68 if kind == 'tree_splits' else 8
+    X = rng.normal(size=(size, 6))
+    if kind in ('duplicate', 'missing_class'):
+        X[:] = 0
+    elif kind == 'equidistant':
+        X = np.vstack([np.eye(6), -np.eye(6)[:2]])
+    elif kind == 'tree_splits':
+        X = rng.integers(-1, 2, size=(size, 6)).astype(float)
+        X[::3] = X[1]
+    goals = rng.integers(0, 7, size=(size, 2))
+    outcomes = np.resize([1, 0, -1], size)
+    if kind == 'missing_class':
+        outcomes[:] = 1
+        outcomes[-1] = 0  # A held-out class may be absent from fitting entirely.
+    if reverse:
+        X, goals, outcomes = X[::-1].copy(), goals[::-1].copy(), outcomes[::-1].copy()
+    ks = list(range(3, 8)) if size == 8 else [3, 7, 31, 67]
+    best, ties, table, indices = select_neighbors(X, goals, outcomes, ks)
+    expected = []
+    for k in ks:
+        predictions, probabilities = independent_loo(X, goals, outcomes, k)
+        # Independent equations as well as independently fitted estimators.
+        rmse = np.sqrt(((goals-predictions)**2).sum(axis=1).mean())
+        actual = outcomes[:, None] == [1, 0, -1]
+        score = (((probabilities.cumsum(axis=1)[:, :2] - actual.cumsum(axis=1)[:, :2])**2).sum(axis=1)/2).mean()
+        expected.append([rmse, score])
+    np.testing.assert_array_equal(table[['joint_rmse', 'rps']].to_numpy(), expected)
+    for j, metric in enumerate(('joint_rmse', 'rps')):
+        values = np.array(expected)[:, j]
+        assert best[metric] == ks[int(values.argmin())]
+        assert ties[metric] == [k for k, value in zip(ks, values) if value == values.min()]
+    assert not (indices == np.arange(size)[:, None]).any()
+
+
+@pytest.mark.parametrize('dtype', ['Int64', 'Float64'])
+@pytest.mark.parametrize('partial', [False, True])
+def test_nullable_missing_scores_equal_float_nan_and_do_not_mutate(dtype, partial):
+    h, roster = sample_history(rounds=12)
+    h[['goals_for', 'goals_against']] = h[['goals_for', 'goals_against']].astype(dtype)
+    missing = h.event_id.eq(1)
+    if partial:
+        h.loc[missing & h.side.eq('home'), 'goals_for'] = pd.NA
+        h.loc[missing & h.side.eq('away'), 'goals_against'] = pd.NA
+    else:
+        h.loc[missing, ['goals_for', 'goals_against']] = pd.NA
+    original = h.copy(deep=True)
+    baseline = h.copy()
+    baseline[['goals_for', 'goals_against']] = baseline[['goals_for', 'goals_against']].astype(float)
+    expected = prepare_bundles(baseline, roster, n_values=[6, 9], available_at='released_at')
+    actual = prepare_bundles(h, roster, n_values=[6, 9], available_at='released_at')
+    for n in actual:
+        for data, reference in zip(actual[n], expected[n]):
+            for attribute in ('X', 'y', 'metadata'):
+                pd.testing.assert_frame_equal(getattr(data, attribute), getattr(reference, attribute))
+        assert not actual[n][0].metadata.research_eligible.iloc[18]
+    pd.testing.assert_frame_equal(h, original)
+
+
+@pytest.mark.parametrize('delta', [pd.Timedelta(days=1), pd.Timedelta(nanoseconds=1)])
+def test_mismatched_fixture_cutoffs_rejected_before_features(monkeypatch, delta):
+    import xdiyo_analytics.research.deepthroat_features as module
+    h, roster = sample_history(rounds=12)
+    h['prediction_time'] = h.kickoff_at.astype('datetime64[ns, UTC]')
+    # An otherwise eligible target must not consume away evidence after home cutoff.
+    target = h.event_id.eq(25) & h.side.eq('away')
+    h.loc[target, 'prediction_time'] += delta
+    def forbidden(*args, **kwargs):
+        pytest.fail('Features were evaluated before fixture cutoffs were validated.')
+    monkeypatch.setattr(module, 'evaluate_features', forbidden)
+    with pytest.raises(ValueError, match='identical prediction cutoffs.*inconsistent fixture'):
+        prepare_bundles(h, roster, n_values=[9], cutoffs='prediction_time', available_at='released_at')
+
+
+def test_identical_cutoffs_accept_equivalent_timezone_instants():
+    h, roster = sample_history(rounds=12)
+    expected = prepare_bundles(h, roster, n_values=[9], available_at='released_at')[9]
+    cutoffs = h.kickoff_at.astype(object)
+    away = h.side.eq('away')
+    cutoffs.loc[away] = h.loc[away, 'kickoff_at'].dt.tz_convert('Asia/Tokyo')
+    actual = prepare_bundles(h, roster, n_values=[9], cutoffs=cutoffs, available_at='released_at')[9]
+    for data, reference in zip(actual, expected):
+        pd.testing.assert_frame_equal(data.X, reference.X)
+        pd.testing.assert_frame_equal(data.metadata, reference.metadata)
+
+
+def test_january_seventh_result_cannot_enter_only_away_perspective():
+    matches = pd.DataFrame([
+        dict(event_id=day, competition_id=17, tournament_id=50, season_id=1,
+             round=day, home_id=1, away_id=2,
+             kickoff_utc=pd.Timestamp(f'2020-01-{day:02d}T09:00:00Z').timestamp(),
+             status='finished', home_score_current=1, away_score_current=day-1)
+        for day in range(1, 9)])
+    h = build_team_history(SeasonData({'matches': matches}, {}))
+    h['released_at'] = h.kickoff_at + pd.Timedelta(hours=3)
+    roster = h[['competition_id', 'season_id', 'team_id']].drop_duplicates()
+    roster['known_at'] = pd.Timestamp('2019-12-01', tz='UTC')
+    target = h.event_id.eq(8)
+    early, later = h.kickoff_at.copy(), h.kickoff_at.copy()
+    early.loc[target] = pd.Timestamp('2020-01-07', tz='UTC')
+    later.loc[target] = pd.Timestamp('2020-01-08', tz='UTC')
+    for cutoffs, expected_mean in [(early, 2.5), (later, 3.5)]:
+        data = prepare_bundles(h, roster, n_values=[6], cutoffs=cutoffs, available_at='released_at')[6][0]
+        assert data.metadata.research_eligible.iloc[-1]
+        assert data.X['away::mean_scored'].iloc[-1] == expected_mean
+    mixed = early.copy()
+    mixed.loc[target & h.side.eq('away')] = later.loc[target & h.side.eq('away')]
+    with pytest.raises(ValueError, match='identical prediction cutoffs'):
+        prepare_bundles(h, roster, n_values=[6], cutoffs=mixed, available_at='released_at')

@@ -62,13 +62,21 @@ def prepare_bundles(history, roster, *, n_values=range(9,101), cutoffs=None, ava
     goal_label = create_labels(h, {'goals': MatchGoals()})['goals']
     keys = list(goal_label.identity_columns)
     paired = h[keys].copy()
+    paired['cutoff'] = cutoff
+    mismatch = paired.groupby(keys, sort=False).cutoff.nunique(dropna=False).ne(1)
+    if mismatch.any():
+        fixture = mismatch[mismatch].index[0]
+        raise ValueError(f'Both sides of a fixture must have identical prediction cutoffs; inconsistent fixture {fixture!r}.')
     paired['release'] = release
     grouped = paired.groupby(keys, sort=False).release
     # Neither perspective can consume a result before both are released.
     release = grouped.transform('max').where(grouped.transform('count').eq(2))
-    complete = np.isfinite(h[['goals_for','goals_against']].to_numpy(dtype=float, na_value=np.nan)).all(axis=1)
+    scores = h[['goals_for','goals_against']].to_numpy(dtype=float, na_value=np.nan)
+    complete = np.isfinite(scores).all(axis=1)
     h.loc[~complete, 'status'] = 'incomplete_score'
-    expected_result = np.where(h.goals_for > h.goals_against, 'W', np.where(h.goals_for < h.goals_against, 'L', 'D'))
+    expected_result = np.full(len(h), None, dtype=object)
+    gf_complete, ga_complete = scores[complete].T
+    expected_result[complete] = np.where(gf_complete > ga_complete, 'W', np.where(gf_complete < ga_complete, 'L', 'D'))
     if 'result' in h and (h.loc[complete & h.status.eq('finished'),'result'] != expected_result[complete & h.status.eq('finished')]).any():
         raise ValueError('Outcome labels disagree with paired goal scores.')
     h['result'] = expected_result

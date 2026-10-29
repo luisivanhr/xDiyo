@@ -1,0 +1,30 @@
+........................................................................ [ 38%]
+........................................................................ [ 77%]
+.....................F...................                                [100%]
+================================== FAILURES ===================================
+______ test_current_ignores_disagreeing_halves_extra_time_and_penalties _______
+
+    def test_current_ignores_disagreeing_halves_extra_time_and_penalties():
+        data=score_data()
+        baseline=build_team_history(data)
+        for side in ('home','away'):
+            for field in ('display','period1','period2','extra1','extra2','overtime','penalties'):
+                data.matches[f'{side}_score_{field}']=999 if side=='home' else np.nan
+        changed=build_team_history(data)
+>       pd.testing.assert_frame_equal(changed,baseline)
+E       AssertionError: DataFrame are different
+E       
+E       DataFrame shape mismatch
+E       [left]:  (12, 21)
+E       [right]: (12, 13)
+
+tests\analytics\test_match_score.py:76: AssertionError
+============================== warnings summary ===============================
+tests/analytics/test_ui_svm.py: 10 warnings
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\sklearn\svm\_base.py:239: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_match_score.py::test_current_ignores_disagreeing_halves_extra_time_and_penalties
+1 failed, 184 passed, 10 warnings in 59.61s
