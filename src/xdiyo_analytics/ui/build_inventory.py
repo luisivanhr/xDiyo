@@ -930,6 +930,7 @@ def build():
         if m['name'] == 'count_ou_brier':
             m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
     _svm_widgets(components)
+    _knn_widgets(components)
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     from .composition_inventory import decorate as composition_widgets
     composition_widgets(components)
@@ -942,6 +943,27 @@ def build():
         if field['name'].startswith('standings_') or field['name'] == 'schedule_history':
             field.pop('annotation', None)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+
+def _knn_widgets(components):
+    for name in ('KNeighborsClassifier', 'KNeighborsRegressor'):
+        c = components['sklearn.neighbors.' + name]
+        c['description'] = 'Native scikit-learn nearest neighbors. Distance weights are not training sample weights; sample weighting is unsupported. Preprocessing is fitted inside each training fold.'
+        fields = {f['name']: f for f in c['fields']}
+        for f in fields.values():
+            f.pop('annotation', None)
+            f['primary'] = True
+        fields['n_neighbors'].update(min=1, step=1, help='Number of neighbors; must not exceed the fitting population.')
+        fields['weights'].update(kind='select', choices=['uniform','distance'], help='Equal neighbor votes/means, or inverse-distance weighting. Not sample_weight.')
+        fields['weights'].pop('key_discovery', None)
+        fields['weights'].pop('item', None)
+        fields['algorithm'].update(kind='select', choices=['auto','ball_tree','kd_tree','brute'])
+        fields['metric'].update(kind='text', suggestions=['minkowski','euclidean','manhattan','chebyshev'], help='Scikit-learn distance name. Precomputed distances require an explicitly aligned Gram-matrix workflow, not ordinary feature columns.')
+        fields['metric'].pop('discovery', None)  # Distance, not a model evaluation metric.
+        fields['p'].update(min=1, step='any', help='Minkowski exponent: 1 Manhattan, 2 Euclidean.')
+        fields['leaf_size'].update(min=1, step=1)
+        fields['metric_params'].update(kind='map', item={'kind': 'typed_scalar'}, help='Optional metric keyword arguments.')
+        fields['n_jobs'].update(step=1, help='CPU neighbor-search threads; native ExecutionPolicy inner_threads overrides this during orchestration.')
 
 
 def _svm_widgets(components):

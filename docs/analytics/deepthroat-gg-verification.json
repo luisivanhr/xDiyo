@@ -1,0 +1,136 @@
+{
+  "base_commit": "d38ae3192067f73df26f1c2f5baa8f1d148d215a",
+  "branch": "codex/deepthroat-gg-research",
+  "real_data_experiments_run": false,
+  "source_sha256": {
+    "src/xdiyo_analytics/research/deepthroat_features.py": "896d7029c4b5db9ee4913c42ba4014837e7ea9795db2948bb836aea2541c43a0",
+    "src/xdiyo_analytics/research/deepthroat_gg.py": "a9b10dccce5902767bf6b0aac3393e4ca3e9284363d6773380b8fdd63266dda6",
+    "src/xdiyo_analytics/research/__init__.py": "3cc17bf8f421aca745ad4f05546c9ae10c2866eb893ec450e2aa17d10390581b",
+    "src/xdiyo_analytics/ui/catalog.py": "80471c81c4cc1537fe899f2afe4f4bf3cd1ae7f2419aafdb643ddd71b9eed491",
+    "src/xdiyo_analytics/ui/build_inventory.py": "1da61ab14f907bda49730393f5fb610d9bcf310ae345b81ea96aac3bef18e425",
+    "src/xdiyo_analytics/ui/inventory.json": "55aebf6a10ab9eae3e7334742ad04b3f4bf97e5fe49cbbe9ae0ba6eb18bbf48c",
+    "examples/deepthroat_gg_synthetic.py": "79da4eff6b87d688168b959e520b927581f6256dcfbd40e503b638f47401ea56",
+    "tests/analytics/test_ui_knn.py": "2e77d34c42fd4cf8ec9df9223f5e6379f7618d94c08bf09747ec175c588ceb3b",
+    "tests/analytics/test_deepthroat_gg.py": "934d52c4409add8a4cc5140d652d67f29f1d414286f9fe618acc242c20c3d07f"
+  },
+  "receipts_sha256": {
+    "deepthroat-gg-base-failures.xml": "dd3f4cb50d80f2c31a3ec9dc210e3bce3a96e6069291836314eae1ac88f3f288",
+    "deepthroat-gg-benchmark.json": "b080826dbfe9e2ff2d18c92a34325d780aced84e96716f782e49588eb1deaf02",
+    "deepthroat-gg-benchmark.log": "9ca2154b0a5f003fc9ac5c13344fd22dc9e113d8b0eaee80ba6f4ae6f6baaae7",
+    "deepthroat-gg-knn-ui.png": "54ecbe5b7c1240d8fb3fa219046c37515fe2874e252831a0a5471b5914d6ebdb",
+    "deepthroat-gg-pandas2-tests.log": "cebc391d20612746bf98054dcedaa924ec930794aa207830026e4df0c429e232",
+    "deepthroat-gg-pandas2-tests.xml": "dfc3af4a0aeb18965f18ed2eb8b97421ba1f00bd052f67c9202ea19c29cc4bc5",
+    "deepthroat-gg-tests.log": "cdc5446b4bb02fa2fc40e55d43d2aafc2c0556dd2f1d6482abc4fb9e3f75d8a7",
+    "deepthroat-gg-tests.xml": "aa2793df70ac3801d0049e3310ec3357f0ad7fa3224aac0237549ca4b20b1cb1"
+  },
+  "tests": {
+    "deepthroat-gg-tests": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "2",
+        "skipped": "0",
+        "tests": "167",
+        "time": "78.196",
+        "timestamp": "2026-10-29T21:37:40.662674+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "failures": [
+        {
+          "class": "tests.analytics.test_match_score",
+          "test": "test_current_ignores_disagreeing_halves_extra_time_and_penalties",
+          "type": null,
+          "message": "AssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (12, 21)\n[right]: (12, 13)"
+        },
+        {
+          "class": "tests.analytics.test_match_score",
+          "test": "test_frozen_round_boundaries_availability_postponements_and_perturbations",
+          "type": null,
+          "message": "TypeError: Invalid value '2024-01-10 11:00:00.000000001+00:00' for dtype 'datetime64[us, UTC]'"
+        }
+      ]
+    },
+    "deepthroat-gg-pandas2-tests": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "91",
+        "time": "38.157",
+        "timestamp": "2026-10-29T21:37:43.355420+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "failures": []
+    },
+    "deepthroat-gg-base-failures": {
+      "summary": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "2",
+        "skipped": "0",
+        "tests": "2",
+        "time": "1.295",
+        "timestamp": "2026-10-29T21:31:54.977953+09:00",
+        "hostname": "Ivan-tachi"
+      },
+      "failures": [
+        {
+          "class": "tests.analytics.test_match_score",
+          "test": "test_current_ignores_disagreeing_halves_extra_time_and_penalties",
+          "type": null,
+          "message": "AssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (12, 21)\n[right]: (12, 13)"
+        },
+        {
+          "class": "tests.analytics.test_match_score",
+          "test": "test_frozen_round_boundaries_availability_postponements_and_perturbations",
+          "type": null,
+          "message": "TypeError: Invalid value '2024-01-10 11:00:00.000000001+00:00' for dtype 'datetime64[us, UTC]'"
+        }
+      ]
+    }
+  },
+  "base_failure_messages_match": true,
+  "environments": {
+    "pandas3": {
+      "python": "3.12.14",
+      "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe",
+      "numpy": "2.3.5",
+      "pandas": "3.0.1",
+      "scikit-learn": "1.9.1"
+    },
+    "pandas2": {
+      "executable": "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe",
+      "python": "3.14.0",
+      "numpy": "2.4.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.9.0"
+    }
+  },
+  "commands": [
+    "$env:PYTHONPATH='src'; .venv/Scripts/python.exe -m pytest tests/analytics/test_deepthroat_gg.py tests/analytics/test_ui_knn.py tests/analytics/test_ui_svm.py tests/analytics/test_ui_inventory.py tests/analytics/test_ui_workflow.py tests/analytics/test_derived_standings.py tests/analytics/test_standings_serialization.py tests/analytics/test_match_score.py tests/analytics/test_match_goals.py -q --junitxml=docs/analytics/deepthroat-gg-tests.xml",
+    "Same PYTHONPATH, .misc314/Scripts/python.exe -m pytest tests/analytics/test_deepthroat_gg.py tests/analytics/test_ui_knn.py tests/analytics/test_derived_standings.py tests/analytics/test_standings_serialization.py -q --junitxml=docs/analytics/deepthroat-gg-pandas2-tests.xml",
+    "git archive --format=zip HEAD src tests pyproject.toml extracted to isolated temp directory; same pandas3 executable and PYTHONPATH; pytest tests/analytics/test_match_score.py -k 'current_ignores or frozen_round' -q"
+  ],
+  "browser": {
+    "method": "Codex in-app browser, native local builder",
+    "checked": [
+      "classifier/regressor selection",
+      "distance field",
+      "metric parameter map",
+      "CPU thread opt-in",
+      "downloaded Python export"
+    ],
+    "exported_model": {
+      "component": "sklearn.neighbors.KNeighborsRegressor",
+      "params": {
+        "weights": "distance",
+        "n_neighbors": 8,
+        "metric": "euclidean"
+      }
+    },
+    "export_sha256": "d6b145be781c91b191e2551cfc8d8aa8d1bd108e148233d1104a3b49ace8506e",
+    "screenshot": "deepthroat-gg-knn-ui.png"
+  },
+  "paper_sha256": "28cd71df21fae7d7cef5e24c112c2771b4a9dc1f5a9cd46635516909ca8eac29"
+}

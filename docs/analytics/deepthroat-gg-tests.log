@@ -1,0 +1,205 @@
+........................................................................ [ 43%]
+........................................................................ [ 86%]
+...F....F..............                                                  [100%]
+================================== FAILURES ===================================
+______ test_current_ignores_disagreeing_halves_extra_time_and_penalties _______
+
+    def test_current_ignores_disagreeing_halves_extra_time_and_penalties():
+        data=score_data()
+        baseline=build_team_history(data)
+        for side in ('home','away'):
+            for field in ('display','period1','period2','extra1','extra2','overtime','penalties'):
+                data.matches[f'{side}_score_{field}']=999 if side=='home' else np.nan
+        changed=build_team_history(data)
+>       pd.testing.assert_frame_equal(changed,baseline)
+E       AssertionError: DataFrame are different
+E       
+E       DataFrame shape mismatch
+E       [left]:  (12, 21)
+E       [right]: (12, 13)
+
+tests\analytics\test_match_score.py:76: AssertionError
+__ test_frozen_round_boundaries_availability_postponements_and_perturbations __
+
+self = DatetimeLikeBlock: 20 dtype: datetime64[us, UTC]
+indexer = (array([False, False, False, False, False, False,  True,  True, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False]),)
+value = Timestamp('2024-01-10 11:00:00.000000001+0000', tz='UTC')
+
+    @final
+    def setitem(self, indexer, value):
+        """
+        Attempt self.values[indexer] = value, possibly creating a new array.
+    
+        This differs from Block.setitem by not allowing setitem to change
+        the dtype of the Block.
+    
+        Parameters
+        ----------
+        indexer : tuple, list-like, array-like, slice, int
+            The subset of self.values to set
+        value : object
+            The value being set
+    
+        Returns
+        -------
+        Block
+    
+        Notes
+        -----
+        `indexer` is a direct slice/positional indexer. `value` must
+        be a compatible shape.
+        """
+        orig_indexer = indexer
+        orig_value = value
+    
+        indexer = self._unwrap_setitem_indexer(indexer)
+        value = self._maybe_squeeze_arg(value)
+    
+        values = self.values
+        if values.ndim == 2:
+            # TODO(GH#45419): string[pyarrow] tests break if we transpose
+            #  unconditionally
+            values = values.T
+        check_setitem_lengths(indexer, value, values)
+    
+        try:
+>           values[indexer] = value
+            ^^^^^^^^^^^^^^^
+
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\blocks.py:1667: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\arrays\datetimelike.py:449: in __setitem__
+    super().__setitem__(key, value)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\arrays\_mixins.py:272: in __setitem__
+    value = self._validate_setitem_value(value)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\arrays\datetimelike.py:741: in _validate_setitem_value
+    return self._validate_scalar(value, allow_listlike=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\arrays\datetimelike.py:638: in _validate_scalar
+    return self._unbox_scalar(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\arrays\datetimes.py:549: in _unbox_scalar
+    return value.as_unit(self.unit, round_ok=False).asm8
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pandas/_libs/tslibs/timestamps.pyx:1542: in pandas._libs.tslibs.timestamps._Timestamp.as_unit
+    ???
+pandas/_libs/tslibs/timestamps.pyx:1495: in pandas._libs.tslibs.timestamps._Timestamp._as_creso
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+>   ???
+E   ValueError: Cannot losslessly convert units
+
+pandas/_libs/tslibs/np_datetime.pyx:676: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_frozen_round_boundaries_availability_postponements_and_perturbations():
+        data=score_data(10)
+        m=data.matches
+        dates=pd.to_datetime(['2024-01-01 12:00','2024-01-02 12:00','2024-01-03 12:00',
+            '2024-01-04 12:00','2024-01-05 12:00','2024-01-10 11:00',
+            '2024-01-10 12:00','2024-01-20 12:00','2024-01-21 12:00','2024-01-10 12:00'],utc=True)
+        m['kickoff_utc']=[x.timestamp() for x in dates]
+        m.loc[1,'competition_id']=99
+        m.loc[4,'status']='inprogress'
+        m.loc[[6,7,9],'round']=30
+        h=build_team_history(data)
+        h['cutoff']=h.groupby(['competition_id','season_id','tournament_id','round']).kickoff_at.transform('min')-pd.Timedelta(hours=1)
+        h['available']=h.kickoff_at+pd.Timedelta(hours=3)
+        boundary=pd.Timestamp('2024-01-10 11:00',tz='UTC')
+        h.loc[h.event_id==m.event_id.iloc[2],'available']=boundary
+>       h.loc[h.event_id==m.event_id.iloc[3],'available']=boundary+pd.Timedelta(nanoseconds=1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\analytics\test_match_score.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\indexing.py:938: in __setitem__
+    iloc._setitem_with_indexer(indexer, value, self.name)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\indexing.py:1953: in _setitem_with_indexer
+    self._setitem_with_indexer_split_path(indexer, value, name)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\indexing.py:2044: in _setitem_with_indexer_split_path
+    self._setitem_single_column(loc, value, pi)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\indexing.py:2181: in _setitem_single_column
+    self.obj._mgr.column_setitem(loc, plane_indexer, value)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\managers.py:1520: in column_setitem
+    new_mgr = col_mgr.setitem((idx,), value)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\managers.py:604: in setitem
+    return self.apply("setitem", indexer=indexer, value=value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\managers.py:442: in apply
+    applied = getattr(b, f)(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\blocks.py:1675: in setitem
+    nb = self.coerce_to_target_dtype(orig_value, raise_on_upcast=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = DatetimeLikeBlock: 20 dtype: datetime64[us, UTC]
+other = Timestamp('2024-01-10 11:00:00.000000001+0000', tz='UTC')
+raise_on_upcast = True
+
+    @final
+    def coerce_to_target_dtype(self, other, raise_on_upcast: bool) -> Block:
+        """
+        coerce the current block to a dtype compat for other
+        we will return a block, possibly object, and not raise
+    
+        we can also safely try to coerce to the same dtype
+        and will receive the same block
+        """
+        new_dtype = find_result_type(self.values.dtype, other)
+        if new_dtype == self.dtype:
+            # GH#52927 avoid RecursionError
+            raise AssertionError(
+                "Something has gone wrong, please report a bug at "
+                "https://github.com/pandas-dev/pandas/issues"
+            )
+    
+        # In a future version of pandas, the default will be that
+        # setting `nan` into an integer series won't raise.
+        if (
+            is_scalar(other)
+            and is_integer_dtype(self.values.dtype)
+            and isna(other)
+            and other is not NaT
+            and not (
+                isinstance(other, (np.datetime64, np.timedelta64)) and np.isnat(other)
+            )
+        ):
+            raise_on_upcast = False
+        elif (
+            isinstance(other, np.ndarray)
+            and other.ndim == 1
+            and is_integer_dtype(self.values.dtype)
+            and is_float_dtype(other.dtype)
+            and lib.has_only_ints_or_nan(other)
+        ):
+            raise_on_upcast = False
+    
+        if raise_on_upcast:
+>           raise TypeError(f"Invalid value '{other}' for dtype '{self.values.dtype}'")
+E           TypeError: Invalid value '2024-01-10 11:00:00.000000001+00:00' for dtype 'datetime64[us, UTC]'
+
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\site-packages\pandas\core\internals\blocks.py:468: TypeError
+============================== warnings summary ===============================
+tests/analytics/test_ui_svm.py: 10 warnings
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+    warnings.warn(
+
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[regression-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[classification-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[ranking-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_classifier_preserves_outcome_label_classes[lightgbm]
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\.venv\Lib\site-packages\lightgbm\sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+    eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_match_score.py::test_current_ignores_disagreeing_halves_extra_time_and_penalties
+FAILED tests/analytics/test_match_score.py::test_frozen_round_boundaries_availability_postponements_and_perturbations
+2 failed, 165 passed, 14 warnings in 78.20s (0:01:18)
