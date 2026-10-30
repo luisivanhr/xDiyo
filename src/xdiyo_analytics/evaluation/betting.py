@@ -30,7 +30,23 @@ class BetSpec:
 
 
 def _aligned(value, context, keys, name):
-    value = value(context) if callable(value) else value
+    if callable(value):
+        from types import SimpleNamespace
+        from .decision_layer import _outcome_column
+        from .temporal_provenance import decision_inputs
+        class IndexOnly:
+            index = context.y.index.copy()
+            columns = context.y.columns.copy()
+            def __getattr__(self, field):
+                raise ValueError('Observed outcomes are unavailable to betting selectors and stake callbacks.')
+            def __getitem__(self, key):
+                raise ValueError('Observed outcomes are unavailable to betting selectors and stake callbacks.')
+        safe = SimpleNamespace(y=IndexOnly(),metadata=decision_inputs(context.metadata[
+            [c for c in context.metadata if not _outcome_column(c)]]),
+            predictions={k:v.copy(deep=True) for k,v in context.predictions.items()},
+            X=getattr(context,'X',pd.DataFrame(index=context.y.index)).copy(deep=True),identity_columns=context.identity_columns,
+            match_columns=context.match_columns,layout=context.layout)
+        value = value(safe)
     if np.isscalar(value):
         return pd.Series(value, index=context.y.index, name=name)
     if not isinstance(value, pd.Series):
@@ -77,6 +93,24 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
         labels = create_labels(history, {name: spec.option for name, spec in specs.items()})
     if context.metadata.duplicated(list(context.identity_columns)).any():
         raise ValueError("Bet accounting needs unique observations; use per-fold or explicit first/last/mean pooling.")
+    from .temporal_provenance import guard_candidates, annotate_metrics, CERT, STATUS
+    # Resolve and validate the entire offered pool before invoking any selector.
+    quotes, candidates = {}, []
+    for name, spec in specs.items():
+        quote_metadata = None
+        if isinstance(spec.odds, OddsSeries):
+            spec.odds.validate_option(spec.option)
+            quote_metadata = spec.odds.resolve(context)
+            odds = quote_metadata.decimal_odds.astype(float)
+        else:
+            odds = pd.to_numeric(_aligned(spec.odds, context, context.identity_columns, 'odds'), errors='raise').astype(float)
+        quotes[name] = (odds, quote_metadata)
+        candidate = context.metadata.assign(bet=name, odds=odds)
+        if quote_metadata is not None:
+            for column in quote_metadata.columns.difference(['decimal_odds']):
+                candidate[column] = quote_metadata[column]
+        candidates.append(candidate.reset_index())
+    pool = guard_candidates(pd.concat(candidates, ignore_index=True), specs, context.match_columns)
     ledgers, metrics = [], []
     for name, spec in specs.items():
         label = labels[name]
@@ -100,14 +134,9 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
         if take.isna().any() or not take.map(lambda v: isinstance(v, (bool, np.bool_))).all():
             raise ValueError("take must supply an explicit boolean decision for every observation.")
         take = take.astype(bool)
-        quote_metadata = None
+        odds, quote_metadata = quotes[name]
         if isinstance(spec.odds, OddsSeries):
-            spec.odds.validate_option(spec.option)
-            quote_metadata = spec.odds.resolve(context)
-            odds = quote_metadata.decimal_odds.astype(float)
             take &= odds.notna()
-        else:
-            odds = pd.to_numeric(_aligned(spec.odds, context, keys, "odds"), errors="raise").astype(float)
         stakes = pd.to_numeric(_aligned(spec.stake, context, keys, "stake"), errors="raise").astype(float)
         if ((take & odds.notna() & (~np.isfinite(odds) | (odds <= 1))).any() or
                 (take & stakes.notna() & (~np.isfinite(stakes) | (stakes < 0))).any()):
@@ -157,4 +186,8 @@ def evaluate_bets(context, bets, *, labels=None, history=None):
                                 direction="maximize" if key in {"profit", "roi"} else None,
                                 n=int(settled.sum()), n_total=len(context.y), n_missing=pending, status=status,
                                 parameters=parameters, sample_hash=sample_hash))
-    return pd.concat(ledgers, ignore_index=True), pd.DataFrame(metrics)
+    ledger = pd.concat(ledgers, ignore_index=True)
+    evidence = pool[['fold_id','row_position','bet',CERT,STATUS,'comparison_eligible','temporal_issues']]
+    ledger = ledger.drop(columns=[CERT,STATUS,'comparison_eligible','temporal_issues'], errors='ignore').merge(
+        evidence, on=['fold_id','row_position','bet'], validate='one_to_one', how='left')
+    return ledger, annotate_metrics(pd.DataFrame(metrics), ledger)

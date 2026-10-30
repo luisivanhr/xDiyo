@@ -27,10 +27,9 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None,
     legs = result.tables['ledger']
     alternatives = result.tables.get('alternatives')
     if alternatives is not None:
-        fields = ['fold_id', 'row_position', 'bet', 'p_win', 'p_push', 'p_loss', 'expected_profit', 'description', 'reason']
-        if 'probability_abstention' in alternatives:
-            fields.append('probability_abstention')
-        evidence = alternatives[fields].rename(columns={'reason':'decision_reason'})
+        # Carry the complete preselection certificate, including rejected offers.
+        fields = [c for c in alternatives if c not in ('take','stake','eligible','reason')]
+        evidence = alternatives[fields]
         keys = ['fold_id', 'row_position', 'bet']
         # Probability evidence comes from the retained decision output. Metadata
         # may contain equally named columns; do not create ambiguous _x/_y fields.
@@ -48,6 +47,9 @@ def add_tickets(result, composition, context, *, fixture_table=None, teams=None,
         tickets, membership, metrics = compose_bets(legs, composition, match_columns=context.match_columns,
                                                    stake_policy=stake_policy, stake_context=stake_context, risk_limits=risk_limits)
     result.tables.update(leg_ledger=legs, ledger=tickets, tickets=tickets, ticket_legs=membership, bet_metrics=metrics)
+    from ..evaluation.temporal_provenance import validate_frame
+    classification, _ = validate_frame(tickets)
+    result.notes.append(f'Temporal provenance: {classification}. Only verified evidence is eligible for verified comparisons; legacy accounting and bounded retrospective assumptions remain explicitly classified.')
     manifest = tickets.attrs.get('audit_manifest')
     if manifest is not None:
         result.tables['audit_manifest'] = pd.DataFrame([{'audit_level': manifest['audit_level'],

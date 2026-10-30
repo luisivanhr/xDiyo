@@ -1,4 +1,5 @@
 """Optional allocation on a final selected batch, with independent hard limits."""
+from .temporal_provenance import _validation_session
 from dataclasses import dataclass, field
 from typing import Protocol
 from math import fsum
@@ -90,6 +91,10 @@ class ModelProbabilitySource:
         if self.issued_at_column in frame:
             issued = pd.to_datetime(frame[self.issued_at_column], utc=True)
             if issued.isna().any() or (issued > context.time).any():
+                raise ValueError('Model probabilities were unavailable at allocation time.')
+        elif 'probability_available_as_of' in frame:
+            available = pd.to_datetime(frame.probability_available_as_of, utc=True)
+            if available.isna().any() or (available > context.time).any():
                 raise ValueError('Model probabilities were unavailable at allocation time.')
         elif not self.assume_available_at_decision:
             raise ValueError('Provide probability issue timestamps or explicitly attest decision-time availability.')
@@ -241,20 +246,40 @@ class RiskLimits:
         return actual, scale, tuple(sorted(set(reasons)))
 
 
+@_validation_session
 def allocate_batch(batch, policy, context, limits=None):
+    from .temporal_provenance import validate_frame
     if not isinstance(batch, FrozenTable) or not isinstance(context, StakeContext):
         raise TypeError('Allocation requires immutable final tickets and a validated StakeContext.')
+    temporal_status, _ = validate_frame(batch.frame, placement_at=context.time)
     frame = batch.frame
     if 'decision_at' not in frame or not pd.to_datetime(frame.decision_at, utc=True).eq(context.time).all():
         raise ValueError('Allocate exactly one shared decision timestamp per context.')
-    result = policy.allocate(batch, context)
-    actual, scale, caps = (limits or RiskLimits()).project(result.amounts, batch, context)
+    from .temporal_provenance import decision_inputs
+    decision_batch=FrozenTable(decision_inputs(frame))
+    result = policy.allocate(decision_batch, context)
+    actual, scale, caps = (limits or RiskLimits()).project(result.amounts, decision_batch, context)
     audit = result.audit.reindex(frame.index).copy()
     audit['nominal_stake'] = frame.nominal_stake
     audit['actual_stake'] = actual
     audit['projection_scale'] = scale
     audit['binding_caps'] = [caps]*len(frame)
     audit['funded'] = actual.gt(0)
+    from .temporal_provenance import CERT, POOL, STATUS, _records, _dump, _json, dependency_hash, _policy_status
+    audit['temporal_offer'] = [_dump({k:v for k,v in r.items() if k not in (CERT,POOL)}) for r in _records(frame)]
+    for key in (CERT, POOL, STATUS, 'comparison_eligible'):
+        if key in frame:
+            audit[key] = frame[key]
+    audit[STATUS]=temporal_status
+    audit['comparison_eligible']=temporal_status=='verified'
+    declaration=_json({'policy':policy,'limits':limits,'context':context})
+    audit['temporal_allocation_policy']=_dump(declaration)
+    audit['temporal_allocation_policy_hash']=dependency_hash(declaration)
+    if _policy_status(declaration)=='unverified':
+        audit[STATUS]='unverified'
+        audit['comparison_eligible']=False
+    actual.attrs['temporal_allocation'] = dict(policy=declaration,policy_hash=dependency_hash(declaration),
+        amounts_hash=dependency_hash(list(zip(actual.index,actual.tolist()))))
     return AllocationResult(actual, audit)
 
 

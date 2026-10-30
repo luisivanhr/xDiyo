@@ -127,9 +127,32 @@ def _validate_retained_quote_legs(original, current):
         raise ValueError('Retained ticket quote evidence differs from consumed membership.')
 
 
+from .temporal_provenance import _validation_session
+
+
+@_validation_session
 def ticket_batch(tickets, members, templates, match_columns, *, context=None, _members_by_ticket=None):
+    from .temporal_provenance import validate_frame, validate_ticket_members, CERT, _open, dependency_hash
     indexed = _index_members(members) if _members_by_ticket is None else _members_by_ticket
     _validate_relationships(tickets, indexed, templates)
+    for template in templates.values():
+        if getattr(template, 'ticket_gate', None) is not None:
+            template.validate_probability_columns()
+    for row in tickets.to_dict('records'):
+        _validate_membership_binding(row,indexed[row['ticket_id']],templates[row['bet']],match_columns)
+    validate_frame(tickets)
+    # Orphan membership rows are not selection/allocation inputs. The retained
+    # pool certificates still revalidate every original candidate, including
+    # rejected candidates, independently of the consumed membership projection.
+    positions = np.concatenate([indexed.positions[key] for key in tickets.ticket_id]) if len(tickets) else []
+    validate_frame(members.iloc[positions])
+    validate_ticket_members(tickets,members)
+    cache = {}
+    for row in tickets.to_dict('records'):
+        if isinstance(row.get(CERT), str):
+            packet = _open(row[CERT], cache)
+            if packet.get('kind') == 'ticket' and packet['policy_hash'] != dependency_hash(templates[row['bet']]):
+                raise ValueError('Temporal ticket policy differs from its certified policy.')
     checked_contracts = set()
     if isinstance(indexed, _MembershipIndex) and 'decision_at' in members:
         for name, offered in tickets.groupby('bet', sort=False):
@@ -158,7 +181,6 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             legs = members.iloc[:0]
         policy = templates[row['bet']]
         contract = getattr(policy, 'quote_availability', None)
-        _validate_membership_binding(row, legs, policy, match_columns)
         if policy.payoff == 'binary' and 'p_push' in legs and legs.p_push.fillna(0).ne(0).any():
             raise ValueError('Binary ticket valuation cannot include nonzero push probability.')
         if 'decision_at' in legs:
@@ -170,7 +192,7 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             time = context.time
         else:
             raise ValueError('Ticket decisions need explicit decision_at or a manual StakeContext.')
-        if time > timestamps(legs.kickoff_at,utc=True).min():
+        if time >= timestamps(legs.get('first_kickoff_at', legs.kickoff_at),utc=True).min():
             raise ValueError('Ticket issue time follows a leg kickoff.')
         for key in ('issued_at','quote_at'):
             if key == 'quote_at' and contract is not None:
@@ -206,10 +228,19 @@ def ticket_batch(tickets, members, templates, match_columns, *, context=None, _m
             record['economic_key'] = json.dumps([record['economic_key'], evidence_key], sort_keys=True)
         if 'issued_at' in legs:
             record['probability_issued_at'] = timestamps(legs.issued_at,utc=True).max()
+        if 'forecast_as_of' in legs and legs.forecast_as_of.notna().all():
+            record['probability_available_as_of'] = timestamps(legs.forecast_as_of,utc=True).max()
         records.append(record)
-    return pd.DataFrame(records).set_index('ticket_id') if records else pd.DataFrame(columns=['nominal_stake','decision_at'])
+    if not records:
+        return pd.DataFrame(columns=['nominal_stake','decision_at'])
+    from .temporal_provenance import attach_tickets
+    table = pd.DataFrame(records)
+    table['bet'] = table.selection_id
+    table, _ = attach_tickets(table, members, templates, match_columns)
+    return table.drop(columns='bet').set_index('ticket_id')
 
 
+@_validation_session
 def finalize_tickets(tickets,members,templates,match_columns,policy,context,limits, *, _audit_sink=None):
     from .tickets import _settle
     if tickets.empty:
@@ -339,6 +370,8 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
         tickets.loc[idx,['settlement','payout','profit','accounting_status']] = [state,payout,payout-row.stake,'unresolved' if pd.isna(payout) else 'settled']
     from .ticket_numeric import check_accounting
     check_accounting(tickets)
+    from .temporal_provenance import attach_tickets
+    tickets, members = attach_tickets(tickets,members,templates,match_columns)
     # pandas propagates attrs to row Series and slices via deepcopy. Publish
     # complete audits only after internal settlement and caller summaries.
     (tickets.attrs if _audit_sink is None else _audit_sink).update(output_attrs)
@@ -348,6 +381,11 @@ def finalize_tickets(tickets,members,templates,match_columns,policy,context,limi
 def allocate_singles(ledger,policy,context,limits=None,*,match_columns=('event_id',),payoff='push_void'):
     """Preserve resolved numeric/Series leg stakes as nominal amounts before replacement."""
     from .tickets import Parlay, ticket_metrics
+    from .temporal_provenance import guard_candidates, attach_tickets, annotate_metrics
+    ledger = guard_candidates(ledger, {'stake_policy':policy,'limits':limits,'payoff':payoff},match_columns)
+    from .temporal_provenance import validate_selection_groups
+    if context is not None:
+        validate_selection_groups(ledger,[],at=context.time)
     selected=ledger.loc[ledger['take']].copy()
     if selected.empty:
         from .tickets import compose_bets
@@ -368,6 +406,8 @@ def allocate_singles(ledger,policy,context,limits=None,*,match_columns=('event_i
     tickets,members=finalize_tickets(pd.DataFrame(rows),members,templates,match_columns,policy,context,limits,
                                    _audit_sink=output_attrs)
     from .tickets import BetSlip
+    tickets,members=attach_tickets(tickets,members,templates,match_columns,ledger)
     metrics = ticket_metrics(tickets,BetSlip(templates),members)
+    metrics = annotate_metrics(metrics,tickets)
     tickets.attrs.update(output_attrs)
     return tickets,members,metrics

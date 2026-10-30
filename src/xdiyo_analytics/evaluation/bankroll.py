@@ -1,10 +1,31 @@
 """Closed research accounting. No external execution or automatic policy updates."""
+from .temporal_provenance import _validation_session
 from dataclasses import dataclass, field
 import math
 import numpy as np
 import pandas as pd
 from .decision_layer import FrozenTable
 from .stake_policy import StakeContext, allocate_batch
+
+
+def _settlement_support(proof,ticket):
+    from .temporal_provenance import CERT, _open, _safe, _dump, _json
+    if proof.get('ticket_id') != _json(ticket.get('ticket_id')):
+        raise ValueError('Settlement evidence names another ticket.')
+    if not isinstance(ticket.get(CERT),str):
+        return False
+    packet=_open(ticket[CERT],{})
+    expected=packet.get('legs',[])
+    members=proof.get('membership',[])
+    if not members or not expected:
+        return False
+    keys=set().union(*(r.keys() for r in expected))
+    if any(not keys <= set(r) for r in members):
+        return False
+    actual=[{k:_safe(r).get(k) for k in keys} for r in members]
+    if sorted(map(_dump,actual)) != sorted(map(_dump,expected)):
+        raise ValueError('Settlement evidence differs from exact ticket legs.')
+    return proof.get('explicit_availability_timezone') is True
 
 
 @dataclass
@@ -15,6 +36,7 @@ class BankrollLedger:
     events: list = field(default_factory=list, init=False)
     realized_net_pnl: float = field(default=0.,init=False)
     _seen: set = field(default_factory=set,init=False)
+    _temporal: dict = field(default_factory=dict,init=False)
 
     def __post_init__(self):
         if not self.currency or not np.isfinite(self.initial_capital) or self.initial_capital <= 0:
@@ -41,7 +63,10 @@ class BankrollLedger:
         if not np.isfinite([wealth,reserve,cash]).all() or min(reserve,cash) < -1e-9:
             raise ValueError('Bankroll conservation or solvency violated.')
         self.events.append(dict(time=time,kind=kind,ticket_id=ticket_id,amount=amount,wealth=wealth,
-                                reserve=reserve,cash=cash,realized_net_pnl=self.realized_net_pnl,currency=self.currency))
+                                reserve=reserve,cash=cash,realized_net_pnl=self.realized_net_pnl,currency=self.currency,
+                                **self._temporal.get(ticket_id, {'temporal_status':'unverified','comparison_eligible':False})))
+        from .temporal_provenance import ledger_event_hash
+        self.events[-1]['temporal_event_hash']=ledger_event_hash(self.events[-1])
 
     def context(self,time,*,basis='realized_wealth'):
         exposure = []
@@ -50,11 +75,23 @@ class BankrollLedger:
                 exposure.extend((column,key,record['stake']) for key in values)
         return StakeContext(self.wealth,max(0.,self.cash),self.currency,time,basis,tuple(exposure))
 
+    @_validation_session
     def place(self,tickets,amounts,time,*,exposure_columns=()):
         frame = tickets.frame
+        from .temporal_provenance import validate_frame, CERT, POOL, STATUS, _dump, _records
+        status, _ = validate_frame(frame, placement_at=time)
         if not isinstance(amounts,pd.Series) or not amounts.index.is_unique or set(amounts.index) != set(frame.index):
             raise ValueError('Placement amounts must exactly match selected ticket IDs.')
         amounts = amounts.reindex(frame.index)
+        from .temporal_provenance import dependency_hash, _policy_status
+        allocation=amounts.attrs.get('temporal_allocation')
+        if allocation is None:
+            status='unverified'
+        elif (allocation['policy_hash']!=dependency_hash(allocation['policy']) or
+              allocation['amounts_hash']!=dependency_hash(list(zip(amounts.index,amounts.tolist())))):
+            raise ValueError('Placement amounts or policy differ from their allocation evidence.')
+        elif _policy_status(allocation['policy'])=='unverified':
+            status='unverified'
         if set(frame.index) & self._seen or not np.isfinite(amounts).all() or (amounts<0).any() or float(amounts.sum()) > self.cash+1e-10:
             raise ValueError('Duplicate ticket, invalid stake or insufficient available cash.')
         stamp = pd.to_datetime(time,utc=True)
@@ -62,7 +99,14 @@ class BankrollLedger:
             raise ValueError('Placement time must be chronological.')
         if any(c not in frame for c in exposure_columns):
             raise ValueError('Missing placement exposure columns.')
+        offers = dict(zip(frame.index,_records(frame)))
         for key in sorted(frame.index,key=repr):
+            self._temporal[key] = {k:frame.at[key,k] for k in (CERT,POOL) if k in frame}
+            self._temporal[key]['temporal_offer'] = _dump({k:v for k,v in offers[key].items() if k not in (CERT,POOL)})
+            if allocation is not None:
+                self._temporal[key]['temporal_allocation_policy']=_dump(allocation['policy'])
+                self._temporal[key]['temporal_allocation_policy_hash']=allocation['policy_hash']
+            self._temporal[key].update(temporal_status=status,comparison_eligible=status=='verified')
             self._seen.add(key)
             amount = float(amounts.loc[key])
             if amount > 0:
@@ -70,7 +114,8 @@ class BankrollLedger:
                 self.open_tickets[key] = dict(stake=amount,placed_at=stamp,exposures=exposures)
             self._record(stamp,'place' if amount else 'unfunded',key,amount)
 
-    def settle(self,ticket_id,*,gross_return,time,available_at,fee=0.):
+    @_validation_session
+    def settle(self,ticket_id,*,gross_return,time,available_at,fee=0.,evidence=None):
         if ticket_id not in self.open_tickets:
             raise ValueError('Only outstanding funded tickets can settle.')
         stamp,available = pd.to_datetime(time,utc=True),pd.to_datetime(available_at,utc=True)
@@ -79,6 +124,17 @@ class BankrollLedger:
             raise ValueError('Settlement precedes official availability, placement or ledger time.')
         if not np.isfinite([gross_return,fee]).all() or gross_return < 0 or fee < 0 or fee > gross_return+self.cash:
             raise ValueError('Invalid gross return or fee exceeds available resources.')
+        if evidence is not None:
+            import json
+            proof = json.loads(evidence)
+            bounds = pd.to_datetime(proof['available_at'],utc=True)
+            values = np.asarray(proof['multipliers'],dtype=float)
+            if (pd.isna(bounds).any() or not np.isfinite(values).all() or available != bounds.max()
+                    or gross_return != record['stake']*float(np.prod(values))):
+                raise ValueError('Settlement differs from complete leg availability/payoff evidence.')
+            original=json.loads(self._temporal[ticket_id]['temporal_offer'])
+            original.update({k:v for k,v in self._temporal[ticket_id].items() if k in ('temporal_certificate','temporal_pool')})
+            supported=_settlement_support(proof,original)
         net = float(gross_return)-record['stake']-float(fee)
         proposed_pnl = self.realized_net_pnl + net
         proposed_wealth = self.initial_capital + proposed_pnl
@@ -88,6 +144,12 @@ class BankrollLedger:
             raise ValueError('Settlement would violate finite bankroll conservation or solvency.')
         del self.open_tickets[ticket_id]
         self.realized_net_pnl = proposed_pnl
+        if evidence is None or not supported:
+            self._temporal[ticket_id].update(temporal_status='unverified',comparison_eligible=False)
+        if evidence is not None:
+            self._temporal[ticket_id]['settlement_evidence'] = evidence
+            from .temporal_provenance import dependency_hash
+            self._temporal[ticket_id]['settlement_evidence_hash'] = dependency_hash(json.loads(evidence))
         self._record(stamp,'settle',ticket_id,net)
 
     def summary(self):
@@ -98,7 +160,10 @@ class BankrollLedger:
                     log_growth=math.log(self.wealth/self.initial_capital) if self.wealth>0 else float('-inf'),
                     max_drawdown=float(np.max((peak-wealth)/peak)),
                     unfunded=sum(e['kind']=='unfunded' for e in self.events),
-                    observed_insolvency_events=sum(e['wealth']<=0 for e in self.events),currency=self.currency)
+                    observed_insolvency_events=sum(e['wealth']<=0 for e in self.events),currency=self.currency,
+                    temporal_status=max([r.get('temporal_status','unverified') for r in self._temporal.values()] or ['unverified'],
+                                        key={'verified':0,'conditional_research':1,'unverified':2}.get),
+                    comparison_eligible=bool(self._temporal) and all(r.get('temporal_status')=='verified' for r in self._temporal.values()))
 
 
 @dataclass
@@ -116,6 +181,7 @@ class BankrollResult:
                                                      for name, table in tables.items()])
 
 
+@_validation_session
 def settlements_from_legs(membership, leg_outcomes):
     """Conservative multiplicative-payoff settlement at the latest leg availability.
 
@@ -125,6 +191,8 @@ def settlements_from_legs(membership, leg_outcomes):
     an earlier loss already determines the final return. Unknown legs stay pending.
     Custom early-settlement and nonmultiplicative payoff rules need their own table.
     """
+    from .temporal_provenance import validate_frame, dependency_hash, _dump, _safe
+    validate_frame(membership)
     if not {'ticket_id','leg_id'} <= set(membership) or membership[['ticket_id','leg_id']].isna().any().any() or membership.duplicated(['ticket_id','leg_id']).any():
         raise ValueError('Settlement membership requires distinct complete ticket/leg pairs.')
     if not leg_outcomes.index.is_unique or not {'available_at','return_multiplier'} <= set(leg_outcomes):
@@ -140,10 +208,15 @@ def settlements_from_legs(membership, leg_outcomes):
         multiplier = np.nan if pending else float(np.prod(values))
         if not pending and not np.isfinite(multiplier):
             raise ValueError('Ticket return multiplier overflow.')
-        records.append(dict(ticket_id=ticket, available_at=pd.NaT if pending else times.max(), return_multiplier=multiplier))
-    return pd.DataFrame(records, columns=['ticket_id','available_at','return_multiplier']).set_index('ticket_id')
+        evidence = dict(leg_ids=rows.leg_id.tolist(), available_at=times.tolist(), multipliers=values.tolist(),
+                        ticket_id=ticket,membership=[_safe(r) for r in rows.to_dict('records')],
+                        explicit_availability_timezone=all(pd.notna(v) and pd.Timestamp(v).tzinfo is not None for v in legs.available_at))
+        records.append(dict(ticket_id=ticket, available_at=pd.NaT if pending else times.max(), return_multiplier=multiplier,
+            settlement_evidence=_dump(evidence), settlement_evidence_hash=dependency_hash(evidence)))
+    return pd.DataFrame(records, columns=['ticket_id','available_at','return_multiplier','settlement_evidence','settlement_evidence_hash']).set_index('ticket_id')
 
 
+@_validation_session
 def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, currency, risk_limits=None, basis='realized_wealth'):
     """Settle available outcomes before same-time decisions; never reinvest unknown returns.
 
@@ -155,6 +228,9 @@ def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, c
     from copy import deepcopy
     policy = deepcopy(policy)  # fitted policy state is frozen for the replay
     table = selected_tickets.frame
+    from .temporal_provenance import validate_frame, dependency_hash
+    import json
+    validate_frame(table)
     if not settlements.index.is_unique or len(settlements.index.difference(table.index)):
         raise ValueError('Settlement IDs must be unique selected ticket IDs.')
     if not {'available_at','return_multiplier'} <= set(settlements):
@@ -164,6 +240,16 @@ def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, c
     if decision.isna().any():
         raise ValueError('Missing decision time.')
     for key in settlements.index:
+        if 'settlement_evidence' in settlements:
+            evidence = json.loads(settlements.at[key,'settlement_evidence'])
+            if dependency_hash(evidence) != settlements.at[key,'settlement_evidence_hash']:
+                raise ValueError(f'Settlement evidence changed for ticket {key}.')
+            _settlement_support(evidence,{**table.loc[key].to_dict(),'ticket_id':key})
+            bounds = pd.to_datetime(evidence['available_at'],utc=True)
+            values = np.array(evidence['multipliers'],dtype=float)
+            pending = pd.isna(bounds).any() or np.isnan(values).any()
+            if (pending and pd.notna(available.loc[key])) or (not pending and (available.loc[key] != bounds.max() or settlements.at[key,'return_multiplier'] != float(np.prod(values)))):
+                raise ValueError(f'Settlement for ticket {key} differs from complete leg availability/payoff evidence.')
         if pd.notna(available.loc[key]) and available.loc[key] < decision.loc[key]:
             raise ValueError('Settlement availability precedes decision time.')
     ledger = BankrollLedger(initial_capital,currency)
@@ -184,7 +270,8 @@ def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, c
                 stake = ledger.open_tickets[key]['stake']
                 multiplier = float(settlements.at[key,'return_multiplier'])
                 fee = float(settlements.at[key,'fee']) if 'fee' in settlements else 0.
-                ledger.settle(key,gross_return=stake*multiplier,time=time,available_at=available.loc[key],fee=fee)
+                ledger.settle(key,gross_return=stake*multiplier,time=time,available_at=available.loc[key],fee=fee,
+                              evidence=settlements.at[key,'settlement_evidence'] if 'settlement_evidence' in settlements else None)
                 settled.add(key)
         batch = table.loc[decision.eq(time)]
         if len(batch):
@@ -197,6 +284,11 @@ def replay_bankroll(selected_tickets, settlements, policy, *, initial_capital, c
                 if key in ledger.open_tickets and key not in settled:
                     stake = ledger.open_tickets[key]['stake']
                     ledger.settle(key,gross_return=stake*float(settlements.at[key,'return_multiplier']),time=time,
-                                  available_at=available.loc[key],fee=float(settlements.at[key,'fee']) if 'fee' in settlements else 0.)
+                                  available_at=available.loc[key],fee=float(settlements.at[key,'fee']) if 'fee' in settlements else 0.,
+                                  evidence=settlements.at[key,'settlement_evidence'] if 'settlement_evidence' in settlements else None)
                     settled.add(key)
-    return BankrollResult(pd.DataFrame(ledger.events),pd.concat(allocations) if allocations else pd.DataFrame(),ledger.summary())
+    summary = ledger.summary()
+    if 'settlement_evidence' not in settlements:
+        summary.update(temporal_status='unverified',comparison_eligible=False,
+                       temporal_limitation='Settlement table lacks complete leg-availability evidence.')
+    return BankrollResult(pd.DataFrame(ledger.events),pd.concat(allocations) if allocations else pd.DataFrame(),summary)

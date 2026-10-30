@@ -200,6 +200,13 @@ def prepare_bets(context, offers, policy, *, target=None, output='predict_proba'
             table['eligible'] &= odds.notna()
         rows.append(table.reset_index())
     alternatives = pd.concat(rows, ignore_index=True)
+    from .temporal_provenance import guard_candidates
+    metadata = context.metadata.reset_index()
+    keys = ['fold_id', 'row_position']
+    alternatives = alternatives.merge(metadata[keys + [c for c in metadata if c not in alternatives]],
+                                      on=keys, how='left', validate='many_to_one')
+    alternatives = guard_candidates(alternatives, {'selection':policy,'offers':offers,'output':output},
+                                    context.match_columns,selection_groups=keys)
     alternatives['take'] = False
     for _, group in alternatives.groupby(['fold_id', 'row_position'], sort=False):
         eligible = group.loc[group.eligible]

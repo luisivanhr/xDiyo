@@ -31,7 +31,7 @@ def test_kelly_known_values_and_final_cash_cap():
 def test_whole_slip_replacement_outcome_independence_and_nominal_total():
     offers=ledger(('win','win','loss'))
     policy=BetSlip({'singles':Parlay(size=1,stake=7), 'system':MultiBet(size=3,sizes=(2,3),stake=8,stake_mode='total')})
-    context=StakeContext(100,100,'u','2025-01-01')
+    context=StakeContext(100,100,'u','2024-12-31')
     a=compose_bets(offers,policy,stake_policy=FixedStake(4,'u'),stake_context=context)
     b=compose_bets(offers.assign(settlement='loss'),policy,stake_policy=FixedStake(4,'u'),stake_context=context)
     assert a[0].stake.tolist()==[4]*7

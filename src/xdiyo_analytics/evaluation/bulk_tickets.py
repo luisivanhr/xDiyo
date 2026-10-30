@@ -57,8 +57,8 @@ def _readonly(values, dtype=None):
 
 def _kernel(odds, probabilities, decisions, kickoffs, members):
     cutoffs = decisions[members]
-    if (cutoffs != cutoffs[:, :1]).any() or (cutoffs[:,0] > kickoffs[members].min(axis=1)).any():
-        raise ValueError('Every ticket needs one shared decision timestamp no later than kickoff.')
+    if pd.isna(cutoffs).any() or pd.isna(kickoffs[members]).any() or (cutoffs != cutoffs[:, :1]).any() or (cutoffs[:,0] >= kickoffs[members].min(axis=1)).any():
+        raise ValueError('Every ticket needs one shared decision timestamp strictly before kickoff.')
     prices = checked_product(odds[members], axis=1).astype(float)
     p = np.prod(probabilities[members], axis=1)
     ev = p * prices[:, None] - 1.
@@ -143,6 +143,12 @@ def _membership(prototype, member_positions, selected, ticket_ids, data):
 
 
 def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
+    from .temporal_provenance import guard_candidates, validate_frame, validate_subset
+    data = guard_candidates(data, policy, match_columns)
+    for pools, _ in prepared.values():
+        for _, _, offered in pools:
+            validate_frame(offered)
+            validate_subset(offered, data)
     # Called only after native preflight in this invocation. Its private
     # intermediate arrays never leave the call or act as reusable credentials.
     contract, models = policy.quote_availability, policy.ticket_gate.models
@@ -166,7 +172,7 @@ def execute_bulk(data, prepared, policy, match_columns=('event_id',)):
     norm_odds = _readonly(source.odds if len(source) else np.empty(0), data.odds.to_numpy().dtype)
     probabilities = _readonly(np.column_stack([source[policy.probability_columns[m]].astype(float) for m in models]) if len(source) else np.empty((0, 2)))
     decisions = _readonly(timestamps(source.decision_at).array if len(source) else [], object)
-    kickoffs = _readonly(timestamps(source.kickoff_at).array if len(source) else [], object)
+    kickoffs = _readonly(timestamps(source.get('first_kickoff_at', source.kickoff_at)).array if len(source) else [], object)
     if len(source) and 'p_push' in source and source.p_push.fillna(0).ne(0).any():
         raise ValueError('Binary ticket valuation cannot include nonzero push probability.')
     # Outcomes are read only after the decision arrays are frozen.

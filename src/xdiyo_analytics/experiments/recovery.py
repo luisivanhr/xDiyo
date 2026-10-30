@@ -465,7 +465,8 @@ def unpack(value):
         frame.index, frame.columns = unpack(value["index"]), unpack(value["columns"])
         # Schema-1 bundles written before attrs support remain readable.
         frame.attrs = unpack(value["attrs"]) if "attrs" in value else {}
-        return frame
+        from ..evaluation.temporal_provenance import revalidate_artifact
+        return revalidate_artifact(frame)
     if tag == "plotly":
         import plotly.io as pio
         return pio.from_json(value["value"])

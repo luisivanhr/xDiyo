@@ -64,6 +64,13 @@ def rank_runs(records, weights, *, selectors=None, scaling="percentile", referen
             if metric is None or metric.get("status") != "ok" or value is None or not np.isfinite(value):
                 valid = False
                 continue
+            if metric.get('output') == 'bets':
+                from ..evaluation.temporal_provenance import metric_classification
+                temporal = metric_classification(metric)
+                if temporal != 'verified':
+                    valid = False
+                    row['status'] = 'unranked_temporal_'+temporal
+                    continue
             direction = directions.get(key, metric.get("direction"))
             if direction not in {"minimize", "maximize"}:
                 raise ValueError(f"Metric {key!r} has no universal ranking direction; supply directions explicitly.")

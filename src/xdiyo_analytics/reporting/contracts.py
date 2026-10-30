@@ -168,9 +168,10 @@ class AnalysisReport:
     def to_html(self, path=None, *, renderers=None, spatial_transport=None, spatial_limit=None):
         """Return a standalone HTML document and optionally write it locally."""
         from .viewer import render_report
+        from ..evaluation.temporal_provenance import revalidate_report
         if spatial_limit is not None and (isinstance(spatial_limit, bool) or not isinstance(spatial_limit, int) or spatial_limit < 1):
             raise ValueError('spatial_limit must be a positive integer.')
-        return render_report(self, path=path, renderers=renderers,
+        return render_report(revalidate_report(self), path=path, renderers=renderers,
                              spatial_transport=spatial_transport, spatial_limit=spatial_limit)
 
     def live(self):

@@ -9,6 +9,7 @@ import json
 
 import numpy as np
 from .ticket_numeric import checked_product
+from .temporal_provenance import _validation_session
 import pandas as pd
 from .all_combinations import AllCombinations, prepare_pools, expand_pools, preview_combinations
 
@@ -102,6 +103,7 @@ def _settle(legs, policy, stake):
     return "win", payout
 
 
+@_validation_session
 def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_policy=None, stake_context=None, risk_limits=None):
     """Return ticket ledger, ticket-leg membership and ticket-level metrics.
 
@@ -110,6 +112,9 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
     available together to interpret tickets as a prospective betting simulation.
     """
     templates = composition.tickets if isinstance(composition, BetSlip) else {"tickets": composition}
+    from .temporal_provenance import guard_candidates
+    ledger = guard_candidates(ledger, {'composition': composition, 'stake_policy': stake_policy,
+        'risk_limits': risk_limits}, match_columns)
     deferred = stake_policy is not None or any(getattr(p, 'ticket_gate', None) is not None for p in templates.values())
     if not isinstance(templates, dict) or not templates:
         raise ValueError("A BetSlip needs at least one named ticket template.")
@@ -134,7 +139,7 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         tickets, membership, decisions, summaries, output_attrs = execute_bulk(ledger, prepared, templates['tickets'], match_columns)
         return _finish_composition(tickets, membership, composition, templates, prepared, decisions,
                                    summaries, output_attrs, True, False, ledger,
-                                   stake_policy, stake_context, risk_limits)
+                                   stake_policy, stake_context, risk_limits, match_columns)
     for name, policy in templates.items():
         if not isinstance(name, str) or not name or not isinstance(policy, (Parlay, MultiBet, AllCombinations)):
             raise TypeError("Name each BetSlip entry and use a Parlay, MultiBet or AllCombinations template.")
@@ -190,6 +195,12 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                 groups.append(key)
         if selected[groups].isna().any().any():
             raise ValueError("Ticket grouping metadata must be nonmissing.")
+        complete = ledger.copy()
+        if policy.grouping == 'day':
+            complete['ticket_day'] = pd.to_datetime(complete.kickoff_at,utc=True).dt.strftime('%Y-%m-%d')
+        complete = guard_candidates(complete,policy,match_columns,selection_groups=groups)
+        from .temporal_provenance import CERT
+        selected[CERT] = pd.Series([complete[CERT].iloc[0]]*len(selected),index=selected.index,dtype=object)
         rank = {"kickoff": "kickoff_at", "probability": "p_win", "expected_profit": "expected_profit"}[policy.order_by]
         if rank not in selected or selected[rank].isna().any():
             raise ValueError(f"Ticket ordering needs nonmissing {rank}; use kickoff ordering for manual bets.")
@@ -252,12 +263,15 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
                                                stake_policy, stake_context, risk_limits, _audit_sink=output_attrs)
     return _finish_composition(tickets, membership, composition, templates, prepared, decisions,
                                summaries, output_attrs, deferred, compact, ledger,
-                               stake_policy, stake_context, risk_limits)
+                               stake_policy, stake_context, risk_limits, match_columns)
 
 
 def _finish_composition(tickets, membership, composition, templates, prepared, decisions,
                         summaries, output_attrs, deferred, compact, ledger,
-                        stake_policy, stake_context, risk_limits):
+                        stake_policy, stake_context, risk_limits, match_columns):
+    from .temporal_provenance import attach_tickets, annotate_metrics
+    tickets, membership = attach_tickets(tickets, membership, templates,
+        match_columns, ledger)
     if prepared:
         if deferred:
             # Group positions once; preserve each original ordered Series.sum
@@ -282,6 +296,7 @@ def _finish_composition(tickets, membership, composition, templates, prepared, d
         output_attrs.update(ticket_selection_summary=_audit_records(summaries),
                              ticket_ev_enabled=any(p.min_ev is not None for p in templates.values() if isinstance(p, AllCombinations)))
     metrics = ticket_metrics(tickets, composition, membership)
+    metrics = annotate_metrics(metrics, tickets)
     declarations = []
     for name, policy in templates.items():
         contract = getattr(policy, 'quote_availability', None)

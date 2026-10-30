@@ -71,6 +71,8 @@ class DecisionContext:
             raise ValueError('Decision contexts require a time and copied safe tables.')
         object.__setattr__(self, 'time', time)
         table = self.candidates.frame
+        from .temporal_provenance import validate_frame
+        validate_frame(table,placement_at=time)
         if not isinstance(self.quote_availability, QuoteAvailability):
             raise TypeError('Use a typed QuoteAvailability contract.')
         self.quote_availability.validate(table, time)
@@ -124,6 +126,9 @@ class DecisionLayer:
             if not frame.index.is_unique or len(frame.index.difference(candidates.index)):
                 raise ValueError('Duplicate or unexpected prediction event keys.')
             frame = frame.reindex(candidates.index)
+            from .temporal_provenance import _forecast
+            for evidence in frame.to_dict('records'):
+                _forecast(evidence,('economic_key',))
             required = [*identity_columns, 'probability', 'artifact_vintage', 'trained_through', 'issued_at']
             if not set(required) <= set(frame):
                 raise ValueError('Model valuations lack economic identities, probability or timing provenance.')

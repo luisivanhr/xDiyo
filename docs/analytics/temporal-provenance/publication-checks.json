@@ -1,0 +1,138 @@
+{
+  "base_commit": "d38ae3192067f73df26f1c2f5baa8f1d148d215a",
+  "source": {
+    ".gitattributes": {
+      "tested_working_sha256": "ec4c8f16bec6aaf550a02e9571ffc2aecb8e3956af057b02d2e25cd2465330bc",
+      "git_blob_sha256": "a633c546f2771a753aca6b51bdbe504bb54e465f0c740f4e2d2471833bcb5e0a",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/__init__.py": {
+      "tested_working_sha256": "de4296ddff73695c91cd52da33554ab52073672651d9c61366ecc84ccbb50f05",
+      "git_blob_sha256": "d694bae5c379d9558ab4f3f24a0b365f679f7ab20dd39176ad038f9593cb1cf0",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/all_combinations.py": {
+      "tested_working_sha256": "db3950e3fcf258bcc1121699819db19ef14ba7a16c6b9ad952e3ec524518dff6",
+      "git_blob_sha256": "9bda41dad163ece14777bed4f9ea9090a6f766b06be3917578a7ddc89736f21a",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/bankroll.py": {
+      "tested_working_sha256": "749bc2dcd7bfbbd1c3d5324357091db598891123d00628bd1bd462dea79258bb",
+      "git_blob_sha256": "76dfda91805c3a6516af4195e9b1b3bb6e88875d7248dffdee4d82c680a962fc",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/bet_decisions.py": {
+      "tested_working_sha256": "57ddb5731568c520f2c2f78d2ab7ddc2aa8caffcb2aba3145b8120dbff169516",
+      "git_blob_sha256": "534f96e04f070ec96d3a514f4b55d2d9573435ce829efe6e53e69f3a4ac15c2b",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/betting.py": {
+      "tested_working_sha256": "1bf33a28be88202dad308752c6d15090e8c981ed7fcb91ebda071ca7d9b17d1f",
+      "git_blob_sha256": "669a836db840dc7ac5a7e95f058e8e9e5f0b4b92e9ea3b08fa436c2c84af66dc",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/bulk_tickets.py": {
+      "tested_working_sha256": "daeb75540c378a76ec1ad0a3ad40db1cb63ed8979defef6116794d001341269c",
+      "git_blob_sha256": "ad6c4e44a36ca4209364043b7edfbda1cacc09ee66ffa8c2cfba1c00436f8a67",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/decision_layer.py": {
+      "tested_working_sha256": "25c8abff510d6e7c57ccac5f13149781a4883be2f77f99051f3e17b6c5c70198",
+      "git_blob_sha256": "325d1197a97c8c00099966b06700ba87cd9efebc9ffe2e748469ed3099fb1a64",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/stake_policy.py": {
+      "tested_working_sha256": "b39f0eded7b8f607f0c3db5ab348299c5bc04041ee93817d64e7d1f985215f3f",
+      "git_blob_sha256": "ed96623b8dd2e0569c2c496c26ccb4d1f9999c23bd5d9a8a501dbc82e6c38f24",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/ticket_allocation.py": {
+      "tested_working_sha256": "1128c658674459bd0743781ee65ec1d786ec278408332730252d56175694c689",
+      "git_blob_sha256": "b058adc42ce4a703b98a05da04de09695a94035a732db1b5e4713055a5883ec7",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/tickets.py": {
+      "tested_working_sha256": "875d6ba0e63fe0bd5660acc8fae23ad85fd3021b0d477eeaa58f209e1f19f935",
+      "git_blob_sha256": "db6e637e9b0095fbd440e80126fd05afa4dd699c51b3480fa3dd34035bced439",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/evaluation/temporal_provenance.py": {
+      "tested_working_sha256": "26afb0a8d7071512ba0089d1681c654bf215afd5fb5699989b44fa2b3f3fd8b0",
+      "git_blob_sha256": "734dfb5ad3db99449db49b21f8c4dcc4249ff792a6c651eceebe68834f008015",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/experiments/ranking.py": {
+      "tested_working_sha256": "3e13a6a20c2ebecefd9d7eeda7f58fe387d5547b5a367a65d5bc00574119434a",
+      "git_blob_sha256": "9de8ff12a2017c7da541c07f02261ec2e78d81634d7a05390c12447b968f4154",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/experiments/recovery.py": {
+      "tested_working_sha256": "ff5d4147f7a8c1111f48c304027d48a31d584a2cede9f3a0db3ce3e11765c91c",
+      "git_blob_sha256": "1b1487e4ae012ed69ee1ae085d797a24e9f87c97b2e92a12fbefec98c64fc5de",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/reporting/bet_outcomes.py": {
+      "tested_working_sha256": "b54ed1e8f41833cb67544c0374e0532235296dd00a254126cd2924499d69a5e6",
+      "git_blob_sha256": "811ca92f46a6e5f4aa0a195c9ba95de5e9f84629144c71385c2a74ce52f1b6d6",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/reporting/betting.py": {
+      "tested_working_sha256": "34b8581daeafe73c51c84f45f8cf377b7d242208e2761c8301640b5c0c3ed139",
+      "git_blob_sha256": "fea456dce083298177b3bceeea886c7de67c11d76c28e9713036e9bb4ae24a42",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/reporting/contracts.py": {
+      "tested_working_sha256": "4d302bb59161d6e9dc424e534c4d7bbc692d22e5efa4f64d01c02419653f0329",
+      "git_blob_sha256": "63757f57ec26b4953f64502bf795833deb25aa9365ea97883558beaf6aee7b44",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "src/xdiyo_analytics/reporting/tickets.py": {
+      "tested_working_sha256": "3bcff4d87f8b8aa32a7792190632c93f3632743326a6eb77cba1aa4ff453b14b",
+      "git_blob_sha256": "08f3c6c5409ec3beda2f6984d9a2d158273bb4452b4fac8816f7f4602faf31c9",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "tests/analytics/test_temporal_provenance.py": {
+      "tested_working_sha256": "d62f857bd2a9392c6be7c2559988acaf05d5b4c0836b00195fc51908ddcd57f8",
+      "git_blob_sha256": "c4567c5ba18b2e89d99a9652675b7f4c33ed18ce79a2ab04f8afc41f2a980fae",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "tests/analytics/test_stake_bankroll.py": {
+      "tested_working_sha256": "ff17afcaaa8e4bc2e08be222799e91a57753d72fa46313121bd0baca771784b4",
+      "git_blob_sha256": "9b15d97a6e3ec14f5d38ced41aef50e398e3f76bee91edf73462a8c1c4e5ebd7",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "tests/analytics/test_consensus_performance.py": {
+      "tested_working_sha256": "9587674615ab8f9bbde94ce31930e325e3f646194198d257a652b0c8f42b0180",
+      "git_blob_sha256": "dc634a34e9db702c00e1be612a081f086464bcaf870ca043977ae8b580530dba",
+      "exact_bytes": false,
+      "only_checkout_line_endings_differ": true
+    },
+    "docs/analytics/temporal-provenance/verify.py": {
+      "tested_working_sha256": "906817d78800f26c0f23e7a3ab5f7acd42d687e1c3cb562fe4d96cb731d095e5",
+      "git_blob_sha256": "906817d78800f26c0f23e7a3ab5f7acd42d687e1c3cb562fe4d96cb731d095e5",
+      "exact_bytes": true,
+      "only_checkout_line_endings_differ": false
+    }
+  },
+  "note": "Git blob hashes describe the staged patch. Receipt source hashes describe raw tested Windows files. Any difference was checked to be CRLF/LF normalization only. Evidence files are exempt from text conversion."
+}

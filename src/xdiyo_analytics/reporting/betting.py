@@ -46,11 +46,14 @@ class BetPerformanceReporter(PredictionReporter):
             if self.bets is None:
                 raise ValueError("Choose a BetOutcomeReporter source or configure manual bets.")
             ledger, metrics = evaluate_bets(context, self.bets, labels=self.labels, history=self.history)
+        from ..evaluation.temporal_provenance import revalidate_artifact
+        ledger,metrics=revalidate_artifact(ledger),revalidate_artifact(metrics)
         result = StudyResult("Bet performance", [Artifact("table", metrics, "Bet metrics")],
                              {"metrics": metrics, "ledger": ledger}, [
                                  "Decimal odds; stake returned for push/void. No fees or bankroll simulation.",
                                  "ROI divides known net profit by settled stakes, including push/void.",
                                  f"Cumulative known profit ordered by {self.time_column}; unresolved bets remain visible."])
+        result.notes.append('Temporal evidence is revalidated; unverified or conditional retrospective results are inspectable but cannot enter verified betting comparisons.')
         if 'quote_snapshot' in ledger:
             from ..odds.selection import TIMING_NOTE
             result.notes.append(TIMING_NOTE)

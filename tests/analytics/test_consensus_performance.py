@@ -99,7 +99,9 @@ def test_ticket_batch_checks_all_original_quote_rows_once(monkeypatch):
     tickets.attrs.clear(); members.attrs.clear()
     api = runpy.run_path(str(Path(__file__).resolve().parents[2]/'examples/research_quote_consensus.py'))
     _, _, contract = api['synthetic_example']()
-    p = replace(policy(), quote_availability=contract)
+    p = replace(policy(), quote_availability=contract,
+                probability_columns={'lgbm':'lgbm::probability','xgb':'xgb::probability'},
+                ticket_gate=replace(policy().ticket_gate,models=('lgbm','xgb')))
     original = QuoteAvailability.validate
     calls = []
     def validate(self, frame, time, **kwargs):
@@ -107,7 +109,12 @@ def test_ticket_batch_checks_all_original_quote_rows_once(monkeypatch):
         return original(self, frame, time, **kwargs)
     monkeypatch.setattr(QuoteAvailability, 'validate', validate)
     batch = ticket_allocation.ticket_batch(tickets, members, {'tickets': p}, ('event_id',))
-    assert len(batch) == 28 and calls == [56]
+    assert len(batch) == 28
+    # The mandatory guard checks each unique original forecast/quote as well;
+    # consumed membership still receives exactly one native bulk validation.
+    assert calls.count(56) == 1
+    assert all(n in (1,56) for n in calls)
+    assert calls.count(1) <= 8
 
 
 @pytest.mark.parametrize('size', [2, 3, 5, 8])

@@ -61,6 +61,8 @@ class BetOutcomeReporter(PredictionReporter):
         specs, alternatives = prepare_bets(context, self.offers, self.policy, target=target,
                                            output=output, default_odds=self.default_odds)
         ledger, metrics = evaluate_bets(context, specs, labels=self.labels, history=self.history)
+        from ..evaluation.temporal_provenance import annotate_metrics
+        metrics = annotate_metrics(metrics, alternatives)
         if self.probability_outputs:
             keys = ['fold_id','row_position','bet']
             for model, source in self.probability_outputs.items():
@@ -104,6 +106,7 @@ class BetOutcomeReporter(PredictionReporter):
                                                      'ledger': ledger, 'bet_metrics': metrics}, notes=list(dict.fromkeys(notes)))
         result.notes.extend([f'Probability source: {output}. Selection uses predictions only; outcomes are used afterward for settlement.',
                              'Green wins; red losses; push, void, unavailable and no bet remain neutral. Filters only change the display.'])
+        result.notes.append('Temporal provenance and comparison eligibility are recorded in the alternatives and metrics. Missing historical evidence is unverified, even when numerical accounting is complete.')
         if 'quote_snapshot' in ledger:
             from ..odds.selection import TIMING_NOTE
             result.notes.append(TIMING_NOTE)

@@ -100,6 +100,8 @@ def _stake_preview(terms):
 
 
 def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
+    from .temporal_provenance import guard_candidates
+    ledger = guard_candidates(ledger, policy, match_columns)
     from .tickets import Parlay, _validate
     policy.validate_probability_columns()
     _validate(Parlay(size=policy.legs, stake=policy.stake, max_tickets=policy.max_tickets,
@@ -136,6 +138,7 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
     if any(k not in data for k in groups) or data[list(dict.fromkeys(groups + keys))].isna().any().any():
         raise ValueError('AllCombinations requires nonmissing league/season/stage/round and fold identities; '
                          'supply stage_column, or explicitly set None for single-stage seasons.')
+    data = guard_candidates(data,policy,match_columns,selection_groups=groups)
     if data['take'].isna().any() or not data['take'].map(lambda v: isinstance(v, (bool, np.bool_))).all():
         raise ValueError('Ticket decisions must be explicit booleans.')
     data['kickoff_at'] = timestamps(data.kickoff_at, utc=True, errors='raise')
@@ -159,7 +162,7 @@ def prepare_pools(ledger, policy, match_columns, name, *, outcome_free=False):
             time = timestamps(eligible.get('decision_at', pd.Series(pd.NaT, index=eligible.index)), utc=True).max()
             contract.validate(eligible, time, complete=True)
             decisions = timestamps(eligible.decision_at)
-            if decisions.gt(eligible.kickoff_at).any():
+            if decisions.ge(eligible.kickoff_at).any():
                 raise ValueError('Fixture decision follows kickoff.')
             if 'issued_at' in eligible:
                 issued = timestamps(eligible.issued_at)
