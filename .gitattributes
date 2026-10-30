@@ -52,3 +52,7 @@ docs/analytics/temporal-cutoff-repair/*.log -whitespace
 # Attention reporter verification preserves exact evidence bytes.
 docs/analytics/attention-reporter-verification/** -text whitespace=cr-at-eol
 docs/analytics/attention-reporter-verification/*.log -whitespace
+
+# Fixture SVG provenance receipts preserve exact audited bytes.
+docs/analytics/attention-export-provenance/** -text whitespace=cr-at-eol
+docs/analytics/attention-export-provenance/*.log -whitespace

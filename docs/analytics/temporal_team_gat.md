@@ -500,6 +500,11 @@ Add these under **Post-training analysis**:
   use `pooled=False, per_fixture=True` for fixture panels alone. At least one is
   required. These switches are available in the builder and recipe exports.
   An explicit `issuance_at` also restricts the fixture choices to that issuance.
+  Fixture SVG exports include the side, team and fold in the title, with the
+  pairing, exact competition/season/event IDs, kickoff and issuance in a chart
+  annotation. Filenames identify the side/team, fold, fixture and both times,
+  even with badges disabled. Regenerate existing HTML reports to include this
+  export provenance.
   `attention_fixtures` exports fixture identities, kickoff and issuance;
   `fixture_attention` and `fixture_concentration` retain all edges and summaries
   keyed by fold, team and issuance, without duplicating shared team/issuance rows.

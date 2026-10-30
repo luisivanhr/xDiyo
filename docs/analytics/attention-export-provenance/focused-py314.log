@@ -1,0 +1,11 @@
+.............................................................            [100%]
+============================== warnings summary ===============================
+tests/analytics/test_graph_integration.py::test_native_reporters_render_badges_and_recover[tSNE]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\joblib\externals\loky\backend\context.py:131: UserWarning:
+  
+  Could not find the number of physical cores for the following reason:
+  [WinError 2] The system cannot find the file specified
+  Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+61 passed, 1 warning in 38.98s

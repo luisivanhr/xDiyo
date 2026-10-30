@@ -52,5 +52,5 @@ def fixture_attention_figure(table, fixtures, queries, catalog, show_badges, top
             event=team_key(row.event_id), competition=team_key(row.competition_id), season=team_key(row.season_id),
             home_view=keys[(team_key(row.home_id), pd.Timestamp(row.issuance_at))],
             away_view=keys[(team_key(row.away_id), pd.Timestamp(row.issuance_at))]))
-    go_figure.update_layout(meta=dict(xdiyo_fixture_attention=True, fixtures=choices, views=views))
+    go_figure.update_layout(meta=dict(xdiyo_fixture_attention=True, fold_id=fold, fixtures=choices, views=views))
     return go_figure

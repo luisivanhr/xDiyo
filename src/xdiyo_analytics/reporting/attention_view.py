@@ -75,17 +75,17 @@ async function drawAttention(el,spec,team){
   const selected=spec.layout.meta.roster.find(r=>r.team===team), traces=spec.data.filter(t=>t.meta.team===team).map(t=>({...t,visible:true}));
   const labels=new Set(traces.flatMap(t=>t.x)), order=spec.layout.xaxis.categoryarray.filter(label=>labels.has(label));
   const images=selected?.badge?[{source:selected.badge,x:1.03,y:1.12,xref:'paper',yref:'paper',sizex:.06,sizey:.12,sizing:'contain',xanchor:'left',yanchor:'top'}]:[];
-  const annotations=traces.length?[]:[{text:'No eligible historical edges for this team at this issuance.',xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false}];
+  const annotations=[...(spec.layout.annotations||[]),...(traces.length?[]:[{text:'No eligible historical edges for this team at this issuance.',xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false}])];
   // Hidden teams must not leave empty categories or consume grouped-bar widths.
   await Plotly.react(el,traces,{...spec.layout,images,annotations,
     xaxis:{...spec.layout.xaxis,categoryarray:order,autorange:true},yaxis:{...spec.layout.yaxis,autorange:true}},
-    {responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:'attention_weights'}});
+    {responsive:true,displaylogo:false,toImageButtonOptions:{format:'svg',filename:spec.layout.meta.export_filename||'attention_weights'}});
   if(!el.attentionBadgeListener){el.on('plotly_relayout',()=>sizeAttentionBadge(el));el.attentionBadgeListener=true;}
   await sizeAttentionBadge(el);
 }
 
 async function initializeFixtureAttention(el,spec){
-  const {fixtures,views}=spec.layout.meta;
+  const {fixtures,views,fold_id:fold}=spec.layout.meta;
   el.style.height='auto';el.replaceChildren();
   if(!fixtures.length){el.textContent='No evaluation fixtures at the selected issuance.';return;}
   const controls=document.createElement('div');controls.className='attention-controls';el.append(controls);
@@ -112,7 +112,28 @@ async function initializeFixtureAttention(el,spec){
     for(const [i,side] of ['home','away'].entries()){
       panels[i].heading.textContent=(i?'Away · ':'Home · ')+fixture[side+'_name'];
       const view=views[fixture[side+'_view']];
-      await drawAttention(panels[i].plot,{data:view.data,layout:{...spec.layout,meta:view.layout.meta,
+      const label=i?'Away':'Home';
+      const escape=value=>String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const safe=value=>String(value).normalize('NFKC').replace(/[^\p{L}\p{N}_-]/gu,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+      const stamp=value=>safe(String(value).replace(/\+00:00$/,'Z').replace(/[-:]/g,''));
+      const filename='attention-fold-'+safe(fold)+'-'+side+'-'+Array.from(safe(fixture[side+'_name'])).slice(0,24).join('')+
+        '-team-'+safe(fixture[side])+'-c'+safe(fixture.competition)+'-s'+safe(fixture.season)+'-e'+safe(fixture.event)+
+        '-kickoff-'+stamp(fixture.kickoff)+'-issuance-'+stamp(fixture.issuance);
+      // Provenance must live inside Plotly, so standalone SVGs remain identifiable
+      // without the surrounding selectors/headings or optional team badges.
+      const lines=[label+': '+fixture[side+'_name']+' (team '+fixture[side]+')',
+        'Fixture: '+fixture.home_name+' vs '+fixture.away_name,
+        'Competition: '+fixture.competition+' / Season: '+fixture.season+' / Event: '+fixture.event,
+        'Kickoff: '+fixture.kickoff,'Issuance: '+fixture.issuance];
+      const wrapped=lines.flatMap(line=>{const chars=Array.from(line),parts=[];for(let n=0;n<chars.length;n+=38)parts.push(chars.slice(n,n+38).join(''));return parts;});
+      const bottom=190+wrapped.length*14;
+      const provenance={text:wrapped.map(escape).join('<br>'),xref:'paper',yref:'paper',x:0,y:0,
+        xanchor:'left',yanchor:'bottom',yshift:-(bottom-12),showarrow:false,align:'left',font:{size:10}};
+      panels[i].plot.style.height=(650+bottom-150)+'px';
+      await drawAttention(panels[i].plot,{data:view.data,layout:{...spec.layout,
+        height:650+bottom-150,margin:{...spec.layout.margin,l:45,b:bottom},annotations:[provenance],
+        title:{...spec.layout.title,text:escape(label+' · '+fixture[side+'_name']+' · Fold '+fold),font:{size:14}},
+        meta:{...view.layout.meta,export_filename:filename},
         xaxis:{...spec.layout.xaxis,...view.layout.xaxis}}},fixture[side]);
     }
   }

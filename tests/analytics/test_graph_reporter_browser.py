@@ -294,3 +294,63 @@ def test_fixture_attention_selectors_show_both_teams_at_selected_kickoff(browser
         images = [e for e in root.iter() if e.tag.endswith('}image')]
         assert images and all(e.attrib.get('{http://www.w3.org/1999/xlink}href','').startswith('data:') for e in images)
     assert not errors
+
+
+@pytest.mark.parametrize('width',[1000,390])
+def test_fixture_svg_carries_selected_provenance_without_badges(browser_page, tmp_path, width):
+    from xdiyo_analytics.reporting.fixture_attention import fixture_attention_figure
+    from xdiyo_analytics.reporting import Artifact
+    from test_reporting_viewer import simple_report
+    page, url, errors = browser_page
+    page.set_viewport_size({'width':width,'height':1000})
+    events = [2**63+101, 2**63+102]
+    fixtures = pd.DataFrame([
+        dict(home_id=1, away_id=2, event_id=event, competition_id=10, season_id=20,
+             kickoff_at=pd.Timestamp(f'2020-01-{day:02}T12:00:00Z'),
+             issuance_at=pd.Timestamp(f'2020-01-{day-1:02}T12:00:00Z'))
+        for event, day in zip(events, (3, 6))])
+    queries = pd.concat([fixtures[[side+'_id','issuance_at']].rename(columns={side+'_id':'team_id'})
+                         for side in ('home','away')],ignore_index=True)
+    table = pd.DataFrame([dict(team_id=q.team_id, opponent_id=3, event_id=99, layer=0, head=head,
+                              kickoff_at=q.issuance_at-pd.Timedelta(days=1), issuance_at=q.issuance_at, attention=.5)
+                          for q in queries.itertuples() for head in (0,1)])
+    fig = fixture_attention_figure(table, fixtures, queries, TeamCatalog({1:'Alpha & Co',2:'Beta <FC>'}),False,20,4,[])
+    simple_report([Artifact('plotly',fig,'Fixture attention')]).to_html(tmp_path/'index.html')
+    page.goto(url+'/index.html')
+    filenames = []
+    for index, day in enumerate((3,6)):
+        if index:
+            page.get_by_label('Kickoff date',exact=True).select_option(str(index))
+        for side, team, name, safe_name in [('Home',1,'Alpha & Co','Alpha-Co'),('Away',2,'Beta <FC>','Beta-FC')]:
+            panel = page.get_by_label(side+' attention',exact=True)
+            page.wait_for_function('''([side,event])=>document.querySelector('[aria-label="'+side+' attention"]')?.layout?.meta?.export_filename?.includes('-e'+event+'-')''',arg=[side,str(events[index])])
+            assert panel.locator('.imagelayer image').count() == 0
+            with page.expect_download() as download:
+                panel.locator('[data-title*="Download plot"]').click()
+            expected = (f'attention-fold-4-{side.lower()}-{safe_name}-team-{team}-c10-s20-e{events[index]}'
+                        f'-kickoff-202001{day:02}T120000Z-issuance-202001{day-1:02}T120000Z.svg')
+            assert download.value.suggested_filename == expected
+            filenames.append(expected)
+            path = tmp_path/expected;download.value.save_as(path)
+            root = ET.parse(path).getroot()
+            text = ''.join(root.itertext())
+            compact = lambda value: ''.join(value.split())
+            for required in [f'{side} · {name} · Fold 4',f'{side}: {name} (team {team})',
+                             'Fixture: Alpha & Co vs Beta <FC>',
+                             f'Competition: 10 / Season: 20 / Event: {events[index]}',
+                             f'Kickoff: 2020-01-{day:02}T12:00:00+00:00',
+                             f'Issuance: 2020-01-{day-1:02}T12:00:00+00:00']:
+                assert compact(required) in compact(text)
+            # Check the actual downloaded SVG offline, not only its chart spec.
+            offline = page.context.new_page()
+            offline.route('http://**/*',lambda route:route.abort())
+            offline.goto(path.as_uri())
+            box = offline.locator('.annotation-text').bounding_box()
+            canvas = offline.locator('svg.main-svg').bounding_box()
+            assert box['x'] >= canvas['x'] and box['y'] >= canvas['y']
+            assert box['x']+box['width'] <= canvas['x']+canvas['width']
+            assert box['y']+box['height'] <= canvas['y']+canvas['height']
+            offline.close()
+    assert len(set(filenames)) == 4
+    page.screenshot(path=str(tmp_path/'fixture-export-provenance.png'),full_page=True)
+    assert not errors
