@@ -27,6 +27,10 @@ _OUTPUT = {CERT, POOL, STATUS, 'temporal_issues', 'comparison_eligible', 'tempor
 _MUTABLE = {'take', 'eligible', 'reason', 'stake', 'nominal_stake', 'funded',
             'ticket_id', 'leg_number', 'template', 'accounting_status'}
 _STAGES = {'preprocessing', 'ratings', 'calibration', 'tuning', 'fitting'}
+_DEPENDENCY_TIMES = ('model_available_as_of', 'features_available_as_of',
+                     'preprocessing_available_as_of', 'ratings_available_as_of',
+                     'calibration_available_as_of', 'tuning_available_as_of',
+                     'training_label_available_as_of', 'training_cutoff')
 _CONTENT_CACHE = ContextVar('temporal_content_cache',default=None)
 
 
@@ -219,6 +223,23 @@ def _later(a, b, names, identity, *, equal=False):
                          f'{">=" if equal else ">"} {names[1]}={b.isoformat()}.')
 
 
+def _available_before(time, cutoff, decision, name, identity):
+    # Missing intermediate evidence cannot hide an already known contradiction.
+    _later(time, decision, (name, 'decision_at'), identity)
+    _later(time, cutoff, (name, 'forecast_as_of'), identity)
+
+
+def _dependency_times(dep, cutoff, decision, identity, *, training_cutoff=None):
+    """Check explicit evidence nodes, never arbitrary artifact content/creation dates."""
+    time = _stamp(dep.get('available_as_of'), 'available_as_of', identity, strict=True)
+    _available_before(time, cutoff, decision, 'dependency_available_as_of', identity)
+    _later(time, training_cutoff, ('training_input_available_as_of', 'training_cutoff'), identity)
+    for collection in ('dependencies', 'inputs'):
+        for child in dep.get(collection, []):
+            _dependency_times(child, cutoff, decision, f'{identity}/{collection} {child.get("id")}', training_cutoff=training_cutoff)
+    return time
+
+
 def _assumptions(evidence):
     assumptions = evidence.get('assumptions', [])
     found = {}
@@ -232,24 +253,26 @@ def _assumptions(evidence):
     return found
 
 
-def _forecast(row, keys):
+def _forecast(row, keys, *, decision_limit=None):
     cache = _CONTENT_CACHE.get()
-    key = ('forecast',tuple(keys),dependency_hash(_safe(row)))
+    key = ('forecast',tuple(keys),dependency_hash(_safe(row)),decision_limit)
     if cache is not None and key in cache:
         return cache[key]
-    result = _forecast_impl(row,keys)
+    result = _forecast_impl(row,keys,decision_limit=decision_limit)
     if cache is not None:
         cache[key] = result
     return result
 
 
-def _forecast_impl(row, keys):
+def _forecast_impl(row, keys, *, decision_limit=None):
     identity = {k: row.get(k) for k in keys}
     issues = []
     fields = ('decision_at','kickoff_at','first_kickoff_at','forecast_as_of','prediction_cutoff',
               'model_available_as_of','features_available_as_of','issued_at','quote_at','assumed_available_at')
     ts = {k:_stamp(row.get(k), k, identity) for k in fields}
     decision = ts['decision_at']
+    if decision_limit is not None:
+        decision = decision_limit if decision is None else min(decision, decision_limit)
     first = ts['first_kickoff_at'] if ts['first_kickoff_at'] is not None else ts['kickoff_at']
     _later(decision, first, ('decision_at','first_kickoff_at'), identity, equal=True)
     for k in ('forecast_as_of','prediction_cutoff','issued_at','quote_at','assumed_available_at'):
@@ -257,17 +280,15 @@ def _forecast_impl(row, keys):
     cutoff = ts['forecast_as_of'] if ts['forecast_as_of'] is not None else ts['prediction_cutoff']
     if ts['forecast_as_of'] is not None and ts['prediction_cutoff'] is not None and ts['forecast_as_of'] != ts['prediction_cutoff']:
         raise ValueError(f'Temporal provenance {identity}: forecast_as_of differs from prediction_cutoff.')
-    for k in ('model_available_as_of','features_available_as_of'):
-        _later(ts[k], cutoff, (k,'forecast_as_of'), identity)
+    for k in _DEPENDENCY_TIMES:
+        _available_before(_stamp(row.get(k), k, identity), cutoff, decision, k, identity)
     train = _stamp(row.get('training_cutoff'), 'training_cutoff', identity)
     _later(_stamp(row.get('training_label_available_as_of'), 'training_label_available_as_of', identity),
            train, ('training_label_available_as_of','training_cutoff'), identity)
-    for k in ('preprocessing_available_as_of','ratings_available_as_of','calibration_available_as_of','tuning_available_as_of'):
-        _later(_stamp(row.get(k),k,identity), cutoff, (k,'forecast_as_of'), identity)
     # Legacy model stream fields retain their existing interpretation in gates.
     # Do not reinterpret trained_through/artifact_vintage as simulated availability.
     for k, value in row.items():
-        if '::' in str(k) and str(k).split('::')[-1] in ('issued_at','forecast_as_of','model_available_as_of','quote_at'):
+        if '::' in str(k) and str(k).split('::')[-1] in ('issued_at','forecast_as_of','prediction_cutoff','quote_at',*_DEPENDENCY_TIMES):
             _later(_stamp(value,k,identity), decision, (k,'decision_at'), identity)
     for model in {k.split('::')[0] for k in row if str(k).endswith('::probability')}:
         issued = _stamp(row.get(model+'::issued_at'),'issued_at',identity)
@@ -285,7 +306,7 @@ def _forecast_impl(row, keys):
     for k in fields:
         if ts[k] is not None and pd.Timestamp(row[k]).tzinfo is None:
             issues.append('legacy_naive_'+k)
-    quote_conditional = _quotes(row,ts,decision,issues)
+    quote_conditional = _quotes(row,ts,ts['decision_at'],issues)
     raw = row.get(EVIDENCE)
     if not isinstance(raw, str) or not raw:
         return 'unverified', sorted(set(issues+['missing_forecast_lineage']))
@@ -309,10 +330,17 @@ def _forecast_impl(row, keys):
         if _stamp(evidence.get(k),k,identity,strict=True) is None:
             issues.append('missing_'+k)
     declared = _stamp(evidence.get('forecast_as_of'),'forecast_as_of',identity,strict=True)
+    _later(declared, decision, ('forecast_as_of', 'decision_at'), identity)
     if declared is not None and cutoff is not None and declared != cutoff:
         raise ValueError(f'Temporal provenance {identity}: declared feature cutoff differs from forecast cutoff.')
+    # Use a known evidence cutoff for comparisons, without upgrading missing-row
+    # provenance or inventing a cutoff in the forecast binding.
+    cutoff = cutoff if cutoff is not None else declared
     available = _stamp(evidence.get('model_available_as_of'),'model_available_as_of',identity,strict=True)
-    _later(available, cutoff, ('model_available_as_of','forecast_as_of'), identity)
+    _available_before(available, cutoff, decision, 'model_available_as_of', identity)
+    for k in _DEPENDENCY_TIMES:
+        _available_before(_stamp(row.get(k), k, identity), cutoff, decision, k, identity)
+        _available_before(_stamp(evidence.get(k), k, identity, strict=True), cutoff, decision, k, identity)
     if ts['model_available_as_of'] is not None and available is not None and ts['model_available_as_of'] != available:
         raise ValueError(f'Temporal provenance {identity}: model availability differs from its evidence.')
     generated = _stamp(evidence.get('generated_at'),'generated_at',identity,strict=True)
@@ -331,10 +359,9 @@ def _forecast_impl(row, keys):
         _content(dep,issues,ident)
         if dep.get('role') == 'features' and dep.get('hash') is not None and row.get('feature_hash') is not None and dep.get('hash') != row['feature_hash']:
             raise ValueError(f'Temporal provenance {ident}: feature hash differs from forecast binding.')
-        time = _stamp(dep.get('available_as_of'),'available_as_of',ident,strict=True)
+        time = _dependency_times(dep, cutoff, decision, ident)
         if time is None:
             issues.append('unknown_dependency_availability')
-        _later(time, cutoff, ('dependency_available_as_of','forecast_as_of'), ident)
         kind = dep.get('availability_kind')
         if kind == 'assumed':
             a = assumptions.get(dep.get('assumption_id'))
@@ -358,12 +385,15 @@ def _forecast_impl(row, keys):
         if stage.get('mode') != 'fitted' or not stage.get('artifact_hash'):
             issues.append('unbound_fitted_artifact')
         artifact = stage.get('artifact',{})
+        _dependency_times(artifact, cutoff, decision, f'{ident}/artifact')
         if artifact.get('hash') != stage.get('artifact_hash'):
             issues.append('unbound_fitted_artifact_content')
         else:
             _content(artifact,issues,ident)
         train = _stamp(stage.get('training_cutoff'),'training_cutoff',ident,strict=True)
         ready = _stamp(stage.get('available_as_of'),'available_as_of',ident,strict=True)
+        _available_before(train, cutoff, decision, 'training_cutoff', ident)
+        _available_before(ready, cutoff, decision, 'stage_available_as_of', ident)
         if stage.get('kind')=='fitting':
             _later(ready,available,('fitted_artifact_available_as_of','model_available_as_of'),ident)
         created = _stamp(stage.get('created_at'),'created_at',ident,strict=True)
@@ -378,16 +408,16 @@ def _forecast_impl(row, keys):
         if train is None or ready is None or not stage.get('fit_rows_hash'):
             issues.append('incomplete_training_provenance')
         membership=stage.get('fit_rows',{})
+        _dependency_times(membership, cutoff, decision, f'{ident}/fit_rows')
         if membership.get('hash') != stage.get('fit_rows_hash'):
             issues.append('unbound_training_membership')
         else:
             _content(membership,issues,ident)
         _later(train,ready,('training_cutoff','model_available_as_of'),ident)
-        _later(ready,cutoff,('stage_available_as_of','forecast_as_of'),ident)
         if stage.get('fit_partition') != 'train':
             raise ValueError(f'Temporal provenance {ident}: fitted stage is not train-only.')
         for dep in stage.get('inputs', []):
-            time = _stamp(dep.get('available_as_of'),'training input available_as_of',ident,strict=True)
+            time = _dependency_times(dep, cutoff, decision, f'{ident}/input {dep.get("id", dep.get("role"))}', training_cutoff=train)
             if time is None or not dep.get('hash'):
                 issues.append('missing_training_input_evidence')
             _content(dep,issues,ident)
@@ -408,7 +438,7 @@ def _forecast_impl(row, keys):
         own = {k:v for k,v in row.items() if '::' not in k}
         own.update({k.split('::',1)[1]:v for k,v in row.items() if k.startswith(model+'::')})
         own[EVIDENCE] = streams[model]
-        status, missing = _forecast(own,keys)
+        status, missing = _forecast(own,keys,decision_limit=decision)
         issues.extend(missing)
         conditional |= status=='conditional_research'
     return ('unverified' if issues else 'conditional_research' if conditional else 'verified'), sorted(set(issues))
@@ -725,9 +755,12 @@ def validate_selection_groups(frame, groups, *, at=None):
             for key in row:
                 field = str(key).split('::')[-1]
                 if field in {'forecast_as_of','prediction_cutoff','issued_at','quote_at','assumed_available_at',
-                             'model_available_as_of','features_available_as_of'}:
+                             *_DEPENDENCY_TIMES}:
                     _later(_stamp(row[key],key,row.get('event_id')),cutoff,(key,'candidate_group_decision_at'),
                            {'event_id':row.get('event_id'),'group':group})
+            # Validate nested lineage at the actual selection time too. Keep the
+            # original row/binding intact; this is a comparison bound, no relabel.
+            _forecast(row, ('event_id',), decision_limit=cutoff)
 
 
 @_validation_session

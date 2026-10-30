@@ -14,6 +14,13 @@ for multiplying probabilities. No experiment was rerun for this change.
 - Each forecast's `forecast_as_of` must be at or before ticket decision time.
   An explicit `prediction_cutoff`, if present, must agree with it.
 - Information dependencies must be available at or before the forecast cutoff.
+  Every known availability is also compared directly with ticket decision time;
+  missing forecast/training cutoffs cannot suppress a known contradiction.
+  This includes preprocessing, ratings, calibration, tuning, nested dependencies,
+  training inputs and individual model streams. A known cutoff in bound evidence
+  remains a comparison bound when the row cutoff is missing, without upgrading
+  that row's missing provenance. Candidate groups apply their selection-time bound
+  to nested evidence too, preserving the original timestamps and bindings.
   Fitted stages must use the train partition only, with training input and label
   availability at or before their training cutoff, and artifact availability at
   or before the forecast cutoff. Fitting availability cannot be later than the

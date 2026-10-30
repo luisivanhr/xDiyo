@@ -1,0 +1,27 @@
+{
+  "base_commit": "77c9b90c1ffcfdad53f79ea98f760d2da166aa8e",
+  "tested_source_comparison": {
+    ".gitattributes": {
+      "tested_sha256": "bdbb7e5101f38b9cf1d3ecc851ec7fc69aa7461718eaa0cd41825fe1695d143f",
+      "staged_sha256": "2d7225168afca28adcb43febe90ba42b66c172aabee86f824e94c1b19f3827a4",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/evaluation/temporal_provenance.py": {
+      "tested_sha256": "87f1784ff70746c5e2a998635e9fbb0d4ddc1ea5ce9afd6db956a07537143474",
+      "staged_sha256": "51f48e1cdeb9f306dfcc4d66ee8fcc42cfe9d612e0f2eeab031b698c9ecd3855",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_temporal_missing_cutoff.py": {
+      "tested_sha256": "ca97eac45d0d81e7ed3beaece2ebbf1cb26b03bf222021f5b192a900520d2d3c",
+      "staged_sha256": "ca97eac45d0d81e7ed3beaece2ebbf1cb26b03bf222021f5b192a900520d2d3c",
+      "equal_after_line_ending_normalization": true
+    },
+    "docs/analytics/temporal-cutoff-repair/verify.py": {
+      "tested_sha256": "0ae5b876fc305fd19f5ffc3e9e0ac89ff0e5c758575d08775495d501a71c516d",
+      "staged_sha256": "0ae5b876fc305fd19f5ffc3e9e0ac89ff0e5c758575d08775495d501a71c516d",
+      "equal_after_line_ending_normalization": true
+    }
+  },
+  "receipt_hashes_verified": true,
+  "scope": "Only temporal missing-cutoff repair; unrelated reporter edits excluded."
+}

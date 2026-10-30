@@ -44,3 +44,7 @@ docs/analytics/temporal-provenance/*.log -whitespace
 # Standings publication repair audit receipts preserve exact audited bytes.
 docs/analytics/standings-publication-repair/** -text whitespace=cr-at-eol
 docs/analytics/standings-publication-repair/*.log -whitespace
+
+# Missing-cutoff guard repair receipts preserve audited bytes.
+docs/analytics/temporal-cutoff-repair/** -text whitespace=cr-at-eol
+docs/analytics/temporal-cutoff-repair/*.log -whitespace

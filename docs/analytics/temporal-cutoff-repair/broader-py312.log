@@ -1,0 +1,32 @@
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+........................................................................ [ 20%]
+........................................................................ [ 25%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 41%]
+........................................................................ [ 46%]
+........................................................................ [ 51%]
+........................................................................ [ 56%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+........................................................................ [ 77%]
+........................................................................ [ 82%]
+........................................................................ [ 87%]
+........................................................................ [ 92%]
+........................................................................ [ 97%]
+..............................                                           [100%]
+============================== warnings summary ===============================
+tests/analytics/test_bet_tickets.py::test_ui_ticket_changes_refresh_saved_run_without_fitting
+tests/analytics/test_bet_outcomes.py::test_ui_classifier_retains_probabilities_before_reporter_is_added
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:1435: FutureWarning: 'n_jobs' has no effect since 1.8 and will be removed in 1.10. You provided 'n_jobs=1', please leave it unspecified.
+    warnings.warn(msg, category=FutureWarning)
+
+tests/analytics/test_bet_outcomes.py::test_nb_pipeline_retains_mean_when_point_prediction_is_mode_and_recipe_reuses
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\.venv\Lib\site-packages\statsmodels\genmod\generalized_linear_model.py:1486: SingularMatrixWarning: The design matrix is rank-deficient. The model parameters are not uniquely determined.
+    wls_results = wls_model.fit(method=wls_method2)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1398 passed, 3 warnings in 844.08s (0:14:04)
