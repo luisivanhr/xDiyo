@@ -48,3 +48,7 @@ docs/analytics/standings-publication-repair/*.log -whitespace
 # Missing-cutoff guard repair receipts preserve audited bytes.
 docs/analytics/temporal-cutoff-repair/** -text whitespace=cr-at-eol
 docs/analytics/temporal-cutoff-repair/*.log -whitespace
+
+# Attention reporter verification preserves exact evidence bytes.
+docs/analytics/attention-reporter-verification/** -text whitespace=cr-at-eol
+docs/analytics/attention-reporter-verification/*.log -whitespace

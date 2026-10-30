@@ -33,6 +33,8 @@ def decorate(components, stages):
         'whiten': 'PCA-only whitening of projected components.',
         'top_edges': 'Strongest historical edges shown per team/layer/head. Full weights are retained in downloadable tables.',
         'show_badges': 'Display available local team badges with names; unavailable badges fall back to names.',
+        'pooled': 'Show the legacy league/team attention panel at one common issuance per fold (latest by default). Can be combined with per-fixture panels.',
+        'per_fixture': 'Show home and away attention at each selected fixture’s native inference issuance. Choose teams and kickoff in the rendered report. Reconstructs all selected issuances; can increase report generation time and size.',
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
@@ -47,6 +49,8 @@ def decorate(components, stages):
             name = f['name']
             f['help'] = help_text.get(name, f.get('help', name.replace('_',' ').capitalize()))
             f['primary'] = name not in ('catalog','event_store')
+            if key.endswith('GraphAttentionWeightReporter') and name == 'issuance_at':
+                f['help'] = 'Optional timezone-aware issuance from this fold. Sets the pooled cutoff and restricts fixture choices to that issuance. Disabled: latest pooled cutoff and all selected fixtures at their individual native issuances.'
             if name in choices:
                 f.update(kind='select', choices=choices[name])
             if name == 'config':

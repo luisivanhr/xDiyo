@@ -14,6 +14,7 @@ from .teams import TeamCatalog
 from .embedding_view import embedding_figure
 from .leagues import embedding_leagues
 from .attention_view import attention_figure, attention_roster
+from .fixture_attention import fixture_population, fixture_attention_figure
 
 
 def _graph(model):
@@ -188,33 +189,65 @@ class GraphAttentionWeightReporter(PredictionReporter):
     top_edges: int = 20
     show_badges: bool = True
     catalog: object = None
+    pooled: bool = True
+    per_fixture: bool = False
     supported_types: ClassVar[tuple] = ('per_fold', 'overall')
 
     def run(self, context):
         _positive('top_edges', self.top_edges)
+        if not isinstance(self.pooled, bool) or not isinstance(self.per_fixture, bool):
+            raise ValueError('pooled and per_fixture must be booleans.')
+        if not (self.pooled or self.per_fixture):
+            raise ValueError('Enable pooled, per_fixture, or both attention views.')
         result = StudyResult('Graph attention weights', notes=[
             'Attention is normalized within each receiver, layer and head, including temporal decay. It is not a causal effect or a direct attribution of the fixture prediction.',
             'The chart shows the strongest incoming edges per receiver/layer/head, ordered newest first. Exports retain every edge and the full-history entropy. Gates and historical support remain separate.',
         ])
         raw_catalog = self.catalog if self.catalog is not None else context.resources.get('team_catalog')
         catalog = raw_catalog if isinstance(raw_catalog, TeamCatalog) else TeamCatalog(raw_catalog or {})
-        exports, summaries = [], []
+        exports, summaries, fixture_exports, fixture_rows, fixture_summaries = [], [], [], [], []
         for fold, model, queries in _populations(context, self.issuance_at, result):
-            table = model.attention_weights(queries)
+            all_queries = queries if self.pooled else queries.iloc[:0]
+            if self.per_fixture:
+                fixtures, fixture_queries = fixture_population(model, context.metadata.xs(fold, level='fold_id'), self.issuance_at)
+                all_queries = pd.concat([all_queries, fixture_queries], ignore_index=True).drop_duplicates().reset_index(drop=True)
+            table = model.attention_weights(all_queries)
             if table.empty:
                 result.notes.append(f'Fold {fold}: no eligible historical edges; representations use priors.')
             table['fold_id'] = fold
-            exports.append(table)
-            roster = attention_roster(model, queries, context.metadata, catalog, self.show_badges, result.notes)
-            groups = [] if table.empty else table.groupby(['team_id', 'layer', 'head'], sort=False)
-            for (team, layer, head), group in groups:
-                p = group.attention.to_numpy(); nonzero = p[p > 0]
-                entropy = float(-(nonzero*np.log(nonzero)).sum())
-                summaries.append(dict(fold_id=fold, team_id=team, layer=layer, head=head,
-                    edges=len(group), weight_sum=float(p.sum()), entropy=entropy,
-                    effective_edges=float(np.exp(entropy)), support=group.support.iloc[0], gate=group.gate.iloc[0]))
-            figure = attention_figure(table, roster, catalog, self.top_edges, fold)
-            result.artifacts.append(Artifact('plotly', figure, f'Attention · fold {fold}'))
-        result.tables['attention'] = pd.concat(exports, ignore_index=True) if exports else pd.DataFrame()
-        result.tables['concentration'] = pd.DataFrame(summaries)
+            if self.pooled:
+                pooled_table = table if table.empty else table[table.issuance_at.eq(queries.issuance_at.iloc[0]) & table.team_id.isin(queries.team_id)].copy()
+                exports.append(pooled_table)
+                summaries.extend(_attention_concentration(pooled_table, fold))
+                roster = attention_roster(model, queries, context.metadata.xs(fold, level='fold_id'), catalog, self.show_badges, result.notes)
+                figure = attention_figure(pooled_table, roster, catalog, self.top_edges, fold)
+                result.artifacts.append(Artifact('plotly', figure, f'Attention · fold {fold}'))
+            if self.per_fixture:
+                fixture_table = table if table.empty else table.merge(fixture_queries, on=['team_id', 'issuance_at'], how='inner', validate='many_to_one')
+                fixture_exports.append(fixture_table)
+                fixture_rows.append(fixtures.assign(fold_id=fold))
+                fixture_summaries.extend(_attention_concentration(fixture_table, fold, per_issuance=True))
+                figure = fixture_attention_figure(fixture_table, fixtures, fixture_queries, catalog, self.show_badges, self.top_edges, fold, result.notes)
+                result.artifacts.append(Artifact('plotly', figure, f'Fixture attention · fold {fold}'))
+        if self.pooled:
+            result.tables['attention'] = pd.concat(exports, ignore_index=True) if exports else pd.DataFrame()
+            result.tables['concentration'] = pd.DataFrame(summaries)
+        if self.per_fixture:
+            result.tables['fixture_attention'] = pd.concat(fixture_exports, ignore_index=True) if fixture_exports else pd.DataFrame()
+            result.tables['attention_fixtures'] = pd.concat(fixture_rows, ignore_index=True) if fixture_rows else pd.DataFrame()
+            result.tables['fixture_concentration'] = pd.DataFrame(fixture_summaries)
+            result.notes.append('Fixture panels use each selected fixture’s native inference issuance with frozen fold weights. Home/away selectors and kickoff select fixtures within this fold. Shared team/issuance views are reused. These are incoming team-edge weights, not fixture-specific causal attributions. Explicit issuance_at restricts this panel to fixtures at that issuance.')
         return result
+
+
+def _attention_concentration(table, fold, *, per_issuance=False):
+    keys = ['team_id', 'layer', 'head'] + (['issuance_at'] if per_issuance else [])
+    summaries = []
+    groups = [] if table.empty else table.groupby(keys, sort=False)
+    for identity, group in groups:
+        p = group.attention.to_numpy(); nonzero = p[p > 0]
+        entropy = float(-(nonzero*np.log(nonzero)).sum())
+        summaries.append(dict(fold_id=fold, **dict(zip(keys, identity)),
+            edges=len(group), weight_sum=float(p.sum()), entropy=entropy,
+            effective_edges=float(np.exp(entropy)), support=group.support.iloc[0], gate=group.gate.iloc[0]))
+    return summaries

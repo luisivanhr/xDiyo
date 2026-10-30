@@ -1,0 +1,67 @@
+{
+  "base_commit": "0ce66ee562c754c8b7731c6ea2fdd9ab51837fe4",
+  "source_comparison": {
+    ".gitattributes": {
+      "tested_sha256": "c71d6b7590b1f3821815856f11f16f90abb0d01b313982a6a3b1a9af58ab3341",
+      "staged_sha256": "20fea7e95871c875956a16ffc6228e9908082ee91debcc6793bb39ea07e12ecb",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/reporting/attention_view.py": {
+      "tested_sha256": "fe1b1638d537dd5fd6e437fdf7ea0c32c52a192ad793a38cc0b6668a8a303960",
+      "staged_sha256": "ea14e24b2ab905bf9565e6177d66bedf1b0c50e0bdd36ff3444308b55404fd37",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/reporting/graphs.py": {
+      "tested_sha256": "f3346b46273be00c2a5f2478b63e9848b5a07ec9fe00d7bdf48f41372961861c",
+      "staged_sha256": "04082803a2e8b9d36f8ef22d282b11b6882c148fc9d366938cf72200d10a2825",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/reporting/viewer.py": {
+      "tested_sha256": "99ad9354de7d8b752d2d066a1d246259b6ccc5a5573aaa0d1e719b2c306b2684",
+      "staged_sha256": "b96bdacdc853fa4dc34394d1f30369015e240a3c56b791d62f7c33aed901733b",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/reporting/fixture_attention.py": {
+      "tested_sha256": "49cadacc4cedc63f079966b1b84237b7292e4425345a92b7fc319cc1589bcbc4",
+      "staged_sha256": "49cadacc4cedc63f079966b1b84237b7292e4425345a92b7fc319cc1589bcbc4",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/ui/graph_inventory.py": {
+      "tested_sha256": "602f1a0885a197a991923670bd70dd0b9a0de2a2d01fb6ae136ab1de068f2fe5",
+      "staged_sha256": "835dd9735f796ec56873a6abee27095b2c066cb24dd47337450d111879d55363",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/ui/inventory.json": {
+      "tested_sha256": "a9891d35064f0bd02dc2abd0717617b9cc5ca1951e77354e899ff967400caab1",
+      "staged_sha256": "05f4f75d9d587cf9f716a291698741d22d971602d4d56fd621a34f31bf6bcafb",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_graph_integration.py": {
+      "tested_sha256": "80ad3796de270422c5dda00dcfa0548417457cc068eb530919b15993ce22af17",
+      "staged_sha256": "d2e9eda34d4437631e92db541a4f34962a2278197d587d4e84924ac8200a197d",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_graph_reporter_browser.py": {
+      "tested_sha256": "53a48124089065a9275ed40d6d26670b170d97e0185bff442db0919836c2307f",
+      "staged_sha256": "cc72c5467ed5346f7d23a05750c1fa304f6de961fbab5a4158386f3cbf651d66",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_fixture_attention.py": {
+      "tested_sha256": "c1112efd3452757929070b3e0ab45c9523d6557bea45001eec1a1bdd6b0be4ce",
+      "staged_sha256": "fc6c0fdd50d8c729dc74c9117f9c48418dc80e1e81c5310292c60435c8c4c678",
+      "equal_after_line_ending_normalization": true
+    },
+    "docs/analytics/attention-reporter-verification/verify.py": {
+      "tested_sha256": "4018dea4d77b9b4295015d7a474448933b947c0dd4c262eecae63d10c7d40850",
+      "staged_sha256": "4018dea4d77b9b4295015d7a474448933b947c0dd4c262eecae63d10c7d40850",
+      "equal_after_line_ending_normalization": true
+    }
+  },
+  "test_receipt_hashes_verified": true,
+  "screenshots": {
+    "fixture-attention-mobile.png": "9a1dac9966527d279c0e9dca3ffb1b85a37afa2fd12913145141f03924a9eae4",
+    "fixture-attention.png": "46bc5494367f3a4e9d2a05b0ec907de614cd21fef1222c51cb2256373ade6839",
+    "legend-24-heads.png": "f71b1ed59e0b5c3371be20e895d8a4cd47a580d48d922ffed101bf3c8d2c7ccc"
+  },
+  "scope": "Attention reporter patch only; no production experiments or model changes."
+}

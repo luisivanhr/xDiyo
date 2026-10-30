@@ -1,0 +1,21 @@
+........................................................................ [ 33%]
+........................s.s.s.s....................sss.................. [ 67%]
+......................................................................   [100%]
+============================== warnings summary ===============================
+tests/analytics/test_graph_integration.py::test_native_reporters_render_badges_and_recover[tSNE]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\joblib\externals\loky\backend\context.py:131: UserWarning:
+  
+  Could not find the number of physical cores for the following reason:
+  [WinError 2] The system cannot find the file specified
+  Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+
+tests/analytics/test_graph_integration_gates.py::test_extension_finalization_reload_and_scaler_binding[gat_memory]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\torch\backends\__init__.py:42: UserWarning:
+  
+  Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:85.)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [4] tests\analytics\test_graph_extensions.py:106: Explicit idle-GPU audit required.
+SKIPPED [3] tests\analytics\test_graph_extensions.py:317: Opt-in GPU audit: run only when research workers are idle.
+207 passed, 7 skipped, 2 warnings in 333.34s (0:05:33)

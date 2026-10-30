@@ -88,7 +88,8 @@ def test_native_reporters_render_badges_and_recover(trained, tmp_path, mode):
     assert 'Incoming attention' in html
     assert all(s.result.tables for s in report.studies)
     attention = report.studies[2].result.artifacts[0].data
-    assert attention.layout.legend.y > 1
+    assert attention.layout.legend.yref == 'container'
+    assert attention.layout.legend.y < attention.layout.title.y
     assert not attention.layout.updatemenus
     assert attention.layout.meta['xdiyo_attention']
     assert {r['team'] for r in attention.layout.meta['roster']} == {'1', '2'}
@@ -123,7 +124,7 @@ def graph_recipe(recipe, tmp_path):
         features={'is_home':node('features.IsHome')},
         post_reporters={'loss':node('reporting.GATLossReporter',type='overall'),
                         'embedding':node('reporting.EmbeddingReporter',type='per_fold',partition='score',mode='PCA'),
-                        'attention':node('reporting.GraphAttentionWeightReporter',type='per_fold',partition='score')})
+                        'attention':node('reporting.GraphAttentionWeightReporter',type='per_fold',partition='score',pooled=True,per_fixture=True)})
     return recipe
 
 

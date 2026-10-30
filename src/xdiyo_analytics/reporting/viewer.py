@@ -114,9 +114,10 @@ function visiblePlots(){
   document.querySelectorAll('.plot[data-spec]').forEach(el=>{
     if(el.closest('details:not([open]), [hidden]'))return;
     if(!el.getClientRects().length)return;
-    if(el.dataset.loaded){if(el.embeddingResize)el.embeddingResize();else if(window.Plotly)Plotly.Plots.resize(el);return;}
+    if(el.dataset.loaded){if(el.embeddingResize)el.embeddingResize();else if(el.attentionResize)el.attentionResize();else if(window.Plotly)Plotly.Plots.resize(el);return;}
     const spec=JSON.parse(document.getElementById(el.dataset.spec).textContent);
     el.dataset.loaded='true';
+    if(spec.layout.meta?.xdiyo_fixture_attention){initializeFixtureAttention(el,spec);return;}
     if(spec.layout.meta?.xdiyo_attention){initializeAttention(el,spec);return;}
     if(spec.layout.meta?.xdiyo_embedding){initializeEmbedding(el,spec);return;}
     Plotly.newPlot(el,spec.data,spec.layout,{responsive:true,displaylogo:false,

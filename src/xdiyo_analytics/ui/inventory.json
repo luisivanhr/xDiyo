@@ -17885,7 +17885,7 @@
           "required": false,
           "kind": "text",
           "default": null,
-          "help": "Optional timezone-aware issuance present in the selected test/score fixtures. Disabled uses the latest selected issuance separately for each fold.",
+          "help": "Optional timezone-aware issuance from this fold. Sets the pooled cutoff and restricts fixture choices to that issuance. Disabled: latest pooled cutoff and all selected fixtures at their individual native issuances.",
           "primary": true
         },
         {
@@ -17919,6 +17919,24 @@
             "ref": "team_catalog"
           },
           "hidden": true
+        },
+        {
+          "name": "pooled",
+          "title": "Pooled",
+          "required": false,
+          "kind": "boolean",
+          "default": true,
+          "help": "Show the legacy league/team attention panel at one common issuance per fold (latest by default). Can be combined with per-fixture panels.",
+          "primary": true
+        },
+        {
+          "name": "per_fixture",
+          "title": "Per fixture",
+          "required": false,
+          "kind": "boolean",
+          "default": false,
+          "help": "Show home and away attention at each selected fixture’s native inference issuance. Choose teams and kickoff in the rendered report. Reconstructs all selected issuances; can increase report generation time and size.",
+          "primary": true
         }
       ],
       "accepts_extra": false

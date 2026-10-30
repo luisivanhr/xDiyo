@@ -490,8 +490,33 @@ Add these under **Post-training analysis**:
   edges, which show an explicit empty state. League grouping uses membership
   at the selected issuance; known league names come from evaluation metadata.
   Layer/head legends appear above the plot, separately from fixture labels.
+  The badge has its own right margin, outside the wrapping legend.
+  `pooled=True` (default) enables this existing common-issuance panel.
+  `per_fixture=True` adds a second panel per fold with Home team and Away team
+  dropdowns, followed by a kickoff selector when that pair has multiple fixtures.
+  It shows separate home and away charts at the fixture's exact native issuance
+  (By Round anchor or One Day Ahead), using that fold's frozen model. It does not
+  use the latest fold cutoff for earlier fixtures. Both flags may be enabled;
+  use `pooled=False, per_fixture=True` for fixture panels alone. At least one is
+  required. These switches are available in the builder and recipe exports.
+  An explicit `issuance_at` also restricts the fixture choices to that issuance.
+  `attention_fixtures` exports fixture identities, kickoff and issuance;
+  `fixture_attention` and `fixture_concentration` retain all edges and summaries
+  keyed by fold, team and issuance, without duplicating shared team/issuance rows.
+  The standalone HTML retains only the selected strongest edges for charts and
+  draws two charts at a time, sharing repeated team/issuance views. Computing
+  all fixture issuances and exporting full edge tables can increase report size
+  and generation time; it does not refit or change predictions. Incoming edge
+  attention is team-specific at that issuance, not an attribution of the matchup.
 
-Embedding and attention views use teams from the selected test/score population
+```python
+GraphAttentionWeightReporter(
+    partition="score", type="per_fold", pooled=True, per_fixture=True,
+    top_edges=20, show_badges=True,
+)
+```
+
+Embedding and pooled attention views use teams from the selected test/score population
 at one common issuance per fitted fold (the latest selected issuance by default).
 An explicit issuance must occur in that population. These reports reconstruct
 cutoff-safe graph state using frozen weights; they never refit the model. Each
