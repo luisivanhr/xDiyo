@@ -38,22 +38,21 @@ def population(n=8, seasons=(1,), base=0):
 def oracle(h, members, query, q, w):
     """Slow from-scratch logic, independent of producer canonicalization/replay."""
     group = h.loc[(h.competition_id==query.competition_id)&(h.season_id==query.season_id)]
-    first = group.loc[group['round']==1]
     good = group.status.eq('finished') & group.goals_for.notna() & group.goals_against.notna()
     permitted = good & group.kickoff_at.lt(q) & group.release.le(q) & group.event_id.ne(query.event_id)
-    gate = first.event_id.nunique() == group.loc[permitted & group['round'].eq(1)].event_id.nunique()
+    has_results = bool(permitted.any())
     teams=members.loc[(members.competition_id==query.competition_id)&(members.season_id==query.season_id),'team_id'].tolist()
     totals={}
     for t in teams:
         played=group.loc[permitted & group.team_id.eq(t)].sort_values(['kickoff_at','event_id'])
         if w:played=played.tail(w)
-        games=list(played[['goals_for','goals_against']].itertuples(index=False,name=None)) if gate else []
+        games=list(played[['goals_for','goals_against']].itertuples(index=False,name=None))
         wins=sum(a>b for a,b in games); draws=sum(a==b for a,b in games)
         gf=sum(int(a) for a,b in games);ga=sum(int(b) for a,b in games)
         totals[t]=[len(games),wins,draws,len(games)-wins-draws,3*wins+draws,gf,ga,gf-ga]
     keys={t:(v[4],v[7],v[5],-v[6]) for t,v in totals.items()}
     ranks={t:1+sum(k>keys[t] for k in keys.values()) for t in teams}
-    return totals,ranks,gate
+    return totals,ranks,has_results
 
 
 @pytest.mark.parametrize('windows',[(3,6),(1,5,12,30),(),(7,)])
@@ -70,7 +69,7 @@ def test_replay_matches_independent_oracle(windows,delayed):
         sums,ranks,gate=oracle(h,m,query,row.recorded_at,row.window)
         assert row.rank==ranks[row.team_id]
         assert [getattr(row,c) for c in TOTALS]==sums[row.team_id]
-        assert row.gate_open==gate
+        assert (sum(v[0] for v in sums.values()) > 0)==gate
     pd.testing.assert_frame_equal(h,before)
     assert run.metadata['table_computations']==h['round'].nunique()
     if delayed:assert run.metadata['late_team_insertions']>0
@@ -85,19 +84,20 @@ def test_points_ties_and_redundant_goals_against():
     assert [t[6] for t in totals]==[t[5]-t[7] for t in totals]
 
 
-def test_cold_start_gate_delayed_first_round_and_counts():
+def test_delayed_first_round_never_suppresses_available_totals():
     h,m=population(4)
     first=h.event_id.iloc[0]
-    h.loc[h.event_id.eq(first),'release']=h.kickoff_at.max()+pd.Timedelta(days=1)
+    h.loc[h.event_id.eq(first),'release']=h.kickoff_at.max()+pd.Timedelta(days=120)
     run=build_standings(h,team_seasons=m,normalized_ranks=[1,3,6],available_at='release')
-    assert run.snapshots['rank'].eq(1).all()
-    assert not run.snapshots.gate_open.any()
-    assert run.snapshots.effective_count.max()>0
+    s=run.snapshots
+    assert s.loc[s.recorded_at.eq(s.recorded_at.min()), 'rank'].eq(1).all()
+    assert s.loc[s.recorded_at.gt(s.recorded_at.min()), 'played'].gt(0).any()
+    assert s['rank'].gt(1).any()
+    assert 'gate_open' not in s
     raw=run.features(h,DerivedStandings([],True,True))
-    assert raw.eq(.25).all().all()
-    assert run.features(h,DerivedStandings([3,6])).eq(1).all().all()
-    # Rank remains initial even when later-round matches are available.
-    assert any(p['contributing_events'] for p in run.publications)
+    assert raw.iloc[:4].eq(.25).all().all()
+    assert run.features(h,DerivedStandings([3,6])).lt(1).any().any()
+    assert all(first not in p['contributing_events'] for p in run.publications)
 
 
 def test_missing_valid_zero_and_arithmetic():
@@ -207,7 +207,7 @@ def test_awarded_and_revised_scores_require_known_ruling():
     h['standings_goals_for']=h.goals_for;h['standings_goals_against']=h.goals_against
     h['standings_result_available_at']=h.release
     r=build_standings(h,team_seasons=m,available_at='release')
-    assert r.snapshots.gate_open.any()
+    assert r.snapshots.played.gt(0).any()
 
 
 def test_idle_team_reranking_and_independent_windows():
@@ -217,7 +217,7 @@ def test_idle_team_reranking_and_independent_windows():
     changed=False
     for _,g in s[s.window.eq(0)].groupby('team_id'):
         g=g.sort_values('recorded_at')
-        changed |= bool((g.played.diff().eq(0)&g['rank'].diff().ne(0)&g.gate_open).any())
+        changed |= bool((g.played.diff().eq(0)&g['rank'].diff().ne(0)).any())
     assert changed
     wide=s.pivot(index=['team_id','recorded_at'],columns='window',values='rank')
     assert (wide[0]!=wide[3]).any() and (wide[3]!=wide[6]).any()
@@ -260,17 +260,17 @@ def test_simultaneous_atomic_boundary_and_reordered_round_dates():
     q=h.loc[h['round'].eq(1),'release'].iloc[0]
     query=h.loc[h['round'].eq(2)]
     run=build_standings(h,team_seasons=m,queries=query,cutoffs=q,available_at='release')
-    assert run.snapshots.gate_open.all()
+    assert run.publications[0]['eligible_result_count']==2
     assert run.snapshots.played.eq(1).all()
     assert len(run.publications)==1 and len(run.publications[0]['contributing_events'])==2
     before=build_standings(h,team_seasons=m,queries=query,cutoffs=q-pd.Timedelta(1,'ns'),available_at='release')
-    assert not before.snapshots.gate_open.any()
+    assert before.snapshots.played.eq(0).all()
     # Opening-round identity is the original assigned round, not date order.
     h.loc[h['round'].eq(1),'kickoff_at']+=pd.Timedelta(days=9)
     h.loc[h['round'].eq(1),'release']+=pd.Timedelta(days=9)
     moved=build_standings(h,team_seasons=m,available_at='release')
     earliest=moved.snapshots.recorded_at.min()
-    assert not moved.snapshots.loc[moved.snapshots.recorded_at.eq(earliest),'gate_open'].any()
+    assert moved.snapshots.loc[moved.snapshots.recorded_at.eq(earliest),'played'].eq(0).all()
 
 
 def test_explicit_independent_phase_membership_and_scope():

@@ -29,7 +29,7 @@ def validate_oracle(h,m,run,oracle):
         query=h.loc[h.kickoff_at.ge(q)].iloc[0]
         totals,ranks,gate=oracle(h,m,query,q,w)
         for row in table.itertuples(index=False):
-            assert row.rank==ranks[row.team_id] and row.gate_open==gate
+            assert row.rank==ranks[row.team_id]
             assert [getattr(row,c) for c in ('played','wins','draws','losses','points','gf','ga','gd')]==totals[row.team_id]
             count+=1
     return count
@@ -59,7 +59,7 @@ def main():
             intervening=bool((h.release.gt(q)&h.release.le(row.kickoff_at)&h.kickoff_at.lt(row.kickoff_at)).any())
             at=snap.loc[snap.recorded_at.eq(q)&snap.window.eq(0)]
             tied=at.loc[at['rank'].eq(values.iloc[i,0]),'rank'].count()>1
-            category='cutoff_mismatch' if intervening else 'cold_start_gate' if not pub['gate_open'] else 'shared_ties' if tied else 'unexplained_official_rules_or_source'
+            category='cutoff_mismatch' if intervening else 'no_available_results' if not pub['eligible_result_count'] else 'shared_ties' if tied else 'unexplained_official_rules_or_source'
             error=abs(values.iloc[i,0]-row.team_position)
             comparisons.append(dict(event_id=int(row.event_id),team_id=int(row.team_id),team_name=row.team_name,
                 cutoff=q.isoformat(),kickoff=row.kickoff_at.isoformat(),derived=float(values.iloc[i,0]),provider=float(row.team_position),
@@ -74,7 +74,7 @@ def main():
             oracle_rows=count,exact_oracle_parity=True,delayed_oracle_parity=True,replay=timing,brute=slow,lookup=lookup,
             three_repeated_lookups=repeat,delayed_replay=late_time,comparison=metrics(frame),aligned=metrics(frame.loc[frame.boundary_aligned]),
             categories=frame.category.value_counts().to_dict(),representative_mismatches=frame.loc[frame.error.gt(0)].head(12).to_dict('records'),
-            publication_count=len(run.publications),gate_closed_publications=sum(not x['gate_open'] for x in run.publications)))
+            publication_count=len(run.publications),empty_publications=sum(not x['eligible_result_count'] for x in run.publications)))
         (out/'validation.json').write_text(json.dumps(report,indent=2,default=str)+'\n',encoding='utf-8')
         print(league,season,metrics(frame),timing,flush=True)
     (out/'validation.json').write_text(json.dumps(report,indent=2,default=str)+'\n',encoding='utf-8')

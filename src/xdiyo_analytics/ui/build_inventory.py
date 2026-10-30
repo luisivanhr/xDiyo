@@ -19,7 +19,7 @@ HELP = {
     'schedule_history': 'Full fixture history for SeasonCountdown. Recipes load it before filters. Upcoming scheduled dates are used. Outliers use the closest main round-cluster interval; no schedule snapshots or played-status evidence are required.',
     'standings_history': 'Optional complete standings team history. Recipes load the unfiltered result population automatically.',
     'standings_available_at': 'Availability series/column for the complete standings history, honoring reviewed bounds.',
-    'standings_run': 'Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.',
+    'standings_run': 'Optional current-policy exact-cutoff standings snapshots. Legacy opening-gate artifacts require rebuilding from source. No fitting during lookup.',
     'finalization': 'Retain is the default. Prediction only releases native training buffers after a completed verified training checkpoint; inference and export remain available. Resume requires that checkpoint.',
     'left': 'First single-output feature. For Difference, the right feature is subtracted from this one. Choose historical features or known context.',
     'right': 'Second single-output feature. Select the same period and perspective deliberately; raw current-match statistics cannot be prediction inputs.',
@@ -208,7 +208,7 @@ HELP = {
 }
 
 DESCRIPTIONS = {
-    'features.DerivedStandings': 'Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. All ranks stay initial until every first-round result is available; no cross-season history. Separate from provider standings.',
+    'features.DerivedStandings': 'Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. Publishes eligible results immediately at each cutoff; unknown result release times do not accrue points. No cross-season history. Separate from provider standings.',
     'features.SpatialHistoricalDeviation': 'Observed JS distance from each match’s own prior mean map. Wrap in Rolling mean or Lag to use past deviations as predictors. Inner and outer windows are separate. Default is a 6x6 player-only grid; any grid size of at least 2 is supported.',
     'features.SpatialFixtureDistance': 'One match-level JS distance between the two teams’ prior mean maps. Choose style similarity or a directional opponent-context comparison. Defaults to 6x6; change Source → Grid size for another resolution.',
     'training.SpatialPCA': 'Fit a shared PCA basis on training-fold historical maps only. Declare ordered home/away grid-column blocks with the same resolution and team frame. Missing cells use training medians. Place before ordinary scalers/imputers to retain named columns.',

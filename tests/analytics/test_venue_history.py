@@ -147,24 +147,21 @@ def test_venue_standings_match_independent_reconstruction(venue,delayed):
     run=build_standings(h,team_seasons=m,normalized_ranks=[1,3],venues=[venue],available_at='release')
     for row in run.snapshots.itertuples(index=False):
         query=h.loc[(h.season_id==row.season_id)&(h.kickoff_at>=row.recorded_at)].iloc[0]
-        # Mask contributions at the other venue, retaining first-round gate from
-        # the complete population. Build totals/ranks without production replay.
+        # Select contributions at the requested venue across the complete population. Build totals/ranks without production replay.
         group=h.loc[h.season_id.eq(row.season_id)]
         allowed=group.status.eq('finished')&group.kickoff_at.lt(row.recorded_at)&group.release.le(row.recorded_at)
-        gate=set(group.loc[group['round'].eq(1),'event_id'])<=set(group.loc[allowed,'event_id'])
         totals={}
         for team in m.loc[m.season_id.eq(row.season_id),'team_id']:
             games=group.loc[allowed&group.side.eq(venue)&group.team_id.eq(team)].sort_values(['kickoff_at','event_id'])
             if row.window: games=games.tail(row.window)
             count=len(games)
-            if not gate: games=games.iloc[:0]
             gf,ga=games.goals_for,games.goals_against
             wins=int((gf>ga).sum());draws=int((gf==ga).sum())
             totals[team]=[len(games),wins,draws,len(games)-wins-draws,3*wins+draws,int(gf.sum()),int(ga.sum()),int((gf-ga).sum())]
             if team==row.team_id: assert row.effective_count==count
         keys={t:(v[4],v[7],v[5],-v[6]) for t,v in totals.items()}
         rank=1+sum(k>keys[row.team_id] for k in keys.values())
-        assert row.rank==rank and row.gate_open==gate
+        assert row.rank==rank
         assert [getattr(row,c) for c in TOTALS]==totals[row.team_id]
 
 

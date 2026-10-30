@@ -1,0 +1,25 @@
+population,window,affected_fixtures,scope
+fold_1_fit,1,518,four cited seasons; lower bound outside these seasons
+fold_1_fit,5,518,four cited seasons; lower bound outside these seasons
+fold_1_fit,10,518,four cited seasons; lower bound outside these seasons
+fold_1_fit,20,518,four cited seasons; lower bound outside these seasons
+fold_1_inner,1,0,four cited seasons; lower bound outside these seasons
+fold_1_inner,5,0,four cited seasons; lower bound outside these seasons
+fold_1_inner,10,0,four cited seasons; lower bound outside these seasons
+fold_1_inner,20,0,four cited seasons; lower bound outside these seasons
+fold_1_outer,1,88,four cited seasons; lower bound outside these seasons
+fold_1_outer,5,89,four cited seasons; lower bound outside these seasons
+fold_1_outer,10,89,four cited seasons; lower bound outside these seasons
+fold_1_outer,20,89,four cited seasons; lower bound outside these seasons
+fold_2_fit,1,518,four cited seasons; lower bound outside these seasons
+fold_2_fit,5,518,four cited seasons; lower bound outside these seasons
+fold_2_fit,10,518,four cited seasons; lower bound outside these seasons
+fold_2_fit,20,518,four cited seasons; lower bound outside these seasons
+fold_2_inner,1,88,four cited seasons; lower bound outside these seasons
+fold_2_inner,5,89,four cited seasons; lower bound outside these seasons
+fold_2_inner,10,89,four cited seasons; lower bound outside these seasons
+fold_2_inner,20,89,four cited seasons; lower bound outside these seasons
+fold_2_outer,1,0,four cited seasons; lower bound outside these seasons
+fold_2_outer,5,0,four cited seasons; lower bound outside these seasons
+fold_2_outer,10,0,four cited seasons; lower bound outside these seasons
+fold_2_outer,20,0,four cited seasons; lower bound outside these seasons

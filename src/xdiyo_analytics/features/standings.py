@@ -12,8 +12,8 @@ class DerivedStandings(Expr):
     fixture venue (same). Venue filtering precedes each team's last-w window.
     For/against selects the team whose rank is returned, independently of venue.
     Form ranks are (N-R)/(N-1). Optional cumulative position is R or R/N.
-    Complete verified membership and schedule are required. The first round
-    must be completed and available before any noninitial ranks are published.
+    Complete verified membership and schedule are required. Each cutoff
+    publishes all eligible results immediately, without an opening-round barrier.
     No previous-season state, penalties or provider standings are inherited.
     """
     normalized_ranks: tuple = (5,)

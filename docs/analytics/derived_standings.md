@@ -16,7 +16,7 @@ features = evaluate_features(
     },
     team_seasons=verified_membership,
     cutoffs=native_issuance_times,  # optional; see publication below
-    available_at="release",       # optional native retrospective proxy otherwise
+    available_at="release",       # optional; otherwise known result/approved releases only
     keyed=True,
 )
 ```
@@ -53,29 +53,34 @@ No diagnostic count or consistency metric is silently added as a predictor.
 
 ## Publication and availability
 
-**Until every scheduled round-1 fixture has a valid available result, all published
-ranks remain initial. A postponed opener can hold an entire league at initialization
-through later rounds.** Initial R is 1, R/N is 1/N and form rank is 1 for every team.
-Those values reflect a shared cold-start convention, not inferred strength.
-Buffered eligible counts and pending first-round event IDs remain in diagnostics.
+Every requested cutoff publishes the complete roster ranked by actual eligible
+sporting results. There is no opening-round completion barrier, threshold or
+per-team participation gate. Before any eligible result, totals are zero and all
+teams share R=1: initial form is 1 and normalized raw position is 1/N. Idle teams
+retain zero totals but can rank below winners and above losers once results enter.
+No artificial matches are inserted.
 
 With no explicit `cutoffs`, each original assigned round is frozen at the earliest
 kickoff of that round in the complete source schedule. A postponed fixture uses
 that original round's issuance time. With explicit `cutoffs`, the supplied native
 issuance times are authoritative; callers must supply their real forecast group
 cutoffs, not future outcome times. Every scope/cutoff is computed once and shared
-by all query fixtures. After the opening gate, no later round-completion barrier
-is imposed. Results must have kickoff strictly before the cutoff and availability
+by all query fixtures. No round-completion barrier is imposed. Results must have kickoff strictly before the cutoff and availability
 no later than it. Target identity/kickoff is validated against the complete schedule.
 Equal-time releases are applied as a complete batch before ranking all roster teams,
 including idle teams. Late releases insert into kickoff/event chronology and affect
 new snapshots only. Every season/table starts fresh, without movement priors.
 
-`availability_times` preserves reviewed `result_available_at` lower bounds. Without
-an explicit release policy, the normal earlier-finished-kickoff proxy applies; it is
-**not proof of actual result publication time**. The bounded validation uses kickoff
-+3 hours, raised by reviewed bounds. Never replace native prediction cutoffs with
-provider pregame observation times to improve agreement.
+`availability_times` preserves reviewed `result_available_at` lower bounds. With
+no explicit release policy, DerivedStandings now uses known `result_available_at`
+values, falling back to explicit `standings_result_available_at` where supplied;
+absent release evidence stays unknown and does not accrue points.
+Kickoff alone never establishes a known result. An explicit `available_at` series
+or column remains authoritative, raised by reviewed completion/ruling bounds.
+Callers supplying retrospective proxies must document them as assumptions. The
+repair audit reproduces the old kickoff proxy only to isolate suppression in the
+saved experiment, and reports a separate explicit kickoff+3h sensitivity check;
+neither is a claim that actual publication times have been observed.
 
 ## Complete population and supported formats
 
@@ -147,7 +152,7 @@ saved-cutoff lookup only; it is **not an incremental/resumable checkpoint**. Pub
 properties return copies. A new source, membership, release policy, cutoff set or
 window configuration requires a new run; there is no process-global mutable cache.
 JSON persistence converts NumPy scalars to native Python values, retaining exact
-integer IDs as JSON numbers, including IDs beyond 2^53. This applies to both
+integer IDs as JSON numbers, including IDs beyond 2^53. This applies to all supported
 artifact versions; nonfinite values and unsupported objects still raise errors.
 
 Within one feature evaluation, all DerivedStandings descendants share one producer
@@ -156,7 +161,7 @@ Canonical paired events are validated once. An availability-ordered replay maint
 integer totals and kickoff-ordered per-team histories; late entries update only
 windows containing the entry. Each requested cutoff re-ranks complete tables once.
 Only requested cutoff snapshots are materialized. Global contributing event IDs,
-pending gate events, effective per-team counts, skipped outcomes, source identity
+eligible-result counts, effective per-team counts, skipped outcomes, source identity
 and late-insertion counts appear in `result.attrs['derived_standings']`. H2H and
 rating warm starts cannot narrow or seed this league-wide producer.
 
@@ -172,16 +177,24 @@ team's last three available home results. `venue="away"` does the same for away
 results; `venue="same"` selects each requested team's current fixture venue.
 `side="against"` selects the opponent's rank, independently of venue: fixed home
 means that opponent's home form even if it currently plays away. With same venue,
-the opponent's actual venue is opposite the focal team's. The first-round gate,
-strict cutoffs, season/table boundaries, approved-score rules and ranking order
+the opponent's actual venue is opposite the focal team's. Strict cutoffs, season/table boundaries, approved-score rules and ranking order
 remain unchanged. Cumulative position also uses the selected venue.
 
 New names include the venue, e.g. `home_form::team::home::form_rank_3` before
-match assembly. Default `venue="all"` keeps existing column names and values.
-Extended saved runs use artifact version 2 and record their venue tables in
-metadata, snapshots, publication provenance and state identity. All-only saves
-retain version 1; both versions load. Requesting an absent saved venue raises an
-error. Provider `NormalizedStanding` remains a provider-table feature; it cannot
+match assembly. Default `venue="all"` keeps existing column names. New saves use artifact version
+3 with policy `independent_3_1_0_available_results_v2`. Publication and feature
+audits use `publication_rule="available_results_at_cutoff"`; `gate_open` and
+`pending_first_round` are absent. Source and state hashes include the new policy.
+Native execution-cache identity also includes the numerical standings source.
+
+Versions 1/2 with `independent_3_1_0_first_round_complete_v1` load for inspection
+and can be copied with their original metadata and suppressed totals. Calling
+`features()` or injecting such a run into current feature preparation raises a
+rebuild error. They are never relabelled as corrected snapshots. Rebuild standings,
+materialized features and dependent preprocessing from original source/cutoffs,
+then retrain affected models before making corrected comparisons. Keep frozen
+legacy runs separate. Unknown artifact policies and inconsistent version/schema
+pairs are rejected. Requesting an absent saved venue raises an error. Provider `NormalizedStanding` remains a provider-table feature; it cannot
 recover venue tables by filtering provider positions.
 
 See [venue histories](venue_history.md) and `examples/venue_history.py` for the
@@ -207,3 +220,6 @@ memory receipts are in `derived-standings-validation/`. Provider agreement is a
 cross-check, not an oracle; official rules, ties, missing results and mismatched
 information cutoffs can produce legitimate differences. Protected 2026/27 outcomes
 and frozen experiments are not read or modified by this validation.
+
+The [publication repair audit](standings-publication-repair/README.md) records
+reproduced four-season differences, cutoff evidence, model/bank inventory and tests.

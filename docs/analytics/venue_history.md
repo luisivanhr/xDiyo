@@ -44,7 +44,7 @@ goals conceded average zero. The target result is excluded.
 `DerivedStandings` builds a separate full-roster form table from each team's
 selected-venue results and then normalizes rank as `(N-R)/(N-1)`. It does not
 average past ranks. Its season reset, complete-membership/schedule validation and
-first-round completion gate remain in force. Its `side='against'` selects the
+immediate eligible-result publication remain in force (see the versioned publication repair). Its `side='against'` selects the
 opponent whose rank is returned; see [derived standings](derived_standings.md).
 
 The builder exposes these venue options for ordinary and spatial histories and

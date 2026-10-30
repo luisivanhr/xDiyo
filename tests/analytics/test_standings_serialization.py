@@ -46,11 +46,11 @@ def test_numpy_scope_and_event_ids_roundtrip(tmp_path,venues,dtype):
         expr=DerivedStandings([3],include_raw=True,side='both',venue=venue)
         pd.testing.assert_frame_equal(restored.features(h,expr),run.features(h,expr))
     body=json.loads((tmp_path/'standings.json').read_text(encoding='utf-8'))
-    assert body['version']==(1 if venues==('all',) else 2)
+    assert body['version']==3
     assert type(body['fixtures'][0]['home']) is int
     assert body['fixtures'][0]['home']==base+1
     assert type(body['fixtures'][0]['scope'][0]) is int
-    assert type(body['publications'][0]['gate_open']) is bool
+    assert type(body['publications'][0]['eligible_result_count']) is int
     assert type(body['metadata']['skipped'][0]['event']) is int
 
 

@@ -1,0 +1,63 @@
+{
+  "base_commit": "4266575f62c899f3c6b3c7ca95a76fd633f93ece",
+  "source_comparison": {
+    ".gitattributes": {
+      "working_sha256": "c90cce4e7c9c9dfc9baa359cb2bf631475e6e88cb938642841658ad6a2d86e88",
+      "staged_sha256": "c8326cc3f9c5db7454fd837ebf3de89d533196045d3a4a654b02b257174a984a",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/features/standings.py": {
+      "working_sha256": "63f3fc4180eb7f4777ea23e93709ff81e80cb5a39a5ab2a8153114662ec62061",
+      "staged_sha256": "7e0af9bb4be49d5e37db131c3a87d82b55cdac702c123abc1f766e4715715af7",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/ratings/standings.py": {
+      "working_sha256": "fee64e15875a51a101aad14b125880c72bdc2c5aa475bab73760daccfabc7b2b",
+      "staged_sha256": "70b68b66f4cd04f258c5528ca99152229158a4775add5e54c0e2a011ea0d65a2",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/ui/build_inventory.py": {
+      "working_sha256": "e3b23fb21dbe35c5488094448c9fdb9cbdf53d6803d7f937e05553cefa75fcd4",
+      "staged_sha256": "5c60b13e930f21bf30803776cb623ccc391a74d874ffa8e0969ea5ae427a5371",
+      "equal_after_line_ending_normalization": true
+    },
+    "src/xdiyo_analytics/ui/inventory.json": {
+      "working_sha256": "601101d98e108c0014a9d188dbe25fb6c4693ccb06950fbb5109bbf7fde8388f",
+      "staged_sha256": "601101d98e108c0014a9d188dbe25fb6c4693ccb06950fbb5109bbf7fde8388f",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_derived_standings.py": {
+      "working_sha256": "b4c9ac96418223c46e0f8382a91229d7c1210aa38cc51e9aade8a4d8df1744d3",
+      "staged_sha256": "56af76d3978c798ed9be461ae1a4ccb91e03eac3e7cbc3c9894e03f719b7ed77",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_venue_history.py": {
+      "working_sha256": "8cca1016d8875ced2381a392a5917963f9ad7a57bf82fcfc6920bec79e27a529",
+      "staged_sha256": "3b44e2f6a7e73cf2ee81f39bf115ba38285c4695d85c3845e27dad512e8b221a",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_standings_serialization.py": {
+      "working_sha256": "08e1dcecbef2a82fd59db482e3444eb3885f7f51d20a9e6d2fbbf165b2c631a3",
+      "staged_sha256": "ae5eeed92a1e6aeb051ead8808c2207c72871783942f16043f99ac23addda97c",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_standings_missing_fixture.py": {
+      "working_sha256": "e6a935069e6bee0d2bd010f39bba48df618a4f70d7ec1a9fa4673b390c3c34be",
+      "staged_sha256": "7d073acead08b742afb0d9428383a7ee504366c0e024cc6b816dd4c90b0d7a91",
+      "equal_after_line_ending_normalization": true
+    },
+    "tests/analytics/test_standings_available_publication.py": {
+      "working_sha256": "55ced20aa93c308353f0dae022348b341832ddc0a305e9b8f0b4208f35575f73",
+      "staged_sha256": "ab036c594f87e66ff8a68cf78cfa162a4e735129e652a79b3262b4c0a08c8065",
+      "equal_after_line_ending_normalization": true
+    },
+    "examples/validate_derived_standings.py": {
+      "working_sha256": "1e67852f5e3c40dd15a486ad1244a563833e23e81cc289f29b5afb594486136b",
+      "staged_sha256": "66be9e4ac532043bc9bd340821d3d62da649e198d88b5decba8137b8692d5978",
+      "equal_after_line_ending_normalization": true
+    }
+  },
+  "test_and_audit_receipts_verified": true,
+  "audit_scripts_match_staged_bytes": true,
+  "scope": "Scoped standings repair; unrelated attention reporter work excluded. No experimental artifacts changed."
+}

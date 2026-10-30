@@ -40,3 +40,7 @@ data/xDiyo_data/_tables/competition=35/season=37166/versions/07b621a9b819494b8fd
 # Temporal-provenance receipts and verification script preserve audited bytes.
 docs/analytics/temporal-provenance/** -text whitespace=cr-at-eol
 docs/analytics/temporal-provenance/*.log -whitespace
+
+# Standings publication repair audit receipts preserve exact audited bytes.
+docs/analytics/standings-publication-repair/** -text whitespace=cr-at-eol
+docs/analytics/standings-publication-repair/*.log -whitespace

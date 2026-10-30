@@ -19122,7 +19122,7 @@
       "id": "features.DerivedStandings",
       "title": "DerivedStandings",
       "category": "feature",
-      "description": "Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. All ranks stay initial until every first-round result is available; no cross-season history. Separate from provider standings.",
+      "description": "Score-derived season and last-match form-table ranks. Requires complete league membership and schedule. Publishes eligible results immediately at each cutoff; unknown result release times do not accrue points. No cross-season history. Separate from provider standings.",
       "fields": [
         {
           "name": "normalized_ranks",
@@ -19561,7 +19561,7 @@
           "required": false,
           "kind": "component",
           "default": null,
-          "help": "Optional saved exact-cutoff standings snapshots. No reconstruction or fitting during lookup.",
+          "help": "Optional current-policy exact-cutoff standings snapshots. Legacy opening-gate artifacts require rebuilding from source. No fitting during lookup.",
           "primary": false,
           "components": [
             "input.StandingsRun"

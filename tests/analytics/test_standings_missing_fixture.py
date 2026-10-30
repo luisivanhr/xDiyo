@@ -62,7 +62,7 @@ def test_ruling_boundary_never_erases_table_or_backdates_award(repaired, tmp_pat
             cutoffs=q, normalized_ranks=[1,3,6,30], available_at='release')
     before = at(BOUND-pd.Timedelta(1, 'ns'))
     after = at(BOUND)
-    assert before.snapshots.gate_open.all() and after.snapshots.gate_open.all()
+    assert before.snapshots.played.gt(0).any() and after.snapshots.played.gt(0).any()
     assert before.snapshots['rank'].notna().all()
     assert EVENT not in before.publications[0]['contributing_events']
     assert after.publications[0]['contributing_events'].count(EVENT) == 1
@@ -98,7 +98,7 @@ def test_repaired_all_subsequent_provider_positions_and_form_oracle(repaired):
         query = queries.loc[queries.kickoff_at.eq(q)].iloc[0]
         totals, ranks, gate = oracle(h, data['team_seasons'], query, q, w)
         for row in table.itertuples(index=False):
-            assert row.rank == ranks[row.team_id] and row.gate_open == gate
+            assert row.rank == ranks[row.team_id]
             assert [getattr(row, c) for c in ('played','wins','draws','losses','points','gf','ga','gd')] == totals[row.team_id]
 
 
