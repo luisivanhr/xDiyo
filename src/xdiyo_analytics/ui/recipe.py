@@ -23,7 +23,7 @@ def default_recipe(data_root='data/xDiyo_data'):
         'version': 1, 'name': 'Corners experiment', 'output_dir': 'experiments', 'config': {}, 'team_badges': None,
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
-        'data_selection': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
+        'data_selection': None, 'dataset_migration': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
         'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
         'identity_features': None, 'numeric_features': None,
         'ratings': {}, 'features': {'corners_mean': node('features.RollingMean', source=stat, window=5),
@@ -54,6 +54,9 @@ def validate_recipe(recipe):
     if not isinstance(recipe.get('name'), str) or not recipe['name'].strip():
         raise ValueError('Give the experiment a name.')
     unknown = set(recipe) - set(default_recipe())
+    if recipe.get('dataset_migration'):
+        from ..data.catalogue.migration import validate_migration_envelope
+        unknown -= validate_migration_envelope(recipe)
     if unknown:
         raise ValueError(f'Unknown recipe sections: {sorted(unknown)}')
     saved_ratings = recipe.get('feature_options', {}).get('ratings') or {}

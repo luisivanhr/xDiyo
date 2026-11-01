@@ -1,0 +1,135 @@
+{
+  "created_at": "2026-11-01T23:51:55.515401+00:00",
+  "base_commit": "d21eb1344cd28dcd761b97bcf6d369bef137c64b",
+  "environments": {
+    "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe": {
+      "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "pyarrow": "22.0.0"
+    },
+    "C:/Users/luisi/Documents/Programming/Python/xDiyo/.venv/Scripts/python.exe": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "3.0.1",
+      "numpy": "2.3.5",
+      "pyarrow": "25.0.1"
+    }
+  },
+  "tests": {
+    "python314": {
+      "tests": "292",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "66.294",
+      "timestamp": "2026-11-02T08:47:27.830796+09:00"
+    },
+    "python312": {
+      "tests": "291",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "74.067",
+      "timestamp": "2026-11-02T08:47:41.247555+09:00"
+    },
+    "additional314": {
+      "tests": "2",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.855",
+      "timestamp": "2026-11-02T08:50:26.206656+09:00"
+    },
+    "additional312": {
+      "tests": "2",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.833",
+      "timestamp": "2026-11-02T08:50:32.960990+09:00"
+    },
+    "browser": {
+      "tests": "3",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.219",
+      "timestamp": "2026-11-02T08:50:38.724352+09:00"
+    }
+  },
+  "source_hash_contract": "SHA256 with CRLF normalized to LF",
+  "source_hashes": {
+    "docs/analytics/dataset-catalogue/repair-d21eb134/collect_receipt.py": "26e5c559fb1b8d729bf2a215f531b4cb3702c5511363837cdc61be402699d45e",
+    "docs/analytics/dataset-catalogue/repair-d21eb134/verify_private.py": "f999b043e5ca8ecd22b7a85b6feb54b679f9d9e53711153f9bdf9f0f5dd55560",
+    "pyproject.toml": "6a02b8f83a5aa0159c5a4956f89716713fd53509ab9d9049767299e41a1e0706",
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "6b0846e3f4fc014b03213331d0e4d7414f9d5343b6d607ee4984ee7d63d87fe2",
+    "src/xdiyo_analytics/data/catalogue/importers.py": "36a8de1fabc0028aa0c5335b84fa9b611ad936ec936a3be7cf5f09e704de3590",
+    "src/xdiyo_analytics/data/catalogue/integration.py": "a6a00c69e6c9b1ad74026a7afb02f2664f919dc7211227f203c7b51a16cbcf7c",
+    "src/xdiyo_analytics/data/catalogue/migration.py": "91f4d3f3efd42b72cd427a46223cc1d35649ba2544e7883d837fb8b0570f8b7d",
+    "src/xdiyo_analytics/data/catalogue/native.py": "7ff820e4546a7f7c65256a7c53bea755fcce491c0981c5062bb10af03f530ed0",
+    "src/xdiyo_analytics/data/catalogue/registry.py": "d8cfc5845b50369397f285037b142a72e8e5f43d330228e713404ff7ccf235b4",
+    "src/xdiyo_analytics/data/catalogue/selection.py": "ca9f759230b90be41bf963c07c74dfd9aaefaa891708e1278c03a0d2b438c60f",
+    "src/xdiyo_analytics/data/catalogue/storage.py": "0c01f22412034c5391c141ddc53455f564feb60f292e85f7077493244889139a",
+    "src/xdiyo_analytics/ui/recipe.py": "8a9362ae3f2ddee817327ec050596b557bd790cb950d4fe9dbd738967eb823ef",
+    "src/xdiyo_analytics/ui/static/named-data.js": "1a0af7543dfcf51bc5a6f92afe60767efb777925a469bdfc30417d4db747376f",
+    "tests/analytics/test_named_dataset_browser.py": "672659f047a891d39e161386bcd2bb416f55e2038b02eaea25250bb89890dc3b",
+    "tests/analytics/test_named_dataset_repairs.py": "0639fb2960b3683fee2f42272ec8e48bf1f2c3203e2a34284c8c3029764ef0ce",
+    "tests/analytics/test_named_datasets.py": "404fa4fcac29ae82bb6cd8910280387fdd4a5498644833f96f894268e321052d",
+    "tests/analytics/test_recipe_dataset_migration.py": "77a5eb9162f26fb12b954594213ef07faec6fba65b5cb255efbea47d7aee51d1"
+  },
+  "commands": {
+    "broader": "PYTHONPATH=src <python314 or python312> -m pytest tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_recipe_dataset_migration.py tests/analytics/test_ui_workflow.py tests/analytics/test_loading.py tests/analytics/test_team_history.py tests/analytics/test_fixture_assembly.py tests/analytics/test_feature_composition.py tests/analytics/test_datasets.py tests/analytics/test_ui_recipe_cutoffs.py tests/analytics/test_recipe_refresh.py tests/analytics/test_venue_history.py -q --tb=short --junitxml=<receipt>.xml",
+    "pandas3_qualification": "Same suite, -k \"not installed_wheel\"; wheel test ran under Python 3.14 to avoid concurrent build-directory mutation.",
+    "supplemental": "The two final tests test_reviewed_date_correction_cannot_cross_train_test and test_invalid_json_object_is_a_batch_blocker ran separately in each environment; their receipts are additional314/312.xml. Re-running the final files collects 294/293 cases.",
+    "browser": "PYTHONPATH=src <python314> -m pytest tests/analytics/test_named_dataset_browser.py -q --tb=short --junitxml=<receipt>.xml",
+    "private": "PYTHONPATH=src <python314> docs/analytics/dataset-catalogue/repair-d21eb134/verify_private.py --catalogue <unchanged private catalogue> --output docs/analytics/dataset-catalogue/repair-d21eb134/private-verification.json"
+  },
+  "browser": {
+    "engine": "Playwright Chromium",
+    "reason": "Browser plugin unavailable",
+    "viewports": [
+      1200,
+      390
+    ],
+    "checks": [
+      "native authenticated page identity",
+      "meaningful rendered content",
+      "no page or console errors",
+      "no horizontal overflow",
+      "accept and legacy restore",
+      "delayed input/root cancellation",
+      "newest response wins",
+      "large IDs preserved as decimal strings"
+    ],
+    "screenshots": [
+      {
+        "path": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\.pytest_tmp\\ecf1090c7ff64429971175d11e8b49ae\\test_named_dataset_preview_acc0\\named-data-1200.png",
+        "sha256": "8e403f51bc9cc242399fa9867db93c6cb8650d49bd559828d19982806e1d7fd8"
+      },
+      {
+        "path": "C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-derived-standings\\.pytest_tmp\\ecf1090c7ff64429971175d11e8b49ae\\test_named_dataset_preview_acc1\\named-data-390.png",
+        "sha256": "b3bc70a70bf99739cdaa1d107de33d2db2571af81209c4b1c59a3139d911db88"
+      }
+    ]
+  },
+  "limitations": [
+    "No reviewed coverage expansion or source reimport; existing union and saved selections resolved read-only.",
+    "Migration blocks unsupported timing/history/graph/membership dependencies instead of guessing.",
+    "Retrospective evidence remains conditional; no new historical availability facts were invented.",
+    "Only Chromium desktop/mobile tested; no production fitting or saved experiment rebinding. Broader tests include small synthetic estimator fits.",
+    "Windows hard-link tests ran outside the sandbox; no atomic publication guarantee was weakened."
+  ],
+  "receipt_hashes": {
+    "additional312.log": "4d09c16b80b163552983bb1028929357b148f5e2963eab120e72ce4186ab4a83",
+    "additional312.xml": "619b9d2dc1f250c4c7697bc919f51ccdd58110f66e3e07ad275e411aa4d5f874",
+    "additional314.log": "a63d3e071d1a1d2901fdc12473b67c4638f3e6965f9cd5876fa80be0cfe0be75",
+    "additional314.xml": "897a206f222dc4014e45dfe1fecb526112365c1b98c743e3c6475da7db5f630b",
+    "browser.log": "1dd30e7dd5bd3e993269d5ba00bc53c12fd11767f43f1bf393896ea68c8e7ba7",
+    "browser.xml": "6ef788dcb53fda27fcf5a549b77763cdd12167e739ceb4edaf0e82f694ad90e2",
+    "private-verification.json": "36943b4f83f648fe3e96eb25ee4b95f8124432b990a7f0a4caea2ec721d7743a",
+    "python312.log": "4a70adcfe0794b106dac27a2e1e91c1f8c0777bbc7c60e49ed05e72e4e6d18a0",
+    "python312.xml": "158ea47fdc35164796ceec7057c622edd98feb4d79dca025a6bc7d5cc20457bf",
+    "python314.log": "7356def4903c37bf476938ee6e807561e5b564351d0fb580c15b4ab649cda936",
+    "python314.xml": "654d3141fc3206c2ecebe243c2b791b13f4f4a846c310538d5b1ffe279ad8d3a"
+  }
+}

@@ -9,6 +9,38 @@ from .importers import ImportResult
 from ...odds.workbook import LEAGUES
 
 
+def _bind_entity(registry,kind,identity,facts,*,scope,day):
+    """Native numbers are candidates, never proof of an existing canonical identity."""
+    entities=registry.payload['entities'].get(kind,{})
+    label=facts.get('name',facts.get('label'))
+    reviewed=registry.resolve(kind,label,scope,day)
+    chosen=reviewed if reviewed is not None else identity
+    existing=entities.get(str(chosen))
+    if existing is not None:
+        stable={k:v for k,v in facts.items() if k not in ('name','label')}
+        if any(existing.get(k)!=v for k,v in stable.items()) or (existing.get('name',existing.get('label'))!=label and reviewed!=chosen):
+            raise ValueError(f'Unreviewed native {kind} ID collision {identity}: {label}; add a reviewed canonical alias/mapping')
+    else:registry.seed(kind,chosen,**facts)
+    return chosen
+
+
+def _bind_fixture(registry,identity,comp,season,home,away,day):
+    key=[comp,season,home,away,day,'']
+    resolved=registry.fixture(comp,season,home,away,day,create=False)
+    existing=registry.payload['entities'].get('fixture',{}).get(str(identity))
+    if resolved is not None:
+        if existing is not None and resolved!=identity:
+            decisions=registry.payload['entities']['fixture'][str(resolved)].get('decisions',[])
+            if not any(d.get('occurrence')==key for d in decisions):
+                raise ValueError(f'Native fixture ID collision {identity}; explicitly review distinct fixture {resolved}')
+        return resolved
+    if existing is not None or registry.nearby_fixture(comp,season,home,away,day):
+        raise ValueError(f'Native fixture {identity} occurrence {key} requires map_occurrence or an explicit reviewed distinct-fixture decision')
+    registry.seed('fixture',identity,occurrences=[key]);registry.fixture_keys[tuple(key)]=identity
+    registry._pairs.setdefault(tuple(key[:4]),[]).append((day,'',identity))
+    return identity
+
+
 def seed_comprehensive(data_root,*,reviewed_competitions=('Premier_League',),registry=None):
     """Seed existing canonical IDs. Only the explicitly reviewed first batch is publishable.
 
@@ -17,26 +49,30 @@ def seed_comprehensive(data_root,*,reviewed_competitions=('Premier_League',),reg
     from a team-name suffix or presence/absence in the downloaded matches.
     """
     registry=registry or Registry();raw=[];checksums=[];statistics=[]
-    known=json.loads((Path(__file__).resolve().parents[4]/'scraping/sofascore/competition_registry.json').read_text())
+    known={canonical:region for (region,_),canonical in LEAGUES.items()}
     for p in sorted(Path(data_root).glob('*.manifest.json')):
         stem=p.name.removesuffix('.manifest.json');league=stem.rsplit('_',2)[0]
         data=load_season(data_root,stem,tables=['matches'],include_awarded=True,verify_hashes=True)
         frame=data.matches;scope=data.provenance.get('scope',{})
         publication=json.loads(p.read_text());manifest=json.loads((Path(data_root)/publication['manifest']).read_text());scope=manifest['scope']
-        comp=int(scope['league_id']);season=int(scope['season_id']);country=known.get(league,{}).get('system',league)
-        if str(comp) not in registry.payload['entities'].get('competition',{}):registry.seed('competition',comp,name=league,region=country,entity_kind='club_league')
+        comp=int(scope['league_id']);season=int(scope['season_id']);country=known.get(league,league)
+        day=f"{scope['season_start']}-01-01"
+        comp=_bind_entity(registry,'competition',comp,dict(name=league,region=country,entity_kind='club_league'),scope=country,day=day)
         registry.alias('competition',comp,league,scope=country,decision='existing canonical competition registry')
         for (region,alias),canonical in LEAGUES.items():
             if canonical==league:registry.alias('competition',comp,alias,scope=region,decision='reviewed canonical competition spelling')
         label=f"{scope['season_start']}/{scope['season_end']}"
-        if str(season) not in registry.payload['entities'].get('season',{}):registry.seed('season',season,competition=comp,label=label,start_year=scope['season_start'],end_year=scope['season_end'])
+        season=_bind_entity(registry,'season',season,dict(competition=comp,label=label,start_year=scope['season_start'],end_year=scope['season_end']),scope=str(comp),day=day)
         for alias in (label,f"{scope['season_start']}/{scope['season_end']%100:02}",f"{scope['season_start']%100:02}-{scope['season_end']%100:02}"):
             registry.alias('season',season,alias,scope=str(comp),decision='existing canonical season definition')
+        teammap={}
         for side in ('home','away'):
             for team,name in frame[[side+'_id',side+'_name']].drop_duplicates().itertuples(index=False,name=None):
                 if pd.isna(team) or pd.isna(name):continue
-                team=int(team)
-                if str(team) not in registry.payload['entities'].get('team',{}):registry.seed('team',team,name=str(name),entity_kind='club')
+                native_team=int(team)
+                team=_bind_entity(registry,'team',native_team,dict(name=str(name),entity_kind='club'),scope=str(comp),day=day)
+                if native_team in teammap and teammap[native_team]!=team:raise ValueError('Conflicting native team identities')
+                teammap[native_team]=team
                 registry.alias('team',team,str(name),scope=str(comp),decision='existing canonical team identity')
                 if league in reviewed_competitions:
                     if league!='Premier_League':raise ValueError('Additional squad batches need reviewed classification decisions')
@@ -45,16 +81,11 @@ def seed_comprehensive(data_root,*,reviewed_competitions=('Premier_League',),reg
         for row in frame.to_dict('records'):
             if pd.isna(row.get('kickoff_utc')):continue
             t=pd.Timestamp(row['kickoff_utc'],unit='s',tz='UTC');day=t.date().isoformat()
-            external_event=int(row['event_id']);event=external_event;home=int(row['home_id']);away=int(row['away_id'])
-            facts=dict(occurrences=[[comp,season,home,away,day,'']])
-            resolved=registry.fixture(comp,season,home,away,day,create=False)
-            if resolved is not None:event=resolved
-            elif str(event) in registry.payload['entities'].get('fixture',{}):event=registry.allocate('fixture',**facts)
-            else:registry.seed('fixture',event,**facts)
+            external_event=int(row['event_id']);home=teammap[int(row['home_id'])];away=teammap[int(row['away_id'])]
+            event=_bind_fixture(registry,external_event,comp,season,home,away,day)
             eventmap[external_event]=event
-            registry.fixture_keys[tuple(facts['occurrences'][0])]=event
             raw.append(dict(event_id=event,competition_id=comp,season_id=season,season_year=label,stage='',round=row.get('round'),home_id=home,away_id=away,
-                home_name=row['home_name'],away_name=row['away_name'],date=day,local_datetime=None,time_precision='second',timezone='UTC',kickoff_at=t.isoformat(),
+                home_name=registry.payload['entities']['team'][str(home)]['name'],away_name=registry.payload['entities']['team'][str(away)]['name'],date=day,local_datetime=None,time_precision='second',timezone='UTC',kickoff_at=t.isoformat(),
                 result_available_at=None if pd.isna(row.get('result_available_at')) else str(row['result_available_at']),status='awarded' if row.get('is_awarded') is True else row['status'],
                 score_basis='reported_current',home_score_current=row.get('home_score_current'),away_score_current=row.get('away_score_current'),identity_state='resolved',conflict=False,
                 membership_verified=False,schedule_complete=False))
@@ -62,6 +93,7 @@ def seed_comprehensive(data_root,*,reviewed_competitions=('Premier_League',),reg
             stats=load_season(data_root,stem,tables=['matches','statistics'],include_awarded=True,verify_hashes=True).statistics
             stats=stats.loc[stats.event_id.isin(eventmap),[c for c in STAT_COLUMNS if c in stats]].copy()
             stats['event_id']=stats.event_id.map(eventmap)
+            stats['team_id']=stats.team_id.map(teammap)
             stats['validity']=stats.value.map(lambda v:'observed' if pd.notna(v) and v>=0 else 'missing' if pd.isna(v) else 'invalid')
             stats.loc[stats.validity.eq('invalid'),'value']=None
             stats['available_at']=None;stats['definition']='native_reported_period'

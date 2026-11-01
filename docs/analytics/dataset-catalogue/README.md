@@ -95,3 +95,7 @@ The reviewed initial publication contains 10,854 comprehensive fixtures and 9,67
 The native fixed-target demonstration keeps four training and four evaluation fixtures. There are 21 baseline history fixtures available by the final target bound, versus 3,407 under the extended view (3,386 additions). Thirty rolling-feature cells change; target IDs and fold indices are identical. The uncut baseline history population is larger because it also contains later fixtures, which the causal feature evaluator cannot use for these targets.
 
 Private catalogue location on the implementation machine: `C:/Users/luisi/Documents/Programming/Python/xDiyo/scratch/named-datasets-20261102`. It is covered by the existing `/scratch/` Git exclusion. Enter that folder in the builder running this main revision; other checked-out research branches are not changed automatically.
+
+## Audit repair and recipe migration
+
+See [the audit repair guide](repair-d21eb134/README.md) for installed-package checks, cross-snapshot classification and native identity repairs, and the supported dry-run/apply recipe migration API and CLI. Migration freezes memberships and reports blockers; it never retrains or silently widens scope.

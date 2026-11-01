@@ -64,6 +64,11 @@ def select_targets(dataset,selection):
 
 def frozen_split(dataset,selection):
     from ...splits import Fold,SplitPlan
+    if selection.get('fold_membership') is not None:
+        def rows(ids):
+            return np.asarray([i for event in ids for i in np.flatnonzero(np.asarray([int(e)==event for e in dataset.metadata.event_id]))],dtype=int)
+        folds=[Fold(rows(f['train_ids']),rows(f['evaluation_ids']),rows(f['score_ids']),deepcopy(f['metadata'])) for f in selection['fold_membership']]
+        return validate_selected_plan(dataset,SplitPlan(folds,len(dataset.metadata),np.arange(len(dataset.metadata))))
     if not selection['train_ids'] and not selection['evaluation_ids']:return None
     train=np.flatnonzero(dataset.metadata.event_id.isin(selection['train_ids']))
     test=np.flatnonzero(dataset.metadata.event_id.isin(selection['evaluation_ids']))

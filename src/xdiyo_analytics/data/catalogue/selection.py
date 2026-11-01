@@ -86,7 +86,8 @@ def _identities(values):
 
 
 def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),profile='retrospective_reported_goals',
-                preference=DATASETS,train_ids=(),evaluation_ids=(),history_ids=None,competitions=None,seasons=None):
+                preference=DATASETS,train_ids=(),evaluation_ids=(),history_ids=None,competitions=None,seasons=None,
+                target_ids=None,fold_membership=None):
     """Preview and freeze an explicit population. Saving this object accepts the preview.
 
     extend_history requires fixed nonempty target memberships. Union/single modes
@@ -99,11 +100,31 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
     if mode=='single_dataset' and len(snapshots)!=1:raise ValueError('single_dataset requires one dataset')
     if set(preference)!=set(DATASETS) or len(preference)!=len(DATASETS):raise ValueError('Preference must rank both datasets once')
     train=_identities(train_ids);evaluation=_identities(evaluation_ids)
+    folds=None
+    if fold_membership is not None:
+        if train or evaluation:raise ValueError('Use fold membership or global train/evaluation IDs, not both')
+        folds=[]
+        for fold in fold_membership:
+            if set(fold)-{'train_ids','evaluation_ids','score_ids','metadata'}:raise ValueError('Unknown frozen fold fields')
+            item={}
+            for key in ('train_ids','evaluation_ids','score_ids'):
+                values=fold.get(key,fold.get('evaluation_ids',[]) if key=='score_ids' else [])
+                ids=_identities(values)
+                if len(ids)!=len(values):raise ValueError('Duplicate fixture in frozen fold role')
+                item[key]=[int(v) for v in values]
+            if set(item['train_ids'])&set(item['evaluation_ids']):raise ValueError('A fixture crosses train/test within a fold')
+            if not set(item['score_ids'])<=set(item['evaluation_ids']):raise ValueError('Frozen scoring fixtures must be in evaluation')
+            item['metadata']=deepcopy(fold.get('metadata',{}));folds.append(item)
+        if not folds:raise ValueError('Frozen folds cannot be empty')
     if train&evaluation:raise ValueError('A physical fixture cannot be in both training and evaluation')
-    if mode=='extend_history' and not train|evaluation:raise ValueError('Extended history requires fixed targets')
-    required=requirement_closure(requirements);frames=[];aux={};exclusions=[];registry_facts={};known_conflicts=set();capabilities={}
+    fold_targets=set() if folds is None else {e for f in folds for k in ('train_ids','evaluation_ids') for e in f[k]}
+    fixed_targets=_identities(target_ids) if target_ids is not None else train|evaluation|fold_targets
+    if not (train|evaluation|fold_targets)<=fixed_targets:raise ValueError('Fold membership lies outside fixed targets')
+    if mode=='extend_history' and not fixed_targets:raise ValueError('Extended history requires fixed targets')
+    required=requirement_closure(requirements);frames=[];aux={};exclusions=[];registry_facts={};known_conflicts=set();capabilities={};registries=[]
     for name,version in sorted(snapshots.items()):
         tables,manifest,registry=load_snapshot(root,name,version)
+        registries.append((name,registry))
         known_conflicts.update(manifest['coverage'].get('conflicting_fixtures',[]))
         # Registry extensions may differ; overlapping canonical IDs must mean the same entity.
         for kind,entities in registry.payload['entities'].items():
@@ -128,6 +149,19 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
         if seasons is not None:frame=frame.loc[frame.season_id.isin(seasons)]
         frames.append(frame)
     all_rows=pd.concat(frames,ignore_index=True);chosen=[]
+    # Even a publication with zero retained fixtures can carry a reserve correction.
+    checked=set()
+    for row in all_rows.to_dict('records'):
+        for side in ('home_id','away_id'):
+            team=int(row[side]);key=(team,row['date'])
+            if key in checked:continue
+            checked.add(key)
+            decisions={name:r.squad(team,row['date']) for name,r in registries
+                       if str(team) in r.payload['entities'].get('team',{})}
+            if len(set(decisions.values()))>1:
+                raise ValueError(f"Incompatible squad classifications: team {team}, fixture {row['event_id']}, date {row['date']}: {decisions}")
+            if set(decisions.values())!={'not_reserve'}:
+                raise ValueError(f"Union reserve policy rejects team {team} on {row['date']}: {decisions}")
     for event,group in all_rows.groupby('event_id',sort=True):
         # Contradictions remain disqualifying, even if an ineligible record is less preferred.
         material=['home_id','away_id','competition_id','season_id','date']
@@ -147,8 +181,8 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
         if candidates:chosen.append(min(candidates,key=lambda r:list(preference).index(r['dataset'])))
     selected=pd.DataFrame(chosen,columns=all_rows.columns)
     eligible=set(map(int,selected.event_id))
-    if (train|evaluation)-eligible:raise ValueError(f'Fixed targets are ineligible: {sorted((train|evaluation)-eligible)[:20]}')
-    targets=train|evaluation if train|evaluation else eligible
+    if fixed_targets-eligible:raise ValueError(f'Fixed targets are ineligible: {sorted(fixed_targets-eligible)[:20]}')
+    targets=fixed_targets if target_ids is not None or fixed_targets else eligible
     history=eligible if history_ids is None else _identities(history_ids)
     if history-eligible:raise ValueError('History membership contains ineligible fixtures')
     if mode=='extend_history':
@@ -160,6 +194,8 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
        exclusions=exclusions,policy=POLICY,history_scope=['team_id','competition_id'],
        classification='conditional_retrospective_research' if profile.startswith('retrospective') else 'verified_input_availability',
        assumptions=RETROSPECTIVE_ASSUMPTIONS if profile.startswith('retrospective') else [])
+    if target_ids is not None or folds is not None:
+        payload.update(schema=2,fold_membership=folds)
     return dict(payload,fingerprint=digest(payload))
 
 
@@ -172,8 +208,10 @@ def resolve_selection(root,selection):
     if isinstance(selection,str) and selection.lstrip().startswith('{'):selection=json.loads(selection)
     elif isinstance(selection,(str,Path)):selection=json.loads(Path(selection).read_text(encoding='utf-8'))
     if digest({k:v for k,v in selection.items() if k!='fingerprint'})!=selection.get('fingerprint'):raise ValueError('Selection changed')
-    if selection.get('schema')!=1 or selection.get('policy')!=POLICY:raise ValueError('Selection requires explicit migration')
-    fresh=select_data(root,**{k:selection[k] for k in ('snapshots','mode','requirements','profile','preference','train_ids','evaluation_ids','history_ids','competitions','seasons')})
+    if selection.get('schema') not in (1,2) or selection.get('policy')!=POLICY:raise ValueError('Selection requires explicit migration')
+    options={k:selection[k] for k in ('snapshots','mode','requirements','profile','preference','train_ids','evaluation_ids','history_ids','competitions','seasons')}
+    if selection['schema']==2:options.update(target_ids=selection['target_ids'],fold_membership=selection['fold_membership'])
+    fresh=select_data(root,**options)
     if fresh!=selection:raise ValueError('Selection dependencies or membership changed; rebuild explicitly')
     tables={};frames=[];all_stats=[]
     for name,version in selection['snapshots'].items():
@@ -205,6 +243,8 @@ def selected_history(data):
         bounds=[(b[0],max(b[1],releases.get(int(e),b[1]))) for e,b in zip(matches.event_id,bounds)]
     history=build_team_history(SeasonData(dict(data.tables,matches=matches),data.provenance))
     timing={int(r.event_id):b for r,b in zip(matches.itertuples(),bounds)}
+    # Add grouping metadata after the native statistics reshape (which joins by fixture).
+    history['source_season']=history.event_id.map(dict(zip(matches.event_id,matches.season_year)))
     history['kickoff_at']=pd.to_datetime([timing[int(e)][0] for e in history.event_id],utc=True)
     history['result_available_at']=pd.to_datetime([timing[int(e)][1] for e in history.event_id],utc=True)
     history['catalogue_history_available_at']=history.result_available_at.where(history.event_id.isin(selection['history_ids']))

@@ -1,0 +1,25 @@
+{
+  "versions": {
+    "comprehensive_dataset": "9a781fb9d5aea2483b893a3251831b1f263460d9e821ac6c09aa63faae7c298b",
+    "international_dataset": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697"
+  },
+  "union_targets": 14235,
+  "union_fingerprint": "977d9da8b89552a931aa890c3c1b639a7405046a97111d7f53cfafbe1bcec3fb",
+  "recipes": {
+    "single": {
+      "fingerprint": "844b3a81c12bcbb05b55ef382847d3334b705bd3eeb3e749aa1f037c668fb551",
+      "targets": 8,
+      "folds": 1,
+      "history": 10839
+    },
+    "extended": {
+      "fingerprint": "351a034cd05f8826c1fc31b8e1fe7d96b556d124c0935f641f182b8f23a12e1f",
+      "targets": 8,
+      "folds": 1,
+      "history": 3407
+    }
+  },
+  "private_files_checked": 22,
+  "private_files_unchanged": true,
+  "models_fitted": 0
+}
