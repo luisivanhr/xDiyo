@@ -107,6 +107,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         group_by = (group_by,)
     else:
         group_by = tuple(group_by)
+    if history.attrs.get('data_selection'):
+        from ..data.catalogue.integration import validate_feature_selection
+        validate_feature_selection(history, features)
+        from .history import aligned_times
+        if cutoffs is not None and aligned_times(history,cutoffs,default='kickoff_at').gt(history.kickoff_at).any():
+            raise ValueError('Named dataset cutoff cannot exceed its frozen interval start')
+        available_at=history['catalogue_history_available_at']
     cache, histories, rating_cache = {}, {}, {}
     evaluation_stack, dependencies = [], {}
     point_sources = {}
@@ -665,6 +672,9 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         "warm_start_audit": warm_audits,
         "movement_evidence": [] if movement_evidence is None else list(movement_evidence.values()),
     }
+    if history.attrs.get('data_selection'):
+        from copy import deepcopy
+        result.attrs['data_selection'] = deepcopy(history.attrs['data_selection'])
     if standings_audits:
         result.attrs['derived_standings'] = standings_audits
     if distance_audits:

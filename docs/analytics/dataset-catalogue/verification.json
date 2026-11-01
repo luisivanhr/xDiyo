@@ -1,0 +1,111 @@
+{
+  "created_at": "2026-11-01T17:08:55.739987+00:00",
+  "base_commit": "a0f466712e2bc4f44eea86d382d56658a9cc1d9b",
+  "source_hash_contract": "SHA256 of UTF-8 source bytes with CRLF normalized to LF; receipts retain exact bytes through .gitattributes",
+  "source_hashes": {
+    "docs/analytics/dataset-catalogue/collect_receipts.py": "02236a25af84f8204a3da1a8c037851d8fdf12fe4051cdcb77f73d6c66b8cede",
+    "docs/analytics/dataset-catalogue/verify_local.py": "9374616c575eb762fd2ff74c1b33ca2f8a879f93f67c2cb3450278a8e6cc9bdf",
+    "examples/import_named_datasets.py": "8253597f38a9ba43946255e4bdda43fd7d97c55a4cdddb30d66c8c575b4f953c",
+    "examples/named_dataset_recipe.py": "835915cdef5605b4bc89e00220630388db92f583e9b702ae3cf8992178e267a7",
+    "src/xdiyo_analytics/data/__init__.py": "3f5a3cb8a8a668534e10218f86f5e33b751479d3846ad4916d83c453a79f3c4f",
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "cee2de98f76acdc7e3200801a27598eea9bafe189aaae3d05f41abd529660c80",
+    "src/xdiyo_analytics/data/catalogue/importers.py": "36a8de1fabc0028aa0c5335b84fa9b611ad936ec936a3be7cf5f09e704de3590",
+    "src/xdiyo_analytics/data/catalogue/integration.py": "967d94d1c9d560ac9d56bd4f6bd9666cea1cacf6cd53210faf63b6fa6a232f8f",
+    "src/xdiyo_analytics/data/catalogue/native.py": "d27110c4ba269fa8a37ad82155af6d5d842e9c80dca05dbb092e0ba6d05af938",
+    "src/xdiyo_analytics/data/catalogue/registry.py": "d8cfc5845b50369397f285037b142a72e8e5f43d330228e713404ff7ccf235b4",
+    "src/xdiyo_analytics/data/catalogue/selection.py": "0c61faa39235804f9b104d9570f8398f68d1e5668d1b6dcabd5300b966261f81",
+    "src/xdiyo_analytics/data/catalogue/storage.py": "0c01f22412034c5391c141ddc53455f564feb60f292e85f7077493244889139a",
+    "src/xdiyo_analytics/datasets/assembly.py": "c1902e81593337ff9475efa269123831d7243bf35d514608eea04c56faaf557c",
+    "src/xdiyo_analytics/features/evaluation.py": "3fd5dfdd7616548a733bccb8ebe9422b6edb548b78d74380ae74b5cd9effe0c6",
+    "src/xdiyo_analytics/ui/recipe.py": "206b978b802e5ee67c7c0552ec12c650366edd020a09b855dcb84d96959ef187",
+    "src/xdiyo_analytics/ui/server.py": "7d5845af6d284fd51ab11ffe6c422ee5a537fca983b2bc7303ebdf03fcf3e9bf",
+    "src/xdiyo_analytics/ui/static/app.js": "371702ea6f5af1048196bba1c950fe0a7e0995517e009f05581593b0e335e9cf",
+    "src/xdiyo_analytics/ui/static/named-data.js": "6853cf67d4fd6e0f64f36dd4d09e2a2d9dae9db0f691f3b1f99ac6d52f5f40c7",
+    "src/xdiyo_analytics/ui/static/style.css": "1ce38078a23cfa166079de8d0cf85a770f6b94a023c36a0ef7f9cf8bb32f95d0",
+    "tests/analytics/test_named_dataset_browser.py": "5a936b1c150ccf7986c3d8c9ff346336d549f361201a663f7d902827be64eaba",
+    "tests/analytics/test_named_datasets.py": "404fa4fcac29ae82bb6cd8910280387fdd4a5498644833f96f894268e321052d"
+  },
+  "environments": {
+    "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe": {
+      "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "pyarrow": "22.0.0",
+      "sklearn": "1.9.0"
+    },
+    "C:/Users/luisi/Documents/Programming/Python/xDiyo/.venv/Scripts/python.exe": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "3.0.1",
+      "numpy": "2.3.5",
+      "pyarrow": "25.0.1",
+      "sklearn": "1.9.1"
+    }
+  },
+  "tests": {
+    "named-regression-final": {
+      "tests": "268",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "32.852",
+      "timestamp": "2026-11-02T02:04:34.774122+09:00"
+    },
+    "named-pandas3-final": {
+      "tests": "268",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "38.792",
+      "timestamp": "2026-11-02T02:04:33.595729+09:00"
+    },
+    "named-browser-final": {
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "12.780",
+      "timestamp": "2026-11-02T01:54:41.130686+09:00"
+    }
+  },
+  "commands": {
+    "regression": "PYTHONPATH=src <each Python above> -m pytest tests/analytics/test_named_datasets.py tests/analytics/test_ui_workflow.py tests/analytics/test_loading.py tests/analytics/test_team_history.py tests/analytics/test_fixture_assembly.py tests/analytics/test_feature_composition.py tests/analytics/test_datasets.py tests/analytics/test_ui_recipe_cutoffs.py tests/analytics/test_recipe_refresh.py tests/analytics/test_venue_history.py -q --tb=short --junitxml=<receipt>.xml",
+    "browser": "PYTHONPATH=src <Python 3.14 above> -m pytest tests/analytics/test_named_dataset_browser.py -q --tb=short --junitxml=<receipt>.xml",
+    "import": "PYTHONPATH=src <Python 3.14 above> examples/import_named_datasets.py --legacy-root data/xDiyo_data --results-txt <unchanged v2> --workbook <unchanged workbook> --output C:/Users/luisi/Documents/Programming/Python/xDiyo/scratch/named-datasets-20261102",
+    "verification": "PYTHONPATH=src <Python 3.14 above> docs/analytics/dataset-catalogue/verify_local.py --catalogue C:/Users/luisi/Documents/Programming/Python/xDiyo/scratch/named-datasets-20261102 --v1 <unchanged v1> --v2 <unchanged v2> --output .pytest_tmp/named-real-verification.json"
+  },
+  "browser": {
+    "engine": "Playwright Chromium",
+    "plugin_fallback": "Browser plugin unavailable",
+    "viewports": [
+      1200,
+      390
+    ],
+    "checks": [
+      "preview before acceptance",
+      "frozen selection stored without JS integer rounding",
+      "selected team discovery",
+      "legacy restore",
+      "no console/page errors",
+      "no horizontal overflow"
+    ],
+    "screenshots": "Local .pytest_tmp/deb75866424c408d8585ac7722258721/test_named_dataset_preview_acc{0,1}/named-data-{1200,390}.png"
+  },
+  "notes": [
+    "Two sandbox-only hard-link permission failures passed outside the sandbox; no publication semantics were weakened.",
+    "Fresh import exposed an accented reserve-name encoding issue; fixed and covered by a native classification regression before final publication.",
+    "No frozen or real-data model experiment was trained. Regression tests include small native estimator fits.",
+    "Input files and existing dataset publications were not modified; only new ignored catalogue outputs were written.",
+    "Unresolved identities/classifications remain quarantined; coverage is the reviewed initial subset.",
+    "No original or derived dataset Parquets are committed; redistribution rights are unconfirmed."
+  ],
+  "receipt_hashes": {
+    "import-repeat.json": "02a609c3d13bf07da7b153df1c33746408708c1ecbc83eaf4e7017b20c0d951a",
+    "input-verification.json": "a96d781df739f92d916b8eb243bd8948a24cecfd58d63b3957e0a83b89e53719",
+    "named-browser-final.log": "c08f6a5c15f85f098c69feb31359271077aac647789c5e442e71205ad6d0adbb",
+    "named-browser-final.xml": "864fe7857ccd459ef7c8589a1c38c6b7eb1fbb1b04f51266272b247755067206",
+    "named-pandas3-final.log": "d410b080fef20fdeb860e308a5a5c4b09dab01d31083a28cefb08364be3ed0e2",
+    "named-pandas3-final.xml": "1af7401391f0315d94943011f95bbcf2bee9b666a6499f4d8ee806008cb86a8c",
+    "named-regression-final.log": "678d898dc0cabf921b8e271bd28952119b6a88e41b3894f0fff98e4e80320cc0",
+    "named-regression-final.xml": "225e471f70e5f8df962af4181be9d068b354f5bde1b9f568e5fa2c9bd7bdcd57"
+  }
+}

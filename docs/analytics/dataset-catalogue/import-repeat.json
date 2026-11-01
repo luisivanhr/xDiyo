@@ -1,0 +1,349 @@
+{
+  "first": {
+    "versions": {
+      "comprehensive_dataset": "9a781fb9d5aea2483b893a3251831b1f263460d9e821ac6c09aa63faae7c298b",
+      "international_dataset": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697"
+    },
+    "input_checksums": [
+      "57d5d92b3cfdfdffaec8d9b53e6f349907cad580390140d3a246090fe1662eae",
+      "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f"
+    ],
+    "elapsed_seconds": 116.6432384000218,
+    "reviewed_scope": "Premier_League senior squads; other competition/team/season identities require canonical review",
+    "redistribution": "Local research publications only; rights not established",
+    "coverage": {
+      "comprehensive_dataset": {
+        "conflicting_fixtures": [],
+        "excluded": {
+          "reserve_excluded": 464,
+          "squad_needs_review": 81665
+        },
+        "import_complete": true,
+        "inspected": 92983,
+        "published": 10854,
+        "real_schedule_complete": false,
+        "dataset": "comprehensive_dataset",
+        "version": "9a781fb9d5aea2483b893a3251831b1f263460d9e821ac6c09aa63faae7c298b",
+        "fixtures_without_statistics": 4734,
+        "fields": {
+          "matches": {
+            "event_id": 10854,
+            "competition_id": 10854,
+            "season_id": 10854,
+            "season_year": 10854,
+            "stage": 10854,
+            "round": 10854,
+            "home_id": 10854,
+            "away_id": 10854,
+            "home_name": 10854,
+            "away_name": 10854,
+            "date": 10854,
+            "local_datetime": 0,
+            "time_precision": 10854,
+            "timezone": 10854,
+            "kickoff_at": 10854,
+            "result_available_at": 0,
+            "status": 10854,
+            "score_basis": 10854,
+            "home_score_current": 10839,
+            "away_score_current": 10839,
+            "home_score_1h": 0,
+            "away_score_1h": 0,
+            "home_score_2h": 0,
+            "away_score_2h": 0,
+            "identity_state": 10854,
+            "conflict": 10854,
+            "membership_verified": 10854,
+            "schedule_complete": 10854,
+            "squad_policy": 10854,
+            "dataset": 10854
+          },
+          "statistics": {
+            "event_id": 1012784,
+            "team_id": 1012784,
+            "side": 1012784,
+            "period": 1012784,
+            "group_name": 1012784,
+            "key": 1012784,
+            "value": 1011309,
+            "validity": 1012784,
+            "available_at": 0,
+            "definition": 1012784
+          }
+        },
+        "time_precision": {
+          "second": 10854
+        }
+      },
+      "international_dataset": {
+        "conflicting_fixtures": [],
+        "excluded": {},
+        "import_complete": true,
+        "input_counts": [
+          {
+            "accepted": 6046,
+            "competition_needs_review": 212456,
+            "identity_needs_review": 414,
+            "inspected": 218916
+          },
+          {
+            "accepted": 4390,
+            "competition_needs_review": 93978,
+            "identity_needs_review": 36229,
+            "inspected": 146000,
+            "invalid_odds_cells": 9,
+            "invalid_statistics_cells": 13,
+            "odds_rows": 146000,
+            "reserve_excluded": 13,
+            "squad_needs_review": 11390,
+            "statistics_1h_rows": 146000,
+            "statistics_2h_rows": 146000,
+            "statistics_ft_rows": 146000
+          }
+        ],
+        "inspected": 9676,
+        "published": 9676,
+        "real_schedule_complete": false,
+        "dataset": "international_dataset",
+        "version": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697",
+        "fixtures_without_statistics": 5286,
+        "fields": {
+          "matches": {
+            "event_id": 9676,
+            "competition_id": 9676,
+            "season_id": 9676,
+            "season_year": 9676,
+            "stage": 9676,
+            "round": 0,
+            "home_id": 9676,
+            "away_id": 9676,
+            "home_name": 9676,
+            "away_name": 9676,
+            "date": 9676,
+            "local_datetime": 4390,
+            "time_precision": 9676,
+            "timezone": 9676,
+            "kickoff_at": 0,
+            "result_available_at": 0,
+            "status": 9676,
+            "score_basis": 9676,
+            "home_score_current": 9676,
+            "away_score_current": 9676,
+            "home_score_1h": 4390,
+            "away_score_1h": 4390,
+            "home_score_2h": 4390,
+            "away_score_2h": 4390,
+            "identity_state": 9676,
+            "conflict": 9676,
+            "membership_verified": 9676,
+            "schedule_complete": 9676,
+            "squad_policy": 9676,
+            "dataset": 9676
+          },
+          "odds": {
+            "event_id": 175600,
+            "market": 175600,
+            "selection": 175600,
+            "period": 175600,
+            "line": 131700,
+            "quote_type": 175600,
+            "decimal_odds": 172795,
+            "validity": 175600,
+            "available_at": 0,
+            "bookmaker": 0
+          },
+          "statistics": {
+            "event_id": 263400,
+            "team_id": 263400,
+            "side": 263400,
+            "period": 263400,
+            "group_name": 263400,
+            "key": 263400,
+            "value": 263370,
+            "validity": 263400,
+            "available_at": 0,
+            "definition": 263400
+          }
+        },
+        "time_precision": {
+          "date": 5286,
+          "minute": 4390
+        }
+      }
+    }
+  },
+  "repeated": {
+    "versions": {
+      "comprehensive_dataset": "9a781fb9d5aea2483b893a3251831b1f263460d9e821ac6c09aa63faae7c298b",
+      "international_dataset": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697"
+    },
+    "input_checksums": [
+      "57d5d92b3cfdfdffaec8d9b53e6f349907cad580390140d3a246090fe1662eae",
+      "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f"
+    ],
+    "elapsed_seconds": 123.89529990000301,
+    "reviewed_scope": "Premier_League senior squads; other competition/team/season identities require canonical review",
+    "redistribution": "Local research publications only; rights not established",
+    "coverage": {
+      "comprehensive_dataset": {
+        "conflicting_fixtures": [],
+        "excluded": {
+          "reserve_excluded": 464,
+          "squad_needs_review": 81665
+        },
+        "import_complete": true,
+        "inspected": 92983,
+        "published": 10854,
+        "real_schedule_complete": false,
+        "dataset": "comprehensive_dataset",
+        "version": "9a781fb9d5aea2483b893a3251831b1f263460d9e821ac6c09aa63faae7c298b",
+        "fixtures_without_statistics": 4734,
+        "fields": {
+          "matches": {
+            "event_id": 10854,
+            "competition_id": 10854,
+            "season_id": 10854,
+            "season_year": 10854,
+            "stage": 10854,
+            "round": 10854,
+            "home_id": 10854,
+            "away_id": 10854,
+            "home_name": 10854,
+            "away_name": 10854,
+            "date": 10854,
+            "local_datetime": 0,
+            "time_precision": 10854,
+            "timezone": 10854,
+            "kickoff_at": 10854,
+            "result_available_at": 0,
+            "status": 10854,
+            "score_basis": 10854,
+            "home_score_current": 10839,
+            "away_score_current": 10839,
+            "home_score_1h": 0,
+            "away_score_1h": 0,
+            "home_score_2h": 0,
+            "away_score_2h": 0,
+            "identity_state": 10854,
+            "conflict": 10854,
+            "membership_verified": 10854,
+            "schedule_complete": 10854,
+            "squad_policy": 10854,
+            "dataset": 10854
+          },
+          "statistics": {
+            "event_id": 1012784,
+            "team_id": 1012784,
+            "side": 1012784,
+            "period": 1012784,
+            "group_name": 1012784,
+            "key": 1012784,
+            "value": 1011309,
+            "validity": 1012784,
+            "available_at": 0,
+            "definition": 1012784
+          }
+        },
+        "time_precision": {
+          "second": 10854
+        }
+      },
+      "international_dataset": {
+        "conflicting_fixtures": [],
+        "excluded": {},
+        "import_complete": true,
+        "input_counts": [
+          {
+            "accepted": 6046,
+            "competition_needs_review": 212456,
+            "identity_needs_review": 414,
+            "inspected": 218916
+          },
+          {
+            "accepted": 4390,
+            "competition_needs_review": 93978,
+            "identity_needs_review": 36229,
+            "inspected": 146000,
+            "invalid_odds_cells": 9,
+            "invalid_statistics_cells": 13,
+            "odds_rows": 146000,
+            "reserve_excluded": 13,
+            "squad_needs_review": 11390,
+            "statistics_1h_rows": 146000,
+            "statistics_2h_rows": 146000,
+            "statistics_ft_rows": 146000
+          }
+        ],
+        "inspected": 9676,
+        "published": 9676,
+        "real_schedule_complete": false,
+        "dataset": "international_dataset",
+        "version": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697",
+        "fixtures_without_statistics": 5286,
+        "fields": {
+          "matches": {
+            "event_id": 9676,
+            "competition_id": 9676,
+            "season_id": 9676,
+            "season_year": 9676,
+            "stage": 9676,
+            "round": 0,
+            "home_id": 9676,
+            "away_id": 9676,
+            "home_name": 9676,
+            "away_name": 9676,
+            "date": 9676,
+            "local_datetime": 4390,
+            "time_precision": 9676,
+            "timezone": 9676,
+            "kickoff_at": 0,
+            "result_available_at": 0,
+            "status": 9676,
+            "score_basis": 9676,
+            "home_score_current": 9676,
+            "away_score_current": 9676,
+            "home_score_1h": 4390,
+            "away_score_1h": 4390,
+            "home_score_2h": 4390,
+            "away_score_2h": 4390,
+            "identity_state": 9676,
+            "conflict": 9676,
+            "membership_verified": 9676,
+            "schedule_complete": 9676,
+            "squad_policy": 9676,
+            "dataset": 9676
+          },
+          "odds": {
+            "event_id": 175600,
+            "market": 175600,
+            "selection": 175600,
+            "period": 175600,
+            "line": 131700,
+            "quote_type": 175600,
+            "decimal_odds": 172795,
+            "validity": 175600,
+            "available_at": 0,
+            "bookmaker": 0
+          },
+          "statistics": {
+            "event_id": 263400,
+            "team_id": 263400,
+            "side": 263400,
+            "period": 263400,
+            "group_name": 263400,
+            "key": 263400,
+            "value": 263370,
+            "validity": 263400,
+            "available_at": 0,
+            "definition": 263400
+          }
+        },
+        "time_precision": {
+          "date": 5286,
+          "minute": 4390
+        }
+      }
+    }
+  },
+  "identical_versions_and_coverage": true
+}

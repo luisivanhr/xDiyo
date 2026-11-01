@@ -1,3 +1,4 @@
+import {namedDataPanel} from './named-data.js';
 import {tunableFields} from './grid-fields.js';
 import {el,clone,configure,configureOdds,discovered,fieldsEditor,componentEditor,mapEditor,listEditor,valueEditor,spec,makeNode,featureMapEditor} from './forms.js';
 
@@ -23,7 +24,7 @@ function notice(message,error=false){notification.textContent=message;notificati
 async function api(action,data={}){const response=await fetch('/api/'+action,{method:'POST',headers:{'Content-Type':'application/json','X-Builder-Token':token},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw Error(result.error);return result;}
 function action(fn){return async (...args)=>{try{await fn(...args);}catch(e){notice(e.message,true);}};}
 const changed=()=>{dirty=true;document.title='• Football experiment builder';syncNames();try{localStorage.setItem('football-builder-draft-v2',JSON.stringify(recipe));}catch{}};
-const preparationKey=()=>JSON.stringify([recipe.data,recipe.stat_selection,recipe.features,recipe.feature_options,recipe.cutoff_hours,recipe.labels,recipe.target,recipe.assembly,recipe.ratings,recipe.history,recipe.split,recipe.split_options,recipe.feature_preset,recipe.preset_seasons,recipe.derived_features,recipe.context_features,recipe.identity_features,recipe.numeric_features,recipe.model?.component==='graphs.TemporalGraphModel'?recipe.model:null]);
+const preparationKey=()=>JSON.stringify([recipe.data,recipe.data_selection,recipe.stat_selection,recipe.features,recipe.feature_options,recipe.cutoff_hours,recipe.labels,recipe.target,recipe.assembly,recipe.ratings,recipe.history,recipe.split,recipe.split_options,recipe.feature_preset,recipe.preset_seasons,recipe.derived_features,recipe.context_features,recipe.identity_features,recipe.numeric_features,recipe.model?.component==='graphs.TemporalGraphModel'?recipe.model:null]);
 const foldDetails=f=>(f.description?' · '+f.description:'')+' · '+f.train+' train / '+f.test+' test';
 function ratingSources(){
  const sources=Object.fromEntries(Object.entries(recipe.feature_options?.ratings||{}).map(([name,value])=>[name,value?.component]));
@@ -52,7 +53,18 @@ function syncNames(){
  if(selected.length&&recipe.analysis_options?.post?.fold_ids?.some(id=>!postChoices.some(choice=>choice.value===id)))delete recipe.analysis_options.post.fold_ids;
  discovered({bet_source:recipe.labels?.[recipe.target],fold_ids:postChoices,outer_fold_ids:outerChoices,heatmaps:preparedColumns?.spatial_features||[],features:preparedColumns?.features||[],targets:preparedColumns?.targets||Object.keys(recipe.labels||{}),selectors:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.TopKCorrelationSelector').map(([k])=>k),weight_reporters:Object.entries(recipe.fitted_reporters||{}).filter(([,v])=>v?.component==='reporting.ClassWeightReporter').map(([k])=>k),weight_classes:(preparedColumns?.classes||[]).map(String),correlations:Object.entries({...recipe.pre_reporters,...recipe.fitted_reporters}).filter(([,v])=>v?.component==='reporting.CorrelationAnalysis').map(([k])=>k),ratings:Object.keys(sources),bayesian_ratings:Object.keys(sources).filter(name=>sources[name]==='input.BayesianRatingRun')});
 }
-async function discoverData(force=false){const source=clone(recipe.data),key=JSON.stringify(source);if(!force&&key===discoveryKey)return;discoveryBusy=true;try{const data=await api('discover',{root:source.data_root});const choices=await api('choices',{root:source.data_root,seasons:source.seasons,leagues:source.leagues});if(key!==JSON.stringify(recipe.data))return;publications=data.publications;discovered({seasons:[...new Set(publications.map(p=>p.season))].sort(),leagues:[...new Set(publications.map(p=>p.league))].sort()});available=choices;discovered({...available,stat_keys:[...new Set((available.stats||[]).map(s=>s.key))],identity_columns:['source_league','home_id','away_id','team_id','opponent_id']});discoveryKey=key;}finally{discoveryBusy=false;}if(stage==='data')render();}
+async function discoverData(force=false){
+ const source=clone(recipe.data_selection||recipe.data),key=JSON.stringify(source);
+ if(!force&&key===discoveryKey)return;discoveryBusy=true;
+ try{
+  let choices;
+  if(recipe.data_selection){choices=await api('named-choices',source);publications=[];}
+  else {const data=await api('discover',{root:source.data_root});choices=await api('choices',{root:source.data_root,seasons:source.seasons,leagues:source.leagues});publications=data.publications;}
+  if(key!==JSON.stringify(recipe.data_selection||recipe.data))return;
+  discovered({seasons:[...new Set(publications.map(p=>p.season))].sort(),leagues:[...new Set(publications.map(p=>p.league))].sort()});
+  available=choices;discovered({...available,stat_keys:[...new Set((available.stats||[]).map(s=>s.key))],identity_columns:['source_league','home_id','away_id','team_id','opponent_id']});discoveryKey=key;
+ }finally{discoveryBusy=false;}if(stage==='data')render();
+}
 function optionalComponent(title,key,id,description,ids=[id]){return optional(title,key,()=>{if(!recipe[key]?.component)recipe[key]=makeNode(id);return el('div',{},el('p',{class:'help',text:description}),componentEditor(recipe[key],v=>set(key,v),null,ids));});}
 function set(key,value){recipe[key]=value;changed();}
 function section(title,description,...children){return el('section',{class:'section'},el('h2',{text:title}),description?el('p',{class:'help',text:description}):null,...children);}
@@ -112,12 +124,15 @@ function render(){
  content.replaceChildren();const definition=stages.find(s=>s[0]===stage);document.querySelector('#stage-title').textContent=definition[1];document.querySelector('#stage-help').textContent=definition[2];
  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.stage===stage));
  if(stage==='data'){
+  content.append(namedDataPanel(recipe,api,changed,()=>discoverData(true)));
+  if(!recipe.data_selection){
   content.append(section('Update recipe to current data','Refresh saved data references after a dataset update. Saves a new recipe, preserves experiment settings, and does not train a model.',el('button',{text:'Update recipe to current data',onclick:action(async()=>{const result=await api('refresh-data',{recipe});recipe=result.recipe;changed();render();await discoverData(true);notice('Updated recipe saved to '+result.path);modal(el('h2',{text:'Data references updated'}),el('p',{text:'Saved to '+result.path}),table({columns:['Season','Reference changed'],rows:result.changes.map(c=>[c.season,c.changed?'Yes':'No'])}));})})));
   const select=el('select',{'aria-label':'Season file to inspect'});(available.publications||[]).forEach(p=>select.append(el('option',{value:p.stem,text:p.stem.replaceAll('_',' ')})));
   content.append(section('Source data','Choose the available leagues and seasons. Awarded matches are excluded by default.',parameterFields(catalog.stages.data.fields,recipe.data,()=>{changed();}),el('button',{text:'Refresh available data',onclick:action(()=>discoverData(true))}),el('p',{class:'help',text:discoveryBusy?'Reading available data…':`${publications.length} season files · ${available.stats?.length||0} available statistic identities`})));
   content.append(section('Available observations','Inspect the selected season’s usable tables, without collection bookkeeping.',el('div',{class:'inline'},select,el('button',{text:'Inspect season tables',disabled:!select.options.length,onclick:action(async()=>{const info=await api('inspect',{root:recipe.data.data_root,stem:select.value});modal(el('h2',{text:select.value.replaceAll('_',' ')}),table(info.tables),el('p',{class:'help',text:`${info.stats.length} statistic identities. Choose them by name under Target or Features.`}));})}))));
   content.append(optional('Statistic bundles and extra statistics','stat_selection',()=>options('stat_selection')));
   content.append(section('Team history','Optional fields used when building one row per team and match.',options('history')));
+  }else content.append(section('Frozen population','The accepted selection owns its versions, history and timing. Configure historical features and labels in the next panels. Membership-dependent ratings, standings and graphs require additional verified inputs.'));
  }else if(stage==='target'){
   content.append(section('Named labels','Label creators use observed outcomes. Future fixtures retain missing outcomes.',mapEditor(recipe.labels,v=>set('labels',v),{componentCategory:['label']})));
   const selector=el('select',{'aria-label':'Training target',onchange:e=>set('target',e.target.value)});Object.keys(recipe.labels).forEach(n=>selector.append(el('option',{value:n,text:n})));selector.value=recipe.target;

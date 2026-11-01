@@ -147,6 +147,8 @@ class BuilderState:
         # Resolve known paths without chdir (which would affect notebook threads).
         recipe['data']['data_root'] = str(self.resolve(recipe['data']['data_root']))
         recipe['output_dir'] = str(self.resolve(recipe.get('output_dir', 'experiments')))
+        if recipe.get('data_selection'):
+            recipe['data_selection']['root'] = str(self.resolve(recipe['data_selection']['root']))
         if recipe.get('team_badges'):
             recipe['team_badges'] = str(self.resolve(recipe['team_badges']))
         if recipe['data'].get('record_dir'):
@@ -325,6 +327,28 @@ class BuilderState:
             path = save_crosswalk(frame, snapshot=snapshot, output_root=self.workspace/'data/odds/mappings')
             return {'path':str(path), 'status_counts':frame.status.value_counts().to_dict(),
                     'review_path':str(path/'fixtures.parquet')}
+        if route == 'named-choices':
+            from ..data.catalogue import resolve_selection
+            data = resolve_selection(self.resolve(request['root']), request['selection'])
+            frame = data.matches
+            identities = [] if data.statistics is None else data.statistics[['period','group_name','key']].drop_duplicates().to_dict('records')
+            teams = {}
+            for side in ('home','away'):
+                teams.update({str(i):str(n) for i,n in frame[[side+'_id',side+'_name']].drop_duplicates().itertuples(index=False,name=None)})
+            return {'stats':identities, 'teams':[{'value':k,'label':v} for k,v in sorted(teams.items(),key=lambda x:x[1])],
+                    'rounds':sorted(frame['round'].dropna().unique().tolist(),key=str), 'publications':[],
+                    'selection_fingerprint':data.provenance['data_selection']['fingerprint']}
+        if route == 'named-datasets':
+            from ..data.catalogue import list_datasets
+            return list_datasets(self.resolve(request['root']))
+        if route == 'named-selection':
+            from ..data.catalogue import select_data, inspect_coverage
+            from collections import Counter
+            selection=select_data(self.resolve(request['root']), **request['options'])
+            return dict(selection_json=json.dumps(selection,ensure_ascii=False),fingerprint=selection['fingerprint'],
+                        classification=selection['classification'],targets=len(selection['target_ids']),history=len(selection['history_ids']),
+                        exclusions=dict(Counter(r['reason'] for r in selection['exclusions'])),assumptions=selection['assumptions'],
+                        coverage={n:inspect_coverage(self.resolve(request['root']),n,v) for n,v in selection['snapshots'].items()})
         if route == 'discover':
             root = self.resolve(request['root'])
             if not root.is_dir():
@@ -499,7 +523,7 @@ def launch_ui(workspace='.', *, port=0, open_browser=True, catalog=None, retenti
             if name == 'report.css':
                 from ..reporting.viewer import CSS
                 return self.respond(CSS.encode(), content_type='text/css')
-            if name not in ('index.html', 'app.js', 'forms.js', 'feature-bundles.js', 'grid-fields.js', 'style.css'):
+            if name not in ('index.html', 'app.js', 'forms.js', 'feature-bundles.js', 'named-data.js', 'grid-fields.js', 'style.css'):
                 return self.respond({'error': 'Not found'}, 404)
             self.respond((assets / name).read_bytes(), content_type=mimetypes.guess_type(name)[0] or 'text/plain')
 

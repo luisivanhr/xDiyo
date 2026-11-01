@@ -12,3 +12,6 @@ __all__ = [
     "PredictionFixtures", "load_prediction_fixtures", "select_prediction_fixtures",
     "derive_movements", "save_movement_enrichment",
 ]
+
+from .catalogue import list_datasets, inspect_coverage, select_data, resolve_selection
+__all__ += ["list_datasets", "inspect_coverage", "select_data", "resolve_selection"]

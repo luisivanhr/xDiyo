@@ -56,3 +56,7 @@ docs/analytics/attention-reporter-verification/*.log -whitespace
 # Fixture SVG provenance receipts preserve exact audited bytes.
 docs/analytics/attention-export-provenance/** -text whitespace=cr-at-eol
 docs/analytics/attention-export-provenance/*.log -whitespace
+
+# Named dataset audits preserve the exact verification script and receipt bytes.
+docs/analytics/dataset-catalogue/** -text whitespace=cr-at-eol
+docs/analytics/dataset-catalogue/*.log -whitespace

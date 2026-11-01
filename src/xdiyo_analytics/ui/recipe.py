@@ -23,7 +23,7 @@ def default_recipe(data_root='data/xDiyo_data'):
         'version': 1, 'name': 'Corners experiment', 'output_dir': 'experiments', 'config': {}, 'team_badges': None,
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
-        'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
+        'data_selection': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
         'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
         'identity_features': None, 'numeric_features': None,
         'ratings': {}, 'features': {'corners_mean': node('features.RollingMean', source=stat, window=5),
@@ -192,6 +192,11 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     from ..reporting import TeamCatalog
     recipe = validate_recipe(recipe)
     catalog = catalog or catalog_for_ui()
+    named_data = None
+    if recipe.get('data_selection'):
+        if prediction: raise ValueError('Named historical selections are not live future-fixture inputs')
+        from ..data.catalogue.integration import named_recipe_data
+        named_data, named_history = named_recipe_data(recipe)
     data_options = catalog.build(recipe['data'])
     def needs_heatmaps(value):
         if isinstance(value, dict):
@@ -251,14 +256,14 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
             tables.append('team_seasons')
         countdown_data = load_seasons(**{**data_options, 'tables': tables, 'include_awarded': True})
-    data = load_seasons(**data_options)
+    data = named_data if named_data is not None else load_seasons(**data_options)
     heatmaps = data.tables.get('heatmap_points')
     if heatmaps is not None:
         heatmaps = heatmaps.copy(deep=False)
         heatmaps.attrs['source'] = data.provenance
     if recipe.get('stat_selection') is not None:
         data = select_stats(data, **catalog.build(recipe['stat_selection']))
-    history = build_team_history(data, **catalog.build(recipe.get('history', {})))
+    history = named_history if named_data is not None else build_team_history(data, **catalog.build(recipe.get('history', {})))
     names = data.matches.copy(deep=False)
     for column in ('home_name', 'away_name'):
         if column not in names:
@@ -273,6 +278,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                                 for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
+    if named_data is not None:
+        options.update(cutoffs=history.kickoff_at, available_at=history.result_available_at)
     if countdown_data is not None:
         options.setdefault('schedule_history', countdown_data.matches)
         if 'team_seasons' in countdown_data.tables:
@@ -316,11 +323,18 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     if prediction:
         assembly['drop_missing_targets'] = False
     def make_plan(frame):
+        if named_data is not None:
+            from ..data.catalogue.integration import frozen_split
+            frozen = frozen_split(frame, data.provenance['data_selection'])
+            if frozen is not None:return frozen
         splitter = catalog.build(recipe['split'])
         plan = (splitter if isinstance(splitter, SplitPlan) else
                 _recipe_split_plan(frame, splitter, catalog.build(recipe.get('split_options', {}), {**context, 'dataset': frame}), hours))
         if recipe.get('fold_ids') is not None:
             plan = SplitPlan([plan.folds[int(i)] for i in recipe['fold_ids']], plan.n_rows, plan.row_order, paths=None)
+        if named_data is not None:
+            from ..data.catalogue.integration import validate_selected_plan
+            validate_selected_plan(frame,plan)
         return plan
     definitions = catalog.build(recipe['features'])
     preset = catalog.build(recipe.get('feature_preset'))
@@ -355,6 +369,9 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     retained_ratings = {}
     features = evaluate_features(history, definitions, rating_runs=retained_ratings, **options)
     dataset = assemble_dataset(features, labels[recipe['target']], **assembly)
+    if named_data is not None:
+        from ..data.catalogue.integration import select_targets
+        dataset = select_targets(dataset, data.provenance['data_selection'])
     if preset is not None:
         dataset.definitions['feature_preset'] = {'stat_identities': identities, 'configuration': recipe['feature_preset']}
         if preset.include_combinations:

@@ -15,6 +15,8 @@ builder = launch_ui(workspace=".")
 
 The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available layers and verification boundaries.
 
+The opt-in [named dataset catalogue](docs/analytics/dataset-catalogue/README.md) supports separately versioned comprehensive/international data, eligibility previews, coherent union and fixed-target extended history. The initial reviewed subset stays local; unresolved identities and timing evidence are not silently accepted. Existing loaders and experiments remain unchanged.
+
 The optional [temporal team graph](docs/analytics/temporal_team_gat.md) reconstructs
 cutoff-safe team embeddings and home/draw/away forecasts in By Round or One Day
 Ahead mode, with CPU/CUDA training and native persistence. Its
