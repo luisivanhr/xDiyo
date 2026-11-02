@@ -1,0 +1,75 @@
+{
+  "base_commit": "5de290583e975de044e362655a9f1272cb2a1593",
+  "created_at": "2026-11-02T00:07:52.746472+00:00",
+  "tests": {
+    "python314": {
+      "tests": "307",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "57.441",
+      "timestamp": "2026-11-02T09:06:02.374555+09:00"
+    },
+    "python312": {
+      "tests": "306",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "62.288",
+      "timestamp": "2026-11-02T09:06:31.618315+09:00"
+    }
+  },
+  "environments": {
+    "C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe": {
+      "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "pyarrow": "22.0.0"
+    },
+    "C:/Users/luisi/Documents/Programming/Python/xDiyo/.venv/Scripts/python.exe": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "pandas": "3.0.1",
+      "numpy": "2.3.5",
+      "pyarrow": "25.0.1"
+    }
+  },
+  "source_hash_contract": "SHA256, CRLF normalized to LF",
+  "source_hashes": {
+    "docs/analytics/dataset-catalogue/repair-5de29058/collect_receipt.py": "777ec3db190fc5d8c458de2f81ab5ba4528edbf69c8f47d6dea233bd7c9f2556",
+    "pyproject.toml": "6a02b8f83a5aa0159c5a4956f89716713fd53509ab9d9049767299e41a1e0706",
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "6b0846e3f4fc014b03213331d0e4d7414f9d5343b6d607ee4984ee7d63d87fe2",
+    "src/xdiyo_analytics/data/catalogue/importers.py": "36a8de1fabc0028aa0c5335b84fa9b611ad936ec936a3be7cf5f09e704de3590",
+    "src/xdiyo_analytics/data/catalogue/integration.py": "a6a00c69e6c9b1ad74026a7afb02f2664f919dc7211227f203c7b51a16cbcf7c",
+    "src/xdiyo_analytics/data/catalogue/migration.py": "91f4d3f3efd42b72cd427a46223cc1d35649ba2544e7883d837fb8b0570f8b7d",
+    "src/xdiyo_analytics/data/catalogue/native.py": "6a30428d46b187f5599409a160b2bede1c9c0737837be2a6875404a0ca5eabce",
+    "src/xdiyo_analytics/data/catalogue/registry.py": "d8cfc5845b50369397f285037b142a72e8e5f43d330228e713404ff7ccf235b4",
+    "src/xdiyo_analytics/data/catalogue/selection.py": "ca9f759230b90be41bf963c07c74dfd9aaefaa891708e1278c03a0d2b438c60f",
+    "src/xdiyo_analytics/data/catalogue/storage.py": "0c01f22412034c5391c141ddc53455f564feb60f292e85f7077493244889139a",
+    "tests/analytics/test_datasets.py": "19cf03f800a25614525451adeb48f8c82eceb72778b8c31904a8f61221642d4f",
+    "tests/analytics/test_feature_composition.py": "7a2feafb9a22f4c2269172a76415c4fd3dbc348accad94297e373d63667a7aa9",
+    "tests/analytics/test_fixture_assembly.py": "0fa0e3c8ef49457af44b458d131cadf9a2dce842930ca92986862764f664a4dd",
+    "tests/analytics/test_loading.py": "f764c4a8f0097c545f7c595494bd110e333f2d182aa94036d0fec7be1845b3eb",
+    "tests/analytics/test_named_dataset_repairs.py": "0639fb2960b3683fee2f42272ec8e48bf1f2c3203e2a34284c8c3029764ef0ce",
+    "tests/analytics/test_named_datasets.py": "404fa4fcac29ae82bb6cd8910280387fdd4a5498644833f96f894268e321052d",
+    "tests/analytics/test_native_dated_aliases.py": "0a8f38c89fe5fd30673648bff9ea6eaf2afcdeb6fe0706c1691239a565505ac8",
+    "tests/analytics/test_recipe_dataset_migration.py": "77a5eb9162f26fb12b954594213ef07faec6fba65b5cb255efbea47d7aee51d1",
+    "tests/analytics/test_recipe_refresh.py": "fd339698a61db91a90ff2b0e8b131ce8b7c3674924eb575a0507db3b8ba1793d",
+    "tests/analytics/test_team_history.py": "10311110ed13cd6c468db11bd638a12d9e4c5c3b76b122807fc8722f6c35c37d",
+    "tests/analytics/test_ui_recipe_cutoffs.py": "cc23ad66b4b641ff41179400c8bcddb67239209f899973fd25c322e2f31ba330",
+    "tests/analytics/test_ui_workflow.py": "3839363d65ce8d15183a3e07cc2ee22666ee36242f993c551fb61bf411583320",
+    "tests/analytics/test_venue_history.py": "3b44e2f6a7e73cf2ee81f39bf115ba38285c4695d85c3845e27dad512e8b221a"
+  },
+  "command": "PYTHONPATH=src <interpreter> -m pytest tests/analytics/test_native_dated_aliases.py tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_recipe_dataset_migration.py tests/analytics/test_ui_workflow.py tests/analytics/test_loading.py tests/analytics/test_team_history.py tests/analytics/test_fixture_assembly.py tests/analytics/test_feature_composition.py tests/analytics/test_datasets.py tests/analytics/test_ui_recipe_cutoffs.py tests/analytics/test_recipe_refresh.py tests/analytics/test_venue_history.py -q --tb=short --junitxml=<receipt>.xml",
+  "pandas3_qualification": "Add -k \"not installed_wheel\". The installed-wheel test is run only in Python 3.14; it is not a missing-package skip.",
+  "boundaries": [
+    "No private data reimport or mutation; no production fitting or collector changes.",
+    "No browser changes or new browser claim.",
+    "Source before repair reproduced canonical home ID 1 instead of expected 22 in the September case."
+  ],
+  "receipt_hashes": {
+    "python312.log": "9e2b4d243143e665b01fbb45f86890980241e435db2fab0c9e615b4952654b4a",
+    "python312.xml": "e4b521b82655be5b09eaca54d4edf51ae48e0043bd04b01d97c5adac26c4741e",
+    "python314.log": "c1d81aa62c5ba236ff264df2188cef7bcbe4dcead8d87130eff04cdccc1a85d6",
+    "python314.xml": "00657ff7fe4cdcd9dc6115da65373a7a1b64a60faec2d9b7646ee4528abe7de5"
+  }
+}

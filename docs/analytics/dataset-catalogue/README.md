@@ -99,3 +99,5 @@ Private catalogue location on the implementation machine: `C:/Users/luisi/Docume
 ## Audit repair and recipe migration
 
 See [the audit repair guide](repair-d21eb134/README.md) for installed-package checks, cross-snapshot classification and native identity repairs, and the supported dry-run/apply recipe migration API and CLI. Migration freezes memberships and reports blockers; it never retrains or silently widens scope.
+
+The [fixture-dated identity follow-up](repair-5de29058/README.md) makes native team and statistic remapping respect each fixture date without widening reviewed alias intervals.

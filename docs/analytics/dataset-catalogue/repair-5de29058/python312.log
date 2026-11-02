@@ -1,0 +1,15 @@
+........................................................................ [ 23%]
+........................................................................ [ 47%]
+........................................................................ [ 70%]
+........................................................................ [ 94%]
+..................                                                       [100%]
+============================== warnings summary ===============================
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[regression-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[classification-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_boosting_cpu_with_transformed_validation[ranking-lightgbm]
+tests/analytics/test_ui_workflow.py::test_native_classifier_preserves_outcome_label_classes[lightgbm]
+  C:\Users\luisi\Documents\Programming\Python\xDiyo\.venv\Lib\site-packages\lightgbm\sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+    eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+306 passed, 1 deselected, 4 warnings in 62.34s (0:01:02)
