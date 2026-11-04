@@ -1,0 +1,312 @@
+{
+  "schema": 1,
+  "completed_utc": "2026-11-04T12:30:21.436571+00:00",
+  "branch": "codex/gat-main-integration",
+  "candidate_sha": "361e205f8890d5bfa45a87c4f1920f83ca1ab953",
+  "main_sha": "64861849d8b7044e0b209b9ac9db28080a92b1e4",
+  "local_remote_refs_match": true,
+  "new_commits_since_audited_sha": [],
+  "passed": true,
+  "recommendation": "The requested CPU compatibility gates are closed; ready for a scoped merge decision with the documented exclusions retained.",
+  "production_tests_existing_harness_changed": false,
+  "merged": false,
+  "pushed": false,
+  "environments": {
+    "pandas23": {
+      "executable": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pandas23\\Scripts\\python.exe",
+      "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "versions": {
+        "pandas": "2.3.3",
+        "numpy": "2.4.6",
+        "torch": "2.9.0+cu130",
+        "pytest": "9.1.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.17.1",
+        "scikit-learn": "1.9.0"
+      },
+      "pandas_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\pandas\\__init__.py",
+      "numpy_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\numpy\\__init__.py",
+      "torch_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\torch\\__init__.py",
+      "copy_on_write": false,
+      "boolean_array_writeable": true
+    },
+    "pandas30": {
+      "executable": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pandas30\\Scripts\\python.exe",
+      "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "versions": {
+        "pandas": "3.0.1",
+        "numpy": "2.4.6",
+        "torch": "2.9.0+cu130",
+        "pytest": "9.1.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.17.1",
+        "scikit-learn": "1.9.0"
+      },
+      "pandas_path": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pandas30\\Lib\\site-packages\\pandas\\__init__.py",
+      "numpy_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\numpy\\__init__.py",
+      "torch_path": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Lib\\site-packages\\torch\\__init__.py",
+      "copy_on_write": true,
+      "boolean_array_writeable": false
+    }
+  },
+  "reproduced_failure": {
+    "type": "ValueError",
+    "message": "output array is read-only",
+    "file": "graphs/statistics.py",
+    "line": 29,
+    "pandas": "3.0.1",
+    "stage": "reference initialization; candidate not reached"
+  },
+  "resolution": "Unchanged reference and candidate compared in disposable pandas 2.3.3 environment; original tolerances retained.",
+  "environment_correction": {
+    "reason": "Historical src archive imports repository-level utils.glicko_rating; isolated venv did not inherit the editable-package path.",
+    "binding": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+    "utility": "utils/glicko_rating.py",
+    "source_hashes_normalized_lf": {
+      "5ee87b5791f142f0c80432f1e0647d01f137a599": "3cf6ce0ea9019c2f2af02077d3618e1513ed99de57a925feb867ecfba8e4e3d1",
+      "64861849d8b7044e0b209b9ac9db28080a92b1e4": "3cf6ce0ea9019c2f2af02077d3618e1513ed99de57a925feb867ecfba8e4e3d1",
+      "361e205f8890d5bfa45a87c4f1920f83ca1ab953": "3cf6ce0ea9019c2f2af02077d3618e1513ed99de57a925feb867ecfba8e4e3d1"
+    },
+    "numerical_changes": false,
+    "original_attempts_preserved": true
+  },
+  "tests": [
+    {
+      "classname": "tests.analytics.test_graph_integration_gates",
+      "name": "test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_statistics]",
+      "seconds": 10.859,
+      "result": "passed"
+    },
+    {
+      "classname": "tests.analytics.test_graph_integration_gates",
+      "name": "test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_combined]",
+      "seconds": 10.643,
+      "result": "passed"
+    }
+  ],
+  "comparisons": [
+    {
+      "kind": "gat_statistics",
+      "scope": "historical_two_update",
+      "reference": "5ee87b5791f142f0c80432f1e0647d01f137a599",
+      "candidate": "361e205f8890d5bfa45a87c4f1920f83ca1ab953",
+      "device": "cpu",
+      "updates": 2,
+      "atol": 0,
+      "rtol": 0,
+      "maximum_absolute_difference": 0.0,
+      "passed": true,
+      "initial_fields": [
+        "model",
+        "preprocessor",
+        "groups"
+      ],
+      "update_fields": [
+        "loss",
+        "model",
+        "optimizer",
+        "gradients"
+      ],
+      "tensor_comparisons": 325,
+      "tensor_elements": 10399,
+      "output_json_equal": true,
+      "reference_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\reference",
+      "candidate_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\candidate",
+      "saved_outputs": {
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\reference\\trajectory.pt": "a638fc208342b2256e4fc046e7dad6b6554101d6a64a713e9015d4f541193269",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\reference\\outputs.json": "8f3eecfc1528d31cc3c5fb7dc42a78f9235fa55d8f894f31e6eba683c730a476",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\candidate\\trajectory.pt": "a638fc208342b2256e4fc046e7dad6b6554101d6a64a713e9015d4f541193269",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_0\\candidate\\outputs.json": "8f3eecfc1528d31cc3c5fb7dc42a78f9235fa55d8f894f31e6eba683c730a476"
+      }
+    },
+    {
+      "kind": "gat_statistics",
+      "scope": "pinned_main_three_update",
+      "reference": "64861849d8b7044e0b209b9ac9db28080a92b1e4",
+      "candidate": "361e205f8890d5bfa45a87c4f1920f83ca1ab953",
+      "device": "cpu",
+      "updates": 3,
+      "atol": 0,
+      "rtol": 0,
+      "maximum_absolute_difference": 0.0,
+      "passed": true,
+      "initial_fields": [
+        "model",
+        "preprocessor",
+        "groups"
+      ],
+      "update_fields": [
+        "loss",
+        "model",
+        "optimizer",
+        "gradients"
+      ],
+      "tensor_comparisons": 452,
+      "tensor_elements": 14896,
+      "output_json_equal": true,
+      "reference_directory": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\main",
+      "candidate_directory": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\candidate",
+      "saved_outputs": {
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\main\\trajectory.pt": "361b7fa7a1f991af7cd2049e16ccd6b5b4f7665952f26e0c11aa506395d60f7a",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\main\\outputs.json": "686fa03e2e05b2e92c459d9682ac430559f2d952ee67240f07539ccd7fc787cd",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\candidate\\trajectory.pt": "361b7fa7a1f991af7cd2049e16ccd6b5b4f7665952f26e0c11aa506395d60f7a",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_statistics\\gat_statistics\\candidate\\outputs.json": "686fa03e2e05b2e92c459d9682ac430559f2d952ee67240f07539ccd7fc787cd"
+      }
+    },
+    {
+      "kind": "gat_combined",
+      "scope": "historical_two_update",
+      "reference": "5ee87b5791f142f0c80432f1e0647d01f137a599",
+      "candidate": "361e205f8890d5bfa45a87c4f1920f83ca1ab953",
+      "device": "cpu",
+      "updates": 2,
+      "atol": 0,
+      "rtol": 0,
+      "maximum_absolute_difference": 0.0,
+      "passed": true,
+      "initial_fields": [
+        "model",
+        "preprocessor",
+        "groups"
+      ],
+      "update_fields": [
+        "loss",
+        "model",
+        "optimizer",
+        "gradients"
+      ],
+      "tensor_comparisons": 443,
+      "tensor_elements": 180755,
+      "output_json_equal": true,
+      "reference_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\reference",
+      "candidate_directory": "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\candidate",
+      "saved_outputs": {
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\reference\\trajectory.pt": "201920e9bb5edc75f5b2bc14da5935f85bf90816b21f0ab9b641109265672957",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\reference\\outputs.json": "ff5408cc6b632abd6f3d941342cfd5ef95bd0054f5b3cc427247c73ec8542cf6",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\candidate\\trajectory.pt": "e7763f4e4c0a856b69111df7c774f83d68e3bf409f92322315c0c4c29f420de8",
+        "C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-rem-dc57aa88\\test_pinned_source_two_update_1\\candidate\\outputs.json": "ff5408cc6b632abd6f3d941342cfd5ef95bd0054f5b3cc427247c73ec8542cf6"
+      }
+    },
+    {
+      "kind": "gat_combined",
+      "scope": "pinned_main_three_update",
+      "reference": "64861849d8b7044e0b209b9ac9db28080a92b1e4",
+      "candidate": "361e205f8890d5bfa45a87c4f1920f83ca1ab953",
+      "device": "cpu",
+      "updates": 3,
+      "atol": 0,
+      "rtol": 0,
+      "maximum_absolute_difference": 0.0,
+      "passed": true,
+      "initial_fields": [
+        "model",
+        "preprocessor",
+        "groups"
+      ],
+      "update_fields": [
+        "loss",
+        "model",
+        "optimizer",
+        "gradients"
+      ],
+      "tensor_comparisons": 620,
+      "tensor_elements": 260302,
+      "output_json_equal": true,
+      "reference_directory": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\main",
+      "candidate_directory": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\candidate",
+      "saved_outputs": {
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\main\\trajectory.pt": "f8562fa45eb34f04e28bbe9c1203b069f22aa4ab0d2c5dd3605674c04eacb442",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\main\\outputs.json": "d3d90c185909f768808c87f51f6ef4029f817b17305b0b705a105387c0f34481",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\candidate\\trajectory.pt": "f8562fa45eb34f04e28bbe9c1203b069f22aa4ab0d2c5dd3605674c04eacb442",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\pinned_main_pandas23_gat_combined\\gat_combined\\candidate\\outputs.json": "d3d90c185909f768808c87f51f6ef4029f817b17305b0b705a105387c0f34481"
+      }
+    }
+  ],
+  "tolerance": {
+    "atol": 0,
+    "rtol": 0,
+    "maximum_absolute_difference": 0,
+    "tensor_byte_equality": true
+  },
+  "preservation": {
+    "passed": true,
+    "unique_hashed_files": 6041,
+    "prior_integration_receipts": 412,
+    "prior_historical_fix_receipts": 17,
+    "mismatches": [],
+    "worktrees": {
+      "original_worktrees_unchanged": true,
+      "tracked_files_changed": [
+        "docs/analytics/gat_research_merge_20261104.md"
+      ],
+      "source_tests_examples_unchanged": true
+    }
+  },
+  "remaining_limits": [
+    "17 CUDA cases excluded from the independent CPU follow-up were not rerun.",
+    "Unavailable legacy families remain uncertified.",
+    "Cross-source optimizer continuation remains uncertified and rejected.",
+    "Unmodified historical references remain incompatible with pandas 3.0.1."
+  ],
+  "affected_prior_retained_legacy_replay_checks": [],
+  "prior_full_checks_rerun": false,
+  "evidence_root": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01",
+  "report": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_remaining_verification_20261104_01\\REPORT.md",
+  "evidence_sha256": {
+    "BASELINE.json": "3dacb5b0808de90019f491ac24f80f4cdced9d3a62a167089a1e4dccd2dc063d",
+    "comparison_details.json": "bd32c6fd85552877cd5bcb00879dc46f483bc8a2f190949306825aae0b6b5ba8",
+    "comparison_summary.log": "797f81ee00976e46bb8d8f76cc6b8dbd257df0f29e2e94f34a0b304a90679a94",
+    "final_preservation_check.json": "382d740bc588c6921244ecc746213239979cd760a6ad8e2bacf3e8900f31e396",
+    "FINAL_STATE.json": "99d59574552f75e9fcc3b9931436d1dd1fee60be7f0c5553454e5c1545562f81",
+    "final_state.log": "1dc9f60e955c4e31a7fc6e8defae5469e5df242eb2bb9641cc85799162495112",
+    "finish_report.py": "58f857f6059e5723c5689e713086f5c1370985f47111d19fc5e096e759540d63",
+    "historical_output_locations.json": "bf2b0232765112d3c106bfaf792355edc011f2106b005147421d0d94f2afd3fc",
+    "historical_pandas23.command.json": "4939f82b7e538c4241ce1fb243931b8be46356f0c33939769818e7ee8c519985",
+    "historical_pandas23.log": "20beae8c61707768e0a94d29278419bf1e29ed85c9c5c4ec5c695550c84fdd2e",
+    "historical_pandas23.xml": "33cc874ffe9229effe28683f51e0f4925a5bde0279f29a3771e13cb761767a54",
+    "historical_pandas23_scratch.json": "ae5683c9ad69f8b096ee4d20342a1cdcbbbebcee37e4634df2cca2b9af0a8b03",
+    "historical_pandas30.command.json": "ed6146f7a186e689c3d1567382da96193a7fc29d5123181874040fda40d11af6",
+    "historical_pandas30.log": "87f4ffb6a1a8cab355b734b0e28597563c0c61b76b937bc4aeffc9284ee82aa1",
+    "historical_pandas30.xml": "83888ddc80756812e0f5b6c6e9c5f5f4dd6899f229af612836256ba9e56d8957",
+    "historical_pandas30_scratch.json": "3f2c23bd55c6a00ac7eb50ee0987383baf38026876b8c137c4382991f00a86b0",
+    "historical_pandas30_v2.command.json": "bf3bba40eaa036dc885118aaa4b4649ecad0a696ed13028a96bc4b550d2a8437",
+    "historical_pandas30_v2.log": "f4ac5bafcd3d7a6b6b8eb590260bc9376725c391f17f9ae3cb3ed709871487e1",
+    "historical_pandas30_v2.xml": "970e408ab24eeb7c810c382042924aeddc91890f6f77f0464f840942f3e67e4e",
+    "historical_pandas30_v2_scratch.json": "cdfe2c0fb90ab4316fe547777eda8bcb2aa65932ce16bfec7dbd90a2114b246e",
+    "install_pandas30.command.json": "9f507d68d6c566acad0a90f97ce514af33f767f942483ac99902aabbb7c3ba66",
+    "install_pandas30.log": "c762fe5978b40cbbc8db571b1503a561caaf16f686041749f2563d23de9bdf5f",
+    "legacy_utils_binding.json": "bf8865ece98c48bd507196f2e1f76e378f39480920149cfc5c772be4ff9af436",
+    "pandas23_environment.command.json": "431536ddd6125cc913f735ed492111bf3b9d545da5adb1a0d825c7d0a65b9037",
+    "pandas23_environment.json": "ee061569ca6df0c851cb58cdfcd71adb7f25672fa0f83b5b0b4c29dce6bec5b0",
+    "pandas23_environment.log": "ee061569ca6df0c851cb58cdfcd71adb7f25672fa0f83b5b0b4c29dce6bec5b0",
+    "pandas23_venv.command.json": "01d9c66bb26acfb1f64ab6268c8c99a21d83d04083b12f7d809e6817dbea902c",
+    "pandas23_venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pandas30_environment.command.json": "b1567cfbc041dbf61363d8ea54298b2a7306cbccc6cfb9c176918f813689d035",
+    "pandas30_environment.json": "fac5883a7be4b3746d69b47ef5fcc801f826993f2152013eacf924b2dfdbdb41",
+    "pandas30_environment.log": "c812dd5a8c5df80174dc2ca3490903f5153f34a9bdeead53d4d91c1a86143f9d",
+    "pandas30_venv.command.json": "edce6e6bcfc22d93c68b9f6628fd1055301ef7f28edc098dd406d3b29b2ccb38",
+    "pandas30_venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pinned_main_pandas23_gat_combined.command.json": "014eb271311f7fedba9787fb9874bf745c6837d2005dda67eb8eb379d2fad2d5",
+    "pinned_main_pandas23_gat_combined.log": "fcf034df05db9696b10f4d4e846644fb00eeb91c1b0b82ebcdff4976481303a3",
+    "pinned_main_pandas23_gat_statistics.command.json": "83bd982112fecc4cc5e5adc2523fb67a077a571c5da010e16f9df4cddf681af7",
+    "pinned_main_pandas23_gat_statistics.log": "142fc733a3cf79820074c0202cab47f8a2d2e1fc468779ba0e5dc5157b3f2c41",
+    "pinned_main_pandas30_gat_combined.command.json": "755eff9168e53b44e8654c48a29cfd80d5d9637f55b9f73e1a0de40ef2f5c588",
+    "pinned_main_pandas30_gat_combined.log": "487f8cc9195d1d18e3ed7eb552a1246b6312314c96959e3719b9838b58b780b5",
+    "pinned_main_pandas30_gat_combined_v2.command.json": "950dc8592d5b6fba5640bd11c586a2a14d70992951f165313cc39935d5c3d16c",
+    "pinned_main_pandas30_gat_combined_v2.log": "4751d6be06d23786871b145b7d77d459a1ce2eaba8aa5b6ff911fe512eb0d581",
+    "pinned_main_pandas30_gat_statistics.command.json": "99a744aab42afeed278bbf9c6532dbec2db9060497cd7be8d0a1efa3bfb6df45",
+    "pinned_main_pandas30_gat_statistics.log": "2cce64019a34a6a4dd00630cf0125b265d729abed2421936e739a89b5933cade",
+    "pinned_main_pandas30_gat_statistics_v2.command.json": "bc34a3f2cf3df9365568ef8e3678217bb7d69e2c783d5fb006737ca8a6486fd8",
+    "pinned_main_pandas30_gat_statistics_v2.log": "5e36839dd0126e32d03d9757b235b5bebfcf01f604070d25fe7f5f63d8bbc0ef",
+    "preservation.log": "227271a4e1a7b7e286aa67ef99795495cf3e7a49804a5523fa43fb0f0d6e8f6d",
+    "reference_source_seals.json": "1deda4da08c01c8c5b6e74c19d43de486a5052dbdd1d10035d598fba940e8cfb",
+    "REPORT.md": "4ab94d8c27a62ea1ac521cdd0b93e484cd55f34c4f726b47d035892d113e6300",
+    "run_verification.py": "a311bb05213c40f1f37455ff5b7798ce1f55703897b27409dfb0a39ff0fc56f0",
+    "state_comparison.json": "8c572c40f52f9394a78eb90e822906b0ca006b197805068d622bf99c47a18c76",
+    "summarize_comparisons.py": "8d8b0b232114e8d00f066e6507a8461106dc55e1fb255cc5439a88367dca368a",
+    "test_results.json": "0a685c5a22cda72345dc8ec9c95272ca743be223685d62dc34a3a15deb047a37",
+    "verify_preserved_artifacts.py": "c354bb7e49b9f4a7365dd65f417bc67c509e2ba0b1824af4dc4f9f0425624443"
+  }
+}

@@ -23,6 +23,27 @@ All **162 focused cases passed**, with no failures or skips in the completed run
 
 No real-data fit, retained-profile replay, benchmark, dependency change, or research-grid expansion was performed for this correction. Retained profiles use `time_features`, so they do not enter the corrected historical path. Their original results remain anchored to `06d6ad6d`; the new focused checks supplement that evidence. Source-specific native resume continues to reject cross-source continuation.
 
+## Remaining historical-reference verification: 2026-11-04
+
+The branch and remote still point to audited commit `361e205f8890d5bfa45a87c4f1920f83ca1ab953`; local and remote main remain `64861849d8b7044e0b209b9ac9db28080a92b1e4`. There are no subsequent commits. This follow-up changes documentation and adds local evidence only. Production source, existing tests and comparison workers remain unchanged.
+
+Both historical-reference failures were reproduced under pandas 3.0.1, before candidate execution: `graphs/statistics.py:29` attempts an in-place update of the read-only array returned by `loc.notna().to_numpy()`. The unchanged references run successfully under pandas 2.3.3 in a disposable environment. Both environments use Python 3.14.0, NumPy 2.4.6 and Torch 2.9.0+cu130, with CUDA disabled. Existing shared dependencies were reused without modification; only the disposable reproduction environment received pandas 3.0.1. No production workaround or numerical test relaxation was needed.
+
+| Comparison | Standalone statistics | Combined statistics, memory and heatmaps |
+| --- | --- | --- |
+| Historical `5ee87b57`, two updates plus legacy reload | Passed, exact | Passed, exact |
+| Pinned main `64861849`, three updates | Passed, exact | Passed, exact |
+
+The two pytest cases are `test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_statistics]` and its `gat_combined` counterpart. Initial graph inputs, preprocessing and parameters, each update's losses/gradients/AdamW state/weights, predictions, embeddings, attention and model identity agree. All 1,840 saved tensor comparisons (466,352 elements) are byte-exact; maximum absolute difference is zero, with `atol=0` and `rtol=0`. Historical model save/load checks also pass. These are four small synthetic comparisons, not new research fits.
+
+The first disposable-environment attempt lacked the repository-level `utils.glicko_rating` import. The environment was corrected by adding the repository root to its import paths; that utility was verified identical in both reference commits and the candidate. Initial setup failures, the subsequent exact pandas failures and all successful attempts are preserved separately. Historical package sources were compared against Git archives, allowing only documented CRLF/LF differences.
+
+The preservation check rehashed 6,041 distinct files, including all 412 prior integration receipts and 17 historical-fix receipts, with zero mismatches. The research checkout retains its 20 tracked modifications, 40 untracked entries and zero staged changes; the other worktrees retain their previous state. No new source changes affect the prior 18-export retained inference, 54 legacy probes or 103-update replay. Those remain prior evidence at their recorded revisions; no new retained inference, CUDA run, benchmark or full replay was necessary or performed here.
+
+The **17 CUDA cases excluded from the independent CPU follow-up remain excluded**, not newly passed. Unavailable legacy families and cross-source optimizer continuation remain uncertified. The successful pandas-2 comparisons do not claim that the unmodified historical references support pandas 3. The requested CPU comparison gates are closed; a scoped merge review is reasonable with these limits retained.
+
+[Verification summary](data/gat_remaining_verification_20261104/verification.json) records the results and evidence hashes. The local [full verification report](../../experiments/gat_remaining_verification_20261104_01/REPORT.md) contains exact commands, runtime details, original failure traces, artifact locations and the rollback plan. Its sibling `*.command.json` receipts contain complete argument vectors, environment overrides, exit codes and elapsed times. No merge or push was performed in this follow-up.
+
 ## What is available
 
 ```mermaid
