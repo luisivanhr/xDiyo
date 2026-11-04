@@ -25,7 +25,7 @@ No real-data fit, retained-profile replay, benchmark, dependency change, or rese
 
 ## Remaining historical-reference verification: 2026-11-04
 
-The branch and remote still point to audited commit `361e205f8890d5bfa45a87c4f1920f83ca1ab953`; local and remote main remain `64861849d8b7044e0b209b9ac9db28080a92b1e4`. There are no subsequent commits. This follow-up changes documentation and adds local evidence only. Production source, existing tests and comparison workers remain unchanged.
+The tested code revision is `361e205f8890d5bfa45a87c4f1920f83ca1ab953`. The evidence-bearing branch tip examined in the final review was `cf105e0e296aeb9bc412b8f80c3dd8960bed3988`, which adds documentation and verification metadata only; this subsequent clarification also changes documentation only. Main remains `64861849d8b7044e0b209b9ac9db28080a92b1e4`. Production source, existing tests and comparison workers remain unchanged from the tested code revision.
 
 Both historical-reference failures were reproduced under pandas 3.0.1, before candidate execution: `graphs/statistics.py:29` attempts an in-place update of the read-only array returned by `loc.notna().to_numpy()`. The unchanged references run successfully under pandas 2.3.3 in a disposable environment. Both environments use Python 3.14.0, NumPy 2.4.6 and Torch 2.9.0+cu130, with CUDA disabled. Existing shared dependencies were reused without modification; only the disposable reproduction environment received pandas 3.0.1. No production workaround or numerical test relaxation was needed.
 
