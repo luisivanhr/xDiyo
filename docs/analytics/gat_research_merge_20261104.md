@@ -4,6 +4,40 @@ The retained GAT architectures and optional acceleration are integrated on `code
 
 The reference foundation is commit `e8210cb8237e71c3b1b3ad2f5169d1f62d83cb0d`; acceleration is commit `06d6ad6d0e7bd6fba6cbc5d3b2862afe25f0c3e1`. The original integration gates, 822-case record, full replay and timings below refer to that source. An independent audit subsequently found a missing historical statistic-release boundary; the focused correction and its separate verification are recorded next. The authority is `GAT_RECONCILIATION_DECISIONS.md`, which supersedes `GAT_MERGE_PLAN.md`, plus the corrected handoff index dated 2026-11-04.
 
+## PR #2 corrections: 2026-11-05
+
+Both findings in `GAT_PR2_FINDINGS_INVESTIGATION.md` are repaired in code commit `b8ffda6e35245149348cd77015922efddf43b7a9`, compared with pre-repair source `2079118b409cff7d67be21d5af68aac360c12968`. The preceding independent audit does not cover this new code; the following checks are supplemental verification for review.
+
+**Release-aware scaler fitting:** the backend passes its maximum **fitting** history cutoff to preprocessing. Selected statistics released later or with missing release times are masked before fitting the scaler, using the same inclusive release rule as edge encoding. Direct fitting with release columns requires a nonmissing timezone-aware cutoff. Goals, statistics without release metadata, legacy arithmetic and explicitly restored preprocessing retain their behavior. The original array layout is preserved during legacy reductions to avoid even last-bit rounding changes.
+
+**Observed gaps with boundary memory:** bounded-gap metadata now uses full result-eligible history at the current cutoff. The encoder keeps its segment-limited edges, support and carried state. An indexed reduction preserves exact timestamps and arbitrary team IDs without constructing another full graph. Legacy standardized gaps retain their previous segment semantics. Retained factories all disable boundary memory.
+
+| Verification | Result |
+| --- | --- |
+| Pre-repair reproduction | Eight scaler invariance cases and two memory-boundary cases fail for the reported reasons; two in-segment controls pass |
+| New CPU/CUDA regressions | 48 passed; included in the broader suite below |
+| Affected regression suites | 329 passed, no failures or skips |
+| Fresh-process native continuation | 16 passed, including reference/accelerated retained profiles on CPU and CUDA |
+| Pre-repair reference comparisons | Six cases on CPU and six on CUDA, three updates each, exact |
+| Retained saved exports | 18/18 exact full original-fixture forward comparisons and round trips |
+| Available legacy exports | 54/54 exact four-fixture probes and round trips |
+| Frozen retained training | B/N, C/E1 and B/CD_DW, fold2/seed17, three updates each, exact |
+| Preservation | 5,931 distinct files hashed with no mismatches; original artifacts and previous receipts preserved |
+
+There are **345 unique passing pytest cases**, including 67 explicitly CUDA-named cases. Reference comparisons use `rtol=atol=0` for tensors and exact array/input/identity comparisons. The existing recursive-oracle and cross-device tolerances were retained. Source hashes are identical across every completed verification command. Python 3.14.0, pandas 2.3.3, NumPy 2.4.6, Torch 2.9.0+cu130, pytest 9.1.1 and the RTX 4070 SUPER were used; no dependency changes were made.
+
+The focused cases cover future/missing releases, release at cutoff and +/-1ns, all-unavailable and empty columns, mixed release metadata, all temporal modes, public retained fitting, frozen preprocessing, training-only scaler boundaries, both memory policies, late results, future exclusion, new/large-ID teams, nanosecond boundaries, reversed/repeated queries and ordinary/resident replay. Source-sensitive continuation rejection also passes.
+
+Fresh release-aware fitting intentionally changes when unavailable statistics previously contaminated its scaler. Saved preprocessing is restored without refitting; forward/replay parity does not certify the information policy that originally produced it. Saved models using the affected bounded-gap plus boundary-memory combination intentionally receive corrected gaps. The 18 retained exports and generic legacy controls remain exact within the tested scopes.
+
+The original **103-update replay was not repeated**. Its frozen preprocessing bypasses fitting, its retained configuration has no boundary memory, and the new bounded training/inference checks are exact. Its original receipt remains attached to the earlier source revision. The **17 CUDA exclusions from the independent CPU audit** remain exclusions of that audit; the new listed CUDA checks do not retroactively extend it. Unavailable legacy families and cross-source optimizer continuation remain uncertified. Historical pandas-3 failures remain confined to unchanged reference runtimes.
+
+Initial test-development attempts are preserved: the synthetic statistic fixture first violated paired-perspective consistency and two control calls used the new keyword before implementation. Correcting the fixture and comparing the untouched archived source produced the valid ten failures. An initial candidate check then detected last-bit legacy scaler rounding from array layout; the final implementation preserves that layout. No historical source or numerical tolerance was changed. Archive source comparison permits only CRLF/LF normalization.
+
+Preflight found 36 additional missing tracked files in an existing temporary worktree. The user explicitly accepted that investigated drift and instructed that the worktree remain untouched. No files were restored, reset or cleaned; other worktree states and captured uncommitted hashes match the accepted baseline.
+
+[Compact repair evidence](data/gat_pr2_repairs_20261105/verification.json) records exact commands, versions, source hashes, test names, tolerances and receipt hashes. Full attempts and trajectories remain local under `experiments/gat_pr2_repairs_20261104_01`. The recommendation is renewed scoped PR review. No merge is authorized; the isolated repair commit can be reverted if necessary without resetting worktrees or deleting evidence.
+
 ## Independent audit correction: historical statistic releases
 
 The audit's P2 finding was reproduced locally before changing production code. With `temporal_mode='historical'`, `statistic_availability_policy='per_stat_release_v1'`, and a selected statistic's release column, input preparation raised `AttributeError` because a synthetic snapshot lacked `cutoff`. Four pre-existing control configurations passed.
@@ -25,7 +59,7 @@ No real-data fit, retained-profile replay, benchmark, dependency change, or rese
 
 ## Remaining historical-reference verification: 2026-11-04
 
-The tested code revision is `361e205f8890d5bfa45a87c4f1920f83ca1ab953`. The evidence-bearing branch tip examined in the final review was `cf105e0e296aeb9bc412b8f80c3dd8960bed3988`, which adds documentation and verification metadata only; this subsequent clarification also changes documentation only. Main remains `64861849d8b7044e0b209b9ac9db28080a92b1e4`. Production source, existing tests and comparison workers remain unchanged from the tested code revision.
+For this earlier follow-up, the tested code revision was `361e205f8890d5bfa45a87c4f1920f83ca1ab953`. The evidence-bearing branch tip examined in that review was `cf105e0e296aeb9bc412b8f80c3dd8960bed3988`, which added documentation and verification metadata only. The clarification at `2079118b409cff7d67be21d5af68aac360c12968` also changed documentation only. Main remains `64861849d8b7044e0b209b9ac9db28080a92b1e4`. At that review, production source, existing tests and comparison workers were unchanged from the tested code revision; the subsequent PR corrections are documented above.
 
 Both historical-reference failures were reproduced under pandas 3.0.1, before candidate execution: `graphs/statistics.py:29` attempts an in-place update of the read-only array returned by `loc.notna().to_numpy()`. The unchanged references run successfully under pandas 2.3.3 in a disposable environment. Both environments use Python 3.14.0, NumPy 2.4.6 and Torch 2.9.0+cu130, with CUDA disabled. Existing shared dependencies were reused without modification; only the disposable reproduction environment received pandas 3.0.1. No production workaround or numerical test relaxation was needed.
 
@@ -38,7 +72,7 @@ The two pytest cases are `test_pinned_source_two_update_parity_and_legacy_reload
 
 The first disposable-environment attempt lacked the repository-level `utils.glicko_rating` import. The environment was corrected by adding the repository root to its import paths; that utility was verified identical in both reference commits and the candidate. Initial setup failures, the subsequent exact pandas failures and all successful attempts are preserved separately. Historical package sources were compared against Git archives, allowing only documented CRLF/LF differences.
 
-The preservation check rehashed 6,041 distinct files, including all 412 prior integration receipts and 17 historical-fix receipts, with zero mismatches. The research checkout retains its 20 tracked modifications, 40 untracked entries and zero staged changes; the other worktrees retain their previous state. No new source changes affect the prior 18-export retained inference, 54 legacy probes or 103-update replay. Those remain prior evidence at their recorded revisions; no new retained inference, CUDA run, benchmark or full replay was necessary or performed here.
+That preservation check rehashed 6,041 distinct files, including all 412 prior integration receipts and 17 historical-fix receipts, with zero mismatches. The research checkout retained its 20 tracked modifications, 40 untracked entries and zero staged changes; the other worktrees retained their previous state. That follow-up added no production changes affecting the prior 18-export retained inference, 54 legacy probes or 103-update replay. Those receipts remain evidence at their recorded revisions; no new retained inference, CUDA run, benchmark or full replay was performed in that follow-up. The current PR corrections and their new verification are documented above.
 
 The **17 CUDA cases excluded from the independent CPU follow-up remain excluded**, not newly passed. Unavailable legacy families and cross-source optimizer continuation remain uncertified. The successful pandas-2 comparisons do not claim that the unmodified historical references support pandas 3. The requested CPU comparison gates are closed; a scoped merge review is reasonable with these limits retained.
 
