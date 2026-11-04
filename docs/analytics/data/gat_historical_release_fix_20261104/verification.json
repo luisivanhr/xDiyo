@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "completed_at": "2026-11-04T09:10:05.347376+00:00",
+  "baseline_commit": "06d6ad6d0e7bd6fba6cbc5d3b2862afe25f0c3e1",
+  "finding": "Historical per_stat_release_v1 snapshots lacked a query-specific cutoff.",
+  "correction": "Encode contiguous query-time blocks at each query's configured history cutoff, retaining source-row order and duplicates. Existing scalar preprocessing and non-release-aware caching remain unchanged.",
+  "tests": {
+    "unique_passed": 162,
+    "new_regressions": 22,
+    "existing_focused": 140,
+    "failures": 0,
+    "skips": 0,
+    "receipts": {
+      "regression_after.xml": 22,
+      "focused_native_temp.xml": 140
+    }
+  },
+  "unchanged_controls": {
+    "passed": true,
+    "cases": [
+      "snapshot/per_stat_release_v1/releases=True",
+      "time_features/per_stat_release_v1/releases=True",
+      "historical/legacy_unmasked_v1/releases=True",
+      "historical/per_stat_release_v1/releases=False"
+    ],
+    "comparison": "Exact dtype, shape, tensors, initial parameters and encoder outputs; zero optimizer updates.",
+    "rtol": 0,
+    "atol": 0
+  },
+  "preservation": {
+    "passed": true,
+    "unique_hashed_files": 6023,
+    "checks": {
+      "research_head": true,
+      "main_ref": true,
+      "research_status_exact": true,
+      "research_unstaged_only": true,
+      "original_worktree_registrations": true,
+      "original_worktree_statuses": true,
+      "only_authorized_production_file_changed": true,
+      "original_temporal_source_saved": true
+    },
+    "production_files_changed": [
+      "src/xdiyo_analytics/graphs/temporal.py"
+    ]
+  },
+  "runtime": {
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "torch": "2.9.0+cu130",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4070 SUPER"
+  },
+  "source_sha256": {
+    "src/xdiyo_analytics/graphs/temporal.py": "f6ee240d966d91fbc07bf41aa60fbd2c83a6d6605ad277fa2d93173d10bea2d2",
+    "tests/analytics/test_graph_historical_release.py": "7dc56f31db446f10f4fa1e9a6e7b990083f8ec5e5129ea703a62e14b7bf677a4",
+    "tests/analytics/test_graph_temporal_attention.py": "97db68cf6a6b1dc13264e07c58c74d9927a277cd3ba2eaaa7abc312e8cfcd6e7"
+  },
+  "receipts": [
+    {
+      "path": "BASELINE.json",
+      "sha256": "7c68bbab2e94e6215d35a751e9d467d5ebfb64da1fd479d3003c17cc58102ac1",
+      "bytes": 28357
+    },
+    {
+      "path": "GAT_INDEPENDENT_AUDIT.md",
+      "sha256": "9ce3251d20b951e1d4ffe246ed7deb8cadf420013c0ccfdcb533bd4d21dd85e2",
+      "bytes": 10316
+    },
+    {
+      "path": "before_temporal.py",
+      "sha256": "deb6425c1b7f792fc280a804a5e0c0772cc6de6d925c452da83bb24da6ab818c",
+      "bytes": 11161
+    },
+    {
+      "path": "before_preprocessing.py",
+      "sha256": "4ab304185a8f265554c4016353b7b8ab2c703881166b6d07ac16a4eabd287815",
+      "bytes": 23585
+    },
+    {
+      "path": "controls_before.pt",
+      "sha256": "3d67756c6f29bd316f08b69283e52489c4cbc96413dcfc1680fd56e978b912b4",
+      "bytes": 68391
+    },
+    {
+      "path": "controls_after.pt",
+      "sha256": "6081147dc76810e07aa44a00341b296f5345c3b638ed777a917e37269fc7e838",
+      "bytes": 68045
+    },
+    {
+      "path": "controls.json",
+      "sha256": "1b0fd4b1b724e7bbc5aac51a3b1ef2018c26f3b2b917f658c256b8bcc62ccae8",
+      "bytes": 395
+    },
+    {
+      "path": "regression_before.log",
+      "sha256": "30f20ffaf81ddb42d3da1e45004ee4785ee05fc5524d664e39dd7cb0034f5941",
+      "bytes": 3648
+    },
+    {
+      "path": "regression_before.xml",
+      "sha256": "e5a6d353f8feb871141faacd120ab71900bd2fb096b090c88a66ee70cc7641ba",
+      "bytes": 4400
+    },
+    {
+      "path": "regression_after.log",
+      "sha256": "12690de159f012ef2fd314edb3555d2bb77d2433385a261141d0bf1e409e640f",
+      "bytes": 101
+    },
+    {
+      "path": "regression_after.xml",
+      "sha256": "8a4fed42ed9de443f5c8a9e286cfbd7c3664b1648c09328715b20075c47f7df3",
+      "bytes": 3897
+    },
+    {
+      "path": "focused.log",
+      "sha256": "5f3d46216e0cb2594d3f0ff2619e04b3b8e5727fb5cc528eaae66ee1baf36994",
+      "bytes": 14928
+    },
+    {
+      "path": "focused.xml",
+      "sha256": "a458f7668a30211e61b326caf21f437bb1eb68913b7a5944539d55a1af049b70",
+      "bytes": 22423
+    },
+    {
+      "path": "focused_native_temp.log",
+      "sha256": "8f7cc0aee9905a9a5681e0629fc2fc92b62d888105e6ae5785d8929079f8381c",
+      "bytes": 206
+    },
+    {
+      "path": "focused_native_temp.xml",
+      "sha256": "ab9a89aa69c9a933d32687f6c8941d08f8fd55dea9b40944f6bc13badcc3f917",
+      "bytes": 22224
+    },
+    {
+      "path": "final_preservation_check.json",
+      "sha256": "8fa7a6cb27ba1ae761ee6993d48182b9ff6ab47993dc610ee92d047b3593a309",
+      "bytes": 4340
+    },
+    {
+      "path": "verify_preservation.py",
+      "sha256": "2d42e9d78b3daaf928daee0a7715e4f76917578440cae02b2f5a347bd1639c9f",
+      "bytes": 6015
+    }
+  ],
+  "limitations": "Synthetic focused verification, not a new research fit or benchmark. Original retained inference, 103-update replay and timing receipts remain anchored to 06d6ad6d. No dependencies changed.",
+  "resolved_test_setup_issue": "Initial broad invocation: 46 passed and two pytest temporary-directory setup errors in the sandbox. Same source and full suite passed all 140 with a fresh short native Windows temporary directory."
+}

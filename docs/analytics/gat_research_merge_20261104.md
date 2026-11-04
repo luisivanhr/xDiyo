@@ -1,8 +1,27 @@
 # GAT integration: review candidate
 
-The retained GAT architectures and optional acceleration are integrated on `codex/gat-main-integration`, based on main `64861849d8b7044e0b209b9ac9db28080a92b1e4`. The declared integration gates passed. **Nothing has been merged or pushed.** The original research checkout and its uncommitted work remain unchanged.
+The retained GAT architectures and optional acceleration are integrated on `codex/gat-main-integration`, based on main `64861849d8b7044e0b209b9ac9db28080a92b1e4`. The reference and acceleration commits were pushed for review; nothing has been merged. The original research checkout and its uncommitted work remain unchanged.
 
-The reference foundation is commit `e8210cb8237e71c3b1b3ad2f5169d1f62d83cb0d`; acceleration is a separate change. The authority is `GAT_RECONCILIATION_DECISIONS.md`, which supersedes `GAT_MERGE_PLAN.md`, plus the corrected handoff index dated 2026-11-04. These documents define requirements; the receipts below provide the passing evidence.
+The reference foundation is commit `e8210cb8237e71c3b1b3ad2f5169d1f62d83cb0d`; acceleration is commit `06d6ad6d0e7bd6fba6cbc5d3b2862afe25f0c3e1`. The original integration gates, 822-case record, full replay and timings below refer to that source. An independent audit subsequently found a missing historical statistic-release boundary; the focused correction and its separate verification are recorded next. The authority is `GAT_RECONCILIATION_DECISIONS.md`, which supersedes `GAT_MERGE_PLAN.md`, plus the corrected handoff index dated 2026-11-04.
+
+## Independent audit correction: historical statistic releases
+
+The audit's P2 finding was reproduced locally before changing production code. With `temporal_mode='historical'`, `statistic_availability_policy='per_stat_release_v1'`, and a selected statistic's release column, input preparation raised `AttributeError` because a synthetic snapshot lacked `cutoff`. Four pre-existing control configurations passed.
+
+Historical batches can contain the same source row at several query times. `TimeIndexedPlan` now encodes contiguous query-time blocks using each query's configured local-midnight history cutoff. It preserves row order and duplicates and delegates masking to the existing scalar encoder. An empty batch receives a valid cutoff but carries no observations. The original source-row cache path remains in use when encoding is independent of releases. Only `graphs/temporal.py` changed in production code.
+
+| Follow-up check | Result |
+| --- | --- |
+| New historical-release regressions | 22 passed, including CPU/CUDA coverage |
+| Temporal attention, reconciliation, preparation/cache and integration-gate suites | 140 passed |
+| Four pre-existing control configurations | Exact before/after inputs, initial parameters and encoder outputs |
+| Original worktrees, research artifacts and prior integration receipts | 6,023 distinct files hashed; no mismatches |
+
+The new cases cover release just before, exactly at, and just after the cutoff; missing release timestamps; repeated source rows at different historical times; later queries followed by earlier queries; empty history; and agreement with direct recursive snapshots across one to three layers and both time encodings. The recursive test oracle now supplies its own snapshot cutoff explicitly.
+
+All **162 focused cases passed**, with no failures or skips in the completed runs. The first broad invocation encountered two pytest temporary-directory setup errors after 46 passes; the unchanged suite passed all 140 cases using a fresh short native Windows temporary directory. Both attempts and the original failing regression are retained. [Follow-up verification](data/gat_historical_release_fix_20261104/verification.json) records source hashes, exact control comparisons and receipt hashes; full local evidence is under `experiments/gat_historical_release_fix_20261104_01`.
+
+No real-data fit, retained-profile replay, benchmark, dependency change, or research-grid expansion was performed for this correction. Retained profiles use `time_features`, so they do not enter the corrected historical path. Their original results remain anchored to `06d6ad6d`; the new focused checks supplement that evidence. Source-specific native resume continues to reject cross-source continuation.
 
 ## What is available
 
@@ -100,8 +119,8 @@ The first full speed attempt matched update1, then failed because its verificati
 
 ## Review and rollback
 
-The original research branch remains at `9499d4afd85933304a47034d05baad0913c43cab`, with 20 modified tracked and 40 untracked status entries, and no staged changes. The other original worktrees, including pre-existing damaged temporary checkouts, were preserved. Twenty-one designated main files remain byte-equivalent after line-ending normalization. A supplemental complete `src` hash snapshot and the numerical queue's source seal both match the final candidate.
+The original research branch remains at `9499d4afd85933304a47034d05baad0913c43cab`, with 20 modified tracked and 40 untracked status entries, and no staged changes. The other original worktrees, including pre-existing damaged temporary checkouts, were preserved. Twenty-one designated main files remain byte-equivalent after line-ending normalization. The complete `src` snapshot and numerical queue seal record `06d6ad6d`; the historical-release correction has its own source hashes and verifies that it changes only the declared production file.
 
-The candidate is ready for review within these verified scopes. Generic execution is the default; disabling the execution spec returns retained training to reference execution. The reference and acceleration commits can be reviewed separately. New-schema exports require the integrated loader. Original exports, original frozen runtimes and all prior artifacts remain the rollback authority. Merge and push remain pending user review.
+The candidate is ready for review within these verified scopes. Generic execution is the default; disabling the execution spec returns retained training to reference execution. The reference, acceleration and historical-release correction can be reviewed separately. New-schema exports require the integrated loader. Original exports, original frozen runtimes and all prior artifacts remain the rollback authority. A merge remains pending user review.
 
 [Compact acceptance data](data/gat_research_merge_20261104/acceptance.json) contains gate summaries and receipt hashes. [Timing data](data/gat_research_merge_20261104/speed_measurements.json) accompanies the plot. The complete local [artifact index](../../experiments/gat_integration_20261104_01/ARTIFACT_INDEX.json) links the preserved attempts, raw receipts and source seals; the full evidence folder is intentionally outside Git.

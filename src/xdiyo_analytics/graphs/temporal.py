@@ -184,6 +184,28 @@ class TimeIndexedPlan:
                 gate=np.asarray(gates, dtype=np.float32),
                 root_edge_index=np.asarray([root_edges[int(r)] for r in snapshot.edges.index], dtype=np.int64))
 
+    def _encoded_edges(self, batch, preprocessor):
+        store = self.index.store
+        source = SimpleNamespace(store_version=store.version,
+                                 edges=pd.DataFrame(index=batch['rows']))
+        if not (self.index.config.statistic_availability_policy == 'per_stat_release_v1' and
+                any('available_at::'+column in store._history for column in self.index.config.statistics)):
+            return preprocessor.cached_edges(source, store)
+
+        # A source row can occur at several historical query times. Encode
+        # contiguous query blocks without sorting or deduplicating those rows.
+        times = batch['times']
+        starts = np.r_[0, np.flatnonzero(times[1:] != times[:-1]) + 1]
+        stops = np.r_[starts[1:], len(times)]
+        encoded = []
+        for start, stop in zip(starts, stops):
+            source.edges = pd.DataFrame(index=batch['rows'][start:stop])
+            # An empty batch still needs a valid cutoff, but carries no values.
+            time_ns = int(times[start]) if stop > start else self.issuance_ns
+            source.cutoff = pd.Timestamp(self.index.cutoff(time_ns), tz='UTC')
+            encoded.append(preprocessor.cached_edges(source, store))
+        return np.concatenate(encoded, axis=0)
+
     def tensors(self, preprocessor, device):
         import torch
 
@@ -195,10 +217,7 @@ class TimeIndexedPlan:
                     entry=tensor([ENTRY_ORDER.index(c[1]) for c in contexts], torch.long))
         batches = []
         for batch in self.batches:
-            # Reuse only fitted source-row transforms. Timing is query-specific.
-            source = SimpleNamespace(store_version=self.index.store.version,
-                                     edges=pd.DataFrame(index=batch['rows']))
-            x = preprocessor.cached_edges(source, self.index.store)
+            x = self._encoded_edges(batch, preprocessor)
             x = np.concatenate((x, self.index.features(batch['rows'], batch['times'])), axis=1)
             data = {key: tensor(batch[key], torch.long) for key in
                     ('receiver', 'sender', 'self_index', 'root_edge_index')}

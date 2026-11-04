@@ -356,7 +356,7 @@ def slow_encode(team, time, depth, model, store, pre, cfg):
                 values.append(float(age is None))
         features.append(values)
         senders.append(slow_encode(event.opponent_id, event.kickoff_at, depth-1, model, store, pre, cfg))
-    x = torch.tensor(np.column_stack((pre._encode_edges(edges), features)), dtype=torch.float32)
+    x = torch.tensor(np.column_stack((pre._encode_edges(edges, cutoff=snap.cutoff), features)), dtype=torch.float32)
     return model.layers[depth-1](own, x, torch.zeros(len(edges), dtype=torch.long),
         torch.zeros(len(edges), dtype=torch.long), torch.tensor(snap.log_weight[mask], dtype=torch.float64),
         torch.tensor([snap.gate[i]], dtype=torch.float32), sender_state=torch.cat(senders))
