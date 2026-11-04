@@ -69,7 +69,20 @@ class GroupPlan:
         # eligible snapshot rows, avoiding a fresh pandas team grouping.
         missing_time = np.iinfo(np.int64).min
         latest = np.full(len(snap.teams), missing_time, dtype=np.int64)
-        np.maximum.at(latest, snap.receiver, snap.edges.kickoff_at.array.asi8)
+        if self.config.fixture_gap_encoding == 'bounded_observed_gap_v1' and since is not None:
+            # Fixture provenance is independent of the encoder's segment. An
+            # older eligible observation still determines the observed gap.
+            # Reduce source indices without constructing a second full graph;
+            # exact-ID lookup also handles new or carried teams absent in it.
+            rows = self.store._eligible_rows(snap.cutoff)
+            source_latest = np.full(len(self.store._source_nodes), missing_time, dtype=np.int64)
+            np.maximum.at(source_latest, self.store._receiver_codes[rows], self.store._kickoff_ns[rows])
+            for team, position in indices.items():
+                code = self.store._source_node_index.get(team)
+                if code is not None:
+                    latest[position] = source_latest[code]
+        else:
+            np.maximum.at(latest, snap.receiver, snap.edges.kickoff_at.array.asi8)
 
         def rest(t):
             value = latest[indices[t]]

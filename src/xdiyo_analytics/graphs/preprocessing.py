@@ -152,14 +152,33 @@ class GraphPreprocessor:
                 raise ValueError("Selected statistics require both paired match perspectives.")
         return frame[list(self.edge_columns)].to_numpy(dtype=float, na_value=np.nan)
 
-    def fit(self, history, snapshots, fixtures, numeric, *, extra_leagues=()):
+    def _available_numeric_edges(self, history, cutoff, *, for_fit=False):
+        """Apply the same release boundary before either fitting or encoding."""
+        numeric = self.numeric_edges(history)
+        columns = self.config.statistics if self.config.statistic_availability_policy == 'per_stat_release_v1' else ()
+        if for_fit and not any('available_at::'+column in history for column in columns):
+            return numeric  # Preserve the original legacy reduction layout.
+        # Fitting reductions depend on array layout at the last floating-point
+        # bit. Encoding keeps its original C-order copy; fitting preserves order.
+        numeric = numeric.copy(order='K' if for_fit else 'C')
+        for column in columns:
+            bound = 'available_at::'+column
+            if bound in history:
+                if cutoff is None or pd.isna(pd.Timestamp(cutoff)) or pd.Timestamp(cutoff).tzinfo is None:
+                    raise ValueError('Statistic availability requires an explicit nonmissing timezone-aware history cutoff.')
+                release = pd.to_datetime(history[bound], utc=True)
+                available = release.notna() & release.le(pd.Timestamp(cutoff))
+                numeric[~available.to_numpy(), self.edge_columns.index(column)] = np.nan
+        return numeric
+
+    def fit(self, history, snapshots, fixtures, numeric, *, extra_leagues=(), cutoff=None):
         self._edge_cache = None
         self._map_cache = None
         categories = set(history.competition_id.tolist()) | set(fixtures.competition_id.tolist()) | set(extra_leagues)
         for snap in snapshots:
             categories.update(x for x in snap.league if x is not None)
         self.leagues = {int(key): n+1 for n, key in enumerate(sorted(categories))}
-        self.edge_scale = MaskedScale().fit(self.numeric_edges(history))
+        self.edge_scale = MaskedScale().fit(self._available_numeric_edges(history, cutoff, for_fit=True))
         values = np.asarray(numeric, dtype=float).copy()
         if self.config.fixture_gap_encoding == BOUNDED_GAP_ENCODING:
             # These two positions remain in legacy scaler state for compatible
@@ -175,16 +194,7 @@ class GraphPreprocessor:
         return self._encode_edges(snapshot.edges, cutoff=snapshot.cutoff)
 
     def _encode_edges(self, h, *, cutoff=None):
-        numeric = self.numeric_edges(h).copy()
-        columns = self.config.statistics if self.config.statistic_availability_policy == "per_stat_release_v1" else ()
-        for column in columns:
-            bound = 'available_at::'+column
-            if bound in h:
-                if cutoff is None:
-                    raise ValueError('Statistic availability requires an explicit history cutoff.')
-                release = pd.to_datetime(h[bound], utc=True)
-                available = release.notna() & release.le(pd.Timestamp(cutoff))
-                numeric[~available.to_numpy(), self.edge_columns.index(column)] = np.nan
+        numeric = self._available_numeric_edges(h, cutoff)
         return np.concatenate((self.edge_scale.transform(numeric),
                                h.side.eq("home").to_numpy(dtype=float)[:, None],
                                self.one_hot(h.competition_id)), axis=1)

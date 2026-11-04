@@ -32,7 +32,7 @@ def single_thread():
 def components(store, cfg):
     snap = store.snapshot(pd.Timestamp('2020-03-01T12:00Z'), cfg, (1, 2, 3))
     pre = GraphPreprocessor(cfg).fit(store.history, (snap,), store.schedule,
-                                   np.zeros((len(store.schedule), 5)))
+                                   np.zeros((len(store.schedule), 5)), cutoff=snap.cutoff)
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(47)
         model = TemporalNetwork(cfg, len(pre.leagues), pre.edge_dim, pre.fixture_dim)

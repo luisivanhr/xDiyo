@@ -296,7 +296,7 @@ class _Backend:
             memberships = self.store._memberships
             leagues.update(memberships.loc[memberships.entry_at.le(latest_issue), 'competition_id'].tolist())
         self.preprocessor = (GraphPreprocessor(self.config).fit(
-            fitting_history, (), context.metadata, numeric, extra_leagues=leagues)
+            fitting_history, (), context.metadata, numeric, extra_leagues=leagues, cutoff=largest)
             if self.frozen_preprocessor_state is None else
             GraphPreprocessor.from_state(self.config, self.frozen_preprocessor_state))
         del fitting_history
