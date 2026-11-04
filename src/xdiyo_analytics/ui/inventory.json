@@ -17048,11 +17048,15 @@
           "name": "research_execution",
           "title": "Research execution",
           "required": false,
-          "kind": "text",
-          "annotation": "object | None",
+          "kind": "component",
+          "annotation": "xdiyo_analytics.graphs.research_execution.RetainedGATExecution | None",
           "default": null,
-          "help": "Research execution for Temporal team GAT. Optional; leave disabled to use the standard behavior.",
-          "primary": true
+          "help": "Explicit retained-only speed flags. Disabled uses reference execution; loading a model never activates these flags. Skipped replay publishes pre-update diagnostics.",
+          "primary": true,
+          "components": [
+            "graphs.RetainedGATExecution"
+          ],
+          "initial_component": "graphs.RetainedGATExecution"
         }
       ],
       "accepts_extra": false
@@ -17640,6 +17644,75 @@
           "annotation": "str | None",
           "default": null,
           "help": "Validation population sha256 for RetainedGATTraining. Optional; leave disabled to use the standard behavior.",
+          "primary": true
+        }
+      ],
+      "accepts_extra": false
+    },
+    "graphs.RetainedGATExecution": {
+      "id": "graphs.RetainedGATExecution",
+      "title": "RetainedGATExecution",
+      "category": "graph_config",
+      "description": "RetainedGATExecution(profile: str = 'retained_gat_speed_v1', omit_diagnostic_replay: bool = True, pack_validation: bool = True, cache_indices: bool = True, borrow_inputs: bool = True, omit_unused: bool = True)",
+      "fields": [
+        {
+          "name": "profile",
+          "title": "Profile",
+          "required": false,
+          "kind": "text",
+          "annotation": "'str'",
+          "default": "retained_gat_speed_v1",
+          "help": "Profile for RetainedGATExecution. Default: retained_gat_speed_v1.",
+          "primary": true
+        },
+        {
+          "name": "omit_diagnostic_replay",
+          "title": "Omit diagnostic replay",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": true,
+          "help": "Omit diagnostic replay for RetainedGATExecution. Default: True.",
+          "primary": true
+        },
+        {
+          "name": "pack_validation",
+          "title": "Pack validation",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": true,
+          "help": "Pack validation for RetainedGATExecution. Default: True.",
+          "primary": true
+        },
+        {
+          "name": "cache_indices",
+          "title": "Cache indices",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": true,
+          "help": "Cache indices for RetainedGATExecution. Default: True.",
+          "primary": true
+        },
+        {
+          "name": "borrow_inputs",
+          "title": "Borrow inputs",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": true,
+          "help": "Borrow inputs for RetainedGATExecution. Default: True.",
+          "primary": true
+        },
+        {
+          "name": "omit_unused",
+          "title": "Omit unused",
+          "required": false,
+          "kind": "boolean",
+          "annotation": "'bool'",
+          "default": true,
+          "help": "Omit unused for RetainedGATExecution. Default: True.",
           "primary": true
         }
       ],

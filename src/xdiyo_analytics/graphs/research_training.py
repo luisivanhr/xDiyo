@@ -170,6 +170,9 @@ class RetainedGATBackend(_Backend):
         self._validation_leagues=leagues
         self.refresh_version()
 
+    def index(self,groups,index,positions):
+        return _torch().as_tensor(positions,device=self.device)
+
     @configured_execution
     def _loss(self,groups,targets,weights,backward=False):
         if backward or groups is not self.validation_groups:
@@ -183,7 +186,7 @@ class RetainedGATBackend(_Backend):
             for index in range(len(groups)):
                 with self._group_lease(groups,index) as (group,_):
                     positions,data,home,away,fixture=group
-                    ix=_torch().as_tensor(positions,device=self.device)
+                    ix=self.index(groups,index,positions)
                     logits,goal_rates=self.model(data,home,away,fixture,return_goals=True)
                     losses[positions]=_torch().nn.functional.cross_entropy(logits,targets[ix],reduction='none').cpu().numpy()
                     goal_losses[positions]=poisson_goal_loss(goal_rates,self.validation_goals[ix]).cpu().numpy()

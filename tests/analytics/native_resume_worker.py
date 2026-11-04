@@ -16,7 +16,12 @@ from xdiyo_analytics.experiments.recovery import pack
 def fixture(kind):
     if kind.startswith('retained_'):
         from test_gat_reconciliation import retained_fixture
-        return retained_fixture(kind.removeprefix('retained_'))
+        family=kind.removeprefix('retained_')
+        adapter,train,query=retained_fixture(family.removeprefix('speed_'))
+        if family.startswith('speed_'):
+            from xdiyo_analytics.graphs import RetainedGATExecution
+            adapter.research_execution=RetainedGATExecution()
+        return adapter,train,query
     if kind.startswith('gat'):
         from test_temporal_graph import sample, config, context
         from xdiyo_analytics.graphs import TemporalGraphAdapter

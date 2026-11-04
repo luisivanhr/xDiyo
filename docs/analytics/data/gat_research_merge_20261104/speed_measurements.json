@@ -1,0 +1,123 @@
+{
+  "measurements": [
+    {
+      "task": "training",
+      "arm": "reference",
+      "cold": true,
+      "n": 4,
+      "median_seconds": 38.27582645000075,
+      "min_seconds": 36.93869869998889,
+      "max_seconds": 39.29658070002915
+    },
+    {
+      "task": "training",
+      "arm": "candidate",
+      "cold": true,
+      "n": 4,
+      "median_seconds": 33.99732219998259,
+      "min_seconds": 33.28765030001523,
+      "max_seconds": 36.42664740001783
+    },
+    {
+      "task": "training",
+      "arm": "reference",
+      "cold": false,
+      "n": 8,
+      "median_seconds": 14.831353100016711,
+      "min_seconds": 14.543235899996944,
+      "max_seconds": 15.183700399997178
+    },
+    {
+      "task": "training",
+      "arm": "candidate",
+      "cold": false,
+      "n": 8,
+      "median_seconds": 10.79440084999078,
+      "min_seconds": 10.598273499985224,
+      "max_seconds": 12.232733299955726
+    },
+    {
+      "task": "inference",
+      "arm": "reference",
+      "cold": true,
+      "n": 4,
+      "median_seconds": 6.449492999992799,
+      "min_seconds": 6.251199199992698,
+      "max_seconds": 7.068573000025936
+    },
+    {
+      "task": "inference",
+      "arm": "candidate",
+      "cold": true,
+      "n": 4,
+      "median_seconds": 6.040825399977621,
+      "min_seconds": 5.499351700011175,
+      "max_seconds": 6.38981949997833
+    },
+    {
+      "task": "inference",
+      "arm": "reference",
+      "cold": false,
+      "n": 4,
+      "median_seconds": 1.1387436000222806,
+      "min_seconds": 1.0799599000019953,
+      "max_seconds": 1.1802536000031978
+    },
+    {
+      "task": "inference",
+      "arm": "candidate",
+      "cold": false,
+      "n": 4,
+      "median_seconds": 1.0214586999791209,
+      "min_seconds": 0.9702713000006042,
+      "max_seconds": 1.0720459000440314
+    }
+  ],
+  "median_ratios": [
+    {
+      "task": "training",
+      "cold": true,
+      "reference_seconds": 38.27582645000075,
+      "candidate_seconds": 33.99732219998259,
+      "speedup": 1.1258482719565588
+    },
+    {
+      "task": "training",
+      "cold": false,
+      "reference_seconds": 14.831353100016711,
+      "candidate_seconds": 10.79440084999078,
+      "speedup": 1.3739857641130104
+    },
+    {
+      "task": "inference",
+      "cold": true,
+      "reference_seconds": 6.449492999992799,
+      "candidate_seconds": 6.040825399977621,
+      "speedup": 1.0676509537946077
+    },
+    {
+      "task": "inference",
+      "cold": false,
+      "reference_seconds": 1.1387436000222806,
+      "candidate_seconds": 1.0214586999791209,
+      "speedup": 1.1148209908492208
+    }
+  ],
+  "per_arm_memory": [
+    {
+      "arm": "candidate",
+      "initialization_median_seconds": 12.286484349984676,
+      "cuda_peak_allocated_median_gib": 1.4894561767578125,
+      "cuda_peak_reserved_median_gib": 1.5078125,
+      "sampled_peak_rss_bytes_median_gib": 1.825124740600586
+    },
+    {
+      "arm": "reference",
+      "initialization_median_seconds": 12.547784649999812,
+      "cuda_peak_allocated_median_gib": 1.51774263381958,
+      "cuda_peak_reserved_median_gib": 1.548828125,
+      "sampled_peak_rss_bytes_median_gib": 1.8390274047851562
+    }
+  ],
+  "memory_definition": "CUDA allocation/reservation peaks include construction and three training updates. Process RSS is sampled every 20ms after construction, and is not peak private memory. Four trials per arm in one process; cold refers to input-cache state, not a fresh Python process."
+}

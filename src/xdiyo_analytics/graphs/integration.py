@@ -6,6 +6,7 @@ from .config import TemporalGraphConfig, MATCH_KEYS
 from .store import TemporalEventStore
 from .adapter import TemporalGraphAdapter
 from .research_training import RetainedGATTraining
+from .research_execution import RetainedGATExecution
 from ..training.control import TrainingControl
 
 
@@ -25,7 +26,7 @@ class TemporalGraphModel:
     phase_context_path: str | None = None
     round_stage_column: str | None = None
     research_training: RetainedGATTraining | None = None
-    research_execution: object | None = None
+    research_execution: RetainedGATExecution | None = None
 
     def prepare_history(self, history):
         """Copy an explicitly selected native stage column; never infer stages."""
@@ -100,6 +101,10 @@ class TemporalGraphModel:
             GraphPreprocessor(self.config).numeric_edges(store._history.iloc[:0])
         elif self.research_execution is not None:
             raise ValueError('Research execution requires an explicit retained training contract.')
+        if self.research_execution is not None:
+            if not isinstance(self.research_execution, RetainedGATExecution):
+                raise TypeError('research_execution must be RetainedGATExecution.')
+            self.research_execution.validate_config(self.config)
         return TemporalGraphAdapter(self.config, store, control=self.control,
             research_training=self.research_training, research_execution=self.research_execution)
 

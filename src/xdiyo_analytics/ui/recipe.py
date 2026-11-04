@@ -132,8 +132,9 @@ def catalog_for_ui():
     from ..graphs import TemporalGraphModel, TemporalGraphConfig, TemporalGraphSerializer
     catalog.register('graphs.TemporalGraphModel', TemporalGraphModel, category='model', title='Temporal team GAT')
     catalog.register('graphs.TemporalGraphConfig', TemporalGraphConfig, category='graph_config')
-    from ..graphs import GATResearchBNV1, GATResearchCE1V1, GATResearchBCDDWV1, RetainedGATTraining
+    from ..graphs import GATResearchBNV1, GATResearchCE1V1, GATResearchBCDDWV1, RetainedGATTraining, RetainedGATExecution
     catalog.register("graphs.RetainedGATTraining", RetainedGATTraining, category="graph_config")
+    catalog.register("graphs.RetainedGATExecution", RetainedGATExecution, category="graph_config")
     for factory in (GATResearchBNV1, GATResearchCE1V1, GATResearchBCDDWV1):
         catalog.register('graphs.' + factory.__name__, factory, category='graph_config')
     catalog.register('graphs.TemporalGraphSerializer', TemporalGraphSerializer, category='training')

@@ -26,3 +26,6 @@ __all__ += ["RetainedGATTraining"]
 
 from .phase_preparation import build_phase_context
 __all__ += ["build_phase_context"]
+
+from .research_execution import RetainedGATExecution
+__all__ += ["RetainedGATExecution"]

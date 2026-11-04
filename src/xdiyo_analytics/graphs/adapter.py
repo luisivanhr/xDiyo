@@ -69,7 +69,9 @@ class TemporalGraphAdapter:
             raise TypeError('research_training must be RetainedGATTraining.')
         self.research_training.validate_control(self.control)
         if self.research_execution is not None:
-            raise ValueError('Retained acceleration is not yet enabled in this integration stage.')
+            from .research_execution import AcceleratedRetainedGATBackend
+            return AcceleratedRetainedGATBackend(self.config,self.event_store,seed,self.device,policy,
+                training=self.research_training,execution=self.research_execution)
         return RetainedGATBackend(self.config,self.event_store,seed,self.device,policy,training=self.research_training)
 
     def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
@@ -114,10 +116,23 @@ class TemporalGraphAdapter:
         prepare_determinism(self.config, self.device)
         self.configure_threads(self.inner_threads)
         self.control = control or self.control
-        with torch_threads(self.inner_threads):
-            self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
-                self._make_backend,
-                context, self.control)
+        created=[]
+        def factory(seed):
+            backend=self._make_backend(seed)
+            if self.research_execution is not None:created.append(backend)
+            return backend
+        try:
+            with torch_threads(self.inner_threads):
+                self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
+                    factory, context, self.control)
+        finally:
+            for backend in created:backend.close()
+        if self.research_execution is not None:
+            self.training_summary_['research_execution_diagnostics'] = dict(
+                profile=self.research_execution.profile,
+                post_update_training_replay=not self.research_execution.omit_diagnostic_replay,
+                replay_only_failure_check=not self.research_execution.omit_diagnostic_replay,
+                input_budget='one owner including indices and live transfers')
         self.training_summary_.update(
             fitting_boundary=self.backend_.fitting_boundary.isoformat(),
             trained_through=self.backend_.trained_through.isoformat(),
@@ -288,9 +303,7 @@ class _Backend:
         # fork_rng avoids altering the caller's CPU random stream.
         with torch.random.fork_rng(devices=[]):
             torch.random.default_generator.manual_seed(self.seed)
-            self.model = TemporalNetwork(self.config, len(self.preprocessor.leagues),
-                self.preprocessor.edge_dim,
-                self.preprocessor.fixture_dim).to(self.device)
+            self.model = self._make_network().to(self.device)
         from .goal_network import optimizer_groups
         self.optimizer = torch.optim.AdamW(optimizer_groups(self.model, self.config), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
@@ -311,6 +324,11 @@ class _Backend:
             from .goals import initialize_goals
             initialize_goals(self, context)
         self.refresh_version()
+
+    def _make_network(self):
+        from .network import TemporalNetwork
+        return TemporalNetwork(self.config, len(self.preprocessor.leagues),
+                               self.preprocessor.edge_dim, self.preprocessor.fixture_dim)
 
     def _targets(self, context):
         torch = _torch()

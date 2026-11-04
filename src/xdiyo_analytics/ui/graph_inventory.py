@@ -1,6 +1,7 @@
 """Form metadata for native graph construction and diagnostics."""
 def decorate(components, stages):
     help_text = {
+        'research_execution': 'Explicit retained-only speed flags. Disabled uses reference execution; loading a model never activates these flags. Skipped replay publishes pre-update diagnostics.',
         'round_stage_column': 'Optional explicit native history column copied to round_stage. Retained profiles require complete stage evidence; no constant or inferred stage is supplied.',
         'timezone': 'IANA timezone for previous-day cutoffs, for example Europe/Berlin or Asia/Tokyo. Use the same setting when loading.',
         'forecast_policy': 'By Round uses the first scheduled kickoff of the complete round. One Day Ahead issues 24 hours before kickoff. Both exclude observations after the previous local day.',
@@ -40,7 +41,7 @@ def decorate(components, stages):
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
     help_text.update({'temporal_mode': 'Snapshot keeps the existing GAT. Time features adds match age and historical gaps. Historical also queries opponents before each encounter. The new modes require memory, statistics supervision and heatmaps off.', 'time_scales_days': 'Positive half-lives in days for explicit age and historical-gap features. Used by time features and historical modes; default 7, 30, 180.', 'time_encoding': 'Rational decay uses fixed bounded time features. Log1p reproduces the original temporal experiments. Neither changes the snapshot baseline.', 'age_scale_days': 'Fixed rational age scale in days, where the first age coordinate equals 0.5. Default 180; not fitted to the archive.', 'gap_scale_days': 'Fixed rational scale for both observed pre-match history gaps. Default 7 days; not necessarily physiological rest.', 'fixture_gap_encoding': 'Bounded observed gap encodes elapsed days since the latest eligible archived match, plus missing-history and 30-day availability flags. Legacy standardized gap reproduces existing saved models.', 'observed_gap_scale_days': 'Fixed 7-day scale for bounded observed gap version 1. This is archive coverage at forecast issuance, not physiological rest.', 'observed_gap_recent_days': 'Fixed 30-day threshold for observed-gap version 1. Exactly 30 days counts as recent.', 'sender_state_mode': 'Updated uses each opponent state from the previous layer. Layer zero uses its trainable initial prior in both sender projections; receivers still update. Requires memory off and snapshot or time-features mode.', 'statistic_availability_policy': 'Legacy keeps established inputs. Per-stat release masks values until their explicit available_at timestamp; retained profiles select it.', 'phase_context_path': 'Directory containing an immutable phase_context.json and Parquet lookup. Its source identity and policy must match the config.', 'source_id': 'Exact SHA256 identity of the saved phase lookup. A different table or publication policy requires a new identity.', 'research_training': 'Optional retained raw validation CE contract and hash-verified replay inputs. Generic training stays unchanged when absent.', 'phase_rank_features': 'Optional exact original-cutoff countdown and rank context. Missing fixture queries are errors; unsupported saved ranks retain their masks.'})
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast', 'graphs.GoalAuxiliary', 'graphs.PhaseRankFeatures', 'graphs.RetainedGATTraining',
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast', 'graphs.GoalAuxiliary', 'graphs.PhaseRankFeatures', 'graphs.RetainedGATTraining', 'graphs.RetainedGATExecution',
              'graphs.GATResearchBNV1', 'graphs.GATResearchCE1V1', 'graphs.GATResearchBCDDWV1',
              'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
              'reporting.GraphStatisticsReporter', 'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
@@ -76,13 +77,14 @@ def decorate(components, stages):
                 f.update(kind='number', step='any', min=0,
                          visible_when={'temporal_mode':['time_features','historical'],
                                        'time_encoding':['rational_decay_v1']})
-            nested = {'phase_rank_features':'graphs.PhaseRankFeatures', 'research_training':'graphs.RetainedGATTraining', 'goal_auxiliary':'graphs.GoalAuxiliary', 'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
+            nested = {'research_execution':'graphs.RetainedGATExecution', 'phase_rank_features':'graphs.PhaseRankFeatures', 'research_training':'graphs.RetainedGATTraining', 'goal_auxiliary':'graphs.GoalAuxiliary', 'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
                       'reconstruction':'neural.Reconstruction', 'grid':'features.Heatmap'}
             if name in nested and key.startswith(('graphs.', 'neural.')):
                 f.update(kind='component', components=[nested[name]], initial_component=nested[name])
                 f['help'] = {
                     'phase_rank_features':help_text['phase_rank_features'],
                     'research_training':help_text['research_training'],
+                    'research_execution':help_text['research_execution'],
                     'goal_auxiliary':'Optional parallel goal supervision; outcome inference retains its separate head.',
                     'boundary_memory':'Optional detached state between chronological segments. Changes the model; full history remains the default. States rebuild under each evaluated weight version.',
                     'statistics_forecast':'Optional supervised future-match statistic forecasts. Actual target statistics never enter fixture inputs; choose auxiliary, combined or strict bottleneck.',

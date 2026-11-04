@@ -1,46 +1,107 @@
-# GAT integration and parity checks
+# GAT integration: review candidate
 
-Integration branch: codex/gat-main-integration. Base: 64861849d8b7044e0b209b9ac9db28080a92b1e4.
-The user authorized implementation and parity checks on 2026-11-04. Existing worktrees, uncommitted research, frozen sources, and experiment artifacts are preserved.
+The retained GAT architectures and optional acceleration are integrated on `codex/gat-main-integration`, based on main `64861849d8b7044e0b209b9ac9db28080a92b1e4`. The declared integration gates passed. **Nothing has been merged or pushed.** The original research checkout and its uncommitted work remain unchanged.
 
-Authority: GAT_RECONCILIATION_DECISIONS.md supersedes GAT_MERGE_PLAN.md; GAT_HANDOFF_INDEX_CORRECTED_20261104.md updates recovered archive locations. These are implementation requirements, not passing evidence.
+The reference foundation is commit `e8210cb8237e71c3b1b3ad2f5169d1f62d83cb0d`; acceleration is a separate change. The authority is `GAT_RECONCILIATION_DECISIONS.md`, which supersedes `GAT_MERGE_PLAN.md`, plus the corrected handoff index dated 2026-11-04. These documents define requirements; the receipts below provide the passing evidence.
 
-## Gates
+## What is available
 
-| Stage | State | Evidence |
+```mermaid
+flowchart LR
+    C[TemporalGraphConfig] --> M[Shared GAT implementation]
+    P[Three explicit retained profiles] --> M
+    M --> G[Generic backend]
+    M --> R[Retained raw-CE backend]
+    R --> S[Optional accelerated backend]
+    G --> L[One native training and checkpoint loop]
+    R --> L
+    S --> L
+    L --> E[Versioned model export]
+```
+
+| Profile | Phase context | Goal loss weight | Parameters |
+| --- | --- | ---: | ---: |
+| B/N | None | 0; goal head remains materialized | 38,041 |
+| C/E1 | Corrected v2 E1, explicit source ID | 0.1 | 39,065 |
+| B/CD_DW | Corrected v2, explicit source ID and W10 or W20 | 0; goal head remains materialized | 38,437 |
+
+All three retain d32, two layers, two attention heads, the original ordered shots/corners features, and the original H/D/A head. Factory settings are explicit; a factory does not select a fitted checkpoint or winning seed. Six [archived replay recipes](../../examples/gat_retained/README.md) expose the two folds and require seed 17, 42, or 73. CD_DW explicitly uses W10 in fold1 and W20 in fold2.
+
+Generic constructors retain main's legacy gaps and statistic-availability semantics. Retained profiles explicitly select bounded gaps, rational time features and per-statistic release masking. The loader binds known original exports to a hash-backed 18-entry compatibility manifest; missing or ambiguous metadata cannot silently acquire research semantics. Old phase-v1 tables load with their original policy and source identity. New phase production uses main's current standings/countdown implementation.
+
+Public JSON/Python recipes support the new profile, training and execution specifications. Named-data, dated-alias, membership, cutoff, current standings, venue, reporting and prediction-boundary behavior remain covered. New source-stage mappings require an explicit complete `round_stage_column`. Model loading leaves acceleration disabled. To opt in for an eligible retained model, supply `research_execution=RetainedGATExecution()` alongside `RetainedGATTraining` and its declared raw-validation-CE control; omitting the execution specification selects reference execution.
+
+## Evidence and compatibility scope
+
+| Gate | Result | Scope |
 | --- | --- | --- |
-| Source/artifact inventory | Preflight verified before implementation | Uploaded inventories and live hash checks |
-| Generic semantic foundation | Exact pinned-main CPU and CUDA comparisons passed | Six cases, three complete updates each; `main_cpu/receipt.json`, `main_cuda/receipt.json`. Broad regression fixes still under verification. |
-| Original retained inference | Passed, all 18 | `retained_inference_cuda_v2/comparison.json`: all original outer fixtures, exact inputs/logits/probabilities/rates/identities and round trips. |
-| Older legacy inference | Passed, 54 exports | `legacy_comparison_index.json`: 53 representative schemas plus recovered expanded-totals fold02; exact four-fixture probes and round trips, not full-population evaluation. |
-| Public profile and recipe integration | Passed | Six sealed replay recipes prepare; 14 public/reconciliation tests cover JSON/Python, native fit/reuse/save/load, data-only recovery and current v2 production. |
-| Retained training and same-source resume | Passed | `retained_training_cuda_v2/comparison.json`: all three families, complete fold2 fitting/inner populations, seed17, exact gradients/AdamW/RNG/selection/restoration. |
-| Opt-in speed implementation | Pending reference parity | Five separate flags, combined check, full representative replay |
-| Final preservation and review | Pending | No merge or push |
+| Pinned-main behavior | Exact on CPU and CUDA | Six cases, three complete updates each: default, released statistics under legacy semantics, memory, statistics, combined extensions, CNN. Inputs, initialization, gradients, AdamW, outputs and identities compared. |
+| Retained original inference | 18/18 exact, including round trips | All original outer fixtures: 4,288 in fold1 and 4,185 in fold2, for each family and seed. Independent frozen-source forward comparison; inputs, logits, probabilities, goal rates and identities. |
+| Older model exports | 54/54 exact probes and round trips | 53 representative schemas plus recovered expanded-totals fold02; four fixed original fixtures per export. This is bounded inference evidence. |
+| Original profile/preprocessing contracts | Six family/fold variants | All 18 canonical initial states, ordered features, dimensions and original configuration projections; added semantic policy asserted separately. |
+| Public integration | Passed | Six sealed replay recipes prepare. Fourteen public cases cover JSON/Python, fit, reuse, save/load, data-only recovery, phase-v2 production and rejection boundaries. |
+| Retained training | Three families exact | Fold2, seed17, three full fitting-population updates, complete inner validation, gradients including None, AdamW, RNG, selection and restoration. |
+| Native continuation | Passed in fresh processes | Three reference profiles and three accelerated profiles on CPU and CUDA, plus the generic fixture-feature route. Disposable intermediate checkpoints match uninterrupted controls; completed reopen performs zero updates. These use declared miniature populations. |
+| Accelerated execution | 19/19 short checks and full replay passed | Five independent flags and combined flags for each family, plus a 1 MiB cache-budget case. |
+| Representative stopping replay | All 103 updates exact | C/E1, fold2, seed17. Selected update **88**, completed update **103**, best inner raw CE **1.0002489273849902**. Selected weights and fitting/inner inference also exact. |
+| Focused regression suite | **822 unique cases passed** | Latest result per case, including the CUDA follow-up; no unresolved test failures or skips. |
+| Inventory generation | Deterministic | Two identical regenerations; seven graph additions, no removed components, and unchanged non-graph components/stages/metrics versus independently regenerated main. |
+| Original-source preservation | Passed | 5,613 distinct files hashed, original five worktree registrations/statuses unchanged, all supplied source/artifact inventory entries match. |
 
-Evidence is written under experiments/gat_integration_20261104_01. Historical outputs remain immutable. Selected model exports do not establish optimizer continuation. Old source-specific native checkpoints must retain their source rejection boundary.
+The full replay took 19.60 minutes, including its verification/checkpoint overhead. This is an engineering acceptance replay. No research grid, architecture search, beta selection, residual sweep, or new outer performance evaluation was performed. The speed checks produce fitting/inner outputs only. Retained outer forward execution is confined to the explicit original-model parity gate.
 
-## Recovered archive evidence
+The original retained backend oracle uses the archived class and exact numerical helper definitions, with file hashes and selected definitions recorded. Explicit original path bindings avoid an unused reporting import absent from that frozen closure. It does not substitute the integrated implementation for the independent numerical oracle.
 
-Both ZIPs were retrieved from the user's Space Library through its download UI. Their SHA256 values match the corrected handoff index. They were extracted only under this integration evidence root. All eight recovered expanded-fold model/data members match the original isolated-copy receipt. The archive contains its source manifest rather than the source tree; the exact `11ffa446` Git tree was reconstructed separately and all 213 manifest members matched after the recorded CRLF-to-LF normalization.
+## Runtime and memory
 
-The older four-study ZIP matches its archived ZIP hash. One member, `examples/gat_suite/reporting.py`, differs from its separate source manifest. The untouched live research file matches that manifest exactly, so a separate manifest-resolved runtime copy was made with a recorded per-file origin. The original ZIP and extracted copy were preserved. The rest/propagation runtime had seven unavailable frozen members; all seven were recovered from `9499d4af` with exact recorded hashes. These source recovery receipts establish bytes, not compatibility.
+![Matched training and inner-inference timings](data/gat_research_merge_20261104/speed_timing.png)
 
-## Verification record so far
+| Measurement | Reference median | Accelerated median | Reference / accelerated |
+| --- | ---: | ---: | ---: |
+| Training update / cold cache | 38.276 s | 33.997 s | 1.13x |
+| Training update / warm cache | 14.831 s | 10.794 s | 1.37x |
+| Inner inference / cold cache | 6.449 s | 6.041 s | 1.07x |
+| Inner inference / warm cache | 1.139 s | 1.021 s | 1.11x |
 
-- Generic pinned-main comparisons: exact CPU and CUDA inputs, initial state, three updates, gradients, AdamW, predictions, embeddings, attention and identity in six cases (default snapshot, released-statistic legacy policy, memory, statistics, combined extensions, CNN).
-- Broad initial corrected pass: 370 passed, 10 failed. Nine failures came from the independent pre-research test oracle including new inactive fields; its projection now asserts those fields are inactive before omitting them, and its full 23-case preparation suite subsequently passed. One CUDA completed-resume case ran while source edits changed its execution fingerprint; it needs a clean stable-source rerun.
-- Public/reconciliation pass: 19 passed. This is additional to the all18 original-model comparison, not a replacement for it.
-- Historical inference is compared to independently imported frozen source. Existing saved-output arithmetic alone is never used as the inference oracle.
+Fixed ABBA/BAAB order, four constructed backends per arm, three complete updates per trial: four cold-cache and eight warm-update measurements per arm. Inner inference is measured separately after restoring identical selected weights, with four cold-cache and four warm-cache passes. Outputs are copied to CPU and checked. Construction is excluded from those timings and reported below. Cold refers to input caches within one process, not a fresh Python process. These are C/E1 fold2 measurements on this machine, not general throughput guarantees or public end-to-end prediction latency.
 
-The frozen retained backend was compiled from its archived class and exact numerical helper definitions. Explicit original protocol/path bindings avoid importing an unused reporting dependency absent from the archive; per-file SHA256 and selected definitions are recorded in each frozen reference receipt. No live research numerical code substitutes for the oracle.
+| Arm | Construction median | CUDA allocated peak, GiB | CUDA reserved peak, GiB | Sampled process RSS peak, GiB |
+| --- | ---: | ---: | ---: | ---: |
+| Accelerated | 12.29 s | 1.489 | 1.508 | 1.825 |
+| Reference | 12.55 s | 1.518 | 1.549 | 1.839 |
 
-Inventory review against an isolated regeneration of pinned M found no removed components, changed stages or metrics, or changed non-graph fields. Broad changes versus the committed JSON also occur with unmodified M and the installed libraries; `inventory_reference_comparison.json` separates those from the graph additions.
+Memory columns are medians of four per-trial peaks. CUDA peaks include construction and three training updates. RSS is sampled every 20 ms after construction; it can miss short spikes and is distinct from private memory. No other verification job used the GPU during timing. Parallel short-check runtimes are excluded from speed conclusions.
 
-Public preparation also requires an explicit `round_stage_column` mapping when the native source names its stage differently. This optional field only copies supplied complete evidence and records it in store provenance; it invents no regular-stage constant and does not alter generic recipes or the native history producer. The archived ComponentStore recipes already contain their exact round_stage values.
+Acceleration preserves parameter registration, initialization, loss reduction and selection. Its borrowed cache owns one train/validation device-input budget; native duplicate residency is disabled, indices/transient transfers are counted, public access keeps copying, and completion/error releases ownership. Full-run cache statistics are recorded before the final cleanup; ownership tests verify cleanup behavior. The low-budget run retains no inputs at completion; its largest required transient was 4,948,724 bytes, explicitly accounted for despite the 1 MiB residency budget.
 
-CPU cold-process continuation passed for all three retained profiles; CUDA continuation passed for all three and the generic fixture-feature case. Interrupted and uninterrupted gradients, optimizer, restored parameters, RNG and predictions match exactly; reopening a completed checkpoint performs zero updates. These tests use an explicitly declared miniature population, not an all13 reproduction. Full-population training parity is the separate three-update gate above.
+Skipping diagnostic replay publishes `pre_update_train_ce`, `pre_update_train_goal_loss`, `pre_update_train_regularization` and `pre_update_train_objective`. It removes the post-update replay and its replay-only failure check. Raw validation CE still selects checkpoints. The runtime benefit therefore includes the explicitly authorized reduction in diagnostic work; it is not solely faster arithmetic.
 
-The retained contract identity uses JSON-stable competition lists. The original tuple/list mismatch was caught by actual checkpoint publication and fixed before acceptance. Public prepared phase contexts now use data-only states with recomputed source identity; native run recovery does not pickle a live lookup or silently rebuild it.
+## Saved report arithmetic
 
-Preserved main regression coverage passed, including current standings/venue behavior, named selection and cutoff guards, aliases/migration, temporal provenance, reporter settings and legacy report records. Initial long-path Windows directory renames failed in several dataset fixtures; all affected test files passed (59 tests) in a fresh shorter temporary directory without an application change. Other relevant passes are retained in `main_regressions.xml` and `main_regressions_retry.xml`; final evidence aggregates by test identity rather than summing reruns.
+| Retained family | Raw CE | RPS | Argmax accuracy |
+| --- | ---: | ---: | ---: |
+| time_B/CD_DW | 1.007471848261 | 0.204497066447 | 49.974429% |
+| time_B/N | 1.007665945797 | 0.204524841155 | 50.005901% |
+| time_C/E1 | 1.007575891381 | 0.204473362908 | 50.076714% |
+
+These reproduce the supplied saved-output audit to at most 2.7e-15 in CE and 2.3e-16 in RPS. Each seed is scored separately over its 8,473 pooled outer fixtures, then the three scores are averaged. Probabilities use H/D/A order and float64 normalization. No probability ensemble is evaluated. RPS is half the sum of the two cumulative squared errors. This arithmetic check supports report fidelity; independent forward comparisons establish inference parity.
+
+Original reports and calibration metadata remain untouched. The speed/residual study used raw probabilities; the corners study also retains calibration outputs. The actual residual selection remains fold1 C/E1 NONE and fold2 B/N EDGE. Keeping the later R_NONE families is a separate simplicity decision.
+
+## Recovered evidence and limits
+
+Both Space ZIPs were downloaded and SHA256-verified against the corrected index. The expanded-fold archive's eight model/data files match the original isolated-copy receipt. Its 213-file runtime source closure was recovered from Git `11ffa446`, with recorded line-ending normalization. The older four-study ZIP has one reporting member inconsistent with its source manifest; a separate runtime copy uses the untouched research file that matches the manifest exactly. Seven missing rest/propagation source members were recovered from `9499d4af` with exact hashes. Original archives and manifests were preserved.
+
+The 54 older-export checks cover the stated probes; they do not certify every historical population or optimizer continuation. Other unavailable historical model families remain unverified. October25 temporal and October26 goal-auxiliary fits lack the relevant native intermediate states. Retained selected exports can pair restored weights with terminal optimizer state, and their old terminal checkpoints are stopped. Neither establishes clean continuation from the selected update. Cross-source native resume continues to reject; extending a phase table requires a new identity and is outside this integration.
+
+Earlier failed checks remain in the evidence folder. Corrected implementation issues include legacy identity projection, JSON-stable competition identities, data-only public phase recovery, and default cache-policy normalization. Source-sensitive resume was rerun after code stopped changing. Windows long-path dataset publication failures passed in a fresh shorter temporary directory without changing application behavior. Initial collection errors are resolved by subsequently collected passing cases.
+
+The first full speed attempt matched update1, then failed because its verification harness omitted the caller-owned directory required by the native checkpoint writer. The corrected harness creates a fresh unique directory. All model/training source hashes and every worker AST node outside `full()` were unchanged; 19 verified short receipts were carried into `speed_acceptance_v2` with explicit provenance. The failed queue and its source are retained. No numerical failure was waived. The final GPU test invocation initially skipped 15 cases requiring a second idle-GPU opt-in flag; the report gate rejected those skips, and all 15 subsequently passed with both flags.
+
+## Review and rollback
+
+The original research branch remains at `9499d4afd85933304a47034d05baad0913c43cab`, with 20 modified tracked and 40 untracked status entries, and no staged changes. The other original worktrees, including pre-existing damaged temporary checkouts, were preserved. Twenty-one designated main files remain byte-equivalent after line-ending normalization. A supplemental complete `src` hash snapshot and the numerical queue's source seal both match the final candidate.
+
+The candidate is ready for review within these verified scopes. Generic execution is the default; disabling the execution spec returns retained training to reference execution. The reference and acceleration commits can be reviewed separately. New-schema exports require the integrated loader. Original exports, original frozen runtimes and all prior artifacts remain the rollback authority. Merge and push remain pending user review.
+
+[Compact acceptance data](data/gat_research_merge_20261104/acceptance.json) contains gate summaries and receipt hashes. [Timing data](data/gat_research_merge_20261104/speed_measurements.json) accompanies the plot. The complete local [artifact index](../../experiments/gat_integration_20261104_01/ARTIFACT_INDEX.json) links the preserved attempts, raw receipts and source seals; the full evidence folder is intentionally outside Git.
