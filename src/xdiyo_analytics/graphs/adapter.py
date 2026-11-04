@@ -50,11 +50,27 @@ def inference_mode(model):
 class TemporalGraphAdapter:
     supports_sample_weight = True
 
-    def __init__(self, config, event_store, *, control=None, device="cpu", inner_threads=1):
+    def __init__(self, config, event_store, *, control=None, device="cpu", inner_threads=1,
+                 research_training=None, research_execution=None):
         validate_grid_contract(event_store, config.heatmaps)
         self.config, self.event_store = config, event_store
         self.control = control or TrainingControl()
         self.device, self.inner_threads = device, inner_threads
+        self.research_training, self.research_execution = research_training, research_execution
+
+    def _make_backend(self, seed):
+        policy = getattr(self, "input_cache_policy", None)
+        if self.research_training is None:
+            if self.research_execution is not None:
+                raise ValueError('Research execution requires an explicit retained training contract.')
+            return _Backend(self.config,self.event_store,seed,self.device,policy)
+        from .research_training import RetainedGATBackend, RetainedGATTraining
+        if not isinstance(self.research_training, RetainedGATTraining):
+            raise TypeError('research_training must be RetainedGATTraining.')
+        self.research_training.validate_control(self.control)
+        if self.research_execution is not None:
+            raise ValueError('Retained acceleration is not yet enabled in this integration stage.')
+        return RetainedGATBackend(self.config,self.event_store,seed,self.device,policy,training=self.research_training)
 
     def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
         from ..training.residency import InputCachePolicy
@@ -100,7 +116,7 @@ class TemporalGraphAdapter:
         self.control = control or self.control
         with torch_threads(self.inner_threads):
             self.backend_, self.training_history_, self.training_summary_ = run_adapter_iterations(self,
-                lambda seed: _Backend(self.config, self.event_store, seed, self.device, getattr(self, "input_cache_policy", None)),
+                self._make_backend,
                 context, self.control)
         self.training_summary_.update(
             fitting_boundary=self.backend_.fitting_boundary.isoformat(),
@@ -125,6 +141,11 @@ class TemporalGraphAdapter:
         with torch_threads(self.inner_threads):
             return self.backend_.predict_statistics(context)
 
+    def predict_goals(self, context):
+        """Separate marginal goal rates, with the same public prediction boundary."""
+        with torch_threads(self.inner_threads):
+            return self.backend_.predict_goals(context)
+
     def attention_weights(self, queries):
         from .inspection import attention_weights
         return attention_weights(self, queries)
@@ -137,6 +158,13 @@ class TemporalGraphAdapter:
         a new fitting run instead of silently changing artifact provenance.
         """
         validate_grid_contract(event_store, self.config.heatmaps)
+        compatibility = getattr(self.backend_, 'compatibility', None)
+        if compatibility is not None:
+            from .compatibility import RESEARCH_IDENTITY
+            if (compatibility.identity_schema == RESEARCH_IDENTITY and
+                    compatibility.origin_graph_sha256 is None and self.config.statistics and
+                    any('available_at::'+col in event_store._history for col in self.config.statistics)):
+                raise ValueError('Imported research statistics require a frozen-source record before adding release columns.')
         old = self.event_store
         for before, after, keys in (
             (old.history, event_store.history, [*MATCH_KEYS, "side"]),
@@ -154,17 +182,20 @@ class TemporalGraphAdapter:
             after = event_store.issue_times(old.schedule, self.config)
             if not before.equals(after):
                 raise ValueError("Replacement store changes frozen round anchors.")
+        candidate = GraphPreprocessor.from_state(self.config, self.backend_.preprocessor.state())
+        candidate.bind_context(event_store)
         self.event_store = event_store
         self.backend_.store = event_store
-        self.backend_.preprocessor._edge_cache = None
+        self.backend_.preprocessor = candidate
 
 
 class _Backend:
     supports_sample_weight = True
 
-    def __init__(self, config, store, seed, device, input_cache_policy=None):
+    def __init__(self, config, store, seed, device, input_cache_policy=None, *, preprocessor_state=None):
         self.input_cache_policy = input_cache_policy
         self.config, self.store, self.seed, self.device = config, store, seed, device
+        self.frozen_preprocessor_state = deepcopy(preprocessor_state)
 
     def _validate(self, context, fitting=False):
         if context.layout != "match" or not context.X.index.equals(context.metadata.index) or not context.X.index.is_unique:
@@ -175,6 +206,7 @@ class _Backend:
         if context.metadata.home_id.eq(context.metadata.away_id).any():
             raise ValueError("A fixture needs different teams.")
         issue = self.store.issue_times(context.metadata, self.config)
+        self.store.assert_targets_unobserved(context.metadata, issue, self.config)
         if fitting:
             if context.y.shape[1] != 1 or not context.y.index.equals(context.X.index):
                 raise ValueError("Fitting requires one aligned home/draw/away target.")
@@ -227,36 +259,40 @@ class _Backend:
     def initialize(self, context):
         torch = _torch()
         from .network import TemporalNetwork
-        from ..data.availability import respect_result_availability
         self._validate(context, fitting=True)
         if len(context.X) == 0:
             raise ValueError("Fitting population cannot be empty.")
         self.target_name = context.y.columns[0]
         self.output_classes = CLASS_ORDER
-        self.fitting_boundary = respect_result_availability(context.metadata,
-            self.config.labels_known_at(context.metadata.kickoff_at)).max()
+        self.fitting_boundary = self.store.label_availability(context.metadata, self.config).max()
         self.trained_through = self.fitting_boundary
         if context.validation is not None:
             validation_issue = self._validate(context.validation, fitting=True)
             if len(validation_issue) == 0 or min(self.config.history_cutoff(t) for t in validation_issue) < self.fitting_boundary:
                 raise ValueError("Fitting labels must be known before validation issuance.")
             self.trained_through = max(self.trained_through,
-                respect_result_availability(context.validation.metadata,
-                    self.config.labels_known_at(context.validation.metadata.kickoff_at)).max())
+                self.store.label_availability(context.validation.metadata, self.config).max())
         plan = self._plan(context)
         numeric, leagues = plan.fitting_inputs()
         largest = max(self.config.history_cutoff(time) for time, _ in plan.descriptors)
         fitting_history = self.store.eligible(largest)
-        self.preprocessor = GraphPreprocessor(self.config).fit(
+        if self.config.temporal_mode == 'historical':
+            latest_issue = max(time for time, _ in plan.descriptors)
+            memberships = self.store._memberships
+            leagues.update(memberships.loc[memberships.entry_at.le(latest_issue), 'competition_id'].tolist())
+        self.preprocessor = (GraphPreprocessor(self.config).fit(
             fitting_history, (), context.metadata, numeric, extra_leagues=leagues)
+            if self.frozen_preprocessor_state is None else
+            GraphPreprocessor.from_state(self.config, self.frozen_preprocessor_state))
         del fitting_history
         # fork_rng avoids altering the caller's CPU random stream.
         with torch.random.fork_rng(devices=[]):
             torch.random.default_generator.manual_seed(self.seed)
             self.model = TemporalNetwork(self.config, len(self.preprocessor.leagues),
-                2*len(self.preprocessor.edge_columns)+1+len(self.preprocessor.leagues)+1,
-                2*len(self.preprocessor.fixture_columns)+len(self.preprocessor.leagues)+1).to(self.device)
-        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.config.learning_rate,
+                self.preprocessor.edge_dim,
+                self.preprocessor.fixture_dim).to(self.device)
+        from .goal_network import optimizer_groups
+        self.optimizer = torch.optim.AdamW(optimizer_groups(self.model, self.config), lr=self.config.learning_rate,
                                            weight_decay=self.config.weight_decay)
         del numeric
         self.train_groups = PreparedGroups(plan, self.preprocessor, self.device, self.input_cache_policy, reconstruction_targets=True)
@@ -271,6 +307,9 @@ class _Backend:
         if self.config.statistics_forecast is not None:
             from .supervision import initialize_statistics
             initialize_statistics(self, context)
+        if self.config.goal_auxiliary is not None:
+            from .goals import initialize_goals
+            initialize_goals(self, context)
         self.refresh_version()
 
     def _targets(self, context):
@@ -324,6 +363,9 @@ class _Backend:
     @configured_execution
     def _loss(self, groups, targets, weights, backward=False):
         self._reconstruction_loss = 0.
+        if self.config.goal_auxiliary is not None:
+            from .goals import goal_loss
+            return goal_loss(self, groups, targets, weights, backward)
         if self.config.statistics_forecast is not None:
             from .supervision import statistics_loss
             return statistics_loss(self, groups, targets, weights, backward)
@@ -359,6 +401,9 @@ class _Backend:
         with phase('optimizer'):
             self.optimizer.step()
         values = {"train_loss": train_loss}
+        if self.config.goal_auxiliary is not None:
+            values.update(train_goal_loss=self._goal_loss, train_regularization=float(penalty.detach()),
+                          train_objective=train_loss + self.config.goal_auxiliary.beta*self._goal_loss + float(penalty.detach()))
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values['train_reconstruction_loss'] = self._reconstruction_loss
             values['train_objective'] = train_loss + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss + float(penalty.detach())
@@ -369,6 +414,10 @@ class _Backend:
             self.model.eval()
             with torch.no_grad():
                 values["validation_loss"] = self._loss(self.validation_groups, self.validation_targets, self.validation_weights)
+                if self.config.goal_auxiliary is not None:
+                    current_penalty = float(self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum()))
+                    values.update(validation_goal_loss=self._goal_loss, validation_regularization=current_penalty,
+                        validation_objective=values['validation_loss']+self.config.goal_auxiliary.beta*self._goal_loss+current_penalty)
                 if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
                     values['validation_reconstruction_loss'] = self._reconstruction_loss
                     values['validation_objective'] = values['validation_loss'] + self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss
@@ -381,12 +430,15 @@ class _Backend:
     @configured_execution
     @timed('metric_replay')
     def checkpoint_metrics(self, monitor, values):
-        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss', 'train_statistics_loss'):
+        if monitor not in ('train_loss', 'train_objective', 'train_reconstruction_loss', 'train_statistics_loss', 'train_goal_loss'):
             return values
         with inference_mode(self.model):
             loss = self._loss(self.train_groups, self.train_targets, self.train_weights)
             penalty = self.config.prior_penalty * (self.model.league.weight.square().sum() + self.model.entry.weight.square().sum())
         values = dict(values, train_loss=loss)
+        if self.config.goal_auxiliary is not None:
+            values.update(train_goal_loss=self._goal_loss, train_regularization=float(penalty),
+                          train_objective=loss + self.config.goal_auxiliary.beta*self._goal_loss + float(penalty))
         if self.config.heatmaps is not None and self.config.heatmaps.encoder.reconstruction is not None:
             values.update(train_reconstruction_loss=self._reconstruction_loss,
                           train_objective=loss+self.config.heatmaps.encoder.reconstruction.weight*self._reconstruction_loss+float(penalty))
@@ -408,23 +460,8 @@ class _Backend:
         # settings as well as learned coordinates and preprocessing.
         if self.config.statistics_forecast is not None:
             digest.update(json.dumps(self.statistics_scale.state(), sort_keys=True).encode())
-        config_state = asdict(self.config)
-        if self.config.statistics_forecast is not None:
-            from .extensions import target_schema
-            config_state["statistics_forecast"]["targets"] = [target_schema(t) for t in self.config.statistics_forecast.targets]
-        for name in ('boundary_memory', 'statistics_forecast'):
-            if config_state[name] is None:
-                del config_state[name]
-        if not config_state['deterministic']:
-            del config_state['deterministic']  # Preserve pre-option artifact fingerprints.
-        if config_state['include_goal_features']:
-            del config_state['include_goal_features']  # Preserve pre-option artifact fingerprints.
-        if config_state['heatmaps'] is None:
-            del config_state['heatmaps']  # Preserve existing scalar artifact fingerprints.
-        else:
-            reconstruction = config_state['heatmaps']['encoder']['reconstruction']
-            if reconstruction is not None and reconstruction.get('loss') == 'mse':
-                del reconstruction['loss']  # MSE was the original auxiliary default.
+        from .compatibility import identity_config
+        config_state = identity_config(self.config, getattr(self, "identity_schema", None))
         self.model_version = sha256((digest.hexdigest() + json.dumps(
             config_state, sort_keys=True)).encode()).hexdigest()
 
@@ -445,6 +482,22 @@ class _Backend:
     def _boundary(self, issue):
         if len(issue) and min(self.config.history_cutoff(t) for t in issue) < self.trained_through:
             raise ValueError("Requested issuance precedes the fitted/validation-selection boundary.")
+
+    @configured_execution
+    @release_temporary_frames
+    def predict_goals(self, context):
+        if self.config.goal_auxiliary is None:
+            raise ValueError('Goal predictions require goal_auxiliary enabled.')
+        self._boundary(self._validate(context))
+        output = np.empty((len(context.X), 2))
+        with inference_mode(self.model):
+            groups = self._stream(context)
+            for i in range(len(groups)):
+                with groups.lease(i) as group:
+                    positions, data, home, away, fixture = group
+                    _, rates = self.model(data, home, away, fixture, return_goals=True)
+                    output[positions] = rates.cpu().numpy()
+        return pd.DataFrame(output, index=context.X.index, columns=['lambda_home', 'lambda_away'])
 
     def _statistic_arrays(self, size):
         arrays = {}
@@ -530,6 +583,9 @@ class _Backend:
             if replay is not None:
                 records[pos].update(boundary_at=replay.start, evidence_scope='explicit_segment_edges',
                                     state_mode='detached_boundary_memory')
+            elif self.config.temporal_mode != 'snapshot':
+                records[pos].update(state_mode=self.config.temporal_mode,
+                                    evidence_scope='historical_queries' if self.config.temporal_mode == 'historical' else 'snapshot_edges')
 
     @configured_execution
     @release_temporary_frames

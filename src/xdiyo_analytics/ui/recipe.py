@@ -132,12 +132,16 @@ def catalog_for_ui():
     from ..graphs import TemporalGraphModel, TemporalGraphConfig, TemporalGraphSerializer
     catalog.register('graphs.TemporalGraphModel', TemporalGraphModel, category='model', title='Temporal team GAT')
     catalog.register('graphs.TemporalGraphConfig', TemporalGraphConfig, category='graph_config')
+    from ..graphs import GATResearchBNV1, GATResearchCE1V1, GATResearchBCDDWV1, RetainedGATTraining
+    catalog.register("graphs.RetainedGATTraining", RetainedGATTraining, category="graph_config")
+    for factory in (GATResearchBNV1, GATResearchCE1V1, GATResearchBCDDWV1):
+        catalog.register('graphs.' + factory.__name__, factory, category='graph_config')
     catalog.register('graphs.TemporalGraphSerializer', TemporalGraphSerializer, category='training')
     from ..graphs import GraphHeatmaps
     from ..neural import HeatmapCNNModel, HeatmapCNNConfig, Reconstruction, HeatmapCNNSerializer
     catalog.register('graphs.GraphHeatmaps', GraphHeatmaps, category='graph_config')
-    from ..graphs import BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast
-    for cls in (BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast):
+    from ..graphs import BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast, GoalAuxiliary, PhaseRankFeatures
+    for cls in (BoundaryMemory, StatisticTarget, NumericStatisticTarget, StatisticsForecast, GoalAuxiliary, PhaseRankFeatures):
         catalog.register('graphs.' + cls.__name__, cls, category='graph_config')
     catalog.register('neural.HeatmapCNNModel', HeatmapCNNModel, category='model', title='Heatmap CNN')
     catalog.register('neural.HeatmapCNNConfig', HeatmapCNNConfig, category='neural_config')
@@ -318,6 +322,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     graph_store = None
     if graph_spec is not None:
         from ..graphs.integration import history_cutoffs
+        history = graph_spec.prepare_history(history)
         graph_store = graph_spec.event_store(history, data.tables.get('team_seasons'), heatmaps=heatmaps)
         options['cutoffs'] = history_cutoffs(graph_store, graph_spec.config, history)
         context['graph_store'] = graph_store
@@ -418,6 +423,11 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         dataset = add_identity_features(dataset, state)
     if graph_spec is not None:
         from ..graphs.integration import fixture_cutoffs
+        if graph_spec.round_stage_column is not None:
+            from ..graphs.config import MATCH_KEYS
+            schedule = graph_store.schedule.set_index(list(MATCH_KEYS))
+            keys = pd.MultiIndex.from_frame(dataset.metadata[list(MATCH_KEYS)])
+            dataset.metadata['round_stage'] = schedule.loc[keys, 'round_stage'].to_numpy()
         dataset.metadata['feature_cutoff_at'] = fixture_cutoffs(graph_store, graph_spec.config, dataset.metadata)
     context.update(features=features, labels=labels, dataset=dataset)
     if prediction:
@@ -425,7 +435,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     plan = make_plan(dataset)
     return PreparedExperiment(dataset, plan, {'history': history, 'matches': data.matches, 'features': features,
                                             'labels': labels, 'ratings': retained_ratings, 'team_catalog': team_catalog,
-                                            'rating_cutoffs': options.get('cutoffs'), 'graph_inputs': None if graph_store is None else dict(history=graph_store.history, team_seasons=graph_store.team_seasons, schedule=graph_store.schedule, provenance=graph_store.provenance)},
+                                            'rating_cutoffs': options.get('cutoffs'), 'graph_inputs': None if graph_store is None else dict(history=graph_store.history, team_seasons=graph_store.team_seasons, schedule=graph_store.schedule, provenance=graph_store.provenance,
+                                                **({"phase_context_state": graph_store.phase_context.state()} if graph_store.phase_context is not None else {}))},
                               config={'recipe': recipe})
 
 
@@ -532,7 +543,11 @@ def make_candidate(recipe, catalog, context=None):
     graph_store = (context or {}).get('graph_store')
     if graph_store is None and (context or {}).get('graph_inputs') is not None:
         from ..graphs import TemporalEventStore
-        graph_store = TemporalEventStore(**context['graph_inputs'])
+        inputs = dict(context['graph_inputs'])
+        if 'phase_context_state' in inputs:
+            from ..graphs import PhaseRankLookup
+            inputs['phase_context'] = PhaseRankLookup.from_state(inputs.pop('phase_context_state'))
+        graph_store = TemporalEventStore(**inputs)
     return Candidate(model_factory=ModelFactory(recipe, catalog, graph_store), **config)
 
 

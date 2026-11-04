@@ -68,6 +68,15 @@ def legacy_version(backend):
     settings.pop('statistics_forecast', None)
     settings.pop('include_goal_features')
     settings.pop('heatmaps')
+    assert settings.pop('temporal_mode') == 'snapshot'
+    assert settings.pop('goal_auxiliary') is None
+    assert settings.pop('phase_rank_features') is None
+    assert settings.pop('sender_state_mode') == 'updated'
+    assert settings.pop('fixture_gap_encoding') == 'legacy_standardized_gap_v1'
+    assert settings.pop('statistic_availability_policy') == 'legacy_unmasked_v1'
+    for name in ('time_scales_days','time_encoding','age_scale_days','gap_scale_days',
+                 'observed_gap_scale_days','observed_gap_recent_days'):
+        settings.pop(name)
     return sha256((digest.hexdigest()+json.dumps(settings, sort_keys=True)).encode()).hexdigest()
 
 
@@ -92,6 +101,7 @@ def test_default_matches_legacy_preparation_gradients_update_and_fingerprint(mon
         class LegacyPreprocessor(GraphPreprocessor):
             def __init__(self, settings):
                 self.config = settings
+                self._persist_edge_schema = False
                 self.edge_columns = ('goals_for', 'goals_against', *settings.statistics)
                 self.fixture_columns = ('neutral_venue', 'home_rest_days', 'away_rest_days',
                                         'home_support', 'away_support', *settings.fixture_features)

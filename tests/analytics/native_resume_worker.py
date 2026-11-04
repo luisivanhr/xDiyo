@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 ROOT = Path(__file__).resolve().parents[2]
-sys.path[:0] = [str(ROOT/'src'), str(Path(__file__).parent)]
+sys.path[:0] = [str(ROOT), str(ROOT/'src'), str(Path(__file__).parent)]
 import json
 import os
 import random
@@ -14,6 +14,9 @@ from xdiyo_analytics.experiments.recovery import pack
 
 
 def fixture(kind):
+    if kind.startswith('retained_'):
+        from test_gat_reconciliation import retained_fixture
+        return retained_fixture(kind.removeprefix('retained_'))
     if kind.startswith('gat'):
         from test_temporal_graph import sample, config, context
         from xdiyo_analytics.graphs import TemporalGraphAdapter
@@ -54,6 +57,10 @@ def main(directory, kind, mode):
         adapter.configure_input_cache(256 * 1024**2, 1024**3)
     control = TrainingControl(max_steps=4, restarts=1, seed=19,
         scheduler=ReduceOnPlateau(patience=1), early_stopping=EarlyStopping(patience=3))
+    if kind.startswith('retained_'):
+        from xdiyo_analytics.graphs.research_training import MONITOR
+        control = TrainingControl(max_steps=4, restarts=0, seed=19,
+            early_stopping=EarlyStopping(15,0), monitor=MONITOR)
     scenario = os.environ.get('XDIYO_RESUME_BOUNDARY', '')
     if scenario == 'numpy':
         control = TrainingControl(max_steps=np.int64(2), restarts=np.int64(1), seed=np.int64(19),
@@ -112,6 +119,9 @@ def main(directory, kind, mode):
             Path.replace = replace
         wrapped = CheckpointPolicy(every=1).wrap(lambda: adapter, directory/'checkpoints', 'fixture')()
         wrapped.fit_controlled(train, control)
+    if kind.startswith('retained_'):
+        # Wall-clock measurements are excluded from numerical continuation.
+        adapter.training_history_ = adapter.training_history_.loc[adapter.training_history_.metric.ne('update_seconds')].reset_index(drop=True)
     torch.save(dict(backend=capture_backend(adapter.backend_), updates=updates, rng=rng_state(device)),
                directory/(mode+'.pt'))
     (directory/(mode+'.json')).write_text(json.dumps(pack(dict(history=adapter.training_history_,

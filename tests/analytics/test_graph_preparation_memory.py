@@ -37,6 +37,17 @@ def reference_module(name):
                 result.pop('include_goal_features', None)
                 assert value.deterministic is False
                 result.pop('deterministic', None)
+                assert value.temporal_mode == 'snapshot'
+                assert value.goal_auxiliary is None and value.phase_rank_features is None
+                assert value.sender_state_mode == 'updated'
+                assert value.fixture_gap_encoding == 'legacy_standardized_gap_v1'
+                assert value.statistic_availability_policy == 'legacy_unmasked_v1'
+                for field in ('temporal_mode','time_scales_days','time_encoding','age_scale_days',
+                              'gap_scale_days','goal_auxiliary','fixture_gap_encoding',
+                              'observed_gap_scale_days','observed_gap_recent_days','sender_state_mode',
+                              'phase_rank_features','statistic_availability_policy'):
+                    result.pop(field)
+
             return result
         module.asdict = legacy_asdict
     return module
