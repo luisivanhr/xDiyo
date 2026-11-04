@@ -1,6 +1,8 @@
 """Form metadata for native graph construction and diagnostics."""
 def decorate(components, stages):
     help_text = {
+        'research_execution': 'Explicit retained-only speed flags. Disabled uses reference execution; loading a model never activates these flags. Skipped replay publishes pre-update diagnostics.',
+        'round_stage_column': 'Optional explicit native history column copied to round_stage. Retained profiles require complete stage evidence; no constant or inferred stage is supplied.',
         'timezone': 'IANA timezone for previous-day cutoffs, for example Europe/Berlin or Asia/Tokyo. Use the same setting when loading.',
         'forecast_policy': 'By Round uses the first scheduled kickoff of the complete round. One Day Ahead issues 24 hours before kickoff. Both exclude observations after the previous local day.',
         'round_keys': 'Columns defining a round. Keep competition_id, season_id and round; add a stage column for competitions with repeated round numbers.',
@@ -38,10 +40,17 @@ def decorate(components, stages):
         'embed_event_store': 'Save the immutable graph inputs inside the model artifact so loading and diagnostics require no source data.',
         'device': 'Device for loading model weights. CPU is portable; CUDA requires a supported installed Torch build.',
     }
-    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast',
+    help_text.update({'temporal_mode': 'Snapshot keeps the existing GAT. Time features adds match age and historical gaps. Historical also queries opponents before each encounter. The new modes require memory, statistics supervision and heatmaps off.', 'time_scales_days': 'Positive half-lives in days for explicit age and historical-gap features. Used by time features and historical modes; default 7, 30, 180.', 'time_encoding': 'Rational decay uses fixed bounded time features. Log1p reproduces the original temporal experiments. Neither changes the snapshot baseline.', 'age_scale_days': 'Fixed rational age scale in days, where the first age coordinate equals 0.5. Default 180; not fitted to the archive.', 'gap_scale_days': 'Fixed rational scale for both observed pre-match history gaps. Default 7 days; not necessarily physiological rest.', 'fixture_gap_encoding': 'Bounded observed gap encodes elapsed days since the latest eligible archived match, plus missing-history and 30-day availability flags. Legacy standardized gap reproduces existing saved models.', 'observed_gap_scale_days': 'Fixed 7-day scale for bounded observed gap version 1. This is archive coverage at forecast issuance, not physiological rest.', 'observed_gap_recent_days': 'Fixed 30-day threshold for observed-gap version 1. Exactly 30 days counts as recent.', 'sender_state_mode': 'Updated uses each opponent state from the previous layer. Layer zero uses its trainable initial prior in both sender projections; receivers still update. Requires memory off and snapshot or time-features mode.', 'statistic_availability_policy': 'Legacy keeps established inputs. Per-stat release masks values until their explicit available_at timestamp; retained profiles select it.', 'phase_context_path': 'Directory containing an immutable phase_context.json and Parquet lookup. Its source identity and policy must match the config.', 'source_id': 'Exact SHA256 identity of the saved phase lookup. A different table or publication policy requires a new identity.', 'research_training': 'Optional retained raw validation CE contract and hash-verified replay inputs. Generic training stays unchanged when absent.', 'phase_rank_features': 'Optional exact original-cutoff countdown and rank context. Missing fixture queries are errors; unsupported saved ranks retain their masks.'})
+    names = ['graphs.TemporalGraphModel', 'graphs.TemporalGraphConfig', 'graphs.TemporalGraphSerializer', 'graphs.GraphHeatmaps', 'graphs.BoundaryMemory', 'graphs.StatisticTarget', 'graphs.NumericStatisticTarget', 'graphs.StatisticsForecast', 'graphs.GoalAuxiliary', 'graphs.PhaseRankFeatures', 'graphs.RetainedGATTraining', 'graphs.RetainedGATExecution',
+             'graphs.GATResearchBNV1', 'graphs.GATResearchCE1V1', 'graphs.GATResearchBCDDWV1',
              'neural.HeatmapCNNModel', 'neural.HeatmapCNNConfig', 'neural.Reconstruction', 'neural.HeatmapCNNSerializer',
              'reporting.GraphStatisticsReporter', 'reporting.GATLossReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter']
     choices = {'forecast_policy':['by_round','one_day_ahead'], 'membership_policy':['first_fixture','explicit'],
+               'temporal_mode':['snapshot','time_features','historical'],
+               'time_encoding':['rational_decay_v1','log1p_v1'],
+               'fixture_gap_encoding':['legacy_standardized_gap_v1','bounded_observed_gap_v1'],
+               'sender_state_mode':['updated','layer_zero'],
+               'statistic_availability_policy':['legacy_unmasked_v1','per_stat_release_v1'],
                'mode':['tSNE','PCA'], 'init':['pca','random'], 'metric':['euclidean','cosine'], 'device':['cpu','auto','cuda:0']}
     for key in names:
         component = components[key]
@@ -54,12 +63,29 @@ def decorate(components, stages):
             if name in choices:
                 f.update(kind='select', choices=choices[name])
             if name == 'config':
-                f.update(kind='component', components=['graphs.TemporalGraphConfig'])
-            nested = {'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
+                f.update(kind='component', components=(['graphs.TemporalGraphConfig','graphs.GATResearchBNV1','graphs.GATResearchCE1V1','graphs.GATResearchBCDDWV1'] if key=='graphs.TemporalGraphModel' else ['graphs.TemporalGraphConfig']))
+            if name == 'time_scales_days':
+                f.update(kind='list', item={'kind':'number', 'step':'any', 'min':0},
+                         visible_when={'temporal_mode':['time_features','historical']})
+            if name == 'time_encoding':
+                f['visible_when'] = {'temporal_mode':['time_features','historical']}
+            if name in ('observed_gap_scale_days', 'observed_gap_recent_days'):
+                fixed = 7 if name == 'observed_gap_scale_days' else 30
+                f.update(kind='number', min=fixed, max=fixed, step=1,
+                         visible_when={'fixture_gap_encoding':['bounded_observed_gap_v1']})
+            if name in ('age_scale_days', 'gap_scale_days'):
+                f.update(kind='number', step='any', min=0,
+                         visible_when={'temporal_mode':['time_features','historical'],
+                                       'time_encoding':['rational_decay_v1']})
+            nested = {'research_execution':'graphs.RetainedGATExecution', 'phase_rank_features':'graphs.PhaseRankFeatures', 'research_training':'graphs.RetainedGATTraining', 'goal_auxiliary':'graphs.GoalAuxiliary', 'boundary_memory':'graphs.BoundaryMemory', 'statistics_forecast':'graphs.StatisticsForecast', 'heatmaps':'graphs.GraphHeatmaps', 'encoder':'neural.HeatmapCNNConfig',
                       'reconstruction':'neural.Reconstruction', 'grid':'features.Heatmap'}
             if name in nested and key.startswith(('graphs.', 'neural.')):
                 f.update(kind='component', components=[nested[name]], initial_component=nested[name])
                 f['help'] = {
+                    'phase_rank_features':help_text['phase_rank_features'],
+                    'research_training':help_text['research_training'],
+                    'research_execution':help_text['research_execution'],
+                    'goal_auxiliary':'Optional parallel goal supervision; outcome inference retains its separate head.',
                     'boundary_memory':'Optional detached state between chronological segments. Changes the model; full history remains the default. States rebuild under each evaluated weight version.',
                     'statistics_forecast':'Optional supervised future-match statistic forecasts. Actual target statistics never enter fixture inputs; choose auxiliary, combined or strict bottleneck.',
                     'heatmaps':'Optional shared CNN over individual historical match maps. Disabled preserves scalar-only GAT. Requires heatmap_points; target-fixture maps are never inputs.',
@@ -67,6 +93,22 @@ def decorate(components, stages):
                     'reconstruction':'Optional auxiliary decoder with masked MSE or KL divergence. Disabled creates no decoder or extra loss. Validation prediction loss remains the default early-stopping metric.',
                     'grid':'Native deterministic grid construction. Keep side=both and orientation=team for receiver-aligned GAT edges. Default: player-only 10x10 unit-mass grids.',
                 }[name]
+            if key == 'graphs.GoalAuxiliary':
+                f['help'] = {'beta':'Weight on the per-fixture goal likelihood, globally averaged over fixtures. Zero leaves the goal head unused.',
+                    'architecture':'Flexible joint-fixture linear rates, or shared attack/defence projections with competition scoring effects.',
+                    'rate_floor':'Positive offset added after softplus; default 0.000001.',
+                    'detach_encoder':'Diagnostic control: train the goal head without goal gradients reaching the shared encoder.',
+                    'likelihood':'Poisson, independent negative-binomial marginals, or one integrated shared-Gamma joint loss.',
+                    'competitions':'Supported target fixture competition identities for the structured decoder.',
+                    'initial_alpha':'Initial pooled overdispersion for negative-binomial and shared-Gamma heads.',
+                    'dispersion_learning_rate':'Learning rate for the pooled dispersion scalar; its weight decay is zero.'}[name]
+                if name == 'architecture': f.update(kind='select', choices=['linear','attack_defence'])
+                if name == 'likelihood': f.update(kind='select', choices=['poisson','independent_nb','shared_gamma'])
+            if key == 'graphs.PhaseRankFeatures':
+                if name == 'route': f.update(kind='select', choices=['CD','D1','D5','D10','D20','E1','DE1','CD_DW'])
+                if name == 'policy': f.update(kind='select', choices=['native_phase_form_rank_original_forecast_cutoff_v1','native_phase_form_rank_available_results_original_forecast_cutoff_v2'])
+            if key == 'graphs.GATResearchBCDDWV1' and name == 'window':
+                f.update(kind='select',choices=[10,20],required=True,nullable=False)
             if key == 'graphs.BoundaryMemory':
                 f['help'] = {'policy':'Season: global union of league entry dates at local midnight. Fixed days: nonoverlapping calendar-day blocks, not a sliding window.',
                     'days':'Number of local calendar days per fixed segment.', 'anchor':'Timezone-aware anchor, at local midnight in the model timezone.',

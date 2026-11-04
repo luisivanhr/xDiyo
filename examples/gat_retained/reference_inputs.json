@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "shared": {
+    "experiments/gat_corners_propagation_20261101_01/shared/data/history_corners.parquet": "433a40959351a1fbe228055e77389541ba34ab45257207936aff16ae8d047362",
+    "experiments/gat_capacity_shots_for_20261031_01/shared/data/memberships.parquet": "6b480be21b2adf69069e621d83e7ca9fc19d670279067940c273aaa3d4b9315b",
+    "experiments/gat_capacity_shots_for_20261031_01/shared/data/schedule.parquet": "74548c75d555c9f1534dbfc2a927abfaee2ef3bd8533e7d9de01fa901d82d255",
+    "experiments/gat_capacity_shots_for_20261031_01/PROTOCOL.json": "fcc11742818dcd05ed52fc14d211d1a34f6014cb4c6b909a8a5dc62d6d705700",
+    "experiments/gat_capacity_shots_for_20261031_01/shared/features/phase_context.json": "40dd1c21d6f42e12eaad9ffd52d2d671df3fcc66bdde00a898317920e103c047",
+    "experiments/gat_capacity_shots_for_20261031_01/shared/features/phase_context.parquet": "2e597453e1576ff645bea58b0cf8e604b9ffa2276d937a2a8fc7898d5fd72c4d",
+    "experiments/gat_corners_propagation_20261101_01/PROTOCOL.json": "59e15fa5e654f994eda0a6aba97e0a3b4cad6fd29c5a6d515302e3bd97fb0619"
+  },
+  "jobs": {
+    "time_B/N/fold_1/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/N/COR_FA.json": "cbee5dd8496c6100dc98852e9020e570796cfce5b1a21bc1273119c7c58135ae",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_17/time_B/N/COR_FA.pt": "e0023d54ab6fb495975554dc2d206d42b40553ce61111c6634f942eb9298caa0"
+      }
+    },
+    "time_B/N/fold_1/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/N/COR_FA.json": "cbee5dd8496c6100dc98852e9020e570796cfce5b1a21bc1273119c7c58135ae",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_42/time_B/N/COR_FA.pt": "b8d77e26cf69c8ecc4aec9bab5a9d27341dfd174a627d68468fa07b86e2e9f13"
+      }
+    },
+    "time_B/N/fold_1/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/N/COR_FA.json": "cbee5dd8496c6100dc98852e9020e570796cfce5b1a21bc1273119c7c58135ae",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_73/time_B/N/COR_FA.pt": "ad6ea31b67982381e2bad108f6dd5bc4de74742c18f19604c23a5c69446d0840"
+      }
+    },
+    "time_B/N/fold_2/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/N/COR_FA.json": "b69b4635f90a49601e454fb1a0e5d00f8bf6fa5e6fbf985dd301ee19a7d89dfd",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_17/time_B/N/COR_FA.pt": "5d3645d7118d35ebcc0135c7d1306e75c0324344fa727b6d429b101058b10642"
+      }
+    },
+    "time_B/N/fold_2/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/N/COR_FA.json": "b69b4635f90a49601e454fb1a0e5d00f8bf6fa5e6fbf985dd301ee19a7d89dfd",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_42/time_B/N/COR_FA.pt": "2fc8611a7491a3d06ee266c52748e9d490a17f4fee568d336741435f0ec332a8"
+      }
+    },
+    "time_B/N/fold_2/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": null,
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/N/COR_FA.json": "b69b4635f90a49601e454fb1a0e5d00f8bf6fa5e6fbf985dd301ee19a7d89dfd",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_73/time_B/N/COR_FA.pt": "527e149a68e93eb902f0599512cc2edc2998b92e0348f86f9c29bdff976afad4"
+      }
+    },
+    "time_C/E1/fold_1/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_C/E1/COR_FA.json": "83e4543e0fa7b96ce114043baba13f7b66202f0b5828126c4dab924f43ec782a",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_17/time_C/E1/COR_FA.pt": "d048c3a05561bf352a212281ee25ed30bd377e3d7a1fd722e993bc26c3f38892"
+      }
+    },
+    "time_C/E1/fold_1/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_C/E1/COR_FA.json": "83e4543e0fa7b96ce114043baba13f7b66202f0b5828126c4dab924f43ec782a",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_42/time_C/E1/COR_FA.pt": "341d5831eb4ca3037771b44303ef21fdd3afd8ba27f91f8b00fd3cd4e51bf753"
+      }
+    },
+    "time_C/E1/fold_1/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_C/E1/COR_FA.json": "83e4543e0fa7b96ce114043baba13f7b66202f0b5828126c4dab924f43ec782a",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_73/time_C/E1/COR_FA.pt": "d47339aa7489d367d0a35916c6aa28c46f05dbe4428fdb3d0050ba11af5c460f"
+      }
+    },
+    "time_C/E1/fold_2/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_C/E1/COR_FA.json": "0cb17680780ade85f4b9f9afd52db0ad1a493a985447b30c64f3a76a33a2f772",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_17/time_C/E1/COR_FA.pt": "ee8b5876179eae42aaf5c4ad2ad2048f293d7392323e6c94bc93d4895ddfaa77"
+      }
+    },
+    "time_C/E1/fold_2/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_C/E1/COR_FA.json": "0cb17680780ade85f4b9f9afd52db0ad1a493a985447b30c64f3a76a33a2f772",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_42/time_C/E1/COR_FA.pt": "554e0e631e0ed180aec672785b1ba0385aa9e0555fd1a719e98e57aa81e817b2"
+      }
+    },
+    "time_C/E1/fold_2/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_C/E1/COR_FA.json": "0cb17680780ade85f4b9f9afd52db0ad1a493a985447b30c64f3a76a33a2f772",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_73/time_C/E1/COR_FA.pt": "520b70effd512340fd9038b49d3f777fb030e57cfed0f02dc851311398995fb9"
+      }
+    },
+    "time_B/CD_DW/fold_1/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/CD_DW/COR_FA.json": "85791b887f1ad02b314b8203c3c1b5d479ed10791e84e20383f355ab494f0df0",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_17/time_B/CD_DW/COR_FA.pt": "8ee5c6b45bf74f9a94918ccad414b44cb900dcfef6cec6576494074cbd94a573"
+      }
+    },
+    "time_B/CD_DW/fold_1/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/CD_DW/COR_FA.json": "85791b887f1ad02b314b8203c3c1b5d479ed10791e84e20383f355ab494f0df0",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_42/time_B/CD_DW/COR_FA.pt": "9c89a59386c1d506503c00f7c5491d89008b16bb83676805d587a5adc254a3d7"
+      }
+    },
+    "time_B/CD_DW/fold_1/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_1/time_B/CD_DW/COR_FA.json": "85791b887f1ad02b314b8203c3c1b5d479ed10791e84e20383f355ab494f0df0",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_fit.parquet": "26fbbcac68af5a7eb723ec88c0d185b05827ea242b9376b5ee901d36d8d02a03",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_inner.parquet": "c6376fa79baa0aac521959803bdeeefb45710a9bd3f02c4a0308619af4c03675",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_1_outer.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_1/seed_73/time_B/CD_DW/COR_FA.pt": "b3eed0d3ec3c20aaac93f70fdf5d883e2ac5f4719b66ed75c9f40dea28a001e8"
+      }
+    },
+    "time_B/CD_DW/fold_2/17": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/CD_DW/COR_FA.json": "1a7639f30a15cc9d6891c52d15f7b4997153b1dc02ae8f896a570769ee6effe1",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_17/time_B/CD_DW/COR_FA.pt": "2eb749f3f3525c1ac11a030f8ae979b6af4f35ef1f04bcded521c726f99bd2af"
+      }
+    },
+    "time_B/CD_DW/fold_2/42": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/CD_DW/COR_FA.json": "1a7639f30a15cc9d6891c52d15f7b4997153b1dc02ae8f896a570769ee6effe1",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_42/time_B/CD_DW/COR_FA.pt": "5dd6767618c1a487d771a62c22f2962ef0b18ccd1d1015e6fd779f27baf11f65"
+      }
+    },
+    "time_B/CD_DW/fold_2/73": {
+      "event_store_version": "1edfc84ed2e3073276ce3d4ebb78e033ac41a2dbc0e32f92704dd451ded53059",
+      "source_id": "e044658c8688f8d4db850ae87bf22c744bf4d9187173791cb0530e8a13105a6b",
+      "files": {
+        "experiments/gat_corners_propagation_20261101_01/shared/preprocessing/fold_2/time_B/CD_DW/COR_FA.json": "1a7639f30a15cc9d6891c52d15f7b4997153b1dc02ae8f896a570769ee6effe1",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_fit.parquet": "2f645e28e2d5c9b3b99bfbeabe7cc5df56f7c85226e15cf317345a11e1f923a8",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_inner.parquet": "f8da040549ae12b654b25474341639e39bbd2333508854ff1f136d39a36f245b",
+        "experiments/gat_corners_propagation_20261101_01/shared/populations/fold_2_outer.parquet": "cadecf84a5fa02b18b72efac81bf7699752fc3868f5635830c9c6242f471bbdd",
+        "experiments/gat_corners_propagation_20261101_01/shared/initialization/fold_2/seed_73/time_B/CD_DW/COR_FA.pt": "1f2c157b75f0a85233c106e45fa17ab45ac36764e19c6ecccbbfafc62642111f"
+      }
+    }
+  }
+}

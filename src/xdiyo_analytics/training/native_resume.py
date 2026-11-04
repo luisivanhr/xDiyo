@@ -56,7 +56,7 @@ def execution_profile(adapter):
     from dataclasses import asdict
     from .residency import InputCachePolicy
     device = str(adapter.device)
-    return dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
+    profile = dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
                 torch_build=hashlib.sha256(torch.__config__.show().encode()).hexdigest(),
                 platform=platform.platform(), device=device, threads=torch.get_num_threads(),
                 interop_threads=torch.get_num_interop_threads(),
@@ -71,6 +71,15 @@ def execution_profile(adapter):
                 cuda_build=torch.version.cuda,
                 gpu=torch.cuda.get_device_name(device) if device.startswith('cuda') else None,
                 capability=list(torch.cuda.get_device_capability(device)) if device.startswith('cuda') else None)
+    training = getattr(adapter, 'research_training', None)
+    execution = getattr(adapter, 'research_execution', None)
+    if training is not None:
+        profile['research_training'] = training.identity()
+        profile['research_execution'] = None if execution is None else asdict(execution)
+        profile['research_diagnostics'] = ('pre_update_train' if execution is not None and
+            execution.omit_diagnostic_replay else 'post_update_train')
+    return profile
+
 
 
 def _preprocessing(backend):
@@ -79,16 +88,64 @@ def _preprocessing(backend):
     return json.dumps(pack(obj.state()), ensure_ascii=False, allow_nan=False)
 
 
+def _graph_semantics(backend):
+    from dataclasses import asdict
+    config = backend.config
+    return dict(statistic_availability_policy=config.statistic_availability_policy,
+                identity_schema=getattr(backend, "identity_schema", None),
+                sender_state_mode=config.sender_state_mode,
+                fixture_schema=backend.preprocessor.fixture_schema,
+                phase_rank_schema=backend.preprocessor.phase_schema,
+                goal_auxiliary=asdict(config.goal_auxiliary) if config.goal_auxiliary is not None else None)
+
+
 def capture_backend(backend):
     state = dict(model=_cpu(backend.model.state_dict()), optimizer=_cpu(backend.optimizer.state_dict()),
                 gradients=[None if p.grad is None else _cpu(p.grad) for p in backend.model.parameters()],
                 preprocessing=_preprocessing(backend), training=backend.model.training)
+    if hasattr(getattr(backend, 'config', None), 'sender_state_mode'):
+        state['graph_semantics'] = _graph_semantics(backend)
+    if getattr(backend, 'research_training', None) is not None:
+        state['research_contract'] = backend.research_training.identity()
+        execution = getattr(backend, 'research_execution', None)
+        from dataclasses import asdict
+        state['research_execution'] = None if execution is None else asdict(execution)
+        state['research_state'] = dict(initial_digest=backend.initial_digest,
+            validation_forward_calls=backend._validation_forward_calls)
     if hasattr(backend, 'statistics_scale'):
         state['statistics_scale'] = deepcopy(backend.statistics_scale.state())
     return state
 
 
 def restore_backend(backend, state):
+    if hasattr(getattr(backend, 'config', None), 'sender_state_mode'):
+        expected = _graph_semantics(backend)
+        actual = state.get('graph_semantics')
+        if actual is None:
+            from ..graphs.observed_gap import LEGACY_GAP_ENCODING
+            if backend.config.sender_state_mode != 'updated' or backend.config.fixture_gap_encoding != LEGACY_GAP_ENCODING:
+                raise ValueError('Legacy continuation cannot select a corrected schema or sender mode.')
+        else:
+            if 'phase_rank_schema' not in actual and 'goal_auxiliary' not in actual:
+                if backend.config.phase_rank_features is not None:
+                    raise ValueError('Legacy continuation has no native context source or route identity.')
+                # Pre-context continuations still use the enclosing session's
+                # exact configuration fingerprint. New captures seal both tasks.
+                expected = {k:v for k,v in expected.items() if k not in ('phase_rank_schema','goal_auxiliary')}
+            if actual != expected:
+                raise ValueError('Training checkpoint sender mode, fixture schema, context or goal objective is incompatible.')
+    training = getattr(backend, 'research_training', None)
+    if (training.identity() if training is not None else None) != state.get('research_contract'):
+        raise ValueError('Training checkpoint retained population or replay contract is incompatible.')
+    if training is not None:
+        from dataclasses import asdict
+        execution = getattr(backend, 'research_execution', None)
+        if (None if execution is None else asdict(execution)) != state.get('research_execution'):
+            raise ValueError('Training checkpoint retained execution or diagnostic policy is incompatible.')
+        research = state.get('research_state', {})
+        if research.get('initial_digest') != backend.initial_digest:
+            raise ValueError('Training checkpoint canonical initialization is incompatible.')
+        backend._validation_forward_calls = research['validation_forward_calls']
     if _preprocessing(backend) != state['preprocessing']:
         raise ValueError('Training checkpoint preprocessing is incompatible with rebuilt inputs.')
     if hasattr(backend, 'statistics_scale'):
@@ -245,7 +302,7 @@ def finalize_training(adapter, *, mode='retain', checkpoint=None):
     backend.optimizer.zero_grad(set_to_none=True)
     for name in ('optimizer', 'train_groups', 'validation_groups', 'train_targets', 'validation_targets',
                  'train_weights', 'validation_weights', 'train', 'validation',
-                 'train_statistics', 'validation_statistics', '_statistics_observations'):
+                 'train_statistics', 'validation_statistics', '_statistics_observations', 'train_goals', 'validation_goals'):
         backend.__dict__.pop(name, None)
     if hasattr(backend, 'preprocessor'):
         backend.preprocessor._edge_cache = None

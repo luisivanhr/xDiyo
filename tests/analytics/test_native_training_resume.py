@@ -9,7 +9,7 @@ import torch
 from test_graph_preparation_memory import assert_exact
 
 
-@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression', 'retained_bn', 'retained_ce1', 'retained_cddw', 'retained_speed_bn', 'retained_speed_ce1', 'retained_speed_cddw'])
 def test_fresh_process_resume_matches_uninterrupted_next_updates(tmp_path, kind):
     worker = Path(__file__).with_name('native_resume_worker.py')
     env = dict(os.environ, CUDA_VISIBLE_DEVICES='-1', PYTHONDONTWRITEBYTECODE='1')
@@ -128,7 +128,7 @@ def test_thinned_offers_do_not_capture_optimizer_buffers(tmp_path, monkeypatch):
 
 
 @pytest.mark.skipif(os.environ.get('XDIYO_CUDA_CHECKS') != '1', reason='Explicit free-GPU gate required')
-@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression'])
+@pytest.mark.parametrize('kind', ['gat', 'gat_fixture', 'cnn_classification', 'cnn_regression', 'retained_bn', 'retained_ce1', 'retained_cddw', 'retained_speed_bn', 'retained_speed_ce1', 'retained_speed_cddw'])
 def test_cuda_cold_process_resume_with_input_residency(tmp_path, kind):
     worker = Path(__file__).with_name('native_resume_worker.py')
     env = dict(os.environ, CUDA_VISIBLE_DEVICES='0', CUBLAS_WORKSPACE_CONFIG=':4096:8',

@@ -69,7 +69,20 @@ class GroupPlan:
         # eligible snapshot rows, avoiding a fresh pandas team grouping.
         missing_time = np.iinfo(np.int64).min
         latest = np.full(len(snap.teams), missing_time, dtype=np.int64)
-        np.maximum.at(latest, snap.receiver, snap.edges.kickoff_at.array.asi8)
+        if self.config.fixture_gap_encoding == 'bounded_observed_gap_v1' and since is not None:
+            # Fixture provenance is independent of the encoder's segment. An
+            # older eligible observation still determines the observed gap.
+            # Reduce source indices without constructing a second full graph;
+            # exact-ID lookup also handles new or carried teams absent in it.
+            rows = self.store._eligible_rows(snap.cutoff)
+            source_latest = np.full(len(self.store._source_nodes), missing_time, dtype=np.int64)
+            np.maximum.at(source_latest, self.store._receiver_codes[rows], self.store._kickoff_ns[rows])
+            for team, position in indices.items():
+                code = self.store._source_node_index.get(team)
+                if code is not None:
+                    latest[position] = source_latest[code]
+        else:
+            np.maximum.at(latest, snap.receiver, snap.edges.kickoff_at.array.asi8)
 
         def rest(t):
             value = latest[indices[t]]
@@ -86,6 +99,18 @@ class GroupPlan:
                                    snap.support[home], snap.support[away]))
         if self.config.fixture_features:
             numeric = np.column_stack((numeric, self.X.iloc[positions].to_numpy(dtype=float, na_value=np.nan)))
+        # Diagnostics retain the actual observation behind the duration. These
+        # fields are metadata; the preprocessor selects the encoded tensor.
+        if self.config.fixture_gap_encoding == 'bounded_observed_gap_v1':
+            meta = meta.copy()
+            for side, local, column in (('home', home, 1), ('away', away, 2)):
+                observed_at = latest[local]
+                meta[f'{side}_observed_gap_days'] = numeric[:, column]
+                meta[f'{side}_latest_eligible_observed_at'] = pd.to_datetime(observed_at, utc=True)
+                meta[f'{side}_has_eligible_observation'] = observed_at != missing_time
+        if self.config.phase_rank_features is not None:
+            meta = meta.copy()
+            meta['_phase_cutoff'] = self.config.history_cutoff(time)
         return positions, snap, home, away, meta, numeric
 
     def _summarize(self, index, numeric):
@@ -108,6 +133,11 @@ def prepare_group(raw, preprocessor, device, store=None, *, reconstruction_targe
     import torch
     positions, snap, home, away, meta, numeric = raw
     data = preprocessor.native_tensors(snap, device, store, reconstruction_targets=reconstruction_targets) if store is not None else preprocessor.tensors(snap, device)
+    goal = preprocessor.config.goal_auxiliary
+    if goal is not None and goal.architecture == 'attack_defence':
+        # Fixture metadata only; no labels or historical league-prior substitution.
+        data['goal_competition'] = torch.as_tensor(meta.competition_id.to_numpy(dtype=np.int64, copy=True), device=device, dtype=torch.long)
+        data['goal_neutral'] = torch.as_tensor(numeric[:, 0], device=device, dtype=torch.float32)
     return (positions, data,
             torch.as_tensor(home, device=device), torch.as_tensor(away, device=device),
             torch.as_tensor(preprocessor.fixture(meta, numeric), dtype=torch.float32, device=device))
@@ -123,6 +153,10 @@ class PreparedGroups:
     def __init__(self, plan, preprocessor, device, input_cache_policy=None, *, reconstruction_targets=False):
         self.plan, self.preprocessor, self.device = plan, preprocessor, device
         self.reconstruction_targets = reconstruction_targets
+        from .temporal import time_encoding_key
+        self._time_encoding_key = time_encoding_key(preprocessor.config)
+        self._fixture_encoding_key = tuple(preprocessor.fixture_encoded_columns)
+        self._phase_encoding_key = repr(preprocessor.phase_schema)
         from ..training.residency import InputResident
         self._resident = InputResident(device, input_cache_policy)
         if self._resident.pool is not None:
@@ -137,7 +171,10 @@ class PreparedGroups:
         def cpu():
             p, prep = self._fixed_plan, self._fixed_preprocessor
             return prepare_group(p.raw(index, columns=prep.snapshot_columns(p.store)), prep, 'cpu', p.store, reconstruction_targets=self.reconstruction_targets)
-        return self._resident.lease(index, cpu, lambda: self[index])
+        key = (self._time_encoding_key, self._fixture_encoding_key, index)
+        if self.preprocessor.phase_schema is not None:
+            key += (self._phase_encoding_key,)
+        return self._resident.lease(key, cpu, lambda: self[index])
 
     def segment_lease(self, index, since, teams):
         """Cache immutable segment inputs only; learned carry is added by replay."""
@@ -149,7 +186,7 @@ class PreparedGroups:
             group = prepare_group(raw, prep, device, plan.store,
                                   reconstruction_targets=self.reconstruction_targets)
             return group, identities
-        return self._resident.lease(('segment', index, since, teams),
+        return self._resident.lease((self._time_encoding_key, self._fixture_encoding_key, 'segment', index, since, teams),
             lambda: build(self._fixed_plan, self._fixed_preprocessor, 'cpu'),
             lambda: build(self.plan, self.preprocessor, self.device))
 

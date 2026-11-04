@@ -1,0 +1,2718 @@
+{
+  "schema": "gat_pr2_repairs_v1",
+  "passed": true,
+  "completed_utc": "2026-11-04T23:19:57.866297+00:00",
+  "branch": "codex/gat-main-integration",
+  "tested_code_commit": "b8ffda6e35245149348cd77015922efddf43b7a9",
+  "reference_commit": "2079118b409cff7d67be21d5af68aac360c12968",
+  "main_sha": "64861849d8b7044e0b209b9ac9db28080a92b1e4",
+  "fixes": [
+    "Fit release-aware edge scalers only on selected values known at the maximum fitting-history cutoff; require an explicit aware cutoff for direct release-aware fitting.",
+    "Derive bounded observed gaps from full result-eligible history, independently of the boundary-memory encoder segment."
+  ],
+  "production_sha256": {
+    "src/xdiyo_analytics/graphs/adapter.py": "afe08e3f034b8ca731337fbdf84cbf30681998abc4677c60618ba5863d0dc9a0",
+    "src/xdiyo_analytics/graphs/preprocessing.py": "43fe9efc1bb3384e16080f38546b0e6b8f44dcf5104fd2abd40a8d3b23d05ffb",
+    "src/xdiyo_analytics/graphs/streaming.py": "7744eadff3d4170c6cc62888dcc609ed291de77ed38dcdb7e3a4df1b0be35009"
+  },
+  "production_git_blobs": {
+    "src/xdiyo_analytics/graphs/adapter.py": "b30458729c89c9eb32852ac007e354bf59391280",
+    "src/xdiyo_analytics/graphs/preprocessing.py": "8b73be405e38f1aab346f67781c83592b7b0ca09",
+    "src/xdiyo_analytics/graphs/streaming.py": "b11ed3a9d608be03231778829386abebbf5c8940"
+  },
+  "test_sha256": {
+    "tests/analytics/test_graph_pr2_repairs.py": "85bbd6cee129e70322195e16e2e2bddfd93036d73623883b325c9bd51a54a35a",
+    "tests/analytics/test_graph_temporal_attention.py": "eba3084992692843953fc4c1ec6cc0158c1657d9618dcf3f38a8382076781d7e"
+  },
+  "tests": {
+    "unique_passed": 345,
+    "new_regressions": 48,
+    "cuda_named_cases": 67,
+    "failures": 0,
+    "skips": 0,
+    "cases": [
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-2020-02-01T00:00Z-snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-2020-02-01T00:00Z-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-2020-02-01T00:00Z-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-2020-02-01T00:00Z-retained]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-None-snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-None-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-None-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cpu-None-retained]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-2020-02-01T00:00Z-snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-2020-02-01T00:00Z-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-2020-02-01T00:00Z-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-2020-02-01T00:00Z-retained]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-None-snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-None-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-None-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_unreleased_values_leave_fitted_scalers_inputs_and_logits_invariant[cuda:0-None-retained]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_public_retained_fresh_fit_is_invariant_to_unreleased_statistic[cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_public_retained_fresh_fit_is_invariant_to_unreleased_statistic[cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_scaler_fit_uses_training_cutoff_not_validation_or_label_boundary"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_release_fit_exact_boundaries_mixed_columns_goals_and_empty_history"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_release_aware_direct_fit_requires_nonmissing_aware_cutoff[None]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_release_aware_direct_fit_requires_nonmissing_aware_cutoff[cut1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_release_aware_direct_fit_requires_nonmissing_aware_cutoff[2020-01-01]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_legacy_and_absent_release_columns_keep_exact_scaler_arithmetic"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_keeps_full_history_across_boundary[False-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_keeps_full_history_across_boundary[False-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_keeps_full_history_across_boundary[True-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_keeps_full_history_across_boundary[True-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[empty-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[empty-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[new_team-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[new_team-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[late_result-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[late_result-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[large_ids-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_full_history_handles_availability_and_team_identity[large_ids-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[-1-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[-1-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[0-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[0-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[1-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_boundary_nanosecond_ties_use_full_history_without_changing_segments[1-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_replay_and_resident_lease_keep_segment_and_carry[cpu-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_replay_and_resident_lease_keep_segment_and_carry[cpu-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_replay_and_resident_lease_keep_segment_and_carry[cuda:0-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_bounded_gap_replay_and_resident_lease_keep_segment_and_carry[cuda:0-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_legacy_segment_gap_and_bounded_no_memory_controls[fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_pr2_repairs",
+        "name": "test_legacy_segment_gap_and_bounded_no_memory_controls[season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_later_opponent_form_preserves_historical_encounter_only[snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_later_opponent_form_preserves_historical_encounter_only[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_later_opponent_form_preserves_historical_encounter_only[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_fixed_historical_state_unavailable_and_future_invariance[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_fixed_historical_state_unavailable_and_future_invariance[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_target_result_cannot_change_its_own_forecast[snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_target_result_cannot_change_its_own_forecast[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_target_result_cannot_change_its_own_forecast[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_inconsistent_schedule_cannot_admit_the_target[snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_inconsistent_schedule_cannot_admit_the_target[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_inconsistent_schedule_cannot_admit_the_target[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_label_boundary_uses_later_history_release_and_validation_rejects_it"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_release_index_matches_direct_store_cutoffs_including_dst"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_time_features_are_explicit_masked_and_sensitive_to_dates"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_rational_numerics_layout_and_fractional_days"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_known_durations_rejected[-1.0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_known_durations_rejected[inf]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_known_durations_rejected[-inf]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_known_durations_rejected[nan]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[0.0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[-1.0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[inf]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[-inf]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[nan]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_rational_scales_rejected[7]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_root_and_recursive_features_agree_for_same_queries[rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_root_and_recursive_features_agree_for_same_queries[log1p_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_temporal_projection_connections_have_finite_nonzero_gradients[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_temporal_projection_connections_have_finite_nonzero_gradients[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_encoding_cache_and_fingerprints_are_distinct[cpu-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_encoding_cache_and_fingerprints_are_distinct[cpu-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_encoding_cache_and_fingerprints_are_distinct[cuda:0-time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_encoding_cache_and_fingerprints_are_distinct[cuda:0-historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_historical_membership_priors_and_deduplicated_queries"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[rational_decay_v1-1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[rational_decay_v1-2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[rational_decay_v1-3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[log1p_v1-1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[log1p_v1-2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_batched_queries_match_recursive_definition_and_attention_order[log1p_v1-3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_gradient_reaches_historical_sender_and_no_learned_cache_survives_pass"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_historical_cuda_matches_cpu_values_and_gradients"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_cuda_resident_inputs_preserve_exact_updates[snapshot]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_cuda_resident_inputs_preserve_exact_updates[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_cuda_resident_inputs_preserve_exact_updates[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cpu-snapshot-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cpu-time_features-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cpu-historical-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cpu-time_features-log1p_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cpu-historical-log1p_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cuda:0-snapshot-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cuda:0-time_features-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cuda:0-historical-rational_decay_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cuda:0-time_features-log1p_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_training_save_load_predictions_and_inspection[cuda:0-historical-log1p_v1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_legacy_logarithmic_checkpoint_and_reject_ambiguous_metadata[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_legacy_logarithmic_checkpoint_and_reject_ambiguous_metadata[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_empty_history_and_unknown_team_keep_contextual_priors[time_features]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_empty_history_and_unknown_team_keep_contextual_priors[historical]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_default_network_matches_frozen_baseline_outputs_and_gradients"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs4]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs5]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_invalid_temporal_configuration_rejected[kwargs6]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_temporal_attention",
+        "name": "test_temporal_modes_reject_unvalidated_extensions"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cpu-before]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cpu-at]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cpu-after]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cpu-missing]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cuda:0-before]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cuda:0-at]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cuda:0-after]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_historical_rows_match_individual_query_cutoffs[cuda:0-missing]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_later_query_cannot_change_earlier_historical_inputs_or_output[cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_later_query_cannot_change_earlier_historical_inputs_or_output[cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_empty_released_history_materializes_contextual_priors[cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_empty_released_history_materializes_contextual_priors[cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[rational_decay_v1-1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[rational_decay_v1-2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[rational_decay_v1-3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[log1p_v1-1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[log1p_v1-2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_release_aware_batched_encoder_matches_direct_recursive_snapshots[log1p_v1-3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_existing_statistic_policy_controls_materialize[snapshot-per_stat_release_v1-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_existing_statistic_policy_controls_materialize[time_features-per_stat_release_v1-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_existing_statistic_policy_controls_materialize[historical-legacy_unmasked_v1-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_historical_release",
+        "name": "test_existing_statistic_policy_controls_materialize[historical-per_stat_release_v1-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_gap_encoding_boundaries_monotonicity_and_unknown_provenance"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days0-known0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days1-known1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days2-known2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days3-known3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days4-known4]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days5-known5]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_observed_gap_rejected[days6-known6]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_actual_fixture_schema_bypasses_scaler_without_aliases_or_duplicate_masks"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_gap_metadata_and_input_are_invariant_to_ineligible_history"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_corrected_persistence_and_cross_mode_continuation[updated-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_corrected_persistence_and_cross_mode_continuation[updated-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_corrected_persistence_and_cross_mode_continuation[layer_zero-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_corrected_persistence_and_cross_mode_continuation[layer_zero-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_legacy_absent_metadata_keeps_transform_fingerprint_and_predictions"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options4]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_observed_gap",
+        "name": "test_invalid_gap_or_sender_contract_rejected[options5]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[None-auxiliary]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[None-combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[None-bottleneck]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[memory1-auxiliary]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[memory1-combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_fit_save_inference_inspection[memory1-bottleneck]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_routes_and_end_to_end_gradient"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_boundary_partition_detachment_no_accumulation_refresh"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_late_release_boundary_tie_and_future_mutation"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[point-False-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[point-False-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[poisson-False-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[poisson-False-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[negative_binomial-False-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[negative_binomial-False-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[inflated_beta-True-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_distribution_support_masks_and_finite_gradients[inflated_beta-True-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_training_scale_constant_missing_and_weight_normalization"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_targets_not_forward_inputs_and_half_goals_rejected"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_native_ui_recipe_exports_and_reporters"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_season_movement_and_empty_segment_retains_carry"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_all_missing_auxiliary_group_and_checkpoint_metric_current_state"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_boundary_configuration[kwargs0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_boundary_configuration[kwargs1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_boundary_configuration[kwargs2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_boundary_configuration[kwargs3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs1]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs2]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs3]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs4]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_invalid_statistic_configuration[kwargs5]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_half_targets_masks_transform_and_validation_is_not_fit"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_optional_cnn_reconstruction_memory_statistics_all_coexist"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_deterministic_extensions_repeated_full_adamw_state"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_disabled_network_exact_against_base_revision[False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_disabled_network_exact_against_base_revision[True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_explicitly_scheduled_gpu_extensions[auxiliary]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_explicitly_scheduled_gpu_extensions[combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_explicitly_scheduled_gpu_extensions[bottleneck]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_first_boundary_numeric_carry_matches_causal_native_encoder"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_extensions",
+        "name": "test_point_normalization_extreme_relative_target_weights"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[False-False-by_round]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[False-False-one_day_ahead]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[False-True-by_round]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[False-True-one_day_ahead]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[True-False-by_round]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[True-False-one_day_ahead]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[True-True-by_round]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_bit_exact_training_and_exports[True-True-one_day_ahead]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_only_one_live_graph_across_all_operations"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[initialize-RuntimeError]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[initialize-KeyboardInterrupt]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[step-RuntimeError]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[step-KeyboardInterrupt]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[predict-RuntimeError]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[predict-KeyboardInterrupt]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[encode-RuntimeError]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[encode-KeyboardInterrupt]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[attention-RuntimeError]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_exception_and_cancellation_release_graphs[attention-KeyboardInterrupt]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_restartable_stream_freezes_fixture_inputs"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_frozen_round_with_long_postponement_and_future_mutation"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_streaming_cold_only_training_and_control_selection"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_preparation_memory",
+        "name": "test_stream_failure_direct_consumer_does_not_pin_raw_arguments"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_resident_aliases_budget_eviction_and_owner_lifecycle"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_low_budget_fallback_and_errors_release_accounting"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cpu_fallback_policy_preserves_full_training[classification]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cpu_fallback_policy_preserves_full_training[regression]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cuda_residency_full_updates_and_inspection[gat]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cuda_residency_full_updates_and_inspection[gat_fixture]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cuda_residency_full_updates_and_inspection[cnn_classification]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_cuda_residency_full_updates_and_inspection[cnn_regression]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_native_graph_resident_batches_match_uncached_and_do_not_alias[False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_native_graph_resident_batches_match_uncached_and_do_not_alias[True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_input_residency",
+        "name": "test_residency_ui_json_python_export_and_saved_native_model"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_generic_defaults_and_explicit_research_identity"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_release_policy_early_late_missing_and_reverse_query"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_factories_are_fixed_expanded_configs_and_catalogue_roundtrips"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_public_phase_path_and_failed_attachment_are_atomic"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_compatibility_manifest_is_immutable_and_unambiguous"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_backend_dispatch_validation_and_read_only_metrics"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_replay_hashes_and_contract_roundtrip"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_known_export_hashes_and_ambiguous_research_policy_fail_closed"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_execution_metadata_cannot_silently_change_resume"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_current_phase_producer_uses_native_oracle_and_original_cutoffs"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_public_recipe_prepare_json_python_and_reuse[BN-None]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_public_recipe_prepare_json_python_and_reuse[CE1-None]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_public_recipe_prepare_json_python_and_reuse[BCDDW-10]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_retained_public_recipe_prepare_json_python_and_reuse[BCDDW-20]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_reconciliation",
+        "name": "test_native_checkpoint_rejects_changed_source_fingerprint"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_diagnostic_replay-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[pack_validation-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[cache_indices-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[borrow_inputs-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[omit_unused-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[all-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-bn-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-bn-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-ce1-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-ce1-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-cddw-cpu]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_each_flag_and_combined_exact_updates[none-cddw-cuda:0]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_private_borrow_lifetimes_indices_mutation_and_oversize"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_weak_owners_frozen_schema_and_failure_cleanup"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_gat_research_execution",
+        "name": "test_opt_in_eligibility_catalogue_persistence_and_diagnostics"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[auxiliary-False-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[auxiliary-False-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[auxiliary-True-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[auxiliary-True-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[combined-False-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[combined-False-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[combined-True-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[combined-True-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[bottleneck-False-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[bottleneck-False-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[bottleneck-True-False]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_combined_resident_exact_updates_and_no_learned_cache[bottleneck-True-True]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[0.0-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[0.0-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[0.4-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[0.4-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[1.0-season]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_memory_restore_queries_and_new_team[1.0-fixed_days]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extension_finalization_reload_and_scaler_binding[gat_memory]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extension_finalization_reload_and_scaler_binding[gat_statistics]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extension_finalization_reload_and_scaler_binding[gat_combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[-gat_memory]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[-gat_statistics]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[-gat_combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[early_stopping-gat_memory]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[early_stopping-gat_statistics]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_extensions_fresh_process_continuation[early_stopping-gat_combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_pinned_source_two_update_parity_and_legacy_reload[861b00461943be7ff589c9bd7deace909e96c9c1-plain]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_pinned_source_two_update_parity_and_legacy_reload[861b00461943be7ff589c9bd7deace909e96c9c1-cnn]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_memory]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_statistics]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_combined]"
+      },
+      {
+        "suite": "affected",
+        "classname": "tests.analytics.test_graph_integration_gates",
+        "name": "test_ui_retains_both_sets_of_controls"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[gat]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[gat_fixture]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_bn]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_ce1]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_cddw]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_speed_bn]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_speed_ce1]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_fresh_process_resume_matches_uninterrupted_next_updates[retained_speed_cddw]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[gat]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[gat_fixture]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_bn]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_ce1]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_cddw]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_speed_bn]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_speed_ce1]"
+      },
+      {
+        "suite": "native",
+        "classname": "tests.analytics.test_native_training_resume",
+        "name": "test_cuda_cold_process_resume_with_input_residency[retained_speed_cddw]"
+      }
+    ]
+  },
+  "reference_comparisons": {
+    "cpu": {
+      "default": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "released_statistics": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_memory": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_statistics": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_combined": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "cnn": {
+        "passed": true,
+        "device": "cpu",
+        "updates": 3,
+        "tolerance": "exact"
+      }
+    },
+    "cuda": {
+      "default": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "released_statistics": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_memory": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_statistics": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "gat_combined": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      },
+      "cnn": {
+        "passed": true,
+        "device": "cuda:0",
+        "updates": 3,
+        "tolerance": "exact"
+      }
+    }
+  },
+  "legacy_comparisons": [
+    {
+      "study": "gat_temporal_cuda_patience15_20261025",
+      "id": "model_00",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_temporal_cuda_patience15_20261025",
+      "id": "model_01",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_temporal_cuda_patience15_20261025",
+      "id": "model_02",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_goal_auxiliary_cuda_20261026",
+      "id": "model_00",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_goal_auxiliary_cuda_20261026",
+      "id": "model_01",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_goal_auxiliary_cuda_20261026",
+      "id": "model_02",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_00",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_01",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_02",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_03",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_04",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_05",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_06",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_07",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_08",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_09",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_10",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_11",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_12",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_13",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_14",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_15",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_16",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_17",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_18",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_19",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_20",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_21",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_22",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_23",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_24",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_25",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_26",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_27",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_28",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_phase_form_rank_20261027_01",
+      "id": "model_29",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_rest_propagation_20261027_01",
+      "id": "model_00",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_rest_propagation_20261027_01",
+      "id": "model_01",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_00",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_01",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_02",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_03",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_04",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_05",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_06",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_07",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_08",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_09",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_10",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_11",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_12",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_13",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "gat_four_study_suite_20261026_01",
+      "id": "model_14",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "study": "expanded_totals_11ffa446_fold02",
+      "id": "expanded_fold02",
+      "passed": true,
+      "scope": "four fixed original fixture probes",
+      "tolerance": "exact",
+      "roundtrip": true
+    }
+  ],
+  "retained_inference": [
+    {
+      "name": "time_B__N__fold_1__17",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__N__fold_1__42",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__N__fold_1__73",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__N__fold_2__17",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__N__fold_2__42",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__N__fold_2__73",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_1__17",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_1__42",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_1__73",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_2__17",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_2__42",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_C__E1__fold_2__73",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_1__17",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_1__42",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_1__73",
+      "fixtures": 4288,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_2__17",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_2__42",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    },
+    {
+      "name": "time_B__CD_DW__fold_2__73",
+      "fixtures": 4185,
+      "passed": true,
+      "tolerance": "exact",
+      "roundtrip": true
+    }
+  ],
+  "retained_training": [
+    {
+      "family": "time_B/N",
+      "fold": "fold_2",
+      "seed": 17,
+      "updates": 3,
+      "passed": true,
+      "tolerance": "exact",
+      "state": "full optimizer gradients RNG selection restoration"
+    },
+    {
+      "family": "time_C/E1",
+      "fold": "fold_2",
+      "seed": 17,
+      "updates": 3,
+      "passed": true,
+      "tolerance": "exact",
+      "state": "full optimizer gradients RNG selection restoration"
+    },
+    {
+      "family": "time_B/CD_DW",
+      "fold": "fold_2",
+      "seed": 17,
+      "updates": 3,
+      "passed": true,
+      "tolerance": "exact",
+      "state": "full optimizer gradients RNG selection restoration"
+    }
+  ],
+  "environment": {
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "versions": {
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "torch": "2.9.0+cu130",
+      "pytest": "9.1.1",
+      "pyarrow": "22.0.0"
+    }
+  },
+  "commands": {
+    "affected": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/analytics/test_graph_pr2_repairs.py",
+        "tests/analytics/test_graph_temporal_attention.py",
+        "tests/analytics/test_graph_historical_release.py",
+        "tests/analytics/test_graph_observed_gap.py",
+        "tests/analytics/test_graph_extensions.py",
+        "tests/analytics/test_graph_preparation_memory.py",
+        "tests/analytics/test_input_residency.py",
+        "tests/analytics/test_gat_reconciliation.py",
+        "tests/analytics/test_gat_research_execution.py",
+        "tests/analytics/test_graph_integration_gates.py",
+        "-q",
+        "--tb=short",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-pr2-2f125b46",
+        "--junitxml=C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\affected.xml"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 283.14959799998906
+    },
+    "native": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/analytics/test_native_training_resume.py",
+        "-k",
+        "(fresh_process_resume or cuda_cold_process_resume) and (gat or retained)",
+        "-q",
+        "--tb=short",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\luisi\\AppData\\Local\\Temp\\gat-pr2-ae7bc5e5",
+        "--junitxml=C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\native.xml"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 338.8276843999629
+    },
+    "parity_cpu": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples\\verify_gat_research_merge.py",
+        "--reference",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\pinned_before",
+        "--output",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\parity_cpu",
+        "--device",
+        "cpu"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 83.10928219999187
+    },
+    "parity_cuda": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples\\verify_gat_research_merge.py",
+        "--reference",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\pinned_before",
+        "--output",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\parity_cuda",
+        "--device",
+        "cuda:0"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 64.12344180000946
+    },
+    "legacy": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples\\verify_gat_legacy_inference.py",
+        "--manifest",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_integration_20261104_01\\legacy_manifest.json",
+        "--output",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\legacy",
+        "--device",
+        "cpu"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 167.79231140000047
+    },
+    "retained": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples\\verify_gat_retained_inference.py",
+        "--research",
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo",
+        "--references",
+        "C:\\Users\\luisi\\Downloads\\retained_references.csv",
+        "--output",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\retained",
+        "--device",
+        "cuda:0"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 1097.8036910000374
+    },
+    "retained_training": {
+      "argv": [
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples\\verify_gat_retained_training.py",
+        "--research",
+        "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo",
+        "--output",
+        "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_pr2_repairs_20261104_01\\retained_training"
+      ],
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "PYTHONPATH": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\src;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\tests\\analytics;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\examples;C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+        "XDIYO_CUDA_CHECKS": "1",
+        "XDIYO_RUN_GPU_AUDIT": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "elapsed_seconds": 473.0354848999996
+    }
+  },
+  "preservation": {
+    "passed": true,
+    "unique_hashed_files": 5931,
+    "artifact_mismatches": [],
+    "other_worktrees_unchanged_from_accepted_baseline": true,
+    "accepted_exception": "36 additional missing tracked files in the existing temporary derived-standings worktree; investigated and explicitly accepted by the user, left untouched."
+  },
+  "tolerance": {
+    "exact_comparisons": "rtol=0, atol=0; saved arrays, tensors, input fingerprints and applicable identities match.",
+    "existing_numerical_policy": "Recursive encoder oracle rtol=2e-6/atol=2e-7; cross-device inference checks retain their pre-existing rtol=1e-5/atol=1e-6."
+  },
+  "remaining_limits": [
+    "The earlier independent CPU audit excluded 17 CUDA cases. This new automated run covers only its listed CPU/CUDA cases and does not retroactively extend that independent review.",
+    "Unavailable legacy families remain uncertified; the 54 available-export comparisons cover four fixed fixture probes each.",
+    "Cross-source optimizer continuation remains uncertified and rejected by the source fingerprint guard.",
+    "The original 103-update replay was not repeated. Retained profiles have no boundary memory and their frozen preprocessing bypasses fitting; fresh three-update comparisons and 18 retained inference comparisons are exact.",
+    "Fresh per-stat-release fits with unavailable values intentionally change preprocessing. Stored preprocessing is restored unchanged and is not retrospectively certified for information availability.",
+    "The bounded-gap plus boundary-memory combination intentionally changes fixture inputs, including when used by an existing saved model. Retained profiles and generic legacy gap semantics do not enter that correction.",
+    "The historical source runtimes are compared under pandas 2.3.3; their existing pandas-3 read-only-array defect is not changed."
+  ],
+  "evidence_root": "experiments/gat_pr2_repairs_20261104_01",
+  "receipts": [
+    {
+      "path": "affected.command.json",
+      "sha256": "4efe566a200defac36b9dc327dfafba630985aabe17094d08754f7fa2c4fe3e4"
+    },
+    {
+      "path": "native.command.json",
+      "sha256": "52a0fff3145af5f9ff517d8e954bfdb0e057b654da90e835f03dd828ff9089c3"
+    },
+    {
+      "path": "parity_cpu.command.json",
+      "sha256": "63992acadba494285482e05e3bcc5ec1adcc84278c00da23ba2f20763ada860b"
+    },
+    {
+      "path": "parity_cuda.command.json",
+      "sha256": "477f98f2d20ada09ca4ac545ed3053628a6ea04aa18d488e60f09111b9579a32"
+    },
+    {
+      "path": "legacy.command.json",
+      "sha256": "e118b8084ea8bd9adfd9cb3f13344da14cb900063d6776e36793c4b96c6cf0ca"
+    },
+    {
+      "path": "retained.command.json",
+      "sha256": "49816a02b4d6f25565626696834bea381bb607dc8ff147bb0360053ea61254c7"
+    },
+    {
+      "path": "retained_training.command.json",
+      "sha256": "7d7553bbc2f55f7eb7122ebe0f4b568babc171739afbdec3aff64e60ae1f0686"
+    },
+    {
+      "path": "affected.xml",
+      "sha256": "8ca876827922ca485a6a0e9946e78cb5a241aa249baad3417b22f1100b2fdc2f"
+    },
+    {
+      "path": "native.xml",
+      "sha256": "836e88d815bc4f108e225197540c63e32ee31a95a4eaa513ff9efa0d7bdbc10b"
+    },
+    {
+      "path": "legacy/comparison.json",
+      "sha256": "45d879d3cb9f3e3d31abecf186e65094e9ab7cdca3ef078e047ceb9a3f5c124a"
+    },
+    {
+      "path": "retained/comparison.json",
+      "sha256": "598e295dde6d7023d898796d3385a6a355a1c02800910fc38edb4deed566564f"
+    },
+    {
+      "path": "retained_training/comparison.json",
+      "sha256": "dae4d8d2f389f8012b4a81e417b26e1fff9a92ed233a6c6d322dd5a9293d5232"
+    },
+    {
+      "path": "parity_cpu/receipt.json",
+      "sha256": "6b79205ad37bb517a6c219463b9d110ca6a7fe8a84d0ca0d2cd298394af9a570"
+    },
+    {
+      "path": "parity_cuda/receipt.json",
+      "sha256": "3c846f9dcf5e68e50fe2e3582d24f313230e8619385d55684a2bac8467443e4e"
+    },
+    {
+      "path": "DRIFT_ACCEPTANCE.json",
+      "sha256": "a3539961002246e9f0218ad6092c1497b77d8a2144b3ecb89b3112f21888d308"
+    },
+    {
+      "path": "PRECOMMIT_PRESERVATION.json",
+      "sha256": "32eb5a63a2bb4c072bc58c7fc1383a463788941a965ff3a62b39219f3d903ba6"
+    },
+    {
+      "path": "BEFORE_REPRODUCTION_RECEIPT.json",
+      "sha256": "8cf5096baf5ee9faa0597aebcbb3bb7b6b012add260507d548dd3ce51d38ff75"
+    },
+    {
+      "path": "PYTEST_ARTIFACT_ARCHIVES.json",
+      "sha256": "a2620c3b2405ede392a3b210f069ff3e4ed68dcf44ab04b471ba8f55853f247d"
+    },
+    {
+      "path": "SOURCE_GUARD_COVERAGE.json",
+      "sha256": "9915136486725c8c1e0ec45616a84c47f328f336b064761f5df1c04202ddeb20"
+    }
+  ]
+}

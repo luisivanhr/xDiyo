@@ -1,0 +1,1097 @@
+{
+  "schema": 1,
+  "created_at": "2026-11-04T07:48:48.570323+00:00",
+  "evidence_root": "C:\\Users\\luisi\\.codex\\worktrees\\gat-main-integration\\xDiyo\\experiments\\gat_integration_20261104_01",
+  "reference_commit": "e8210cb8237e71c3b1b3ad2f5169d1f62d83cb0d",
+  "source_seal": "speed_acceptance_v2/PROTOCOL.json",
+  "unique_tests": {
+    "passed": 822
+  },
+  "records": [
+    {
+      "path": "candidate_source_closure.json",
+      "bytes": 28201,
+      "sha256": "6b6e84c0c170fa8e2727ef40ecb83ec98c692dc63a6767f543e283531a4f7093"
+    },
+    {
+      "path": "final_preservation_check.json",
+      "bytes": 4190,
+      "sha256": "c997487e7a867b6f8477b74ecdd1e5a19077eaeaff88b278d975cfa4a3ddbac9"
+    },
+    {
+      "path": "final_test_index.json",
+      "bytes": 196483,
+      "sha256": "1358994cafa80c324b706c98963a33ed4f3910e20f37804a858e39692aa8150f"
+    },
+    {
+      "path": "inventory_final_comparison.json",
+      "bytes": 977,
+      "sha256": "6626a58fce1d22eac16ada59c67cefb50fb04f2de67f8fc35048c421bc50a545"
+    },
+    {
+      "path": "legacy_comparison_index.json",
+      "bytes": 11172,
+      "sha256": "45d879d3cb9f3e3d31abecf186e65094e9ab7cdca3ef078e047ceb9a3f5c124a"
+    },
+    {
+      "path": "main_cpu_final/receipt.json",
+      "bytes": 686,
+      "sha256": "6b79205ad37bb517a6c219463b9d110ca6a7fe8a84d0ca0d2cd298394af9a570"
+    },
+    {
+      "path": "main_cuda_final/receipt.json",
+      "bytes": 704,
+      "sha256": "3c846f9dcf5e68e50fe2e3582d24f313230e8619385d55684a2bac8467443e4e"
+    },
+    {
+      "path": "preserved_main_files.json",
+      "bytes": 6239,
+      "sha256": "a8eb85f4ef6671c6d8ff9c275b27fcee8ad4a1c261fab192c1bf76c033842169"
+    },
+    {
+      "path": "profile_manifest_check.json",
+      "bytes": 1303,
+      "sha256": "bb94aacd1bd06753f6c9305ddfbe268f55ee9f9ab8b08e5134b54cfd37cef448"
+    },
+    {
+      "path": "retained_inference_cuda_v2/comparison.json",
+      "bytes": 2607,
+      "sha256": "598e295dde6d7023d898796d3385a6a355a1c02800910fc38edb4deed566564f"
+    },
+    {
+      "path": "retained_training_cuda_v2/comparison.json",
+      "bytes": 644,
+      "sha256": "dae4d8d2f389f8012b4a81e417b26e1fff9a92ed233a6c6d322dd5a9293d5232"
+    },
+    {
+      "path": "saved_raw_rescore.json",
+      "bytes": 2860,
+      "sha256": "7c848c9ae50a39eac5e72515146839a0c718514dfeb2b614f094a20668740b58"
+    },
+    {
+      "path": "six_public_replays.json",
+      "bytes": 1472,
+      "sha256": "5697d7f7999e5fecbfb94664b34203485ab8fb106d54356b7ae5bb760405fc47"
+    },
+    {
+      "path": "speed_acceptance_v2/COMPLETE.json",
+      "bytes": 699,
+      "sha256": "40d95c240d1761e05a7344f010c30e7c26e2ae4c65cd87baae98bdb515e23809"
+    },
+    {
+      "path": "speed_acceptance_v2/PROTOCOL.json",
+      "bytes": 32040,
+      "sha256": "3817bef07057b7059e7a2fc1803ced3c73c5f1569e1b27befa698c43ec82ba3f"
+    },
+    {
+      "path": "speed_acceptance_v2/full_103/PASS.json",
+      "bytes": 1462,
+      "sha256": "a4dd8b1313aa0437ac6f374a4b1f693d1749db40dd0812828c38a3904e53720a"
+    },
+    {
+      "path": "speed_acceptance_v2/timing/PASS.json",
+      "bytes": 1829,
+      "sha256": "4f961bd538452749ef25477ca46c19937f4209ffd6432601718c605527fb70e4"
+    },
+    {
+      "path": "speed_acceptance_v2/timing/timing.csv",
+      "bytes": 5204,
+      "sha256": "9d325697c6b1fd62db4d2edfa6b1f436d845a4dbc81ddd434584b87ef41a7221"
+    },
+    {
+      "path": "speed_acceptance_v2/timing/timing_summary.csv",
+      "bytes": 553,
+      "sha256": "9031a27ece89c5abec5bcfb2162f27e0682561dcd6c8ffd47910f7a97d82bdcd"
+    }
+  ],
+  "scope": "Engineering parity on declared artifacts and same-runtime checks. Does not certify missing historical model families or cross-source optimizer continuation.",
+  "gates": {
+    "retained_inference": [
+      {
+        "name": "time_B__N__fold_1__17",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__N__fold_1__42",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__N__fold_1__73",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__N__fold_2__17",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__N__fold_2__42",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__N__fold_2__73",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_1__17",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_1__42",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_1__73",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_2__17",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_2__42",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_C__E1__fold_2__73",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_1__17",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_1__42",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_1__73",
+        "fixtures": 4288,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_2__17",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_2__42",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "name": "time_B__CD_DW__fold_2__73",
+        "fixtures": 4185,
+        "passed": true,
+        "tolerance": "exact",
+        "roundtrip": true
+      }
+    ],
+    "retained_training": [
+      {
+        "family": "time_B/N",
+        "fold": "fold_2",
+        "seed": 17,
+        "updates": 3,
+        "passed": true,
+        "tolerance": "exact",
+        "state": "full optimizer gradients RNG selection restoration"
+      },
+      {
+        "family": "time_C/E1",
+        "fold": "fold_2",
+        "seed": 17,
+        "updates": 3,
+        "passed": true,
+        "tolerance": "exact",
+        "state": "full optimizer gradients RNG selection restoration"
+      },
+      {
+        "family": "time_B/CD_DW",
+        "fold": "fold_2",
+        "seed": 17,
+        "updates": 3,
+        "passed": true,
+        "tolerance": "exact",
+        "state": "full optimizer gradients RNG selection restoration"
+      }
+    ],
+    "legacy_probes": [
+      {
+        "study": "gat_temporal_cuda_patience15_20261025",
+        "id": "model_00",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_temporal_cuda_patience15_20261025",
+        "id": "model_01",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_temporal_cuda_patience15_20261025",
+        "id": "model_02",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_goal_auxiliary_cuda_20261026",
+        "id": "model_00",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_goal_auxiliary_cuda_20261026",
+        "id": "model_01",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_goal_auxiliary_cuda_20261026",
+        "id": "model_02",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_00",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_01",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_02",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_03",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_04",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_05",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_06",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_07",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_08",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_09",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_10",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_11",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_12",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_13",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_14",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_15",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_16",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_17",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_18",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_19",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_20",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_21",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_22",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_23",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_24",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_25",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_26",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_27",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_28",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_phase_form_rank_20261027_01",
+        "id": "model_29",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_rest_propagation_20261027_01",
+        "id": "model_00",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_rest_propagation_20261027_01",
+        "id": "model_01",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_00",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_01",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_02",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_03",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_04",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_05",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_06",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_07",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_08",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_09",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_10",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_11",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_12",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_13",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "gat_four_study_suite_20261026_01",
+        "id": "model_14",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      },
+      {
+        "study": "expanded_totals_11ffa446_fold02",
+        "id": "expanded_fold02",
+        "passed": true,
+        "scope": "four fixed original fixture probes",
+        "tolerance": "exact",
+        "roundtrip": true
+      }
+    ],
+    "speed_full": {
+      "passed": true,
+      "mode": "full",
+      "exact": true,
+      "summary": {
+        "monitor": "all13_inner_raw_hda_ce_micro",
+        "direction": "minimize",
+        "restore_best": true,
+        "selected_attempt": 0,
+        "best_step": 88,
+        "retained_step": 88,
+        "termination_reason": "early_stopping",
+        "monitored_value": 1.0002489273849902,
+        "attempts": [
+          {
+            "attempt": 0,
+            "seed": 17,
+            "steps": 103,
+            "best_step": 88,
+            "retained_step": 88,
+            "monitored_value": 1.0002489273849902,
+            "termination_reason": "early_stopping"
+          }
+        ]
+      },
+      "flags": {
+        "profile": "retained_gat_speed_v1",
+        "omit_diagnostic_replay": true,
+        "pack_validation": true,
+        "cache_indices": true,
+        "borrow_inputs": true,
+        "omit_unused": true
+      },
+      "seconds": 1175.8632662000018,
+      "cuda_peak_allocated": 1599451648,
+      "cuda_peak_reserved": 1621098496,
+      "new_outer_predictions": false,
+      "comparison": "all 103 optimizer states, gradients, RNG, raw losses, probabilities/rates, stopping counters and restored inference",
+      "cache": {
+        "resident": 1442193120,
+        "transient": 0,
+        "peak": 1442193120,
+        "hits": 139668,
+        "misses": 1356,
+        "evictions": 0
+      },
+      "memory": {
+        "baseline_rss_bytes": 632700928,
+        "sampled_peak_rss_bytes": 1891217408,
+        "final_rss_bytes": 1887092736,
+        "private_bytes": 5446402048,
+        "sampling_seconds": 0.02
+      }
+    },
+    "timing": {
+      "passed": true,
+      "mode": "timing",
+      "order": "ABBA BAAB",
+      "rows": 40,
+      "summary": [
+        {
+          "arm": "candidate",
+          "task": "inference",
+          "cold": false,
+          "count": 4,
+          "median": 1.0214586999791209,
+          "mean": 1.0213086500007194
+        },
+        {
+          "arm": "candidate",
+          "task": "inference",
+          "cold": true,
+          "count": 4,
+          "median": 6.040825399977621,
+          "mean": 5.992705499986187
+        },
+        {
+          "arm": "candidate",
+          "task": "training",
+          "cold": false,
+          "count": 8,
+          "median": 10.79440084999078,
+          "mean": 10.955768149986397
+        },
+        {
+          "arm": "candidate",
+          "task": "training",
+          "cold": true,
+          "count": 4,
+          "median": 33.99732219998259,
+          "mean": 34.42723552499956
+        },
+        {
+          "arm": "reference",
+          "task": "inference",
+          "cold": false,
+          "count": 4,
+          "median": 1.1387436000222806,
+          "mean": 1.1344251750124386
+        },
+        {
+          "arm": "reference",
+          "task": "inference",
+          "cold": true,
+          "count": 4,
+          "median": 6.449492999992799,
+          "mean": 6.554689550001058
+        },
+        {
+          "arm": "reference",
+          "task": "training",
+          "cold": false,
+          "count": 8,
+          "median": 14.831353100016713,
+          "mean": 14.854251312513952
+        },
+        {
+          "arm": "reference",
+          "task": "training",
+          "cold": true,
+          "count": 4,
+          "median": 38.27582645000075,
+          "mean": 38.196733075004886
+        }
+      ],
+      "scope": "C/E1 fold2 seed17; training and inner inference measured separately",
+      "memory": {
+        "baseline_rss_bytes": 632057856,
+        "sampled_peak_rss_bytes": 2001182720,
+        "final_rss_bytes": 1955979264,
+        "private_bytes": 5521764352,
+        "sampling_seconds": 0.02
+      }
+    },
+    "preservation": {
+      "checked_at": "2026-11-04T07:45:57.040585+00:00",
+      "counts": {
+        "handoff_and_recovered_archives": 6,
+        "corners/protocol": 1,
+        "corners/frozen_sources": 328,
+        "corners/live_sources": 328,
+        "corners/inputs": 122,
+        "corners/reused": 695,
+        "speed/protocol": 1,
+        "speed/frozen_sources": 356,
+        "speed/live_sources": 356,
+        "speed/inputs": 19,
+        "retained_files": 384,
+        "retained_reuse": 108,
+        "retained_completed_states": 18,
+        "retained_checkpoint_sidecars": 36,
+        "legacy_model_hashes": 211,
+        "legacy_fit_existence": 1063,
+        "legacy_study_existence": 1272,
+        "reconciliation_research_source": 6,
+        "gat_corners_propagation_20261101_01/completion": 1441,
+        "gat_speed_residuals_20261102_01/completion": 2661,
+        "speed_parent_files": 216
+      },
+      "unique_hashed_files": 5613,
+      "checks": {
+        "research_head": true,
+        "main_ref": true,
+        "research_status_exact": true,
+        "research_unstaged_only": true,
+        "original_worktree_registrations": true,
+        "original_worktree_statuses": true,
+        "speed_source_seal": true,
+        "supplemental_source_closure": true
+      },
+      "worktrees": [
+        {
+          "path": "C:/Users/luisi/Documents/Programming/Python/xDiyo",
+          "counts": {
+            " M": 20,
+            "??": 40
+          },
+          "sample": [
+            " M docs/analytics/gat_temporal_research.md",
+            " M src/xdiyo_analytics/features/__init__.py",
+            " M src/xdiyo_analytics/features/contextual.py",
+            " M src/xdiyo_analytics/features/evaluation.py",
+            " M src/xdiyo_analytics/graphs/__init__.py",
+            " M src/xdiyo_analytics/graphs/adapter.py",
+            " M src/xdiyo_analytics/graphs/config.py",
+            " M src/xdiyo_analytics/graphs/persistence.py",
+            " M src/xdiyo_analytics/graphs/preprocessing.py",
+            " M src/xdiyo_analytics/graphs/store.py"
+          ],
+          "matches_inventory": true
+        },
+        {
+          "path": "C:/Users/luisi/.codex/worktrees/deepthroat-gg-research/xDiyo",
+          "counts": {
+            " M": 1,
+            "??": 6
+          },
+          "sample": [
+            " M docs/analytics/deepthroat-gg.md",
+            "?? docs/analytics/deepthroat-gg-premier-1000-checkpoint.json",
+            "?? docs/analytics/deepthroat-gg-premier-1000-population.json",
+            "?? docs/analytics/deepthroat-gg-premier-1000-protocol.json",
+            "?? docs/analytics/deepthroat-gg-premier-1000.log",
+            "?? docs/analytics/deepthroat-gg-premier-1000.md",
+            "?? examples/deepthroat_gg_premier_profile.py"
+          ],
+          "matches_inventory": true
+        },
+        {
+          "path": "C:/Users/luisi/.codex/worktrees/wheatcroft-gap/xDiyo",
+          "counts": {},
+          "sample": [],
+          "matches_inventory": true
+        },
+        {
+          "path": "C:/Users/luisi/AppData/Local/Temp/xdiyo-derived-standings",
+          "counts": {
+            " D": 5268
+          },
+          "sample": [
+            " D \"Football analytics system general idea.md\"",
+            " D IMPLEMENTATION_PROGRESS.md",
+            " D benchmarks/gpu_residency_saved_fold.py",
+            " D benchmarks/library_performance.py",
+            " D benchmarks/native_ui_completion.py",
+            " D benchmarks/owned_cnn_inputs.py",
+            " D benchmarks/performance_completion_cpu.py",
+            " D data/league_recent_entries_all_with_sofascore_slugs.csv",
+            " D data/xDiyo_data/Bundesliga_10_11.parquet",
+            " D data/xDiyo_data/Bundesliga_11_12.parquet"
+          ],
+          "matches_inventory": true
+        },
+        {
+          "path": "C:/Users/luisi/AppData/Local/Temp/xdiyo-gat-rolling-seasons",
+          "counts": {
+            " D": 609,
+            "??": 1
+          },
+          "sample": [
+            " D .gitattributes",
+            " D .gitignore",
+            " D \"Football analytics system general idea.md\"",
+            " D IMPLEMENTATION_PROGRESS.md",
+            " D README.md",
+            " D examples/__init__.py",
+            " D examples/all_combinations_draw.py",
+            " D examples/axial_point_features.py",
+            " D examples/backfill_statistics.py",
+            " D examples/benchmark_bayesian_calibration.py"
+          ],
+          "matches_inventory": true
+        }
+      ],
+      "mismatches": [],
+      "passed": true
+    },
+    "saved_raw_scores": {
+      "passed": true,
+      "summary": [
+        {
+          "recipe": "time_B/CD_DW",
+          "outer_matches_per_seed": 8473,
+          "ce": 1.0074718482611598,
+          "rps": 0.2044970664472184,
+          "accuracy": 0.49974428577048663,
+          "difference_from_handoff": {
+            "ce": 1.5543122344752192e-15,
+            "rps": 2.220446049250313e-16,
+            "accuracy": 0.0
+          }
+        },
+        {
+          "recipe": "time_B/N",
+          "outer_matches_per_seed": 8473,
+          "ce": 1.0076659457973565,
+          "rps": 0.2045248411554459,
+          "accuracy": 0.5000590109760416,
+          "difference_from_handoff": {
+            "ce": -2.6645352591003757e-15,
+            "rps": -2.7755575615628914e-17,
+            "accuracy": 0.0
+          }
+        },
+        {
+          "recipe": "time_C/E1",
+          "outer_matches_per_seed": 8473,
+          "ce": 1.0075758913808095,
+          "rps": 0.2044733629082746,
+          "accuracy": 0.50076714268854,
+          "difference_from_handoff": {
+            "ce": 4.440892098500626e-16,
+            "rps": 5.551115123125783e-17,
+            "accuracy": 0.0
+          }
+        }
+      ],
+      "per_seed": [
+        {
+          "recipe": "time_B/CD_DW",
+          "seed": 17,
+          "ce": 1.007460519696515,
+          "rps": 0.2044624625588595,
+          "accuracy": 0.5015932963531217
+        },
+        {
+          "recipe": "time_B/CD_DW",
+          "seed": 42,
+          "ce": 1.007831512425199,
+          "rps": 0.20461912986668385,
+          "accuracy": 0.4986427475510445
+        },
+        {
+          "recipe": "time_B/CD_DW",
+          "seed": 73,
+          "ce": 1.0071235126617653,
+          "rps": 0.20440960691611187,
+          "accuracy": 0.49899681340729374
+        },
+        {
+          "recipe": "time_B/N",
+          "seed": 17,
+          "ce": 1.0076602981381346,
+          "rps": 0.2045060267497816,
+          "accuracy": 0.5017113183052048
+        },
+        {
+          "recipe": "time_B/N",
+          "seed": 42,
+          "ce": 1.0081100770233327,
+          "rps": 0.20464648111191952,
+          "accuracy": 0.4995869231677092
+        },
+        {
+          "recipe": "time_B/N",
+          "seed": 73,
+          "ce": 1.0072274622306023,
+          "rps": 0.20442201560463652,
+          "accuracy": 0.4988787914552107
+        },
+        {
+          "recipe": "time_C/E1",
+          "seed": 17,
+          "ce": 1.008279654981509,
+          "rps": 0.20457151982710858,
+          "accuracy": 0.500649120736457
+        },
+        {
+          "recipe": "time_C/E1",
+          "seed": 42,
+          "ce": 1.0070244394731809,
+          "rps": 0.2044000694398887,
+          "accuracy": 0.5017113183052048
+        },
+        {
+          "recipe": "time_C/E1",
+          "seed": 73,
+          "ce": 1.0074235796877387,
+          "rps": 0.2044484994578265,
+          "accuracy": 0.49994098902395845
+        }
+      ],
+      "method": "Read immutable saved raw H/D/A probabilities only; normalize float64, pool folds within each seed, score separately then average seeds; no probability ensemble, no new predictions or model execution.",
+      "absolute_tolerance": 1e-14
+    },
+    "inventory": {
+      "passed": true,
+      "pre_generation_sha256": "c533f5f18e73ca5098a08ca4d82a60e4600168e0717c971d5e5fad80ab47b671",
+      "generation_sha256": [
+        "c533f5f18e73ca5098a08ca4d82a60e4600168e0717c971d5e5fad80ab47b671",
+        "c533f5f18e73ca5098a08ca4d82a60e4600168e0717c971d5e5fad80ab47b671"
+      ],
+      "added": [
+        "graphs.GATResearchBCDDWV1",
+        "graphs.GATResearchBNV1",
+        "graphs.GATResearchCE1V1",
+        "graphs.GoalAuxiliary",
+        "graphs.PhaseRankFeatures",
+        "graphs.RetainedGATExecution",
+        "graphs.RetainedGATTraining"
+      ],
+      "removed": [],
+      "changed_fields": {
+        "graphs.TemporalGraphConfig": [
+          "fields",
+          "description"
+        ],
+        "graphs.TemporalGraphModel": [
+          "fields"
+        ]
+      },
+      "stages_exact": true,
+      "metrics_exact": true,
+      "note": "Compared with independent regeneration of pinned M using the same installed libraries; non-graph components unchanged. Existing broad JSON changes also reproduce on unmodified M."
+    }
+  },
+  "full_index_sha256": "d6610477e22408b623576e035b71f29fef227d6d4564d1225caec989b28b2290"
+}
