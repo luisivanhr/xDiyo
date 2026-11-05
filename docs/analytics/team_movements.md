@@ -12,6 +12,10 @@ examples, override precedence, and statistical transition policies.
 
 ## Loading
 
+Named international publications now support the same flags and `TeamMovement`
+features. See [international movement enrichment](dataset-catalogue/international-movements/README.md)
+for the reviewed scope, immutable version, UI selection and availability limits.
+
 Mexican Apertura/Clausura publications also carry these fields. See
 [Mexico enrichment](mexico_enrichment.md) for annual entry semantics, franchise
 exceptions and shared historical provider identities.

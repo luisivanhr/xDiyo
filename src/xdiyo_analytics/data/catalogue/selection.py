@@ -35,7 +35,7 @@ def _bounds(row,profile):
 
 def requirement_closure(requirements):
     """Union every transitive raw capability, rejecting cyclic or unknown dependencies."""
-    allowed={'goals','regulation_goals','membership','standings','heatmaps','odds'}
+    allowed={'goals','regulation_goals','membership','standings','heatmaps','odds','movements'}
     out=set();visiting=set()
     def visit(node):
         if isinstance(node,str):
@@ -59,6 +59,10 @@ def _eligible(row,stats,odds,requirements,profile):
     if 'regulation_goals' in requirements and row['score_basis']!='regulation':return 'unknown_goal_basis'
     if profile=='strict_as_of' and (row['status']!='finished' or row['score_basis']!='regulation'):return 'unsupported_strict_semantics'
     if _bounds(row,profile) is None:return 'unknown_availability'
+    if 'movements' in requirements:
+        if any(pd.isna(row.get(s+'_'+f)) for s in ('home','away') for f in ('got_promoted','got_demoted')):
+            return 'unknown_season_movement'
+        if profile=='strict_as_of':return 'unsupported_movement_availability'
     if any(r in requirements for r in ('membership','standings','heatmaps')):
         # An approved canonical membership/schedule input is needed; never infer it from matches.
         return 'unsupported_dependency'
@@ -165,7 +169,10 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
     for event,group in all_rows.groupby('event_id',sort=True):
         # Contradictions remain disqualifying, even if an ineligible record is less preferred.
         material=['home_id','away_id','competition_id','season_id','date']
+        material += [c for c in group if c.endswith(('_got_promoted','_got_demoted'))]
         conflict=event in known_conflicts or any(group[c].dropna().nunique()>1 for c in material)
+        conflict |= any(group[c].replace('unknown',pd.NA).dropna().nunique()>1
+                        for c in group if c.endswith('_season_entry'))
         scores=group.loc[group[['home_score_current','away_score_current']].notna().all(axis=1)]
         conflict |= len(scores[['home_score_current','away_score_current']].drop_duplicates())>1
         conflict |= group.conflict.any()
@@ -193,7 +200,8 @@ def select_data(root,*,snapshots,mode='single_dataset',requirements=('goals',),p
        records=[dict(event_id=int(r['event_id']),dataset=r['dataset']) for r in chosen if r['event_id'] in targets|history],
        exclusions=exclusions,policy=POLICY,history_scope=['team_id','competition_id'],
        classification='conditional_retrospective_research' if profile.startswith('retrospective') else 'verified_input_availability',
-       assumptions=RETROSPECTIVE_ASSUMPTIONS if profile.startswith('retrospective') else [])
+       assumptions=(RETROSPECTIVE_ASSUMPTIONS + (['Season-entry flags are retrospective reviewed evidence; historical announcement availability is not established.']
+                    if 'movements' in required else [])) if profile.startswith('retrospective') else [])
     if target_ids is not None or folds is not None:
         payload.update(schema=2,fold_membership=folds)
     return dict(payload,fingerprint=digest(payload))
@@ -213,16 +221,32 @@ def resolve_selection(root,selection):
     if selection['schema']==2:options.update(target_ids=selection['target_ids'],fold_membership=selection['fold_membership'])
     fresh=select_data(root,**options)
     if fresh!=selection:raise ValueError('Selection dependencies or membership changed; rebuild explicitly')
-    tables={};frames=[];all_stats=[]
+    tables={};frames=[];all_stats=[];movements=[]
     for name,version in selection['snapshots'].items():
         native,_,_=load_snapshot(root,name,version)
         ids={r['event_id'] for r in selection['records'] if r['dataset']==name}
         frame=native['matches'].loc[native['matches'].event_id.isin(ids)].copy()
         frames.append(frame)
+        if 'team_seasons' in native:
+            from .movements import fixture_membership, KEYS
+            keys=fixture_membership(frame)
+            flags=native['team_seasons']
+            movements.append(flags.loc[[k in keys for k in flags[KEYS].itertuples(index=False,name=None)]])
         if 'statistics' in native:all_stats.append(native['statistics'].loc[native['statistics'].event_id.isin(ids)])
     matches=pd.concat(frames,ignore_index=True).sort_values('event_id').reset_index(drop=True)
     tables['matches']=matches
     if all_stats:tables['statistics']=pd.concat(all_stats,ignore_index=True)
+    if movements:
+        from .movements import KEYS
+        flags=pd.concat(movements,ignore_index=True)
+        records=[]
+        for key,group in flags.groupby(KEYS,sort=False):
+            for col in ('movement','got_promoted','got_demoted','previous_competition_id','previous_season_id'):
+                values=group[col].replace('unknown',pd.NA) if col=='movement' else group[col]
+                if values.dropna().nunique()>1:raise ValueError(f'Conflicting movement evidence: {key}, {col}')
+            known=group.loc[group.movement.ne('unknown')]
+            records.append((known if len(known) else group).iloc[[0]])
+        tables['team_seasons']=pd.concat(records,ignore_index=True) if records else flags
     return SeasonData(tables,dict(data_selection=deepcopy(selection)))
 
 

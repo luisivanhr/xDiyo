@@ -1,0 +1,44 @@
+{
+  "base_commit": "74cfd47c79cc0db63e000e8e1c9935aea8b2eba8",
+  "source_sha256": {
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "6f04b39e4dbbfa2fa9b5981edd9f9b0c4179c683f114182c227c7fa68c2e12a6",
+    "src/xdiyo_analytics/data/catalogue/movements.py": "27c4845d5eeff90d7f92fee76e4f4e526fe3771b038a7cae65f466888568c430",
+    "src/xdiyo_analytics/data/catalogue/storage.py": "83472fdc4151a0a5ded66d7a42458785e27a16bbfc30109068811ad2638c9f84",
+    "src/xdiyo_analytics/data/catalogue/selection.py": "2085f003e756575d7c4b16a1d27fddfc3d9de1b1aeb658cee018d1e0e02e1a24",
+    "src/xdiyo_analytics/data/catalogue/integration.py": "9a4b64706d056f7fb878810db992325e536428e730dfe14e7a679e3bb829c511",
+    "examples/enrich_international_movements.py": "eb59539dd77c150b6145df6579bc629337a4d8d563f2217d64d6499339327015",
+    "tests/analytics/test_named_movements.py": "02032fb0d891570365f9f6ed0993a66ca570190098ce314fbde5762dab05bd21",
+    "docs\\analytics\\dataset-catalogue\\international-movements\\verify.py": "99a52429db34259e219d9628777b218c59820a43f52521f4bfefd97bf7cda312"
+  },
+  "tests": {
+    "py314": {
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "158",
+          "time": "37.874",
+          "timestamp": "2026-11-05T09:51:23.451021+09:00"
+        }
+      ],
+      "receipt_sha256": "f52c5502e6cedaa9f986cfbc69823f47a96494b0c3c84d0ff845b67acf3b25bc"
+    },
+    "py312": {
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "2",
+          "tests": "156",
+          "time": "30.514",
+          "timestamp": "2026-11-05T09:52:16.161153+09:00"
+        }
+      ],
+      "receipt_sha256": "49d169848bea8e1e0d8ac8077e1b6bfc44c335fff9b72e1b9540c4aa3dff954c"
+    }
+  },
+  "receipt_redaction": "Hostnames removed; skipped-test paths made repository-relative. Test outcomes and timings unchanged."
+}

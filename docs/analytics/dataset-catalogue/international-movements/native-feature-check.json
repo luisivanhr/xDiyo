@@ -1,0 +1,11 @@
+{
+  "version": "69694ab5ad6ff0a5622031e708df1a16b92db42b101defd48347d92cb1c21940",
+  "fixtures": 9676,
+  "history_rows": 19352,
+  "all_flags_match": true,
+  "unknown_feature_values": 0,
+  "selection_fingerprint": "2652e00129826fd038462454657fc410ba054b1f6500c142fbdf3c5924fca700",
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "pandas": "2.3.3",
+  "script_sha256": "99a52429db34259e219d9628777b218c59820a43f52521f4bfefd97bf7cda312"
+}

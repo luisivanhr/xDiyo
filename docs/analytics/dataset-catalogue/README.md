@@ -30,6 +30,10 @@ The manifest and table schemas permit canonical fields only. They retain whole-i
 
 ## Tables and semantics
 
+Reviewed season-entry flags are supported through the optional `team_seasons`
+table and materialized match-side fields. Use the `movements` requirement with
+native `TeamMovement` features; see [international movement enrichment](international-movements/README.md).
+
 Matches retain canonical competition/season/team/fixture IDs, edition/stage, reported date/local civil datetime, precision, timezone knowledge, status, score basis and nullable goals. Missing half scores remain missing. Unknown UTC kickoff and publication timestamps remain null.
 
 The workbook adapter reuses the native statistic keys and units for corners, yellow/red cards, expected goals, possession, total/on-target/off-target shots, fouls and goalkeeper saves. Full time, first half and second half use `ALL`, `1ST` and `2ND`. Possession is 0–100; counts are nonnegative integers. Blank cells stay missing; true zeros remain observations; malformed optional values become missing with `validity=invalid`. Shots off target are never derived by subtraction. Workbook FT/half goal consistency is checked; reported FT is mapped to the regulation-period contract, while historical TXT goals remain `reported_unknown` and native current goals remain `reported_current`.

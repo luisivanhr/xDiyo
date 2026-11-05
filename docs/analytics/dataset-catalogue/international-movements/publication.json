@@ -1,0 +1,281 @@
+{
+  "dataset": "international_dataset",
+  "previous_version": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697",
+  "version": "69694ab5ad6ff0a5622031e708df1a16b92db42b101defd48347d92cb1c21940",
+  "matches": 9676,
+  "team_seasons": 582,
+  "movements": {
+    "retained": 488,
+    "promoted": 80,
+    "relegated": 14
+  },
+  "league_seasons": 39,
+  "missing_flags": 0,
+  "original_values_unchanged": true,
+  "compression": {
+    "matches": [
+      "ZSTD"
+    ],
+    "odds": [
+      "ZSTD"
+    ],
+    "statistics": [
+      "ZSTD"
+    ],
+    "team_seasons": [
+      "ZSTD"
+    ]
+  },
+  "boundary_source": "https://www.premierleague.com/en/news/412265",
+  "boundary_promoted_ids": {
+    "2000": [
+      47,
+      17,
+      32
+    ],
+    "2001": [
+      43,
+      46,
+      5
+    ],
+    "2002": [
+      17,
+      8,
+      9
+    ],
+    "2003": [
+      2,
+      31,
+      3
+    ],
+    "2004": [
+      263,
+      8,
+      7
+    ],
+    "2005": [
+      41,
+      49,
+      37
+    ],
+    "2006": [
+      28,
+      15,
+      24
+    ],
+    "2007": [
+      41,
+      9,
+      27
+    ],
+    "2008": [
+      8,
+      29,
+      96
+    ],
+    "2009": [
+      3,
+      9,
+      6
+    ]
+  },
+  "native_sources": [
+    {
+      "stem": "Premier_League_10_11",
+      "version": "fcef8f7f25f64fa898c092e8985d61ff",
+      "manifest_sha256": "145b945c3e8c7d89ffa5a2af417544d6c888e5af0f7d65baae691b79fecd264b",
+      "table_sha256": "54c3c40946e32ee5d3becdd27e46ff155c42ebd492aef70abb12db6af3eaa067"
+    },
+    {
+      "stem": "Premier_League_11_12",
+      "version": "cc72f7a461804eeaadfa7b3b746bad2e",
+      "manifest_sha256": "7239b1b5c3ec8859203bfdfe2bc13e894bb5efdc5ee9d1ac525f2f33b64b02f2",
+      "table_sha256": "7de48a5e68500f172811be2be0bfc9b1d63e75973118433a6a1da956d0ea26bc"
+    },
+    {
+      "stem": "Premier_League_12_13",
+      "version": "063ffd2f7617489181d3ab3f0abb46c9",
+      "manifest_sha256": "a6e20840aabb0867215d089db81cab69dd94ac23ada64481b68b3d3616f1807d",
+      "table_sha256": "9bca28e4d39879e5a4d72dbea2e4b9c01a02aed61d16e201f565e674a6b2b7e4"
+    },
+    {
+      "stem": "Premier_League_13_14",
+      "version": "d49cab8b7b704cb084b1d4f25a963e8d",
+      "manifest_sha256": "faad1156cc87a73d007bbbb2b060773254d9af493626c8dcaa933509908a3af6",
+      "table_sha256": "1aa01cb650cfa4b4ce7670844ed80275127955bde2b594c63030f10db93b061a"
+    },
+    {
+      "stem": "Premier_League_14_15",
+      "version": "ef89a5af45f04f5698cd11e9637f3fb8",
+      "manifest_sha256": "ea9c7d582c2f571f6e20f5e63147cea97ba0d6f848a3942fd17ba74b6e83d04c",
+      "table_sha256": "011535db8ac038ee0fd02d114ef1663a814fa4ded04b41000752bf4168c23e4d"
+    },
+    {
+      "stem": "Premier_League_15_16",
+      "version": "6afbe38189bf477994d66e4c0bc09b98",
+      "manifest_sha256": "e7158a0992917dcba9ffea4225064e1c4090723fa44398cfb664ff8a01b0aea7",
+      "table_sha256": "8cb892c6dec36fa79466c4fbb434669ac5c3f6aa12723b669b8967dc297de8bc"
+    },
+    {
+      "stem": "Premier_League_16_17",
+      "version": "db68625264e6412e884fca26da872ab9",
+      "manifest_sha256": "d61eaa3ca324980a94144bbb10c966aa78eb17f4c32922855184626eb5102b6d",
+      "table_sha256": "b904e542e84e014312515ead24cc6e7712d122a44294ad3d869ed5cdb41d9a3d"
+    },
+    {
+      "stem": "Premier_League_17_18",
+      "version": "167d8dfa886e46f3a402aabbf0874d06",
+      "manifest_sha256": "45f782f060c0a9c648cb9e6266830c42402d0cf8bbf9c87f83330f3eacb9450f",
+      "table_sha256": "ebbd7b8779361b99640dc66ebd154436ea3594a718fb017dafe3721ad40e40e6"
+    },
+    {
+      "stem": "Premier_League_18_19",
+      "version": "ab9cf1aef78c4543babacfce3477a590",
+      "manifest_sha256": "f86a309c4b08c8dedb38217124d963571637f2690e6b2818b43f2f98f2626df8",
+      "table_sha256": "ece9d49a15f3f03ef265c260a1ff032c5b15a0b1a56eaa2fdc6c39b2ad70dfc5"
+    },
+    {
+      "stem": "Premier_League_19_20",
+      "version": "aca984ce73a5402eba1984a87c1b66bc",
+      "manifest_sha256": "e3fdec4e2121efefbf13d26ad1f3c652d5730a6ef07d82f021ab58224f20c345",
+      "table_sha256": "4d7101548c0c6689a7b38986c64e1aac49f90c09db03bd6bac04b9612a866c39"
+    },
+    {
+      "stem": "Premier_League_20_21",
+      "version": "9cb80c79d05a46d39462f2bb62df840a",
+      "manifest_sha256": "d9ee4fc81303b68c254f83f2993d3b6b8a4b816df1d03d678e20bc44f458639e",
+      "table_sha256": "137b9350236e6b0dcdd9d6664de1e1099d0554f06b21504bb5f4f4ae54de7720"
+    },
+    {
+      "stem": "Premier_League_21_22",
+      "version": "5a6d8e2304874947939c0935abfcf536",
+      "manifest_sha256": "83c94e2778f0630f78d7d2068678436dcb73c709edbfbf21686c161101eacebe",
+      "table_sha256": "d541eee1085733344efb62f1de75e319ebe7f0bb6af0dd43b504151032f43036"
+    },
+    {
+      "stem": "Premier_League_22_23",
+      "version": "61212e624d8b4e88a40772dd15d043b4",
+      "manifest_sha256": "25239ca130dfda3ebc8f06c02e36651a4bac8831a164df8a723825a114e9588c",
+      "table_sha256": "7a548324f26e088a421a18f5a8a786973e4e7ba29d43e492192388764c04b641"
+    },
+    {
+      "stem": "Premier_League_23_24",
+      "version": "a13ab544b9ea4f0e82bfbc8969a3ed83",
+      "manifest_sha256": "cb5240ff49e50bec9b7cacb99cf92c1135adc0c90c9b73cded285a0fa4132e19",
+      "table_sha256": "ee8afdc992143e482d4fa0eba672413ec647d65e5f0586ff4885e3ce64d9890f"
+    },
+    {
+      "stem": "Premier_League_24_25",
+      "version": "461ec8bb89194f52a0f5eefc0fca1a73",
+      "manifest_sha256": "3d2a9ec932b66e50d3453c3fab44fd150b7c25ced0fe1abfdb54bd67b5728104",
+      "table_sha256": "f33b589498327efbd3f37e690a1ea50178d37e9ac7f653277d5e323669973bb6"
+    },
+    {
+      "stem": "Premier_League_25_26",
+      "version": "0e9a24f4fd1e41109027497cc420b954",
+      "manifest_sha256": "d43962ede9465f9adc29feb6249b36a45c7d0109cdcb87f11f11bc399a69e0e5",
+      "table_sha256": "87148c38be7e2ba573e567f0e61f0fc512a79f5b2f398a5a13c5676d3f0fa48a"
+    },
+    {
+      "stem": "Premier_League_26_27",
+      "version": "f1cc491a02164458845b4bab63fb99e5",
+      "manifest_sha256": "4b51abf896a04d230fed0db782516fc9e55a984de7cbde5e6d82c35c0eaa956b",
+      "table_sha256": "3ff5c0d2fa662025516ae11b4261a7f4e2214a5ae33b258a6f6b4bf82904c900"
+    },
+    {
+      "stem": "Championship_15_16",
+      "version": "b382aad5df6341e2a90527dd4853b465",
+      "manifest_sha256": "aa236830c88540d92dc0831c62f25108fe713c527b30c233d4a1f79301a37feb",
+      "table_sha256": "7e0b939d1d8f342b5a13af5f06acff7f63e3ff36a694af4c3ccac1b424119f0c"
+    },
+    {
+      "stem": "Championship_16_17",
+      "version": "633bb136db664205877de7bf68bb4d88",
+      "manifest_sha256": "dafa35bc83f3cfe854549aac65bf0dc01a1da1fc6b368d4c229b4911b08061a8",
+      "table_sha256": "ce667ec3353812c28749526566f6af513153a4b8ff67646cc53b49e22a635677"
+    },
+    {
+      "stem": "Championship_17_18",
+      "version": "357a2c14b0994eb89eecedc8ffbe87cd",
+      "manifest_sha256": "8e9646c27a6f2ea06e6aa384f766f0800b6ee8a1c1f79d7a19c0a6372a841c1f",
+      "table_sha256": "2a117f1b9a4cdb0b609a915e32c394bf8ac106f0d341f0db2006485c634fdd54"
+    },
+    {
+      "stem": "Championship_18_19",
+      "version": "3884ac4966904981a0ea255a1162dd3c",
+      "manifest_sha256": "88707f2889725bb5e7289df78cbfc63cec5aa0bdc93186d5973f948a24354b97",
+      "table_sha256": "bf25707023182282e075efc7c6d25e84f23b9c017788dd8057c87bdcd42a98ae"
+    },
+    {
+      "stem": "Championship_19_20",
+      "version": "b15be06dc7ad49b78b9076f29466b360",
+      "manifest_sha256": "c25d3f3096d1d37daa503b6c87964060944d09b9940024e5e8f68eec2238cb61",
+      "table_sha256": "bde98e83f36af66735d845fca8c5d00d478dc5c8184e17276c362e092948838b"
+    },
+    {
+      "stem": "Championship_20_21",
+      "version": "03f731a014544d85a09b4fbd1c0a149e",
+      "manifest_sha256": "fc4e4b70abbed88586d9b2473f3ad40202d5051501308ae59475003e902a2a4f",
+      "table_sha256": "8614cb4db66b04875d674b2ba9453efb374743dd9479812800f31628bbf6db3e"
+    },
+    {
+      "stem": "Championship_21_22",
+      "version": "608fb3abf7104278a328ba53ef3289c4",
+      "manifest_sha256": "85de8535b8d9a9f2923d17fd69c2e333246486cb867e9e033a0e91213fc374b4",
+      "table_sha256": "bedade1458bdc4cd1136461fdc6c48b35c1d522e9ad9ae621170441c928da2c2"
+    },
+    {
+      "stem": "Championship_22_23",
+      "version": "8d7fc5c5767f45ce851cb508b16416b1",
+      "manifest_sha256": "8b541d6bbf18502cc99f9279c6eb8c6a75aedc63722de620eca5bb8ade6f0a37",
+      "table_sha256": "78f47dd9ff7e1aacd33781cbe0f32fb75a7965c2b9e58e18ef678c1779bc4747"
+    },
+    {
+      "stem": "Championship_23_24",
+      "version": "0b4732194c354f7dada23b8b791ca4f9",
+      "manifest_sha256": "1318f2f5349ac7f827f0c05effa1d3365f457c4ac2b03e5e8bf5c3b6ec2eea51",
+      "table_sha256": "e8a66459ab041595acea8e4ba3924426ba2941edf99d13efcdea377ddfe7a2ba"
+    },
+    {
+      "stem": "Championship_24_25",
+      "version": "01162808a32746abaeb83bc9e11768ed",
+      "manifest_sha256": "da207ff827af80b6ccd00232a331db3013329ed82398551722af78e41b5030af",
+      "table_sha256": "1a348a4795afa3c9d442e51134df308e3b81f1ae9201dc4d5e5cf9bd5b716d91"
+    },
+    {
+      "stem": "Championship_25_26",
+      "version": "556c335085d04c1eacd17171e69d5d6d",
+      "manifest_sha256": "37d0c2e1ec5c80e90b4278c48e85cd7b3838f79266515747cb3f391328c9df56",
+      "table_sha256": "8bad0245317dd7dc866e5dfc5cf5126097522da33fa0740bf4493851e28503c1"
+    },
+    {
+      "stem": "Championship_26_27",
+      "version": "9966041672de4d84bb7ce3e1477b61bc",
+      "manifest_sha256": "df99970a122db8f9d4fc458e973e28519ab3d0d9f4aa9dd0725b2c49a9a36aad",
+      "table_sha256": "0d9789b9164cc858b95a3d672bfe015d4607b08b571e596dfcf12000c53d9e17"
+    }
+  ],
+  "script_sha256": "eb59539dd77c150b6145df6579bc629337a4d8d563f2217d64d6499339327015",
+  "tables": {
+    "matches": {
+      "file": "matches.parquet",
+      "rows": 9676,
+      "sha256": "c634e8c0be8f697d695500899a8cb97378d27ca4a2f5d00f2db5a67c7b72b680"
+    },
+    "odds": {
+      "file": "odds.parquet",
+      "rows": 175600,
+      "sha256": "5cbb96e52f898c16b37683f3270de0a17fcd0283bbc84fe9a5a45f7380d40987"
+    },
+    "statistics": {
+      "file": "statistics.parquet",
+      "rows": 263400,
+      "sha256": "a733fc5e13c3190d6977cb783336095254e9cb4eba500dc8498f6b63da197a59"
+    },
+    "team_seasons": {
+      "file": "team_seasons.parquet",
+      "rows": 582,
+      "sha256": "2c1143704ee37850479ac15ce82688cffc3cd94ad97381c3a83cf2276d23902c"
+    }
+  }
+}

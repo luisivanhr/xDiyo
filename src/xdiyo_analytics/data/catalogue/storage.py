@@ -8,6 +8,7 @@ import shutil
 import tempfile
 import pandas as pd
 from .registry import Registry
+from .movements import MOVEMENT_COLUMNS, MOVEMENT_POLICY, SIDE_COLUMNS, fixture_membership, validate_team_seasons
 
 DATASETS=('comprehensive_dataset','international_dataset')
 POLICY='canonical_squad_exclusion_v1'
@@ -18,7 +19,7 @@ MATCH_COLUMNS=('event_id','competition_id','season_id','season_year','stage','ro
  'identity_state','conflict','membership_verified','schedule_complete','squad_policy','dataset')
 STAT_COLUMNS=('event_id','team_id','side','period','group_name','key','value','validity','available_at','definition')
 ODDS_COLUMNS=('event_id','market','selection','period','line','quote_type','decimal_odds','validity','available_at','bookmaker')
-SCHEMAS={'matches':MATCH_COLUMNS,'statistics':STAT_COLUMNS,'odds':ODDS_COLUMNS}
+SCHEMAS={'matches':MATCH_COLUMNS+SIDE_COLUMNS,'statistics':STAT_COLUMNS,'odds':ODDS_COLUMNS,'team_seasons':MOVEMENT_COLUMNS}
 
 
 def encoded(value):
@@ -81,6 +82,10 @@ def publish_dataset(root,name,tables,registry,*,input_checksums=(),summary=None)
     for k,v in frames.items():
         if set(v)-set(SCHEMAS[k]): raise ValueError(f'Noncanonical publication fields: {sorted(set(v)-set(SCHEMAS[k]))}')
     matches=frames['matches'];validate_matches(matches,registry)
+    if 'team_seasons' in frames:
+        matches=validate_team_seasons(matches,frames['team_seasons'])
+    elif set(SIDE_COLUMNS)&set(matches):
+        raise ValueError('Materialized movement flags require team_seasons evidence')
     dispositions=matches.apply(lambda r:squad_disposition(r,registry),axis=1)
     allowed=dispositions.eq('eligible') & matches.identity_state.eq('resolved') & ~matches.conflict
     exclusions=dispositions[~allowed].value_counts().to_dict()
@@ -89,6 +94,10 @@ def publish_dataset(root,name,tables,registry,*,input_checksums=(),summary=None)
     frames['matches']=matches.sort_values('event_id').reset_index(drop=True)
     for kind in set(frames)-{'matches'}:
         f=frames[kind]
+        if kind=='team_seasons':
+            keys=fixture_membership(matches)
+            frames[kind]=f.loc[[k in keys for k in f[['competition_id','season_id','team_id']].itertuples(index=False,name=None)]].sort_values(['competition_id','season_id','team_id']).reset_index(drop=True)
+            continue
         if len(f):
             from ..loading import _check_statistics
             if kind=='statistics':_check_statistics(f, tables['matches'])
@@ -114,6 +123,7 @@ def publish_dataset(root,name,tables,registry,*,input_checksums=(),summary=None)
             input_checksums=sorted(set(input_checksums)),tables=files,
             coverage=dict(import_complete=True,real_schedule_complete=False,inspected=len(tables['matches']),published=len(matches),excluded=exclusions,conflicting_fixtures=conflicts,**{k:v for k,v in (summary or {}).items() if k!='conflicting_fixtures'}))
         manifest['coverage']['conflicting_fixtures']=sorted(set(conflicts)|set((summary or {}).get('conflicting_fixtures',[])))
+        if 'team_seasons' in frames:manifest['movement_policy']=MOVEMENT_POLICY
         version=digest(manifest);manifest['version']=version
         # Import time is physical, separate from historical availability; not part of content version.
         manifest['imported_at']=datetime.now(timezone.utc).isoformat()
@@ -142,6 +152,11 @@ def load_snapshot(root,name,version):
         tables[kind]=pd.read_parquet(p)
         if len(tables[kind])!=info['rows'] or set(tables[kind])-set(SCHEMAS[kind]): raise ValueError('Invalid published table')
     validate_matches(tables['matches'],registry)
+    if 'team_seasons' in tables:
+        if m.get('movement_policy')!=MOVEMENT_POLICY:raise ValueError('Movement policy requires explicit migration')
+        validate_team_seasons(tables['matches'],tables['team_seasons'])
+    elif set(SIDE_COLUMNS)&set(tables['matches']):
+        raise ValueError('Materialized movement flags require team_seasons evidence')
     if any(squad_disposition(r,registry)!='eligible' for r in tables['matches'].to_dict('records')): raise ValueError('Published reserve/review fixture')
     return tables,m,registry
 

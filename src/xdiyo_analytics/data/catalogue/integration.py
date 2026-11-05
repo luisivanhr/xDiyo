@@ -26,6 +26,8 @@ def feature_requirements(value):
         if name=='Stat':
             if params.get('period') is None or params.get('field','value')!='value':raise ValueError('Named datasets require explicit statistic period and numeric value')
             requirements.add(f"stat:{params['period']}:{params['key']}")
+        elif name=='TeamMovement':
+            requirements.add('movements')
         elif name not in SAFE:
             raise ValueError(f'Named dataset dependency {name} needs a verified capability contract; membership, ratings, graph and standings inputs are not inferred')
     visit(value)

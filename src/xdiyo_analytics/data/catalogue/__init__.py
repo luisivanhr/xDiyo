@@ -9,3 +9,6 @@ __all__=['Registry','list_datasets','inspect_coverage','publish_dataset','load_s
 
 from .migration import plan_recipe_dataset_migration, apply_recipe_dataset_migration
 __all__ += ["plan_recipe_dataset_migration", "apply_recipe_dataset_migration"]
+
+from .movements import enrich_movements
+__all__ += ['enrich_movements']
