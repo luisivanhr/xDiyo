@@ -1,0 +1,20 @@
+{
+  "fixture_rows": 61488,
+  "field_rows": 368928,
+  "selected_ledger_mismatches": 0,
+  "user_selected_provider_fallbacks": {
+    "73239": 4,
+    "73217": 7,
+    "73205": 10,
+    "73186": 13
+  },
+  "original_draw_verified_for_fallbacks": 0,
+  "integration_approvals": 0,
+  "model_input_approvals": 0,
+  "all_prior_gates_preserved_by_builder": true,
+  "v59_full_mapping_REVIEW_NOT_APPROVED.parquet_sha256": "75919810aaf2375af77c3e5b3c87eec64fc10ea75fdddc67e6dcfa44dc0a7f3c",
+  "v59_selected_round_mapping_REVIEW_NOT_APPROVED.parquet_sha256": "3840a0b53928e89dd67eb1dfffe76826505b258c3e9650f8cc7a52c393ff8f27",
+  "v59_selected_round_mapping_REVIEW_NOT_APPROVED.csv_sha256": "d949396f68bab728e37ebb7149452f4e69609f3a17465e647bbc5939a02d26c0",
+  "v59_field_lineage_REVIEW_ONLY.parquet_sha256": "a89c4ceca4cdbcb5d322d582edaaeb36680705cb155c0186e6532495976aa8c6",
+  "v59_held_794_queue_REVIEW.csv_sha256": "7106e1ae32fd6cdef59b0248f2d1374987d40af9ef98549af0ca556eead2056d"
+}

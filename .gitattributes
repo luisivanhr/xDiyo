@@ -60,3 +60,7 @@ docs/analytics/attention-export-provenance/*.log -whitespace
 # Named dataset audits preserve the exact verification script and receipt bytes.
 docs/analytics/dataset-catalogue/** -text whitespace=cr-at-eol
 docs/analytics/dataset-catalogue/*.log -whitespace
+
+# Round-release manifests verify original audit bytes, including CSV newlines.
+data/fixture_rounds/** -text -whitespace
+docs/analytics/fixture-rounds-v59-validation/** -text -whitespace

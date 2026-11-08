@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "rows": 146000,
+  "input_sha256": "1d9f33cd661af68fdf6f86abd4317beb840d03d87269bc4e37ef4cfd435d9027",
+  "output_sha256": "7bbcde677c4995429939df60119ccef30f3dd870fedaf1b06e56c97682929416",
+  "round_provenance": {
+    "release": "v59_20261108",
+    "manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+    "identity_namespace": "workbook_match_id",
+    "counts": {
+      "fixtures": 61488,
+      "fields": 368928,
+      "historical_holds": 794,
+      "explicit_clears": 3,
+      "series_ordinals": 60,
+      "season_round_nulls": 13168,
+      "named_without_numeric_round": 745,
+      "user_selected_provider_fallbacks": 4
+    },
+    "evidence_directory": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\data\\fixture_rounds\\v59_20261108\\provenance",
+    "selection_semantics": "mixed_original_and_provider_conventions",
+    "feature_asof_approved": false,
+    "model_input_approved": false,
+    "assigned_rows": 61488
+  },
+  "changed_columns": [
+    "season_round",
+    "phase_round",
+    "phase_key",
+    "stage_label",
+    "knockout_label",
+    "leg_number",
+    "series_game_number"
+  ],
+  "original_columns_unchanged": true,
+  "serialized_values_types_and_provenance_verified": true,
+  "experiment_prepared": false,
+  "experiment_run": false,
+  "forecast_timing_changed": false
+}

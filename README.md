@@ -15,6 +15,10 @@ builder = launch_ui(workspace=".")
 
 The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available layers and verification boundaries.
 
+The [audited V59 fixture-round layer](docs/analytics/fixture_rounds_v59.md) adds
+identity-checked round and stage annotations for 61,488 additional-league
+fixtures, with versioned source lineage and explicit provider fallback semantics.
+
 The opt-in [named dataset catalogue](docs/analytics/dataset-catalogue/README.md) supports separately versioned comprehensive/international data, eligibility previews, coherent union and fixed-target extended history. The initial reviewed subset stays local; unresolved identities and timing evidence are not silently accepted. Existing loaders and experiments remain unchanged.
 
 The optional [temporal team graph](docs/analytics/temporal_team_gat.md) reconstructs

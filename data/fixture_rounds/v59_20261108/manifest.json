@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "release": "v59_20261108",
+  "identity_namespace": "workbook_match_id",
+  "selected_columns": {
+    "season_round": "v59_selected_season_round",
+    "phase_round": "v44_selected_phase_round",
+    "phase_key": "v47_selected_phase_key",
+    "stage_label": "v44_selected_stage_label",
+    "knockout_label": "v44_selected_knockout_label",
+    "leg_number": "v44_selected_leg_number",
+    "series_game_number": "v45_series_game_number"
+  },
+  "counts": {
+    "fixtures": 61488,
+    "fields": 368928,
+    "historical_holds": 794,
+    "explicit_clears": 3,
+    "series_ordinals": 60,
+    "season_round_nulls": 13168,
+    "named_without_numeric_round": 745,
+    "user_selected_provider_fallbacks": 4
+  },
+  "integration_status": "AUDITED_STATUS_AWARE_DATASET_INTEGRATION",
+  "selection_semantics": "MIXED_ORIGINAL_AND_PROVIDER_CONVENTIONS",
+  "model_input_approved": false,
+  "feature_asof_approved": false,
+  "experiment_prepared": false,
+  "authoritative_null_policy": "REPLACE_WITH_SELECTED_NULL; NEVER_COALESCE_HISTORICAL_VALUES",
+  "audit": "provenance/INDEPENDENT_V59_FINAL_TERRA_AUDIT_20261108.md",
+  "historical_approval_fields": "Preserved unchanged; not current integration permission",
+  "source_comparisons": "V56/V57 are historical snapshots, not current computations",
+  "lineage_pointers": "Original research filenames and URLs retained verbatim; not availability timestamps",
+  "original_candidate_claims_sha256": "a46482292ebaa9d7e5235f9657c9befaae6000479391dea879a744f2b372fa07",
+  "original_target_inventory_sha256": "a604a167bf5238a07f985b8f2f7201031ecd0acc409b05cad052c2921405498f",
+  "base_conflict_gates_equal_v58": true,
+  "v58_ledger_sha256": "1189c18aeb7ae8c2805783eec141b0e484aca6f10da0bbf16823588862d5b092",
+  "files": {
+    "fixtures.parquet": {
+      "sha256": "bb8f7627a5b0dc2444502f3453ec96427e147cd29d41f8f665da943444f0d707",
+      "bytes": 797368
+    },
+    "provenance/all_source_candidates_NOT_FOR_INTEGRATION.csv.gz": {
+      "sha256": "5bf18e575b2e2f0782f65b7f6dd65f0a7e3c9e2abac66450b3d0c1ed480b5f9f",
+      "bytes": 6392515
+    },
+    "provenance/INDEPENDENT_V56_TERRA_AUDIT_20261108.md": {
+      "sha256": "2560b9ae17afacca619d48c3664ebea7e7ae4307b0855bbd78de0959749031b7",
+      "bytes": 8710
+    },
+    "provenance/INDEPENDENT_V59_FINAL_TERRA_AUDIT_20261108.md": {
+      "sha256": "4e4b808fbaf55a3fb40e8502794f5f85bbb024cfe0e64622365c59dfbe491a2a",
+      "bytes": 7209
+    },
+    "provenance/INDEPENDENT_V59_FOUR_SOFASCORE_FALLBACK_AUDIT_20261108.md": {
+      "sha256": "ef7c2835667a1be3672d568717e3a4fcf7fc5c79a6584c720bb13d79b426a51c",
+      "bytes": 2334
+    },
+    "provenance/v45_mls_series_game_lineage_REVIEW.csv": {
+      "sha256": "ca105b7970c115fba5d0d5e6a0d52ce010df05975884186ac3a27b3d2be5f15f",
+      "bytes": 16924
+    },
+    "provenance/V47_REAUDIT_HANDOFF_20261108.md": {
+      "sha256": "0d243a877b7f3df9d16bf09a707abceebe9381d599c6546942e597fdbcb86b32",
+      "bytes": 6427
+    },
+    "provenance/v54_australia_source_specific_claims_REVIEW.csv": {
+      "sha256": "a4467d567a7b0487d01d93d5afa949d12a2f2f91068cdc3273188a727f463383",
+      "bytes": 3370
+    },
+    "provenance/v56_australia_161_target_round_comparison_REVIEW.csv": {
+      "sha256": "eea15a22405e5163419bdb03288cfcdd23f79891bcdcd361529896883688248e",
+      "bytes": 72806
+    },
+    "provenance/v56_australia_distinct_league_draw_claims_REVIEW.csv": {
+      "sha256": "a985cc78d3e60946ade1e33a8c459ed85275230d043e4afc9eeb9e405f2c9d6b",
+      "bytes": 56541
+    },
+    "provenance/v56_australia_source_table_rows_REVIEW.csv": {
+      "sha256": "c5da7a3bc7aa0dec70ae5466e27b8e648bb4d02a7491b7f86fcdf27e7829c7b1",
+      "bytes": 42008
+    },
+    "provenance/v57_australia_161_identity_and_round_comparison_REVIEW.csv": {
+      "sha256": "38b37b42d2dececcb7b061293bb67b2b5f42e94f6d1994a632a2f66652790899",
+      "bytes": 111387
+    },
+    "provenance/v58_four_sofascore_event_observations_REVIEW.csv": {
+      "sha256": "70b2ad4d9ee91c928d34e7e235329117d88c5773845a0472309d8472e36428bb",
+      "bytes": 1776
+    },
+    "provenance/V58_FOUR_SOFASCORE_EVENT_OBSERVATIONS_REVIEW_20261108.md": {
+      "sha256": "1b2db1ce07186a043d15994910a94eea729bfca58165b58f30a51cca06435e75",
+      "bytes": 2718
+    },
+    "provenance/v59_field_lineage_REVIEW_ONLY.parquet": {
+      "sha256": "a89c4ceca4cdbcb5d322d582edaaeb36680705cb155c0186e6532495976aa8c6",
+      "bytes": 5298803
+    },
+    "provenance/v59_full_mapping_REVIEW_NOT_APPROVED.parquet": {
+      "sha256": "75919810aaf2375af77c3e5b3c87eec64fc10ea75fdddc67e6dcfa44dc0a7f3c",
+      "bytes": 3051040
+    },
+    "provenance/v59_held_794_queue_REVIEW.csv": {
+      "sha256": "7106e1ae32fd6cdef59b0248f2d1374987d40af9ef98549af0ca556eead2056d",
+      "bytes": 1596169
+    },
+    "provenance/v59_selected_round_mapping_REVIEW_NOT_APPROVED.parquet": {
+      "sha256": "3840a0b53928e89dd67eb1dfffe76826505b258c3e9650f8cc7a52c393ff8f27",
+      "bytes": 828491
+    },
+    "provenance/V59_USER_SELECTED_SOFASCORE_FALLBACK_AUDIT_HANDOFF_20261108.md": {
+      "sha256": "e2fe32c54905c142d5bd7f1e1a6bb83f3346ff8e6aa0412e025971cec39e1bf1",
+      "bytes": 3948
+    },
+    "provenance/v59_user_selected_sofascore_fallback_REVIEW_20261108.py": {
+      "sha256": "49115db48aa59ba01d5fee83afe25ae2cb47d477d6d7e60172983e9a69f560a4",
+      "bytes": 5000
+    },
+    "provenance/v59_validation.json": {
+      "sha256": "52833c9b381bcf2240c2b08ac66ab80fc0ce101ce85633436421b60439ed7b24",
+      "bytes": 989
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "base_commit": "ec19875ad13de83187a42762e9094e016c778042",
+  "environment": {
+    "python": "3.12.14",
+    "pandas": "3.0.1",
+    "pyarrow": "25.0.1",
+    "pytest": "9.1.1"
+  },
+  "source_sha256": {
+    "src/xdiyo_analytics/data/fixture_rounds.py": "db7435e0f63c2907b0ff9c751eaafb62dcfd4ab613e56abe2cb646693daf078e",
+    "src/xdiyo_analytics/data/__init__.py": "7618e452f50c1fdfdacba3d205c97131df9788f71a2a87f1038d3372e9c6b2c4",
+    "examples/publish_fixture_rounds_v59.py": "4f19054f12eb11fa765c254d21bc104f3b687443e26512dfb0a6da404c8e8416",
+    "examples/integrate_fixture_rounds.py": "67578f0f2ada740da74e5f5ade4c8ee83f1cf4a1d4c4b4d346aab7ebba807e2d",
+    "tests/analytics/test_fixture_rounds.py": "8245d0843fcd7e8bfa1e220d01d5637e5d5229905d0c1cc04bf37bd9786eca5c"
+  },
+  "source_hash_normalization": "UTF-8 with LF newlines; portable across Git checkout newline settings",
+  "receipt_redaction": "Hostname removed; test results and timings unchanged",
+  "release_manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+  "integration_receipt_sha256": "bd651932190e67435059821d9d001e60544f5a0b09257704cb594098afb06295",
+  "tests": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "121",
+      "time": "40.326",
+      "timestamp": "2026-11-08T19:14:09.694084+09:00"
+    }
+  ],
+  "test_receipt_sha256": "0d305ac46ca3cc8a52849108790068362cdc1e930c1128497d78f2c8623c09c2",
+  "counts": {
+    "fixtures": 61488,
+    "fields": 368928,
+    "historical_holds": 794,
+    "explicit_clears": 3,
+    "series_ordinals": 60,
+    "season_round_nulls": 13168,
+    "named_without_numeric_round": 745,
+    "user_selected_provider_fallbacks": 4
+  },
+  "experiment_prepared": false,
+  "experiment_run": false,
+  "forecast_timing_changed": false
+}

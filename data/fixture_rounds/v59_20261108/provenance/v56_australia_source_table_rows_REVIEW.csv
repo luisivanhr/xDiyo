@@ -1,0 +1,287 @@
+source_team,table_round,table_date_raw,table_date,home_team,away_team,source_url
+adelaide,1,28/12/2020,2020-12-28,Western United,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,2,03/01/2021,2021-01-03,Adelaide United,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,4,09/01/2021,2021-01-09,WS Wanderers,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,6,16/01/2021,2021-01-16,Perth Glory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,8,23/01/2021,2021-01-23,Adelaide United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,10,29/01/2021,2021-01-29,Adelaide United,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,12,05/02/2021,2021-02-05,Sydney FC,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,14,12/02/2021,2021-02-12,Adelaide United,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,16,21/02/2021,2021-02-21,Brisbane Roar,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,18,27/02/2021,2021-02-27,Melbourne Victory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,20,05/03/2021,2021-03-05,Adelaide United,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,22,13/03/2021,2021-03-13,Adelaide United,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,23,17/03/2021,2021-03-17,Central Coast Mariners,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,24,20/03/2021,2021-03-20,Newcastle Jets,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,26,28/03/2021,2021-03-28,Adelaide United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,27,02/04/2021,2021-04-02,Adelaide United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,29,09/04/2021,2021-04-09,Melbourne City,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,30,14/04/2021,2021-04-14,Adelaide United,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,31,19/04/2021,2021-04-19,Adelaide United,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,33,25/04/2021,2021-04-25,Wellington Phoenix,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,35,30/04/2021,2021-04-30,Adelaide United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,36,05/05/2021,2021-05-05,Adelaide United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,37,09/05/2021,2021-05-09,Perth Glory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,38,14/05/2021,2021-05-14,Adelaide United,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,39,21/05/2021,2021-05-21,Macarthur FC,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+adelaide,40,28/05/2021,2021-05-28,Melbourne Victory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-adelaide-united/
+central_coast,1,31/12/2020,2020-12-31,Central Coast Mariners,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,2,03/01/2021,2021-01-03,Macarthur FC,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,4,10/01/2021,2021-01-10,Central Coast Mariners,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,6,15/01/2021,2021-01-15,Brisbane Roar,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,7,19/01/2021,2021-01-19,Central Coast Mariners,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,8,23/01/2021,2021-01-23,Sydney FC,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,10,31/01/2021,2021-01-31,Central Coast Mariners,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,11,03/02/2021,2021-02-03,Melbourne City,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,12,06/02/2021,2021-02-06,Central Coast Mariners,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,14,14/02/2021,2021-02-14,Newcastle Jets,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,16,22/02/2021,2021-02-22,Macarthur FC,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,18,27/02/2021,2021-02-27,WS Wanderers,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,20,08/03/2021,2021-03-08,Central Coast Mariners,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,22,13/03/2021,2021-03-13,Perth Glory,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,23,17/03/2021,2021-03-17,Central Coast Mariners,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,24,22/03/2021,2021-03-22,Melbourne City,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,26,26/03/2021,2021-03-26,Central Coast Mariners,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,27,04/04/2021,2021-04-04,Melbourne Victory,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,29,11/04/2021,2021-04-11,Central Coast Mariners,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,31,18/04/2021,2021-04-18,Central Coast Mariners,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,33,23/04/2021,2021-04-23,Western United,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,35,03/05/2021,2021-05-03,Wellington Phoenix,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,37,08/05/2021,2021-05-08,Central Coast Mariners,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,38,14/05/2021,2021-05-14,Adelaide United,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,39,23/05/2021,2021-05-23,Central Coast Mariners,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+central_coast,40,30/05/2021,2021-05-30,Central Coast Mariners,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-central-coast-mariners/
+melbourne_city,1,30/12/2020,2020-12-30,Sydney FC,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,2,03/01/2021,2021-01-03,Adelaide United,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,4,08/01/2021,2021-01-08,Melbourne City,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,5,13/01/2021,2021-01-13,Macarthur FC,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,6,17/01/2021,2021-01-17,Melbourne City,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,8,22/01/2021,2021-01-22,Wellington Phoenix,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,10,30/01/2021,2021-01-30,Brisbane Roar,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,11,03/02/2021,2021-02-03,Melbourne City,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,12,08/02/2021,2021-02-08,Melbourne City,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,14,13/02/2021,2021-02-13,Western United,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,16,21/02/2021,2021-02-21,Melbourne City,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,18,28/02/2021,2021-02-28,Melbourne City,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,20,06/03/2021,2021-03-06,Melbourne Victory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,22,12/03/2021,2021-03-12,Melbourne City,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,24,22/03/2021,2021-03-22,Melbourne City,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,26,27/03/2021,2021-03-27,WS Wanderers,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,27,04/04/2021,2021-04-04,Perth Glory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,29,09/04/2021,2021-04-09,Melbourne City,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,31,17/04/2021,2021-04-17,Melbourne City,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,33,25/04/2021,2021-04-25,Brisbane Roar,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,34,28/04/2021,2021-04-28,Melbourne City,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,35,01/05/2021,2021-05-01,Newcastle Jets,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,37,07/05/2021,2021-05-07,Melbourne Victory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,38,15/05/2021,2021-05-15,Melbourne City,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,39,23/05/2021,2021-05-23,Central Coast Mariners,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_city,40,30/05/2021,2021-05-30,Melbourne City,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-city/
+melbourne_victory,2,02/01/2021,2021-01-02,Melbourne Victory,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,4,10/01/2021,2021-01-10,Central Coast Mariners,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,6,16/01/2021,2021-01-16,Melbourne Victory,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,8,23/01/2021,2021-01-23,Adelaide United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,9,26/01/2021,2021-01-26,Melbourne Victory,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,10,30/01/2021,2021-01-30,WS Wanderers,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,12,06/02/2021,2021-02-06,Wellington Phoenix,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,13,10/02/2021,2021-02-10,Melbourne Victory,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,14,13/02/2021,2021-02-13,Perth Glory,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,16,20/02/2021,2021-02-20,Western United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,18,27/02/2021,2021-02-27,Melbourne Victory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,20,06/03/2021,2021-03-06,Melbourne Victory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,22,13/03/2021,2021-03-13,Melbourne Victory,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,24,21/03/2021,2021-03-21,Sydney FC,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,26,27/03/2021,2021-03-27,Brisbane Roar,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,27,04/04/2021,2021-04-04,Melbourne Victory,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,28,07/04/2021,2021-04-07,Macarthur FC,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,29,12/04/2021,2021-04-12,Melbourne Victory,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,31,17/04/2021,2021-04-17,Melbourne City,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,32,21/04/2021,2021-04-21,Newcastle Jets,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,33,TBC,,Melbourne Victory,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,35,02/05/2021,2021-05-02,Western United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,37,TBC,,Melbourne Victory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,38,16/05/2021,2021-05-16,Melbourne Victory,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,39,22/05/2021,2021-05-22,Sydney FC,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+melbourne_victory,40,28/05/2021,2021-05-28,Melbourne Victory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-melbourne-victory/
+newcastle,1,31/12/2020,2020-12-31,Central Coast Mariners,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,3,05/01/2021,2021-01-05,Newcastle Jets,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,4,08/01/2021,2021-01-08,Melbourne City,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,6,17/01/2021,2021-01-17,Newcastle Jets,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,8,24/01/2021,2021-01-24,Western United,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,10,01/02/2021,2021-02-01,Newcastle Jets,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,12,07/02/2021,2021-02-07,Newcastle Jets,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,13,10/02/2021,2021-02-10,Melbourne Victory,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,14,14/02/2021,2021-02-14,Newcastle Jets,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,16,21/02/2021,2021-02-21,Melbourne City,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,18,01/03/2021,2021-03-01,Newcastle Jets,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,20,08/03/2021,2021-03-08,Central Coast Mariners,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,22,14/03/2021,2021-03-14,Sydney FC,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,24,20/03/2021,2021-03-20,Newcastle Jets,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,26,29/03/2021,2021-03-29,Newcastle Jets,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,27,05/04/2021,2021-04-05,Brisbane Roar,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,29,10/04/2021,2021-04-10,Newcastle Jets,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,30,14/04/2021,2021-04-14,Adelaide United,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,31,18/04/2021,2021-04-18,Macarthur FC,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,32,21/04/2021,2021-04-21,Newcastle Jets,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,33,25/04/2021,2021-04-25,Perth Glory,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,35,01/05/2021,2021-05-01,Newcastle Jets,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,37,08/05/2021,2021-05-08,WS Wanderers,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,38,15/05/2021,2021-05-15,Newcastle Jets,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,39,24/05/2021,2021-05-24,Wellington Phoenix,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+newcastle,40,29/05/2021,2021-05-29,Newcastle Jets,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-newcastle-jets/
+sydney,1,30/12/2020,2020-12-30,Sydney FC,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,2,02/01/2021,2021-01-02,Wellington Phoenix,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,4,10/01/2021,2021-01-10,Brisbane Roar,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,6,16/01/2021,2021-01-16,Sydney FC,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,8,23/01/2021,2021-01-23,Sydney FC,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,9,26/01/2021,2021-01-26,Melbourne Victory,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,10,31/01/2021,2021-01-31,Macarthur FC,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,12,05/02/2021,2021-02-05,Sydney FC,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,14,13/02/2021,2021-02-13,WS Wanderers,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,16,20/02/2021,2021-02-20,Sydney FC,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,18,26/02/2021,2021-02-26,Western United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,20,06/03/2021,2021-03-06,Brisbane Roar,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,22,14/03/2021,2021-03-14,Sydney FC,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,24,21/03/2021,2021-03-21,Sydney FC,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,25,24/03/2021,2021-03-24,Perth Glory,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,26,28/03/2021,2021-03-28,Adelaide United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,27,03/04/2021,2021-04-03,Sydney FC,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,29,10/04/2021,2021-04-10,Sydney FC,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,31,18/04/2021,2021-04-18,Central Coast Mariners,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,33,24/04/2021,2021-04-24,Sydney FC,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,35,01/05/2021,2021-05-01,Sydney FC,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,36,05/05/2021,2021-05-05,Adelaide United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,37,10/05/2021,2021-05-10,Sydney FC,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,38,15/05/2021,2021-05-15,Melbourne City,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,39,22/05/2021,2021-05-22,Sydney FC,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+sydney,40,29/05/2021,2021-05-29,Newcastle Jets,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-sydney-fc/
+western_sydney,1,27/12/2020,2020-12-27,WS Wanderers,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,2,01/01/2021,2021-01-01,WS Wanderers,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,3,05/01/2021,2021-01-05,Newcastle Jets,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,4,09/01/2021,2021-01-09,WS Wanderers,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,6,16/01/2021,2021-01-16,Sydney FC,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,7,19/01/2021,2021-01-19,Central Coast Mariners,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,8,24/01/2021,2021-01-24,WS Wanderers,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,10,30/01/2021,2021-01-30,WS Wanderers,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,12,08/02/2021,2021-02-08,Melbourne City,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,14,13/02/2021,2021-02-13,WS Wanderers,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,16,19/02/2021,2021-02-19,Wellington Phoenix,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,17,24/02/2021,2021-02-24,WS Wanderers,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,18,27/02/2021,2021-02-27,WS Wanderers,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,20,07/03/2021,2021-03-07,Western United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,22,15/03/2021,2021-03-15,WS Wanderers,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,24,20/03/2021,2021-03-20,Macarthur FC,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,26,27/03/2021,2021-03-27,WS Wanderers,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,27,02/04/2021,2021-04-02,Adelaide United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,29,10/04/2021,2021-04-10,Sydney FC,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,31,16/04/2021,2021-04-16,WS Wanderers,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,33,24/04/2021,2021-04-24,Melbourne Victory,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,35,30/04/2021,2021-04-30,Adelaide United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,37,08/05/2021,2021-05-08,WS Wanderers,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,38,16/05/2021,2021-05-16,Brisbane Roar,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,39,23/05/2021,2021-05-23,Perth Glory,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+western_sydney,40,31/05/2021,2021-05-31,WS Wanderers,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-sydney-wanderers/
+brisbane,1,29/12/2020,2020-12-29,Brisbane Roar,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,2,02/01/2021,2021-01-02,Melbourne Victory,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,4,10/01/2021,2021-01-10,Brisbane Roar,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,6,15/01/2021,2021-01-15,Brisbane Roar,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,7,20/01/2021,2021-01-20,Perth Glory,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,8,25/01/2021,2021-01-25,Brisbane Roar,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,10,30/01/2021,2021-01-30,Brisbane Roar,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,12,07/02/2021,2021-02-07,Newcastle Jets,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,14,15/02/2021,2021-02-15,Macarthur FC,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,16,21/02/2021,2021-02-21,Brisbane Roar,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,17,24/02/2021,2021-02-24,WS Wanderers,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,18,01/03/2021,2021-03-01,Newcastle Jets,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,20,06/03/2021,2021-03-06,Brisbane Roar,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,21,10/03/2021,2021-03-10,Brisbane Roar,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,22,13/03/2021,2021-03-13,Adelaide United,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,24,21/03/2021,2021-03-21,Wellington Phoenix,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,26,27/03/2021,2021-03-27,Brisbane Roar,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,27,05/04/2021,2021-04-05,Brisbane Roar,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,29,11/04/2021,2021-04-11,Brisbane Roar,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,31,16/04/2021,2021-04-16,WS Wanderers,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,33,25/04/2021,2021-04-25,Brisbane Roar,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,35,01/05/2021,2021-05-01,Sydney FC,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,37,08/05/2021,2021-05-08,Central Coast Mariners,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,38,16/05/2021,2021-05-16,Brisbane Roar,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,39,22/05/2021,2021-05-22,Western United,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+brisbane,40,30/05/2021,2021-05-30,Melbourne City,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-brisbane-roar/
+perth,6,16/01/2021,2021-01-16,Perth Glory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,7,20/01/2021,2021-01-20,Perth Glory,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,8,24/01/2021,2021-01-24,WS Wanderers,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,9,27/01/2021,2021-01-27,Wellington Phoenix,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,10,01/02/2021,2021-02-01,Newcastle Jets,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,12,06/02/2021,2021-02-06,Perth Glory,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,14,13/02/2021,2021-02-13,Perth Glory,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,16,20/02/2021,2021-02-20,Sydney FC,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,18,27/02/2021,2021-02-27,Perth Glory,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,20,07/03/2021,2021-03-07,Wellington Phoenix,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,21,10/03/2021,2021-03-10,Brisbane Roar,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,22,13/03/2021,2021-03-13,Perth Glory,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,24,19/03/2021,2021-03-19,Western United,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,25,24/03/2021,2021-03-24,Perth Glory,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,26,29/03/2021,2021-03-29,Newcastle Jets,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,27,04/04/2021,2021-04-04,Perth Glory,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,29,12/04/2021,2021-04-12,Melbourne Victory,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,31,19/04/2021,2021-04-19,Adelaide United,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,33,25/04/2021,2021-04-25,Perth Glory,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,34,28/04/2021,2021-04-28,Melbourne City,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,35,02/05/2021,2021-05-02,Macarthur FC,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,15,05/05/2021,2021-05-05,Perth Glory,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,37,09/05/2021,2021-05-09,Perth Glory,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,38,15/05/2021,2021-05-15,Perth Glory,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,39,23/05/2021,2021-05-23,Perth Glory,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+perth,40,30/05/2021,2021-05-30,Central Coast Mariners,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-perth-glory/
+wellington,1,29/12/2020,2020-12-29,Brisbane Roar,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,2,02/01/2021,2021-01-02,Wellington Phoenix,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,4,09/01/2021,2021-01-09,Macarthur FC,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,5,12/01/2021,2021-01-12,Western United,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,6,16/01/2021,2021-01-16,Melbourne Victory,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,8,22/01/2021,2021-01-22,Wellington Phoenix,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,9,27/01/2021,2021-01-27,Wellington Phoenix,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,10,31/01/2021,2021-01-31,Central Coast Mariners,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,12,06/02/2021,2021-02-06,Wellington Phoenix,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,14,12/02/2021,2021-02-12,Adelaide United,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,16,19/02/2021,2021-02-19,Wellington Phoenix,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,18,28/02/2021,2021-02-28,Melbourne City,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,19,03/03/2021,2021-03-03,Wellington Phoenix,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,20,07/03/2021,2021-03-07,Wellington Phoenix,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,22,15/03/2021,2021-03-15,WS Wanderers,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,24,21/03/2021,2021-03-21,Wellington Phoenix,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,26,28/03/2021,2021-03-28,Wellington Phoenix,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,27,03/04/2021,2021-04-03,Sydney FC,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,29,10/04/2021,2021-04-10,Newcastle Jets,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,31,17/04/2021,2021-04-17,Wellington Phoenix,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,33,25/04/2021,2021-04-25,Wellington Phoenix,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,35,03/05/2021,2021-05-03,Wellington Phoenix,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,37,09/05/2021,2021-05-09,Macarthur FC,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,38,15/05/2021,2021-05-15,Perth Glory,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,39,24/05/2021,2021-05-24,Wellington Phoenix,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+wellington,40,31/05/2021,2021-05-31,WS Wanderers,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-wellington-phoenix/
+western_united,1,28/12/2020,2020-12-28,Western United,Adelaide United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,2,01/01/2021,2021-01-01,WS Wanderers,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,3,06/01/2021,2021-01-06,Western United,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,5,12/01/2021,2021-01-12,Western United,Wellington Phoenix,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,6,17/01/2021,2021-01-17,Melbourne City,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,8,24/01/2021,2021-01-24,Western United,Newcastle Jets,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,10,29/01/2021,2021-01-29,Adelaide United,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,12,06/02/2021,2021-02-06,Central Coast Mariners,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,14,13/02/2021,2021-02-13,Western United,Melbourne City,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,16,20/02/2021,2021-02-20,Western United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,18,26/02/2021,2021-02-26,Western United,Sydney FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,19,03/03/2021,2021-03-03,Wellington Phoenix,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,20,07/03/2021,2021-03-07,Western United,WS Wanderers,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,22,13/03/2021,2021-03-13,Melbourne Victory,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,24,19/03/2021,2021-03-19,Western United,Perth Glory,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,26,26/03/2021,2021-03-26,Central Coast Mariners,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,27,03/04/2021,2021-04-03,Western United,Macarthur FC,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,29,11/04/2021,2021-04-11,Brisbane Roar,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,31,17/04/2021,2021-04-17,Wellington Phoenix,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,33,23/04/2021,2021-04-23,Western United,Central Coast Mariners,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,35,02/05/2021,2021-05-02,Western United,Melbourne Victory,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,15,05/05/2021,2021-05-05,Perth Glory,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,37,10/05/2021,2021-05-10,Sydney FC,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,38,15/05/2021,2021-05-15,Newcastle Jets,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,39,22/05/2021,2021-05-22,Western United,Brisbane Roar,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
+western_united,40,29/05/2021,2021-05-29,Macarthur FC,Western United,https://aleagues.com.au/news/a-league-season-202021-fixtures-western-united/
