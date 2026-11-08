@@ -1,0 +1,219 @@
+country,league,season,selection_status,fixtures
+Belgium,Jupiler Pro League,2016/2017,matched_exact_league_season_teams_date,239
+Belgium,Jupiler Pro League,2016/2017,unresolved_same_pair_other_date,64
+Belgium,Jupiler Pro League,2017/2018,matched_exact_league_season_teams_date,240
+Belgium,Jupiler Pro League,2017/2018,unresolved_same_pair_other_date,64
+Belgium,Jupiler Pro League,2018/2019,matched_exact_league_season_teams_date,240
+Belgium,Jupiler Pro League,2018/2019,unresolved_same_pair_other_date,63
+Belgium,Jupiler Pro League,2019/2020,matched_exact_league_season_teams_date,232
+Belgium,Jupiler Pro League,2020/2021,matched_exact_league_season_teams_date,330
+Belgium,Jupiler Pro League,2021/2022,matched_exact_league_season_teams_date,309
+Belgium,Jupiler Pro League,2021/2022,unresolved_same_pair_other_date,18
+Belgium,Jupiler Pro League,2022/2023,matched_exact_league_season_teams_date,328
+Belgium,Jupiler Pro League,2023/2024,matched_exact_league_season_teams_date,240
+Belgium,Jupiler Pro League,2023/2024,unresolved_same_pair_other_date,72
+Belgium,Jupiler Pro League,2024/2025,matched_exact_league_season_teams_date,311
+Belgium,Jupiler Pro League,2024/2025,unresolved_same_pair_other_date,1
+Belgium,Jupiler Pro League,2025/2026,matched_exact_league_season_teams_date,240
+Belgium,Jupiler Pro League,2025/2026,unresolved_same_pair_other_date,73
+Belgium,Jupiler Pro League,2026/2027,matched_exact_league_season_teams_date,63
+England,Championship,2015/2016,matched_exact_league_season_teams_date,552
+England,Championship,2015/2016,unresolved_same_pair_other_date,5
+England,Championship,2016/2017,matched_exact_league_season_teams_date,552
+England,Championship,2016/2017,unresolved_same_pair_other_date,5
+England,Championship,2017/2018,matched_exact_league_season_teams_date,552
+England,Championship,2017/2018,unresolved_same_pair_other_date,5
+England,Championship,2018/2019,matched_exact_league_season_teams_date,551
+England,Championship,2018/2019,unresolved_same_pair_other_date,5
+England,Championship,2019/2020,matched_exact_league_season_teams_date,552
+England,Championship,2019/2020,unresolved_same_pair_other_date,5
+England,Championship,2020/2021,matched_exact_league_season_teams_date,552
+England,Championship,2020/2021,unresolved_same_pair_other_date,5
+England,Championship,2021/2022,matched_exact_league_season_teams_date,552
+England,Championship,2021/2022,unresolved_same_pair_other_date,5
+England,Championship,2022/2023,matched_exact_league_season_teams_date,552
+England,Championship,2022/2023,unresolved_same_pair_other_date,5
+England,Championship,2023/2024,matched_exact_league_season_teams_date,552
+England,Championship,2023/2024,unresolved_same_pair_other_date,5
+England,Championship,2024/2025,matched_exact_league_season_teams_date,552
+England,Championship,2024/2025,unresolved_same_pair_other_date,5
+England,Championship,2025/2026,matched_exact_league_season_teams_date,552
+England,Championship,2025/2026,unresolved_same_pair_other_date,5
+England,Championship,2026/2027,matched_exact_league_season_teams_date,95
+England,Premier League,2015/2016,matched_exact_league_season_teams_date,380
+England,Premier League,2016/2017,matched_exact_league_season_teams_date,380
+England,Premier League,2017/2018,matched_exact_league_season_teams_date,380
+England,Premier League,2018/2019,matched_exact_league_season_teams_date,380
+England,Premier League,2019/2020,matched_exact_league_season_teams_date,380
+England,Premier League,2020/2021,matched_exact_league_season_teams_date,380
+England,Premier League,2021/2022,matched_exact_league_season_teams_date,380
+England,Premier League,2022/2023,matched_exact_league_season_teams_date,380
+England,Premier League,2023/2024,matched_exact_league_season_teams_date,380
+England,Premier League,2024/2025,matched_exact_league_season_teams_date,380
+England,Premier League,2025/2026,matched_exact_league_season_teams_date,380
+England,Premier League,2026/2027,matched_exact_league_season_teams_date,50
+France,Ligue 1,2015/2016,matched_exact_league_season_teams_date,380
+France,Ligue 1,2016/2017,matched_exact_league_season_teams_date,379
+France,Ligue 1,2017/2018,matched_exact_league_season_teams_date,380
+France,Ligue 1,2018/2019,matched_exact_league_season_teams_date,380
+France,Ligue 1,2019/2020,matched_exact_league_season_teams_date,279
+France,Ligue 1,2020/2021,matched_exact_league_season_teams_date,380
+France,Ligue 1,2021/2022,matched_exact_league_season_teams_date,380
+France,Ligue 1,2022/2023,matched_exact_league_season_teams_date,380
+France,Ligue 1,2023/2024,matched_exact_league_season_teams_date,306
+France,Ligue 1,2024/2025,matched_exact_league_season_teams_date,306
+France,Ligue 1,2025/2026,matched_exact_league_season_teams_date,304
+France,Ligue 1,2026/2027,matched_exact_league_season_teams_date,45
+France,Ligue 2,2016/2017,matched_exact_league_season_teams_date,380
+France,Ligue 2,2017/2018,matched_exact_league_season_teams_date,380
+France,Ligue 2,2018/2019,matched_exact_league_season_teams_date,380
+France,Ligue 2,2019/2020,matched_exact_league_season_teams_date,280
+France,Ligue 2,2020/2021,matched_exact_league_season_teams_date,379
+France,Ligue 2,2021/2022,matched_exact_league_season_teams_date,379
+France,Ligue 2,2022/2023,matched_exact_league_season_teams_date,379
+France,Ligue 2,2023/2024,matched_exact_league_season_teams_date,379
+France,Ligue 2,2024/2025,matched_exact_league_season_teams_date,306
+France,Ligue 2,2025/2026,matched_exact_league_season_teams_date,299
+France,Ligue 2,2026/2027,matched_exact_league_season_teams_date,63
+Germany,2. Bundesliga,2015/2016,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2016/2017,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2017/2018,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2018/2019,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2019/2020,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2020/2021,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2021/2022,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2022/2023,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2023/2024,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2024/2025,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2025/2026,matched_exact_league_season_teams_date,306
+Germany,2. Bundesliga,2026/2027,matched_exact_league_season_teams_date,54
+Germany,Bundesliga,2015/2016,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2016/2017,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2017/2018,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2018/2019,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2019/2020,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2020/2021,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2021/2022,matched_exact_league_season_teams_date,305
+Germany,Bundesliga,2021/2022,unresolved_no_native_pair_in_season,1
+Germany,Bundesliga,2022/2023,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2023/2024,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2024/2025,matched_exact_league_season_teams_date,305
+Germany,Bundesliga,2025/2026,matched_exact_league_season_teams_date,306
+Germany,Bundesliga,2026/2027,matched_exact_league_season_teams_date,36
+Italy,Serie A,2015/2016,matched_exact_league_season_teams_date,380
+Italy,Serie A,2016/2017,matched_exact_league_season_teams_date,378
+Italy,Serie A,2016/2017,unresolved_same_pair_other_date,1
+Italy,Serie A,2017/2018,matched_exact_league_season_teams_date,380
+Italy,Serie A,2018/2019,matched_exact_league_season_teams_date,380
+Italy,Serie A,2019/2020,matched_exact_league_season_teams_date,380
+Italy,Serie A,2020/2021,matched_exact_league_season_teams_date,379
+Italy,Serie A,2021/2022,matched_exact_league_season_teams_date,380
+Italy,Serie A,2022/2023,matched_exact_league_season_teams_date,380
+Italy,Serie A,2022/2023,unresolved_same_pair_other_date,1
+Italy,Serie A,2023/2024,matched_exact_league_season_teams_date,380
+Italy,Serie A,2024/2025,matched_exact_league_season_teams_date,380
+Italy,Serie A,2025/2026,matched_exact_league_season_teams_date,380
+Italy,Serie A,2026/2027,matched_exact_league_season_teams_date,50
+Italy,Serie B,2015/2016,matched_exact_league_season_teams_date,462
+Italy,Serie B,2015/2016,unresolved_same_pair_other_date,10
+Italy,Serie B,2016/2017,matched_exact_league_season_teams_date,462
+Italy,Serie B,2016/2017,unresolved_same_pair_other_date,8
+Italy,Serie B,2017/2018,matched_exact_league_season_teams_date,461
+Italy,Serie B,2017/2018,unresolved_same_pair_other_date,11
+Italy,Serie B,2018/2019,matched_exact_league_season_teams_date,341
+Italy,Serie B,2018/2019,unresolved_same_pair_other_date,10
+Italy,Serie B,2019/2020,matched_exact_league_season_teams_date,380
+Italy,Serie B,2019/2020,unresolved_same_pair_other_date,10
+Italy,Serie B,2020/2021,matched_exact_league_season_teams_date,378
+Italy,Serie B,2020/2021,unresolved_same_pair_other_date,9
+Italy,Serie B,2021/2022,matched_exact_league_season_teams_date,380
+Italy,Serie B,2021/2022,unresolved_same_pair_other_date,10
+Italy,Serie B,2022/2023,matched_exact_league_season_teams_date,379
+Italy,Serie B,2022/2023,unresolved_same_pair_other_date,9
+Italy,Serie B,2023/2024,matched_exact_league_season_teams_date,380
+Italy,Serie B,2023/2024,unresolved_same_pair_other_date,10
+Italy,Serie B,2024/2025,matched_exact_league_season_teams_date,379
+Italy,Serie B,2024/2025,unresolved_same_pair_other_date,9
+Italy,Serie B,2025/2026,matched_exact_league_season_teams_date,380
+Italy,Serie B,2025/2026,unresolved_same_pair_other_date,10
+Italy,Serie B,2026/2027,matched_exact_league_season_teams_date,50
+Netherlands,Eredivisie,2015/2016,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2015/2016,unresolved_same_pair_other_date,6
+Netherlands,Eredivisie,2016/2017,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2016/2017,unresolved_same_pair_other_date,6
+Netherlands,Eredivisie,2017/2018,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2017/2018,unresolved_same_pair_other_date,6
+Netherlands,Eredivisie,2018/2019,matched_exact_league_season_teams_date,305
+Netherlands,Eredivisie,2018/2019,unresolved_same_pair_other_date,7
+Netherlands,Eredivisie,2019/2020,matched_exact_league_season_teams_date,232
+Netherlands,Eredivisie,2020/2021,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2020/2021,unresolved_same_pair_other_date,3
+Netherlands,Eredivisie,2021/2022,matched_exact_league_season_teams_date,305
+Netherlands,Eredivisie,2021/2022,unresolved_same_pair_other_date,7
+Netherlands,Eredivisie,2022/2023,matched_exact_league_season_teams_date,304
+Netherlands,Eredivisie,2022/2023,unresolved_same_pair_other_date,8
+Netherlands,Eredivisie,2023/2024,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2023/2024,unresolved_same_pair_other_date,3
+Netherlands,Eredivisie,2024/2025,matched_exact_league_season_teams_date,306
+Netherlands,Eredivisie,2024/2025,unresolved_same_pair_other_date,3
+Netherlands,Eredivisie,2025/2026,matched_exact_league_season_teams_date,305
+Netherlands,Eredivisie,2025/2026,unresolved_same_pair_other_date,3
+Netherlands,Eredivisie,2026/2027,matched_exact_league_season_teams_date,63
+Scotland,Premiership,2015/2016,matched_exact_league_season_teams_date,198
+Scotland,Premiership,2015/2016,unresolved_repeated_pair_other_dates,3
+Scotland,Premiership,2015/2016,unresolved_same_pair_other_date,27
+Scotland,Premiership,2016/2017,matched_exact_league_season_teams_date,198
+Scotland,Premiership,2016/2017,unresolved_repeated_pair_other_dates,3
+Scotland,Premiership,2016/2017,unresolved_same_pair_other_date,27
+Scotland,Premiership,2017/2018,matched_exact_league_season_teams_date,198
+Scotland,Premiership,2017/2018,unresolved_repeated_pair_other_dates,5
+Scotland,Premiership,2017/2018,unresolved_same_pair_other_date,25
+Scotland,Premiership,2018/2019,matched_exact_league_season_teams_date,198
+Scotland,Premiership,2018/2019,unresolved_repeated_pair_other_dates,5
+Scotland,Premiership,2018/2019,unresolved_same_pair_other_date,25
+Scotland,Premiership,2019/2020,matched_exact_league_season_teams_date,179
+Scotland,Premiership,2020/2021,matched_exact_league_season_teams_date,228
+Scotland,Premiership,2021/2022,matched_exact_league_season_teams_date,228
+Scotland,Premiership,2022/2023,matched_exact_league_season_teams_date,228
+Scotland,Premiership,2023/2024,matched_exact_league_season_teams_date,228
+Scotland,Premiership,2024/2025,matched_exact_league_season_teams_date,228
+Scotland,Premiership,2025/2026,matched_exact_league_season_teams_date,198
+Scotland,Premiership,2025/2026,unresolved_repeated_pair_other_dates,7
+Scotland,Premiership,2025/2026,unresolved_same_pair_other_date,23
+Scotland,Premiership,2026/2027,matched_exact_league_season_teams_date,42
+Spain,LaLiga,2015/2016,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2016/2017,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2017/2018,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2018/2019,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2019/2020,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2020/2021,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2021/2022,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2022/2023,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2023/2024,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2024/2025,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2025/2026,matched_exact_league_season_teams_date,380
+Spain,LaLiga,2026/2027,matched_exact_league_season_teams_date,69
+Spain,LaLiga2,2015/2016,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2015/2016,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2016/2017,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2016/2017,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2017/2018,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2017/2018,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2018/2019,matched_exact_league_season_teams_date,440
+Spain,LaLiga2,2018/2019,unresolved_same_pair_other_date,7
+Spain,LaLiga2,2019/2020,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2019/2020,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2020/2021,matched_exact_league_season_teams_date,461
+Spain,LaLiga2,2020/2021,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2021/2022,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2021/2022,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2022/2023,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2022/2023,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2023/2024,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2023/2024,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2024/2025,matched_exact_league_season_teams_date,462
+Spain,LaLiga2,2024/2025,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2025/2026,matched_exact_league_season_teams_date,460
+Spain,LaLiga2,2025/2026,unresolved_same_pair_other_date,6
+Spain,LaLiga2,2026/2027,matched_exact_league_season_teams_date,66
+Spain,LaLiga2,2026/2027,unresolved_no_native_pair_in_season,11

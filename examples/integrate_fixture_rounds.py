@@ -8,15 +8,17 @@ import tempfile
 
 import pandas as pd
 from xdiyo_analytics.data.fixture_rounds import file_sha256, load_round_enriched_matches, SELECTED
+from xdiyo_analytics.data import assign_fixture_rounds, load_combined_fixture_rounds
 
 
-def integrate(matches, mapping_root, output):
+def integrate(matches, mapping_root, output, *, original13_root=None):
     matches, mapping_root, output = map(Path, (matches, mapping_root, output))
     if output.exists():
         raise FileExistsError("Dataset output already exists; use a new version directory")
     original = pd.read_parquet(matches)
-    enriched = load_round_enriched_matches(matches, mapping_root)
-    # Audit the whole source population, including the 84,512 untargeted rows.
+    enriched = (load_round_enriched_matches(matches, mapping_root) if original13_root is None else
+                assign_fixture_rounds(original, load_combined_fixture_rounds(mapping_root, original13_root)))
+    # Audit every original row and all non-annotation fields.
     unchanged = [col for col in original if col not in SELECTED]
     pd.testing.assert_frame_equal(original[unchanged], enriched[unchanged])
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -47,5 +49,6 @@ if __name__ == "__main__":
     parser.add_argument("--matches", required=True, type=Path)
     parser.add_argument("--mapping-root", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--original13-root", type=Path)
     args = parser.parse_args()
-    integrate(args.matches, args.mapping_root, args.output)
+    integrate(args.matches, args.mapping_root, args.output, original13_root=args.original13_root)

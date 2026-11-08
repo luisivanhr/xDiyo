@@ -18,3 +18,6 @@ __all__ += ["list_datasets", "inspect_coverage", "select_data", "resolve_selecti
 
 from .fixture_rounds import FixtureRounds, load_fixture_rounds, assign_fixture_rounds, load_round_enriched_matches
 __all__ += ["FixtureRounds", "load_fixture_rounds", "assign_fixture_rounds", "load_round_enriched_matches"]
+
+from .native_fixture_rounds import load_native_fixture_rounds, load_combined_fixture_rounds
+__all__ += ["load_native_fixture_rounds", "load_combined_fixture_rounds"]

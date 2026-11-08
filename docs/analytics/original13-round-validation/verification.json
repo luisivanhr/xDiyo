@@ -1,0 +1,112 @@
+{
+  "base_commit": "e2707a566795b42979e3236f7edb25f1bb23b8bf",
+  "original13_manifest_sha256": "e356441a16b6cf88013ad207cceb228322ea091fc43597186f25906fabd118d7",
+  "v59_manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+  "tests": [
+    {
+      "python": "3.12.14",
+      "pandas": "3.0.1",
+      "pyarrow": "25.0.1",
+      "passed": 200,
+      "failed": 0,
+      "receipt": "tests-python312.xml"
+    },
+    {
+      "python": "3.14.0",
+      "pandas": "2.3.3",
+      "pyarrow": "23.0.0",
+      "passed": 200,
+      "failed": 0,
+      "receipt": "tests-python314.xml"
+    }
+  ],
+  "materialization": {
+    "schema": 1,
+    "rows": 146000,
+    "input_sha256": "1d9f33cd661af68fdf6f86abd4317beb840d03d87269bc4e37ef4cfd435d9027",
+    "output_sha256": "7b44c22c237ef5e4ab9f571a64f77c95e000c2110af5314bae1d6d9d2f3325a5",
+    "round_provenance": {
+      "release": "v59_plus_original13_native_20261108",
+      "identity_namespace": "workbook_match_id",
+      "layers": [
+        {
+          "release": "v59_20261108",
+          "manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+          "identity_namespace": "workbook_match_id",
+          "counts": {
+            "fixtures": 61488,
+            "fields": 368928,
+            "historical_holds": 794,
+            "explicit_clears": 3,
+            "series_ordinals": 60,
+            "season_round_nulls": 13168,
+            "named_without_numeric_round": 745,
+            "user_selected_provider_fallbacks": 4
+          },
+          "evidence_directory": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\data\\fixture_rounds\\v59_20261108\\provenance",
+          "selection_semantics": "mixed_original_and_provider_conventions",
+          "feature_asof_approved": false,
+          "model_input_approved": false
+        },
+        {
+          "release": "original13_native_20261108",
+          "manifest_sha256": "e356441a16b6cf88013ad207cceb228322ea091fc43597186f25906fabd118d7",
+          "identity_namespace": "workbook_match_id",
+          "selection_semantics": "RETAINED_NATIVE_ROUND_NOT_NEW_ORIGINAL_DRAW_VERIFICATION",
+          "evidence_directory": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\data\\fixture_rounds\\original13_native_20261108\\provenance",
+          "counts": {
+            "targets": 52022,
+            "matched": 51223,
+            "unresolved": 799,
+            "statuses": {
+              "matched_exact_league_season_teams_date": 51223,
+              "unresolved_same_pair_other_date": 764,
+              "unresolved_repeated_pair_other_dates": 23,
+              "unresolved_no_native_pair_in_season": 12
+            },
+            "experiment_window_targets": 32686,
+            "experiment_window_matched": 32319,
+            "experiment_window_unresolved": 367,
+            "civil_clock_differences": 73,
+            "season_rounds": 51095,
+            "phase_rounds": 128
+          },
+          "model_input_approved": false,
+          "feature_asof_approved": false
+        }
+      ],
+      "selection_semantics": "MIXED_SOURCE_CONVENTIONS_RETAINED",
+      "counts": {
+        "targets": 113510,
+        "v59_targets": 61488,
+        "original13_targets": 52022
+      },
+      "model_input_approved": false,
+      "feature_asof_approved": false,
+      "assigned_rows": 113510
+    },
+    "changed_columns": [
+      "season_round",
+      "phase_round",
+      "phase_key",
+      "stage_label",
+      "knockout_label",
+      "leg_number",
+      "series_game_number"
+    ],
+    "original_columns_unchanged": true,
+    "serialized_values_types_and_provenance_verified": true,
+    "experiment_prepared": false,
+    "experiment_run": false,
+    "forecast_timing_changed": false
+  },
+  "preserved_paths": [
+    "data/fixture_rounds/v59_20261108",
+    "data/xDiyo_data",
+    "data/team_assets",
+    "src/xdiyo_analytics/graphs",
+    "src/xdiyo_analytics/features",
+    "src/xdiyo_analytics/training",
+    "src/xdiyo_analytics/experiments"
+  ]
+}

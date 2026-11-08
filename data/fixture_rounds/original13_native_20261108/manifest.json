@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "release": "original13_native_20261108",
+  "identity_namespace": "workbook_match_id",
+  "input_workbook_sha256": "1d9f33cd661af68fdf6f86abd4317beb840d03d87269bc4e37ef4cfd435d9027",
+  "input_workbook_name": "Matches_Results.parquet",
+  "team_directory_digest": "c337af799c78ae27e4e20c2850e2c6b3d72f7b00df03126a733640480eb1c25c",
+  "selected_columns": [
+    "season_round",
+    "phase_round",
+    "phase_key",
+    "stage_label",
+    "knockout_label",
+    "leg_number",
+    "series_game_number"
+  ],
+  "counts": {
+    "targets": 52022,
+    "matched": 51223,
+    "unresolved": 799,
+    "statuses": {
+      "matched_exact_league_season_teams_date": 51223,
+      "unresolved_same_pair_other_date": 764,
+      "unresolved_repeated_pair_other_dates": 23,
+      "unresolved_no_native_pair_in_season": 12
+    },
+    "experiment_window_targets": 32686,
+    "experiment_window_matched": 32319,
+    "experiment_window_unresolved": 367,
+    "civil_clock_differences": 73,
+    "season_rounds": 51095,
+    "phase_rounds": 128
+  },
+  "selection_semantics": "RETAINED_NATIVE_ROUND_NOT_NEW_ORIGINAL_DRAW_VERIFICATION",
+  "native_date_comparison": "Europe/Berlin civil date; does not assert workbook timezone",
+  "acceptance": "Unique exact league/season/ordered canonical teams/date only; scores never match identities",
+  "cross_date_policy": "Review-only candidates; no proximity, unique-pair or score fallback",
+  "round_scope": "Retained main-stage season ordinal; Scottish split keeps 34..38; Belgian reset substages use phase_round",
+  "unresolved_policy": "All target rows retained with selected typed nulls; no coalescing",
+  "feature_asof_approved": false,
+  "model_input_approved": false,
+  "forecast_timing_changed": false,
+  "experiment_prepared": false,
+  "experiment_run": false,
+  "files": {
+    "fixtures.parquet": {
+      "sha256": "59c006a9bb1ba1db9937ac11a675583d992a7509be608b24e63ba483f5ffa6aa",
+      "bytes": 676101
+    },
+    "provenance/candidates.parquet": {
+      "sha256": "d4d46849c3445970ca42eeb7d28ef0c20b94d61ac9806902fffa7419a428ffc1",
+      "bytes": 27918
+    },
+    "provenance/coverage.csv": {
+      "sha256": "ae8949622aa92e7d2d398fa68ee3fbb560495db25339b435cb9e9e5fc7f1b74a",
+      "bytes": 15363
+    },
+    "provenance/lineage.parquet": {
+      "sha256": "93ee2b34273283f9fc79ac9a8bfa554fa22908fc5839542e401f0008b4d6f906",
+      "bytes": 849336
+    },
+    "provenance/native_annotations.parquet": {
+      "sha256": "f77b65e94d8a2f870563e850598c51f91bb69c6e8ce2e62024b57378e9652c0e",
+      "bytes": 847461
+    },
+    "provenance/native_publications.json": {
+      "sha256": "ef3c0d557970a2b3afb1e99dff2375c91c8b5068db105fe72b2403a6fa0976db",
+      "bytes": 196305
+    },
+    "provenance/reviewed_team_directory.json": {
+      "sha256": "993efa7dbbe81d04967740dea4c0d3b02125584feafcf855e23c78ac49d82566",
+      "bytes": 570298
+    },
+    "provenance/unresolved.csv": {
+      "sha256": "b5f715d7b83422674434e794fe442940bf2969f9baf2e5816789df23d47f5934",
+      "bytes": 177043
+    },
+    "provenance/workbook_targets.parquet": {
+      "sha256": "19b14d69f2de25e983c4a240ce832e60874c2e3ef0014f415edaa232648d4cc0",
+      "bytes": 637891
+    }
+  }
+}
