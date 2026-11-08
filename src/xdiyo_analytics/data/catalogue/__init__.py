@@ -12,3 +12,6 @@ __all__ += ["plan_recipe_dataset_migration", "apply_recipe_dataset_migration"]
 
 from .movements import enrich_movements
 __all__ += ['enrich_movements']
+
+from .team_identities import load_team_identity_decisions, apply_team_identity_decisions
+__all__ += ['load_team_identity_decisions', 'apply_team_identity_decisions']

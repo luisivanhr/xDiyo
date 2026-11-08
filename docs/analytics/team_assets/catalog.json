@@ -573,6 +573,25 @@
     "license": "Source repository declares MIT; club trademark and artwork rights remain with their owners.",
     "identity_match": "logos/england/Preston_North_End.svg"
   },
+  "22": {
+    "name": "Bradford City",
+    "aliases": [
+      "Bradford City",
+      "Bradford"
+    ],
+    "leagues": [],
+    "seasons": [],
+    "badge_path": "badges/22.svg",
+    "format": "svg",
+    "sha256": "708aa973162b066919b47ee99a3a0ed6ce31bb321874d8e1578f9f4e32c1ea84",
+    "source_sha256": "708aa973162b066919b47ee99a3a0ed6ce31bb321874d8e1578f9f4e32c1ea84",
+    "source_url": "https://raw.githubusercontent.com/JoseArroyave/football-logos/1b8e57c3ea3658001cafba18c4a6db730b420ad6/logos/england/Bradford_City.svg",
+    "source_commit": "1b8e57c3ea3658001cafba18c4a6db730b420ad6",
+    "source_collection": "JoseArroyave/football-logos",
+    "identity_source": "https://www.sofascore.com/football/team/bradford-city/22",
+    "identity_match": "Sofascore identifies the English club founded in 1903 at Valley Parade; source artwork names Bradford City.",
+    "license": "Source repository declares MIT; club trademark and artwork rights remain with their owners."
+  },
   "23": {
     "name": "Barnsley",
     "aliases": [

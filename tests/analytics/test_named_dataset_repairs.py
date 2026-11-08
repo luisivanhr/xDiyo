@@ -96,7 +96,7 @@ def test_installed_wheel_includes_catalogue_and_legacy_imports(tmp_path):
     subprocess.run([sys.executable,'-m','pip','wheel',str(root),'--no-deps','--no-build-isolation','--wheel-dir',str(wheels)],check=True,capture_output=True,env=env)
     wheel=next(wheels.glob('*.whl'))
     subprocess.run([sys.executable,'-m','pip','install','--no-deps','--no-compile','--target',str(installed),str(wheel)],check=True,capture_output=True,env=env)
-    code="import sys;sys.path.insert(0,sys.argv[1]);import xdiyo_analytics.data as d;from xdiyo_analytics.data.catalogue import native;from xdiyo_analytics.data.catalogue.migration import plan_recipe_dataset_migration;assert callable(d.load_season) and callable(d.select_data);assert d.__file__.startswith(sys.argv[1]);print(d.__file__)"
+    code="import sys;sys.path.insert(0,sys.argv[1]);import xdiyo_analytics.data as d;from xdiyo_analytics.data.catalogue import native,load_team_identity_decisions;from xdiyo_analytics.data.catalogue.migration import plan_recipe_dataset_migration;from xdiyo_analytics.reporting import TeamCatalog;assert callable(d.load_season) and callable(d.select_data);assert d.__file__.startswith(sys.argv[1]);assert len(load_team_identity_decisions()['records'])>5000;assert TeamCatalog.builtin().display(22,badges=True)[1].startswith('data:image/svg+xml;base64,');print(d.__file__)"
     result=subprocess.run([sys.executable,'-I','-c',code,str(installed)],cwd=tmp_path,env=env,capture_output=True,text=True)
     assert result.returncode==0,result.stderr
 

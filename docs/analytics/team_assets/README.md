@@ -44,6 +44,16 @@ The embedding browser regression covers coincident team coordinates, league visi
 
 No match tables, model weights or experiments are modified by this asset update.
 
+### International identity review (2026-11-08)
+
+The catalogue now also includes Bradford City (Sofascore 22), with a pinned SVG
+from the same collection and a primary identity reference. The complete catalogue
+therefore has 484 entries; 483 remain the native-publication inventory described
+above. The reviewed international alias bridge selects 471 entries and reuses
+their existing identities and assets. See [scope, dated mappings, verification
+and remaining coverage](../international_team_identities.md). This does not mean
+every club in the complete international source files has been resolved.
+
 ## Integrated badge coverage
 
 The main-branch coverage expansion (`bfe249c`) is preserved alongside the SVG

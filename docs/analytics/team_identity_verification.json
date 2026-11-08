@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-08T08:36:17.089412+00:00",
+  "base_commit": "ec19875ad13de83187a42762e9094e016c778042",
+  "branch": "codex/international-team-identities",
+  "full_source_coverage_complete": false,
+  "existing_publications_modified": false,
+  "tests": [
+    {
+      "runtime": {
+        "python": "3.14.0",
+        "pandas": "2.3.3",
+        "pyarrow": "22.0.0"
+      },
+      "command": "python -m pytest -q tests/analytics/test_team_identity_reconciliation.py tests/analytics/test_badge_bundles.py tests/analytics/test_native_dated_aliases.py tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_team_asset_inventory.py::test_inventory_includes_old_seasons_and_preserves_badge_provenance --junitxml=docs/analytics/team_identity_tests.xml",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PIP_NO_INDEX": "1",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+        "TEMP": "<checkout>/.pip-temp",
+        "TMP": "<checkout>/.pip-temp"
+      },
+      "results": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "83",
+        "time": "25.047",
+        "timestamp": "2026-11-08T17:34:20.743370+09:00"
+      },
+      "receipt": "docs/analytics/team_identity_tests.xml",
+      "sha256": "a5c58c65cc186777d4fa7ac6c44a2d0f2bb7e0d0610c1a6fcc529cfb6fe43ace"
+    },
+    {
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.1",
+        "pyarrow": "25.0.1"
+      },
+      "command": "python -m pytest -q tests/analytics/test_team_identity_reconciliation.py tests/analytics/test_badge_bundles.py tests/analytics/test_native_dated_aliases.py tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_team_asset_inventory.py::test_inventory_includes_old_seasons_and_preserves_badge_provenance --junitxml=docs/analytics/team_identity_tests_py312.xml",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PIP_NO_INDEX": "1",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+        "TEMP": "<checkout>/.pip-temp",
+        "TMP": "<checkout>/.pip-temp"
+      },
+      "results": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "83",
+        "time": "30.388",
+        "timestamp": "2026-11-08T17:35:03.350493+09:00"
+      },
+      "receipt": "docs/analytics/team_identity_tests_py312.xml",
+      "sha256": "76a33bf006a25acefe8de9f0fd290ea83d6a35a6232839273f004ce900266ced"
+    }
+  ],
+  "source_sha256": {
+    "src/xdiyo_analytics/data/catalogue/team_identities.py": "7d43da2457dcf5e2675424d16cb4c2a466f2d0c80b35bd4951f282d0ed52b7b9",
+    "src/xdiyo_analytics/data/catalogue/data/team_identities.json": "73565e81bd10197d5fddf8537335f2256d45d2fb1d490fad1b6cdac206471adb",
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "ef2d1dc6721a4a9044cdeb982073182204417eb136a7b4399119775b599c53cf",
+    "examples/audit_international_team_identities.py": "dcf524cf2863e050a0c602e562f627150fa3b6ce801c35213178cbb435a33528",
+    "examples/import_named_datasets.py": "5a15ad32107d549b51a3516d0d9576d3a14cb508e00f040d51466c633bee5257",
+    "tests/analytics/test_team_identity_reconciliation.py": "f2e4c89f5c96b4212087ade4ada92349cf335e87c4edb62869b97b19e4eca4a2",
+    "tests/analytics/test_named_dataset_repairs.py": "acf665b0e97627226ab92d2a3f03fb46d6eb4f0860771a877850b241429e5eed",
+    "docs/analytics/team_assets/catalog.json": "3945257530c949630356f8299c44fac3ac0c0ee8152ee97c76848d116ba48cef",
+    "docs/analytics/team_assets/badges/22.svg": "708aa973162b066919b47ee99a3a0ed6ce31bb321874d8e1578f9f4e32c1ea84",
+    "pyproject.toml": "9663360c942b1d63d53eaa02a849c9d60ee9c14d79eedbb16d1f5f5f1e143cf7"
+  },
+  "full_input_audit": {
+    "source_identities": 3392,
+    "source_season_identity_records": 22734,
+    "historical_matches": 218916,
+    "workbook_matches": 146000,
+    "native_matches": 92982,
+    "native_team_count": 483,
+    "by_source": {
+      "historical": 12263,
+      "workbook": 10471
+    },
+    "matched_records": 5227,
+    "distinct_native_ids": 469,
+    "unresolved_records": 17507,
+    "iterations": 7,
+    "inputs": {
+      "historical": "57d5d92b3cfdfdffaec8d9b53e6f349907cad580390140d3a246090fe1662eae",
+      "workbook": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+      "script": "dcf524cf2863e050a0c602e562f627150fa3b6ce801c35213178cbb435a33528",
+      "catalogue": "3945257530c949630356f8299c44fac3ac0c0ee8152ee97c76848d116ba48cef"
+    }
+  },
+  "native_files_manifest_sha256": "45d8ed0d2a0391d13fd208f8f82fe9efc9056e84346e002ebbd80f0c00106eb5",
+  "badge_checks": {
+    "policy": "dated_reviewed_native_team_aliases_v1",
+    "decisions_sha256": "b1ed22f3ef0cfa5fcda5644a17f48aadf89f9375b9b2456907a5ba5a062c3e7a",
+    "decisions": 5233,
+    "reviewed_teams": 471,
+    "native_teams_verified": 483,
+    "catalogue_entries": 484,
+    "portable_svg_badges": 471,
+    "original_registry_revision": 98948,
+    "new_registry_revision": 104182,
+    "full_source_coverage_complete": false,
+    "browser_verification": "blocked: local browser use disabled in Work settings",
+    "existing_catalogue_entries_preserved": 483
+  },
+  "limitations": [
+    "Full-source badge acquisition is unfinished. Unresolved source-season records are not a count of distinct clubs.",
+    "External identities are not accepted from fuzzy names alone.",
+    "Local browser rendering could not be verified: browser use is disabled in Work settings.",
+    "Sofascore search and bulk register downloads returned HTTP 403; individual public pages remain searchable.",
+    "No source publication, frozen model, or active collector was changed."
+  ]
+}
