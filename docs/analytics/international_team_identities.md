@@ -1,4 +1,10 @@
-# International team identities and badges
+# Initial international team identities and badges
+
+The initial fixture-corroborated bridge below is retained. The subsequent supplied
+1,204-team mapping and complete badge coverage for that list are documented in
+[supplied_team_mapping.md](supplied_team_mapping.md); its receipts supersede these
+initial coverage totals. Neither step expands published fixture populations.
+
 
 This work audits the complete historical results file and the complete workbook,
 not merely the earlier 42-club English publication. The inputs contain 218,916

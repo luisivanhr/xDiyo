@@ -15,3 +15,6 @@ __all__ += ['enrich_movements']
 
 from .team_identities import load_team_identity_decisions, apply_team_identity_decisions
 __all__ += ['load_team_identity_decisions', 'apply_team_identity_decisions']
+
+from .reviewed_teams import load_reviewed_team_directory, apply_reviewed_team_directory
+__all__ += ['load_reviewed_team_directory', 'apply_reviewed_team_directory']

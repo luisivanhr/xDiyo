@@ -34,7 +34,12 @@ def test_complete_builtin_bundle_survives_relocation(tmp_path):
         assert hashlib.sha256(data).hexdigest() == source.entries[key]['sha256']
         name, uri, note = loaded.display(key, badges=True)
         assert note is None and name == source.entries[key]['name']
-        assert uri.startswith('data:image/svg+xml;base64,')
+        mime = {'svg': 'image/svg+xml', 'png': 'image/png', 'webp': 'image/webp', 'jpeg': 'image/jpeg'}
+        assert uri.startswith(f'data:{mime[source.entries[key]["format"]]};base64,')
+        # The original native league inventory retains its SVG guarantee.
+        # New international exact-ID images preserve their actual source MIME.
+        if source.entries[key].get('leagues'):
+            assert source.entries[key]['format'] == 'svg'
         assert base64.b64decode(uri.split(',', 1)[1]) == data
     assert json.dumps(source.entries, sort_keys=True) == original
 

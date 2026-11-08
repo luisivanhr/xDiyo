@@ -7,6 +7,7 @@ from xdiyo_analytics.data.catalogue import Registry, read_historical_results, re
 from xdiyo_analytics.data.catalogue.native import seed_comprehensive, review_premier_league, review_native_reserves
 from xdiyo_analytics.data.catalogue.storage import file_hash
 from xdiyo_analytics.data.catalogue import load_team_identity_decisions, apply_team_identity_decisions
+from xdiyo_analytics.data.catalogue import load_reviewed_team_directory, apply_reviewed_team_directory
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
     existing=Registry.load(output/'registry.json') if (output/'registry.json').exists() else None
     registry,native,checksums=seed_comprehensive(legacy,registry=existing)
     registry=apply_team_identity_decisions(registry,load_team_identity_decisions())
+    registry=apply_reviewed_team_directory(registry,load_reviewed_team_directory())
     review_premier_league(registry)
     review_native_reserves(registry)
     print('Native identities seeded; first reviewed squad batch: Premier League.',flush=True)
