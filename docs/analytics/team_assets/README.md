@@ -1,6 +1,6 @@
-# Team display catalog and offline SVG badges
+# Team display catalog and offline badges
 
-Updated 2026-10-12 against every published league-season in `data/xDiyo_data`.
+Native league inventory verified 2026-10-12; supplied international mappings added 2026-11-08.
 
 ## Coverage and identity
 
@@ -9,7 +9,7 @@ Updated 2026-10-12 against every published league-season in `data/xDiyo_data`.
 - IDs are the exact `home_id` / `away_id` values in published matches. `aliases`, `leagues` and `seasons` describe their dataset appearances; they are not model inputs.
 - This is a display catalog, not a historically versioned crest timeline. Renamed clubs may display a historical or current crest. The Llagostera crest is explicitly mapped to the stable club ID subsequently named Costa Brava / Badalona Futur. Reserve sides using the parent club's crest have an explicit `shared_badge_team_id` and identity source.
 
-`catalog.json` maps decimal team IDs to names, relative `badge_path`, actual file format, SHA-256, source URLs and identity/provenance notes. Reports embed these assets locally and require no network requests. Every current catalog entry uses SVG; six original SVG artworks contain embedded raster tiles. They remain self-contained. The two previous PNG catalog selections have been replaced by SVG crests.
+`catalog.json` maps decimal team IDs to names, relative `badge_path`, actual file format, SHA-256, source URLs and identity/provenance notes. Reports embed these assets locally and require no network requests. The original native league inventory retains SVG badges. The extended catalogue has 1,271 entries: 1,171 SVG, 89 PNG and 11 WebP. Raster files are exact-ID provider images and are not described as vectors. Some source SVG artworks contain embedded raster tiles and remain self-contained.
 
 ## Sources and transformations
 
@@ -43,6 +43,16 @@ Artifacts:
 The embedding browser regression covers coincident team coordinates, league visibility, repeated find/reset/pan/zoom, content-based PNG/SVG detection and offline SVG export. Badges with identical positions are retained without changing their embedding coordinates; Find team raises the selected badge above coincident ones. Unavailable or unreadable custom assets fall back to colored points and names.
 
 No match tables, model weights or experiments are modified by this asset update.
+
+### Initial international identity review (2026-11-08)
+
+The catalogue now also includes Bradford City (Sofascore 22), with a pinned SVG
+from the same collection and a primary identity reference. The complete catalogue
+initially had 484 entries; 483 remain the native-publication inventory described
+above. The reviewed international alias bridge selects 471 entries and reuses
+their existing identities and assets. See [scope, dated mappings, verification
+and remaining coverage](../international_team_identities.md). This does not mean
+every club in the complete international source files has been resolved.
 
 ## Integrated badge coverage
 
@@ -84,3 +94,21 @@ projection tables. Do not refit models or recompute t-SNE/PCA. Native embedding
 traces now retain exact team IDs in Plotly `ids`, independently of labels and
 coordinates, to support subsequent presentation repairs. Already generated HTML
 is not automatically rewritten when the library is upgraded.
+
+## Supplied international mapping, 2026-11-08
+
+The supplied CSV contributes 1,204 reviewed identities across 38 competition
+countries. All 1,204 have packaged artwork: 1,104 SVG, 89 PNG and 11 WebP.
+Of these, 417 badges were already present; 687 additional SVGs come from the
+pinned collection and 100 images were retrieved using the exact reviewed
+provider team ID. All 484 preexisting catalogue entries are preserved.
+
+Three additional source SVGs required presentation-neutral sanitation: two
+empty Adobe Illustrator foreignObject placeholders were removed, and one
+source's embedded JPEG MIME spelling was corrected. No vector geometry or
+embedded image bytes were changed. Per-entry conversion notes and original
+SHA-256 hashes are retained.
+
+See `../supplied_team_mapping.md` for mapping scope, reproduction and receipts.
+The 100 raster selections remain candidates for genuine SVG replacements;
+complete badge coverage does not mean complete vector coverage.

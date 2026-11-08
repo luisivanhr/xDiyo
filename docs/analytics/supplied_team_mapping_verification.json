@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-08T11:45:58.565836+00:00",
+  "base_commit": "2a0c0f9cdb1c1fc133f2baf90027692ccfac15d0",
+  "branch": "codex/international-team-identities",
+  "supplied_mappings": 1204,
+  "countries": 38,
+  "missing_ids": 0,
+  "duplicate_source_ids": 0,
+  "duplicate_target_ids": 0,
+  "compared_to_native_fixture_evidence": 413,
+  "native_evidence_conflicts": 0,
+  "input_sha256": "9ab119654a5072554ce35d020550d2666ab8c091f0d965ce0c22ca6ccf1f7c0c",
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "directory_sha256": "c337af799c78ae27e4e20c2850e2c6b3d72f7b00df03126a733640480eb1c25c",
+  "original_workbook_reproduction_exact": true,
+  "source_sha256": {
+    "src/xdiyo_analytics/data/catalogue/reviewed_teams.py": "c961371090001a1797b4329458801a05c3fdc37419fc7e86d9444e20a23a5fd9",
+    "src/xdiyo_analytics/data/catalogue/data/reviewed_team_directory.json": "993efa7dbbe81d04967740dea4c0d3b02125584feafcf855e23c78ac49d82566",
+    "src/xdiyo_analytics/data/catalogue/__init__.py": "16354a1d86aeeef2d43cf609553c6277e6e135c338cfc1caa54933a2a21163f9",
+    "examples/prepare_supplied_team_mapping.py": "d069779809128e127f9c431a0b2c128f0aa1ba97a5604e31cbbd151949642217",
+    "examples/import_named_datasets.py": "93c3d29dcd497a272e61e5a137112235b6ec1b264089786ae288a35955768b95",
+    "tests/analytics/test_reviewed_team_directory.py": "a6e8eae21ed4db6be0c100419d637f24a12d9cc1653d7a503d947532891f8da9",
+    "tests/analytics/test_badge_bundles.py": "432e1ef139ac73df8e41c05e61a3ce11beaeb2f7929b111733735221904859a1",
+    "tests/analytics/test_named_dataset_repairs.py": "c604bc0b7e02a51b7f3cf20b1dd49bcd2119050be75fb485d761916fd6d0afb1",
+    "docs/analytics/team_assets/catalog.json": "1886a65c885368aeefaf474a7d9e81a5dbdab99c7a2cb859e3b0de4a08fdb0bf",
+    "docs/analytics/supplied_team_badge_inventory.json": "5da1611b394da270f7feab2fea4753934a0d9d95343a0160ee4b38a71f700943"
+  },
+  "badges": {
+    "supplied_teams_with_badges": 1204,
+    "formats": {
+      "svg": 1104,
+      "png": 89,
+      "webp": 11
+    },
+    "existing_catalogue_entries_preserved": 484,
+    "total_catalogue_entries": 1271,
+    "new_svg": 687,
+    "new_raster": 100,
+    "portable_reload_exact": true,
+    "raster_contact_sheet_inspected": true,
+    "raster_duplicate_hashes": 0
+  },
+  "preparation_command": "PYTHONPATH=src python examples/prepare_supplied_team_mapping.py --mapping <supplied-csv> --workbook <original-workbook> --output <new-directory-json>",
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/analytics/test_reviewed_team_directory.py tests/analytics/test_team_identity_reconciliation.py tests/analytics/test_badge_bundles.py tests/analytics/test_native_dated_aliases.py tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_team_asset_inventory.py::test_inventory_includes_old_seasons_and_preserves_badge_provenance --junitxml=docs/analytics/supplied_team_mapping_tests.xml",
+      "runtime": {
+        "python": "3.14.0",
+        "pandas": "2.3.3",
+        "pyarrow": "22.0.0"
+      },
+      "results": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "102",
+        "time": "42.852",
+        "timestamp": "2026-11-08T20:42:35.993195+09:00"
+      },
+      "sha256": "010b51e2c3e33c5fd4f9e40f0d6a06802bec9434a971b260d8b4f36aca3c9a96"
+    },
+    {
+      "command": "python -m pytest -q tests/analytics/test_reviewed_team_directory.py tests/analytics/test_team_identity_reconciliation.py tests/analytics/test_badge_bundles.py tests/analytics/test_native_dated_aliases.py tests/analytics/test_named_datasets.py tests/analytics/test_named_dataset_repairs.py tests/analytics/test_team_asset_inventory.py::test_inventory_includes_old_seasons_and_preserves_badge_provenance --junitxml=docs/analytics/supplied_team_mapping_tests_py312.xml",
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.1",
+        "pyarrow": "25.0.1"
+      },
+      "results": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "102",
+        "time": "54.357",
+        "timestamp": "2026-11-08T20:43:57.065790+09:00"
+      },
+      "sha256": "165915f7f08bb8db11458520e589b2be1237ebe719453173dc380775ecbed82c"
+    }
+  ],
+  "test_environment": {
+    "PYTHONPATH": "src",
+    "TEMP": "<checkout>/.pip-temp",
+    "TMP": "<checkout>/.pip-temp",
+    "PIP_NO_INDEX": "1",
+    "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+  },
+  "limits": [
+    "Coverage is the 1204 supplied mappings, not every raw-source identity.",
+    "100 supplied teams use accurately labelled PNG/WebP assets; native SVG selections remain unchanged.",
+    "User-supplied external profile evidence was retained; only the 413 overlapping native fixture identities were independently corroborated here.",
+    "No browser interaction test, retraining, publication rewrite, frozen-artifact ID migration or collector modification."
+  ]
+}

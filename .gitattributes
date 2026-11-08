@@ -64,3 +64,4 @@ docs/analytics/dataset-catalogue/*.log -whitespace
 # Round-release manifests verify original audit bytes, including CSV newlines.
 data/fixture_rounds/** -text -whitespace
 docs/analytics/fixture-rounds-v59-validation/** -text -whitespace
+docs/analytics/round-team-integration/** -text -whitespace

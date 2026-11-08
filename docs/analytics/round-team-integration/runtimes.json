@@ -1,0 +1,14 @@
+{
+  "python314": {
+    "python": "3.14.0",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.0",
+    "pytest": "9.0.2"
+  },
+  "python312": {
+    "python": "3.12.14",
+    "pandas": "3.0.1",
+    "pyarrow": "25.0.1",
+    "pytest": "9.1.1"
+  }
+}

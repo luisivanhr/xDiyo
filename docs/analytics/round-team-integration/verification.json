@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "branch": "codex/v59-rounds-team-identities",
+  "merge_parents": [
+    "f7d94c666418a502ff2d495ab2dd841a0e5c8e49",
+    "8a20df9933a34aeb7ca7f4b3c43761fd5bf19fea"
+  ],
+  "shared_base": "ec19875ad13de83187a42762e9094e016c778042",
+  "source_trees_unchanged": {
+    "f7d94c666418a502ff2d495ab2dd841a0e5c8e49": [
+      "data/fixture_rounds",
+      "src/xdiyo_analytics/data/fixture_rounds.py",
+      "tests/analytics/test_fixture_rounds.py",
+      "examples/integrate_fixture_rounds.py",
+      "examples/publish_fixture_rounds_v59.py"
+    ],
+    "8a20df9933a34aeb7ca7f4b3c43761fd5bf19fea": [
+      "src/xdiyo_analytics/data/catalogue",
+      "docs/analytics/team_assets",
+      "examples/import_named_datasets.py",
+      "pyproject.toml"
+    ]
+  },
+  "textual_merge_conflicts": 0,
+  "unrelated_data_and_model_paths_unchanged_from_base": [
+    "data/xDiyo_data",
+    "src/xdiyo_analytics/graphs",
+    "src/xdiyo_analytics/features",
+    "src/xdiyo_analytics/training",
+    "src/xdiyo_analytics/experiments"
+  ],
+  "round_manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+  "round_counts": {
+    "fixtures": 61488,
+    "fields": 368928,
+    "historical_holds": 794,
+    "explicit_clears": 3,
+    "series_ordinals": 60,
+    "season_round_nulls": 13168,
+    "named_without_numeric_round": 745,
+    "user_selected_provider_fallbacks": 4
+  },
+  "team_directory_digest": "c337af799c78ae27e4e20c2850e2c6b3d72f7b00df03126a733640480eb1c25c",
+  "supplied_teams": 1204,
+  "round_fixture_sides": 122976,
+  "uniquely_resolved_round_fixture_sides": 122976,
+  "canonical_teams_in_round_population": 814,
+  "distinct_dated_canonical_fixture_keys": 61488,
+  "self_matches": 0,
+  "dated_fixture_key_collisions": 0,
+  "unresolved_sides": 0,
+  "ambiguous_sides": 0,
+  "supplied_badge_formats": {
+    "svg": 1104,
+    "png": 89,
+    "webp": 11
+  },
+  "original_badge_entries_and_hashes_preserved": 484,
+  "total_badges": 1271,
+  "canonical_ids_rewritten": false,
+  "workbook_ids_rewritten": false,
+  "interoperability_test_sha256_lf": "a66aea18b70301c23f7b823f6c3ce178317510830e2cee22a863c7b28cf9e4b2",
+  "tests": [
+    {
+      "file": "tests-python312-pandas301.xml",
+      "sha256": "98aa5359c035496c22214cd94be02a4ef9a229d507a429bd9a2f96393304c0ca",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "180",
+          "time": "76.344",
+          "timestamp": "2026-11-08T20:58:47.092293+09:00"
+        }
+      ]
+    },
+    {
+      "file": "tests-python314-pandas233.xml",
+      "sha256": "ea1d284d8c6f890f090c1549692a55161cfdb5f4a012b828a0747ae19b46b63e",
+      "suites": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "180",
+          "time": "81.768",
+          "timestamp": "2026-11-08T21:03:32.280004+09:00"
+        }
+      ]
+    }
+  ],
+  "runtimes": {
+    "python314": {
+      "python": "3.14.0",
+      "pandas": "2.3.3",
+      "pyarrow": "23.0.0",
+      "pytest": "9.0.2"
+    },
+    "python312": {
+      "python": "3.12.14",
+      "pandas": "3.0.1",
+      "pyarrow": "25.0.1",
+      "pytest": "9.1.1"
+    }
+  },
+  "test_receipt_redaction": "Hostname removed; outcomes and timings unchanged",
+  "experiment_prepared": false,
+  "experiment_run": false,
+  "forecast_timing_changed": false,
+  "publication_populations_expanded": false,
+  "new_worktrees_created": 0
+}
