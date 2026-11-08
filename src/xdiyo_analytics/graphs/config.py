@@ -114,8 +114,11 @@ class TemporalGraphConfig:
             anchor = pd.Timestamp(self.boundary_memory.anchor).tz_convert(self.timezone)
             if anchor != anchor.normalize():
                 raise ValueError('Fixed-segment anchor must be local midnight in the model timezone.')
-        if self.forecast_policy not in ("by_round", "one_day_ahead"):
-            raise ValueError("forecast_policy must be by_round (By Round) or one_day_ahead (One Day Ahead).")
+        if self.forecast_policy not in ("by_round", "one_day_ahead", "actual_playing_date_v1"):
+            raise ValueError("Unsupported forecast_policy: by_round, one_day_ahead or actual_playing_date_v1 required.")
+        if self.forecast_policy == 'actual_playing_date_v1' and (self.temporal_mode == 'historical' or
+                any(x is not None for x in (self.boundary_memory, self.statistics_forecast, self.heatmaps))):
+            raise ValueError('Actual playing-date V1 supports snapshot/time_features without optional history extensions.')
         for name in ("round_keys", "statistics", "fixture_features"):
             object.__setattr__(self, name, tuple(getattr(self, name)))
         if type(self.include_goal_features) is not bool:
@@ -151,5 +154,8 @@ class TemporalGraphConfig:
 
     def labels_known_at(self, kickoffs):
         times = pd.to_datetime(kickoffs, utc=True).dt.tz_convert(self.timezone)
+        if self.forecast_policy == 'actual_playing_date_v1':
+            # Explicit retrospective proxy, independent of the round label.
+            return times.dt.tz_convert('UTC').astype('datetime64[ns, UTC]')
         # Calendar DateOffset preserves midnight across daylight-saving changes.
         return (times.dt.normalize() + pd.DateOffset(days=1)).dt.tz_convert("UTC").astype('datetime64[ns, UTC]')

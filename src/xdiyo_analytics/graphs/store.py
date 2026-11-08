@@ -218,7 +218,16 @@ class TemporalEventStore:
             scheduled = expected[column].reindex(query_keys[known]).tolist()
             if scheduled != fixtures.loc[known, column].tolist():
                 raise ValueError(f'Fixture {column} disagrees with the schedule.')
-        if config.forecast_policy == "one_day_ahead":
+        if config.forecast_policy == "actual_playing_date_v1":
+            if not known.all():
+                raise ValueError('Actual playing date requires a known scheduled fixture.')
+            scheduled = expected.kickoff_at.reindex(query_keys)
+            if not np.array_equal(scheduled.array.asi8, kick.array.asi8):
+                raise ValueError('Actual kickoff disagrees with the schedule.')
+            issue = kick.dt.tz_convert(config.timezone).dt.normalize().dt.tz_convert('UTC')
+            if 'issuance_at' in fixtures and not np.array_equal(_times(fixtures.issuance_at), issue):
+                raise ValueError('Actual playing-date issuance must equal its local midnight cutoff.')
+        elif config.forecast_policy == "one_day_ahead":
             issue = _times(fixtures.issuance_at) if "issuance_at" in fixtures else kick - pd.Timedelta(hours=24)
         else:
             keys = config.round_keys
@@ -252,7 +261,7 @@ class TemporalEventStore:
     def snapshot(self, issuance, config, teams=(), *, _columns=None, _since=None):
         issuance = pd.Timestamp(issuance).tz_convert("UTC")
         cutoff = config.history_cutoff(issuance)
-        rows = self._eligible_rows(cutoff)
+        rows = self._eligible_rows(cutoff, strict=config.forecast_policy == 'actual_playing_date_v1')
         if _since is not None:
             old = pd.Timestamp(_since).value
             # Partition on eligibility, not kickoff alone: late releases belong
@@ -293,9 +302,9 @@ class TemporalEventStore:
             snapshot._temporal_source = (self, config)
         return snapshot
 
-    def eligible(self, cutoff):
+    def eligible(self, cutoff, *, strict=False):
         """All completed, previous-day edges, honoring existing reviewed bounds."""
-        return self._history.iloc[self._eligible_rows(cutoff)].copy()
+        return self._history.iloc[self._eligible_rows(cutoff, strict=strict)].copy()
 
     def assert_targets_unobserved(self, fixtures, issuance, config):
         """Reject a target already in full eligible history, including old segments."""
@@ -318,10 +327,10 @@ class TemporalEventStore:
             for key in identities(fixtures, MATCH_KEYS)], index=fixtures.index, dtype='datetime64[ns, UTC]')
         return result.mask(historical.notna() & result.lt(historical), historical)
 
-    def _eligible_rows(self, cutoff):
+    def _eligible_rows(self, cutoff, *, strict=False):
         bound = pd.Timestamp(cutoff)
         if bound.tzinfo is None:
             raise ValueError('History cutoff must be timezone-aware.')
-        return np.flatnonzero((self._kickoff_ns < bound.value) &
-                              (self._available_ns <= bound.value) &
+        available = self._available_ns < bound.value if strict else self._available_ns <= bound.value
+        return np.flatnonzero((self._kickoff_ns < bound.value) & available &
                               (self._available_ns != np.iinfo(np.int64).min) & self._finished)

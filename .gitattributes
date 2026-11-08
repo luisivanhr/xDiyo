@@ -66,3 +66,4 @@ data/fixture_rounds/** -text -whitespace
 docs/analytics/fixture-rounds-v59-validation/** -text -whitespace
 docs/analytics/round-team-integration/** -text -whitespace
 docs/analytics/original13-round-validation/** -text -whitespace
+docs/analytics/actual-date-validation/** -text -whitespace

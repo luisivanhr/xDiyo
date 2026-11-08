@@ -1,0 +1,469 @@
+{
+  "status": "PASS",
+  "run": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01",
+  "source_files_verified": 241,
+  "sealed_files": 403,
+  "source_seal_sha256": "3a8ab865241b863b74ad078af9e18393f6ca9847a9444fe4a6fc6bcf4e142f54",
+  "preflight": {
+    "status": "PASS",
+    "populations": [
+      {
+        "stage": "original13",
+        "fold": "development",
+        "train": 8187,
+        "test": 1847,
+        "leagues": 13,
+        "train_label_max": "2022-02-10 19:45:00+00:00",
+        "test_cutoff_min": "2022-02-10 23:00:00+00:00"
+      },
+      {
+        "stage": "original13",
+        "fold": "fold_1",
+        "train": 10034,
+        "test": 4793,
+        "leagues": 13,
+        "train_label_max": "2022-06-19 19:00:00+00:00",
+        "test_cutoff_min": "2022-07-14 22:00:00+00:00"
+      },
+      {
+        "stage": "original13",
+        "fold": "fold_2",
+        "train": 14827,
+        "test": 4701,
+        "leagues": 13,
+        "train_label_max": "2023-06-17 19:00:00+00:00",
+        "test_cutoff_min": "2023-07-27 22:00:00+00:00"
+      },
+      {
+        "stage": "original13",
+        "fold": "fold_3",
+        "train": 19528,
+        "test": 4625,
+        "leagues": 13,
+        "train_label_max": "2024-06-23 16:30:00+00:00",
+        "test_cutoff_min": "2024-07-25 22:00:00+00:00"
+      },
+      {
+        "stage": "original13",
+        "fold": "fold_4",
+        "train": 24153,
+        "test": 4617,
+        "leagues": 13,
+        "train_label_max": "2025-06-21 19:00:00+00:00",
+        "test_cutoff_min": "2025-07-24 22:00:00+00:00"
+      },
+      {
+        "stage": "first_divisions",
+        "fold": "development",
+        "train": 20568,
+        "test": 5157,
+        "leagues": 42,
+        "train_label_max": "2022-02-10 19:45:00+00:00",
+        "test_cutoff_min": "2022-02-10 23:00:00+00:00"
+      },
+      {
+        "stage": "first_divisions",
+        "fold": "fold_1",
+        "train": 25725,
+        "test": 13574,
+        "leagues": 43,
+        "train_label_max": "2022-06-30 11:30:00+00:00",
+        "test_cutoff_min": "2022-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_divisions",
+        "fold": "fold_2",
+        "train": 39299,
+        "test": 13057,
+        "leagues": 43,
+        "train_label_max": "2023-06-30 20:30:00+00:00",
+        "test_cutoff_min": "2023-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_divisions",
+        "fold": "fold_3",
+        "train": 52356,
+        "test": 13369,
+        "leagues": 43,
+        "train_label_max": "2024-06-30 21:30:00+00:00",
+        "test_cutoff_min": "2024-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_divisions",
+        "fold": "fold_4",
+        "train": 65725,
+        "test": 13282,
+        "leagues": 43,
+        "train_label_max": "2025-06-30 17:00:00+00:00",
+        "test_cutoff_min": "2025-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_and_second_divisions",
+        "fold": "development",
+        "train": 21504,
+        "test": 5625,
+        "leagues": 46,
+        "train_label_max": "2022-02-10 19:45:00+00:00",
+        "test_cutoff_min": "2022-02-10 23:00:00+00:00"
+      },
+      {
+        "stage": "first_and_second_divisions",
+        "fold": "fold_1",
+        "train": 27129,
+        "test": 14819,
+        "leagues": 47,
+        "train_label_max": "2022-06-30 11:30:00+00:00",
+        "test_cutoff_min": "2022-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_and_second_divisions",
+        "fold": "fold_2",
+        "train": 41948,
+        "test": 14296,
+        "leagues": 47,
+        "train_label_max": "2023-06-30 20:30:00+00:00",
+        "test_cutoff_min": "2023-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_and_second_divisions",
+        "fold": "fold_3",
+        "train": 56244,
+        "test": 14629,
+        "leagues": 47,
+        "train_label_max": "2024-06-30 21:30:00+00:00",
+        "test_cutoff_min": "2024-06-30 22:00:00+00:00"
+      },
+      {
+        "stage": "first_and_second_divisions",
+        "fold": "fold_4",
+        "train": 70873,
+        "test": 14549,
+        "leagues": 47,
+        "train_label_max": "2025-06-30 17:00:00+00:00",
+        "test_cutoff_min": "2025-06-30 22:00:00+00:00"
+      }
+    ],
+    "smoke": [
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\original13\\time_B\\N\\17\\fit.json",
+        "sha256": "e457d4162399cf976f3fd267d90e9afd3629be4ed3f0abc4ee86515605deed11"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\original13\\time_C\\E1\\17\\fit.json",
+        "sha256": "00aff5c3d2aac68adf79ace004a4534b95f173153e1b14d52df7bec14afcb650"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\original13\\time_B\\CD_DW\\17\\fit.json",
+        "sha256": "fa5ca56acdd077a9c9173d4ca5db398b9c0344e48eb7da320bff4288ecaf09e5"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_divisions\\time_B\\N\\17\\fit.json",
+        "sha256": "ad3fe5310963552b027bb99ab350fd2af21a7ff7cbd29304640859a7e7ca10c1"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_divisions\\time_C\\E1\\17\\fit.json",
+        "sha256": "e61b85e7464e4606c67803d6ff6004d6c953c8125baba4d219b18c48b7eca001"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_divisions\\time_B\\CD_DW\\17\\fit.json",
+        "sha256": "bd5f83015a74ce1d9edd5940d3b91630863b862667438c1528ca9fc0b0988e19"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_and_second_divisions\\time_B\\N\\17\\fit.json",
+        "sha256": "74155a66ee491faf98f02c474a8c0792f239eb59af325c99eb33bd99b0d9eff0"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_and_second_divisions\\time_C\\E1\\17\\fit.json",
+        "sha256": "023e94ed5265e8e42abcfe0eb89a978f9f173677e0160124738f8815f961b05d"
+      },
+      {
+        "path": "C:\\Users\\luisi\\Documents\\Codex\\2026-11-08\\task-2\\integration\\experiments\\workbook_actual_date_gat_20261109_01\\results\\smoke\\first_and_second_divisions\\time_B\\CD_DW\\17\\fit.json",
+        "sha256": "c8a8a7f35282571d7496421e8928fc0d5fdc50287b187043f0bfd18f8151cd3e"
+      }
+    ],
+    "scope": "Full population integrity, strict causal train-label boundaries and actual-date cutoffs across every fold, paired original13 identity, real one-update CUDA smoke on 32 fitting and 32 validation fixtures for all nine stage/family combinations. Not a final experiment acceptance."
+  },
+  "runner_recovery": {
+    "status": "PASS",
+    "device": "cpu",
+    "fixtures": 12,
+    "selection_steps": 3,
+    "fixed_refit_steps": 2,
+    "interrupted_resume_bit_exact": true,
+    "serializer_predictions_bit_exact": true,
+    "raw_validation_ce_matches_export": true,
+    "summary_keys": [
+      "monitor",
+      "direction",
+      "restore_best",
+      "selected_attempt",
+      "best_step",
+      "retained_step",
+      "termination_reason",
+      "monitored_value",
+      "attempts"
+    ],
+    "source_sha256": "57bdc3e48333a7514ff13a304728c64431d25e86ed2cdbc0390eea3f4491b240"
+  },
+  "stages": {
+    "original13": {
+      "fixtures": 32686,
+      "teams": 331,
+      "leagues": 13,
+      "ambiguous_clocks": 0,
+      "phase_coverage": {
+        "countdown": 0,
+        "home_rank_1": 31174,
+        "away_rank_1": 31176,
+        "home_rank_5": 31174,
+        "away_rank_5": 31176,
+        "home_rank_10": 31174,
+        "away_rank_10": 31176,
+        "home_rank_20": 31174,
+        "away_rank_20": 31176
+      },
+      "populations": {
+        "dev": {
+          "train": 8187,
+          "test": 1847,
+          "original13_test": 1847,
+          "cutoff": "2022-02-10 23:00:00+00:00"
+        },
+        "fold_1": {
+          "train": 10034,
+          "test": 4793,
+          "original13_test": 4793,
+          "cutoff": "2022-07-14 22:00:00+00:00"
+        },
+        "fold_2": {
+          "train": 14827,
+          "test": 4701,
+          "original13_test": 4701,
+          "cutoff": "2023-07-27 22:00:00+00:00"
+        },
+        "fold_3": {
+          "train": 19528,
+          "test": 4625,
+          "original13_test": 4625,
+          "cutoff": "2024-07-25 22:00:00+00:00"
+        },
+        "fold_4": {
+          "train": 24153,
+          "test": 4617,
+          "original13_test": 4617,
+          "cutoff": "2025-07-24 22:00:00+00:00"
+        }
+      }
+    },
+    "first_divisions": {
+      "fixtures": 87759,
+      "teams": 1057,
+      "leagues": 43,
+      "ambiguous_clocks": 29,
+      "phase_coverage": {
+        "countdown": 0,
+        "home_rank_1": 70464,
+        "away_rank_1": 70474,
+        "home_rank_5": 70464,
+        "away_rank_5": 70474,
+        "home_rank_10": 70464,
+        "away_rank_10": 70474,
+        "home_rank_20": 70464,
+        "away_rank_20": 70474
+      },
+      "populations": {
+        "dev": {
+          "train": 20568,
+          "test": 5157,
+          "original13_test": 1847,
+          "cutoff": "2022-02-10 23:00:00+00:00"
+        },
+        "fold_1": {
+          "train": 25725,
+          "test": 13574,
+          "original13_test": 4793,
+          "cutoff": "2022-06-30 22:00:00+00:00"
+        },
+        "fold_2": {
+          "train": 39299,
+          "test": 13057,
+          "original13_test": 4701,
+          "cutoff": "2023-06-30 22:00:00+00:00"
+        },
+        "fold_3": {
+          "train": 52356,
+          "test": 13369,
+          "original13_test": 4625,
+          "cutoff": "2024-06-30 22:00:00+00:00"
+        },
+        "fold_4": {
+          "train": 65725,
+          "test": 13282,
+          "original13_test": 4617,
+          "cutoff": "2025-06-30 22:00:00+00:00"
+        }
+      }
+    },
+    "first_and_second_divisions": {
+      "fixtures": 94174,
+      "teams": 1122,
+      "leagues": 47,
+      "ambiguous_clocks": 29,
+      "phase_coverage": {
+        "countdown": 0,
+        "home_rank_1": 76664,
+        "away_rank_1": 76670,
+        "home_rank_5": 76664,
+        "away_rank_5": 76670,
+        "home_rank_10": 76664,
+        "away_rank_10": 76670,
+        "home_rank_20": 76664,
+        "away_rank_20": 76670
+      },
+      "populations": {
+        "dev": {
+          "train": 21504,
+          "test": 5625,
+          "original13_test": 1847,
+          "cutoff": "2022-02-10 23:00:00+00:00"
+        },
+        "fold_1": {
+          "train": 27129,
+          "test": 14819,
+          "original13_test": 4793,
+          "cutoff": "2022-06-30 22:00:00+00:00"
+        },
+        "fold_2": {
+          "train": 41948,
+          "test": 14296,
+          "original13_test": 4701,
+          "cutoff": "2023-06-30 22:00:00+00:00"
+        },
+        "fold_3": {
+          "train": 56244,
+          "test": 14629,
+          "original13_test": 4625,
+          "cutoff": "2024-06-30 22:00:00+00:00"
+        },
+        "fold_4": {
+          "train": 70873,
+          "test": 14549,
+          "original13_test": 4617,
+          "cutoff": "2025-06-30 22:00:00+00:00"
+        }
+      }
+    }
+  },
+  "original13_test_cohort": 18736,
+  "opening_prices_valid": 18708,
+  "opening_prices_missing": 28,
+  "original13_mapping_commit": "bda89fec1906a32557b4df799289e1d06430004a",
+  "v59_manifest_sha256": "781315c7b545a47c1df8b650376df920c6d6473b97f5d13625e014af1da4787d",
+  "original13_manifest_sha256": "e356441a16b6cf88013ad207cceb228322ea091fc43597186f25906fabd118d7",
+  "timing_comparisons": [
+    {
+      "stage": "original13",
+      "fold": 1,
+      "comparable_numeric_round_fixtures": 4740,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 3144,
+      "more_than_seven_days": 69,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "original13",
+      "fold": 2,
+      "comparable_numeric_round_fixtures": 4605,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 3067,
+      "more_than_seven_days": 95,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "original13",
+      "fold": 3,
+      "comparable_numeric_round_fixtures": 4529,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 3176,
+      "more_than_seven_days": 97,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "original13",
+      "fold": 4,
+      "comparable_numeric_round_fixtures": 4490,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 3188,
+      "more_than_seven_days": 102,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_divisions",
+      "fold": 1,
+      "comparable_numeric_round_fixtures": 11329,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 7573,
+      "more_than_seven_days": 317,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_divisions",
+      "fold": 2,
+      "comparable_numeric_round_fixtures": 11202,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 7400,
+      "more_than_seven_days": 269,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_divisions",
+      "fold": 3,
+      "comparable_numeric_round_fixtures": 11042,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 7542,
+      "more_than_seven_days": 299,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_divisions",
+      "fold": 4,
+      "comparable_numeric_round_fixtures": 10797,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 7462,
+      "more_than_seven_days": 323,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_and_second_divisions",
+      "fold": 1,
+      "comparable_numeric_round_fixtures": 12566,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 8274,
+      "more_than_seven_days": 361,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_and_second_divisions",
+      "fold": 2,
+      "comparable_numeric_round_fixtures": 12433,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 8095,
+      "more_than_seven_days": 333,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_and_second_divisions",
+      "fold": 3,
+      "comparable_numeric_round_fixtures": 12302,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 8333,
+      "more_than_seven_days": 370,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    },
+    {
+      "stage": "first_and_second_divisions",
+      "fold": 4,
+      "comparable_numeric_round_fixtures": 12054,
+      "later_playing_date_cutoff_than_same_round_first_played_date": 8248,
+      "more_than_seven_days": 403,
+      "caveat": "This compares reconstructed group anchors and includes ordinary within-round spread; it is not a count of proven postponements."
+    }
+  ],
+  "limitations": [
+    "Countdown missing throughout; B/CD_DW active context is window-10 form rank.",
+    "Observed-member form ranks differ from earlier full-roster native standings.",
+    "Unknown workbook timezone: declared Berlin civil-clock convention; 29 repeated hours use later bound.",
+    "799 original13 annotation holds, including 367 in the experiment context window, remain null.",
+    "Opening quote capture time and bookmaker are unavailable.",
+    "Older native-source research differs in source, timing and context; this is a new comparison."
+  ]
+}

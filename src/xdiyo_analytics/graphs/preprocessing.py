@@ -167,7 +167,7 @@ class GraphPreprocessor:
                 if cutoff is None or pd.isna(pd.Timestamp(cutoff)) or pd.Timestamp(cutoff).tzinfo is None:
                     raise ValueError('Statistic availability requires an explicit nonmissing timezone-aware history cutoff.')
                 release = pd.to_datetime(history[bound], utc=True)
-                available = release.notna() & release.le(pd.Timestamp(cutoff))
+                available = release.notna() & (release.lt(pd.Timestamp(cutoff)) if self.config.forecast_policy == 'actual_playing_date_v1' else release.le(pd.Timestamp(cutoff)))
                 numeric[~available.to_numpy(), self.edge_columns.index(column)] = np.nan
         return numeric
 

@@ -35,7 +35,7 @@ class ComponentStore(TemporalEventStore):
             raise ValueError('This experiment optimization supports snapshot/time_features only')
         issuance=pd.Timestamp(issuance).tz_convert('UTC');cutoff=config.history_cutoff(issuance)
         components={self._component_for_node[self._source_node_index[t]] for t in teams if t in self._source_node_index}
-        rows=self._eligible_rows(cutoff)
+        rows=self._eligible_rows(cutoff, strict=config.forecast_policy=='actual_playing_date_v1')
         rows=rows[np.isin(self._component_for_row[rows],list(components))]
         if _since is not None:
             old=pd.Timestamp(_since).value

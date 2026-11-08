@@ -283,14 +283,15 @@ class _Backend:
         self.trained_through = self.fitting_boundary
         if context.validation is not None:
             validation_issue = self._validate(context.validation, fitting=True)
-            if len(validation_issue) == 0 or min(self.config.history_cutoff(t) for t in validation_issue) < self.fitting_boundary:
+            bound = min((self.config.history_cutoff(t) for t in validation_issue), default=self.fitting_boundary)
+            if len(validation_issue) == 0 or bound < self.fitting_boundary or (self.config.forecast_policy == 'actual_playing_date_v1' and bound == self.fitting_boundary):
                 raise ValueError("Fitting labels must be known before validation issuance.")
             self.trained_through = max(self.trained_through,
                 self.store.label_availability(context.validation.metadata, self.config).max())
         plan = self._plan(context)
         numeric, leagues = plan.fitting_inputs()
         largest = max(self.config.history_cutoff(time) for time, _ in plan.descriptors)
-        fitting_history = self.store.eligible(largest)
+        fitting_history = self.store.eligible(largest, strict=True) if self.config.forecast_policy == 'actual_playing_date_v1' else self.store.eligible(largest)
         if self.config.temporal_mode == 'historical':
             latest_issue = max(time for time, _ in plan.descriptors)
             memberships = self.store._memberships
@@ -498,7 +499,8 @@ class _Backend:
             group["lr"] = rate
 
     def _boundary(self, issue):
-        if len(issue) and min(self.config.history_cutoff(t) for t in issue) < self.trained_through:
+        bound = min((self.config.history_cutoff(t) for t in issue), default=self.trained_through)
+        if len(issue) and (bound < self.trained_through or (self.config.forecast_policy == 'actual_playing_date_v1' and bound == self.trained_through)):
             raise ValueError("Requested issuance precedes the fitted/validation-selection boundary.")
 
     @configured_execution

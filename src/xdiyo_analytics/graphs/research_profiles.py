@@ -1,7 +1,8 @@
 """Versioned retained architectures; folds, seeds and fitted state are separate."""
 from .config import TemporalGraphConfig
 from .extensions import GoalAuxiliary
-from .phase_context import PhaseRankFeatures, CORRECTED_POLICY
+from .phase_context import PhaseRankFeatures, CORRECTED_POLICY, ACTUAL_DATE_POLICY
+from dataclasses import replace
 
 RETAINED_STATISTICS = (
     'team::ALL::Match overview::totalShotsOnGoal::value',
@@ -53,6 +54,13 @@ def GATResearchBCDDWV1(source_id: str, window: int):
 def profile_key(config):
     """Descriptive expanded-profile provenance, never an identity authority."""
     phase = config.phase_rank_features
+    if phase is None and config == GATActualDateBNV1():
+        return 'graphs.GATActualDateBNV1'
+    if phase is not None and phase.policy == ACTUAL_DATE_POLICY:
+        if phase.route == 'E1' and config == GATActualDateCE1V1(phase.source_id):
+            return 'graphs.GATActualDateCE1V1'
+        if phase.route == 'CD_DW' and phase.window in (10,20) and config == GATActualDateBCDDWV1(phase.source_id, phase.window):
+            return 'graphs.GATActualDateBCDDWV1'
     if phase is None:
         return 'graphs.GATResearchBNV1' if config == GATResearchBNV1() else None
     if phase.policy == CORRECTED_POLICY:
@@ -61,3 +69,28 @@ def profile_key(config):
         if phase.route == 'CD_DW' and phase.window in (10,20) and config == GATResearchBCDDWV1(phase.source_id,phase.window):
             return 'graphs.GATResearchBCDDWV1'
     return None
+
+
+ACTUAL_DATE_STATISTICS = (*RETAINED_STATISTICS,
+    'opponent::ALL::Match overview::totalShotsOnGoal::value',
+    'opponent::ALL::Shots::shotsOffGoal::value')
+
+
+def _actual_date(beta, phase):
+    return replace(_config(beta, phase), forecast_policy='actual_playing_date_v1',
+                   statistics=ACTUAL_DATE_STATISTICS)
+
+
+def GATActualDateBNV1():
+    """B/N with six statistics and actual-playing-date midnight issuance."""
+    return _actual_date(0., None)
+
+
+def GATActualDateCE1V1(source_id):
+    return _actual_date(.1, PhaseRankFeatures('E1', source_id, None, ACTUAL_DATE_POLICY))
+
+
+def GATActualDateBCDDWV1(source_id, window):
+    if type(window) is not int or window not in (10, 20):
+        raise ValueError('Actual-date CD_DW requires window 10 or 20.')
+    return _actual_date(0., PhaseRankFeatures('CD_DW', source_id, window, ACTUAL_DATE_POLICY))

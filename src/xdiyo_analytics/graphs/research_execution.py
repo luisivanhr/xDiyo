@@ -28,7 +28,7 @@ class RetainedGATExecution:
             raise ValueError('Each retained speed flag must be an explicit boolean.')
 
     def validate_config(self,config):
-        if profile_key(config) is None:
+        if profile_key(config) not in ('graphs.GATResearchBNV1','graphs.GATResearchCE1V1','graphs.GATResearchBCDDWV1'):
             raise ValueError('Retained acceleration requires an exact supported V1 research configuration.')
 
 
