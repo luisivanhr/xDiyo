@@ -5,7 +5,7 @@ from .phase_context import PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY, WIND
 
 
 def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None,
-                        rank_timing='kickoff_day'):
+                        rank_timing='kickoff_day', meetings_per_pair=None):
     """Create exact forecast rows with prior-calendar-day ranks by default.
 
     Unsupported split/curtailed schedules raise through the current producer.
@@ -14,6 +14,7 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     rank_timing='available_at_cutoff' to reproduce v2 timestamp preparation.
     Daily preparation requires cutoffs on each fixture's kickoff calendar date;
     it changes neither countdown semantics nor original round metadata.
+    Pass meetings_per_pair=3 only for a verified independent triple round robin.
     """
     from ..features import DerivedStandings, SeasonCountdown
     from ..features.countdown import season_countdown
@@ -36,7 +37,8 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     result['countdown']=season_countdown(query,SeasonCountdown(),schedule_history=history,
                                         team_seasons=team_seasons,cutoffs=cuts).to_numpy()
     native=build_standings(history,team_seasons=team_seasons,normalized_ranks=WINDOWS,
-                           queries=query,cutoffs=cuts,available_at=available_at,timing=rank_timing)
+                           queries=query,cutoffs=cuts,available_at=available_at,timing=rank_timing,
+                           meetings_per_pair=meetings_per_pair)
     values=native.features(query,DerivedStandings(normalized_ranks=WINDOWS,include_raw=False,side='both'),cutoffs=cuts)
     for role,side in (('team','home'),('opponent','away')):
         for window in WINDOWS:

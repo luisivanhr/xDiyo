@@ -70,7 +70,7 @@ def _equal(a, b):
     return (pd.isna(a) and pd.isna(b)) or (not pd.isna(a) and not pd.isna(b) and a == b)
 
 
-def _canonical(history, roster, available_at, *, timing='available_at_cutoff'):
+def _canonical(history, roster, available_at, *, timing='available_at_cutoff', meetings_per_pair=None):
     if roster is None:
         raise ValueError("DerivedStandings requires verified complete team_seasons membership, not teams seen in a fold.")
     scope = ("competition_id", "season_id")
@@ -144,7 +144,8 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff'):
         explicit = all(present)
         special = (pd.notna(home.get('is_awarded')) and bool(home.get('is_awarded'))) or (pd.notna(home.get('result_review_json')) and bool(home.get('result_review_json')))
         if special and not explicit:
-            raise ValueError(f"Awarded/revised result {key} needs approved standings_goals_for/against and known standings_result_available_at.")
+            release_requirement = ' and known standings_result_available_at' if timing != 'kickoff_day' else ''
+            raise ValueError(f"Awarded/revised result {key} needs approved standings_goals_for/against{release_requirement}.")
         if explicit and timing != 'kickoff_day':
             release = home.get('standings_result_available_at')
             if pd.isna(release):
@@ -169,15 +170,22 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff'):
         if not valid:
             skipped.append(dict(scope=list(skey), event=event, reason='incomplete_or_unavailable_result'))
     for skey, matches in scopes.items():
-        # Validate a full balanced single/double round-robin schedule, including
+        # Validate the explicitly supported round-robin schedule, including
         # unfinished fixtures. Mere provider "complete" flags are insufficient.
         teams = members[skey]
         counts = Counter(frozenset((r['home'], r['away'])) for r in matches)
         repetitions = set(counts.values())
-        if len(counts) != len(teams)*(len(teams)-1)//2 or len(repetitions) != 1 or not repetitions <= {1, 2}:
+        allowed = {3} if meetings_per_pair == 3 else {1, 2}
+        if len(counts) != len(teams)*(len(teams)-1)//2 or len(repetitions) != 1 or not repetitions <= allowed:
+            if meetings_per_pair == 3:
+                raise ValueError(f"Incomplete triple round-robin schedule for {skey}; every roster pair must meet exactly three times.")
             raise ValueError(f"Incomplete schedule or unsupported split/playoff format for {skey}; requires a complete independent single/double round-robin table.")
         if repetitions == {2} and len({(r['home'],r['away']) for r in matches}) != len(matches):
             raise ValueError(f"Conflicting home/away schedule for {skey}.")
+        if meetings_per_pair == 3:
+            directed = Counter((r['home'], r['away']) for r in matches)
+            if any(directed[a,b] not in (1,2) or directed[b,a] not in (1,2) for a,b in directed):
+                raise ValueError(f"Triple round-robin home/away schedule must split each pair's venues 2/1 for {skey}.")
         selected = frame.loc[(frame[list(scope)].apply(tuple, axis=1) == skey)]
         if 'standings_table_id' not in scope and 'tournament_id' in selected and selected.tournament_id.nunique(dropna=False) > 1:
             raise ValueError(f"Multiple stages for {skey}; explicit independently verified table scope is required.")
@@ -187,7 +195,10 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff'):
             raise ValueError(f"Incomplete/ambiguous first-round fixture set for {skey}.")
     canonical = sorted((json.dumps(r, default=str, sort_keys=True) for r in frame.to_dict('records')))
     policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
-    identity = sha256(json.dumps(dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=policy), sort_keys=True).encode()).hexdigest()
+    identity_fields = dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=policy)
+    if meetings_per_pair is not None:
+        identity_fields['meetings_per_pair'] = meetings_per_pair
+    identity = sha256(json.dumps(identity_fields, sort_keys=True).encode()).hexdigest()
     return scope, members, scopes, fixtures, skipped, identity
 
 
@@ -325,7 +336,7 @@ class StandingsRun:
         return cls(snapshots, body['publications'], body['metadata'], fixtures)
 
 
-def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff'):
+def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff', meetings_per_pair=None):
     """Build complete tables once per distinct scope/cutoff, without fitting.
 
     history must include the complete schedule/results. queries may be a subset.
@@ -342,12 +353,19 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     irrespective of publication metadata. All same-day queries share a table;
     original round metadata does not determine the cutoff. Explicit cutoffs
     must fall on the target date. The default preserves timestamp-based runs.
+    For an explicitly verified independent triple round robin (e.g. Scottish
+    pre-split rounds 1-33), daily timing also accepts meetings_per_pair=3. Every
+    roster pair must have all three scheduled fixtures with a 2/1 venue split.
+    This changes schedule validation only; rank arithmetic is unchanged. Split
+    groups, carry-over rules and incomplete schedules remain unsupported.
     """
     from ..features.standings import DerivedStandings
     if timing not in TIMINGS:
         raise ValueError('Standings timing must be available_at_cutoff or kickoff_day.')
     if timing == 'kickoff_day' and available_at is not None:
         raise ValueError('Kickoff-day timing defines retrospective availability; do not supply available_at.')
+    if meetings_per_pair is not None and (type(meetings_per_pair) is not int or meetings_per_pair != 3 or timing != 'kickoff_day'):
+        raise ValueError('Only explicit meetings_per_pair=3 with kickoff_day timing is supported; omit it for legacy single/double schedules.')
     policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
     publication_rule = DAILY_PUBLICATION_RULE if timing == 'kickoff_day' else PUBLICATION_RULE
     windows = DerivedStandings(normalized_ranks, include_raw=True).normalized_ranks
@@ -355,7 +373,7 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
         raise ValueError('Standings venues must be a nonempty sequence of all, home and/or away.')
     venues = tuple(dict.fromkeys(venues))
     extended = venues != ('all',)
-    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing)
+    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing, meetings_per_pair=meetings_per_pair)
     queries = history if queries is None else queries
     query_rows = _query_keys(queries, scope, fixtures, cutoffs, timing=timing)
     requested = {}
@@ -414,4 +432,7 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
         metadata['state_sha256'] = sha256(json.dumps([identity, sorted(windows), sorted(venues), policy]).encode()).hexdigest()
     if timing == 'kickoff_day':
         metadata['timing'] = timing
+    if meetings_per_pair is not None:
+        metadata['meetings_per_pair'] = meetings_per_pair
+        metadata['schedule'] = 'verified_independent_triple_round_robin_2_1_venues'
     return StandingsRun(pd.DataFrame(snapshots), publications, metadata, fixtures)

@@ -102,3 +102,62 @@ def test_daily_persistence_and_historical_edge_decoder_windows(tmp_path):
     assert loaded.fixture(query, spec)[:, 2:].sum() == 0
     assert all(run._fixtures[(17, 1, r.event_id)]['round'] == r.round for r in h.itertuples())
 
+
+def triple_population():
+    h, m = population(12)
+    third = h.loc[h['round'].le(11)].copy()
+    third['event_id'] += 500000
+    third['round'] += 22
+    third['kickoff_at'] += pd.Timedelta(days=66)
+    h = pd.concat([h, third], ignore_index=True)
+    h['release'] = h.kickoff_at
+    return h, m
+
+
+def test_explicit_triple_schedule_uses_unchanged_daily_rank_arithmetic(tmp_path):
+    h, m = triple_population()
+    query = h.loc[h['round'].isin([1, 12, 23, 30, 33]) & h.side.eq('home')]
+    run = build_standings(h, team_seasons=m, normalized_ranks=[1, 10], queries=query,
+                          timing='kickoff_day', meetings_per_pair=3)
+    for row in run.snapshots.itertuples(index=False):
+        q = query.loc[query.kickoff_at.dt.normalize().eq(row.recorded_at)].iloc[0]
+        totals, ranks, _ = oracle(h, m, q, row.recorded_at, row.window)
+        assert row.rank == ranks[row.team_id]
+        assert [getattr(row, c) for c in TOTALS] == totals[row.team_id]
+    assert run.metadata['meetings_per_pair'] == 3
+    run.save(tmp_path)
+    restored = StandingsRun.load(tmp_path)
+    pd.testing.assert_frame_equal(run.features(query, DerivedStandings([1, 10])),
+                                  restored.features(query, DerivedStandings([1, 10])))
+    with pytest.raises(ValueError, match='Incomplete schedule or unsupported'):
+        build_standings(h, team_seasons=m, timing='kickoff_day')
+    with pytest.raises(ValueError, match='Only explicit'):
+        build_standings(h, team_seasons=m, meetings_per_pair=3)
+
+
+def test_explicit_triple_schedule_rejects_missing_pair_and_unbalanced_venues():
+    h, m = triple_population()
+    with pytest.raises(ValueError, match='Incomplete triple'):
+        build_standings(h.loc[h.event_id.ne(h.event_id.iloc[-1])], team_seasons=m,
+                        timing='kickoff_day', meetings_per_pair=3)
+    first = h.iloc[0]
+    reverse = h.loc[h.side.eq('home') & h.team_id.eq(first.opponent_id)
+                    & h.opponent_id.eq(first.team_id), 'event_id'].iloc[0]
+    mask = h.event_id.eq(reverse)
+    h.loc[mask, 'side'] = h.loc[mask, 'side'].map({'home':'away', 'away':'home'})
+    with pytest.raises(ValueError, match='split each pair'):
+        build_standings(h, team_seasons=m, timing='kickoff_day', meetings_per_pair=3)
+
+
+def test_daily_reviewed_scores_do_not_require_publication_timestamps():
+    h, m = population(4)
+    h['is_awarded'] = False
+    mask = h.event_id.eq(h.event_id.iloc[0])
+    h.loc[mask, 'is_awarded'] = True
+    with pytest.raises(ValueError, match='needs approved standings_goals_for/against\\.'):
+        build_standings(h, team_seasons=m, timing='kickoff_day')
+    h.loc[mask, 'standings_goals_for'] = h.loc[mask, 'goals_for']
+    h.loc[mask, 'standings_goals_against'] = h.loc[mask, 'goals_against']
+    run = build_standings(h, team_seasons=m, timing='kickoff_day')
+    assert any(h.event_id.iloc[0] in p['contributing_events'] for p in run.publications)
+

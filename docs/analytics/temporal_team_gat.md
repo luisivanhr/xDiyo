@@ -779,3 +779,11 @@ and source identities are preserved; create a new lookup for daily experiments
 and set `PhaseRankFeatures.policy` to the returned lookup policy. Do not relabel
 old tables. Unsupported schedules still raise and require verified format
 support rather than blanket missing ranks.
+
+For a complete independent triple round robin, pass `meetings_per_pair=3` to
+`build_standings` or `build_phase_context` with daily timing. This covers the
+Scottish pre-split 33-round stage: every one of the verified roster's pairs must
+meet exactly three times with home/away venues split 2/1. The caller supplies
+only that independently scored stage; post-split groups remain outside this
+contract. The extra declaration changes schedule validation and provenance,
+while the score-derived rank formula and last-match windows stay unchanged.

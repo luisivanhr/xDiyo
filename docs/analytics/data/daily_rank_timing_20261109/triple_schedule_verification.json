@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-09",
+  "base_commit": "d0a6882fbaa7156c3d19a492ad49e57717ddebec",
+  "scope": "Explicit verified triple round robin for daily kickoff ranks, without changing score-derived arithmetic or legacy behavior",
+  "schedule": "All roster pairs exactly three meetings, venues 2/1, independent regular/pre-split stage only",
+  "tests": {
+    "passed": 160,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 74.26,
+    "python": "../.misc314/Scripts/python.exe",
+    "torch": "2.9.0+cu130",
+    "junit_sha256": "d7fabf5f411b8fa138bced89d8c8363906b38b40abc2b017f06e1371bd31d7aa",
+    "modules": [
+      "test_standings_kickoff_day",
+      "test_derived_standings",
+      "test_standings_available_publication",
+      "test_standings_serialization",
+      "test_graph_phase_context",
+      "test_gat_reconciliation"
+    ]
+  },
+  "actual_source_verification": [
+    {
+      "season": "20_21",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "9aff34457173c25707b9124ea2ee4727b153a8f6d2efa379f3aa187cd9ce193d"
+    },
+    {
+      "season": "21_22",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "1030b705fd54d66bd8b1b3758d1efa916f3b698e620b3711112d94e8700f3dc0"
+    },
+    {
+      "season": "22_23",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "6b11d996af91a08fbc44c2455291f049b02129e02bb05f7616105d213763a88e"
+    },
+    {
+      "season": "23_24",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "2649208823ec51f1f124ed780982dfaa491ce919cf4719176b9ce6fcbcd0248d"
+    },
+    {
+      "season": "24_25",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "26bfdd0f9edcec230a9757a59df8f676609e47ca0cdc8223aa3545938445580c"
+    },
+    {
+      "season": "25_26",
+      "fixtures": 198,
+      "teams": 12,
+      "home_rank_1_complete": true,
+      "home_rank_10_complete": true,
+      "countdown_complete": true,
+      "source_id": "5cbc176fd2aa920f941b269247df3d85fd6c52c66650afeb7d455a5b883947ec"
+    }
+  ],
+  "preservation": "Default single/double validation and source fingerprints unchanged; existing v1/v2 and daily models retained; no scrape files or artifacts modified",
+  "experiment_fits": 0
+}
