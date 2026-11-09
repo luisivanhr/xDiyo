@@ -172,8 +172,15 @@ def test_phase_context_resume_preserves_next_update(device):
             torch.testing.assert_close(value,b['state'][index][name],atol=0,rtol=0)
 
 
-def test_context_persistence_and_cross_route_schema_rejection(tmp_path,device):
-    store=source(); cfg=config(deterministic=True,goal_auxiliary=GoalAuxiliary(beta=.1),phase_rank_features=spec(store,'CD_DW'))
+@pytest.mark.parametrize('daily', [False, True])
+def test_context_persistence_and_cross_route_schema_rejection(tmp_path,device,daily):
+    store=source()
+    if daily:
+        from xdiyo_analytics.graphs.phase_context import DAILY_POLICY
+        lookup=PhaseRankLookup(store.phase_context.frame,provenance={'test':'daily policy'},policy=DAILY_POLICY)
+        store=TemporalEventStore(store.history,store.team_seasons,schedule=store.schedule,phase_context=lookup)
+    phase=replace(spec(store,'CD_DW'),policy=store.phase_context.policy)
+    cfg=config(deterministic=True,goal_auxiliary=GoalAuxiliary(beta=.1),phase_rank_features=phase)
     adapter=TemporalGraphAdapter(cfg,store,control=TrainingControl(max_steps=1),device=device)
     adapter.fit(context(store,[2,3,4]))
     query=context(store,[7,8],fit=False)

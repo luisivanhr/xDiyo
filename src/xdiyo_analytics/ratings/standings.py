@@ -19,6 +19,9 @@ from ..features.history import aligned_times, availability_times
 LEGACY_POLICY = "independent_3_1_0_first_round_complete_v1"
 POLICY = "independent_3_1_0_available_results_v2"
 PUBLICATION_RULE = "available_results_at_cutoff"
+DAILY_POLICY = "independent_3_1_0_kickoff_day_v3"
+DAILY_PUBLICATION_RULE = "kickoff_date_before_forecast_day"
+TIMINGS = ('available_at_cutoff', 'kickoff_day')
 TOTALS = ("played", "wins", "draws", "losses", "points", "gf", "ga", "gd")
 
 
@@ -67,7 +70,7 @@ def _equal(a, b):
     return (pd.isna(a) and pd.isna(b)) or (not pd.isna(a) and not pd.isna(b) and a == b)
 
 
-def _canonical(history, roster, available_at):
+def _canonical(history, roster, available_at, *, timing='available_at_cutoff'):
     if roster is None:
         raise ValueError("DerivedStandings requires verified complete team_seasons membership, not teams seen in a fold.")
     scope = ("competition_id", "season_id")
@@ -93,11 +96,12 @@ def _canonical(history, roster, available_at):
     frame = history[list(dict.fromkeys((*required, *extra)))].copy()
     frame.attrs = {}
     # A kickoff is not evidence that a sporting result is already known.
-    if available_at is None:
+    if available_at is None and timing != 'kickoff_day':
         available_at = pd.to_datetime(history['result_available_at'], utc=True) if 'result_available_at' in history else pd.Series(pd.NaT, index=history.index, dtype='datetime64[ns, UTC]')
         if 'standings_result_available_at' in history:
             available_at = available_at.fillna(pd.to_datetime(history['standings_result_available_at'], utc=True))
-    frame["_available"] = availability_times(history, available_at).to_numpy()
+    frame["_available"] = (aligned_times(history, None, default='kickoff_at') if timing == 'kickoff_day'
+                           else availability_times(history, available_at)).to_numpy()
     frame["kickoff_at"] = aligned_times(history, None, default="kickoff_at").to_numpy()
     for c in (*scope, "event_id", "team_id", "opponent_id"):
         frame[c] = pd.Series([_id(v) for v in frame[c].tolist()], index=frame.index, dtype=object)
@@ -141,7 +145,7 @@ def _canonical(history, roster, available_at):
         special = (pd.notna(home.get('is_awarded')) and bool(home.get('is_awarded'))) or (pd.notna(home.get('result_review_json')) and bool(home.get('result_review_json')))
         if special and not explicit:
             raise ValueError(f"Awarded/revised result {key} needs approved standings_goals_for/against and known standings_result_available_at.")
-        if explicit:
+        if explicit and timing != 'kickoff_day':
             release = home.get('standings_result_available_at')
             if pd.isna(release):
                 raise ValueError("Approved standings scores need a known ruling/result release time.")
@@ -150,7 +154,7 @@ def _canonical(history, roster, available_at):
                 raise ValueError('Approved standings scores need a known ruling/result release time.')
             if pd.notna(available):
                 available = max(available, release)
-        elif any(pd.notna(home[c]) and home[c] != 0 for c in extra if c.startswith(('team_score_', 'opponent_score_'))):
+        elif not explicit and any(pd.notna(home[c]) and home[c] != 0 for c in extra if c.startswith(('team_score_', 'opponent_score_'))):
             raise ValueError(f"Extra-time/shootout result {key} needs explicit approved league-result scores.")
         gf = _score(home['standings_goals_for'] if explicit else home['goals_for'])
         ga = _score(home['standings_goals_against'] if explicit else home['goals_against'])
@@ -182,11 +186,12 @@ def _canonical(history, roster, available_at):
         if len(first) != len(teams)//2 or len(set(first_teams)) != len(first_teams):
             raise ValueError(f"Incomplete/ambiguous first-round fixture set for {skey}.")
     canonical = sorted((json.dumps(r, default=str, sort_keys=True) for r in frame.to_dict('records')))
-    identity = sha256(json.dumps(dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=POLICY), sort_keys=True).encode()).hexdigest()
+    policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
+    identity = sha256(json.dumps(dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=policy), sort_keys=True).encode()).hexdigest()
     return scope, members, scopes, fixtures, skipped, identity
 
 
-def _query_keys(history, scope, fixtures, cutoffs):
+def _query_keys(history, scope, fixtures, cutoffs, *, timing='available_at_cutoff'):
     times = aligned_times(history, cutoffs, default='kickoff_at')
     anchors = {}
     for match in fixtures.values():
@@ -202,9 +207,13 @@ def _query_keys(history, scope, fixtures, cutoffs):
         kick = pd.to_datetime(values[-1], utc=True)
         if match is None or {team, opponent} != {match['home'], match['away']} or kick != match['kickoff']:
             raise ValueError('Query identity/kickoff does not match the complete standings schedule.')
-        q = anchors[(*skey, match['round'])] if cutoffs is None else requested
+        q = (kick if timing == 'kickoff_day' else anchors[(*skey, match['round'])]) if cutoffs is None else requested
         if pd.isna(q) or q > kick:
             raise ValueError('Standings requires known prediction cutoffs no later than target kickoff.')
+        if timing == 'kickoff_day':
+            if q.normalize() != kick.normalize():
+                raise ValueError('Kickoff-day standings require a forecast on the target kickoff calendar date.')
+            q = kick.normalize()
         key = (*skey, event)
         if key in issuance and issuance[key] != q:
             raise ValueError('Paired fixture queries must have identical standings prediction cutoffs.')
@@ -238,7 +247,7 @@ class StandingsRun:
         return deepcopy(self._metadata)
 
     def features(self, history, expression, *, cutoffs=None):
-        if self._metadata.get('policy') != POLICY:
+        if self._metadata.get('policy') not in (POLICY, DAILY_POLICY):
             raise ValueError('Legacy standings publication policy: rebuild feature artifacts from full source history; saved snapshots remain inspection-only.')
         scope = tuple(self._metadata['scope'])
         if set(expression.normalized_ranks) - set(self._metadata['windows']):
@@ -246,7 +255,8 @@ class StandingsRun:
         venues = ('home', 'away') if expression.venue == 'same' else (expression.venue,)
         if set(venues) - set(self._metadata.get('venues', ['all'])):
             raise ValueError('Requested venues are absent from saved standings; rebuild the required venue tables.')
-        queries = _query_keys(history, scope, self._fixtures, cutoffs)
+        queries = _query_keys(history, scope, self._fixtures, cutoffs,
+                              timing=self._metadata.get('timing', 'available_at_cutoff'))
         if self._lookup is None:
             self._lookup = {tuple(r[c] for c in (*scope, 'recorded_at', 'team_id', 'window')) + (r.get('venue', 'all'),):r
                             for r in self._snapshots.to_dict('records')}
@@ -272,7 +282,7 @@ class StandingsRun:
                     rank, n = row['rank'], row['team_count']
                     values.append((n-rank)/(n-1) if w else rank/n if expression.normalize else rank)
                     audit.append(dict(team_id=t, window=w, effective_count=row['effective_count'],
-                                      publication_id=row['publication_id'], publication_rule=PUBLICATION_RULE,
+                                      publication_id=row['publication_id'], publication_rule=self._metadata['publication_rule'],
                                       **({'venue': venue} if expression.venue != 'all' else {})))
             output.append(values)
             audits.append(audit)
@@ -289,7 +299,7 @@ class StandingsRun:
         for m in self._fixtures.values():
             r = dict(m, scope=list(m['scope']), kickoff=m['kickoff'].isoformat(), available=None if pd.isna(m['available']) else m['available'].isoformat())
             fixtures.append(r)
-        body = dict(version=3 if self._metadata.get('policy') == POLICY else 2 if 'venues' in self._metadata else 1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
+        body = dict(version=4 if self._metadata.get('policy') == DAILY_POLICY else 3 if self._metadata.get('policy') == POLICY else 2 if 'venues' in self._metadata else 1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
         payload = json.dumps(body, default=_json_scalar, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
         (path/'standings.json').write_text(payload+'\n', encoding='utf-8')
@@ -298,7 +308,7 @@ class StandingsRun:
     def load(cls, directory):
         path = Path(directory)
         body = json.loads((path/'standings.json').read_text(encoding='utf-8'))
-        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY)):
+        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY)):
             raise ValueError('Unsupported standings artifact version/policy.')
         fixtures = {}
         for m in body['fixtures']:
@@ -307,12 +317,15 @@ class StandingsRun:
             m['available'] = pd.NaT if m['available'] is None else pd.Timestamp(m['available'])
             fixtures[(*m['scope'],m['event'])] = m
         snapshots = pd.read_parquet(path/'snapshots.parquet')
-        if body['version'] == 3 and ('gate_open' in snapshots or any('gate_open' in p for p in body['publications']) or body['metadata'].get('publication_rule') != PUBLICATION_RULE):
+        expected_rule = DAILY_PUBLICATION_RULE if body['version'] == 4 else PUBLICATION_RULE
+        if body['version'] >= 3 and ('gate_open' in snapshots or any('gate_open' in p for p in body['publications']) or body['metadata'].get('publication_rule') != expected_rule):
             raise ValueError('Inconsistent standings publication schema; rebuild from source, do not relabel legacy snapshots.')
+        if body['version'] == 4 and body['metadata'].get('timing') != 'kickoff_day':
+            raise ValueError('Inconsistent daily standings timing schema.')
         return cls(snapshots, body['publications'], body['metadata'], fixtures)
 
 
-def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',)):
+def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff'):
     """Build complete tables once per distinct scope/cutoff, without fitting.
 
     history must include the complete schedule/results. queries may be a subset.
@@ -323,16 +336,28 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     Optional venues builds league-wide home-only/away-only tables, filtering
     before each team's last-w matches. Every cutoff publishes eligible totals,
     including zero totals for idle teams; no opening-round barrier is applied.
+
+    timing='kickoff_day' uses the retrospective kickoff-day convention: all
+    finished eligible results strictly before the target UTC calendar date,
+    irrespective of publication metadata. All same-day queries share a table;
+    original round metadata does not determine the cutoff. Explicit cutoffs
+    must fall on the target date. The default preserves timestamp-based runs.
     """
     from ..features.standings import DerivedStandings
+    if timing not in TIMINGS:
+        raise ValueError('Standings timing must be available_at_cutoff or kickoff_day.')
+    if timing == 'kickoff_day' and available_at is not None:
+        raise ValueError('Kickoff-day timing defines retrospective availability; do not supply available_at.')
+    policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
+    publication_rule = DAILY_PUBLICATION_RULE if timing == 'kickoff_day' else PUBLICATION_RULE
     windows = DerivedStandings(normalized_ranks, include_raw=True).normalized_ranks
     if isinstance(venues, str) or not isinstance(venues, (tuple, list)) or not venues or any(v not in ('all', 'home', 'away') for v in venues):
         raise ValueError('Standings venues must be a nonempty sequence of all, home and/or away.')
     venues = tuple(dict.fromkeys(venues))
     extended = venues != ('all',)
-    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at)
+    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing)
     queries = history if queries is None else queries
-    query_rows = _query_keys(queries, scope, fixtures, cutoffs)
+    query_rows = _query_keys(queries, scope, fixtures, cutoffs, timing=timing)
     requested = {}
     for skey, q, _, _ in query_rows:
         requested.setdefault(skey, set()).add(q)
@@ -366,7 +391,7 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
                             totals[w][team] = [a+b-c for a,b,c in zip(totals[w][team],contribution,dropped)]
                         past.insert(at,(order,contribution))
                 pid = len(publications)
-                publications.append(dict(scope=list(skey), cutoff=q.isoformat(), publication_rule=PUBLICATION_RULE, eligible_result_count=len(used),
+                publications.append(dict(scope=list(skey), cutoff=q.isoformat(), publication_rule=publication_rule, eligible_result_count=len(used),
                     **({"venue": venue} if extended else {}),
                     contributing_events=list(used),
                     latest_kickoff=None if not used else max(fixtures[(*skey,e)]['kickoff'] for e in used).isoformat()))
@@ -377,14 +402,16 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
                             **({"venue": venue} if extended else {}),
                             team_count=len(teams), effective_count=min(w,len(histories[t])) if w else len(histories[t]),
                             publication_id=pid, **dict(zip(TOTALS,arithmetic))))
-    metadata = dict(policy=POLICY, publication_rule=PUBLICATION_RULE, scope=list(scope), windows=list(windows), source_sha256=identity,
-        state_sha256=sha256(json.dumps([identity,sorted(windows),POLICY]).encode()).hexdigest(),
+    metadata = dict(policy=policy, publication_rule=publication_rule, scope=list(scope), windows=list(windows), source_sha256=identity,
+        state_sha256=sha256(json.dumps([identity,sorted(windows),policy]).encode()).hexdigest(),
         query_sha256=sha256(repr(sorted((str(k),sorted(str(t) for t in v)) for k,v in requested.items())).encode()).hexdigest(),
         ranking=['points_desc','gd_desc','gf_desc','ga_asc','competition_ranks'],
-        availability='known_result_or_approved_release_only' if available_at is None else 'explicit_with_reviewed_bounds',
+        availability='retrospective_kickoff_day' if timing == 'kickoff_day' else 'known_result_or_approved_release_only' if available_at is None else 'explicit_with_reviewed_bounds',
         skipped=skipped, late_team_insertions=late, table_computations=len(publications),
         persistence='exact_cutoff_lookup_only', schedule='verified_balanced_single_or_double_round_robin')
     if extended:
         metadata['venues'] = list(venues)
-        metadata['state_sha256'] = sha256(json.dumps([identity, sorted(windows), sorted(venues), POLICY]).encode()).hexdigest()
+        metadata['state_sha256'] = sha256(json.dumps([identity, sorted(windows), sorted(venues), policy]).encode()).hexdigest()
+    if timing == 'kickoff_day':
+        metadata['timing'] = timing
     return StandingsRun(pd.DataFrame(snapshots), publications, metadata, fixtures)

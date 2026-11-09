@@ -750,3 +750,32 @@ See [boundary memory and statistics forecasts](gat_boundary_memory_statistics.md
 for the opt-in configurations, exact temporal/gradient semantics, UI setup,
 native diagnostics, validation evidence and limitations. Full-history scalar GAT
 remains the default; neither addition is enabled by an old recipe.
+
+## Daily rank timing
+
+New `build_phase_context` lookups use the versioned
+`native_phase_form_rank_retrospective_kickoff_day_v3` policy. For a fixture on
+calendar date t, every rank window uses finished eligible matches with kickoff
+dates before t. All fixtures in a league-season on t share the same table.
+Historical edges retain their original pre-match window-1 ranks; decoder
+window-10 ranks use the same daily producer. Each team's last-w match selection,
+competition ties, normalization, verified membership and season scope are
+unchanged. A postponed fixture uses its actual `kickoff_at`; `round` remains
+separate original metadata and no postponed flag is needed.
+
+Dates follow the library's UTC-normalized input timestamps. Use consistent
+calendar dates in the supplied data. Forecast cutoffs must be on the target
+kickoff date; round-frozen cutoffs on earlier dates raise instead of silently
+publishing mismatched ranks. This retrospective convention ignores result
+publication timestamps and introduces no completion delay. Countdown keeps its
+existing schedule semantics, independently of result availability.
+
+The underlying public `build_standings(..., timing='kickoff_day')` API also
+exposes daily tables and persistence. Its default timestamp policy remains
+compatible. To reproduce the previous graph-context producer explicitly, pass
+`rank_timing='available_at_cutoff'` and the original availability input to
+`build_phase_context`. Existing v1/v2 lookups, retained V1 profiles, saved models
+and source identities are preserved; create a new lookup for daily experiments
+and set `PhaseRankFeatures.policy` to the returned lookup policy. Do not relabel
+old tables. Unsupported schedules still raise and require verified format
+support rather than blanket missing ranks.

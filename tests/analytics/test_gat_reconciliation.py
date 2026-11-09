@@ -212,7 +212,7 @@ def test_current_phase_producer_uses_native_oracle_and_original_cutoffs():
     q=h.loc[h.side.eq('home')].reset_index(drop=True)
     fixtures=q.rename(columns={'team_id':'home_id','opponent_id':'away_id'})
     cuts=q.kickoff_at-pd.Timedelta(days=1)
-    source=build_phase_context(h,m,fixtures,cutoffs=cuts,provenance={'test':'native'},available_at='release')
+    source=build_phase_context(h,m,fixtures,cutoffs=cuts,provenance={'test':'native'},available_at='release',rank_timing='available_at_cutoff')
     assert source.policy==CORRECTED_POLICY
     values=source.frame.set_index(list(KEYS))
     for i,row in q.iterrows():
@@ -223,7 +223,7 @@ def test_current_phase_producer_uses_native_oracle_and_original_cutoffs():
     changed=h.copy();last=changed.kickoff_at.max()
     changed.loc[changed.kickoff_at.eq(last)&changed.side.eq('home'),['goals_for','goals_against']]=[99,0]
     changed.loc[changed.kickoff_at.eq(last)&changed.side.eq('away'),['goals_for','goals_against']]=[0,99]
-    later=build_phase_context(changed,m,fixtures,cutoffs=cuts,provenance={'test':'native'},available_at='release')
+    later=build_phase_context(changed,m,fixtures,cutoffs=cuts,provenance={'test':'native'},available_at='release',rank_timing='available_at_cutoff')
     pd.testing.assert_frame_equal(source.frame,later.frame,check_exact=True)
     assert source.source_id==later.source_id
     with pytest.raises(ValueError,match='align'):

@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-09",
+  "policy": "native_phase_form_rank_retrospective_kickoff_day_v3",
+  "timing": "Finished eligible fixtures with UTC kickoff dates strictly before the target fixture calendar date; one league-season table per day",
+  "compatibility": "Existing standings timestamp behavior, v1/v2 graph lookups and retained V1 profiles remain explicit and unchanged",
+  "coverage": [
+    "Independent reconstruction of points, goal difference, goals for/against, competition ties and normalization for windows 1 and 10",
+    "Ordinary and postponed fixtures without a postponed flag; original rounds preserved",
+    "Same-day exclusion, previous-day late inclusion, future-score perturbation and missing future outcomes",
+    "League and season isolation, complete roster, publication timestamp independence",
+    "Historical edge window 1 and decoder window 10 consumption",
+    "Daily standings and phase persistence; daily and legacy graph model persistence and prediction equality"
+  ],
+  "cpu_regression": {
+    "python": ".venv/Scripts/python.exe",
+    "passed": 228,
+    "skipped": 44,
+    "skip_reason": "CUDA unavailable in this CPU environment",
+    "seconds": 151.23,
+    "modules": ["test_standings_kickoff_day", "test_derived_standings", "test_standings_serialization", "test_standings_missing_fixture", "test_standings_available_publication", "test_graph_phase_context", "test_temporal_graph", "test_graph_goal_features", "test_gat_research_execution", "test_gat_reconciliation", "test_venue_history"],
+    "log": "scratch/daily-rank-tests.log",
+    "junit": "scratch/daily-rank-tests.xml"
+  },
+  "cuda_focused": {
+    "python": "../.misc314/Scripts/python.exe",
+    "torch": "2.9.0+cu130",
+    "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+    "passed": 45,
+    "skipped": 0,
+    "seconds": 33.73,
+    "modules": ["test_standings_kickoff_day", "test_graph_phase_context"],
+    "log": "scratch/daily-rank-cuda-tests.log",
+    "junit": "scratch/daily-rank-cuda-tests.xml"
+  },
+  "scope": "Library timing change and regression checks only. No experiment fit or financial result is asserted by this receipt."
+}

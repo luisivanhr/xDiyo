@@ -1,15 +1,19 @@
-"""Build new v2 lookups using the current native standings/countdown producer."""
+"""Build daily rank lookups, retaining explicit legacy preparation support."""
 import numpy as np
 import pandas as pd
-from .phase_context import PhaseRankLookup, CORRECTED_POLICY, WINDOWS, KEYS
+from .phase_context import PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY, WINDOWS, KEYS
 
 
-def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None):
-    """Create exact original-cutoff rows for supported native standings scopes.
+def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None,
+                        rank_timing='kickoff_day'):
+    """Create exact forecast rows with prior-calendar-day ranks by default.
 
     Unsupported split/curtailed schedules raise through the current producer.
     Dataset-specific decisions about unsupported scopes belong in preparation
-    examples; old v1 tables are loaded directly and never rebuilt here.
+    examples; old tables are loaded directly and never rebuilt here. Use
+    rank_timing='available_at_cutoff' to reproduce v2 timestamp preparation.
+    Daily preparation requires cutoffs on each fixture's kickoff calendar date;
+    it changes neither countdown semantics nor original round metadata.
     """
     from ..features import DerivedStandings, SeasonCountdown
     from ..features.countdown import season_countdown
@@ -32,9 +36,10 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     result['countdown']=season_countdown(query,SeasonCountdown(),schedule_history=history,
                                         team_seasons=team_seasons,cutoffs=cuts).to_numpy()
     native=build_standings(history,team_seasons=team_seasons,normalized_ranks=WINDOWS,
-                           queries=query,cutoffs=cuts,available_at=available_at)
+                           queries=query,cutoffs=cuts,available_at=available_at,timing=rank_timing)
     values=native.features(query,DerivedStandings(normalized_ranks=WINDOWS,include_raw=False,side='both'),cutoffs=cuts)
     for role,side in (('team','home'),('opponent','away')):
         for window in WINDOWS:
             result[f'{side}_rank_{window}']=values[f'{role}::form_rank_{window}'].to_numpy()
-    return PhaseRankLookup(result,provenance=provenance,policy=CORRECTED_POLICY)
+    return PhaseRankLookup(result,provenance=provenance,
+                           policy=DAILY_POLICY if rank_timing == 'kickoff_day' else CORRECTED_POLICY)
