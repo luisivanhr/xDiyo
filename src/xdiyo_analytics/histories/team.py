@@ -29,12 +29,21 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
     history.attrs['stat_columns'] maps each output column to its original labels.
     Pregame position becomes team_position/opponent_position when supplied.
 
+    Reviewed international home/away statistic fields on matches (such as
+    home_total_shots_ft) are mapped to these same columns when value is selected.
+    Their source names are retained in attrs['international_statistic_names'].
+    Supplying both wide and long copies of a statistic raises, even if equal.
+    Other match fields keep the existing context-selection behavior; use
+    homogenize_international_statistics for a lossless rename of a wide table
+    including unmatched fields such as odds. Neither path infers timing evidence.
+
     Source league/season identify partitions when present. No dependency on
     source_key, coverage or raw payloads. Source frames and files are unchanged.
     This table contains observed outcomes, not prediction-ready features; kickoff
     alone does not establish when results or statistics became available.
     """
     import pandas as pd
+    from ..data.international_statistics import homogenize_international_statistics, international_statistic_mapping
 
     if data.matches is None:
         raise KeyError("Load matches before building team history.")
@@ -71,6 +80,9 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
     )).to_numpy(dtype="float64", na_value=float("nan"))
     kickoff = pd.to_datetime(seconds, unit="s", utc=True, errors="coerce")
     rows = []
+    wide_lineage = {}
+    wide_column_info = {}
+    wide_fields = [c for c in international_statistic_mapping('home') if c in matches]
     for side, opponent in (("home", "away"), ("away", "home")):
         part = matches[context].copy()
         part["kickoff_at"] = kickoff
@@ -98,6 +110,14 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
             column = f"{prefix}_standings_goals"
             if column in matches:
                 part[label] = matches[column]
+        if wide_fields and 'value' in stat_fields:
+            mapped = homogenize_international_statistics(matches[wide_fields], perspective=side)
+            wide_lineage[side] = mapped.attrs['international_statistic_names']
+            for name in mapped:
+                part[name] = mapped[name]
+                # These reviewed labels need no URL decoding (letters/spaces only).
+                role, period, group, key, field = name.split('::')
+                wide_column_info[name] = dict(role=role, period=period, group_name=group, key=key, field=field)
         rows.append(part)
     history = pd.concat(rows, ignore_index=True)
     history.attrs = {}
@@ -142,7 +162,7 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
             how="left", sort=False, validate="one_to_one",
         )
 
-    column_info = {}
+    column_info = dict(wide_column_info)
     if data.statistics is not None:
         statistics = data.statistics
         check_sides(statistics, "Statistics")
@@ -163,6 +183,8 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
                 for role in names:
                     components = (role, period, group, key, field)
                     name = "::".join(quote(str(value), safe=" _") for value in components)
+                    if name in wide_column_info:
+                        raise ValueError(f'International/native statistic collision: {name}')
                     names[role][i] = name
                     column_info[name] = {
                         "role": role, "period": period, "group_name": group,
@@ -186,4 +208,6 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
     history.attrs = {"source": data.provenance, "stat_columns": column_info,
                      "score_columns": {"goals_for": {"score_field": "current", "side": "for"},
                                        "goals_against": {"score_field": "current", "side": "against"}}}
+    if wide_lineage:
+        history.attrs['international_statistic_names'] = wide_lineage
     return history

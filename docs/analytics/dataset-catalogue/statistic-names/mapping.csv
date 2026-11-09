@@ -1,0 +1,61 @@
+source,period,group,key,label,home_perspective,away_perspective
+home_corners_ft,ALL,Match overview,cornerKicks,Corner kicks,team::ALL::Match overview::cornerKicks::value,opponent::ALL::Match overview::cornerKicks::value
+away_corners_ft,ALL,Match overview,cornerKicks,Corner kicks,opponent::ALL::Match overview::cornerKicks::value,team::ALL::Match overview::cornerKicks::value
+home_yellow_cards_ft,ALL,Match overview,yellowCards,Yellow cards,team::ALL::Match overview::yellowCards::value,opponent::ALL::Match overview::yellowCards::value
+away_yellow_cards_ft,ALL,Match overview,yellowCards,Yellow cards,opponent::ALL::Match overview::yellowCards::value,team::ALL::Match overview::yellowCards::value
+home_red_cards_ft,ALL,Match overview,redCards,Red cards,team::ALL::Match overview::redCards::value,opponent::ALL::Match overview::redCards::value
+away_red_cards_ft,ALL,Match overview,redCards,Red cards,opponent::ALL::Match overview::redCards::value,team::ALL::Match overview::redCards::value
+home_xg_ft,ALL,Match overview,expectedGoals,Expected goals,team::ALL::Match overview::expectedGoals::value,opponent::ALL::Match overview::expectedGoals::value
+away_xg_ft,ALL,Match overview,expectedGoals,Expected goals,opponent::ALL::Match overview::expectedGoals::value,team::ALL::Match overview::expectedGoals::value
+home_ball_possession_ft,ALL,Match overview,ballPossession,Ball possession,team::ALL::Match overview::ballPossession::value,opponent::ALL::Match overview::ballPossession::value
+away_ball_possession_ft,ALL,Match overview,ballPossession,Ball possession,opponent::ALL::Match overview::ballPossession::value,team::ALL::Match overview::ballPossession::value
+home_total_shots_ft,ALL,Match overview,totalShotsOnGoal,Total shots,team::ALL::Match overview::totalShotsOnGoal::value,opponent::ALL::Match overview::totalShotsOnGoal::value
+away_total_shots_ft,ALL,Match overview,totalShotsOnGoal,Total shots,opponent::ALL::Match overview::totalShotsOnGoal::value,team::ALL::Match overview::totalShotsOnGoal::value
+home_shots_on_target_ft,ALL,Shots,shotsOnGoal,Shots on target,team::ALL::Shots::shotsOnGoal::value,opponent::ALL::Shots::shotsOnGoal::value
+away_shots_on_target_ft,ALL,Shots,shotsOnGoal,Shots on target,opponent::ALL::Shots::shotsOnGoal::value,team::ALL::Shots::shotsOnGoal::value
+home_shots_off_target_ft,ALL,Shots,shotsOffGoal,Shots off target,team::ALL::Shots::shotsOffGoal::value,opponent::ALL::Shots::shotsOffGoal::value
+away_shots_off_target_ft,ALL,Shots,shotsOffGoal,Shots off target,opponent::ALL::Shots::shotsOffGoal::value,team::ALL::Shots::shotsOffGoal::value
+home_fouls_ft,ALL,Match overview,fouls,Fouls,team::ALL::Match overview::fouls::value,opponent::ALL::Match overview::fouls::value
+away_fouls_ft,ALL,Match overview,fouls,Fouls,opponent::ALL::Match overview::fouls::value,team::ALL::Match overview::fouls::value
+home_goalkeeper_saves_ft,ALL,Match overview,goalkeeperSaves,Goalkeeper saves,team::ALL::Match overview::goalkeeperSaves::value,opponent::ALL::Match overview::goalkeeperSaves::value
+away_goalkeeper_saves_ft,ALL,Match overview,goalkeeperSaves,Goalkeeper saves,opponent::ALL::Match overview::goalkeeperSaves::value,team::ALL::Match overview::goalkeeperSaves::value
+home_corners_1h,1ST,Match overview,cornerKicks,Corner kicks,team::1ST::Match overview::cornerKicks::value,opponent::1ST::Match overview::cornerKicks::value
+away_corners_1h,1ST,Match overview,cornerKicks,Corner kicks,opponent::1ST::Match overview::cornerKicks::value,team::1ST::Match overview::cornerKicks::value
+home_yellow_cards_1h,1ST,Match overview,yellowCards,Yellow cards,team::1ST::Match overview::yellowCards::value,opponent::1ST::Match overview::yellowCards::value
+away_yellow_cards_1h,1ST,Match overview,yellowCards,Yellow cards,opponent::1ST::Match overview::yellowCards::value,team::1ST::Match overview::yellowCards::value
+home_red_cards_1h,1ST,Match overview,redCards,Red cards,team::1ST::Match overview::redCards::value,opponent::1ST::Match overview::redCards::value
+away_red_cards_1h,1ST,Match overview,redCards,Red cards,opponent::1ST::Match overview::redCards::value,team::1ST::Match overview::redCards::value
+home_xg_1h,1ST,Match overview,expectedGoals,Expected goals,team::1ST::Match overview::expectedGoals::value,opponent::1ST::Match overview::expectedGoals::value
+away_xg_1h,1ST,Match overview,expectedGoals,Expected goals,opponent::1ST::Match overview::expectedGoals::value,team::1ST::Match overview::expectedGoals::value
+home_ball_possession_1h,1ST,Match overview,ballPossession,Ball possession,team::1ST::Match overview::ballPossession::value,opponent::1ST::Match overview::ballPossession::value
+away_ball_possession_1h,1ST,Match overview,ballPossession,Ball possession,opponent::1ST::Match overview::ballPossession::value,team::1ST::Match overview::ballPossession::value
+home_total_shots_1h,1ST,Match overview,totalShotsOnGoal,Total shots,team::1ST::Match overview::totalShotsOnGoal::value,opponent::1ST::Match overview::totalShotsOnGoal::value
+away_total_shots_1h,1ST,Match overview,totalShotsOnGoal,Total shots,opponent::1ST::Match overview::totalShotsOnGoal::value,team::1ST::Match overview::totalShotsOnGoal::value
+home_shots_on_target_1h,1ST,Shots,shotsOnGoal,Shots on target,team::1ST::Shots::shotsOnGoal::value,opponent::1ST::Shots::shotsOnGoal::value
+away_shots_on_target_1h,1ST,Shots,shotsOnGoal,Shots on target,opponent::1ST::Shots::shotsOnGoal::value,team::1ST::Shots::shotsOnGoal::value
+home_shots_off_target_1h,1ST,Shots,shotsOffGoal,Shots off target,team::1ST::Shots::shotsOffGoal::value,opponent::1ST::Shots::shotsOffGoal::value
+away_shots_off_target_1h,1ST,Shots,shotsOffGoal,Shots off target,opponent::1ST::Shots::shotsOffGoal::value,team::1ST::Shots::shotsOffGoal::value
+home_fouls_1h,1ST,Match overview,fouls,Fouls,team::1ST::Match overview::fouls::value,opponent::1ST::Match overview::fouls::value
+away_fouls_1h,1ST,Match overview,fouls,Fouls,opponent::1ST::Match overview::fouls::value,team::1ST::Match overview::fouls::value
+home_goalkeeper_saves_1h,1ST,Match overview,goalkeeperSaves,Goalkeeper saves,team::1ST::Match overview::goalkeeperSaves::value,opponent::1ST::Match overview::goalkeeperSaves::value
+away_goalkeeper_saves_1h,1ST,Match overview,goalkeeperSaves,Goalkeeper saves,opponent::1ST::Match overview::goalkeeperSaves::value,team::1ST::Match overview::goalkeeperSaves::value
+home_corners_2h,2ND,Match overview,cornerKicks,Corner kicks,team::2ND::Match overview::cornerKicks::value,opponent::2ND::Match overview::cornerKicks::value
+away_corners_2h,2ND,Match overview,cornerKicks,Corner kicks,opponent::2ND::Match overview::cornerKicks::value,team::2ND::Match overview::cornerKicks::value
+home_yellow_cards_2h,2ND,Match overview,yellowCards,Yellow cards,team::2ND::Match overview::yellowCards::value,opponent::2ND::Match overview::yellowCards::value
+away_yellow_cards_2h,2ND,Match overview,yellowCards,Yellow cards,opponent::2ND::Match overview::yellowCards::value,team::2ND::Match overview::yellowCards::value
+home_red_cards_2h,2ND,Match overview,redCards,Red cards,team::2ND::Match overview::redCards::value,opponent::2ND::Match overview::redCards::value
+away_red_cards_2h,2ND,Match overview,redCards,Red cards,opponent::2ND::Match overview::redCards::value,team::2ND::Match overview::redCards::value
+home_xg_2h,2ND,Match overview,expectedGoals,Expected goals,team::2ND::Match overview::expectedGoals::value,opponent::2ND::Match overview::expectedGoals::value
+away_xg_2h,2ND,Match overview,expectedGoals,Expected goals,opponent::2ND::Match overview::expectedGoals::value,team::2ND::Match overview::expectedGoals::value
+home_ball_possession_2h,2ND,Match overview,ballPossession,Ball possession,team::2ND::Match overview::ballPossession::value,opponent::2ND::Match overview::ballPossession::value
+away_ball_possession_2h,2ND,Match overview,ballPossession,Ball possession,opponent::2ND::Match overview::ballPossession::value,team::2ND::Match overview::ballPossession::value
+home_total_shots_2h,2ND,Match overview,totalShotsOnGoal,Total shots,team::2ND::Match overview::totalShotsOnGoal::value,opponent::2ND::Match overview::totalShotsOnGoal::value
+away_total_shots_2h,2ND,Match overview,totalShotsOnGoal,Total shots,opponent::2ND::Match overview::totalShotsOnGoal::value,team::2ND::Match overview::totalShotsOnGoal::value
+home_shots_on_target_2h,2ND,Shots,shotsOnGoal,Shots on target,team::2ND::Shots::shotsOnGoal::value,opponent::2ND::Shots::shotsOnGoal::value
+away_shots_on_target_2h,2ND,Shots,shotsOnGoal,Shots on target,opponent::2ND::Shots::shotsOnGoal::value,team::2ND::Shots::shotsOnGoal::value
+home_shots_off_target_2h,2ND,Shots,shotsOffGoal,Shots off target,team::2ND::Shots::shotsOffGoal::value,opponent::2ND::Shots::shotsOffGoal::value
+away_shots_off_target_2h,2ND,Shots,shotsOffGoal,Shots off target,opponent::2ND::Shots::shotsOffGoal::value,team::2ND::Shots::shotsOffGoal::value
+home_fouls_2h,2ND,Match overview,fouls,Fouls,team::2ND::Match overview::fouls::value,opponent::2ND::Match overview::fouls::value
+away_fouls_2h,2ND,Match overview,fouls,Fouls,opponent::2ND::Match overview::fouls::value,team::2ND::Match overview::fouls::value
+home_goalkeeper_saves_2h,2ND,Match overview,goalkeeperSaves,Goalkeeper saves,team::2ND::Match overview::goalkeeperSaves::value,opponent::2ND::Match overview::goalkeeperSaves::value
+away_goalkeeper_saves_2h,2ND,Match overview,goalkeeperSaves,Goalkeeper saves,opponent::2ND::Match overview::goalkeeperSaves::value,team::2ND::Match overview::goalkeeperSaves::value

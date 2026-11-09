@@ -1,0 +1,25 @@
+........................................................................ [ 23%]
+........................................................................ [ 46%]
+F....................................................................... [ 70%]
+........................................................................ [ 93%]
+....................                                                     [100%]
+================================== FAILURES ===================================
+_________ test_installed_wheel_includes_catalogue_and_legacy_imports __________
+tests\analytics\test_named_dataset_repairs.py:96: in test_installed_wheel_includes_catalogue_and_legacy_imports
+    subprocess.run([sys.executable,'-m','pip','wheel',str(root),'--no-deps','--no-build-isolation','--wheel-dir',str(wheels)],check=True,capture_output=True,env=env)
+..\..\Programs\Python\Python314\Lib\subprocess.py:577: in run
+    raise CalledProcessError(retcode, process.args,
+E   subprocess.CalledProcessError: Command '['C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe', '-m', 'pip', 'wheel', 'C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-stat-schema', '--no-deps', '--no-build-isolation', '--wheel-dir', 'C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-stat-schema\\.pytest_tmp\\f4f3c86817b648e6924114a629762cb0\\test_installed_wheel_includes_0\\wheels']' returned non-zero exit status 2.
+============================== warnings summary ===============================
+tests/analytics/test_team_history.py::test_missing_scores_or_status_never_invents_result
+  C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\src\xdiyo_analytics\histories\team.py:122: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+    history = pd.concat(rows, ignore_index=True)
+
+tests/analytics/test_graph_integration_gates.py::test_extension_finalization_reload_and_scaler_binding[gat_memory]
+  C:\Users\luisi\Documents\Programming\Python\.misc314\Lib\site-packages\torch\backends\__init__.py:42: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:85.)
+    return self.getter()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_named_dataset_repairs.py::test_installed_wheel_includes_catalogue_and_legacy_imports
+1 failed, 307 passed, 2 warnings in 269.25s (0:04:29)

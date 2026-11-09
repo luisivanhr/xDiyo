@@ -1,0 +1,80 @@
+{
+  "base_commit": "e2707a566795b42979e3236f7edb25f1bb23b8bf",
+  "tests": {
+    "py314": {
+      "runs_in_order": [
+        {
+          "receipt": "tests-py314.xml",
+          "sha256": "4c7916125aeb06835ebd181306a0ec4b57c2a976e9791a5451c6a31ed5803fec",
+          "cases": 308
+        },
+        {
+          "receipt": "wheel-py314.xml",
+          "sha256": "f70e677f30800d4f404826b48070c7e7b97447d2374fa29326dccc35dbf43fa3",
+          "cases": 1
+        },
+        {
+          "receipt": "focused-py314.xml",
+          "sha256": "78ddb3da2d2d545ce633b1dfe1547cbc3f2d0d20dc3028cad0f24a937c1d5f79",
+          "cases": 65
+        }
+      ],
+      "unique_final_outcomes": {
+        "passed": 309,
+        "failed": 0,
+        "skipped": 0
+      },
+      "environment": {
+        "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+        "pandas": "2.3.3",
+        "numpy": "2.4.6"
+      }
+    },
+    "py312": {
+      "runs_in_order": [
+        {
+          "receipt": "tests-py312.xml",
+          "sha256": "fc1bc98ce76701d7f3cb495bc058ac1dfde3789a628702223b2449f3904f93a9",
+          "cases": 308
+        },
+        {
+          "receipt": "wheel-py312.xml",
+          "sha256": "b44c256ccc7064c549522177f34e89430f9f62a68c70bc8fd7e9653e6310300c",
+          "cases": 1
+        },
+        {
+          "receipt": "focused-py312.xml",
+          "sha256": "629d8d40f19ac27111318ca3d982c7823bd5325869fc1987dc460ae0a8ca436d",
+          "cases": 65
+        }
+      ],
+      "unique_final_outcomes": {
+        "passed": 307,
+        "failed": 2,
+        "skipped": 0
+      },
+      "environment": {
+        "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+        "pandas": "3.0.1",
+        "numpy": "2.3.5"
+      }
+    }
+  },
+  "source_hashes": {
+    "src/xdiyo_analytics/data/international_statistics.py": "7ebbb5d6643ac635e5bfae1037faea86eac0c212a4a07423d3ee9f844f3b9e87",
+    "src/xdiyo_analytics/histories/team.py": "1704d6449aa3bfd7a886651629c5abc4e4bd6463f5b957320736e20c1eac8a0d",
+    "tests/analytics/test_international_statistic_names.py": "06a4b1f46a8909851c232f1eebd13ddbdbcfdec7a404684b790e025481c8c765",
+    "examples/audit_international_statistic_names.py": "26376270d0b634659f494006e98742f9d43f3cb77a2a330c9158acdef2e52b2d"
+  },
+  "limitations": [
+    "Two frozen 5ee87b57 GAT reference comparisons fail under pandas 3.0.1 inside archived graphs/statistics.py before candidate comparison (read-only NumPy output). They pass under pandas 2.3.3. Frozen sources were not modified.",
+    "Initial wheel tests failed due sandbox pip temp-directory permissions; both isolated outside-sandbox wheel reruns passed.",
+    "No private publication or source workbook changed. No experiments rebuilt or trained. Synthetic CPU regression tests exercise bounded model updates."
+  ],
+  "source_lf_sha256": {
+    "src/xdiyo_analytics/data/international_statistics.py": "7ebbb5d6643ac635e5bfae1037faea86eac0c212a4a07423d3ee9f844f3b9e87",
+    "src/xdiyo_analytics/histories/team.py": "3c48862935916a4f911da5b0646a9215ebc8d05cf2a312970f62f5eb597ad960",
+    "tests/analytics/test_international_statistic_names.py": "06a4b1f46a8909851c232f1eebd13ddbdbcfdec7a404684b790e025481c8c765",
+    "examples/audit_international_statistic_names.py": "26376270d0b634659f494006e98742f9d43f3cb77a2a330c9158acdef2e52b2d"
+  }
+}

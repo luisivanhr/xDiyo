@@ -30,6 +30,10 @@ The manifest and table schemas permit canonical fields only. They retain whole-i
 
 ## Tables and semantics
 
+For the exact 60 source-to-native statistic mappings, reversible wide-table
+renaming and native team-history/GAT preparation, see
+[International statistic names](statistic-names/README.md).
+
 Reviewed season-entry flags are supported through the optional `team_seasons`
 table and materialized match-side fields. Use the `movements` requirement with
 native `TeamMovement` features; see [international movement enrichment](international-movements/README.md).

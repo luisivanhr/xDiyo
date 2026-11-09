@@ -1,0 +1,65 @@
+........................................................................ [ 23%]
+........................................................................ [ 46%]
+F....................................................................... [ 70%]
+........................................................................ [ 93%]
+.................FF.                                                     [100%]
+================================== FAILURES ===================================
+_________ test_installed_wheel_includes_catalogue_and_legacy_imports __________
+tests\analytics\test_named_dataset_repairs.py:96: in test_installed_wheel_includes_catalogue_and_legacy_imports
+    subprocess.run([sys.executable,'-m','pip','wheel',str(root),'--no-deps','--no-build-isolation','--wheel-dir',str(wheels)],check=True,capture_output=True,env=env)
+..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py:571: in run
+    raise CalledProcessError(retcode, process.args,
+E   subprocess.CalledProcessError: Command '['C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe', '-m', 'pip', 'wheel', 'C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-stat-schema', '--no-deps', '--no-build-isolation', '--wheel-dir', 'C:\\Users\\luisi\\AppData\\Local\\Temp\\xdiyo-stat-schema\\.pytest_tmp\\d76e80ef5ded4be0978c3d4169794946\\test_installed_wheel_includes_0\\wheels']' returned non-zero exit status 2.
+_ test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_statistics] _
+tests\analytics\test_graph_integration_gates.py:169: in test_pinned_source_two_update_parity_and_legacy_reload
+    assert run.returncode==0,run.stdout+run.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\tests\analytics\gat_integration_parity_worker.py", line 43, in <module>
+E         b=_Backend(a.config,a.event_store,19,device);b.initialize(train)
+E                                                      ^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_3\frozen\src\xdiyo_analytics\graphs\execution.py", line 67, in wrapped
+E         return function(owner, *args, **kwargs)
+E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_3\frozen\src\xdiyo_analytics\graphs\streaming.py", line 18, in call
+E         return function(*args, **kwargs)
+E                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_3\frozen\src\xdiyo_analytics\graphs\adapter.py", line 245, in initialize
+E         initialize_statistics(self, context)
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_3\frozen\src\xdiyo_analytics\graphs\supervision.py", line 10, in initialize_statistics
+E         y = labels(backend.store, context.metadata, cfg, backend.fitting_boundary)
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_3\frozen\src\xdiyo_analytics\graphs\statistics.py", line 29, in labels
+E         valid &= store._finished[positions] & (store._available_ns[positions] != np.iinfo(np.int64).min) & (store._available_ns[positions] <= pd.Timestamp(known_at).value)
+E     ValueError: output array is read-only
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe', 'C:\\Use...t64).min) & (store._available_ns[positions] <= pd.Timestamp(known_at).value)\nValueError: output array is read-only\n').returncode
+_ test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_combined] _
+tests\analytics\test_graph_integration_gates.py:169: in test_pinned_source_two_update_parity_and_legacy_reload
+    assert run.returncode==0,run.stdout+run.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\tests\analytics\gat_integration_parity_worker.py", line 43, in <module>
+E         b=_Backend(a.config,a.event_store,19,device);b.initialize(train)
+E                                                      ^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_4\frozen\src\xdiyo_analytics\graphs\execution.py", line 67, in wrapped
+E         return function(owner, *args, **kwargs)
+E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_4\frozen\src\xdiyo_analytics\graphs\streaming.py", line 18, in call
+E         return function(*args, **kwargs)
+E                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_4\frozen\src\xdiyo_analytics\graphs\adapter.py", line 245, in initialize
+E         initialize_statistics(self, context)
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_4\frozen\src\xdiyo_analytics\graphs\supervision.py", line 10, in initialize_statistics
+E         y = labels(backend.store, context.metadata, cfg, backend.fitting_boundary)
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\luisi\AppData\Local\Temp\xdiyo-stat-schema\.pytest_tmp\d76e80ef5ded4be0978c3d4169794946\test_pinned_source_two_update_4\frozen\src\xdiyo_analytics\graphs\statistics.py", line 29, in labels
+E         valid &= store._finished[positions] & (store._available_ns[positions] != np.iinfo(np.int64).min) & (store._available_ns[positions] <= pd.Timestamp(known_at).value)
+E     ValueError: output array is read-only
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\.venv\\Scripts\\python.exe', 'C:\\Use...t64).min) & (store._available_ns[positions] <= pd.Timestamp(known_at).value)\nValueError: output array is read-only\n').returncode
+=========================== short test summary info ===========================
+FAILED tests/analytics/test_named_dataset_repairs.py::test_installed_wheel_includes_catalogue_and_legacy_imports
+FAILED tests/analytics/test_graph_integration_gates.py::test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_statistics]
+FAILED tests/analytics/test_graph_integration_gates.py::test_pinned_source_two_update_parity_and_legacy_reload[5ee87b5791f142f0c80432f1e0647d01f137a599-gat_combined]
+3 failed, 305 passed in 261.60s (0:04:21)

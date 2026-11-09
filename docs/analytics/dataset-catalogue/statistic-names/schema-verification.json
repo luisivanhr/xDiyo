@@ -1,0 +1,394 @@
+{
+  "mapping_count": 60,
+  "native_statistic_sha256": "8f38813bea16d0313807f66c063d290b3d3e1eef30d421570f2eaf36460ae854",
+  "native_schema_evidence": [
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "ballPossession",
+      "name": "Ball possession"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "goalkeeperSaves",
+      "name": "Goalkeeper saves"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "cornerKicks",
+      "name": "Corner kicks"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "fouls",
+      "name": "Fouls"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "yellowCards",
+      "name": "Yellow cards"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "shotsOnGoal",
+      "name": "Shots on target"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Shots",
+      "key": "shotsOffGoal",
+      "name": "Shots off target"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Goalkeeping",
+      "key": "goalkeeperSaves",
+      "name": "Total saves"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "ballPossession",
+      "name": "Ball possession"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "goalkeeperSaves",
+      "name": "Goalkeeper saves"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "cornerKicks",
+      "name": "Corner kicks"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "yellowCards",
+      "name": "Yellow cards"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "shotsOnGoal",
+      "name": "Shots on target"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Shots",
+      "key": "shotsOffGoal",
+      "name": "Shots off target"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Goalkeeping",
+      "key": "goalkeeperSaves",
+      "name": "Total saves"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "ballPossession",
+      "name": "Ball possession"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "goalkeeperSaves",
+      "name": "Goalkeeper saves"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "cornerKicks",
+      "name": "Corner kicks"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "yellowCards",
+      "name": "Yellow cards"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Shots",
+      "key": "totalShotsOnGoal",
+      "name": "Total shots"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Shots",
+      "key": "shotsOnGoal",
+      "name": "Shots on target"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Shots",
+      "key": "expectedGoals",
+      "name": "Expected goals"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Shots",
+      "key": "shotsOffGoal",
+      "name": "Shots off target"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Goalkeeping",
+      "key": "goalkeeperSaves",
+      "name": "Total saves"
+    },
+    {
+      "period": "ALL",
+      "group_name": "Match overview",
+      "key": "redCards",
+      "name": "Red cards"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "redCards",
+      "name": "Red cards"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "redCards",
+      "name": "Red cards"
+    },
+    {
+      "period": "1ST",
+      "group_name": "Match overview",
+      "key": "fouls",
+      "name": "Fouls"
+    },
+    {
+      "period": "2ND",
+      "group_name": "Match overview",
+      "key": "fouls",
+      "name": "Fouls"
+    }
+  ],
+  "workbook_sha256": "a91c03e33820453892708d08baa3a070a8e6ddc74e4ced23296a6ba8542dbf0f",
+  "unmapped_original_headers": {
+    "Statistics_FT": [
+      "match_id",
+      "start_datetime",
+      "country",
+      "competition_type",
+      "league",
+      "season",
+      "home_team",
+      "away_team",
+      "referee"
+    ],
+    "Statistics_1H": [
+      "match_id",
+      "start_datetime",
+      "country",
+      "competition_type",
+      "league",
+      "season",
+      "home_team",
+      "away_team",
+      "referee"
+    ],
+    "Statistics_2H": [
+      "match_id",
+      "start_datetime",
+      "country",
+      "competition_type",
+      "league",
+      "season",
+      "home_team",
+      "away_team",
+      "referee"
+    ],
+    "Odds": [
+      "match_id",
+      "start_datetime",
+      "country",
+      "competition_type",
+      "league",
+      "season",
+      "home_team",
+      "away_team",
+      "home_win_opening_odds",
+      "home_win_closing_odds",
+      "draw_opening_odds",
+      "draw_closing_odds",
+      "away_win_opening_odds",
+      "away_win_closing_odds",
+      "over_0_5_goals_opening_odds",
+      "over_0_5_goals_closing_odds",
+      "under_0_5_goals_opening_odds",
+      "under_0_5_goals_closing_odds",
+      "over_1_5_goals_opening_odds",
+      "over_1_5_goals_closing_odds",
+      "under_1_5_goals_opening_odds",
+      "under_1_5_goals_closing_odds",
+      "over_2_5_goals_opening_odds",
+      "over_2_5_goals_closing_odds",
+      "under_2_5_goals_opening_odds",
+      "under_2_5_goals_closing_odds",
+      "over_3_5_goals_opening_odds",
+      "over_3_5_goals_closing_odds",
+      "under_3_5_goals_opening_odds",
+      "under_3_5_goals_closing_odds",
+      "over_4_5_goals_opening_odds",
+      "over_4_5_goals_closing_odds",
+      "under_4_5_goals_opening_odds",
+      "under_4_5_goals_closing_odds",
+      "home_ah_minus_1_5_closing_odds",
+      "away_ah_minus_1_5_closing_odds",
+      "home_ah_minus_1_closing_odds",
+      "away_ah_minus_1_closing_odds",
+      "home_ah_0_closing_odds",
+      "away_ah_0_closing_odds",
+      "home_ah_plus_1_closing_odds",
+      "away_ah_plus_1_closing_odds",
+      "home_ah_plus_1_5_closing_odds",
+      "away_ah_plus_1_5_closing_odds",
+      "btts_yes_opening_odds",
+      "btts_yes_closing_odds",
+      "btts_no_opening_odds",
+      "btts_no_closing_odds"
+    ]
+  },
+  "publications": [
+    {
+      "version": "4e4881c10730bc7c5067422586c0d606a257049672441c5105b95b530446fd6c",
+      "matches": 9676,
+      "statistic_rows": 263400,
+      "compared_team_rows": 19352,
+      "compared_statistic_columns": 60,
+      "native_names_already_present": true,
+      "history_value_identity_missingness_parity": true,
+      "publication_files_unchanged": true,
+      "file_hashes": {
+        "manifest.json": "3a33e52eb8ca53e61536c62c51ec5ec3fa7a720fa01f8ea2220d4bee061e1196",
+        "matches.parquet": "0e4287f94ef91d6d30f3de6d9659225a7e3dc71117eeff47b33b559bcb832cf5",
+        "odds.parquet": "5cbb96e52f898c16b37683f3270de0a17fcd0283bbc84fe9a5a45f7380d40987",
+        "registry.json": "b4a26e7d353facf7a3b741454eaa239a46f8bddb052ff6f46e1868e725114504",
+        "statistics.parquet": "a733fc5e13c3190d6977cb783336095254e9cb4eba500dc8498f6b63da197a59"
+      }
+    },
+    {
+      "version": "69694ab5ad6ff0a5622031e708df1a16b92db42b101defd48347d92cb1c21940",
+      "matches": 9676,
+      "statistic_rows": 263400,
+      "compared_team_rows": 19352,
+      "compared_statistic_columns": 60,
+      "native_names_already_present": true,
+      "history_value_identity_missingness_parity": true,
+      "publication_files_unchanged": true,
+      "file_hashes": {
+        "manifest.json": "d5370235903734563608a657f51e79c6bb9204a8760999f3703a553be9b0ca3d",
+        "matches.parquet": "c634e8c0be8f697d695500899a8cb97378d27ca4a2f5d00f2db5a67c7b72b680",
+        "odds.parquet": "5cbb96e52f898c16b37683f3270de0a17fcd0283bbc84fe9a5a45f7380d40987",
+        "registry.json": "1efd0afa326f930c8d9764afd16de947648b83275994ece02d375f5696fb8e36",
+        "statistics.parquet": "a733fc5e13c3190d6977cb783336095254e9cb4eba500dc8498f6b63da197a59",
+        "team_seasons.parquet": "2c1143704ee37850479ac15ce82688cffc3cd94ad97381c3a83cf2276d23902c"
+      }
+    },
+    {
+      "version": "893ff59ba396080e6c03303b07cc95fc08ac9e83937271754a9dd29fba15f697",
+      "matches": 9676,
+      "statistic_rows": 263400,
+      "compared_team_rows": 19352,
+      "compared_statistic_columns": 60,
+      "native_names_already_present": true,
+      "history_value_identity_missingness_parity": true,
+      "publication_files_unchanged": true,
+      "file_hashes": {
+        "manifest.json": "3696e97e32e56d884383aa3b3bfe6e8e25b0c22c76dab02925f6db383e5dd852",
+        "matches.parquet": "0e4287f94ef91d6d30f3de6d9659225a7e3dc71117eeff47b33b559bcb832cf5",
+        "odds.parquet": "5cbb96e52f898c16b37683f3270de0a17fcd0283bbc84fe9a5a45f7380d40987",
+        "registry.json": "1efd0afa326f930c8d9764afd16de947648b83275994ece02d375f5696fb8e36",
+        "statistics.parquet": "a733fc5e13c3190d6977cb783336095254e9cb4eba500dc8498f6b63da197a59"
+      }
+    }
+  ],
+  "original_inputs_unchanged": true,
+  "training_runs": 0,
+  "source_sha256": {
+    "examples\\audit_international_statistic_names.py": "26376270d0b634659f494006e98742f9d43f3cb77a2a330c9158acdef2e52b2d",
+    "src\\xdiyo_analytics\\data\\international_statistics.py": "7ebbb5d6643ac635e5bfae1037faea86eac0c212a4a07423d3ee9f844f3b9e87",
+    "src\\xdiyo_analytics\\data\\statistics_backfill.py": "dde4d43e129c9cdc2351dc33f49bbecb36fe764632b9eda63b5f38a7d0a2fd21",
+    "src\\xdiyo_analytics\\histories\\team.py": "1704d6449aa3bfd7a886651629c5abc4e4bd6463f5b957320736e20c1eac8a0d"
+  },
+  "source_lf_sha256": {
+    "examples\\audit_international_statistic_names.py": "26376270d0b634659f494006e98742f9d43f3cb77a2a330c9158acdef2e52b2d",
+    "src\\xdiyo_analytics\\data\\international_statistics.py": "7ebbb5d6643ac635e5bfae1037faea86eac0c212a4a07423d3ee9f844f3b9e87",
+    "src\\xdiyo_analytics\\data\\statistics_backfill.py": "866299d40592bcc86fdfb0ed6369cec19b17d6d894cd18ef7c11f95b57b82f78",
+    "src\\xdiyo_analytics\\histories\\team.py": "3c48862935916a4f911da5b0646a9215ebc8d05cf2a312970f62f5eb597ad960"
+  }
+}
