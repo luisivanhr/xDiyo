@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-09",
+  "base_commit": "44a5612efc6afcd8ed201348f783172a60a8b47b",
+  "regression": {
+    "passed": 208,
+    "skipped": 0,
+    "failed": 0,
+    "seconds": 90.89,
+    "python": "../.misc314/Scripts/python.exe",
+    "torch": "2.9.0+cu130",
+    "modules": [
+      "test_standings_reviewed_points",
+      "test_standings_kickoff_day",
+      "test_derived_standings",
+      "test_standings_available_publication",
+      "test_standings_serialization",
+      "test_graph_phase_context",
+      "test_gat_reconciliation",
+      "test_team_history"
+    ]
+  },
+  "actual_native_scope": {
+    "competition_id": 182,
+    "season_id": 77357,
+    "fixtures": 306,
+    "verified_roster": 18,
+    "policy": "independent_3_1_0_kickoff_day_reviewed_points_v4",
+    "reviewed_points": [
+      {
+        "scope": [
+          "182",
+          "77357"
+        ],
+        "event": "14064792",
+        "home_points": 0,
+        "away_points": 3,
+        "review": {
+          "away_id": 52874,
+          "competition_id": 182,
+          "decision_date": "2025-12-22",
+          "event_id": 14064792,
+          "home_id": 1655,
+          "kickoff_at": "2025-12-05T19:00:00Z",
+          "label_policy": "Standings only; never convert this administrative outcome into an observed full-time goal target or bookmaker settlement.",
+          "publication_time": null,
+          "review_version": 1,
+          "reviewed": true,
+          "round": 16,
+          "rule": "2025/26 article 518 bis paragraph 3: penalty loss, winning points, actual goals retained",
+          "rules": "https://www.lfp.fr/assets/25_26_Reglement_Competitions_29_07_2024_5055b664e4.pdf",
+          "season_id": 77357,
+          "source": "https://www.lfp.fr/article/commission-de-discipline-les-decisions-du-22-decembre-2025",
+          "sporting_evidence": "https://www.redstar.fr/live/?ID=1237093",
+          "sporting_status": "abandoned at 56 minutes, 0-0",
+          "standings_goals_away": 0,
+          "standings_goals_home": 0,
+          "standings_points_away": 3,
+          "standings_points_home": 0
+        }
+      }
+    ],
+    "raw_goals_preserved": true,
+    "approved_standings_goals": [
+      0,
+      0
+    ],
+    "both_windows_complete": true
+  },
+  "compatibility": "Ordinary score-only policies/identities and previously saved models retained; new reviewed points versions 5 and 6; target/betting eligibility stays separate",
+  "requested_experiment_fits": 0
+}

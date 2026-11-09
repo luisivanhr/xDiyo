@@ -787,3 +787,26 @@ meet exactly three times with home/away venues split 2/1. The caller supplies
 only that independently scored stage; post-split groups remain outside this
 contract. The extra declaration changes schedule validation and provenance,
 while the score-derived rank formula and last-match windows stay unchanged.
+
+Reviewed administrative results may now record `standings_points_for` and
+`standings_points_against` independently of approved `standings_goals_for` and
+`standings_goals_against`, on both history perspectives. Require all four point
+coordinates, both approved score pairs, and `result_review_json` with
+`reviewed: true` and a nonempty `source` reference. Points describe a 3/1/0 match
+outcome (3/0, 0/3, 1/1 or a reviewed double penalty 0/0); W/D/L follows these
+points while goal difference/goals and competition ties retain their existing
+arithmetic. Deductions, carry-over and unreviewed awards are not inferred.
+Match-level `home_standings_points`/`away_standings_points` are also preserved by
+`build_team_history`, separately from raw provider goals and sporting targets.
+
+These runs use new standings persistence versions 5 (timestamp) and 6 (daily),
+and corresponding reviewed-points graph policies. Ordinary runs retain their
+old policies and identities; old saved standings and models remain readable.
+`build_standings` applies the narrow public `apply_known_standings_reviews`
+catalog, currently the verified Bastia–Red Star event 14064792 of 5 December
+2025: 0/3 points and 0–0 standings goals under the LFP penalty-loss ruling and
+2025/26 article 518 bis. Exact league, season, teams, kickoff and original round
+must match; conflicting approved inputs raise. The review never changes raw
+goals, invents a publication timestamp or turns the abandoned match into a
+90-minute target or bookmaker settlement. Daily ranks apply the retrospective
+kickoff-day rule; timestamp callers still supply verified availability.

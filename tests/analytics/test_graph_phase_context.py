@@ -173,11 +173,17 @@ def test_phase_context_resume_preserves_next_update(device):
 
 
 @pytest.mark.parametrize('daily', [False, True])
-def test_context_persistence_and_cross_route_schema_rejection(tmp_path,device,daily):
+@pytest.mark.parametrize('reviewed', [False, True])
+def test_context_persistence_and_cross_route_schema_rejection(tmp_path,device,daily,reviewed):
     store=source()
     if daily:
         from xdiyo_analytics.graphs.phase_context import DAILY_POLICY
         lookup=PhaseRankLookup(store.phase_context.frame,provenance={'test':'daily policy'},policy=DAILY_POLICY)
+        store=TemporalEventStore(store.history,store.team_seasons,schedule=store.schedule,phase_context=lookup)
+    if reviewed:
+        from xdiyo_analytics.graphs.phase_context import REVIEWED_POLICY, REVIEWED_DAILY_POLICY
+        lookup=PhaseRankLookup(store.phase_context.frame,provenance={'test':'reviewed points policy'},
+                               policy=REVIEWED_DAILY_POLICY if daily else REVIEWED_POLICY)
         store=TemporalEventStore(store.history,store.team_seasons,schedule=store.schedule,phase_context=lookup)
     phase=replace(spec(store,'CD_DW'),policy=store.phase_context.policy)
     cfg=config(deterministic=True,goal_auxiliary=GoalAuxiliary(beta=.1),phase_rank_features=phase)

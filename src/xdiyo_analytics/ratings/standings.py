@@ -20,6 +20,10 @@ LEGACY_POLICY = "independent_3_1_0_first_round_complete_v1"
 POLICY = "independent_3_1_0_available_results_v2"
 PUBLICATION_RULE = "available_results_at_cutoff"
 DAILY_POLICY = "independent_3_1_0_kickoff_day_v3"
+REVIEWED_POLICY = "independent_3_1_0_reviewed_points_v3"
+REVIEWED_DAILY_POLICY = "independent_3_1_0_kickoff_day_reviewed_points_v4"
+DAILY_POLICIES = (DAILY_POLICY, REVIEWED_DAILY_POLICY)
+CURRENT_POLICIES = (POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY)
 DAILY_PUBLICATION_RULE = "kickoff_date_before_forecast_day"
 TIMINGS = ('available_at_cutoff', 'kickoff_day')
 TOTALS = ("played", "wins", "draws", "losses", "points", "gf", "ga", "gd")
@@ -70,6 +74,12 @@ def _equal(a, b):
     return (pd.isna(a) and pd.isna(b)) or (not pd.isna(a) and not pd.isna(b) and a == b)
 
 
+def _policy(timing, reviewed_points):
+    if timing == 'kickoff_day':
+        return REVIEWED_DAILY_POLICY if reviewed_points else DAILY_POLICY
+    return REVIEWED_POLICY if reviewed_points else POLICY
+
+
 def _canonical(history, roster, available_at, *, timing='available_at_cutoff', meetings_per_pair=None):
     if roster is None:
         raise ValueError("DerivedStandings requires verified complete team_seasons membership, not teams seen in a fold.")
@@ -91,7 +101,8 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
     # Only owned narrow columns enter the source fingerprint. No scalar frame
     # access, attrs copies or mutable caller references survive preparation.
     extra = [c for c in ("tournament_id", "stage_json", "is_awarded", "play_status", "result_review_json",
-             "standings_goals_for", "standings_goals_against", "standings_result_available_at", "standings_rule") if c in history]
+             "standings_goals_for", "standings_goals_against", "standings_points_for", "standings_points_against",
+             "standings_result_available_at", "standings_rule") if c in history]
     extra += [c for c in history if c.startswith(("team_score_", "opponent_score_"))]
     frame = history[list(dict.fromkeys((*required, *extra)))].copy()
     frame.attrs = {}
@@ -125,7 +136,25 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
             raise ValueError(f"Incomplete approved standings score pair for {key}; both scores on both team rows are required.")
         if not any(present) and pd.notna(home.get('standings_result_available_at')):
             raise ValueError(f"Approved standings release for {key} requires a complete approved score pair.")
-        for field, other in (("goals_for", "goals_against"), ("standings_goals_for", "standings_goals_against")):
+        points = [r.get(field) for r in (home, away)
+                  for field in ('standings_points_for', 'standings_points_against')]
+        point_present = [pd.notna(value) for value in points]
+        if any(point_present) and not all(point_present):
+            raise ValueError(f"Incomplete reviewed standings points pair for {key}; both points on both team rows are required.")
+        reviewed_points = all(point_present)
+        review = None
+        if reviewed_points:
+            if not all(present):
+                raise ValueError(f"Reviewed standings points for {key} require complete approved standings goals too.")
+            try:
+                review = json.loads(home.get('result_review_json'))
+            except (TypeError, ValueError):
+                pass
+            if (not isinstance(review, dict) or review.get('reviewed') is not True
+                    or not isinstance(review.get('source'), str) or not review['source'].strip()):
+                raise ValueError(f"Reviewed standings points for {key} require result_review_json with reviewed=true and a nonempty source reference.")
+        for field, other in (("goals_for", "goals_against"), ("standings_goals_for", "standings_goals_against"),
+                             ("standings_points_for", "standings_points_against")):
             if field in home and (other not in away or not _equal(home[field], away[other]) or not _equal(away[field], home[other])):
                 raise ValueError(f"Inconsistent paired {field} for {key}.")
         teams = members.get(skey, set())
@@ -159,12 +188,18 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
             raise ValueError(f"Extra-time/shootout result {key} needs explicit approved league-result scores.")
         gf = _score(home['standings_goals_for'] if explicit else home['goals_for'])
         ga = _score(home['standings_goals_against'] if explicit else home['goals_against'])
+        administrative = {}
+        if reviewed_points:
+            hp, ap = _score(home['standings_points_for']), _score(home['standings_points_against'])
+            if (hp, ap) not in ((3, 0), (0, 3), (1, 1), (0, 0)):
+                raise ValueError(f"Reviewed standings points for {key} must describe a 3/1/0 match outcome; deductions/carry-over are unsupported.")
+            administrative = dict(home_points=hp, away_points=ap, points_review=review)
         valid = home['status'] == 'finished' and gf is not None and ga is not None and pd.notna(available)
         play = home.get('play_status')
         if pd.notna(play) and any(t in str(play).lower() for t in ('abandon', 'unplayed', 'cancel')) and not explicit:
             valid = False
         item = dict(scope=skey, event=event, home=home['team_id'], away=away['team_id'],
-                    kickoff=kick, available=available, round=int(round_), gf=gf, ga=ga, valid=bool(valid))
+                    kickoff=kick, available=available, round=int(round_), gf=gf, ga=ga, valid=bool(valid), **administrative)
         fixtures[key] = item
         scopes.setdefault(skey, []).append(item)
         if not valid:
@@ -194,7 +229,7 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
         if len(first) != len(teams)//2 or len(set(first_teams)) != len(first_teams):
             raise ValueError(f"Incomplete/ambiguous first-round fixture set for {skey}.")
     canonical = sorted((json.dumps(r, default=str, sort_keys=True) for r in frame.to_dict('records')))
-    policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
+    policy = _policy(timing, any('home_points' in m for m in fixtures.values()))
     identity_fields = dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=policy)
     if meetings_per_pair is not None:
         identity_fields['meetings_per_pair'] = meetings_per_pair
@@ -258,7 +293,7 @@ class StandingsRun:
         return deepcopy(self._metadata)
 
     def features(self, history, expression, *, cutoffs=None):
-        if self._metadata.get('policy') not in (POLICY, DAILY_POLICY):
+        if self._metadata.get('policy') not in CURRENT_POLICIES:
             raise ValueError('Legacy standings publication policy: rebuild feature artifacts from full source history; saved snapshots remain inspection-only.')
         scope = tuple(self._metadata['scope'])
         if set(expression.normalized_ranks) - set(self._metadata['windows']):
@@ -310,7 +345,8 @@ class StandingsRun:
         for m in self._fixtures.values():
             r = dict(m, scope=list(m['scope']), kickoff=m['kickoff'].isoformat(), available=None if pd.isna(m['available']) else m['available'].isoformat())
             fixtures.append(r)
-        body = dict(version=4 if self._metadata.get('policy') == DAILY_POLICY else 3 if self._metadata.get('policy') == POLICY else 2 if 'venues' in self._metadata else 1, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
+        versions = {POLICY: 3, DAILY_POLICY: 4, REVIEWED_POLICY: 5, REVIEWED_DAILY_POLICY: 6}
+        body = dict(version=versions.get(self._metadata.get('policy'), 2 if 'venues' in self._metadata else 1), metadata=self.metadata, publications=self.publications, fixtures=fixtures)
         payload = json.dumps(body, default=_json_scalar, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
         (path/'standings.json').write_text(payload+'\n', encoding='utf-8')
@@ -319,7 +355,7 @@ class StandingsRun:
     def load(cls, directory):
         path = Path(directory)
         body = json.loads((path/'standings.json').read_text(encoding='utf-8'))
-        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY)):
+        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY), (5, REVIEWED_POLICY), (6, REVIEWED_DAILY_POLICY)):
             raise ValueError('Unsupported standings artifact version/policy.')
         fixtures = {}
         for m in body['fixtures']:
@@ -328,11 +364,13 @@ class StandingsRun:
             m['available'] = pd.NaT if m['available'] is None else pd.Timestamp(m['available'])
             fixtures[(*m['scope'],m['event'])] = m
         snapshots = pd.read_parquet(path/'snapshots.parquet')
-        expected_rule = DAILY_PUBLICATION_RULE if body['version'] == 4 else PUBLICATION_RULE
+        expected_rule = DAILY_PUBLICATION_RULE if body['metadata']['policy'] in DAILY_POLICIES else PUBLICATION_RULE
         if body['version'] >= 3 and ('gate_open' in snapshots or any('gate_open' in p for p in body['publications']) or body['metadata'].get('publication_rule') != expected_rule):
             raise ValueError('Inconsistent standings publication schema; rebuild from source, do not relabel legacy snapshots.')
-        if body['version'] == 4 and body['metadata'].get('timing') != 'kickoff_day':
+        if body['metadata']['policy'] in DAILY_POLICIES and body['metadata'].get('timing') != 'kickoff_day':
             raise ValueError('Inconsistent daily standings timing schema.')
+        if body['version'] in (5, 6) and body['metadata'].get('points_rule') != 'reviewed_fixture_points_else_score_3_1_0':
+            raise ValueError('Inconsistent reviewed standings points schema.')
         return cls(snapshots, body['publications'], body['metadata'], fixtures)
 
 
@@ -358,15 +396,25 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     roster pair must have all three scheduled fixtures with a 2/1 venue split.
     This changes schedule validation only; rank arithmetic is unchanged. Split
     groups, carry-over rules and incomplete schedules remain unsupported.
+
+    A reviewed administrative outcome may supply standings_points_for/against
+    on both perspectives independently of complete standings_goals_for/against.
+    The points must form a 3/1/0 match outcome and result_review_json must contain
+    reviewed=true and a source reference. W/D/L follows those explicit points;
+    goals and tie-break arithmetic remain separate. This produces a new
+    versioned policy; ordinary score-only runs and saved policies are unchanged.
+    Timestamp timing still requires standings_result_available_at; daily timing
+    applies the user's retrospective kickoff-day convention.
     """
     from ..features.standings import DerivedStandings
+    from .standings_reviews import apply_known_standings_reviews
+    history = apply_known_standings_reviews(history)
     if timing not in TIMINGS:
         raise ValueError('Standings timing must be available_at_cutoff or kickoff_day.')
     if timing == 'kickoff_day' and available_at is not None:
         raise ValueError('Kickoff-day timing defines retrospective availability; do not supply available_at.')
     if meetings_per_pair is not None and (type(meetings_per_pair) is not int or meetings_per_pair != 3 or timing != 'kickoff_day'):
         raise ValueError('Only explicit meetings_per_pair=3 with kickoff_day timing is supported; omit it for legacy single/double schedules.')
-    policy = DAILY_POLICY if timing == 'kickoff_day' else POLICY
     publication_rule = DAILY_PUBLICATION_RULE if timing == 'kickoff_day' else PUBLICATION_RULE
     windows = DerivedStandings(normalized_ranks, include_raw=True).normalized_ranks
     if isinstance(venues, str) or not isinstance(venues, (tuple, list)) or not venues or any(v not in ('all', 'home', 'away') for v in venues):
@@ -374,6 +422,8 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     venues = tuple(dict.fromkeys(venues))
     extended = venues != ('all',)
     scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing, meetings_per_pair=meetings_per_pair)
+    reviewed = [m for m in fixtures.values() if 'home_points' in m]
+    policy = _policy(timing, bool(reviewed))
     queries = history if queries is None else queries
     query_rows = _query_keys(queries, scope, fixtures, cutoffs, timing=timing)
     requested = {}
@@ -397,7 +447,11 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
                     for team, gf, ga, side in ((m['home'],m['gf'],m['ga'],'home'),(m['away'],m['ga'],m['gf'],'away')):
                         if venue != 'all' and venue != side:
                             continue
-                        contribution = (1,int(gf>ga),int(gf==ga),int(gf<ga),3*int(gf>ga)+int(gf==ga),gf,ga,gf-ga)
+                        points = m.get('home_points' if side == 'home' else 'away_points')
+                        if points is None:
+                            contribution = (1,int(gf>ga),int(gf==ga),int(gf<ga),3*int(gf>ga)+int(gf==ga),gf,ga,gf-ga)
+                        else:
+                            contribution = (1,int(points==3),int(points==1),int(points==0),points,gf,ga,gf-ga)
                         past = histories[team]
                         order = (m['kickoff'], type(m['event']).__name__, m['event'])
                         at = bisect_left(past, order, key=lambda entry:entry[0])
@@ -435,4 +489,8 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     if meetings_per_pair is not None:
         metadata['meetings_per_pair'] = meetings_per_pair
         metadata['schedule'] = 'verified_independent_triple_round_robin_2_1_venues'
+    if reviewed:
+        metadata['points_rule'] = 'reviewed_fixture_points_else_score_3_1_0'
+        metadata['reviewed_points'] = [dict(scope=list(m['scope']), event=m['event'],
+            home_points=m['home_points'], away_points=m['away_points'], review=m['points_review']) for m in reviewed]
     return StandingsRun(pd.DataFrame(snapshots), publications, metadata, fixtures)

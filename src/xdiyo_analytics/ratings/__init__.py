@@ -16,4 +16,5 @@ __all__ = ["Glicko2", "PairwiseRatingEngine", "glicko_state", "build_ratings", "
            "BayesianTrainingResult", "BayesianScoreAdapter", "BayesianScoreSerializer", "train_bayesian"]
 
 from .standings import StandingsRun, build_standings
-__all__ += ["StandingsRun", "build_standings"]
+from .standings_reviews import apply_known_standings_reviews
+__all__ += ["StandingsRun", "build_standings", "apply_known_standings_reviews"]

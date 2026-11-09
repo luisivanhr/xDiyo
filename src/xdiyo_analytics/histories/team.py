@@ -106,10 +106,11 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
                 column = f"{prefix}_score_{field}"
                 if column in matches:
                     part[f"{role}_score_{field}"] = matches[column]
-        for prefix, label in ((side, "standings_goals_for"), (opponent, "standings_goals_against")):
-            column = f"{prefix}_standings_goals"
-            if column in matches:
-                part[label] = matches[column]
+        for field in ('goals', 'points'):
+            for prefix, role in ((side, 'for'), (opponent, 'against')):
+                column = f"{prefix}_standings_{field}"
+                if column in matches:
+                    part[f'standings_{field}_{role}'] = matches[column]
         if wide_fields and 'value' in stat_fields:
             mapped = homogenize_international_statistics(matches[wide_fields], perspective=side)
             wide_lineage[side] = mapped.attrs['international_statistic_names']

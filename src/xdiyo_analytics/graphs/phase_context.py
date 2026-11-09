@@ -18,7 +18,9 @@ VALUES = ('countdown', *(f'{side}_rank_{w}' for w in WINDOWS for side in ('home'
 POLICY = 'native_phase_form_rank_original_forecast_cutoff_v1'
 CORRECTED_POLICY = 'native_phase_form_rank_available_results_original_forecast_cutoff_v2'
 DAILY_POLICY = 'native_phase_form_rank_retrospective_kickoff_day_v3'
-SUPPORTED_POLICIES = (POLICY, CORRECTED_POLICY, DAILY_POLICY)
+REVIEWED_POLICY = 'native_phase_form_rank_reviewed_points_original_forecast_cutoff_v3'
+REVIEWED_DAILY_POLICY = 'native_phase_form_rank_reviewed_points_retrospective_kickoff_day_v4'
+SUPPORTED_POLICIES = (POLICY, CORRECTED_POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY)
 
 
 @dataclass(frozen=True)

@@ -1,7 +1,8 @@
 """Build daily rank lookups, retaining explicit legacy preparation support."""
 import numpy as np
 import pandas as pd
-from .phase_context import PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY, WINDOWS, KEYS
+from .phase_context import (PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY,
+                            REVIEWED_POLICY, REVIEWED_DAILY_POLICY, WINDOWS, KEYS)
 
 
 def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None,
@@ -43,5 +44,7 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     for role,side in (('team','home'),('opponent','away')):
         for window in WINDOWS:
             result[f'{side}_rank_{window}']=values[f'{role}::form_rank_{window}'].to_numpy()
-    return PhaseRankLookup(result,provenance=provenance,
-                           policy=DAILY_POLICY if rank_timing == 'kickoff_day' else CORRECTED_POLICY)
+    policy = DAILY_POLICY if rank_timing == 'kickoff_day' else CORRECTED_POLICY
+    if 'points_rule' in native.metadata:
+        policy = REVIEWED_DAILY_POLICY if rank_timing == 'kickoff_day' else REVIEWED_POLICY
+    return PhaseRankLookup(result,provenance=provenance, policy=policy)
