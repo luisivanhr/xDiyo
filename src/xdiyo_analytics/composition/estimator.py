@@ -18,6 +18,9 @@ class Estimator:
         if self.preprocessors:
             model=Pipeline([(f'prepare_{i}',clone(p)) for i,p in enumerate(self.preprocessors)]+[('model',model)])
         adapter=EstimatorAdapter(model,self.prediction_methods)
+        if any(c.__module__.split('.')[0] == 'catboost' for c in type(self.estimator).__mro__):
+            from ..ui.adapters import BoostingAdapter
+            adapter=BoostingAdapter(model,self.prediction_methods)
         if self.target_transformer is not None:
             adapter=TargetTransformAdapter(adapter,clone(self.target_transformer))
         return adapter

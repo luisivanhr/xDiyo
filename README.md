@@ -2,7 +2,7 @@
 
 ## Football analytics
 
-Install the analytics package and its test, reporting, and training dependencies with `pip install -e ".[test,reporting,training]"`. XGBoost is included for the classifier notebook tests; LightGBM remains optional. The GitHub dataset contains the top-level season Parquet files and their relational `_tables/` exports. The `_collection/` directory stays local.
+Install the analytics package and its test, reporting, and training dependencies with `pip install -e ".[test,reporting,training]"`. XGBoost is included for the classifier notebook tests; LightGBM remains optional. [CatBoost regression, classification and ranking](docs/analytics/catboost.md) are available in the UI with the optional `catboost` extra (`pip install -e ".[training,catboost]"`). The GitHub dataset contains the top-level season Parquet files and their relational `_tables/` exports. The `_collection/` directory stays local.
 
 Use the [experiment builder](docs/analytics/ui.md) to configure the analytics pipeline through a local UI with the same visual style as its reports. [Notebook 17](notebooks/17_experiment_builder.ipynb) launches it or embeds it in a notebook.
 

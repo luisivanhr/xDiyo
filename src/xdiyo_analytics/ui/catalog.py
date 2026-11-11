@@ -237,9 +237,10 @@ def default_catalog():
         ('sklearn.pipeline', 'Pipeline', 'preprocessor'),
         ('lightgbm', 'LGBMRegressor LGBMClassifier LGBMRanker', 'model'),
         ('xgboost', 'XGBRegressor XGBClassifier XGBRanker', 'model'),
+        ('catboost', 'CatBoostRegressor CatBoostClassifier CatBoostRanker', 'model'),
     ):
         try:
-            namespace = import_module(module)
+            namespace = import_module('xdiyo_analytics.training.catboost' if module == 'catboost' else module)
         except ImportError:
             continue
         for name in names.split():

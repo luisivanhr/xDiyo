@@ -514,7 +514,7 @@ class ModelFactory:
         if adapter is not None:
             built = self.catalog.build(adapter, {'estimator': estimator, 'native_estimator': native_estimator,
                                                  'preprocessor': Pipeline(steps) if steps else None})
-        elif self.recipe['model']['component'].startswith(('lightgbm.', 'xgboost.')):
+        elif self.recipe['model']['component'].startswith(('lightgbm.', 'xgboost.', 'catboost.')):
             from .adapters import BoostingAdapter
             built = BoostingAdapter(estimator, tuple(methods))
         else:

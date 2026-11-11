@@ -11,12 +11,12 @@ from ..training.estimators import EstimatorAdapter
 
 @dataclass
 class BoostingAdapter(EstimatorAdapter):
-    """LightGBM/XGBoost fit options, validation and whole-match ranking groups.
+    """LightGBM/XGBoost/CatBoost fit options, validation and match ranking groups.
 
     Fit kwargs are forwarded to the native fit call. Validation is already split
     from training by the runner; preprocessing sees fitting rows only. CUDA
     requires a capable installed native build. auto conservatively uses CPU for
-    LightGBM; XGBoost auto uses CUDA only when its build and optional Torch probe
+    LightGBM and CatBoost; XGBoost auto uses CUDA only when its build and optional Torch probe
     both confirm support. Explicit native failures are never hidden by fallback.
     """
     fit_kwargs: dict = field(default_factory=dict)
@@ -26,11 +26,19 @@ class BoostingAdapter(EstimatorAdapter):
     def _native(self):
         return self.estimator.steps[-1][1] if hasattr(self.estimator, 'steps') else self.estimator
 
+    def _family(self):
+        # Also recognize the native clone-compatible CatBoost subclasses.
+        for cls in type(self._native()).__mro__:
+            family = cls.__module__.split('.')[0]
+            if family in ('catboost', 'lightgbm', 'xgboost'):
+                return family
+        return None
+
     def configure_device(self, requested):
         model = self._native()
-        family = type(model).__module__.split('.')[0]
-        if family not in ('lightgbm', 'xgboost'):
-            raise TypeError('BoostingAdapter requires a LightGBM or XGBoost estimator.')
+        family = self._family()
+        if family not in ('lightgbm', 'xgboost', 'catboost'):
+            raise TypeError('BoostingAdapter requires a LightGBM, XGBoost or CatBoost estimator.')
         device = requested
         if requested == 'auto':
             device = 'cpu'
@@ -47,6 +55,10 @@ class BoostingAdapter(EstimatorAdapter):
             device = 'cuda:0'
         if family == 'xgboost':
             model.set_params(device=device)
+        elif family == 'catboost':
+            model.set_params(task_type='GPU' if device.startswith('cuda') else 'CPU')
+            if device.startswith('cuda'):
+                model.set_params(devices=device.split(':')[1])
         else:
             model.set_params(device_type='cuda' if device.startswith('cuda') else 'cpu')
             if device.startswith('cuda'):
@@ -54,12 +66,21 @@ class BoostingAdapter(EstimatorAdapter):
         self.device_ = device
         return device
 
+    def configure_threads(self, threads):
+        if self._family() == 'catboost':
+            # CatBoost get_params only reports explicitly supplied parameters.
+            self._native().set_params(thread_count=threads)
+        else:
+            super().configure_threads(threads)
+
     @staticmethod
-    def _matrix(values, index):
+    def _matrix(values, index, *, preserve_names=False):
         # Native libraries reject punctuation present in match-layout names.
         if isinstance(values, pd.DataFrame):
             values = values.copy()
-            values.columns = [f'f{i}' for i in range(values.shape[1])]
+            if not (preserve_names and values.columns.is_unique and
+                    all(isinstance(c, str) for c in values.columns)):
+                values.columns = [f'f{i}' for i in range(values.shape[1])]
             values.index = index
             return values
         if hasattr(values, 'toarray'):
@@ -68,7 +89,7 @@ class BoostingAdapter(EstimatorAdapter):
 
     def fit(self, context):
         model = self._native()
-        family = type(model).__module__.split('.')[0]
+        family = self._family()
         if len(context.y.columns) != 1:
             raise ValueError('Native boosting adapters currently need one target.')
         if not self.prediction_methods or set(self.prediction_methods) - {'predict', 'predict_proba'}:
@@ -91,8 +112,16 @@ class BoostingAdapter(EstimatorAdapter):
             self.label_encoder_ = LabelEncoder().fit(y)
             y = pd.Series(self.label_encoder_.transform(y), index=y.index, name=y.name)
         X = self.preprocessing_.fit_transform(context.X, y) if self.preprocessing_ is not None else context.X
-        X = self._matrix(X, context.X.index)
+        X = self._matrix(X, context.X.index, preserve_names=family == 'catboost')
         kwargs = dict(self.fit_kwargs)
+        if family == 'catboost':
+            # Native defaults otherwise create shared catboost_info directories
+            # across fold workers. An explicit user setting remains respected.
+            if 'allow_writing_files' not in model.get_params():
+                model.set_params(allow_writing_files=False)
+            reserved = {'group', 'group_id', 'eval_group', 'eval_set'} & kwargs.keys()
+            if reserved:
+                raise ValueError(f'CatBoost grouping/validation is owned by the runner: {sorted(reserved)}.')
         if context.sample_weight is not None:
             from ..weighting import estimator_weight_kwargs
             if 'sample_weight' in kwargs or self.sample_weight_column is not None:
@@ -112,24 +141,47 @@ class BoostingAdapter(EstimatorAdapter):
                 raise ValueError('A match ranker needs the team_match row layout.')
             order, sizes = groups(context.metadata)
             X, y = take(X, order), y.iloc[order]
-            kwargs['group'] = sizes
+            if family == 'catboost':
+                if {'pairs', 'pairs_weight', 'graph'} & kwargs.keys():
+                    raise ValueError('Explicit CatBoost pairs/graph require a custom adapter; match grouping reorders rows.')
+                kwargs['group_id'] = np.repeat(np.arange(len(sizes)), sizes)
+                for name in ('baseline', 'subgroup_id', 'group_weight'):
+                    if name in kwargs:
+                        kwargs[name] = np.asarray(kwargs[name])[order]
+            else:
+                kwargs['group'] = sizes
             if 'sample_weight' in kwargs:
                 if family == 'xgboost' and self.sample_weight_column is not None:
                     raise ValueError('XGBoost ranker weights are per group; supply native group weights explicitly.')
-                if family == 'lightgbm':
+                if family in ('lightgbm', 'catboost'):
                     kwargs['sample_weight'] = np.asarray(kwargs['sample_weight'])[order]
         if context.validation is not None:
             validation = context.validation
             VX = self.preprocessing_.transform(validation.X) if self.preprocessing_ is not None else validation.X
-            VX = self._matrix(VX, validation.X.index)
+            VX = self._matrix(VX, validation.X.index, preserve_names=family == 'catboost')
             vy = validation.y.iloc[:, 0]
             if self.label_encoder_ is not None:
                 vy = pd.Series(self.label_encoder_.transform(vy), index=vy.index, name=vy.name)
             if ranker:
                 order, sizes = groups(validation.metadata)
                 VX, vy = take(VX, order), vy.iloc[order]
-                kwargs['eval_group'] = [sizes]
-            kwargs['eval_set'] = [(VX, vy)]
+                if family != 'catboost':
+                    kwargs['eval_group'] = [sizes]
+            if family == 'catboost':
+                from catboost import Pool
+                from ..weighting import estimator_weight_kwargs
+                weights = estimator_weight_kwargs(model, validation, pipeline=False).get('sample_weight')
+                if self.sample_weight_column is not None:
+                    weights = validation.metadata[self.sample_weight_column].to_numpy()
+                if weights is not None and ranker:
+                    weights = np.asarray(weights)[order]
+                feature_options = {name: kwargs.get(name, model.get_params().get(name))
+                                   for name in ('cat_features', 'text_features', 'embedding_features')}
+                kwargs['eval_set'] = Pool(VX, vy, weight=weights,
+                    group_id=np.repeat(np.arange(len(sizes)), sizes) if ranker else None,
+                    **feature_options)
+            else:
+                kwargs['eval_set'] = [(VX, vy)]
         model.fit(X, y, **kwargs)
         if family == 'xgboost' and getattr(self, 'device_', 'cpu').startswith('cuda'):
             actual = json.loads(model.get_booster().save_config())['learner']['generic_param']['device']
@@ -145,7 +197,8 @@ class BoostingAdapter(EstimatorAdapter):
 
     def predict(self, context):
         X = self.preprocessing_.transform(context.X) if self.preprocessing_ is not None else context.X
-        X = self._matrix(X, context.X.index)
+        X = self._matrix(X, context.X.index,
+                         preserve_names=self._family() == 'catboost')
         # The public output contract is indexed even when preprocessing is sparse.
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame.sparse.from_spmatrix(X, index=context.X.index,

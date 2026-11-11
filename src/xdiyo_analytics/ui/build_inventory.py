@@ -252,7 +252,7 @@ def build():
         for f in s['fields']:
             name, default = f['name'], f.get('default')
             f['help'] = HELP.get(name, '')
-            if key.startswith(('sklearn.', 'lightgbm.', 'xgboost.')) and doc:
+            if key.startswith(('sklearn.', 'lightgbm.', 'xgboost.', 'catboost.')) and doc:
                 match = re.search(r'(?m)^[ \t]*' + re.escape(name) + r'[ \t]*:[^\n]+\n(?:[ \t]*\n)*([ \t]+\S[^\n]*(?:\n[ \t]+\S[^\n]*)*)', doc)
                 if match:
                     f['help'] = ' '.join(match[1].split())
@@ -930,6 +930,7 @@ def build():
         if m['name'] == 'count_ou_brier':
             m['description']='Equal-weight Over/Under Brier score from exact count probabilities. Lower is better; observed counts outside fitted support remain included.'
     _svm_widgets(components)
+    _catboost_widgets(components)
     result=dict(version=1,components=components,stages=stages,metrics=metrics)
     from .composition_inventory import decorate as composition_widgets
     composition_widgets(components)
@@ -941,7 +942,82 @@ def build():
     for field in stages['feature_options']['fields']:
         if field['name'].startswith('standings_') or field['name'] == 'schedule_history':
             field.pop('annotation', None)
+    # Presentation schemas contain widgets, not Python signature internals.
+    # Apply this after all decorators, including newly registered estimators.
+    for owner in (*components.values(), *stages.values()):
+        for field in owner['fields']:
+            field.pop('annotation', None)
     Path(__file__).with_name('inventory.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+
+
+def _catboost_widgets(components):
+    """CatBoost's None defaults need explicit typed native form controls."""
+    integers = set('iterations depth border_count fold_permutation_block od_wait leaf_estimation_iterations thread_count random_seed best_model_min_trees metric_period ctr_leaf_count_limit max_ctr_complexity classes_count one_hot_max_size snapshot_interval pinned_memory_size dev_score_calc_obj_block_size dev_efb_max_buckets max_depth n_estimators num_boost_round num_trees random_state max_bin early_stopping_rounds min_data_in_leaf min_child_samples max_leaves num_leaves ctr_target_border_count'.split())
+    numbers = set('learning_rate l2_leaf_reg model_size_reg rsm od_pval target_border random_strength bagging_temperature fold_len_multiplier gpu_ram_part subsample mvs_reg sparse_features_conflict_fraction colsample_bylevel reg_lambda eta scale_pos_weight model_shrink_rate diffusion_temperature eval_fraction'.split())
+    booleans = set('use_best_model verbose silent store_all_simple_ctr has_time allow_const_label save_snapshot allow_writing_files approx_on_full_history langevin posterior_sampling boost_from_average'.split())
+    choices = dict(task_type=['CPU', 'GPU'], nan_mode=['Min', 'Max', 'Forbidden'],
+        boosting_type=['Ordered', 'Plain'], grow_policy=['SymmetricTree', 'Depthwise', 'Lossguide'],
+        bootstrap_type=['Bayesian', 'Bernoulli', 'MVS', 'Poisson', 'No'],
+        auto_class_weights=['None', 'Balanced', 'SqrtBalanced'],
+        logging_level=['Silent', 'Verbose', 'Info', 'Debug'], od_type=['IncToDec', 'Iter'],
+        leaf_estimation_method=['Newton', 'Gradient', 'Exact'],
+        feature_border_type=['Median', 'Uniform', 'UniformAndQuantiles', 'GreedyLogSum', 'MaxLogSum', 'MinEntropy'],
+        sampling_unit=['Object', 'Group'], sampling_frequency=['PerTree', 'PerTreeLevel'],
+        score_function=['Cosine', 'L2', 'NewtonCosine', 'NewtonL2'],
+        leaf_estimation_backtracking=['No', 'AnyImprovement', 'Armijo'],
+        model_shrink_mode=['Constant', 'Decreasing'], gpu_cat_features_storage=['CpuPinnedMemory', 'GpuRam'])
+    primary = {'iterations', 'learning_rate', 'depth', 'l2_leaf_reg', 'loss_function', 'random_seed', 'cat_features', 'early_stopping_rounds'}
+    initial = dict(iterations=100, depth=6, learning_rate=0.03, l2_leaf_reg=3, random_seed=0,
+                   thread_count=1, early_stopping_rounds=20, allow_writing_files=False)
+    for key, component in components.items():
+        if not key.startswith('catboost.'):
+            continue
+        kind = 'ranking' if key.endswith('Ranker') else 'classification' if key.endswith('Classifier') else 'regression'
+        component['description'] = f'CatBoost {kind} with native categorical predictors and fold-local validation. Optional catboost dependency. Ranking groups are exact matches in team-match layout. CPU/auto execution is conservative; explicit CUDA uses the native GPU backend.'
+        for f in component['fields']:
+            name = f['name']
+            f.pop('annotation', None)
+            # Remove generic name-based widgets that belong to other models.
+            for stale in ('choices', 'visible_when', 'discovery', 'components', 'categories'):
+                f.pop(stale, None)
+            f['primary'] = name in primary
+            if name in integers | numbers:
+                f.update(kind='number', step=1 if name in integers else 'any', initial=initial.get(name, 1))
+            elif name in booleans:
+                f.update(kind='boolean', initial=initial.get(name, False))
+            elif name in choices:
+                f.update(kind='select', choices=choices[name])
+            elif name in ('cat_features', 'text_features', 'embedding_features', 'ignored_features'):
+                f.update(kind='list', item={'kind': 'typed_scalar', 'default': 0}, initial=[],
+                         help='Feature indices (zero-based) or string names in the transformed model input. Disable numerical scaling/encoding for categorical strings. Numeric cells may be missing; categorical missing values need an explicit train-only transformation.')
+            elif name in ('class_weights', 'feature_weights', 'first_feature_use_penalties'):
+                f.update(kind='list', item={'kind': 'number', 'step': 'any'}, initial=[])
+            elif name == 'per_object_feature_penalties':
+                f.update(kind='list', item={'kind': 'list', 'item': {'kind': 'number', 'step': 'any'}}, initial=[])
+            elif name == 'fixed_binary_splits':
+                f.update(kind='list', item={'kind': 'number', 'step': 1}, initial=[])
+            elif name == 'class_names':
+                f.update(kind='list', item={'kind': 'typed_scalar', 'default': ''}, initial=[])
+            elif name in ('custom_loss', 'custom_metric', 'simple_ctr', 'combinations_ctr', 'per_feature_ctr', 'ctr_description', 'per_float_feature_quantization', 'feature_calcers'):
+                f.update(kind='list', item={'kind': 'text'}, initial=[])
+            elif name in ('metadata', 'text_processing', 'monotone_constraints'):
+                f.update(kind='map', initial={})
+                if name == 'monotone_constraints':
+                    f['item'] = {'kind': 'number', 'step': 1, 'default': 0}
+            elif name in ('tokenizers', 'dictionaries'):
+                f.update(kind='list', item={'kind': 'map'}, initial=[])
+            elif name == 'callback':
+                f.update(kind='callable', help='Optional registered callback; recipes never execute arbitrary code.')
+            else:
+                f['kind'] = 'text'
+            if name in ('loss_function', 'objective', 'eval_metric'):
+                f.update(help='Native CatBoost loss/metric string, including parameterized forms such as Quantile:alpha=0.9. Use a loss supported by this estimator and device; do not set both loss_function and its objective alias.')
+            if name == 'allow_writing_files':
+                f['help'] = 'The adapter defaults to false to avoid shared catboost_info output. Enable only with an isolated train_dir for each fit.'
+            if name == 'has_time':
+                f['help'] = 'Preserve input order for native categorical processing. This does not replace xDiyo temporal splits or feature-availability rules.'
+            if name in ('task_type', 'devices', 'thread_count'):
+                f['help'] += ' An explicit ExecutionPolicy overrides this native resource setting.'
 
 
 def _svm_widgets(components):

@@ -111,9 +111,10 @@ def estimator_weight_kwargs(estimator, context, *, method="fit", pipeline=True):
     if not is_classifier(native):
         raise TypeError("Class weighting requires a classifier adapter/estimator.")
     params = native.get_params(deep=False)
-    if (params.get("class_weight") is not None or params.get("scale_pos_weight", 1) not in (None, 1)
+    if (params.get("class_weight") is not None or params.get("class_weights") is not None
+            or params.get("auto_class_weights") not in (None, 'None') or params.get("scale_pos_weight", 1) not in (None, 1)
             or params.get("is_unbalance", False)):
-        raise ValueError("Disable native class_weight/scale_pos_weight/is_unbalance when using common class weights.")
+        raise ValueError("Disable native class_weight/class_weights/auto_class_weights/scale_pos_weight/is_unbalance when using common class weights.")
     if "sample_weight" not in inspect.signature(getattr(native, method)).parameters:
         raise TypeError(f"{type(native).__name__}.{method} does not support sample_weight.")
     values = aligned_weights(context.sample_weight, context.X.index).to_numpy()
