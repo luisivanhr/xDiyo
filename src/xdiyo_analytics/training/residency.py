@@ -15,12 +15,15 @@ import weakref
 class InputCachePolicy:
     max_bytes: int = 0
     headroom_bytes: int = 1073741824
+    admission: str = 'lru'
 
     def __post_init__(self):
         for name in ('max_bytes', 'headroom_bytes'):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, int) or value < 0:
                 raise ValueError(f'{name} must be a nonnegative integer.')
+        if self.admission not in ('lru', 'retain'):
+            raise ValueError("admission must be 'lru' or 'retain'.")
 
 
 def _map(value, function):
@@ -78,6 +81,24 @@ class _Pool:
                     self.resident -= size
             self.owners.pop(owner, None)
 
+    def _available(self, reusable=False):
+        """Free driver bytes plus reusable blocks owned by our CUDA allocator."""
+        import torch
+        free, _ = torch.cuda.mem_get_info(self.device)
+        if reusable and str(self.device).startswith('cuda'):
+            free += max(0, torch.cuda.memory_reserved(self.device)
+                        - torch.cuda.memory_allocated(self.device))
+        return free
+
+    def _trim_headroom(self, required, protect=None):
+        while self.entries and self._available(reusable=True) < required:
+            key = next((key for key in self.entries if key != protect), None)
+            if key is None:
+                break
+            value, size = self.entries.pop(key)
+            self.resident -= size
+            del value
+
     @contextmanager
     def lease(self, owner, key, build_cpu):
         import torch
@@ -88,6 +109,7 @@ class _Pool:
             self.owners[owner] = owner.policy
             budget = min(p.max_bytes for p in self.owners.values())
             headroom = max(p.headroom_bytes for p in self.owners.values())
+            retain = owner.policy.admission == 'retain'
             token = (weakref.ref(owner), key)
             entry = self.entries.get(token)
             if entry is None:
@@ -95,8 +117,9 @@ class _Pool:
                 cpu = build_cpu()
                 size = tensor_bytes(cpu)
                 # Two copies: retained input and the isolated consumer lease.
-                self._trim(2 * size, budget)
-                free, _ = torch.cuda.mem_get_info(self.device)
+                if not retain:
+                    self._trim(2 * size, budget)
+                free = self._available(reusable=retain)
                 cacheable = self.resident + self.transient + 2 * size <= budget and free >= headroom + 2 * size
                 if cacheable:
                     fixed = _map(cpu, lambda t: t.to(self.device, copy=True))
@@ -104,8 +127,14 @@ class _Pool:
                     self.resident += size
                     entry = (fixed, size)
                 else:
-                    # Drop idle residency before the ordinary streaming transfer.
-                    self._trim(budget, budget)
+                    if retain:
+                        # A sequential scan larger than the cache must not
+                        # displace every reusable input merely to admit misses.
+                        self._trim(size, budget)
+                        self._trim_headroom(headroom + size)
+                    else:
+                        # Preserve the original LRU streaming fallback.
+                        self._trim(budget, budget)
                     value = _map(cpu, lambda t: t.to(self.device, copy=True))
                     reserved = size
             else:
@@ -113,7 +142,9 @@ class _Pool:
                 self.entries.move_to_end(token)
                 fixed, size = entry
                 self._trim(size, budget, protect=token)
-                free, _ = torch.cuda.mem_get_info(self.device)
+                if retain:
+                    self._trim_headroom(headroom + size, protect=token)
+                free = self._available(reusable=retain)
                 if self.resident + self.transient + size > budget or free < headroom + size:
                     # Remove retained tensors before streaming a replacement.
                     entry = fixed = None

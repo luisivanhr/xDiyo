@@ -14,9 +14,9 @@ class HeatmapCNNAdapter:
     def __init__(self, spec, *, device='cpu', inner_threads=1):
         self.spec, self.device, self.inner_threads = spec, device, inner_threads
 
-    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
+    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824, *, admission='lru'):
         from ..training.residency import InputCachePolicy
-        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes)
+        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes, admission)
 
     def configure_device(self, requested):
         from ..graphs.adapter import TemporalGraphAdapter

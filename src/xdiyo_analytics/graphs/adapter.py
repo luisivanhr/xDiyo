@@ -74,9 +74,9 @@ class TemporalGraphAdapter:
                 training=self.research_training,execution=self.research_execution)
         return RetainedGATBackend(self.config,self.event_store,seed,self.device,policy,training=self.research_training)
 
-    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824):
+    def configure_input_cache(self, max_bytes=0, headroom_bytes=1073741824, *, admission='lru'):
         from ..training.residency import InputCachePolicy
-        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes)
+        self.input_cache_policy = InputCachePolicy(max_bytes, headroom_bytes, admission)
 
     def configure_device(self, requested):
         torch = _torch()

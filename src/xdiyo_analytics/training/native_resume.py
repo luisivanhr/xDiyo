@@ -56,7 +56,12 @@ def execution_profile(adapter):
     from dataclasses import asdict
     from .residency import InputCachePolicy
     device = str(adapter.device)
-    profile = dict(input_cache=asdict(getattr(adapter, "input_cache_policy", InputCachePolicy())), python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
+    cache = asdict(getattr(adapter, "input_cache_policy", InputCachePolicy()))
+    # Preserve legacy execution profiles byte-for-byte for the default mode.
+    # Opting into another admission policy remains an explicit resume boundary.
+    if cache.get('admission') == 'lru':
+        cache.pop('admission')
+    profile = dict(input_cache=cache, python=sys.version, numpy=np.__version__, torch=str(torch.__version__),
                 torch_build=hashlib.sha256(torch.__config__.show().encode()).hexdigest(),
                 platform=platform.platform(), device=device, threads=torch.get_num_threads(),
                 interop_threads=torch.get_num_interop_threads(),
