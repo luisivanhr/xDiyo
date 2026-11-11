@@ -95,10 +95,30 @@ Simple competition/season tables work automatically. Multiple tournament stages 
 nontrivial stage metadata are rejected rather than combined or reset blindly. For
 verified independent groups/phases, supply `standings_table_id` in source and roster
 and `standings_rule="independent_3_1_0"` in source. Each scope must independently pass
-the schedule checks and use round 1 as its opening round. Carry-over/halved points,
-playoffs, partial schedules and irregular formats need an explicit future policy;
-this implementation does not invent one. Administrative deductions and official
-head-to-head rules are not inferred from provider positions.
+the schedule checks and use round 1 as its opening round. Playoffs,
+carry-over/halved points and irregular formats remain unsupported. Administrative
+deductions and official head-to-head rules are not inferred from provider positions.
+
+### Reviewed incomplete regular calendars
+
+`build_standings` and `build_phase_context` accept an explicit
+`allow_incomplete_schedule=True` for a verified independent regular table, such
+as a COVID-curtailed season. Supply `standings_table_id` in both history and the
+complete roster, `standings_rule="independent_3_1_0"` in history, and an explicit
+`meetings_per_pair=1`, `2` or `3`. The default remains complete-calendar validation.
+
+The opt-in retains paired-result, administrative-review, roster, single-stage,
+complete first-round metadata, repeated-pair, venue and round-bound checks. The
+caller must verify that all eligible past results are present; this option does
+not establish source coverage, infer missing scores, award points or reconstruct
+unplayed fixtures. Its declaration enters the source fingerprint and metadata.
+
+Rank arithmetic, per-team last-w windows, ties, normalization and result
+availability remain unchanged. Later unplayed fixtures are unnecessary to rank
+already eligible results. Native countdown remains based on planned total rounds
+and the available schedule's round clusters; it does not replace planned season
+length with the largest observed round. Administrative outcomes still require
+their separate reviewed scores/points and the chosen publication policy.
 
 Ordinary league results use native current scores only after checking retained
 extra-time/shootout evidence. Nonzero extra-time/shootout fields, awarded results or

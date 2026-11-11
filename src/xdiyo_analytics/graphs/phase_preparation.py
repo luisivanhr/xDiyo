@@ -6,10 +6,15 @@ from .phase_context import (PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY,
 
 
 def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None,
-                        rank_timing='kickoff_day', meetings_per_pair=None):
+                        rank_timing='kickoff_day', meetings_per_pair=None, allow_incomplete_schedule=False):
     """Create exact forecast rows with prior-calendar-day ranks by default.
 
-    Unsupported split/curtailed schedules raise through the current producer.
+    Unsupported split schedules raise through the current producer. Reviewed
+    incomplete independent regular tables require allow_incomplete_schedule=True,
+    an explicit standings_table_id/standings_rule and meetings_per_pair. Ranks
+    then use the same eligible prior results and full declared roster; no future
+    unplayed fixtures are invented or required. Countdown retains its native
+    planned-round and available-schedule-cluster definition independently.
     Dataset-specific decisions about unsupported scopes belong in preparation
     examples; old tables are loaded directly and never rebuilt here. Use
     rank_timing='available_at_cutoff' to reproduce v2 timestamp preparation.
@@ -39,7 +44,7 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
                                         team_seasons=team_seasons,cutoffs=cuts).to_numpy()
     native=build_standings(history,team_seasons=team_seasons,normalized_ranks=WINDOWS,
                            queries=query,cutoffs=cuts,available_at=available_at,timing=rank_timing,
-                           meetings_per_pair=meetings_per_pair)
+                           meetings_per_pair=meetings_per_pair,allow_incomplete_schedule=allow_incomplete_schedule)
     values=native.features(query,DerivedStandings(normalized_ranks=WINDOWS,include_raw=False,side='both'),cutoffs=cuts)
     for role,side in (('team','home'),('opponent','away')):
         for window in WINDOWS:
@@ -47,4 +52,7 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     policy = DAILY_POLICY if rank_timing == 'kickoff_day' else CORRECTED_POLICY
     if 'points_rule' in native.metadata:
         policy = REVIEWED_DAILY_POLICY if rank_timing == 'kickoff_day' else REVIEWED_POLICY
+    if allow_incomplete_schedule:
+        provenance = dict(provenance, standings_schedule=native.metadata['schedule'],
+                          meetings_per_pair=meetings_per_pair)
     return PhaseRankLookup(result,provenance=provenance, policy=policy)
