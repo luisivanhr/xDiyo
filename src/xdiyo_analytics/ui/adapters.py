@@ -90,6 +90,11 @@ class BoostingAdapter(EstimatorAdapter):
     def fit(self, context):
         model = self._native()
         family = self._family()
+        if (family == 'catboost' and context.validation is not None
+                and self.fit_kwargs.get('baseline') is not None):
+            raise ValueError('CatBoost training baseline with runner-managed validation requires '
+                             'a validation baseline. Use a custom adapter supplying both baselines, '
+                             'or omit the training baseline.')
         if len(context.y.columns) != 1:
             raise ValueError('Native boosting adapters currently need one target.')
         if not self.prediction_methods or set(self.prediction_methods) - {'predict', 'predict_proba'}:

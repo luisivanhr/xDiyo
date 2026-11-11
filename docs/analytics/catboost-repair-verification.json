@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-11",
+  "base_commit": "8741bcac73e4d1e8e47067835690e14320a452a7",
+  "environment": {
+    "python": "3.14.0",
+    "catboost": "1.2.10",
+    "sklearn": "1.9.0",
+    "pandas": "2.3.3",
+    "numpy": "2.4.6"
+  },
+  "unique_python_tests_passed": 619,
+  "node_form_tests_passed": 3,
+  "batches": [
+    {
+      "name": "focused",
+      "passed": 79,
+      "test_files": [
+        "tests/analytics/test_catboost.py",
+        "tests/analytics/test_recovery_periods_and_signatures.py",
+        "tests/analytics/test_report_refresh_recovery.py"
+      ],
+      "local_xml": "scratch/catboost-repair-verification/focused.xml",
+      "xml_sha256": "4a58a6caac5ac73246b1175f859acaff86ef55ff205f72c33e3e52eb89d2ff48"
+    },
+    {
+      "name": "broader",
+      "passed": 530,
+      "test_files": [
+        "tests/analytics/test_class_weighting.py",
+        "tests/analytics/test_composition_integration.py",
+        "tests/analytics/test_execution_recovery.py",
+        "tests/analytics/test_football_experiment_recovery.py",
+        "tests/analytics/test_model_persistence.py",
+        "tests/analytics/test_recovery_array_metadata.py",
+        "tests/analytics/test_recovery_byte_arrays.py",
+        "tests/analytics/test_recovery_intervals.py",
+        "tests/analytics/test_recovery_native_timedelta.py",
+        "tests/analytics/test_recovery_structured_arrays.py",
+        "tests/analytics/test_recovery_timestamp_zones.py",
+        "tests/analytics/test_recovery_unsupported_numpy.py",
+        "tests/analytics/test_registered_metric_recovery.py",
+        "tests/analytics/test_selection_candidate_recovery.py",
+        "tests/analytics/test_table_attribute_recovery.py",
+        "tests/analytics/test_training_estimators.py",
+        "tests/analytics/test_training_runner.py",
+        "tests/analytics/test_ui_catalog_compatibility.py",
+        "tests/analytics/test_ui_inventory.py",
+        "tests/analytics/test_ui_scaling.py",
+        "tests/analytics/test_ui_workflow.py"
+      ],
+      "local_xml": "scratch/catboost-repair-verification/broader.xml",
+      "xml_sha256": "ca5c99b31be06856579489db6835c0cdd836b9410da7e311bcee5112a4180a8c"
+    },
+    {
+      "name": "browser",
+      "passed": 10,
+      "test_files": [
+        "tests/analytics/test_catboost_browser.py",
+        "tests/analytics/test_ui_server.py"
+      ],
+      "local_xml": "scratch/catboost-repair-verification/browser.xml",
+      "xml_sha256": "1d7a7831b3b9c766ff7c672a42eae612f5733e9b0b93907714bec64547ea06e2"
+    }
+  ],
+  "commands": {
+    "python": "PYTHONPATH=src C:/Users/luisi/Documents/Programming/Python/.misc314/Scripts/python.exe -m pytest <batch test_files> -q --junitxml=<local_xml>",
+    "node": "node --test tests/analytics/ui_catboost.mjs"
+  },
+  "source_sha256_lf": {
+    "src/xdiyo_analytics/experiments/recovery.py": "1684689e5efbedefdc7412dab4057558068e8907a8f06deb9d35fc6448ede697",
+    "src/xdiyo_analytics/ui/adapters.py": "05d4b74e32d5ecb9a853b5c8b3a4a776756cec6b2f150fda7527d8dac0136c88",
+    "src/xdiyo_analytics/ui/build_inventory.py": "bc180035a766b5ea5009118a00ed9ecfe09dc3542f9bdbc945c11cc3f5d3af78",
+    "src/xdiyo_analytics/ui/inventory.json": "77d2bf3adadfbe652140a705ce84bd845cc70e5c3daf2a6e2bc058e935b58a2a",
+    "tests/analytics/test_catboost.py": "e776924a05bab55fb38ebcdeb5856c7d40a2ef0703c3a858c1fa5aae859afad7",
+    "tests/analytics/test_catboost_browser.py": "b9889a4c2a4a0ae1043c434b0fb01b1b0e5a013fc95793316066770b728798ee",
+    "tests/analytics/ui_catboost.mjs": "5f1465af6f7070b76f308e0057f83987a06f0e8d7db3244cf9c1e74ef708913b",
+    "docs/analytics/catboost.md": "2f67d7f6f080ac3fb9d3eee6217bc6097fd387899e538299405d689a7fce1dd4"
+  },
+  "scope": [
+    "Recovery includes versions of already loaded inherited library modules; no optional dependency import introduced.",
+    "Numeric penalty verified in native CPU fits and browser save/reopen/Python/notebook downloads for all three models.",
+    "Training baseline with managed validation rejected before preprocessing; baseline-only CPU fits retain native parity."
+  ],
+  "limitations": [
+    "Focused and broader selected suites, not full application suite.",
+    "Python 3.14 CPU only; no GPU training or model-quality experiment.",
+    "XML receipts are local scratch evidence; source/test hashes use LF normalization."
+  ]
+}

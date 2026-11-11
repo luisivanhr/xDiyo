@@ -681,6 +681,19 @@ def signature(value, _active=None):
         digest = hashlib.sha256(Path(path).read_bytes()).hexdigest() if path and Path(path).is_file() else None
         result = {"type": f"{value.__module__}.{value.__qualname__}", "source": digest,
                   "version": str(getattr(sys.modules.get(value.__module__.split(".")[0]), "__version__", ""))}
+        if inspect.isclass(value):
+            # Local wrappers still execute their inherited library's code. Keep
+            # its runtime version even when the wrapper has its own source file.
+            # Inspect already loaded modules only: optional libraries stay lazy.
+            own_root = value.__module__.split(".")[0]
+            inherited_versions = {}
+            for base in type.__getattribute__(value, "__mro__")[1:]:
+                root = base.__module__.split(".")[0]
+                version = getattr(sys.modules.get(root), "__version__", None)
+                if root != own_root and version is not None:
+                    inherited_versions[root] = str(version)
+            if inherited_versions:
+                result["inherited_versions"] = inherited_versions
         key_method = inspect.getattr_static(value, "cache_key", None) if inspect.isclass(value) else None
         custom_state = isinstance(key_method, (staticmethod, classmethod))
         if custom_state:

@@ -59,6 +59,9 @@ The constructors registered under `catboost.*` use small subclasses from
 sklearn's constructor-identity check. Clones contain configuration only, never
 fitted trees. Native training and prediction methods are unchanged. Use these
 constructors for sklearn pipelines, search and library compositions.
+Recovery signatures include the inherited CatBoost runtime version as well as
+the wrapper source and model configuration. A version change invalidates cached
+experiment results; existing signatures without this evidence are not reused.
 The native `composition.Estimator` also selects the boosting adapter for these
 models, retaining grouped validation for rankers. This does not claim universal
 sklearn common-check compliance: native CatBoost raises its own error rather than
@@ -72,6 +75,11 @@ passed to CatBoost. Configure native `early_stopping_rounds` / `use_best_model`
 and `eval_metric` as appropriate. Common iterative `TrainingControl` is not
 translated into native boosting semantics. Native training and validation curves
 are retained for learning-curve reporting.
+
+A training `baseline` in adapter fit kwargs is supported without validation.
+With runner-managed validation it is rejected before fitting preprocessing:
+the runner has no corresponding validation baseline. Use a custom adapter that
+supplies both baselines if that advanced workflow is required.
 
 The ranker uses `team_match` layout. Each exact composite match identity is one
 query group; rows and observation weights are reordered together into contiguous

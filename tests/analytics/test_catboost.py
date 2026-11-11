@@ -182,6 +182,7 @@ def test_ui_schema_all_constructor_parameters_and_fresh_factories():
         fields = {f['name']: f for f in schemas[key]['fields']}
         assert set(inspect.signature(getattr(cb, 'CatBoost' + suffix)).parameters) <= fields.keys()
         assert fields['iterations']['kind'] == 'number'
+        assert fields['penalties_coefficient']['kind'] == 'number'
         assert fields['cat_features']['kind'] == 'list'
         assert fields['task_type']['choices'] == ['CPU', 'GPU']
         spec = node(key, **params())
@@ -233,3 +234,80 @@ def test_native_composition_ranker_preserves_grouped_validation():
     assert len(adapter.predict(ctx)['predict']) == len(ctx.X)
     assert not spec.estimator.is_fitted()
     assert not spec.build().estimator.is_fitted()
+
+
+@pytest.mark.parametrize('suffix', ['Regressor', 'Classifier', 'Ranker'])
+def test_recovery_signature_tracks_inherited_native_version(suffix, monkeypatch):
+    import catboost
+    from xdiyo_analytics.composition import Estimator
+    from xdiyo_analytics.experiments.recovery import signature
+    cls = getattr(cb, 'CatBoost' + suffix)
+    catalog = catalog_for_ui()
+    spec = node('catboost.CatBoost' + suffix, **params())
+    objects = [cls, cls(**params()), Pipeline([('model', cls(**params()))]),
+               Estimator(cls(**params())), ModelFactory(dict(model=spec), catalog)]
+    original = [signature(obj) for obj in objects]
+    assert signature(cls)['inherited_versions']['catboost'] == catboost.__version__
+    monkeypatch.setattr(catboost, '__version__', catboost.__version__ + '.changed')
+    assert all(before != signature(obj) for before, obj in zip(original, objects))
+    assert signature(cls)['source'] == original[0]['source']
+
+
+def test_experiment_recovery_refits_after_catboost_version_change(tmp_path, monkeypatch):
+    import catboost
+    from football_experiment_samples import prepared
+    from xdiyo_analytics.experiments import FootballExperiment
+    from xdiyo_analytics.selection import Candidate
+    model = ModelFactory(dict(model=node('catboost.CatBoostRegressor', **params())), catalog_for_ui())
+    candidate = Candidate('CatBoost recovery', model)
+    experiment = FootballExperiment('CatBoost version recovery', output_dir=tmp_path)
+    data = prepared()
+    first = experiment.run(data, model=candidate)
+    assert experiment.run(data, model=candidate).reused
+    monkeypatch.setattr(catboost, '__version__', catboost.__version__ + '.changed')
+    changed = experiment.run(data, model=candidate)
+    assert not changed.reused
+    assert first.record['run_id'] != changed.record['run_id']
+    assert experiment.run(data, model=candidate).reused
+
+
+@pytest.mark.parametrize('suffix', ['Regressor', 'Classifier', 'Ranker'])
+def test_penalties_coefficient_numeric_catalog_fit(suffix):
+    ctx = context(); ctx.X = ctx.X[['strength']]
+    spec = node('catboost.CatBoost' + suffix,
+                **params(penalties_coefficient=0.75, first_feature_use_penalties=[0.1]))
+    model = catalog_for_ui().build(json.loads(json.dumps(spec)))
+    adapter = BoostingAdapter(model)
+    adapter.fit(ctx)
+    assert model.get_all_params()['penalties_coefficient'] == 0.75
+    assert np.isfinite(adapter.predict(ctx)['predict']).all().all()
+
+
+@pytest.mark.parametrize('suffix', ['Regressor', 'Classifier', 'Ranker'])
+def test_baseline_with_validation_rejected_before_any_fit(suffix):
+    ctx = context(); ctx.X = ctx.X[['strength']]
+    scaler = StandardScaler()
+    model = getattr(cb, 'CatBoost' + suffix)(**params())
+    adapter = BoostingAdapter(Pipeline([('scale', scaler), ('model', model)]),
+                              fit_kwargs={'baseline': np.zeros(len(ctx.X))})
+    with pytest.raises(ValueError, match='runner-managed validation requires a validation baseline'):
+        adapter.fit(replace(ctx, validation=ctx))
+    assert not hasattr(scaler, 'n_samples_seen_')
+    assert not model.is_fitted()
+    assert not hasattr(adapter, 'native_model_')
+
+
+@pytest.mark.parametrize('suffix', ['Regressor', 'Classifier', 'Ranker'])
+def test_baseline_without_validation_preserves_native_fit(suffix):
+    ctx = context(); ctx.X = ctx.X[['strength']]
+    if suffix == 'Classifier':
+        ctx.y['target'] = [0, 1, 1, 0, 1, 0]
+    baseline = np.arange(len(ctx.X), dtype=float) * 0.1
+    model = getattr(cb, 'CatBoost' + suffix)(**params())
+    adapter = BoostingAdapter(model, fit_kwargs={'baseline': baseline})
+    adapter.fit(ctx)
+    reference = getattr(cb, 'CatBoost' + suffix)(**params())
+    order = [0, 3, 1, 4, 2, 5] if suffix == 'Ranker' else list(range(len(ctx.X)))
+    groups = {'group_id': [0, 0, 1, 1, 2, 2]} if suffix == 'Ranker' else {}
+    reference.fit(ctx.X.iloc[order], ctx.y.iloc[order, 0], baseline=baseline[order], **groups)
+    np.testing.assert_array_equal(model.predict(ctx.X), reference.predict(ctx.X))

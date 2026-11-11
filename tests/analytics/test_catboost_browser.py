@@ -23,6 +23,11 @@ def test_catboost_browser_roundtrip(browser_ui, suffix):
     field = page.get_by_role('spinbutton', name='Iterations', exact=True)
     field.fill('12'); field.blur()
     recipe['model']['params']['iterations'] = 12
+    page.locator('details').evaluate_all('(nodes) => nodes.forEach(node => node.open = true)')
+    page.get_by_role('checkbox', name='Enable Penalties coefficient', exact=True).check()
+    penalty = page.get_by_role('spinbutton', name='Penalties coefficient', exact=True)
+    penalty.fill('0.75'); penalty.blur()
+    recipe['model']['params']['penalties_coefficient'] = 0.75
     assert save_recipe(page, handle) == recipe
     for fmt in ('Python', 'notebook'):
         with page.expect_download() as downloading:

@@ -20,7 +20,7 @@ for(const suffix of ['Regressor','Classifier','Ranker']) test('CatBoost'+suffix+
  let recipe=makeNode('catboost.CatBoost'+suffix);
  const root=componentEditor(recipe,v=>{recipe=v;},'model');
  assert.ok(find(root,'Component','select').children.some(n=>n.value==='catboost.CatBoost'+suffix));
- for(const [title,key,value] of [['Iterations','iterations',12],['Depth','depth',3],['Learning rate','learning_rate',0.15]]) {
+ for(const [title,key,value] of [['Iterations','iterations',12],['Depth','depth',3],['Learning rate','learning_rate',0.15],['Penalties coefficient','penalties_coefficient',0.75]]) {
   const enable=find(root,'Enable '+title,'input');
   enable.checked=true; enable.events.change({target:enable}); await Promise.resolve();
   const input=find(root,title,'input'); assert.equal(input.type,'number');

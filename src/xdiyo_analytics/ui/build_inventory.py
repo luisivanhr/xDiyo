@@ -953,7 +953,7 @@ def build():
 def _catboost_widgets(components):
     """CatBoost's None defaults need explicit typed native form controls."""
     integers = set('iterations depth border_count fold_permutation_block od_wait leaf_estimation_iterations thread_count random_seed best_model_min_trees metric_period ctr_leaf_count_limit max_ctr_complexity classes_count one_hot_max_size snapshot_interval pinned_memory_size dev_score_calc_obj_block_size dev_efb_max_buckets max_depth n_estimators num_boost_round num_trees random_state max_bin early_stopping_rounds min_data_in_leaf min_child_samples max_leaves num_leaves ctr_target_border_count'.split())
-    numbers = set('learning_rate l2_leaf_reg model_size_reg rsm od_pval target_border random_strength bagging_temperature fold_len_multiplier gpu_ram_part subsample mvs_reg sparse_features_conflict_fraction colsample_bylevel reg_lambda eta scale_pos_weight model_shrink_rate diffusion_temperature eval_fraction'.split())
+    numbers = set('learning_rate l2_leaf_reg model_size_reg rsm od_pval target_border random_strength bagging_temperature fold_len_multiplier gpu_ram_part subsample mvs_reg sparse_features_conflict_fraction colsample_bylevel reg_lambda eta scale_pos_weight model_shrink_rate diffusion_temperature eval_fraction penalties_coefficient'.split())
     booleans = set('use_best_model verbose silent store_all_simple_ctr has_time allow_const_label save_snapshot allow_writing_files approx_on_full_history langevin posterior_sampling boost_from_average'.split())
     choices = dict(task_type=['CPU', 'GPU'], nan_mode=['Min', 'Max', 'Forbidden'],
         boosting_type=['Ordered', 'Plain'], grow_policy=['SymmetricTree', 'Depthwise', 'Lossguide'],

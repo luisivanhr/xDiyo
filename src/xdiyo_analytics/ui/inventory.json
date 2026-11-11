@@ -15071,10 +15071,12 @@
           "name": "penalties_coefficient",
           "title": "Penalties coefficient",
           "required": false,
-          "kind": "text",
+          "kind": "number",
           "default": null,
           "help": "Penalties coefficient for CatBoostRegressor. Optional; leave disabled to use the standard behavior.",
-          "primary": false
+          "primary": false,
+          "step": "any",
+          "initial": 1
         },
         {
           "name": "first_feature_use_penalties",
@@ -16435,10 +16437,12 @@
           "name": "penalties_coefficient",
           "title": "Penalties coefficient",
           "required": false,
-          "kind": "text",
+          "kind": "number",
           "default": null,
           "help": "Common coefficient for all penalties. Should be non-negative.",
-          "primary": false
+          "primary": false,
+          "step": "any",
+          "initial": 1
         },
         {
           "name": "first_feature_use_penalties",
@@ -17731,10 +17735,12 @@
           "name": "penalties_coefficient",
           "title": "Penalties coefficient",
           "required": false,
-          "kind": "text",
+          "kind": "number",
           "default": null,
           "help": "Penalties coefficient for CatBoostRanker. Optional; leave disabled to use the standard behavior.",
-          "primary": false
+          "primary": false,
+          "step": "any",
+          "initial": 1
         },
         {
           "name": "first_feature_use_penalties",
