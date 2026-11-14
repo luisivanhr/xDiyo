@@ -22,8 +22,11 @@ PUBLICATION_RULE = "available_results_at_cutoff"
 DAILY_POLICY = "independent_3_1_0_kickoff_day_v3"
 REVIEWED_POLICY = "independent_3_1_0_reviewed_points_v3"
 REVIEWED_DAILY_POLICY = "independent_3_1_0_kickoff_day_reviewed_points_v4"
-DAILY_POLICIES = (DAILY_POLICY, REVIEWED_DAILY_POLICY)
-CURRENT_POLICIES = (POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY)
+VERSIONED_POLICY = "independent_3_1_0_asof_result_versions_v4"
+VERSIONED_DAILY_POLICY = "independent_3_1_0_kickoff_day_asof_result_versions_v5"
+VERSIONED_POLICIES = (VERSIONED_POLICY, VERSIONED_DAILY_POLICY)
+DAILY_POLICIES = (DAILY_POLICY, REVIEWED_DAILY_POLICY, VERSIONED_DAILY_POLICY)
+CURRENT_POLICIES = (POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY, *VERSIONED_POLICIES)
 DAILY_PUBLICATION_RULE = "kickoff_date_before_forecast_day"
 TIMINGS = ('available_at_cutoff', 'kickoff_day')
 TOTALS = ("played", "wins", "draws", "losses", "points", "gf", "ga", "gd")
@@ -368,7 +371,8 @@ class StandingsRun:
         for m in self._fixtures.values():
             r = dict(m, scope=list(m['scope']), kickoff=m['kickoff'].isoformat(), available=None if pd.isna(m['available']) else m['available'].isoformat())
             fixtures.append(r)
-        versions = {POLICY: 3, DAILY_POLICY: 4, REVIEWED_POLICY: 5, REVIEWED_DAILY_POLICY: 6}
+        versions = {POLICY: 3, DAILY_POLICY: 4, REVIEWED_POLICY: 5, REVIEWED_DAILY_POLICY: 6,
+                    VERSIONED_POLICY: 7, VERSIONED_DAILY_POLICY: 8}
         body = dict(version=versions.get(self._metadata.get('policy'), 2 if 'venues' in self._metadata else 1), metadata=self.metadata, publications=self.publications, fixtures=fixtures)
         payload = json.dumps(body, default=_json_scalar, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
@@ -378,7 +382,7 @@ class StandingsRun:
     def load(cls, directory):
         path = Path(directory)
         body = json.loads((path/'standings.json').read_text(encoding='utf-8'))
-        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY), (5, REVIEWED_POLICY), (6, REVIEWED_DAILY_POLICY)):
+        if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY), (5, REVIEWED_POLICY), (6, REVIEWED_DAILY_POLICY), (7, VERSIONED_POLICY), (8, VERSIONED_DAILY_POLICY)):
             raise ValueError('Unsupported standings artifact version/policy.')
         fixtures = {}
         for m in body['fixtures']:
@@ -387,17 +391,32 @@ class StandingsRun:
             m['available'] = pd.NaT if m['available'] is None else pd.Timestamp(m['available'])
             fixtures[(*m['scope'],m['event'])] = m
         snapshots = pd.read_parquet(path/'snapshots.parquet')
-        expected_rule = DAILY_PUBLICATION_RULE if body['metadata']['policy'] in DAILY_POLICIES else PUBLICATION_RULE
+        expected_rule = ('original_kickoff_and_result_version_available_at_cutoff' if body['metadata']['policy'] in VERSIONED_POLICIES
+                         else DAILY_PUBLICATION_RULE if body['metadata']['policy'] in DAILY_POLICIES else PUBLICATION_RULE)
         if body['version'] >= 3 and ('gate_open' in snapshots or any('gate_open' in p for p in body['publications']) or body['metadata'].get('publication_rule') != expected_rule):
             raise ValueError('Inconsistent standings publication schema; rebuild from source, do not relabel legacy snapshots.')
         if body['metadata']['policy'] in DAILY_POLICIES and body['metadata'].get('timing') != 'kickoff_day':
             raise ValueError('Inconsistent daily standings timing schema.')
         if body['version'] in (5, 6) and body['metadata'].get('points_rule') != 'reviewed_fixture_points_else_score_3_1_0':
             raise ValueError('Inconsistent reviewed standings points schema.')
+        if body['version'] in (7, 8) and (body['metadata'].get('result_version_schema') != 1
+                or body['metadata'].get('points_rule') != 'journal_points_else_ordinary_score_3_1_0'
+                or not isinstance(body['metadata'].get('result_versions'), list)):
+            raise ValueError('Inconsistent publication-versioned standings schema.')
+        if body['version'] in (7, 8):
+            expected_timing = 'kickoff_day' if body['version'] == 8 else 'available_at_cutoff'
+            if (body['metadata'].get('timing') != expected_timing
+                    or body['metadata'].get('ordinary_result_timing') != expected_timing):
+                raise ValueError('Inconsistent publication-versioned standings timing schema.')
+            journal_digest = sha256(json.dumps(body['metadata']['result_versions'], sort_keys=True).encode()).hexdigest()
+            if body['metadata'].get('result_versions_sha256') != journal_digest:
+                raise ValueError('Publication-versioned standings journal fingerprint mismatch.')
+            from .standings_versions import validate_saved_versions
+            validate_saved_versions(body['metadata'], fixtures)
         return cls(snapshots, body['publications'], body['metadata'], fixtures)
 
 
-def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff', meetings_per_pair=None, allow_incomplete_schedule=False):
+def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff', meetings_per_pair=None, allow_incomplete_schedule=False, result_versions=None):
     """Build complete tables once per distinct scope/cutoff, without fitting.
 
     By default history must include the complete schedule/results; the reviewed
@@ -436,10 +455,24 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     versioned policy; ordinary score-only runs and saved policies are unchanged.
     Timestamp timing still requires standings_result_available_at; daily timing
     applies the user's retrospective kickoff-day convention.
+
+    Supplying result_versions selects a separate publication-versioned policy.
+    Its explicit initial result and revisions are resolved at each original
+    query cutoff and replace the same fixture at its original kickoff position.
+    Every administrative/reviewed fixture then requires complete journal
+    provenance; unknown releases do not silently use a final score. Ordinary
+    result timing remains the declared timing convention. Existing saved and
+    explicitly retrospective calls without a journal are unchanged.
     """
     from ..features.standings import DerivedStandings
     from .standings_reviews import apply_known_standings_reviews
     history = apply_known_standings_reviews(history)
+    if result_versions is not None:
+        from .standings_versions import build_versioned_standings
+        return build_versioned_standings(history, team_seasons=team_seasons, result_versions=result_versions,
+            normalized_ranks=normalized_ranks, queries=queries, cutoffs=cutoffs, available_at=available_at,
+            venues=venues, timing=timing, meetings_per_pair=meetings_per_pair,
+            allow_incomplete_schedule=allow_incomplete_schedule)
     if timing not in TIMINGS:
         raise ValueError('Standings timing must be available_at_cutoff or kickoff_day.')
     if timing == 'kickoff_day' and available_at is not None:

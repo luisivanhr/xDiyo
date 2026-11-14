@@ -20,7 +20,11 @@ CORRECTED_POLICY = 'native_phase_form_rank_available_results_original_forecast_c
 DAILY_POLICY = 'native_phase_form_rank_retrospective_kickoff_day_v3'
 REVIEWED_POLICY = 'native_phase_form_rank_reviewed_points_original_forecast_cutoff_v3'
 REVIEWED_DAILY_POLICY = 'native_phase_form_rank_reviewed_points_retrospective_kickoff_day_v4'
-SUPPORTED_POLICIES = (POLICY, CORRECTED_POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY)
+VERSIONED_POLICY = 'native_phase_form_rank_asof_result_versions_v4'
+VERSIONED_DAILY_POLICY = 'native_phase_form_rank_kickoff_day_asof_result_versions_v5'
+MIXED_REVIEWED_DAILY_POLICY = 'native_phase_form_rank_mixed_reviewed_cutoffs_v5'
+SUPPORTED_POLICIES = (POLICY, CORRECTED_POLICY, DAILY_POLICY, REVIEWED_POLICY, REVIEWED_DAILY_POLICY,
+                      VERSIONED_POLICY, VERSIONED_DAILY_POLICY, MIXED_REVIEWED_DAILY_POLICY)
 
 
 @dataclass(frozen=True)

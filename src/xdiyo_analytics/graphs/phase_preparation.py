@@ -2,11 +2,13 @@
 import numpy as np
 import pandas as pd
 from .phase_context import (PhaseRankLookup, CORRECTED_POLICY, DAILY_POLICY,
-                            REVIEWED_POLICY, REVIEWED_DAILY_POLICY, WINDOWS, KEYS)
+                            REVIEWED_POLICY, REVIEWED_DAILY_POLICY, VERSIONED_POLICY,
+                            VERSIONED_DAILY_POLICY, WINDOWS, KEYS)
 
 
 def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance, available_at=None,
-                        rank_timing='kickoff_day', meetings_per_pair=None, allow_incomplete_schedule=False):
+                        rank_timing='kickoff_day', meetings_per_pair=None, allow_incomplete_schedule=False,
+                        result_versions=None):
     """Create exact forecast rows with prior-calendar-day ranks by default.
 
     Unsupported split schedules raise through the current producer. Reviewed
@@ -21,6 +23,9 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     Daily preparation requires cutoffs on each fixture's kickoff calendar date;
     it changes neither countdown semantics nor original round metadata.
     Pass meetings_per_pair=3 only for a verified independent triple round robin.
+    An explicit result_versions journal enables publication-versioned rulings,
+    preserving each historical edge's original-cutoff rank. The ordinary result
+    timing convention and legacy no-journal artifacts remain separately named.
     """
     from ..features import DerivedStandings, SeasonCountdown
     from ..features.countdown import season_countdown
@@ -44,7 +49,8 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
                                         team_seasons=team_seasons,cutoffs=cuts).to_numpy()
     native=build_standings(history,team_seasons=team_seasons,normalized_ranks=WINDOWS,
                            queries=query,cutoffs=cuts,available_at=available_at,timing=rank_timing,
-                           meetings_per_pair=meetings_per_pair,allow_incomplete_schedule=allow_incomplete_schedule)
+                           meetings_per_pair=meetings_per_pair,allow_incomplete_schedule=allow_incomplete_schedule,
+                           result_versions=result_versions)
     values=native.features(query,DerivedStandings(normalized_ranks=WINDOWS,include_raw=False,side='both'),cutoffs=cuts)
     for role,side in (('team','home'),('opponent','away')):
         for window in WINDOWS:
@@ -52,6 +58,12 @@ def build_phase_context(history, team_seasons, fixtures, *, cutoffs, provenance,
     policy = DAILY_POLICY if rank_timing == 'kickoff_day' else CORRECTED_POLICY
     if 'points_rule' in native.metadata:
         policy = REVIEWED_DAILY_POLICY if rank_timing == 'kickoff_day' else REVIEWED_POLICY
+    if result_versions is not None:
+        policy = VERSIONED_DAILY_POLICY if rank_timing == 'kickoff_day' else VERSIONED_POLICY
+        provenance = dict(provenance, result_version_policy=native.metadata['policy'],
+                          result_version_source_sha256=native.metadata['source_sha256'],
+                          result_versions=native.metadata['result_versions'],
+                          ordinary_result_timing=native.metadata['ordinary_result_timing'])
     if allow_incomplete_schedule:
         provenance = dict(provenance, standings_schedule=native.metadata['schedule'],
                           meetings_per_pair=meetings_per_pair)
