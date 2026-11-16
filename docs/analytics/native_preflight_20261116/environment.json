@@ -1,0 +1,35 @@
+{
+  "python": "3.14.0",
+  "pandas": "2.3.3",
+  "numpy": "2.4.6",
+  "pyarrow": "22.0.0",
+  "base_commit": "e82ffdff9171e6d23265285e44816889035d9a0b",
+  "publications": 617,
+  "phase_cohorts": 662,
+  "fixtures": 172274,
+  "countdown": {
+    "unsupported": 101,
+    "supported": 561
+  },
+  "standings": {
+    "unsupported": 161,
+    "supported": 501
+  },
+  "readiness": {
+    "blocked": 161,
+    "conditional_retrospective": 501
+  },
+  "unresolved_standings": {
+    "Missing verified independent calendar/table rules or full membership evidence": 86,
+    "Administrative/awarded outcomes need timed approved standings treatment; played scores are not administrative results": 52,
+    "Reviewed results need verified played-resumption evidence or an explicit timed administrative standings treatment": 4,
+    "Administrative or annulled results require independently timed table/ruling scope; source sporting scores remain separate": 1,
+    "Reviewed format conflicts with observed rounds, teams or pair multiplicities": 3,
+    "Season contains fixtures without provider phase identity; resolve their table/calendar membership first": 2,
+    "Japan two-stage standings need explicit stage tables; the verified countdown preserves original phase ordinals": 1,
+    "Transition uses shootout 3/2/1/0 points; timed regulation-score and shootout evidence is required, not ordinary 3/1/0": 2,
+    "Scottish split carry-over and rank scope require an explicit implementation; regular pre-split table may be selected separately": 10
+  },
+  "datasets_modified": false,
+  "experiment_fits": false
+}

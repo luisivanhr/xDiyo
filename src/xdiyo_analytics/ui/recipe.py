@@ -23,7 +23,7 @@ def default_recipe(data_root='data/xDiyo_data'):
         'version': 1, 'name': 'Corners experiment', 'output_dir': 'experiments', 'config': {}, 'team_badges': None,
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
-        'data_selection': None, 'dataset_migration': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
+        'data_selection': None, 'dataset_migration': None, 'native_preprocessing': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
         'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
         'identity_features': None, 'numeric_features': None,
         'ratings': {}, 'features': {'corners_mean': node('features.RollingMean', source=stat, window=5),
@@ -206,6 +206,28 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         from ..data.catalogue.integration import named_recipe_data
         named_data, named_history = named_recipe_data(recipe)
     data_options = catalog.build(recipe['data'])
+    native_query = data_options.get('query') is not None or data_options.get('native_selection') is not None
+    native_report = None
+    if recipe.get('native_preprocessing') is not None and not native_query:
+        raise ValueError('Native preprocessing requires an explicit SofaScore query/selection; legacy recipes remain unchanged')
+    if native_query:
+        if named_data is not None:
+            raise ValueError('Choose native query or named dataset selection, not both')
+        tables = data_options.get('tables', ['matches'])
+        data_options['tables'] = list(dict.fromkeys([*([tables] if isinstance(tables,str) else tables),'matches','team_seasons']))
+    native_library = None
+    if native_query:
+        from ..data import NativeLibrary
+        native_library = NativeLibrary(data_options['data_root'])
+    def load_recipe_data(**selected_options):
+        if native_library is None:
+            return load_seasons(**selected_options)
+        selected_options=dict(selected_options)
+        selected_options.pop('data_root')
+        if selected_options.pop('seasons',None) is not None or selected_options.pop('leagues',None) is not None:
+            raise ValueError('Choose native query or legacy seasons/leagues, not both')
+        selected_options['selection']=selected_options.pop('native_selection',None)
+        return native_library.load(**selected_options)
     def needs_heatmaps(value):
         if isinstance(value, dict):
             return value.get('component') in ('features.Heatmap', 'features.SpatialPointSummary', 'features.SpatialHistoricalDeviation', 'features.SpatialFixtureDistance') or any(needs_heatmaps(v) for v in value.values())
@@ -245,7 +267,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         # Standings must see the full result population even when the modelling
         # population excludes awarded games or lacks statistics/odds.
         standings_options = {**data_options, 'tables': ['matches', 'team_seasons'], 'include_awarded': True}
-        standings_data = load_seasons(**standings_options)
+        standings_data = load_recipe_data(**standings_options)
         standings_source = build_team_history(standings_data)
     def countdown_nodes(value):
         if isinstance(value, dict):
@@ -263,8 +285,20 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         if any(p.get('total_rounds') is None and p.get('team_count') is None
                and p.get('format') not in ('scotland', 'japan_transition') for p in countdown_specs):
             tables.append('team_seasons')
-        countdown_data = load_seasons(**{**data_options, 'tables': tables, 'include_awarded': True})
-    data = named_data if named_data is not None else load_seasons(**data_options)
+        countdown_data = load_recipe_data(**{**data_options, 'tables': tables, 'include_awarded': True})
+    data = named_data if named_data is not None else load_recipe_data(**data_options)
+    if native_query:
+        from ..data.native_preflight import preflight_loaded, validate_preprocessing
+        native_settings = validate_preprocessing(recipe.get('native_preprocessing'))
+        def uses_movement(value):
+            if isinstance(value,dict):
+                return value.get('component') in ('features.WasPromoted','features.WasRelegated','features.TeamMovement') or any(uses_movement(v) for v in value.values())
+            return isinstance(value,list) and any(uses_movement(v) for v in value)
+        required = (['countdown'] if countdown_specs else []) + (['standings'] if derived_standings else []) + (['movements'] if uses_movement(recipe.get('features',{})) else [])
+        native_report = preflight_loaded(data, required_features=required, options=native_settings)
+        failures = [(r['publication'],r['phase_id'],r['blockers']) for r in native_report['cohorts'] if r['blockers']]
+        if failures:
+            raise ValueError(f'Native preprocessing preflight blocked: {failures}. Use NativeLibrary.preflight for the full report.')
     heatmaps = data.tables.get('heatmap_points')
     if heatmaps is not None:
         heatmaps = heatmaps.copy(deep=False)
@@ -272,6 +306,11 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     if recipe.get('stat_selection') is not None:
         data = select_stats(data, **catalog.build(recipe['stat_selection']))
     history = named_history if named_data is not None else build_team_history(data, **catalog.build(recipe.get('history', {})))
+    if native_query:
+        from ..data.native_preflight import prepare_native_history
+        history = prepare_native_history(data, history, native_settings)
+        if standings_source is not None:
+            standings_source = prepare_native_history(standings_data, standings_source, native_settings)
     names = data.matches.copy(deep=False)
     for column in ('home_name', 'away_name'):
         if column not in names:
@@ -289,6 +328,14 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                                 for key, entry in team_catalog.entries.items()})
     context = {'history': history, 'matches': data.matches, 'team_catalog': team_catalog}
     options = catalog.build(recipe.get('feature_options', {}), context)
+    if native_query and native_settings['availability']=='explicit':
+        if options.get('available_at') not in (None,'result_available_at'):
+            raise ValueError('Explicit native availability must use result_available_at evidence')
+        options['available_at']='result_available_at'
+    elif native_query:
+        # Explicitly selected retrospective convention, still bounded by every
+        # reviewed completion/publication time in availability_times.
+        options.setdefault('available_at','kickoff_at')
     if named_data is not None:
         options.update(cutoffs=history.kickoff_at, available_at=history.result_available_at)
     if countdown_data is not None:
@@ -315,6 +362,10 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     ratings = {}
     for name, spec in recipe.get('ratings', {}).items():
         rating_options = catalog.build(spec, context)
+        if native_query and native_settings['availability']=='explicit':
+            if rating_options.get('available_at') not in (None,'result_available_at'):
+                raise ValueError('Native ratings must respect explicit result availability')
+            rating_options['available_at']='result_available_at'
         if 'team_seasons' in data.tables:
             rating_options.setdefault('team_seasons', data['team_seasons'])
         ratings[name] = build_ratings(history, **rating_options)
@@ -327,10 +378,16 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     if graph_spec is not None:
         from ..graphs.integration import history_cutoffs
         history = graph_spec.prepare_history(history)
+        if native_query and graph_spec.config.forecast_policy=='by_round':
+            from ..data.native_preflight import validate_round_groups
+            validate_round_groups(history,graph_spec.config.round_keys,'GAT issuance')
         graph_store = graph_spec.event_store(history, data.tables.get('team_seasons'), heatmaps=heatmaps)
         options['cutoffs'] = history_cutoffs(graph_store, graph_spec.config, history)
         context['graph_store'] = graph_store
     labels = create_labels(history, catalog.build(recipe['labels']))
+    if native_query and native_settings['entry_information']=='explicit':
+        from ..data.native_preflight import validate_entry_cutoffs
+        validate_entry_cutoffs(history,data['team_seasons'],options.get('cutoffs'))
     assembly = catalog.build(recipe['assembly'])
     if prediction:
         assembly['drop_missing_targets'] = False
@@ -340,8 +397,26 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
             frozen = frozen_split(frame, data.provenance['data_selection'])
             if frozen is not None:return frozen
         splitter = catalog.build(recipe['split'])
+        if native_query:
+            from ..splits import TemporalSplit
+            from ..data.native_preflight import validate_round_groups
+            from dataclasses import replace
+            if isinstance(splitter,TemporalSplit) and splitter.unit=='rounds':
+                if splitter.block_by is None:
+                    splitter=replace(splitter,block_by=('season_id','countdown_calendar_id','round'))
+                validate_round_groups(history,splitter.block_by,'TemporalSplit')
+            if isinstance(splitter,TemporalSplit) and splitter.gap_unit=='rounds' and splitter.unit!='rounds':
+                validate_round_groups(history,('season_id','round'),'TemporalSplit round gap')
+        split_options = catalog.build(recipe.get('split_options', {}), {**context, 'dataset': frame})
+        if native_query and native_settings['availability']=='explicit':
+            from ..splits import TemporalSplit
+            if not isinstance(splitter,TemporalSplit):
+                raise ValueError('Explicit native availability requires TemporalSplit label-availability validation')
+            if split_options.get('available_at') not in (None,'result_available_at'):
+                raise ValueError('Native training labels must use result_available_at evidence')
+            split_options['available_at']='result_available_at'
         plan = (splitter if isinstance(splitter, SplitPlan) else
-                _recipe_split_plan(frame, splitter, catalog.build(recipe.get('split_options', {}), {**context, 'dataset': frame}), hours))
+                _recipe_split_plan(frame, splitter, split_options, hours))
         if recipe.get('fold_ids') is not None:
             plan = SplitPlan([plan.folds[int(i)] for i in recipe['fold_ids']], plan.n_rows, plan.row_order, paths=None)
         if named_data is not None:
@@ -381,6 +456,18 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     retained_ratings = {}
     features = evaluate_features(history, definitions, rating_runs=retained_ratings, **options)
     dataset = assemble_dataset(features, labels[recipe['target']], **assembly)
+    if native_query:
+        from ..data.native_preflight import sporting_mask
+        keys=['competition_id','season_id','event_id']
+        eligible=data.matches.native_target.copy()
+        if not prediction:
+            eligible &= sporting_mask(data.matches)
+        targets=set(data.matches.loc[eligible,keys].itertuples(index=False,name=None))
+        selected=np.array([k in targets for k in dataset.metadata[keys].itertuples(index=False,name=None)])
+        dataset.X=dataset.X.loc[selected].reset_index(drop=True)
+        dataset.y=dataset.y.loc[selected].reset_index(drop=True)
+        dataset.metadata=dataset.metadata.loc[selected].reset_index(drop=True)
+        dataset.definitions['native_preprocessing']=native_report
     if named_data is not None:
         from ..data.catalogue.integration import select_targets
         dataset = select_targets(dataset, data.provenance['data_selection'])
@@ -439,6 +526,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     plan = make_plan(dataset)
     return PreparedExperiment(dataset, plan, {'history': history, 'matches': data.matches, 'features': features,
                                             'labels': labels, 'ratings': retained_ratings, 'team_catalog': team_catalog,
+                                            **({'native_preflight': native_report} if native_report is not None else {}),
                                             'rating_cutoffs': options.get('cutoffs'), 'graph_inputs': None if graph_store is None else dict(history=graph_store.history, team_seasons=graph_store.team_seasons, schedule=graph_store.schedule, provenance=graph_store.provenance,
                                                 **({"phase_context_state": graph_store.phase_context.state()} if graph_store.phase_context is not None else {}))},
                               config={'recipe': recipe})

@@ -83,11 +83,17 @@ def _policy(timing, reviewed_points):
     return REVIEWED_POLICY if reviewed_points else POLICY
 
 
+def _native_scoped(history):
+    return ('standings_table_id' in history and 'native_standings_rule' in history
+            and any(json.loads(rule).get('policy') == 'native_scoped_preprocessing_v1'
+                    for rule in history.native_standings_rule.dropna().unique()))
+
+
 def _canonical(history, roster, available_at, *, timing='available_at_cutoff', meetings_per_pair=None,
                allow_incomplete_schedule=False):
     if 'native_standings_rule' in history:
         from ..data.native_integration import native_rule
-        for _, population in history.groupby(['competition_id', 'season_id'], sort=False):
+        for _, population in history.groupby(['competition_id', 'season_id'] + (['standings_table_id'] if 'standings_table_id' in history else []), sort=False):
             native_rule(population, 'standings')
     if roster is None:
         raise ValueError("DerivedStandings requires verified complete team_seasons membership, not teams seen in a fold.")
@@ -112,6 +118,8 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
              "standings_goals_for", "standings_goals_against", "standings_points_for", "standings_points_against",
              "standings_result_available_at", "standings_rule") if c in history]
     extra += [c for c in history if c.startswith(("team_score_", "opponent_score_"))]
+    if _native_scoped(history):
+        extra.append('native_standings_rule')
     frame = history[list(dict.fromkeys((*required, *extra)))].copy()
     frame.attrs = {}
     # A kickoff is not evidence that a sporting result is already known.
@@ -215,11 +223,16 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
     for skey, matches in scopes.items():
         # Validate the explicitly supported round-robin schedule, including
         # unfinished fixtures. Mere provider "complete" flags are insufficient.
+        selected = frame.loc[(frame[list(scope)].apply(tuple, axis=1) == skey)]
+        rule = native_rule(selected, 'standings') if 'native_standings_rule' in selected else None
+        native = bool(rule and rule.get('policy') == 'native_scoped_preprocessing_v1')
+        scope_meetings = rule['meetings_per_pair'] if native else meetings_per_pair
+        scope_incomplete = rule['allow_incomplete_schedule'] if native else allow_incomplete_schedule
         teams = members[skey]
         counts = Counter(frozenset((r['home'], r['away'])) for r in matches)
         repetitions = set(counts.values())
-        allowed = {3} if meetings_per_pair == 3 else {1, 2}
-        if allow_incomplete_schedule:
+        allowed = {3} if scope_meetings == 3 else {1, 2}
+        if scope_incomplete:
             # A reviewed independent regular table can end early (e.g. COVID).
             # Future unplayed fixtures are not inputs to last-w result ranks.
             # Require explicit table/rule/format declarations; never infer an
@@ -227,10 +240,10 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
             if 'standings_table_id' not in scope:
                 raise ValueError('Incomplete schedules require an explicit independent standings_table_id and standings_rule.')
             directed = Counter((r['home'], r['away']) for r in matches)
-            venue_limit = 2 if meetings_per_pair == 3 else 1
-            if any(n > meetings_per_pair for n in counts.values()) or any(n > venue_limit for n in directed.values()):
+            venue_limit = (scope_meetings + 1)//2
+            if any(n > scope_meetings for n in counts.values()) or any(n > venue_limit for n in directed.values()):
                 raise ValueError(f'Conflicting or repeated pair in incomplete independent schedule for {skey}.')
-            total_rounds = (len(teams)-1 if len(teams)%2 == 0 else len(teams))*meetings_per_pair
+            total_rounds = (len(teams)-1 if len(teams)%2 == 0 else len(teams))*scope_meetings
             if any(r['round'] > total_rounds for r in matches):
                 raise ValueError(f'Round exceeds declared independent schedule for {skey}.')
             for round_ in {r['round'] for r in matches}:
@@ -238,23 +251,23 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
                 if len(participants) != len(set(participants)):
                     raise ValueError(f'Duplicate team within round of incomplete independent schedule for {skey}.')
         elif len(counts) != len(teams)*(len(teams)-1)//2 or len(repetitions) != 1 or not repetitions <= allowed:
-            if meetings_per_pair == 3:
+            if scope_meetings == 3:
                 raise ValueError(f"Incomplete triple round-robin schedule for {skey}; every roster pair must meet exactly three times.")
             raise ValueError(f"Incomplete schedule or unsupported split/playoff format for {skey}; requires a complete independent single/double round-robin table.")
-        if not allow_incomplete_schedule and repetitions == {2} and len({(r['home'],r['away']) for r in matches}) != len(matches):
+        if not scope_incomplete and repetitions == {2} and len({(r['home'],r['away']) for r in matches}) != len(matches):
             raise ValueError(f"Conflicting home/away schedule for {skey}.")
-        if meetings_per_pair == 3 and not allow_incomplete_schedule:
+        if scope_meetings == 3 and not scope_incomplete:
             directed = Counter((r['home'], r['away']) for r in matches)
             if any(directed[a,b] not in (1,2) or directed[b,a] not in (1,2) for a,b in directed):
                 raise ValueError(f"Triple round-robin home/away schedule must split each pair's venues 2/1 for {skey}.")
         selected = frame.loc[(frame[list(scope)].apply(tuple, axis=1) == skey)]
-        if allow_incomplete_schedule and 'tournament_id' in selected and selected.tournament_id.nunique(dropna=False) > 1:
+        if scope_incomplete and 'tournament_id' in selected and selected.tournament_id.nunique(dropna=False) > 1:
             raise ValueError(f'Multiple stages in incomplete independent regular schedule for {skey}.')
         if 'standings_table_id' not in scope and 'tournament_id' in selected and selected.tournament_id.nunique(dropna=False) > 1:
             raise ValueError(f"Multiple stages for {skey}; explicit independently verified table scope is required.")
         first = [r for r in matches if r['round'] == 1]
         first_teams = [t for r in first for t in (r['home'], r['away'])]
-        if len(first) != len(teams)//2 or len(set(first_teams)) != len(first_teams):
+        if not native and (len(first) != len(teams)//2 or len(set(first_teams)) != len(first_teams)):
             raise ValueError(f"Incomplete/ambiguous first-round fixture set for {skey}.")
     canonical = sorted((json.dumps(r, default=str, sort_keys=True) for r in frame.to_dict('records')))
     policy = _policy(timing, any('home_points' in m for m in fixtures.values()))
@@ -493,6 +506,20 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
         raise ValueError('Standings venues must be a nonempty sequence of all, home and/or away.')
     venues = tuple(dict.fromkeys(venues))
     extended = venues != ('all',)
+    if _native_scoped(history):
+        from ..data.native_integration import native_rule
+        rows = []
+        for key, group in history.groupby(['competition_id', 'season_id', 'standings_table_id'], sort=False):
+            rule = native_rule(group, 'standings')
+            if rule.get('policy') != 'native_scoped_preprocessing_v1':
+                raise ValueError('Native scoped standings require a supported, versioned rule')
+            members = team_seasons.loc[team_seasons.competition_id.eq(key[0]) & team_seasons.season_id.eq(key[1])]
+            if not set(rule['team_ids']) <= set(members.team_id):
+                raise ValueError('Native standings membership evidence is incomplete')
+            members = members.loc[members.team_id.isin(rule['team_ids'])].copy()
+            members['standings_table_id'] = key[2]
+            rows.append(members)
+        team_seasons = pd.concat(rows, ignore_index=True)
     scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing, meetings_per_pair=meetings_per_pair,
         allow_incomplete_schedule=allow_incomplete_schedule)
     reviewed = [m for m in fixtures.values() if 'home_points' in m]
@@ -565,6 +592,9 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     if allow_incomplete_schedule:
         metadata['schedule'] = 'explicit_independent_regular_incomplete_schedule'
         metadata['allow_incomplete_schedule'] = True
+    if _native_scoped(history):
+        metadata['schedule'] = 'verified_native_independent_table_scopes'
+        metadata['native_scope_rules'] = sorted(history.native_standings_rule.dropna().unique().tolist())
     if reviewed:
         metadata['points_rule'] = 'reviewed_fixture_points_else_score_3_1_0'
         metadata['reviewed_points'] = [dict(scope=list(m['scope']), event=m['event'],

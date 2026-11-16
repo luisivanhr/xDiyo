@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "name": "Corners experiment",
+  "output_dir": "experiments",
+  "config": {},
+  "team_badges": null,
+  "data": {
+    "data_root": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data",
+    "query": {
+      "competitions": "HNL",
+      "seasons": 61243
+    },
+    "tables": [
+      "matches",
+      "team_seasons"
+    ],
+    "native_selection": {
+      "policy": "sofascore_native_query_v1",
+      "query": {
+        "competitions": "HNL",
+        "seasons": 61243
+      },
+      "publications": [
+        {
+          "stem": "HNL_24_25",
+          "record": {
+            "publication_sha256": "d0cf9b5f9203a93f31fd9fd3ad9414d7c9293174ad9b2a54bc9831dd1454fa00",
+            "manifest_sha256": "fc062918dd43ddbbdea89da5726f6726bbb664c3a10865f2e477701355b35f7c"
+          }
+        }
+      ],
+      "phase_ids": null,
+      "team_ids": null,
+      "vocabulary_sha256": "72c432edf70dc089bb1214f31eb4e4a51adf06afa9fd9e5c53fe93603e86ef23",
+      "fingerprint": "15af238e825d8411c2fb9ab6fe7c0d936baa35fc8d818c219684df1a2f831480"
+    },
+    "record_dir": "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\docs\\analytics\\native_preflight_20261116\\demo_refreshed_data_records"
+  },
+  "data_selection": null,
+  "dataset_migration": null,
+  "native_preprocessing": {
+    "availability": "retrospective_finished",
+    "entry_information": "retrospective_season_entry"
+  },
+  "stat_selection": null,
+  "history": {},
+  "feature_options": {},
+  "cutoff_hours": 24,
+  "feature_preset": null,
+  "preset_seasons": null,
+  "derived_features": {},
+  "context_features": {},
+  "identity_features": null,
+  "numeric_features": null,
+  "ratings": {},
+  "features": {
+    "countdown": {
+      "component": "features.SeasonCountdown",
+      "params": {}
+    },
+    "form": {
+      "component": "features.DerivedStandings",
+      "params": {
+        "normalized_ranks": [
+          5
+        ]
+      }
+    }
+  },
+  "labels": {
+    "outcome": {
+      "component": "labels.Outcome",
+      "params": {
+        "perspective": "home"
+      }
+    }
+  },
+  "target": "outcome",
+  "assembly": {
+    "layout": "match",
+    "drop_missing_targets": true
+  },
+  "split": {
+    "component": "splits.TemporalSplit",
+    "params": {
+      "train_size": 10,
+      "test_size": 5,
+      "unit": "rounds"
+    }
+  },
+  "split_options": {},
+  "fold_ids": null,
+  "pre_reporters": {},
+  "fitted_reporters": {},
+  "analysis_options": {},
+  "model": {
+    "component": "sklearn.linear_model.Lasso",
+    "params": {
+      "alpha": 0.1,
+      "max_iter": 5000
+    }
+  },
+  "preprocessors": [
+    {
+      "component": "sklearn.impute.SimpleImputer",
+      "params": {
+        "strategy": "median"
+      }
+    },
+    {
+      "component": "sklearn.preprocessing.StandardScaler",
+      "params": {}
+    }
+  ],
+  "adapter": null,
+  "target_transformer": null,
+  "prediction_methods": [
+    "predict"
+  ],
+  "candidate": {},
+  "search": null,
+  "execution": {
+    "component": "training.ExecutionPolicy",
+    "params": {}
+  },
+  "refit": null,
+  "checkpoint": null,
+  "post_reporters": {
+    "performance": {
+      "component": "reporting.PerformanceReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "metrics": [
+          "mse",
+          "mae"
+        ]
+      }
+    },
+    "matches": {
+      "component": "reporting.MatchResultReporter",
+      "params": {
+        "type": "overall",
+        "partition": "score",
+        "catalog": {
+          "ref": "team_catalog"
+        },
+        "show_badges": true
+      }
+    }
+  },
+  "run": {
+    "reuse": true
+  },
+  "artifact_export": null,
+  "prediction": {
+    "model_path": "",
+    "rounds": null,
+    "statuses": [
+      "notstarted"
+    ],
+    "as_of": null
+  }
+}

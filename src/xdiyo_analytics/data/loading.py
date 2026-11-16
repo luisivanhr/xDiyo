@@ -276,8 +276,9 @@ def _discover_seasons(root, seasons, leagues):
     return selected
 
 
-def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
-                 record_dir=None, verify_hashes=False, include_awarded=False) -> SeasonData:
+def load_seasons(data_root, seasons=None, *, leagues=None, tables=("matches",),
+                 record_dir=None, verify_hashes=False, include_awarded=False,
+                 query=None, native_selection=None) -> SeasonData:
     """Load available league-season publications and combine each table separately.
 
     seasons is a label or list/tuple such as ['22_23', '23_24', '24_25'].
@@ -299,7 +300,12 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
     even if a later partition fails. The returned provenance lists the exact
     population loaded. No source tables are changed; coverage is never required.
     """
-    import pandas as pd
+    if query is not None or native_selection is not None:
+        if seasons is not None or leagues is not None:
+            raise ValueError('Use either a SofaScore query or legacy seasons/leagues, not both.')
+        from .native_query import NativeLibrary
+        return NativeLibrary(data_root).load(query=query, selection=native_selection, tables=tables,
+            record_dir=record_dir, verify_hashes=verify_hashes, include_awarded=include_awarded)
 
     seasons, leagues, tables = _validate_season_options(seasons, leagues, tables, include_awarded)
 
@@ -310,6 +316,22 @@ def load_seasons(data_root, seasons, *, leagues=None, tables=("matches",),
     if records is not None and records.is_relative_to(root):
         raise ValueError("Save selection records outside the source data directory")
     selected = _discover_seasons(root, seasons, leagues)
+
+    return _load_selected(root, selected, tables=tables, record_dir=records,
+                          verify_hashes=verify_hashes, include_awarded=include_awarded,
+                          seasons=seasons)
+
+
+def _load_selected(root, selected, *, tables, record_dir=None, verify_hashes=False,
+                   include_awarded=False, seasons=None):
+    """Shared physical loading, with discovery/resolution performed by the caller."""
+    import pandas as pd
+    if isinstance(tables, str):
+        tables = [tables]
+    records = Path(record_dir).resolve() if record_dir is not None else None
+    if records is not None and records.is_relative_to(root):
+        raise ValueError('Save selection records outside the source data directory')
+    seasons = list(dict.fromkeys(s for s,_,_ in selected)) if seasons is None else seasons
 
     pieces = {name: [] for name in tables}
     sources = []

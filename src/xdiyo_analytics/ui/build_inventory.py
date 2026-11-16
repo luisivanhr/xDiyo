@@ -541,7 +541,7 @@ def build():
                 c['title'] = 'Season countdown'
                 f['primary'] = True
                 if name == 'format':
-                    f.update(kind='select', choices=['auto', 'double', 'single', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Fixtures outside their own main round cluster use the closest scheduled round-cluster interval, ties toward the later round, never below their original round.')
+                    f.update(kind='select', choices=['auto', 'double', 'single', 'triple', 'quadruple', 'scotland', 'japan_transition'], help='Auto uses audited league formats. Scotland includes all 38 league rounds; Mexico uses each tournament regular season. Playoffs are excluded. Fixtures outside their own main round cluster use the closest scheduled round-cluster interval, ties toward the later round, never below their original round.')
                 else:
                     f.update(kind='number', min=2, step=1, help='Optional override for every selected season. Complete membership and verified formats infer planned length, never downloaded match counts. A total-round override does not require membership.')
             if key == 'features.SeasonProgress' and name == 'total_rounds':

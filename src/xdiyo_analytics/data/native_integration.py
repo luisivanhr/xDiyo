@@ -27,7 +27,7 @@ def validate_integration(value, scope):
         if rule['status'] == 'unsupported' and not rule.get('reason'):
             raise ValueError('Unsupported native rule needs a reason')
         if key == 'countdown' and rule['status'] == 'supported':
-            if (rule.get('format') not in ('single','double','scotland','japan_transition')
+            if (rule.get('format') not in ('single','double','triple','quadruple','scotland','japan_transition')
                     or type(rule.get('total_rounds')) is not int or rule['total_rounds'] < 2):
                 raise ValueError('Invalid verified native countdown configuration')
     for key, team in value.get('teams', {}).items():

@@ -245,6 +245,7 @@ def create_labels(history, labels):
         "annual_league", "annual_season", "annual_phase", "season_half",
         "competition_name", "season_name", "season_label", "tournament_name",
         "native_countdown_rule", "native_standings_rule",
+        "countdown_calendar_id", "standings_table_id", "standings_rule", "native_target",
     ) if c in history]]))
     for name, node in labels.items():
         if not isinstance(name, str) or not name:

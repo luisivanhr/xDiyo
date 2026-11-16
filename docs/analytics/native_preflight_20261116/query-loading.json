@@ -1,0 +1,28 @@
+{
+  "command": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe examples/verify_native_query_loading_20261116.py",
+  "unique_fixture_identities": 172274,
+  "duplicate_identities": [],
+  "name_id_frame_parity": true,
+  "gat_preparations": [
+    {
+      "publication": "HNL_24_25",
+      "targets": 180,
+      "folds": 5,
+      "phases": [
+        "48"
+      ],
+      "fit_performed": false
+    },
+    {
+      "publication": "Peru_Liga_1_24_24",
+      "targets": 306,
+      "folds": 4,
+      "phases": [
+        "34467",
+        "34468"
+      ],
+      "fit_performed": false
+    }
+  ],
+  "script_sha256": "76163bb18115461576e4ffcbf2792b9fe0ae53d68fef379bb15e1904a643bdb0"
+}

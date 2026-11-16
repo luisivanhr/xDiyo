@@ -1,0 +1,47 @@
+Identity checks complete
+Audited 50/617 publications; failures=0
+Audited 100/617 publications; failures=0
+Audited 150/617 publications; failures=0
+Audited 200/617 publications; failures=0
+Audited 250/617 publications; failures=0
+Audited 300/617 publications; failures=0
+Audited 350/617 publications; failures=0
+Audited 400/617 publications; failures=0
+Audited 450/617 publications; failures=0
+Audited 500/617 publications; failures=0
+Audited 550/617 publications; failures=0
+Audited 600/617 publications; failures=0
+{
+  "base_commit": "e82ffdff9171e6d23265285e44816889035d9a0b",
+  "command": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe examples/verify_native_preflight_20261116.py",
+  "publications": 617,
+  "failures": [],
+  "fixtures": 172274,
+  "phase_cohorts": 662,
+  "readiness": {
+    "blocked": 161,
+    "conditional_retrospective": 501
+  },
+  "countdown": {
+    "unsupported": 101,
+    "supported": 561
+  },
+  "standings": {
+    "unsupported": 161,
+    "supported": 501
+  },
+  "independent_scalar_checks": 630432,
+  "legacy_parity": {
+    "publication": "Premier_League_24_25",
+    "standings_rows": 320,
+    "countdown_rows": 380,
+    "standings_parent_sha256": "eb0819b8cdd931413b4322d2204b910506f95132e1f14644074e06eed1385e93",
+    "countdown_parent_sha256": "6567994b68cdfc6e1403511078d2fd7c3cd28fc2d5c9e67902655cb124040b03",
+    "exact": true
+  },
+  "protected_active_inputs": {
+    "experiments\\gat_ce1_cadence_decay_20261116_01\\study_v1\\SOURCE_MANIFEST.json": true,
+    "experiments\\gat_ce1_cadence_decay_20261116_01\\study_v1\\CHRONOLOGY.json": true,
+    "experiments\\gat_ce1_cadence_decay_20261116_01\\study_v1\\PROTOCOL.json": true
+  }
+}

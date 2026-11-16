@@ -43,14 +43,35 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
         raise FileExistsError('Choose a new output recipe path; existing recipes and records are preserved.')
     if output.is_relative_to(root) or records.is_relative_to(root):
         raise ValueError('Save recipes and selection records outside the source data directory.')
-    seasons, leagues, tables = _validate_season_options(config['seasons'], config.get('leagues'),
-        config.get('tables', ['matches']), config.get('include_awarded', False))
     if not root.is_dir():
         raise FileNotFoundError(f'Data directory does not exist: {root}')
-    try:
-        selected = _discover_seasons(root, seasons, leagues)
-    except ValueError as exc:
-        raise ValueError('Some requested seasons or leagues have no current publication.') from exc
+    native_before = deepcopy(config.get('native_selection'))
+    native_after = None
+    if config.get('query') is not None or native_before is not None:
+        from ..data.native_query import NativeLibrary, validate_selection_envelope
+        if native_before is not None:
+            validate_selection_envelope(native_before)
+        if config.get('seasons') is not None or config.get('leagues') is not None:
+            raise ValueError('Choose native query or legacy seasons/leagues, not both')
+        query = config.get('query')
+        if query is None:
+            query = native_before['query'] if native_before else {}
+        library = NativeLibrary(root)
+        native_after = library.select(**query)
+        tables = config.get('tables',['matches'])
+        tables = [tables] if isinstance(tables,str) else tables
+        by_stem = {p['stem']:p for p in library.publications}
+        selected = [(by_stem[p['stem']]['source_season'],by_stem[p['stem']]['source_league'],p['stem']) for p in native_after['publications']]
+        config['native_selection'] = native_after
+        # Validate filtered scope construction as well as each underlying file.
+        library.load(query=query,tables=tables,verify_hashes=True,include_awarded=config.get('include_awarded',False))
+    else:
+        seasons, leagues, tables = _validate_season_options(config['seasons'], config.get('leagues'),
+            config.get('tables', ['matches']), config.get('include_awarded', False))
+        try:
+            selected = _discover_seasons(root, seasons, leagues)
+        except ValueError as exc:
+            raise ValueError('Some requested seasons or leagues have no current publication.') from exc
     pending, changes = [], []
     def historical_manifest(record, revision):
         if not revision:
@@ -138,6 +159,10 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
                   original_recipe_sha256=(hashlib.sha256(original_path.read_bytes()).hexdigest() if original_path else None),
                   output_recipe=str(output), changes=changes,
                   warning='Refresh creates a new input identity; previous experiment results are not migrated. Manifest-only changes can change feature semantics.')
+    if native_after is not None:
+        report['native_selection'] = dict(previous=native_before,current=native_after,
+            added=sorted({p['stem'] for p in native_after['publications']}-{p['stem'] for p in (native_before or {}).get('publications',[])}),
+            removed=sorted({p['stem'] for p in (native_before or {}).get('publications',[])}-{p['stem'] for p in native_after['publications']}))
     if dry_run:
         return dict(recipe=updated, path=str(output), changes=changes, report=report, dry_run=True)
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -82,3 +82,23 @@ examples/audit_native_identity_20261116.py text eol=lf
 examples/integrate_native_20261116.py text eol=lf
 examples/verify_native_integration_20261116.py text eol=lf
 examples/refresh_recipe_data.py text eol=lf
+
+# Native query/preflight evidence binds exact tested source bytes.
+src/xdiyo_analytics/data/__init__.py text eol=lf
+src/xdiyo_analytics/data/native_integration.py text eol=lf
+src/xdiyo_analytics/data/native_query.py text eol=lf
+src/xdiyo_analytics/data/native_formats.py text eol=lf
+src/xdiyo_analytics/data/native_preflight.py text eol=lf
+src/xdiyo_analytics/features/countdown.py text eol=lf
+src/xdiyo_analytics/labels/creation.py text eol=lf
+src/xdiyo_analytics/ratings/standings.py text eol=lf
+src/xdiyo_analytics/ui/build_inventory.py text eol=lf
+src/xdiyo_analytics/ui/recipe.py text eol=lf
+src/xdiyo_analytics/ui/refresh.py text eol=lf
+src/xdiyo_analytics/ui/server.py text eol=lf
+tests/analytics/test_native_query_preflight.py text eol=lf
+examples/preflight_native_library.py text eol=lf
+examples/verify_native_preflight_20261116.py text eol=lf
+docs/analytics/native_preflight_20261116/** -text whitespace=cr-at-eol
+docs/analytics/native_preflight_20261116/*.log -whitespace
+examples/verify_native_query_loading_20261116.py text eol=lf

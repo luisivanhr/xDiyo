@@ -1,0 +1,40 @@
+{
+  "source_sha256": {
+    "examples/verify_native_preflight_20261116.py": "32a1de50053a77dcd4faf94a28254943f70256c5e1e7f0e7b1ea4187b6049bea",
+    "examples/preflight_native_library.py": "f864fde369ce54d81994253db4041d4fd72a1a6ca7ebd0c5c26840986552f2df",
+    "src/xdiyo_analytics/data/__init__.py": "f7229dae113ff924e028159ec17c6572adcc11fb4c1e12e2c954adbeb664e888",
+    "src/xdiyo_analytics/data/loading.py": "6c90359b916a1d344112c2c90bd8451179926f3164a7c55cb3a2270c33a0f51d",
+    "src/xdiyo_analytics/data/native_integration.py": "124bf4988526bd9924387d25deafd50ec1106da05e414088be915ba6fbe1a9e6",
+    "src/xdiyo_analytics/data/native_query.py": "73caf2c49b470dac6cd8412cc6c5437d7730493424f616bf9d1eff0a63a6c07e",
+    "src/xdiyo_analytics/data/native_formats.py": "c977316af90c2edc84a9ce0ef8f18657b323cc4b8a632be0f97196bd71a81e73",
+    "src/xdiyo_analytics/data/native_preflight.py": "7bd12c29a520f750b4165bde7436987aac57fb0fd5b5f770fa7ca7c11ebf93cd",
+    "src/xdiyo_analytics/ui/recipe.py": "359d05d8c85eb4cac684020eac257c7590aca3cbedf0fd23963cc81c41989108",
+    "src/xdiyo_analytics/ui/refresh.py": "0ee5eae80675a5026647048c4e0fb09f47c58457d027af1112dc0a0429031ee8",
+    "src/xdiyo_analytics/ui/server.py": "ad9f37ccd24eac70555fd83964513f8df73008c55b158c6b90bc7bad13404cac",
+    "src/xdiyo_analytics/ui/build_inventory.py": "5d4aaf0e01bb66804a2480c8edb392f18cf10c84eef9f5e37e1265186188418a",
+    "src/xdiyo_analytics/features/countdown.py": "fc95f8368f7d3c117e3228671676b2a475d87c9df70fb784b79fe75785a055cc",
+    "src/xdiyo_analytics/histories/team.py": "8bbacc18eb2433b382b232ddb23985e907adc6c69ed48e25700370da7f42a8cb",
+    "src/xdiyo_analytics/labels/creation.py": "ddc2a91e6674fecf8566138f12c32c6f8b596eaeff6ad99ad37ce94981e69010",
+    "src/xdiyo_analytics/ratings/standings.py": "81b828d40386da05d121ce1a508332dc31b96d01a4c2745ccd0ac8377625f3d6",
+    "tests/analytics/test_native_query_preflight.py": "7a2928032ad08c3d459e99570bf5bca4d1a24e4bb710ff7cefb37d8b199379c1"
+  },
+  "python_tests": 446,
+  "javascript_tests": 21,
+  "independent_scalar_checks": 630432,
+  "artifact_sha256": {
+    "audit.log": "02f26bb7d1570a0dc4d3898cded49233494a1de72964ae5c880888d72a52c42b",
+    "demo_preparation.json": "f48127e61233dab5784e984707f6e116d5a2a79bc82fa771f8460390ccc977c2",
+    "demo_recipe.json": "db8ffd98ea68177bca0ddcca2c47f513a5c9637d490704c9fc104ff017f9f03f",
+    "demo_refreshed.json": "5d453af2fd417ff8896f63f83c60eef321c43102581d63126e859cc5e99286eb",
+    "demo_refreshed_refresh.json": "e61dad152703570d552550455063976af2cc9a2238c77787f96d270512673834",
+    "environment.json": "875461f2530fb0a232b1d80591bc2db52265d84ee333dbc93041963d245b1abc",
+    "preflight.csv": "ec416c1528291ef25daf3bc6fd86fd8494f9963150407e32f924a82be248ebb3",
+    "preflight.json": "a327acb8b357883ea1358a3399a5d6c619c4dd2e535123ca9166cf856bddeff8",
+    "pytest.log": "7f71b1e24d929340088c7538d7f083155afb34e0186c4789549bf25d95c477a0",
+    "pytest.xml": "c70716f821813f870efdeaa927df4829f4d567c4d3f8d5fd0edd0b1e26118bd1",
+    "query-loading.json": "f5dab0e10ac51a406be951d94410d2c352104cb52e3cfef226e4b61784a13725",
+    "query-tests.xml": "6e183357cd125c219a15122aedc68f264b83628ebfac16023663ff704044488b",
+    "ui-tests.log": "381b8fc01ce4a5573f49642d016fde26fe03dd4f7817de25c327ae2744a86b04",
+    "verification.json": "5f04331b7b9934ca19549d0c032d4565b6d40ba5e5dd5bfe20ecdc306111427e"
+  }
+}

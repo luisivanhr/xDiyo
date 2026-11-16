@@ -15,6 +15,11 @@ builder = launch_ui(workspace=".")
 
 The [implementation progress](IMPLEMENTATION_PROGRESS.md) records available layers and verification boundaries.
 
+[Native SofaScore queries and cohort preflight](docs/analytics/native_preflight_20261116/README.md)
+provide one name/ID resolver across competitions, teams, seasons and phases,
+with explicit calendar/table support and historical-availability assumptions.
+Existing storage-key recipes remain compatible; manifest-pin refresh is explicit.
+
 The [audited V59 fixture-round layer](docs/analytics/fixture_rounds_v59.md) adds
 identity-checked round and stage annotations for 61,488 additional-league
 fixtures, with versioned source lineage and explicit provider fallback semantics.

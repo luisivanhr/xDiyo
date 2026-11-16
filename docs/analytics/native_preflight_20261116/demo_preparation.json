@@ -1,0 +1,16 @@
+{
+  "query": {
+    "competitions": "HNL",
+    "seasons": 61243
+  },
+  "rows": 180,
+  "features": [
+    "home::form::team::form_rank_5",
+    "away::form::team::form_rank_5",
+    "fixture::countdown"
+  ],
+  "folds": 5,
+  "classification": "conditional_retrospective",
+  "fit_performed": false,
+  "selection_fingerprint": "15af238e825d8411c2fb9ab6fe7c0d936baa35fc8d818c219684df1a2f831480"
+}

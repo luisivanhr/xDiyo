@@ -279,6 +279,13 @@ class BuilderState:
             self.retained_payload_bytes = max(0, total)
 
     def dispatch(self, route, request):
+        if route in ('native-discover','native-select','native-preflight'):
+            from ..data import NativeLibrary
+            library = NativeLibrary(self.resolve(request['root']))
+            query = request.get('query',{})
+            if route == 'native-discover':return {'entities':library.discover(request.get('kind','publications'),**query)}
+            if route == 'native-select':return library.select(**query)
+            return library.preflight(query=query,**request.get('options',{}))
         from ..data import inspect_season, list_stat_bundles
         if route == 'catalog':
             from .inventory import inventory

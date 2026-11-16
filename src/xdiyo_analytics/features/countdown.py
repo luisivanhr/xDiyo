@@ -20,8 +20,8 @@ class SeasonCountdown(Expr):
     team_count: int | None = None
 
     def __post_init__(self):
-        if self.format not in ('auto', 'double', 'single', 'scotland', 'japan_transition'):
-            raise ValueError('SeasonCountdown format must be auto, double, single, scotland or japan_transition.')
+        if self.format not in ('auto', 'double', 'single', 'triple', 'quadruple', 'scotland', 'japan_transition'):
+            raise ValueError('SeasonCountdown format must be auto, single, double, triple, quadruple, scotland or japan_transition.')
         for name in ('total_rounds', 'team_count'):
             value = getattr(self, name)
             if value is not None and (isinstance(value, bool) or not isinstance(value, Integral) or value < 2):
@@ -41,7 +41,7 @@ def _schedule(frame):
     if missing:
         raise ValueError(f'SeasonCountdown needs schedule identity columns: {sorted(missing)}')
     names = _KEYS + ['round'] + [c for c in ('kickoff_at', 'kickoff_utc', 'tournament_id',
-             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase', 'native_countdown_rule') if c in frame]
+             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase', 'native_countdown_rule', 'countdown_calendar_id') if c in frame]
     data = frame[names].reset_index(drop=True).copy()
     data.attrs = {}
     if {'side', 'team_id', 'opponent_id'} <= set(data) and 'home_id' not in data:
@@ -136,8 +136,13 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
         raise ValueError('SeasonCountdown cutoffs must be no later than target kickoff.')
     source = _schedule(metadata if schedule_history is None else schedule_history)
     output = np.full(len(query), np.nan)
-    for key, rows in query.groupby(_KEYS[:2], sort=False):
+    scope = _KEYS[:2] + (['countdown_calendar_id'] if 'countdown_calendar_id' in query else [])
+    if 'countdown_calendar_id' in query and 'countdown_calendar_id' not in source:
+        raise ValueError('Native query requires matching countdown calendar scope in schedule_history')
+    for key, rows in query.groupby(scope, sort=False):
         population = source.loc[source.competition_id.eq(key[0]) & source.season_id.eq(key[1])]
+        if len(scope)>2:
+            population = population.loc[population.countdown_calendar_id.eq(key[2])]
         games = population.drop_duplicates(_KEYS).copy()
         leagues = games.get('source_league', pd.Series(dtype=str)).dropna().unique()
         seasons = games.get('source_season', pd.Series(dtype=str)).dropna().unique()
@@ -165,7 +170,8 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
             'Bundesliga': 42, 'Bundesliga_2': 41, 'Championship': 2, 'Eredivisie': 39,
             'J1': 82, 'J2': 3034, 'La_Liga': 36, 'La_Liga_2': 37, 'Ligue_1': 4,
             'Ligue_2': 19, 'Premier_League': 1, 'Serie_A': 33, 'Serie_B': 34}
-        if league in regular and ('tournament_id' in games or league in ('Pro_League', 'Liga_MX_Apertura', 'Liga_MX_Clausura')):
+        if (not (rule and rule.get('policy') == 'native_scoped_preprocessing_v1')
+                and league in regular and ('tournament_id' in games or league in ('Pro_League', 'Liga_MX_Apertura', 'Liga_MX_Clausura'))):
             if 'tournament_id' not in games:
                 raise ValueError(f'SeasonCountdown needs tournament_id to exclude {league} playoffs.')
             regular_id = 28 if league == 'Liga_MX_Clausura' and season == '10_11' else regular[league]
@@ -180,6 +186,8 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
             eligible &= games.tournament_id.isin([171852, 171853])
         n = expression.team_count
         fixed = 12 if mode == 'scotland' else 20 if mode == 'japan_transition' else None
+        if rule and rule.get('team_ids'):
+            fixed = len(rule['team_ids'])
         if fixed is not None:
             if n is not None and n != fixed:
                 raise ValueError(f'SeasonCountdown {mode} requires {fixed} season teams.')
@@ -201,7 +209,7 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
         if rule and rule['status'] == 'supported':
             total = rule['total_rounds']
         if total is None:
-            total = 38 if mode == 'scotland' else 18 if mode == 'japan_transition' else (n - 1 if n % 2 == 0 else n) * (2 if mode == 'double' else 1)
+            total = 38 if mode == 'scotland' else 18 if mode == 'japan_transition' else (n - 1 if n % 2 == 0 else n) * {'double':2,'triple':3,'quadruple':4}.get(mode,1)
         if total < 2:
             raise ValueError('SeasonCountdown requires at least two planned rounds.')
         ordinal = games['round'].copy()
