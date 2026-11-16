@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2021/2022",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 40080
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=40080/versions/732112cfe7af4929b1641b998387921e/manifest.json",
+      "before": "ec79382bf983c0a297cacd0b753e96e54f428249e57ebd2772bedf5a1d8e82d9",
+      "after": "4b81e24eba2bff8ce18036231fe5dac5425cee85b5caf8c09062e052a05cec60"
+    },
+    {
+      "path": "Liga_MX_Clausura_21_22.manifest.json",
+      "before": "726700cc1ef1aba71d13e1fedb2cfb500ad0168db14f8be1377714aa585fb350",
+      "after": "22325aa55b89d01d7b81d56f14a436bfd038be6a2f3ca30b2dae3e032dc54d47"
+    }
+  ]
+}

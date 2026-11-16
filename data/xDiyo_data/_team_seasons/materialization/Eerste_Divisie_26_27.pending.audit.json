@@ -1,0 +1,9 @@
+{
+  "season": "Eerste_Divisie_26_27",
+  "old_manifest_sha256": "c33f55a629eb7104752a2f7a7b984cbd2b898b3ce16f3e7d826c83c409c3b95f",
+  "old_publication_sha256": "1d12aa514831f6ef1fbc003c9403cdce347cad7b4026cbb27f8277ea8bebfa82",
+  "new_manifest_sha256": "e983f718bf1de73da901ec0e6b23fcf51c5216c03baf8621da287f4e8cabee1f",
+  "new_publication_sha256": "35bb78ff30a1239b193f8d0be88be024a5e7ec3c009e2f5077c12fd1da7f8d93",
+  "matches_sha256": "9bb807a9ab2056314f8accb0111e128897a702ccdcf53e4753057f0688fcaed3",
+  "season_sha256": "d46c646e2c12e92f6b6a9602feb56bea88a5bcc34c12a1f61db352c1489416c8"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Apertura_20_20",
+  "old_manifest_sha256": "382e56627215ad9effa9f6cdcd00109dcf32824f73ba69588aa01ad27949431a",
+  "old_publication_sha256": "afd2557e2d5aecd8617d2332192b5fa0ac3ad1e46c8e5726e07549b6c2f16ac7",
+  "new_manifest_sha256": "534de057d1fb8992321aa726eff92878bd814144d0324802b4ace781a69fd9d2",
+  "new_publication_sha256": "9899efb055db834027c1f1793e181344b0d94d78b15f26eacb57f9a45eec5125",
+  "matches_sha256": "da198e88e3ec4b981e15f08cf05347f80bb51282d339a892bdb24e687fb5cc33",
+  "season_sha256": "e0e8b84ea6c8d9fdea5cd17e37e102b461b1be645fb9fe4952919e07c12dc791"
+}

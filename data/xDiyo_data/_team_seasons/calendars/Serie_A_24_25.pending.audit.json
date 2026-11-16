@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 63515
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=63515/versions/3d479a59eebf4ee3b99ff80ef9fa2264/manifest.json",
+      "before": "abda6578375990e2316b794467c689e25b599601a8cd8e6fbddba479e80a11d1",
+      "after": "1ce84250f4275245d1fe819fd623fe6a8dc8c49df49b89a4c47b7d2b98d95d35"
+    },
+    {
+      "path": "Serie_A_24_25.manifest.json",
+      "before": "b8ed587333c1f32e377ad0b82d5a055298d4c9828d87aee5e85f70ebc4bd6e36",
+      "after": "f82826d7dde720ebc5ed05b1e6cd70ea00cca6dd87a3832478c96950aa50c887"
+    }
+  ]
+}

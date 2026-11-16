@@ -1,0 +1,9 @@
+{
+  "season": "Eliteserien_22_22",
+  "old_manifest_sha256": "9f1bd53cf608a4c0ede4b461a03c51578e83269adb3c45326c7d4a16a7fb6e88",
+  "old_publication_sha256": "cc0d19100f084e5c07eaaf0cfeb0c542f273b69f37140f22a5a2bb205095164d",
+  "new_manifest_sha256": "e4a2fd675c50fd599d7924490d59941162edea2b90b58a807e424206d3795407",
+  "new_publication_sha256": "4f9c4dc7b6d9cc3076d072400103866fa6067f78cf3da393d37fbdd43cbc4dd0",
+  "matches_sha256": "01053b6b52e942d58bb20bb18f8b3e472917b1dd2f44a430425192504e9a4b43",
+  "season_sha256": "01bba8dd74f9dd5b3221411a6475865fb7251f3dafa463c187f85470cbb70f94"
+}

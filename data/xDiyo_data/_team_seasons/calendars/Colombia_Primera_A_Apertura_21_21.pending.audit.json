@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2021",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11539,
+    "season_id": 35235,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=35235/versions/0f1b3624acbb4edab4c6c2be423368a8/manifest.json",
+      "before": "df360341e34c1ae025b97c4b4f69c88bc00ee19ec4b47bdf4750c2896fda6043",
+      "after": "0cae17278fa20dde27eacd8103e1771afa79bddec14fe03f0cdd05f57f072d9b"
+    },
+    {
+      "path": "Colombia_Primera_A_Apertura_21_21.manifest.json",
+      "before": "18ef9300d9d62d04287961de0914030255da82da0e00598cb673af40d935baad",
+      "after": "c7ed6dbbd962309209ba170351d7b0207a30350c8148bede9607c856e19d7d8b"
+    }
+  ]
+}

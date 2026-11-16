@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 69871
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=69871/versions/53069fb689ef4e5082a3d9d732a137e7/manifest.json",
+      "before": "cf7579c5980d5ff0f432647a3a10857a9f47deddd6b94018d4c5df7e9dfe8c3c",
+      "after": "cf89076ba1d15537c78cfccf0b0c844f07f06944e9a541a49d304d49b14f24e5"
+    },
+    {
+      "path": "J1_25_25.manifest.json",
+      "before": "ae0c8d83112cbba73e91f405445b73cdbcbd9e19cffc1d4640f6455d01bc0411",
+      "after": "2a71e651d3f22f882029aaf888cd661336d3b6e345ad47ceff3649e448dba5d6"
+    }
+  ]
+}

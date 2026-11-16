@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 52367
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=52367/versions/0b4732194c354f7dada23b8b791ca4f9/manifest.json",
+      "before": "1318f2f5349ac7f827f0c05effa1d3365f457c4ac2b03e5e8bf5c3b6ec2eea51",
+      "after": "5860bb8e932b792cae22c059913c0e205a4a9222c30617f6ecd17899f0d183ff"
+    },
+    {
+      "path": "Championship_23_24.manifest.json",
+      "before": "71429740d41b4528f18a73a78c211652b83c7edeb39ff8f3c51def4a16eb8a94",
+      "after": "eb74bbf39151f31b9cf7b2df8d3e28a64afbbbb5e8e60a337a22afa82bb97b06"
+    }
+  ]
+}

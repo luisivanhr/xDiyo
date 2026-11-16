@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 95836
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=95836/versions/9c158215e2244fd39723880312d45c33/manifest.json",
+      "before": "768c1b0c336f6606200bdfb63632797166b6876f7e42cacd99cc9b39d80ab1fc",
+      "after": "e542874c090e49809681ce8bd5289e9b812a754dda22be4747d32aed367e2695"
+    },
+    {
+      "path": "Serie_A_26_27.manifest.json",
+      "before": "3cb9c0c880532afde3422d5c0f113f02ce8905da86607c35512559eb675b14f2",
+      "after": "6f3fc71b46551a1d2c31c3ae37f9aebb5ea173d4f7edb6408eca7eebaababebf"
+    }
+  ]
+}

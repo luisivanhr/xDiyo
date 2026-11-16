@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2017",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11536,
+    "season_id": 12882,
+    "tournaments": {
+      "19236": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11536/season=12882/versions/39f510f0cce649a0982ae9984c95c1b0/manifest.json",
+      "before": "99d53e1a26d1e8f675044a9ad8a518f462535161b4e198c7389f3c944f5a5136",
+      "after": "222fbef3538e28e58f142b9d10675a11f3df341e427c1cebd1f888aa819f60cf"
+    },
+    {
+      "path": "Colombia_Primera_A_Clausura_17_17.manifest.json",
+      "before": "24ce30aa2310f8acc78a2995db526fbc9e2614664f2fd83261547aa2bc7cbc94",
+      "after": "b939baa17f83ca386cc7b8c481e9d461cb7639fd985003a84c26bbf1b565d1dc"
+    }
+  ]
+}

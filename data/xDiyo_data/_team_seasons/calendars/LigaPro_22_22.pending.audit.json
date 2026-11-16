@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 40503
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=40503/versions/1bb58972a1e24fbbaa138225f7840bbe/manifest.json",
+      "before": "54e5adabdb7b1aecee8004beff5072164f878b07f16c0f59dba394a7f1dfab83",
+      "after": "3c0a0224f59336bd37d70a6235a8b5cfb2ce54b7ef3e132caa3c607a2cad2012"
+    },
+    {
+      "path": "LigaPro_22_22.manifest.json",
+      "before": "3244bd05535c0435ff16b3c1691148dee8f68b194c8bc777049bba163d62f61c",
+      "after": "8dede55f19116b1cf5cdd62a4f3bf1eacf1ec8733d79cf2db135cdc230d99743"
+    }
+  ]
+}

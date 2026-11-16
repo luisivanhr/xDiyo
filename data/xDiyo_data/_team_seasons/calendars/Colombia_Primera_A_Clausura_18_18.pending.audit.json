@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2018",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11536,
+    "season_id": 19511,
+    "tournaments": {
+      "19236": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11536/season=19511/versions/0d15470d105c473f96c380454317f9bc/manifest.json",
+      "before": "951572fb20df4594cf2a0d1aef285c08aac0ddd206002d0db26d9402ad6b3766",
+      "after": "328c8a2351c4e6f9e57a4b7b03bfe9617b7a577ef9df7f60dc346a3fa28222b9"
+    },
+    {
+      "path": "Colombia_Primera_A_Clausura_18_18.manifest.json",
+      "before": "ba60b0fb2f07346dee4d9b849fc441182189d38f8db3c4956fb4aaea5709234f",
+      "after": "838d7a4caed075cae7e55d696ad27f89804a9a9e9a9bd6fc305cac7fcbadd9ff"
+    }
+  ]
+}

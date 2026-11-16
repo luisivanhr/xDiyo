@@ -1,0 +1,9 @@
+{
+  "season": "Egyptian_Premier_League_21_22",
+  "old_manifest_sha256": "cc4414fa2ba57a763b561edc19815833e6369bead4748ab98df6844dc8fc922c",
+  "old_publication_sha256": "3731eaa52fa9a00d67d33a39bc6bbabf78a5f02d0ed6ffbb594e26eb4a54cda9",
+  "new_manifest_sha256": "03ee3d57cbbf0b2d97a2cd7d8f709afd1e87dfab1e12990df3f9a2620daef7a8",
+  "new_publication_sha256": "2939ae4a26aac2a5f37929f3257acb0ff9f218865b4f10054c102c64cf89be08",
+  "matches_sha256": "38adcac74519be2f1c36361397bc7899eff5600fc1adac361f418a6b1d5da4ab",
+  "season_sha256": "cc17e7e1c804523ae9f957be8b27e34dfec5ff807bb19d66095ef40ffe5c983b"
+}

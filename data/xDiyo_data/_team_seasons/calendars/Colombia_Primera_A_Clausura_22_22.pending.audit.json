@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2022",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11536,
+    "season_id": 42387,
+    "tournaments": {
+      "19236": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11536/season=42387/versions/7ff01ca7eacc487db1d89c2ad9833017/manifest.json",
+      "before": "2f42e1e82b85c03e83e94725ee7d4a256ac1c08fb29a586679c54c9028d8351f",
+      "after": "620b70c66eabe6315109761803314e88cc29b32668597983d1a434db5c33bd38"
+    },
+    {
+      "path": "Colombia_Primera_A_Clausura_22_22.manifest.json",
+      "before": "17aad88a5368b4993262cdc3227e095a5564d8343e9c5b32d54c41118718bdd1",
+      "after": "acea096bb6c9334a6b24efc01b925d1337f0133b9b671970085526bbd333e17f"
+    }
+  ]
+}

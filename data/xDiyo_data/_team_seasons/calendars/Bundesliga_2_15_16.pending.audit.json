@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2015/2016",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 10420
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=10420/versions/0e032473adce4d30baba3413acb91f76/manifest.json",
+      "before": "b732b401ba2a26e53a9943b3844df29935954ac2d2381c17eaa60f542416aa6c",
+      "after": "40ba54030ab6a8d2d645048ac0cddb2837d7ffb00d330b4eaa8405bd39da7e40"
+    },
+    {
+      "path": "Bundesliga_2_15_16.manifest.json",
+      "before": "80a387b1abf98b246a0e61ca0ccfd2714712e2647b74c7384476e25356897a9c",
+      "after": "fe2bb0f5142e5a714faef11c5eedfe805123ba8bf9a478881705e7b3448c6071"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 96187
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=96187/versions/602e4530033642fdb3693b0cdf7ecb78/manifest.json",
+      "before": "e983f718bf1de73da901ec0e6b23fcf51c5216c03baf8621da287f4e8cabee1f",
+      "after": "167556073e2104136ca31951a3809a30db6d84f13f78416a5113b5807b1e5e2a"
+    },
+    {
+      "path": "Eerste_Divisie_26_27.manifest.json",
+      "before": "35bb78ff30a1239b193f8d0be88be024a5e7ec3c009e2f5077c12fd1da7f8d93",
+      "after": "38df26d4287a90028321febfa972ae8169f8f0b61f251f835c75e9678dc1c2ce"
+    }
+  ]
+}

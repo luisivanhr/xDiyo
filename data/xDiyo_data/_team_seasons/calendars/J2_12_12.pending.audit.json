@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 4292
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=4292/versions/4d4b5ae17d4b4adbaefaa55f1d03b40a/manifest.json",
+      "before": "1a9b736d070c33576af12020ff92307b4f6b730853395f8bf002ea464770814d",
+      "after": "55870ebeec61ce5ab7d329a4b7765de34ce63fd1b11cb113f7dc1c6eb28b405d"
+    },
+    {
+      "path": "J2_12_12.manifest.json",
+      "before": "22eecb85d3ce1094d0f39d9eabf613dbee8abebe307d46329394fa9ed2127189",
+      "after": "dc6df9b9a8993e295fdbf71850ee09ee6852a350a1e354dfe008489739d59103"
+    }
+  ]
+}

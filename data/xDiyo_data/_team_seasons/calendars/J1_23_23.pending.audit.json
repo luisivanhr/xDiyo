@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 48055
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=48055/versions/0162dd107cb94f4fa8beee9bcefe7465/manifest.json",
+      "before": "9ced523d2490d1884883cf0c3951adef70d988b59e9d974af83e51e8b0bc7ab5",
+      "after": "c8cc37ca75712d0f6f41f40498dcb14bf352dd9a6917dbb3590418b9bee55df8"
+    },
+    {
+      "path": "J1_23_23.manifest.json",
+      "before": "c087e10b1cf71b585a2fd01db8da8c1c73dff2a4d0d16ed86add11514e0cd232",
+      "after": "0a8550a3871648a38a2776c49a8de91d6d6db87eface4695f1c717ba9507026e"
+    }
+  ]
+}

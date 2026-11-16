@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2010",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 2601
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=2601/versions/1a375400723342e8b03686bf2737869d/manifest.json",
+      "before": "a39dff86cfb8906623ae2170584dd50a4018fe4378ab22a526e64ba368da66dc",
+      "after": "1f39e0c0ab7fa84f8b075f66d94446258e6ade8ac0e71b66909d423bc4277d85"
+    },
+    {
+      "path": "J1_10_10.manifest.json",
+      "before": "cabe8a9429a6a7ae56913eb0a10c5755c9edb7cd39c8d5a48153a41b59e44f22",
+      "after": "f795f40a3d03d868ca8b86210a810f69ac9d3c3a19998aa81f6357aee650f2e6"
+    }
+  ]
+}

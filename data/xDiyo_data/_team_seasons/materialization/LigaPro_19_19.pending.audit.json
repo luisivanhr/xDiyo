@@ -1,0 +1,9 @@
+{
+  "season": "LigaPro_19_19",
+  "old_manifest_sha256": "abc438c127cbd4440d1b8dffdf53dbb0b4aa0bd4e5575ceb48308c6acd981a76",
+  "old_publication_sha256": "308aeb4bf679bb6e59729bb8b15629bb718b436bcf3205a5f0437897bdc57665",
+  "new_manifest_sha256": "af23e183804633c9507b5a9e75bd07b5a1876830d5dc347f4d7634242d04dade",
+  "new_publication_sha256": "b45368fd5c43e2dae8d2ecb1df18ae188466709c272e7c230d67cfe204ca2a12",
+  "matches_sha256": "2c5c9e963623f3f04a6a65c7de6d4e3cefa3e8a882046a032c804ab9c095f02c",
+  "season_sha256": "c8b306c6bd3d699bf1495dd59674a85c9d9f7e350673a4ea62754f3406892cb4"
+}

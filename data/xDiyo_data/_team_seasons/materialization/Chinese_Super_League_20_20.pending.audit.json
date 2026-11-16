@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_20_20",
+  "old_manifest_sha256": "453d03288804f9d8db254c7df5f81d4608a9e78fcd06323ac9bc211a70db16d2",
+  "old_publication_sha256": "da351be082df0bf69ddeba7c283cbb22d38d8f5a9139bcbe865c77c0a53d6b96",
+  "new_manifest_sha256": "c71a43c2e8029f4b748415c2eddb703bcf4ed270106536cfadb08779d1dd1441",
+  "new_publication_sha256": "95a83f6dac50604ae4eba4a9050f0f71d025e960a5ebab1bf42af260051cf2e0",
+  "matches_sha256": "a145450fda8fbf9f5a68b18bae251277681b5b2f1f9e67318c10a57ccc6a85ae",
+  "season_sha256": "90dac96d9aad7e0dcb768cb71bbf003d110c15a717e0b48373da69dea5f1839e"
+}

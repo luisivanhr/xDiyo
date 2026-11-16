@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 2811
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=2811/versions/13c7c59d957047f28ded22ceb36d4584/manifest.json",
+      "before": "ce24da1b350c2deb0f46fcfb1ebd718f48f8f33c17fbe8cb9ed2ae7b1d4c5170",
+      "after": "8f0a42dfd21f3ea7b72ac634564958143427423281c25d8c5b35219dc8f538ed"
+    },
+    {
+      "path": "Bundesliga_10_11.manifest.json",
+      "before": "7fc684d25444a5614b6a735ae17222fd8ef8b5243723ee22ab88e45cf8367020",
+      "after": "7e2a60a2daa97da25552b265640217757aa1601f5db91cf84489fcfd0773fc3a"
+    }
+  ]
+}

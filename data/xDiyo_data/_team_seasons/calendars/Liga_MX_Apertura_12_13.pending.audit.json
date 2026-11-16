@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2012/2013",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 4869
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=4869/versions/833a5601e3d642d494e9c80e7bf1d8d5/manifest.json",
+      "before": "5db70132c5e4d1d49532e012629524f604f63be79cb9aeebc659392ed041bfd3",
+      "after": "2ae5ef97a70fe70f873424955538f42edb4dd7688cb4b04b6c0b63c6652f33cc"
+    },
+    {
+      "path": "Liga_MX_Apertura_12_13.manifest.json",
+      "before": "5439ab628b5d317b7c890bc3959bad1924336899627549e40e8a35ada4170595",
+      "after": "b6129d63293e5bef28dd4c4dae4deffee4308042abae1907c92b750a04347822"
+    }
+  ]
+}

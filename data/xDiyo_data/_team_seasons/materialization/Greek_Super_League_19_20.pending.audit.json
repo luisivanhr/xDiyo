@@ -1,0 +1,9 @@
+{
+  "season": "Greek_Super_League_19_20",
+  "old_manifest_sha256": "3a6a008a5b21359014ba8b66478bafe864cdd07f6206c034aeaf26ae93b98f3c",
+  "old_publication_sha256": "ae967a64f41694f918129bf3be7622ad91198c72af42586191878b80bdffd99a",
+  "new_manifest_sha256": "891bda64f832c70b64c89b76444c67b46dcbff5b8dc2b1097763c1f2ab52ae08",
+  "new_publication_sha256": "11ae92ad9f2f4fffc4247f95c1b74200c356a90e8f71357e9222692042ad9897",
+  "matches_sha256": "122ed4553fe45687f8738eb3c1e5a6c87a34406bea0d81967905fe458dc97d6f",
+  "season_sha256": "767a5eb8398a11d59eb45e7a4e0af0d75b2994c5eeec395838268a002412a539"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 24043
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=24043/versions/47fef8483938409aa5eed7a10094a8e1/manifest.json",
+      "before": "ab9d98de47e88a8d490302727a27c0b423676feb4b1e9ebbcbccafb88d9f7254",
+      "after": "221c7b624b75fe55212379024de42860547653ffa79deb0ad9d34443f1adb1de"
+    },
+    {
+      "path": "Bundesliga_2_19_20.manifest.json",
+      "before": "c6604b12937935b9e1c14b591cabdf894faba99ccfa60176d7d94d3698c8eb42",
+      "after": "bdbb3b66b22c6c1cc3c926e630840170ede3f904655f2de615e6b04adfaa931f"
+    }
+  ]
+}

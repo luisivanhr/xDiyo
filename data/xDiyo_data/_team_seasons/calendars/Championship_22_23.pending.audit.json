@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 42401
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=42401/versions/8d7fc5c5767f45ce851cb508b16416b1/manifest.json",
+      "before": "8b541d6bbf18502cc99f9279c6eb8c6a75aedc63722de620eca5bb8ade6f0a37",
+      "after": "2fb34909b65d2e84e14ef4cd8d799c83d73eeaf2dcde716a7545402bb026112d"
+    },
+    {
+      "path": "Championship_22_23.manifest.json",
+      "before": "6b255e0c3c614599ce30e84e81a6e8d7c1751cf7738b63c11ed2906623aae24a",
+      "after": "8f875a1aa05caa83d087f5ddcc73d6ec07119f290715eb08224e18cc1fff9d52"
+    }
+  ]
+}

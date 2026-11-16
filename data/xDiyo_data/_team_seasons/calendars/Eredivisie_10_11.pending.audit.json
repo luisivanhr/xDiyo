@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 2745
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=2745/versions/96d25c928657480fbf1a7e2daf2ce360/manifest.json",
+      "before": "dbaa5143ea6503cfb8da529699422d3575074095863644377d28240ce1c7b9cb",
+      "after": "02074504e6ababa4b83fb5aa937776e823566d88c09f3ccda7c740f4e212ddc5"
+    },
+    {
+      "path": "Eredivisie_10_11.manifest.json",
+      "before": "a0dfcd22c4b7041b4274ff8d7124f5ecc6b626b40502ef93414ab1533b067aa7",
+      "after": "3c2a5f55e0028cae0003fcc99e0daa39e5ef048a5dbfc627a7ecb06b1a509330"
+    }
+  ]
+}

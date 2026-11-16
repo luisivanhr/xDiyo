@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2013/2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 6303
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=6303/versions/a578fc87421e405e957b78ef0a9f6ed9/manifest.json",
+      "before": "b760c9bb78a659a3e6e97d787eca04068fc9d4055f69e9afbc78da3d3283174a",
+      "after": "90b6059e35e4a9549e6e0ef50c95194a267d9cc70af32f73bbb28a8526479325"
+    },
+    {
+      "path": "Bundesliga_13_14.manifest.json",
+      "before": "01be29fb532e7d6e858b577cfe482c001933d152c031b7c07c5f19b1e75f920b",
+      "after": "7dbb7cedc23e7256e454e33dc5db9e344487449f1c4c3ca7b53887d223b57e08"
+    }
+  ]
+}

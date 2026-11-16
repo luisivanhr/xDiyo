@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 35403
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=35403/versions/201aea41e2544a7da16617bb1cf78dd2/manifest.json",
+      "before": "b7699e70634361f93e7f74ffc571bcdfff47966d7e45c67f74dffca85bb51a41",
+      "after": "15856a3dbec2a35a2896cd992c4557b921da8cec71b7a2a436e0eaaab80d0708"
+    },
+    {
+      "path": "Eliteserien_21_21.manifest.json",
+      "before": "fcaff70626dbf66fc393bbeb131d13c3677f8fca4bfdb167968d9d46b0ca3402",
+      "after": "73e7cad9d41badc2398f708f27de44a8a4c0a4d315257c7bbaab6a59dc24831a"
+    }
+  ]
+}

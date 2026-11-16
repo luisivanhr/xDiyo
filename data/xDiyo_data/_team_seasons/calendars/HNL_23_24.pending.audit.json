@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "HNL",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 170,
+    "season_id": 52147
+  },
+  "files": [
+    {
+      "path": "_tables/competition=170/season=52147/versions/4de9b37979ea4206b07105b1e6ff7b81/manifest.json",
+      "before": "9b8eca623f8e4beb0be1ef33a732b66139f8492971bbf771cbe915c03e2cb3af",
+      "after": "04994077706e719a120f2a97f25011ed2d3a96cb842c30b68526a5ae5ea30aa1"
+    },
+    {
+      "path": "HNL_23_24.manifest.json",
+      "before": "b22c1d5a94d67c9832137184bd749e7a7a1bba4234b6a90bd3cef5fa22f611cd",
+      "after": "211df2f9489bb2ac4138fcc295bbc0602ff83353b653c40954685485eae2a54c"
+    }
+  ]
+}

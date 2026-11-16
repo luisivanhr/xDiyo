@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 17279
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=17279/versions/040d393a0e1143629670e84836467b92/manifest.json",
+      "before": "1a7f0376e1392898f8dfd079d15ae53a53dbb80bd94de4accea10dab92b7a27b",
+      "after": "e5a5dd32d1d9773ad1759f53903afb8aa555b5f4892d5cc9aeb9a1afaf7764fa"
+    },
+    {
+      "path": "Ligue_1_18_19.manifest.json",
+      "before": "b0a9fe9287944e452b422480fe8e3695e5af29d07e9446062bce32dc827f97c2",
+      "after": "61d107036665491469c99afd7b432fae7abdb1c2cb6e5f9fb06cb6c8dd90ad47"
+    }
+  ]
+}

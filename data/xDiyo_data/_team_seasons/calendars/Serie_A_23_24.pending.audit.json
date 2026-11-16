@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 52760
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=52760/versions/e59600fb97894b02b173de310747739f/manifest.json",
+      "before": "e5289e9055852715fc43fc07a8fc12f5bff3486190b4fdd96a6bc6491fd1eacb",
+      "after": "0c1d143f07092e5e819c0d748e430dfb045cee6f6d5b75ace84e3c780e072cd1"
+    },
+    {
+      "path": "Serie_A_23_24.manifest.json",
+      "before": "bf7832d591b65262f773c8f0049b809f416f7cf488a4236e5a61c2134733fba8",
+      "after": "99e4beacdf2642a5c962887c58111ebd574cd5ca34b3c060f502f0cce4b16865"
+    }
+  ]
+}

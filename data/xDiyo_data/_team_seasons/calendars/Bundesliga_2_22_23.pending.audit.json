@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 42269
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=42269/versions/2c2e16e4dbf44a9195ca418154c7490f/manifest.json",
+      "before": "7d65b9fddecbc4650a80ef447aa4200491d745c441d570a86aed1921399c7e1e",
+      "after": "967f8a9fcbd31d369a0e210c737fdecf96288580caa2c76f6da9281120540a15"
+    },
+    {
+      "path": "Bundesliga_2_22_23.manifest.json",
+      "before": "fe92d889482c935d4411e5fa1fa995b530b6d73f806ab52d18eca6911e05c0ba",
+      "after": "f0d14cec8057328b7fb78fc0e8390d0d46d9632692d52d0b60ca7766e2a3f594"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 27042
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=27042/versions/e8c36f7d0e5b4803b08a5814b338269c/manifest.json",
+      "before": "e4aef39357ab9e86d883d8ef501eb86916125ea050310590c6c7a91287eaa4e9",
+      "after": "8a4f1e1d8ce1077852a81170e7b4b2da25055d3d0b38ce22d4c86d94ef2157df"
+    },
+    {
+      "path": "J1_20_20.manifest.json",
+      "before": "8b78a238ebe311119d15e307e3fc6635447ed5cb083e6859c8efd355ceceb7dc",
+      "after": "689c348f17e0dbf28d1933809677d3f3d33612b2e604c2656281b634fe1eb3a7"
+    }
+  ]
+}

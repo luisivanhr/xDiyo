@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 57365
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=57365/versions/7a5bc3b472d84d0e97d70e92f05eb719/manifest.json",
+      "before": "d8572cec8c665fe56c2e436faaa1764fb589d49c41dba98645b6ba7d949318c8",
+      "after": "8f5e9528567221788dfad867897e4aed5f85b1df43613f89d4b606e0d9f84d2d"
+    },
+    {
+      "path": "J2_24_24.manifest.json",
+      "before": "e5a4fef2e5f1f14b1f786ade61777ab5f043af32ddcc94b23745ccea4f00d334",
+      "after": "ad80fb007474d41b16167723b614d11766660ebe8259029ad5274e325396128a"
+    }
+  ]
+}

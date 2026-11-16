@@ -1,0 +1,9 @@
+{
+  "season": "Danish_Superliga_24_25",
+  "old_manifest_sha256": "ca0f5cde263d96dbf4352b9899ddf60b09bb5f36e93c0333337ceb6743313e38",
+  "old_publication_sha256": "df091003dddc96ab75439c61f4868d27d1b25185b695d91da445e274ee91517f",
+  "new_manifest_sha256": "b609ff18da959dac475886ba68eab0d08e537635737eaf6a6cfac97e5ae7fd63",
+  "new_publication_sha256": "2b42d2944ce3bf330ecf2092cabe13f87c4ae4c61a8db605acf07e46a6b42f6b",
+  "matches_sha256": "e3f9cdf275247d5ef5842f5ad5056990031add6c27018163af266fc08bb1046a",
+  "season_sha256": "546833dbbdab6fac4de595ae21e4c85e3ded5f617c638a5321f70654f5e55b68"
+}

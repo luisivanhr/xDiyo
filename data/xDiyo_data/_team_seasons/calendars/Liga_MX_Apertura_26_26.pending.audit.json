@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2026/2027",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 96191
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=96191/versions/0e662ee868a04ba3b8154da4d43d2eec/manifest.json",
+      "before": "a4508e52e1df6c2e807d78e086f21dab069cf55b6fdcc5db6b0a229fa52d2969",
+      "after": "39940ce5d1c81cd0a0654b6fec8ad727386a7ce123dcc059a53495891dbd161e"
+    },
+    {
+      "path": "Liga_MX_Apertura_26_26.manifest.json",
+      "before": "522ce65a1670f91421d092ff67f395e3b1343f8dade57a033e27ecb5e35494b5",
+      "after": "0a1705cff1e9d201b2410dd2ccd4f9f28616280f19f8f419fb40a9532c365c46"
+    }
+  ]
+}

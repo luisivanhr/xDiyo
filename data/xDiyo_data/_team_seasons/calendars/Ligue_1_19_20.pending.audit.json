@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 23872
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=23872/versions/3491115908a644e7b63e0d26e7a808bc/manifest.json",
+      "before": "da0466fc88955c9062f9a8b7d6e814d561500f9eb0bdcfcad16e490532658f2d",
+      "after": "c69bdfe69e7577fe2ba1ae497e6e7e8cad112209791c325cea27e2d5c248ecd1"
+    },
+    {
+      "path": "Ligue_1_19_20.manifest.json",
+      "before": "6fffa5d4fb1df10d5cad92723fff2664f75bcb5d6b6ef9b382cc122f056c38c3",
+      "after": "98f3553e160ee2ed0cf493b737e3c5ee92742bdcc8294f50223aef447f8e8193"
+    }
+  ]
+}

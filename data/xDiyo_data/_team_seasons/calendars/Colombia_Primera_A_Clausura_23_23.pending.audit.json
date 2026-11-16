@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2023",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11536,
+    "season_id": 52847,
+    "tournaments": {
+      "19236": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11536/season=52847/versions/d98e4ac6564f4b5984418dc4b4ec5a3b/manifest.json",
+      "before": "5f3799a2659dcdde0cb6dacf6e6f0a19d11fd5e0edf9c87c0b98c2b7d00d5d7b",
+      "after": "d4df83e1d32971840309616e3c68371ac4023cb9253443e31997ca55dd93be68"
+    },
+    {
+      "path": "Colombia_Primera_A_Clausura_23_23.manifest.json",
+      "before": "ef4a752a238c6118282ec047e6f3c7c4e1db06b0ee767f1c8ed3d1a0ce32b1e0",
+      "after": "b92b8a7e5a924096cb594d15e3eb68ae0b9a7b66009f26b05f2846c0328dfc0a"
+    }
+  ]
+}

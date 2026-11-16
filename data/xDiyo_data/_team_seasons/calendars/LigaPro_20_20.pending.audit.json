@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 26952
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=26952/versions/ccf13fe45af74a57b4db0ad0a5a87783/manifest.json",
+      "before": "d6d813cab402d59e3bd0022430671bdf3f1cda096d50458f6e58aef44a6ec6a0",
+      "after": "7c8c1e8a710741c7e071f8ed3e4412ce70cda19721639aeee3cde1a11a758180"
+    },
+    {
+      "path": "LigaPro_20_20.manifest.json",
+      "before": "f7693983176904907ca42f9e9113f5c6c015c5a972935f136eab334bcd02b6d2",
+      "after": "2f9ef31b6d84677e34fea8eb3ef4ad871d8cdc32bde2862416eb869d61fc3c45"
+    }
+  ]
+}

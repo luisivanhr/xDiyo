@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Apertura_19_19",
+  "old_manifest_sha256": "6ac78a46842093f2c2e3f1468a517ea8dc15ebc1ab36642758ec52a9058763cb",
+  "old_publication_sha256": "d22285dce4482a6256cfa3406aa93a18ebbb96426376db97e425e405a96d0f91",
+  "new_manifest_sha256": "da35bbd3761686d52c1aae7adc09c74de1237fb6e0339ddad24c298ca4e05a55",
+  "new_publication_sha256": "1f41100e3c2168fbe826484f7fc8afc5666f6f79f27d8cfa99e2347e0df73d6b",
+  "matches_sha256": "7b0418586c3463e8bfec976263700136d1eb10b20096646c4dc26de672947da7",
+  "season_sha256": "e832df90f7968aa9f64c9f686dae7dcdbc16c520531746bd1341d4fe78cedd2c"
+}

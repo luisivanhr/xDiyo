@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Apertura_22_22",
+  "old_manifest_sha256": "403e366593a34943dff0e76ee92f096bdc0857eb8803e35f9642928a97988dcf",
+  "old_publication_sha256": "5d2f81ca44addd7a63c66e17fe92812c32e0bcb589d1a32ab35883fbb9048379",
+  "new_manifest_sha256": "70b8c9a763636da4f3c91d21b79dd6718a16b31545f47c22d313754bc39c261b",
+  "new_publication_sha256": "39146a3927c57c9725e4681a440f7863ded4c34b916274e5382bf381ad1c7746",
+  "matches_sha256": "545214fcdea21dc17513b722502211ffd8d0a8604fa2a7ee30a7bde5897c33a7",
+  "season_sha256": "406c87bbe4f34f116284cdc2a76712803abe226165cbd91a839eb6533e08fd08"
+}

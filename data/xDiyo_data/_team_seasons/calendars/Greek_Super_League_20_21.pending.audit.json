@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Greek_Super_League",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 185,
+    "season_id": 32553
+  },
+  "files": [
+    {
+      "path": "_tables/competition=185/season=32553/versions/925ec50b5ce9423f9aab70433a57d456/manifest.json",
+      "before": "100e6befcdc4deb9b993974b84b07c92ea35a6b5aab6e9ead7d11dd4e4015e17",
+      "after": "abe3a67feb9b0f0a5cf920db8e61286b2a7b8fd54f9fab6bfecc414749eabc5e"
+    },
+    {
+      "path": "Greek_Super_League_20_21.manifest.json",
+      "before": "8a210c290726ae2d5c05ebf2a02977bda07f4611e97d8993e2441e63a19abd15",
+      "after": "8d4e26f688dc5481c80d8ef9c0146e80bc27815472523e3b787499e912bfde2f"
+    }
+  ]
+}

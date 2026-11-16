@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 71364
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=71364/versions/59fac9c429ae4de898ae4bedcd85085a/manifest.json",
+      "before": "de16b223aba7a8eadfeae92cbe5ccb5f41b1b46f88402ed7cd24887d867140e8",
+      "after": "ae66a4fc494946fa60c99c0442a360b17d679faf969b29a6809ce90ec3bd397e"
+    },
+    {
+      "path": "Chinese_Super_League_25_25.manifest.json",
+      "before": "03456c2af4b6a156fa4d01efbfc518252cc412295b8e36d85fef4f196967b41d",
+      "after": "5603ed13f8bf322f96230ec3c24a70e8bb44a8db4eb26a775d8bb605153cf33f"
+    }
+  ]
+}

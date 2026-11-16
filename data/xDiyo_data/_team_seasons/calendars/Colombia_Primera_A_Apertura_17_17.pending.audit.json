@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2017",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11539,
+    "season_id": 12882,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=12882/versions/3960dea029dc408a876493160845a8b4/manifest.json",
+      "before": "9b4fa7e35340cf2fd6c7659be3ab4b85b324cdf0037777c3cccfd4a4df9256df",
+      "after": "341b6a9c6c4c25ac6b3c33eadfcd49102091e454c0133aa340241328766d7596"
+    },
+    {
+      "path": "Colombia_Primera_A_Apertura_17_17.manifest.json",
+      "before": "c0a55611802bd6a3f8c2e42c6a72ca64f36e071c9c5920be698402fdc40313bb",
+      "after": "8351d2ce9c8d9c636e92c044663221743485b42e8e0fdf4bea82d92afdba8b4d"
+    }
+  ]
+}

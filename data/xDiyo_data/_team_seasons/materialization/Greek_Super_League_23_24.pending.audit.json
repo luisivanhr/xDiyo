@@ -1,0 +1,9 @@
+{
+  "season": "Greek_Super_League_23_24",
+  "old_manifest_sha256": "2e5d6271448f3196e78e96e40c98a7ddc91f738cead3ff398b036075c3cf7470",
+  "old_publication_sha256": "1b099caad272b951ae6412983c95b487989fb2fef09c8a623cbf7ce22aa8dd77",
+  "new_manifest_sha256": "2551d35947329221ebf59e9e1e6d49bf40d28f3d9bef16efac8061655205d714",
+  "new_publication_sha256": "527396ab84756878eb11942a3dc859cbc8075462ec2f91de2d82cc6756be7c98",
+  "matches_sha256": "c2254f595bd12201f8406639ee4c037e1c3ed0345ac08b0767ff865644e9ff69",
+  "season_sha256": "5f46a48a243924fe4f8fe4f37a8847758ab2ef8c9e30d2084a1a8ac96b929d43"
+}

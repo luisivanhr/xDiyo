@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "HNL",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 170,
+    "season_id": 95727
+  },
+  "files": [
+    {
+      "path": "_tables/competition=170/season=95727/versions/d295f85883364202804d181cf9d735db/manifest.json",
+      "before": "56894d23888b339004457a671fdb5185bb2d7659f97c88a9a50468cbb18c3a4c",
+      "after": "c9561a5879f9d497859ea5458645297b5e9cb30fb534b9723bfea1803660e043"
+    },
+    {
+      "path": "HNL_26_27.manifest.json",
+      "before": "5221475a633b92a255e794ec8ce90e5bde24d5e73f89a917504eeb2d65dcd0c6",
+      "after": "468e72179f8ad674813776749eb8f35ed39c32623e9ad15e48e6cc467950ee96"
+    }
+  ]
+}

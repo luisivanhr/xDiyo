@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 28232
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=28232/versions/cba2f6ddf93949559a3ae60b3439692a/manifest.json",
+      "before": "c71a43c2e8029f4b748415c2eddb703bcf4ed270106536cfadb08779d1dd1441",
+      "after": "09d3e90a8193689d3aaab8541ced1cb85aa41b02167e7e7423542ca0e82e89f6"
+    },
+    {
+      "path": "Chinese_Super_League_20_20.manifest.json",
+      "before": "95a83f6dac50604ae4eba4a9050f0f71d025e960a5ebab1bf42af260051cf2e0",
+      "after": "0bbd82f04280a5ef0aea2b6638ea8a1de21e17b8703940f4ce400da8c94b99a2"
+    }
+  ]
+}

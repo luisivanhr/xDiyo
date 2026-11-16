@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2019",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11536,
+    "season_id": 24014,
+    "tournaments": {
+      "19236": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11536/season=24014/versions/e3554d78b8664331b0af9ec0359eae5a/manifest.json",
+      "before": "9665d4bfbdecd2e55e11d4a7a8e9d79a8aa76af9ffa09590ff130736fa2c38d6",
+      "after": "31596c98976e9a2581a5caef22d157e38b44d28a36b09a2fe2779fcc4ae28d77"
+    },
+    {
+      "path": "Colombia_Primera_A_Clausura_19_19.manifest.json",
+      "before": "9957452ee808fe0bbf9b1a5de40c15c8c9be6e1b2d5a61d668925f398550d659",
+      "after": "0342ddddd072a77d12d5ebae0f271a2569aebe076df8091d377e8b4313e56cfc"
+    }
+  ]
+}

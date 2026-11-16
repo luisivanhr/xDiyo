@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 36257
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=36257/versions/983c933d90ef4525beb0479fd61768cf/manifest.json",
+      "before": "f08f261b5a9d52adf358dc60a5756ea84d47a0c79e4187f967a22ec56486853e",
+      "after": "1c2dd6736cdd0062a7862fcf35eda1c119ab4c7bd8ef6d0af9e928c5f223c30d"
+    },
+    {
+      "path": "Chinese_Super_League_21_21.manifest.json",
+      "before": "668c50834dfdcdb8d14436c450d6903cadc645557c76f134a918d93c579849c0",
+      "after": "8a553fcdc460c8baec672ac6dd210f7bb003933918c1db25103e31157f135040"
+    }
+  ]
+}

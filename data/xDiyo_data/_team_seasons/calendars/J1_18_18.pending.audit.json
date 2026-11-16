@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 16004
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=16004/versions/ac4ca40e8e7a4f088a775e28bc2055f2/manifest.json",
+      "before": "74180f6bce86f25e74f51e1472f06f190f8ff7bf075e9da0a72a2cabb1e02584",
+      "after": "7200d22fde3e318d48c22a1745cd1b08b1f25c0ee91402c72a1c2c098ffd388e"
+    },
+    {
+      "path": "J1_18_18.manifest.json",
+      "before": "df4da403dd808217ad9b2e1ddfb6961a440dd6f886f3eb3d6f6f776a468ff2f9",
+      "after": "56c0a2d668034af4560f93a74301dc813915ca8034ec8a40cb92241dd97284f8"
+    }
+  ]
+}

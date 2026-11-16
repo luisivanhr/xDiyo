@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2025/2026",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 87699
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=87699/versions/50ad18af4b274c7e810924ac4e36632c/manifest.json",
+      "before": "75946cd000c16477f1d6d091d70e94ba70de36e5baa75eb0f4c61857acf65e88",
+      "after": "03ea10e6601d068e1d74854ce63602ece21fc12fa0db059fb01d5d5e81760649"
+    },
+    {
+      "path": "Liga_MX_Clausura_25_26.manifest.json",
+      "before": "c08ff020bbd64041e15df6ce9cd18a2974c670173c4214dd38f6161bcca2c57f",
+      "after": "c74cf8fadbe4143ca477cc6d121d018e92777ba8ef25c2702f7f84f11322a1c2"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Czech_First_League",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 172,
+    "season_id": 42398
+  },
+  "files": [
+    {
+      "path": "_tables/competition=172/season=42398/versions/71368fd8f2794d7680f6cb3687a1d942/manifest.json",
+      "before": "eca5bad554e846afb35883a3299bb92c9a5b9b5c50b7b28d503853409de67fff",
+      "after": "00786e059cf060cb43020ce52bcc2bc91e1bd6689f4d7e9e1e4d8176f6728b66"
+    },
+    {
+      "path": "Czech_First_League_22_23.manifest.json",
+      "before": "3822f611d1c1194776f7793767b90b4f8584338c600f3b421b5c84fb0993225a",
+      "after": "136dab904af6917bbbd289730bef1d9c01a2ea4fa5c0f1efd055251d8d786cff"
+    }
+  ]
+}

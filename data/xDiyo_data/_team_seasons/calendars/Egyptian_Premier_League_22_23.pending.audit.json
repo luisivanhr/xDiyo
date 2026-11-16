@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 46713
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=46713/versions/fdc5e85234dc4a84ad501eca4642fdb8/manifest.json",
+      "before": "8155781ba81b2d2661958e1eb5ebe9653a2df8b138c5abab88641f0a6cd9737f",
+      "after": "a2185c38f1b9b4f1b4bcbf80cbbd307e92b05191c70616125c9681697f81c85e"
+    },
+    {
+      "path": "Egyptian_Premier_League_22_23.manifest.json",
+      "before": "38daa16f368545afde02e47abce21294e3ad575612084aa60e9406284cc79a5d",
+      "after": "0e4020ab2132f99d08468a6489f831a6143a189ab1271c02205d8f95ea0f360b"
+    }
+  ]
+}

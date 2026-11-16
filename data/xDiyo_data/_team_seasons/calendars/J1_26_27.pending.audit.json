@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 96370
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=96370/versions/f2801ff79955499ab9dd8c05167d7937/manifest.json",
+      "before": "6a365de4fd02e907d5ed782b141ac03f318c9d2f2d4b75db137599a2b26941f9",
+      "after": "4575d21a5e6bea6e3a0df143244ae25552a52a4c2a31e3fe92911c7699744839"
+    },
+    {
+      "path": "J1_26_27.manifest.json",
+      "before": "5a3c30d9c5c1e2b6927057dac41d5a1442bfa00ab69bace8da4f4f05f3aac510",
+      "after": "7e556b3d3bd36241bc037f3ec8cada1923bf8e85fd69cdd6a879097159331086"
+    }
+  ]
+}

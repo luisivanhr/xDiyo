@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 41892
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=41892/versions/f5eb9226cf4c4e45812ec1cae52eaf40/manifest.json",
+      "before": "d7aec837b3b42868c81e6a9ad9684ef1a81e5c1744f035f529f824f28dd004e6",
+      "after": "fa7f6ad4c4d158dbe9bfc3317b34edac09fafb5758107e6c26101463076d2a3e"
+    },
+    {
+      "path": "Chinese_Super_League_22_22.manifest.json",
+      "before": "f91ebe008762761f78f74ebdc036972aad12b62d16175f51cb892d9adf9abef2",
+      "after": "83ba3f6e934462f9f5f97db1341d54a0481f1799ff02e3470825e91c7b7d12e0"
+    }
+  ]
+}

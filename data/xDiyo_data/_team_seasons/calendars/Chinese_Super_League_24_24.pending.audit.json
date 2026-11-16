@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 58388
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=58388/versions/d2e97c5b7fad4d4aa8aa913919d0fa90/manifest.json",
+      "before": "4a8490b566a980bf977566a94e0c78a3546e093a5c0680593b1f7cb4b332d73f",
+      "after": "3a263c22fe19302e28e68c184f6e8d8161ed8e277666d2ca26d65a04494c29e1"
+    },
+    {
+      "path": "Chinese_Super_League_24_24.manifest.json",
+      "before": "177e57cb191667149b7e9f46c2352897d2104651058d47dd7a96287b6925534e",
+      "after": "b71be980c5e9478409cbf5f87d5ed50270b761ad8f55793d58ba3d4c0759869b"
+    }
+  ]
+}

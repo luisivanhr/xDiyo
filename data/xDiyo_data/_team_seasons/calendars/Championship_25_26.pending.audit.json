@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 77347
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=77347/versions/556c335085d04c1eacd17171e69d5d6d/manifest.json",
+      "before": "37d0c2e1ec5c80e90b4278c48e85cd7b3838f79266515747cb3f391328c9df56",
+      "after": "bdf2415cdf12942554dc5bd3d5bd969d654608981cdf2906bd7d07d8c970fcec"
+    },
+    {
+      "path": "Championship_25_26.manifest.json",
+      "before": "3a4944c5658376778d4a2ba6622390b31bbf3325e46687b6f7ee8b0de2f7b599",
+      "after": "7bd5cd96dc013b701550e9be38b7ad5ce1a1e890142900168537bca420f49922"
+    }
+  ]
+}

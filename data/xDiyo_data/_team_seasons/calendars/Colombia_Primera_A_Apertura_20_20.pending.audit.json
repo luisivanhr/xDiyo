@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2020",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11539,
+    "season_id": 26956,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=26956/versions/d040df0a392548af835a54ced33a65bc/manifest.json",
+      "before": "534de057d1fb8992321aa726eff92878bd814144d0324802b4ace781a69fd9d2",
+      "after": "d4a9b248150e12ae6bd0d62b5b203c35df1d4c4b714ff8daae45fbfc394dff87"
+    },
+    {
+      "path": "Colombia_Primera_A_Apertura_20_20.manifest.json",
+      "before": "9899efb055db834027c1f1793e181344b0d94d78b15f26eacb57f9a45eec5125",
+      "after": "6f0321ac5d6c1e4e931807b5fe1b95637b72ed7bbca40642948dc669d744b3e0"
+    }
+  ]
+}

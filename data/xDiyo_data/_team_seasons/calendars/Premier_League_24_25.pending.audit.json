@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premier_League",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 17,
+    "season_id": 61627
+  },
+  "files": [
+    {
+      "path": "_tables/competition=17/season=61627/versions/461ec8bb89194f52a0f5eefc0fca1a73/manifest.json",
+      "before": "3d2a9ec932b66e50d3453c3fab44fd150b7c25ced0fe1abfdb54bd67b5728104",
+      "after": "7d6ffefdd5925a0405930b6895f404d7cdba2d0ad50c9fa67cbffa8d8b1f1a90"
+    },
+    {
+      "path": "Premier_League_24_25.manifest.json",
+      "before": "beb8a40bfd2289d0d44c8421a7b1b7b851124f51696418057c0907afb9e8219f",
+      "after": "1a232be78185485572b0062c6c2c7df4fb7592f6399db4b240fadb0613a7a687"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 96143
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=96143/versions/b56647d50a434694ab7fb02581af8564/manifest.json",
+      "before": "3ae14d9c02fc5915f92140c122ba2d3a781186ece7f1fdbe169b49881eed0cbe",
+      "after": "5d751e009cdd42e0d17a8c7ab131ed93dc7d8f174fe22d4ecc3c1f78eb832ebd"
+    },
+    {
+      "path": "Eredivisie_26_27.manifest.json",
+      "before": "e8b939d4190668f70eebd5ac9b247991e24be68e66460d2caa4b0e7858d02e60",
+      "after": "2dd9f35daeea2f49fa694a938fe28c72d1a152e9cb8005a0579c73ea4132860a"
+    }
+  ]
+}

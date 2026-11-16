@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 61666
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=61666/versions/a46b9ee7a3f9491987fac9d870a789e3/manifest.json",
+      "before": "0bc1750cc2f66e27a25b37e99b38b280175176de4e426110f0db7c8b778bf6b5",
+      "after": "72c2ec8ee5ce6265ed226a766cd2195b6e89b34da61039c4da33d78d4a562400"
+    },
+    {
+      "path": "Eredivisie_24_25.manifest.json",
+      "before": "ebae7018584ec825a628771a1d49837adfedd6b8f1cc828c91caf211ddca086a",
+      "after": "c95cf8ba58a85f65733508ce9c6c8eefccaea577f0ce7f909ff06fa4204d65d5"
+    }
+  ]
+}

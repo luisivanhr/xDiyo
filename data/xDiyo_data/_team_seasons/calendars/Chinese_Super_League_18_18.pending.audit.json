@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 16186
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=16186/versions/2816b5dd05ab4483a5476a24fcfd5cfc/manifest.json",
+      "before": "bac52a3b915fc44e58cc9c037be6f6ee8c2aa4f72df65d64af14d6015bc7f328",
+      "after": "6412d1e24345969b0b84d0799012821d5da96f896e54815582be097086830c02"
+    },
+    {
+      "path": "Chinese_Super_League_18_18.manifest.json",
+      "before": "1315912d5cb4fa19763945d610ed4f85820f4a06ac6334e1a94cb735b7c44c67",
+      "after": "c7cfaa7813a557009c152999786299cc8ebee4eb8e3fc03c2f7c00a4a34503b7"
+    }
+  ]
+}

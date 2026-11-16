@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_2",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 182,
+    "season_id": 52572
+  },
+  "files": [
+    {
+      "path": "_tables/competition=182/season=52572/versions/140b05254e7646c3aa3dc1a8259f266f/manifest.json",
+      "before": "cec52893bae966df44b878ea4d293dfbfb651e69a65fcfddea73840ae4612d6d",
+      "after": "687936ad6346ba746eb2e70df1b53331ff22c5fc5dde09755add4239fdef89ae"
+    },
+    {
+      "path": "Ligue_2_23_24.manifest.json",
+      "before": "6fcca191a8150f124643e81876983d0cba58f89f6725ed30fd6bd861c616563a",
+      "after": "67534b4f0e657b81988e3322476e08cb12870b1e7d4166e4b317237bd0b25060"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "HNL_22_23",
+  "old_manifest_sha256": "e91ad7cc21f1fb66c614ed54674e39ad1be0f762c065af648ae61584d0841b41",
+  "old_publication_sha256": "437da3387797d075f7dbc49053be17ba82c11dfc714911682ba0f4c065f8e754",
+  "new_manifest_sha256": "b54d80e7d8af693f4ff2ac14e294047dc140a3f5d1f3d2a87cf49961bf866a10",
+  "new_publication_sha256": "c6e4da589610447ccf1b3c7b28df0c861673453e0ed12356c4fa4f7542417dd0",
+  "matches_sha256": "6a16c5b38030b167c128d3c968aa6158a388293aa732aebfe58e0164efe177ff",
+  "season_sha256": "23a8dfee3a8baed5b296687fb204b658b34ec1f5d264b1e982718b684da3378d"
+}

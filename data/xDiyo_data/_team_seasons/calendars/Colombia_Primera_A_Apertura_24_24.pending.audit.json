@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2024",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11539,
+    "season_id": 57374,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=57374/versions/adf4178b13a842c8afa8ae2946e3df5f/manifest.json",
+      "before": "117459959eb1fe34804d0a0077882d22078e4f1d28c18a658dd922f793d8d1f2",
+      "after": "382227e87058a7486a3bc9c447033063e6fdf263961282434e1d55f9cc89daf3"
+    },
+    {
+      "path": "Colombia_Primera_A_Apertura_24_24.manifest.json",
+      "before": "50e51cf7a55b643283dc1cdcbc2475c24b57167af654dbf69996e410bf838ae6",
+      "after": "e48d5700ef673a96d3a8d32c734a1bcdc190de1cdef956c4b096f1c56b8add57"
+    }
+  ]
+}

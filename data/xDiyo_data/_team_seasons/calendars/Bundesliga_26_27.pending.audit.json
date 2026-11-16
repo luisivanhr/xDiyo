@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 97464
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=97464/versions/aee32c71cf894ef38d354bdc1dbb5d26/manifest.json",
+      "before": "51988d1614e9f7122b18aef58f12e4786ccc3687026067daf1e4f0cea537787b",
+      "after": "7a5fa280a207019784ffc5b2cbc58d78d1746cbe7222d149f3db763a9592e5b5"
+    },
+    {
+      "path": "Bundesliga_26_27.manifest.json",
+      "before": "f4176a3a8aeb027098424af592817b96647b45f381ba86e96cca9564d7e89430",
+      "after": "bcd33dce4b62dbbc28f73b563b46ddd29f39962ea93af98132b80f8fa896e228"
+    }
+  ]
+}

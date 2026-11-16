@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 95785
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=95785/versions/8fdaf8cc87cc4e0ca612f9037fffc1e6/manifest.json",
+      "before": "f7c850071c43353c15ec9a098fb24855aaa5e1836998ac256181e0851b6dfed3",
+      "after": "ef3007c6355a671533ea974cb7de814b92be69e88f28afafbb0806962dbfd167"
+    },
+    {
+      "path": "Danish_Superliga_26_27.manifest.json",
+      "before": "4b5617e00adef5f6f718b18b60a1ed7468201eca64a384bc613e5e91359c4f43",
+      "after": "65add63002b26fe50b49dfea790070187780655c44e987f832da689f69842267"
+    }
+  ]
+}

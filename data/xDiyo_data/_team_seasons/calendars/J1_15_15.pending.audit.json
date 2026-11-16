@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2015",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 9765
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=9765/versions/92332a9f6c9a422d822dc0c39b9ab901/manifest.json",
+      "before": "fa805a68a6b261ad72f3f7d7e1766353b53c69a3006aa4f4fd7faac54e40f792",
+      "after": "8025171fb3fc177e493f3719b5185a4d259a0109c655b5b5f3dd96eebeeef827"
+    },
+    {
+      "path": "J1_15_15.manifest.json",
+      "before": "6c26f451889c6100ce5b47f1f7c2ea887203153c6bbc04ce421d183e14eea311",
+      "after": "5b71bc5fde6ac37fd870f20abcdf699e00c2993c377ddd3ea9cabe65812fe0c5"
+    }
+  ]
+}

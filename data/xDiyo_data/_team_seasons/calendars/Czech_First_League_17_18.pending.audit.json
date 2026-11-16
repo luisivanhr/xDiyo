@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Czech_First_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 172,
+    "season_id": 13444
+  },
+  "files": [
+    {
+      "path": "_tables/competition=172/season=13444/versions/b16fcf61149249c3be9a56f987c0222f/manifest.json",
+      "before": "c566e8ca5bc958213faf2a1b6d2a4b9c433c1eb7d54479169426828d6e6a9393",
+      "after": "1887a51fd3412b631a1249ef54d93950b630104470ad3e1c91fc07a2730c2924"
+    },
+    {
+      "path": "Czech_First_League_17_18.manifest.json",
+      "before": "00ec9924128eacf2e4d5b4d7289b387b090fd503044199a334f1a5dfffd0e389",
+      "after": "12758ba1a03a117b6819b2418faf549d2f29ef9eb39565de9c582392e577f157"
+    }
+  ]
+}

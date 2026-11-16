@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 12783
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=12783/versions/ff56a5bdce5d4821a1df00cbaaae0d65/manifest.json",
+      "before": "f5c668fe1ad8a220ace3c785f5f03a03b7ad4ee654a47250f7a5455600d9e52c",
+      "after": "39b91efdd0a9c501f59fab91325033dd2d3e3e3b334bcd5231f96aacd5926dfb"
+    },
+    {
+      "path": "Eliteserien_17_17.manifest.json",
+      "before": "054fcd3d1dda172adf1cb0f3c15107b430b81b2a92630da3dc9c0877e9bf52b7",
+      "after": "8b7774c0e0c0e400916f1018c4b20b9d06c172073f01092c4da7837d55439a99"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Egyptian_Premier_League_19_20",
+  "old_manifest_sha256": "4d23d26946e3d2db9310c527a6da6c00067c3ac0422c815d0776a1e338132f35",
+  "old_publication_sha256": "eab152190e1702ea42a095dbe42062d766a11b28add038fddcb7f8065d79aed2",
+  "new_manifest_sha256": "e2dd62882067d641920a6063d7fb8288ec9775bcca00eb6b3dd094b31272013d",
+  "new_publication_sha256": "c1c70d08a276c1dc96961f3901874d43e819fdb538009c6ddeb3965a6a3d2348",
+  "matches_sha256": "5be306a2052c5eebdb85af52fcad3d9ed1f61f471c37bf1fe9a7cc311735c5ac",
+  "season_sha256": "de5b0554f3f83d3d189a468ba6226029ef6e809ce6e226d8400da0adfb02ed01"
+}

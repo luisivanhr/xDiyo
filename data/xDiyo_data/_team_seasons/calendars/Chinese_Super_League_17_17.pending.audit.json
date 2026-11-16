@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 12938
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=12938/versions/298c69f836164da988886f3d2c3a1f46/manifest.json",
+      "before": "85c246ffaa196f1d3f0a9ca3c75ad6490aadaec8bed3172943e8cc19a6bd4a6e",
+      "after": "f37cf9f22fcd3bcdbfaf4e3cb9c476416aed0159db76cb6ebde42dc061b27c97"
+    },
+    {
+      "path": "Chinese_Super_League_17_17.manifest.json",
+      "before": "ef05978b845cd05cc8cb0ad1a857cebf41bcfa402b8722375fbcb7ada8b8732d",
+      "after": "1ecc8cf825e121b92fefb8ef9ad8b5754124c1f9685e0a8cc5d8961dde4f8e86"
+    }
+  ]
+}

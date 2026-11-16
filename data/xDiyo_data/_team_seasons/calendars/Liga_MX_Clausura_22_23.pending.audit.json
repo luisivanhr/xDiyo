@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2022/2023",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 47656
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=47656/versions/0bb5a84805dd4274b97f283036159422/manifest.json",
+      "before": "9374e553ce11a3d6a3c8f817af997b336d2a6ae3b2ede1f4655e849daaaa8bae",
+      "after": "3838b28344c98c68f6a8774664b8a180332667ebcad62cc219fafd259c2d6263"
+    },
+    {
+      "path": "Liga_MX_Clausura_22_23.manifest.json",
+      "before": "3a236880b1b98a6ef954431c3d7d724d82b22210b1100bf2dc17b0deb6acf624",
+      "after": "a9d94cc00c7a12ecd5145e9f76b1cb6741216416ec408484793eb946036ae334"
+    }
+  ]
+}

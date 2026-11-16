@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_2",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 182,
+    "season_id": 28223
+  },
+  "files": [
+    {
+      "path": "_tables/competition=182/season=28223/versions/4444a9900a7b47949f0bb08d19fd414d/manifest.json",
+      "before": "cde721c150e39646d917fb81d2bd00909d2d837fcc74051cdf07b00539a964cf",
+      "after": "c6bb82c9cf88824ca9bd5e293e68b3372d9136f66e90b4e9898a7535bad941ec"
+    },
+    {
+      "path": "Ligue_2_20_21.manifest.json",
+      "before": "e4d845c1f8f0833169ad40ada232403500d3dd14f17b9219bc52d347bacca89d",
+      "after": "1872c7fa25895ec32683ac934f28ae3f5306ee5a7f7faba1015dfe29311f3931"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_26_26",
+  "old_manifest_sha256": "200c9852fc53a89ce3dcafb420bf5bd9f7b9851a96fedad838a8c19b61a0dde9",
+  "old_publication_sha256": "cd5ee3ea0fa54cfca88ca378f220cc9f5323f2a47e9d04b7e5be75dd6acfd1bb",
+  "new_manifest_sha256": "8a1c9452273eabee8fb79cee03aca42b16cb016412a0d9acaab552ec8ea49aaf",
+  "new_publication_sha256": "fab16780cf693e7c770bc1a7e70b0c8d71a2e16fdf785c22d511c503f86fa807",
+  "matches_sha256": "deb920560a8f28c9584c499825f20f5621583a467dd25892ac5aa6bec5a220ba",
+  "season_sha256": "64f1c033c443b48c4bc026a678b65e4a50c68000a7cfb8a0411bc2302a4fb7eb"
+}

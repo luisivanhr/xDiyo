@@ -1,0 +1,9 @@
+{
+  "season": "Eerste_Divisie_22_23",
+  "old_manifest_sha256": "be7270a2129b1c5d627625ab838ab992bf8786010e7caad3cb899797702e6e98",
+  "old_publication_sha256": "f97768c4c5f7ac947c083c5238b0dae9007bb865d63ed6e6b6de5b3905e0ea05",
+  "new_manifest_sha256": "19cc7d66873a63d7f0985cf1b104de207d00789885c1b716b00ebb4294be36e7",
+  "new_publication_sha256": "e9b6f4d903cbeec81a1cdf3d6b2c4023296e56907d29b5bcf3337e005f47f08d",
+  "matches_sha256": "41dd8350ea32e77155cfc5f311f90416848474073136a57a4c6b7cba41c7875a",
+  "season_sha256": "d950d9ef2a7ddc8fc799a6d4eb301dffa5fe7879f3171f8342a48953027ee6aa"
+}

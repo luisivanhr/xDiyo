@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Greek_Super_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 185,
+    "season_id": 78175
+  },
+  "files": [
+    {
+      "path": "_tables/competition=185/season=78175/versions/d3b4778c34434e6d9f4d000f4e9b545c/manifest.json",
+      "before": "035544b9a96ad8b3ab9dcbe1e753aa2944afc94b47205cb1e4cc4561976d45ce",
+      "after": "18483f925959483b80b34efe5e33f5aab0a8a6bcf140652747452cba9d5d9553"
+    },
+    {
+      "path": "Greek_Super_League_25_26.manifest.json",
+      "before": "8ba9b43cbedac0be965f9f07845d621c11349f8d0328f2eeef81ee2739090dba",
+      "after": "1394c14cfed9777cd7aefa25a2a5d3c104f6259f50dfadb86033c04de8c04d3c"
+    }
+  ]
+}

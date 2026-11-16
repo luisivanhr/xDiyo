@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 17824
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=17824/versions/705228b79f94482abe90bc232577b4bc/manifest.json",
+      "before": "f8f4cd541c2d24933485c227cb747a31d30948ababb0a851664a1afd3bf73b78",
+      "after": "9d9db7eb443804d45dadc72ebbd12a0728e03fcc5846f82534703592d5295c86"
+    },
+    {
+      "path": "Eerste_Divisie_18_19.manifest.json",
+      "before": "1693a7f1c93c7aadf8a62c617eadf93791998fa9584b502fdd11530fe10a02ae",
+      "after": "00fbe68b4cc2c7764de51560b6f46609a713eda0b2b93543b80370ee2b0f0188"
+    }
+  ]
+}

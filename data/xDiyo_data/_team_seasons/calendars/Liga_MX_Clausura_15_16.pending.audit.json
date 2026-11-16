@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2015/2016",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 10355
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=10355/versions/49a0937b141c4084b02c5a47f155794f/manifest.json",
+      "before": "cf56a15a456b2e9220fcbe9e7258fcac05182f84fab2ecb9e2cde31399c1f163",
+      "after": "3ec450dbdc91110b62f2a6819d006aa7a89cf71be2d6415c370dcf85c6eb5ff4"
+    },
+    {
+      "path": "Liga_MX_Clausura_15_16.manifest.json",
+      "before": "049f63b9e0a49735394b6530209edc4828d875572c7f0ee08bce8ef5c198155b",
+      "after": "44094ca8cc10dbaf24f4b8112770dea81d3ac27695183694b9730ab15835e3fd"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Eerste_Divisie_19_20",
+  "old_manifest_sha256": "391504a37bf563cb223c8a5a8cc54103207d9fa01de1deac63edb00f512a106a",
+  "old_publication_sha256": "b62366813c46a8f85bde002f22d5b83f61e3086b0ff46fb0c87013cb6f2c7a96",
+  "new_manifest_sha256": "439333bc0626fa63144534b42778c84cd097630aae946eb1361b541c6135b719",
+  "new_publication_sha256": "ea0ee5165d56d19fbc53446f3677e30b36ddfd3184b10ce57a8ab57b81fccdbc",
+  "matches_sha256": "8da4c21fa9eecc436e48c4b1614b2d4f084d6e508179f402b5cb98f5d870caef",
+  "season_sha256": "86006b928009b729cbdf7c57f48073ef4f5b9e6e142358f32d134104d3849fb1"
+}

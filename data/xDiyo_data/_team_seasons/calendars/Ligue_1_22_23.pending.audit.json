@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 42273
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=42273/versions/5fcb86d9994c4b6fb881b7517fb11f60/manifest.json",
+      "before": "d9c26e5dc8e5b749ff3793dc6d8c03a147cef0f056215ebcbf37cad9e60284ff",
+      "after": "2e7647147cbf346e2ea0b8ccb34eba9007b12981e0ae86e28eeb05c9c220df11"
+    },
+    {
+      "path": "Ligue_1_22_23.manifest.json",
+      "before": "58c01035141c2b3408656ad3a103d779b4a8e6c5ebbfc2092bb4071d0f8b7c4e",
+      "after": "968f352298d49440f310315a4c7be367820d04f0979d7246dfbe4e0be8fc11e3"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 2748
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=2748/versions/03574d1dc791401ab53c1c94c6eba9fa/manifest.json",
+      "before": "b4ceb5e7320511a147938ee4ff5f445c50b3c7890d03f23cd652d8b83a0d1c60",
+      "after": "4fe71d79ab6e86cb375c947037383da7d3098c327cbc775b8e742c17b3a5d29a"
+    },
+    {
+      "path": "Championship_10_11.manifest.json",
+      "before": "de40ce82b586a1d2fa50090b1d63b7e9edaf4abe8d53ea748a95b9ac5428e91b",
+      "after": "19abb140d8ed7d8964ff1431b14695d09189eb7384c02b0b6ffbc7efaa7ee801"
+    }
+  ]
+}

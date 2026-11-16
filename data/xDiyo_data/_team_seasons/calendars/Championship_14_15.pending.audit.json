@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2014/2015",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 8188
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=8188/versions/97dbcd29b73c4291b0bc2d718a3de5e2/manifest.json",
+      "before": "7059d01e404511a75de6022c57a11edd5124523e43590aef6a8e4ba8127bc9ba",
+      "after": "116e4585ae85b93628384721311ab5bfb670e5c39f1475665447f78fdeff42be"
+    },
+    {
+      "path": "Championship_14_15.manifest.json",
+      "before": "24831d850440b85e32bc03d643919f647d9f0946049e41914ead332a1c032394",
+      "after": "4e69ff1151189d23f72ffeb42e2bdd974eb878b64bd05895973027780c903461"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Eliteserien_19_19",
+  "old_manifest_sha256": "2949e303bdb6fb4db965da9bcc73ab8ea08ac15817c3851841f13a7f8854d1c2",
+  "old_publication_sha256": "6abdd3870af4aace5d5601334d487f8c1202e38a2277334c02dbccaedac6e9cf",
+  "new_manifest_sha256": "b11fb9d8d28296b9f11c653baf6950d03219e026e2029815890eb5a0387ed8e3",
+  "new_publication_sha256": "8e891fbb38d3bda311da5dc8a863d22e9a1fdf7a4a238a4eb964072af2366828",
+  "matches_sha256": "76a3efdb5d4a92511681121ab83ebbd6e8787d785084bbbcffbd380b995d1132",
+  "season_sha256": "ad2cc27e532d5342857090977adcf25a0c973cdf0e9bff085058ff7dbe972cb2"
+}

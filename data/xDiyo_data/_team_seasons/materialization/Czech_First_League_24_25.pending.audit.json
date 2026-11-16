@@ -1,0 +1,9 @@
+{
+  "season": "Czech_First_League_24_25",
+  "old_manifest_sha256": "33e0ecf6ae79151ec92fe3988348712036bef9c00f78d7e7cd6be0bc7c9d5f5a",
+  "old_publication_sha256": "c8cb92f786e35cff28508c84f3f39fd4bab31c42fea8be8b16e4c1b2e015abdd",
+  "new_manifest_sha256": "574e7964947a9ca9dec4d6647a60d52b680b32fb6b4aee8facf28ea6373c991d",
+  "new_publication_sha256": "9c5802ba58d7d6be8f1cc41db78a26df3790f268510548a45ea80ceb1a45aab8",
+  "matches_sha256": "a44b8e8391c03c865c3b84dc009d641ffc163a40dd537734cab7e44570a5fa14",
+  "season_sha256": "1986271e9df018b5f56a52e35f229f512474f0cbab5211d32e88c6f5181b04d5"
+}

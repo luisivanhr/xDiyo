@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Greek_Super_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 185,
+    "season_id": 24108
+  },
+  "files": [
+    {
+      "path": "_tables/competition=185/season=24108/versions/0bd477094c024aa399ccfd7d0549def4/manifest.json",
+      "before": "891bda64f832c70b64c89b76444c67b46dcbff5b8dc2b1097763c1f2ab52ae08",
+      "after": "5468e34feb30e8fdb0ed5dc27d9e0469da429e26a6e5ecd0c8b5260f991b84c8"
+    },
+    {
+      "path": "Greek_Super_League_19_20.manifest.json",
+      "before": "11ae92ad9f2f4fffc4247f95c1b74200c356a90e8f71357e9222692042ad9897",
+      "after": "0bf66818a1b323ddf05a79540c11a668816273a73a5f82c7c0af5f536ec00fa2"
+    }
+  ]
+}

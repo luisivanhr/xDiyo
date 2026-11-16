@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11539,
+    "season_id": 88503,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      },
+      "189591": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=88503/versions/d7a279806a974fbf9789d981c5faf0cb/manifest.json",
+      "before": "1000d24ad4abd05c2704c29d05ac0facaf8483c9827c43d6e63d0336a038da82",
+      "after": "04948506239635bd02ac8bdc903019da52b5b8f10d26e6301d230891e5015b39"
+    },
+    {
+      "path": "Colombia_Primera_A_26_26.manifest.json",
+      "before": "caab909f84651d35fea39bba5836e7dd335390da02bb4be17494ce2ca3186e39",
+      "after": "03b968dd4c96d8f18e66bfa5182a90508eec62c282f46920a45e6749b9b31c6f"
+    }
+  ]
+}

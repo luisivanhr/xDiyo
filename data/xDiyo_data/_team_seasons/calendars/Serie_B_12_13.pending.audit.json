@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2012/2013",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 5183
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=5183/versions/3df0e59d8382460a825d311800f85777/manifest.json",
+      "before": "33b49cd036b50517faee5aca71885daec28af5574327d0bd131689bedcfdaa80",
+      "after": "79ab178a586cd2adc643ebd54dcdc1bb9ff164cab4c4f5f25a9b49c47877d5fa"
+    },
+    {
+      "path": "Serie_B_12_13.manifest.json",
+      "before": "acfcd6233d35f29939c5d2045d9d93693aead72921bf020682132ab79bfbfe60",
+      "after": "6b1b78165c88d5dad3018df60b305c462fdf2a2c6305d079675a62af9ddcd12d"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 2719
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=2719/versions/a664238405d443acb3cd11d0f3d40ed4/manifest.json",
+      "before": "3c37d2d548f8d5df494d4202e307cd2e6a1e6823c9296876e0ea92d8198b9fb5",
+      "after": "c2328a1551dc749367e5bfbbfa482875aea5bb86d6e2bfc9bb2a78d4e578123b"
+    },
+    {
+      "path": "Ligue_1_10_11.manifest.json",
+      "before": "197f9965c21b933891d25f9cdbc779f06bb13b208362289b520a0de9560cdfd2",
+      "after": "89cedc6e3c0a67bb7a89bc9ba3a4c17b2f7759c858fe858133434b3ba0a0c8b8"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2017/2018",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 13413
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=13413/versions/96150426a42445619b2ca5df2c7c7358/manifest.json",
+      "before": "65abca93f77e1948a2969f54fd17c3809c28dd2eceffc98e9b50184506251718",
+      "after": "9f2c9313f8dc6462a49b891f7b2e58efb6707573e1d78b085590112bcc66d76a"
+    },
+    {
+      "path": "Liga_MX_Apertura_17_18.manifest.json",
+      "before": "8561e5e737a9851dc15132922257cbd0c4a2c46807e9759bc6083eec52502e6b",
+      "after": "e64c18ad58a2fda666fa28f74d16d9c6589a67f080a041e2f59cb7b50d0caecb"
+    }
+  ]
+}

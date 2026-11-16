@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 77333
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=77333/versions/c015f64751ca4f379e5e76c3b338071c/manifest.json",
+      "before": "b03bfaa94a651bf91a064f3673e7a62fcdf767fe6b418ab15c092168f34f0c52",
+      "after": "69b9c865797a499ebef57c3c05eff6edfbb270514d9e1e8f82dcb8116f3509c2"
+    },
+    {
+      "path": "Bundesliga_25_26.manifest.json",
+      "before": "ed4e0a9a120b5fdbb3ddb6bfa8df6f421a5c065b22f0b2ecf301cab6fe7dd3ae",
+      "after": "067bfe26cf141eeacaf02fa37dc5c42032f48afc3b855ffec54a88ed5109f38a"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 13899
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=13899/versions/393a663aa68b4f54931f05203e6e0e33/manifest.json",
+      "before": "962bfe87a75b6c4df74d738e350a7606e75869cc7eb549677f46360a4f7269f8",
+      "after": "1cb34f4bfdebb80cca2e1c3aaa164b42d179c2db80c5d2cd61d2d58b0c2e03ea"
+    },
+    {
+      "path": "Serie_B_17_18.manifest.json",
+      "before": "c49f79355ad9ce7bb76340fc67555f346ec00edf743f64848980a6dfff06e646",
+      "after": "5c41a4618b19916e7344394bbf48b88ce914299360790e6c63530a342195fe4d"
+    }
+  ]
+}

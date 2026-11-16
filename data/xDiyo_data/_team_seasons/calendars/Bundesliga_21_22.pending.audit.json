@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 37166
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=37166/versions/07b621a9b819494b8fd34a41cf8f4ff4/manifest.json",
+      "before": "f1cb4e24de0e59c8d5820d58c8fc3ba58b982bbc2dd0fad8ff280c2b4b904570",
+      "after": "67167bf7f388ee61ba69b43e3451aec32dba6d855a4b7cb6ba0371a0e0dd913d"
+    },
+    {
+      "path": "Bundesliga_21_22.manifest.json",
+      "before": "c3294be7c9cf5885cbf9fd53708909554bb305646dfbc8d1cf33be533c23e9da",
+      "after": "00a8b0ff5e061b10e7ee3ddf5d7fce500448afa997f8aca4025eb66bfd630bf1"
+    }
+  ]
+}

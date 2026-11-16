@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 14262
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=14262/versions/2041329f6fd94fbe8ea95fa7b34f2f70/manifest.json",
+      "before": "c980a5532bdce149d842cb16daa5f2cf4f19b4c2c650150b7a5406b44fa2a7e0",
+      "after": "279a999c25056c5c501f2378f6fac334df1f508e6d3c4f8b6c66bbe6461fa932"
+    },
+    {
+      "path": "Egyptian_Premier_League_17_18.manifest.json",
+      "before": "0e880b3d98c0dbe9ec50a44b1254c8c9c5a05b5df436b344b2407085f4db1bea",
+      "after": "25a425cc60c15ce3e5a34f10d2c020b47f8c8cb7ca8151be89a5b3fbec821ea5"
+    }
+  ]
+}

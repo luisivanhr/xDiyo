@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 35552
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=35552/versions/db0f1906a5564d769f04c41319c94368/manifest.json",
+      "before": "4b24633fb5d9434c7bc591929f492e1a079351dc3a0cc9798f1348f1e9b4ca7d",
+      "after": "94ae3091ed3c50a6ddf2a7ca927e2ec34a13195ee4902021fce92645f60873ca"
+    },
+    {
+      "path": "LigaPro_21_21.manifest.json",
+      "before": "ebe2d9db0ba01b01051d38b64376b83232266945cb0afee9bbedec10f52cfdd1",
+      "after": "8985c4aba4deae7c3181929ae8559a1eaf28035ca816bed9b0146033c26d6fa5"
+    }
+  ]
+}

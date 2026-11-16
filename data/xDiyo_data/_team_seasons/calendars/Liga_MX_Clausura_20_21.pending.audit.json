@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2020/2021",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 35117
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=35117/versions/54520ec304cf4e01b027073e960fb5f1/manifest.json",
+      "before": "3268f5ec72736e3dd38636d01a87a2edcb3757639731cec8f9b503517197e75f",
+      "after": "0f0b58a823eb4f9239f272c4d735282a3171f1ec4fead65284e13ce691fc22c1"
+    },
+    {
+      "path": "Liga_MX_Clausura_20_21.manifest.json",
+      "before": "8a8aafdd5eec14715c233924938e2fe1ddb903a3768db2a0b129e44335f4a543",
+      "after": "09a0a92fc341e6deca2d2b147d7ee7459e8d0ec82764ec95e31bdf228d17dba0"
+    }
+  ]
+}

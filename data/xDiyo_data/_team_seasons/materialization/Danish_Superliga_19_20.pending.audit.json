@@ -1,0 +1,9 @@
+{
+  "season": "Danish_Superliga_19_20",
+  "old_manifest_sha256": "7fde55368538abf5dd675100b2f4b516bc9e63ac99840916815c136e26c03594",
+  "old_publication_sha256": "7aa72939952e6b93d21ca0316652b6091d0bdfa88f6a04a31a07b6578190fbc9",
+  "new_manifest_sha256": "d2ec8ab89097559e175d47cb780680c9d0e7554ed5720a04d62ec297c4e1903a",
+  "new_publication_sha256": "2ecbd52365b3dc5d07b0351d27bd8e3162e98a9c416fd03cd10df2ad2511e9fd",
+  "matches_sha256": "213f0624993283d587da94c6f705104610f01f51b9757e0ad0712f693f245659",
+  "season_sha256": "c3b6c9e7838bf7ebfd9af7b681066a94eb3f2d20fb5fc9cc824b3f617300e6af"
+}

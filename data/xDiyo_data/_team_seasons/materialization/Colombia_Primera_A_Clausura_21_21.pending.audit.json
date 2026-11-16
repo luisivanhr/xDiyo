@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Clausura_21_21",
+  "old_manifest_sha256": "1da1608edff2a1c41db703320139c7398ba8d06d274c10c4b3034167511cc1db",
+  "old_publication_sha256": "a08d67296d210a45804781ce7724d8135fbdc17e23b57092e664a9a32ffb4763",
+  "new_manifest_sha256": "a6c7865b3a6db869fc3cc9418029bc18a7e44d929e10e3c6b72b58b60cbd1041",
+  "new_publication_sha256": "ebb3296d93005a53eeac21c812a7e0eba9bc873dcf74b0b6fdff696c2dacdf39",
+  "matches_sha256": "c90b4aac0c7b75173c866fb620fa691ea305a149e14eeb110eb66067e869e3f0",
+  "season_sha256": "584f4c92b77aa5a534b452f4f13f25fac7a43dbf84cac081afaea9c40be1bcce"
+}

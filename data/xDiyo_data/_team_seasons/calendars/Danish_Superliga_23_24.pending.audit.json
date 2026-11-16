@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 52172
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=52172/versions/5c76ac8fec0b46ccbe76e9ac92e762e7/manifest.json",
+      "before": "9e81c35bd43cf83ccb608314053a8926f85a6fc8dead099b480a1929ea11442f",
+      "after": "d920603362eef7a060acfd8afeb47fbc853449d33fc8a0e47d1844cad813bc1a"
+    },
+    {
+      "path": "Danish_Superliga_23_24.manifest.json",
+      "before": "8257eb78f132214f6d2a4c483c3d464b44e3cb7417e87f76778c227de8ef0d15",
+      "after": "48994191127a41d681e3d79f803585ecff46045aa3fd7a235f7578fe160b54f9"
+    }
+  ]
+}

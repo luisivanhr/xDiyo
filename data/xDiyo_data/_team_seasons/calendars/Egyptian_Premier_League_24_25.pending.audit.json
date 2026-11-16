@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 68147
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=68147/versions/03891dbe84444f07b9caabdd6197f0de/manifest.json",
+      "before": "09456a4c2a7a9fa772009031aa6801995b5cde97bdc9861e7ac34112cea9b5cd",
+      "after": "1a0d8967868adb828262f913cbd6c2a06d793825a12c4f63ac8a4ce19a6775fe"
+    },
+    {
+      "path": "Egyptian_Premier_League_24_25.manifest.json",
+      "before": "554d51c9a7fcfbd7b55bd5c3cc3359871da6ce816f3cab011754269ccf6a53c9",
+      "after": "ba7f3f2e0d41d556a8ac9146ca1ef4d68c7105b87973d56ed7ef447cc0452101"
+    }
+  ]
+}

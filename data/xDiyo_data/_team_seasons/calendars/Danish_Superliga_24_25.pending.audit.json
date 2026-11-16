@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 61326
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=61326/versions/5ee5d06a34f64df488f826420f15ffa1/manifest.json",
+      "before": "b609ff18da959dac475886ba68eab0d08e537635737eaf6a6cfac97e5ae7fd63",
+      "after": "9e5a9b52a7707da88b01dbbeda150208064928a02ee4d334fa097dfc5d3273fb"
+    },
+    {
+      "path": "Danish_Superliga_24_25.manifest.json",
+      "before": "2b42d2944ce3bf330ecf2092cabe13f87c4ae4c61a8db605acf07e46a6b42f6b",
+      "after": "0be29858e5b66c4be80ca65bee5945b51ee92bb2ff3c328677f7a21bde454fdf"
+    }
+  ]
+}

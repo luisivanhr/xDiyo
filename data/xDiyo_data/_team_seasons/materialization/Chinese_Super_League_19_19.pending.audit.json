@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_19_19",
+  "old_manifest_sha256": "9bdadcd0c6d135ac0074c798cb5c1c1ddae34b08f1efa711209f91b6fac661d9",
+  "old_publication_sha256": "6692209198f79f8832a7f3aba0a49bd875cd0170c27439b9c5ea5e1c87070385",
+  "new_manifest_sha256": "dc8a30724bdebb774a3e9fa11223b990c02b0be3fa8d0531c839b4e81c83628c",
+  "new_publication_sha256": "7ec0e94e270eddc87010e91d3c3f7560849b541a2170ae229bf424426dcbfcf0",
+  "matches_sha256": "e25fe870da8965f658a8d88c14841f45bba0d9200f0cf0fd1a87e0d88ace75cf",
+  "season_sha256": "8e7d9f4008f61d8965f07b80c7a297f6b9988ea7258de2a3e5364d6d8cbc0c85"
+}

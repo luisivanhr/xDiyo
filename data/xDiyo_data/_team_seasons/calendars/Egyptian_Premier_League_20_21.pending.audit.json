@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 34930
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=34930/versions/e5129d080f084d2f89aa7b621065a764/manifest.json",
+      "before": "46c6687145611bd945350d780dbf84d9ffe8c116062a56686f45cf78ff093dbf",
+      "after": "ad7ea48d7802b120142dd9d5ffb521887994f55f8ee89b4d467edf817e3fea4f"
+    },
+    {
+      "path": "Egyptian_Premier_League_20_21.manifest.json",
+      "before": "3d06ac0080f1407ea2ae79c47afc331bcbc93f7b2f14b8411d41d6f7dcbeadda",
+      "after": "d5e301b579b7f6d9f154bf2e93493df191812e8ae123227faae894dc0f86f5d0"
+    }
+  ]
+}

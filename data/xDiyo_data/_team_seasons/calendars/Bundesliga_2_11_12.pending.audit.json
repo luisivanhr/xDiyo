@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2011/2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 3406
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=3406/versions/6f60d41f0ab14a5aa155729a6084ed13/manifest.json",
+      "before": "621460e4c6ada60603dc797aaad273e223a0beeab316e510eff1e16b36b2a1c1",
+      "after": "66216d29f5050804a3d0eeee2833d7ed1a2425c119b74a02d2d1a39556fafdd1"
+    },
+    {
+      "path": "Bundesliga_2_11_12.manifest.json",
+      "before": "b4b87911155bb988b165b332d79c783d6305d6c8587821957256cfdf4a6c4076",
+      "after": "b85b5317ea3144e9422310a18eb22daea541021f6d01466f38c42add6af3f3da"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 71184
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=71184/versions/d9a4642ffcf74d0b9f35619627c0d30c/manifest.json",
+      "before": "d41a15812f19dc6369094cc898283b19126a4dae237390fdbd8d20e246e021b3",
+      "after": "17e9e392ea46c70ba8e2409afc730c6ce75df55c17446248daeb586d53fbd536"
+    },
+    {
+      "path": "LigaPro_25_25.manifest.json",
+      "before": "7adeec231d8a24490393c2254fa0bd0d773e11f15be59f94beb804b7dab249af",
+      "after": "e5ddb665ab70051462ac9c052462e919fda5befca8f60cfb1c487dad3f448fda"
+    }
+  ]
+}

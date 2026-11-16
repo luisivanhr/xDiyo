@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premier_League",
+    "annual_season": "2011/2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 17,
+    "season_id": 3391
+  },
+  "files": [
+    {
+      "path": "_tables/competition=17/season=3391/versions/cc72f7a461804eeaadfa7b3b746bad2e/manifest.json",
+      "before": "7239b1b5c3ec8859203bfdfe2bc13e894bb5efdc5ee9d1ac525f2f33b64b02f2",
+      "after": "13a711d76c3d1628a69bb8a4b318389a2813c03c9fb69e88f17c3f95446bd258"
+    },
+    {
+      "path": "Premier_League_11_12.manifest.json",
+      "before": "25ff7536059f6f9a04b2497f2a2f5cbc3d381cd8e642a2bb152c1de9a8597888",
+      "after": "59359dc0fecc6ae5888e1098399659546a5e7e6095709c7b20f6586ddcdc4228"
+    }
+  ]
+}

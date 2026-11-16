@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2011/2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 3432
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=3432/versions/6e9ebdb5c18848d3b61d31f67292eef0/manifest.json",
+      "before": "af593b53db8dc14dfde4cde5596aa80755a21017de8d4b1b0fc5b2d2d9ce9837",
+      "after": "0eea47e689fc879381bc7333c88749c323907e48467855e2fb9eb60acf77bfc1"
+    },
+    {
+      "path": "Eredivisie_11_12.manifest.json",
+      "before": "ec7961ebec98445c98393afb21a62536137da7446eaee4efbab84d6d8bdb108d",
+      "after": "f6c26821a2a663c4efbe755d1648a0c376bb6bbfad058e84149bc23def55c680"
+    }
+  ]
+}

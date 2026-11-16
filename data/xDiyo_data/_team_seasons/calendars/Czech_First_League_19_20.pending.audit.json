@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Czech_First_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 172,
+    "season_id": 23984
+  },
+  "files": [
+    {
+      "path": "_tables/competition=172/season=23984/versions/cd6adb648bb648e1819d6ec843b6182b/manifest.json",
+      "before": "f678520749351d6de0a998d51e824f6f236b28408b9ad09463e50de001a92781",
+      "after": "dc551367924680449a8ca737798f5eed5f8dba7c01e4db8ae7991fd5635332d3"
+    },
+    {
+      "path": "Czech_First_League_19_20.manifest.json",
+      "before": "ee2fbe29fe69c6c620c6f3b26a0aec20f6af5693654da49837e9afdeb22af09e",
+      "after": "e78ada49cd97b1a1a9d1020a3dc2899bc679b880e8d17e785b485ca414291e40"
+    }
+  ]
+}

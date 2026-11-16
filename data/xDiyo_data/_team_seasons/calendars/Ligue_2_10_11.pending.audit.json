@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_2",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 182,
+    "season_id": 2720
+  },
+  "files": [
+    {
+      "path": "_tables/competition=182/season=2720/versions/03fee45a57aa4d3c973772c497327802/manifest.json",
+      "before": "18c3afd712f5173d9538bdbfda2e895799039dcb76dd188ab8d7244fd0692a06",
+      "after": "be864e5cef2926e67efd1301b22e5322dccd2fc6c4f2458236981b39c86d00d4"
+    },
+    {
+      "path": "Ligue_2_10_11.manifest.json",
+      "before": "e927458abeeb041249eccaebbd6253c5912e47250ca7ca1e4c5380312fe85d17",
+      "after": "18466ea4c3635270cec9c11554d7a109ff5a9dad75fd3d93a7add3b731b4b693"
+    }
+  ]
+}

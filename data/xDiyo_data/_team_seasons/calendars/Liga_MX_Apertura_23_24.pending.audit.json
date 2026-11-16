@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2023/2024",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 52052
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=52052/versions/03417f440e574646ba42674850887894/manifest.json",
+      "before": "42452690288c432207906c0d53120a791e4ce0624de153fbb05b3957ad01a395",
+      "after": "bab18a9a3e28a755b9c47f1f3b03b3c6c33705e9ea8ea4cf0783c07147524a1c"
+    },
+    {
+      "path": "Liga_MX_Apertura_23_24.manifest.json",
+      "before": "ef9b6c1b8eb9702bd7f6f30ea7b4accd3f64d0a80df1c466af02a0c807fb757a",
+      "after": "6a40cef3b334ac3059a621e97f3260af168a20bf2fe774b3efd9bdea9ebd73f3"
+    }
+  ]
+}

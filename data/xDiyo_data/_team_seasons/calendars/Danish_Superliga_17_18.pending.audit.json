@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 13378
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=13378/versions/7caf828e3ed048c28d1a69f5a2efec0b/manifest.json",
+      "before": "3e1c6f5c29cb745768dc90a89f6f418be6dc3f46141f69c6d1da25f14ee67a68",
+      "after": "2e642c4e89202329fe4b0f61b00e0a5b66d3aa0b5fef788a35efeb937bb13126"
+    },
+    {
+      "path": "Danish_Superliga_17_18.manifest.json",
+      "before": "39f40ed7fe327a33ab875f54b8d453f02dd94bcc952b70b64325350d7502ce97",
+      "after": "6cc2ec3be98674e328e03ffce3054c6ce35345b878cfafd3de104b686ea741bd"
+    }
+  ]
+}

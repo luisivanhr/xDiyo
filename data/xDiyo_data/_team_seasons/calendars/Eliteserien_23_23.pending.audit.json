@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 47806
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=47806/versions/2b1a625445754b7ab1c7d71ca307052a/manifest.json",
+      "before": "58c1c52dc7defb20d3077d5fdd8347760eec36721d446c6e91c68e37e2ce8d42",
+      "after": "6a4af6e97870a7f699e33dd0e1b73a3b7430d40301691713d87104beb75f6530"
+    },
+    {
+      "path": "Eliteserien_23_23.manifest.json",
+      "before": "fdd949b3473538cab85e416c8533b3623ab8ca9838d56b1528c0c646db80b15f",
+      "after": "68e983784ffb8d79e94283e08df8cfa5bd5db5ba7e3abd371af0a8b6971a7947"
+    }
+  ]
+}

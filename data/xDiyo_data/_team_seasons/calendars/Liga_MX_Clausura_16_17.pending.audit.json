@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2016/2017",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 19779
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=19779/versions/54ff57e6d15b40da92d5f9208bdf70e3/manifest.json",
+      "before": "631cf59fcbf7d70515b86627ceba586fa9a074644a0891e1cb822556d0d53729",
+      "after": "5dd1d4043f51a53df26a60d6df41ced5456abb760962143f57bd977a64320f81"
+    },
+    {
+      "path": "Liga_MX_Clausura_16_17.manifest.json",
+      "before": "cb1fe41b9a7577e4171f58833d8231d069b7964693af5b0d9d0d4e64eb1865f0",
+      "after": "96bbf499ea303747895fab473cc8ecd95830587a20cb0baae7a78004b0d2cccb"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 26799
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=26799/versions/92628f69245642aba5246291b00344fa/manifest.json",
+      "before": "23b7ed18833e5a8b574d281e6fe19c6bdf3af717083d9c3d1872dd1df9571451",
+      "after": "95ee7def3c74aed992e3850d6b67a9142cdc855d5bf85bed7470cca0bd0f7544"
+    },
+    {
+      "path": "Eliteserien_20_20.manifest.json",
+      "before": "9b1fa59d3bfc85dd487fb7a8cd9cbcb9303ca66321b497f17389df3914590231",
+      "after": "1b8218a19375d748f9154d0e94bd43468cef381e79508da73279a0ba003c0d33"
+    }
+  ]
+}

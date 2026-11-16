@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Greek_Super_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 185,
+    "season_id": 13598
+  },
+  "files": [
+    {
+      "path": "_tables/competition=185/season=13598/versions/6357fda341a84f7f84e73a3335fe71aa/manifest.json",
+      "before": "26a466fa68bfde656da804f1064668d33c3a84bf3b364228ba83e00420d2e2d1",
+      "after": "da19d16048a8c1e2baf3b6ea02780eb4866380ce19a06cd20a6125b0b9e39a5c"
+    },
+    {
+      "path": "Greek_Super_League_17_18.manifest.json",
+      "before": "9476413bbcfd40a4f2c270b5afbfa6a79f47552ce45e6b1a47f9ba169974b57b",
+      "after": "963b055ec7fce96ebe7b06cb2bff8619c682395e8174204146f64eb3a2488b90"
+    }
+  ]
+}

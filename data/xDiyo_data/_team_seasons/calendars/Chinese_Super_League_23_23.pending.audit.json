@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 49950
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=49950/versions/909d51856cfc418ba071517654a8fdc6/manifest.json",
+      "before": "39e97c76400756bb434ef18ec821834f886ad73821b07c515cf0fd06526cfc3d",
+      "after": "79d87edf5b833384b74248c11922f0f101c97fa39d09a9e3a685a58820916100"
+    },
+    {
+      "path": "Chinese_Super_League_23_23.manifest.json",
+      "before": "4b6857bb77d25608e99871d6d9aa28a425304bacc009e8f05db6c4506780c9f5",
+      "after": "9fb13a2183aaa4134035a0755c4cbeddfa9041acae1c3041f326e69d66ecb3e5"
+    }
+  ]
+}

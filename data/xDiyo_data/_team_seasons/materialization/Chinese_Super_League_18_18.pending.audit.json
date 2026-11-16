@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_18_18",
+  "old_manifest_sha256": "e8de8254aeba3d8b80d7cfa965c18170149a83ca9aa2a30368960d6d4bdf6786",
+  "old_publication_sha256": "dbff4c0d1f9a91369f68f67a704cfde7e4549e79e665c5d9f705e39ea03fb85d",
+  "new_manifest_sha256": "bac52a3b915fc44e58cc9c037be6f6ee8c2aa4f72df65d64af14d6015bc7f328",
+  "new_publication_sha256": "1315912d5cb4fa19763945d610ed4f85820f4a06ac6334e1a94cb735b7c44c67",
+  "matches_sha256": "c475583159ed1249b7aed1d03a53c60fe77950117d6ec66d98f5b3468f020d4e",
+  "season_sha256": "199ed78270b30e2adf8cc39cb7a953e98d4685f0552e3413896a825e6dcc2138"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2015/2016",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 10355
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=10355/versions/4f972c73c0204449b2975c6c6221a24f/manifest.json",
+      "before": "59d32e84992a06107f6cdcb14b73eba932837a7d744ff81bd931f74a3dc63b75",
+      "after": "978f32e7cf6bbe857da8868cce0a1e20befd9d4da715048f0200fc9f17e973e3"
+    },
+    {
+      "path": "Liga_MX_Apertura_15_16.manifest.json",
+      "before": "525d45d865b261eb16ae9b2382131a54f80e2b393b7b1bb9bea78240d3f5f59d",
+      "after": "8468b18cdef619d8a70c156475df3034a61843286505d184938f2ea35a6246e7"
+    }
+  ]
+}

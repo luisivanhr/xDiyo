@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2011/2012",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 11620,
+    "season_id": 3400
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11620/season=3400/versions/85c6547ba34949a98e015c4531c3c590/manifest.json",
+      "before": "c0a99646ca2075479d424341ee25d967088cbfaaf269f3dd27bedbba9fed28b3",
+      "after": "6b92d40ed4b662c54b1e17b81649dc9e186b6c76e2c8a647153809e61a80428a"
+    },
+    {
+      "path": "Liga_MX_Clausura_11_12.manifest.json",
+      "before": "9802e946f6c7bb3f615853ad7a79ad3627e0511c599ea5816432df245bbad8ed",
+      "after": "43ef05ff7739be472bbe5e86652c3c074910091a738eec7add280ff8239d260f"
+    }
+  ]
+}

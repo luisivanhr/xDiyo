@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 36893
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=36893/versions/edd091b4a1a9466c810360c0610c3e57/manifest.json",
+      "before": "e71b8f8ab299b84fda187ae3721af3619ce9d84c1d3b73d6319771eacdee6cca",
+      "after": "fdd1b66aec2b6ba31f3effcbbaf0b92071af643e7f4003d91de57ee78299d85b"
+    },
+    {
+      "path": "Eerste_Divisie_21_22.manifest.json",
+      "before": "78c5179ae407cfbb0ee6196641b916f360342616999286ef562664467f77bc59",
+      "after": "49cac914b4b62dc9452e529a684cb9fa5fc70d5542cd8effedcd29e35625285a"
+    }
+  ]
+}

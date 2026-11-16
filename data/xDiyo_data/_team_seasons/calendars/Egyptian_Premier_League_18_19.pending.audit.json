@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 18033
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=18033/versions/d214e7961e6849758923601c1f1758a7/manifest.json",
+      "before": "6aa4774776727343da8a3000633d42b7086839bc8067d50980eabbdd8fb51653",
+      "after": "24ce21b874b3903fe0b6be415bf490ae7231c5fcd5fefc1b426615449b952f4a"
+    },
+    {
+      "path": "Egyptian_Premier_League_18_19.manifest.json",
+      "before": "894535a166d3ca43424ce33f9dc1d182703dc3688365e4ca53693bb4cc39390a",
+      "after": "5035d6bf937387e277dc7ac194b748836620caf76e31153cac3121f8fd19b17f"
+    }
+  ]
+}

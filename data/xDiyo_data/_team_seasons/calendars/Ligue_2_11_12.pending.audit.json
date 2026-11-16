@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_2",
+    "annual_season": "2011/2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 182,
+    "season_id": 3381
+  },
+  "files": [
+    {
+      "path": "_tables/competition=182/season=3381/versions/505d46c6bf8d40678f6767560985a855/manifest.json",
+      "before": "ff4bea95227c437bf44773288c088add8d1a10243cbe909407660d0b1b767754",
+      "after": "2bf05ca0d058f9d57a38c7afdf616eb9e1b0f730bcbd6a4e238ade9c56ea0e03"
+    },
+    {
+      "path": "Ligue_2_11_12.manifest.json",
+      "before": "8308bacfdfbd3ce047963321ea7962989c45c47eda85749e0762f979ef84ef3b",
+      "after": "127733c5075d02539d311a5c8ab189f7f1323cc179a2d9f373ff44a9abbe3e81"
+    }
+  ]
+}

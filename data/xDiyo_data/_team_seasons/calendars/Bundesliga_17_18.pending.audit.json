@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 13477
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=13477/versions/aa1b33e307ef4739a225cb06c7dcd11e/manifest.json",
+      "before": "7e5a533def066d7aceb17201ca8515d53dcb3cff06ab16104bb301752e18afb5",
+      "after": "b7f445d614b7112d3f2c760a5db97a54cf0e3cb0a849df038128671aa260b5f5"
+    },
+    {
+      "path": "Bundesliga_17_18.manifest.json",
+      "before": "51d9805c627d10188bdd1d969c0b27f72e6b7d1cd028a0422d7f08f700432e0a",
+      "after": "bec3caf302654ae31fc9f34d292b97eba8224196062d14b2e9cbf8e67f2dd6ed"
+    }
+  ]
+}

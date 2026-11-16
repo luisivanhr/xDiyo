@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Czech_First_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 172,
+    "season_id": 77019
+  },
+  "files": [
+    {
+      "path": "_tables/competition=172/season=77019/versions/3d9a09ec15da472a844ffb43da872635/manifest.json",
+      "before": "0c645ec38b1110e1debf804d3b7cb010ee5dc06a3fc531d64438be9a3892157a",
+      "after": "273cd158971cca62c7e4de4f46849f99f1d4bb915f40d11af301028720071756"
+    },
+    {
+      "path": "Czech_First_League_25_26.manifest.json",
+      "before": "3f2a55ba58e6e7ef0a13c06ffa561061b04b1d4654d5fe2e238b9850e4b57039",
+      "after": "7da4192c641759a12b5e171d0455451ed25d40e72320810401cc57f4a1dc6a57"
+    }
+  ]
+}

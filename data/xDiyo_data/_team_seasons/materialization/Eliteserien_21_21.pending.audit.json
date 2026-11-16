@@ -1,0 +1,9 @@
+{
+  "season": "Eliteserien_21_21",
+  "old_manifest_sha256": "9508a3cab468da99a33127b8bbb4c1389f2b6b0abb50e8b3911507606528d73b",
+  "old_publication_sha256": "a89ca60f58c6d2a8b05b689b237189c4cbd7d1d2765e1ce77e1edbd9d3325a45",
+  "new_manifest_sha256": "b7699e70634361f93e7f74ffc571bcdfff47966d7e45c67f74dffca85bb51a41",
+  "new_publication_sha256": "fcaff70626dbf66fc393bbeb131d13c3677f8fca4bfdb167968d9d46b0ca3402",
+  "matches_sha256": "6bb2d8824fd6ceac741860028d66546b0b6f171adcfdd6618ce153e93098ef02",
+  "season_sha256": "0aa7b09f13ef084ece234c254de201ad0ba9f5ee85f7c38ab9e73dc33917602b"
+}

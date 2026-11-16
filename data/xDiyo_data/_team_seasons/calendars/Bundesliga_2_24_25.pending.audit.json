@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 63514
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=63514/versions/6b0fd48a15a34461a21488843a3f97e0/manifest.json",
+      "before": "f6142c6f7bf5d8b5671a0c9f84e6ca244e65271ffc0c229ebb124985c1ba5027",
+      "after": "ee310a10c8a23a3fb97942b309942cc2c273767a8500e2bea438c2d1a97da09b"
+    },
+    {
+      "path": "Bundesliga_2_24_25.manifest.json",
+      "before": "ab742212b1dcb8bff7a42dbd7f2c91117bdd09319e294edb6ff863cc5c881142",
+      "after": "d896bd13548febd8f7b6b5395800b651fd1e0f7c3141d4dbe1840e94cdce76e3"
+    }
+  ]
+}

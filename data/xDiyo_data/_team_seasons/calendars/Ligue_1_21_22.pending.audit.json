@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 37167
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=37167/versions/ebf7d6896ff845dba00c54846f5f6097/manifest.json",
+      "before": "d4546e6ad95738ab1ebe0aff1ec9e5c42b3b6bd6c9ef9760da88271516a5fde0",
+      "after": "2aef22d3f19a6be30e59892a2dc5fcbbcf36c92753bf7e55a93eed24a171b058"
+    },
+    {
+      "path": "Ligue_1_21_22.manifest.json",
+      "before": "b2d7c9a699edbcc7876172ccb24604a18979f91e5765df97ef786363778059bd",
+      "after": "57649f20d015783fc133a347b740603367e75fb4415ccfeae0dcefc8b1dfe784"
+    }
+  ]
+}

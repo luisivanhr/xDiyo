@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 99067
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=99067/versions/2c6c2bdbfbc445f2ac5c6aff53aafd40/manifest.json",
+      "before": "886800d8e0e930b66511ae3ee313469f297a4937e9f5458db346103d3ce9da27",
+      "after": "43bd54932bb8db49430e891db7a58e24034736c97857651a56475ab94d65f467"
+    },
+    {
+      "path": "Serie_B_26_27.manifest.json",
+      "before": "d436c96836ce12cc9d7ec9e631fdb0b1012b3045c64c248f6040dd99224b44cd",
+      "after": "664d99f690055fb6a21d98e49d9fa03e49c02c6cd50c01ae007befb5e77daf30"
+    }
+  ]
+}

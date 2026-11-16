@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 52556
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=52556/versions/36ff7dfb4cc04b448c05fa5016299994/manifest.json",
+      "before": "28621567d1e134a002f03550147330bf8c5cc3e3528214490b2f9c4e6560f9b1",
+      "after": "8f79df4690ae1ae7baeacb22823ac6fbdd863bb5c6c4a5bdedf6afe56b93642b"
+    },
+    {
+      "path": "Eerste_Divisie_23_24.manifest.json",
+      "before": "cefa6a4955e644fdcb70f51d5920168bf88001e72824f0dd80a11ce0df4b7f8b",
+      "after": "dc53d133abde988af925ce653f50346979ed6bfede4b309ef5541d3b494f7ba1"
+    }
+  ]
+}

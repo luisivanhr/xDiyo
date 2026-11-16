@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 40230
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=40230/versions/36c357f9aba9418e84bb5807ab564e7c/manifest.json",
+      "before": "ae5a0bffee518cc83d311288619942c0c83be61c503c2abbe1f1e956f42563cf",
+      "after": "c9c0ed75a8143dbbb8c01402c919571a795a03687c73866d4509b9dd2cb6850e"
+    },
+    {
+      "path": "J1_22_22.manifest.json",
+      "before": "bb04dc0573cd969ac9dcc0ad81f6a20e0643749780ca01c0c00c66f8508d9eea",
+      "after": "a99a2cf8b41512a77d9cc33e1f77d97c5ef08db0b4a11e86a8c13b7481183074"
+    }
+  ]
+}

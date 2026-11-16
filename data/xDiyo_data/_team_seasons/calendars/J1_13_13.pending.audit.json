@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2013",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 5916
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=5916/versions/f874586d73c54bf89b7feacb34e8d15b/manifest.json",
+      "before": "b5fc84b59e44860630af0b5c62b179587a5f912c39cdc4d854fa00f32c52e226",
+      "after": "ab5680a9f5dce996a9ce53b796f6dc030d8b3d4f908345c739ee03d0102b3134"
+    },
+    {
+      "path": "J1_13_13.manifest.json",
+      "before": "f7105f536665a6ebe8a850d4c9ff825c59c0695e8d1c6ae7366947e0d416b685",
+      "after": "ad367a27adc793d7811932e19b9aaa6c6273a2cb53ad4fa3d88e06dec903004f"
+    }
+  ]
+}

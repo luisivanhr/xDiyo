@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2020/2021",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 28233
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=28233/versions/25091d0355aa4176bc060f28b2e51f1c/manifest.json",
+      "before": "ce00c97df5f51f275f9e8d3619302aef0dfa7e1536a370e124ca76091750c3ce",
+      "after": "248f9b9ebd5d6f27f313f0a6b81083d54e656d61e6ea4105894e7674f3d80465"
+    },
+    {
+      "path": "Liga_MX_Apertura_20_21.manifest.json",
+      "before": "8635a564a73b4d07018dea73b0f0be503dae6462b53a0fa60f91bf43acd0dc0d",
+      "after": "ed7f0e1de0f8f1864c285cd0f3ccd7180f746ce5cc779514fa0553a2c802e817"
+    }
+  ]
+}

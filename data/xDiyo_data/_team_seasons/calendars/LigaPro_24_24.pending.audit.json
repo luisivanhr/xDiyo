@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 58043
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=58043/versions/5e8a5e38a85b42408abdeeeac75e5ff4/manifest.json",
+      "before": "b3eac6bc458f6f3811788adb7651bf5c061f8db988dfdaae93dff1fc1ec091ad",
+      "after": "7939ff5096def7c9f9f1f16b43fcf4404507327fdb78f44390b03462bff95cc8"
+    },
+    {
+      "path": "LigaPro_24_24.manifest.json",
+      "before": "aedd8271036923e642e3424b54ecf6232b93c5a593215832b530a44c5d2c10e1",
+      "after": "95a763417d06c4070ddadbe727f43feb5b15ec201122c1479fa102873cc239e8"
+    }
+  ]
+}

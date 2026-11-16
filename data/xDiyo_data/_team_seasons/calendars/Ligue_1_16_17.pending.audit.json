@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2016/2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 11648
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=11648/versions/933478ed16b24746b9251893fcdad09d/manifest.json",
+      "before": "033cae6f6edb0578ce01fa023374bf86fee77c6ab9770f82b9ba53db549809fa",
+      "after": "ee921dc5caa18bc176aae6e3c40bf7ff4c498c28ae6eb6d538b2ce198616cb4f"
+    },
+    {
+      "path": "Ligue_1_16_17.manifest.json",
+      "before": "3664f3f9b56095b05165d0c6537966503aaebd404f9ac30bb4a7e1289c3a4677",
+      "after": "8bb4876f485c5a501274ab57f77ded7ec41515b65fae10f2fc835e811da2451d"
+    }
+  ]
+}

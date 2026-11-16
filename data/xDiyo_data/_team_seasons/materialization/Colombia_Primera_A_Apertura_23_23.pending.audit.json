@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Apertura_23_23",
+  "old_manifest_sha256": "394233f2d7d532827d49baaa2edd497873618460ca7828579d1e05c0fbd764b6",
+  "old_publication_sha256": "680187b57639d4cc96deec55e5a170f062022f92682ce749161daafc1fc65c88",
+  "new_manifest_sha256": "632d93273af22b3230473cc6e39fbe6fa1012880a0ee37784fc72ba516e89807",
+  "new_publication_sha256": "f15522a5cb696e384d58ba4b7236d469aa3016a5e6de5a59ab1efb7f0b5e922a",
+  "matches_sha256": "960d7ad30c1b570eb4fb8fe0039f058c033121e7b1feb41cf70bedee7d141150",
+  "season_sha256": "fe87044e6028b26ee36ead838b8c5ec1d573e3563313144fc30dff8b2a8c0fd9"
+}

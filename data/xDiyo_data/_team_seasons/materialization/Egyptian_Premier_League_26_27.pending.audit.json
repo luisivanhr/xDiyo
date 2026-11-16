@@ -1,0 +1,9 @@
+{
+  "season": "Egyptian_Premier_League_26_27",
+  "old_manifest_sha256": "cb51dbfaea84a30594595645b7b8da60d00a6fbbd2b2f70fbe18fa69116d52eb",
+  "old_publication_sha256": "d902f7e6d34e7a63e2c3a4316c059905637bf871f2dd6e4deb07823c1d03f6ed",
+  "new_manifest_sha256": "2538f57e98360ca8bfdf8dffc0c815ecbda30159400df966435a25ea66e9dfd0",
+  "new_publication_sha256": "e2820310c7b56d92f7ad52f51d4124b69e796ddf2f55ceb909b20fa46f0baf63",
+  "matches_sha256": "23f8d34e7816c4778d3530e8f6e01a7f486ac44611a66e33f0e2dfd11b663e75",
+  "season_sha256": "cd75502c694abd819580751be6a27616badb72707e42b8e23c67b930023f801b"
+}

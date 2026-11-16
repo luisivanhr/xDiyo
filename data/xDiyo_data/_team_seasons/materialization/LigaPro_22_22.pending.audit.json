@@ -1,0 +1,9 @@
+{
+  "season": "LigaPro_22_22",
+  "old_manifest_sha256": "d599c9d21b3e5b0a651aed3fe78eea43247d2549054debbd8a5e58049473e348",
+  "old_publication_sha256": "611ddab6a83adc6894c01f98f11023767d448d91293a72b7f625abcb5c27ab5e",
+  "new_manifest_sha256": "54e5adabdb7b1aecee8004beff5072164f878b07f16c0f59dba394a7f1dfab83",
+  "new_publication_sha256": "3244bd05535c0435ff16b3c1691148dee8f68b194c8bc777049bba163d62f61c",
+  "matches_sha256": "23fcf05b6597a08a3c9e2b22f0faca4ccc183c7dbca323dd8587376fcf4205b6",
+  "season_sha256": "372ba195c32f57aef8fb91245546dd3bbf168b24512a90d058f68022c1384f20"
+}

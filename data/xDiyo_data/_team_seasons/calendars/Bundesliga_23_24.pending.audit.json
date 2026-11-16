@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 52608
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=52608/versions/57d04d58d6c343e1a3e7754b12170fab/manifest.json",
+      "before": "3cb766b50236d9bdd3db0c9b7b3c61e87d4f54ddae8ef96b84f2e0c8b70a8d76",
+      "after": "5b4c1da249e5535e090a5d8861fc662ea5d79adc0fe8a2575d24481a268d0c80"
+    },
+    {
+      "path": "Bundesliga_23_24.manifest.json",
+      "before": "b3b719b6fe93d1c6f9324756c8d142292c04c05c130fbea2fdc1974cc5962d88",
+      "after": "d4da9682555b4e5cad4655b8e07467e3abf17d63e21c90b27b14e65b35631c75"
+    }
+  ]
+}

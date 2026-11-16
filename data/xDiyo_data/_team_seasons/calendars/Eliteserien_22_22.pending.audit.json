@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 40405
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=40405/versions/4afac31120b944089b63cf45a6a92e2f/manifest.json",
+      "before": "e4a2fd675c50fd599d7924490d59941162edea2b90b58a807e424206d3795407",
+      "after": "586ef77b6a7b5c3c6f8f02fbd2a81f5ae326cec0b9c543fa3eef3e68795d4679"
+    },
+    {
+      "path": "Eliteserien_22_22.manifest.json",
+      "before": "4f9c4dc7b6d9cc3076d072400103866fa6067f78cf3da393d37fbdd43cbc4dd0",
+      "after": "eefb326b33d4cd2efce5dc3fad836af6b408c0c466d59fa08eb6c4b9ab4f190d"
+    }
+  ]
+}

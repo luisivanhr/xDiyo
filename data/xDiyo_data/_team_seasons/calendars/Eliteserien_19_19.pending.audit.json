@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 19977
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=19977/versions/17980667cb5a4d54b9390eeb34372e4f/manifest.json",
+      "before": "b11fb9d8d28296b9f11c653baf6950d03219e026e2029815890eb5a0387ed8e3",
+      "after": "1ea4fad7da9ddfaf86200833d8a24286f2a9782180b3e9f76153a0d364c29f95"
+    },
+    {
+      "path": "Eliteserien_19_19.manifest.json",
+      "before": "8e891fbb38d3bda311da5dc8a863d22e9a1fdf7a4a238a4eb964072af2366828",
+      "after": "d5d628b6dc2c28c6af3a612085ea8ca5da3af07aa0b338fe4677ae5e9a32d08d"
+    }
+  ]
+}

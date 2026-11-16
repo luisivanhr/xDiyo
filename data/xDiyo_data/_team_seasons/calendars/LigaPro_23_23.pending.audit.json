@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 48720
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=48720/versions/56d2fe67a58e4c34a24e6e7193841aea/manifest.json",
+      "before": "87d2bcad3ed4bc761b2d8712cceb1031839ec7b617a384fe12709094a931d73f",
+      "after": "aa97912fafbb8d7588b5d083d2bacf90fff1786b2041f011f556f52ce84c6080"
+    },
+    {
+      "path": "LigaPro_23_23.manifest.json",
+      "before": "faee9fe4cd63ccfb9a6c9dd285bf25d2ebc1ebfa20c0e79be9de0a5236a93c52",
+      "after": "76dd0cda77f5567f16ab7cc0301d24670862d7e0be2f157d39c69c751abe3616"
+    }
+  ]
+}

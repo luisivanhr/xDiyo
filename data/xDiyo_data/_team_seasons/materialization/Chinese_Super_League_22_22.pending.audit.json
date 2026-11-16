@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_22_22",
+  "old_manifest_sha256": "843adc0ad50faa21a79fded5f2ae6ba6a95d5b3060a46b52aaed74d76a862418",
+  "old_publication_sha256": "5abfc3121a5838abe85d610bae2cd3e82760167e713ba2547dc27bfbf31c7785",
+  "new_manifest_sha256": "d7aec837b3b42868c81e6a9ad9684ef1a81e5c1744f035f529f824f28dd004e6",
+  "new_publication_sha256": "f91ebe008762761f78f74ebdc036972aad12b62d16175f51cb892d9adf9abef2",
+  "matches_sha256": "3573806713f4de206c626ef0e471a7edf691f788bca22131921560550949d333",
+  "season_sha256": "fd3cf7831e7d267c62aaecd8b63638db8dec412af3a5f5f0408165a7f7aca289"
+}

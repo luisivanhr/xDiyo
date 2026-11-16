@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga",
+    "annual_season": "2014/2015",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 35,
+    "season_id": 8238
+  },
+  "files": [
+    {
+      "path": "_tables/competition=35/season=8238/versions/f3c23a19726f4ce0b9f5d13363007115/manifest.json",
+      "before": "3c0ea7f563ab0beb681151a70ae1ec4a751b8ecfcc0d00a27fe1975f370f4d9f",
+      "after": "9a45ff6f5a5a7eb771fc167636216670f5f9d9116a21e6c9649bdb9095a06d21"
+    },
+    {
+      "path": "Bundesliga_14_15.manifest.json",
+      "before": "3f1440ff2f134c462397f2a7692af5ae809fc4f872564718d367f8e6d3e9cfd5",
+      "after": "deae870e648feedb3d1de1733e1e5f34bb011c0f78a241707e9e65f4181aedf4"
+    }
+  ]
+}

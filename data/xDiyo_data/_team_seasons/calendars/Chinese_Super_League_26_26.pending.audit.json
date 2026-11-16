@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chinese_Super_League",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 649,
+    "season_id": 90049
+  },
+  "files": [
+    {
+      "path": "_tables/competition=649/season=90049/versions/d9eb1e5400e84eba9a03eb04e6f195dd/manifest.json",
+      "before": "8a1c9452273eabee8fb79cee03aca42b16cb016412a0d9acaab552ec8ea49aaf",
+      "after": "768dc822025dda16d70f9af796232fe802dd658f9f3eb8cff7dd4ec22fd123e8"
+    },
+    {
+      "path": "Chinese_Super_League_26_26.manifest.json",
+      "before": "fab16780cf693e7c770bc1a7e70b0c8d71a2e16fdf785c22d511c503f86fa807",
+      "after": "48c12e6b5d9e6f9d4d3533c8d9f20872ee69ea08e1db5feae19493375e732701"
+    }
+  ]
+}

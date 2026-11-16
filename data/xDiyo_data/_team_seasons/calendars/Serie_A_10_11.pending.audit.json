@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 2930
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=2930/versions/a1d654579a564292bb2457f2b8a9fedc/manifest.json",
+      "before": "0746e6224d18406886c7f02b6cd2c7d74e32aab980af09ff3178a2c6e8d34bf4",
+      "after": "e8f7feaacc09b32d43efb7d0319a5696bfec40c3bc50e3c34680caae679d3edc"
+    },
+    {
+      "path": "Serie_A_10_11.manifest.json",
+      "before": "2c58b7dbe8462bef677c04d4b7a5503b946194e849863ea53fa02ef035be6947",
+      "after": "49a351ffdf3320e623cbf97eb5c498f63306aeee72dc7d1c85e65918087578d9"
+    }
+  ]
+}

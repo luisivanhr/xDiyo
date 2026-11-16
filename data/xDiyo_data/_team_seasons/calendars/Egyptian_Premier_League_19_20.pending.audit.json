@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 25455
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=25455/versions/612d2a91507446348ba1143e2b92f427/manifest.json",
+      "before": "e2dd62882067d641920a6063d7fb8288ec9775bcca00eb6b3dd094b31272013d",
+      "after": "7236bcc3b06cdd3d7979735b1558f51561aca16a7fa51aef2ec294ff3db75b5f"
+    },
+    {
+      "path": "Egyptian_Premier_League_19_20.manifest.json",
+      "before": "c1c70d08a276c1dc96961f3901874d43e819fdb538009c6ddeb3965a6a3d2348",
+      "after": "457faf0f3e7554b2a66258fd75cc5326bacbbae5caf583b8256710e91c266007"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 41914
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=41914/versions/8b184faf4c5c4dbbbddc83fc53b032ce/manifest.json",
+      "before": "1808ff129e6c6807a45e913975b7f1af68602ca2440105a39495a5b980ca5eed",
+      "after": "6070f7e286064dc535336c047b7e5a08cd35a6ae422e7c6a52484d7f32c78257"
+    },
+    {
+      "path": "Danish_Superliga_22_23.manifest.json",
+      "before": "317fa2eac408effe48d8436329e5964cf73e735aeddec586bb40e2ea33dbe0fd",
+      "after": "72dc60ad18bd917a6a53411b325efde1ccff4f1612efaa372014820b5ca02dc9"
+    }
+  ]
+}

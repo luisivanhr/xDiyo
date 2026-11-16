@@ -1,0 +1,9 @@
+{
+  "season": "HNL_19_20",
+  "old_manifest_sha256": "15c92f830c4d8d3f8026d169e2c6c2517a67bd40b12bdecd7ff86d5488f73d94",
+  "old_publication_sha256": "ab0183c96b0ecf4fb197de0a90804bc755ee3f670bfd794c518d8b6e65075275",
+  "new_manifest_sha256": "4aabf5634eef328fc82c1ca76d42b787c070d31de6824be2a0ece73bacd9f01d",
+  "new_publication_sha256": "35dc5cc60c2dced3842f0771ce16dd6d51c3d4b04feba91f4a405f03b61ce9a6",
+  "matches_sha256": "a9132f14cf85c83657753d318ef0de2fc82c3f6a8cfe9b8e98dbbb8a66e2cac1",
+  "season_sha256": "a7068941bde8fe2451f11792ff70cba92d7c9e181494097f8c943e3040e95866"
+}

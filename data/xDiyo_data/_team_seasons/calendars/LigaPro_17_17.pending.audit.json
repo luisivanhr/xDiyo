@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 12847
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=12847/versions/a4638b76bdb146e4986c6068c11f1a38/manifest.json",
+      "before": "1a517363cc8b57ec45e7f0f52370b7e8d304f785f348b438a31bb6598e1d363a",
+      "after": "506b20f3a6f4880047a3abc90b7bfb0ecc3b7b075bbd55639c7d6e5ddbb93763"
+    },
+    {
+      "path": "LigaPro_17_17.manifest.json",
+      "before": "56897e178f658101af566044e59af7bcc3cd88786d5304f5434f461ecbe51c58",
+      "after": "d549079c6629f94e4ea910bc296beb78d64c2a883c4dcdde8325c533bd3c8141"
+    }
+  ]
+}

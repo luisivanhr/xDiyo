@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 24758
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=24758/versions/64dcdd38ef18461fa3a9fb0a60064cd4/manifest.json",
+      "before": "db6b4e04b91ee05e7a4fa11f86fce41e60f5651d70cd319cc1c3f58e9a1f291d",
+      "after": "8e5b2797f062255585185f8646ad052b75532daced4a2ac437b66251c096585f"
+    },
+    {
+      "path": "Serie_B_19_20.manifest.json",
+      "before": "676509a4a1ae94d1fba9494b5722459c3772803dac1d5609827881fb7edf7fd4",
+      "after": "8c708418ae24801f163cc4bb6499fdd8f22e024e85afe56c8155db9ee50fd9ba"
+    }
+  ]
+}

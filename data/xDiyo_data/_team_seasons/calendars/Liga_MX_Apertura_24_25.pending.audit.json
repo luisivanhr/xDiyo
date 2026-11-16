@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_MX",
+    "annual_season": "2024/2025",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11621,
+    "season_id": 61419
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11621/season=61419/versions/783bc1e3a0d944e589134cf0962dabc1/manifest.json",
+      "before": "d41e21d69b1914c5c3197eb851d7eb94ef805337794285f5ad97ea1ce6ac50ce",
+      "after": "57aa222aaafa2f270a311f436b64fd47472243dffad5720aca0a19b53cedff38"
+    },
+    {
+      "path": "Liga_MX_Apertura_24_25.manifest.json",
+      "before": "5f0655172e8c5ad33d2b0a11ccc8c4adcbc4922387791186108b0a437d2b735d",
+      "after": "91aaea94cac2da62137ec37265a75cbe315934684c5312422ec3f546490c2e8d"
+    }
+  ]
+}

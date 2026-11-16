@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "HNL",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 170,
+    "season_id": 23778
+  },
+  "files": [
+    {
+      "path": "_tables/competition=170/season=23778/versions/5e2459151cd044efa781f25fbed49e1b/manifest.json",
+      "before": "4aabf5634eef328fc82c1ca76d42b787c070d31de6824be2a0ece73bacd9f01d",
+      "after": "9575a07c0b64539ffdda70667418c88e8723c11fee1e2de33d04fee5dde3a9f9"
+    },
+    {
+      "path": "HNL_19_20.manifest.json",
+      "before": "35dc5cc60c2dced3842f0771ce16dd6d51c3d4b04feba91f4a405f03b61ce9a6",
+      "after": "5d226f4bac17dd2326c3cb90c80edb76506d15f0c029bbcb347e509152e56b52"
+    }
+  ]
+}

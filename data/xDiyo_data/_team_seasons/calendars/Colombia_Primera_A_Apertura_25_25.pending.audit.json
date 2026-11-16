@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Colombia_Primera_A",
+    "annual_season": "2025",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 11539,
+    "season_id": 70681,
+    "tournaments": {
+      "19232": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11539/season=70681/versions/2f76ed028cd849a0802eba5668c5963a/manifest.json",
+      "before": "7f7c6bf76092cd7dff640e744d7a25a5a717436334e11e4e50fe662b150b734d",
+      "after": "5ba9df278c3720788070bb26a9aecf7d96c25940bc98347974b989ba687bef1d"
+    },
+    {
+      "path": "Colombia_Primera_A_Apertura_25_25.manifest.json",
+      "before": "b2b8999c690f8fdef7de64635d4b3d54540411170884acf54f645f569549ec2e",
+      "after": "34e6376348fc89c4e16c881c049ff556068da47d5668bd397aa8498aa9fb2415"
+    }
+  ]
+}

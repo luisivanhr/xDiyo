@@ -1,0 +1,9 @@
+{
+  "season": "Czech_First_League_26_27",
+  "old_manifest_sha256": "18073aab07c2d3024f55e7113d4dd04560d095505ba7bf6cc4ad2646d07fab0a",
+  "old_publication_sha256": "6ebf20602ab2613bbfcad738e974e3d2201519b844f6eab550a8e5abc92d709e",
+  "new_manifest_sha256": "db50e2eb0ac1081d8086d4dd2cee0dfe08b624c399af29a5a6d42691497cacfa",
+  "new_publication_sha256": "2547d09447ae59e3f5e7854468271eae78757e046bcdf248f18207ab71f63ace",
+  "matches_sha256": "2e07c8fae8b9014da938b9739a85080fd36184f24fac996d3297ee4b98256768",
+  "season_sha256": "28a07b6d1c42c2e4e80bf221c7cc466d785d1c54689d03bd7d0890978edfa479"
+}

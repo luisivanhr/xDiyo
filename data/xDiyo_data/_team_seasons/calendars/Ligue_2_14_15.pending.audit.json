@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_2",
+    "annual_season": "2014/2015",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 182,
+    "season_id": 8124
+  },
+  "files": [
+    {
+      "path": "_tables/competition=182/season=8124/versions/582ccf063d684a17b6120fc9b2931c6e/manifest.json",
+      "before": "7ca7f7857f22bbc264f26a5ce2a6a491faa2a78dc5a0c8dd367e987b870a4f4b",
+      "after": "9807ade098a866d38f5aad3ad7d6e082102ec16dbe148457cf4a2fd7bf9326d4"
+    },
+    {
+      "path": "Ligue_2_14_15.manifest.json",
+      "before": "1fa68c067e0bb09f930e974ad9acc7700a943e792a78a63cd84749871258fa8f",
+      "after": "9653fc2f8c2e1be686529bca0078e8542d834071174febc1cc4758e8b5fecbef"
+    }
+  ]
+}

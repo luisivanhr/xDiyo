@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 24644
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=24644/versions/5b01384b5702410790440b92536a3114/manifest.json",
+      "before": "ec5bc2ff456cb38e971e07f8ebb36edd23e50cad37574cdffec896debf16ad3f",
+      "after": "ffb35fad5bdf9423743e96f75c761298ca8d4e651e476bf6bed4468e6ded2746"
+    },
+    {
+      "path": "Serie_A_19_20.manifest.json",
+      "before": "8967a09bc21260c9b18e9f58f7e0e8e787526aaf289a760c1b243ade97f93e3b",
+      "after": "9fcda8b1ab362b0d0f8c3245aa84aa7584a779840a1b445fd218e7fa79844e51"
+    }
+  ]
+}

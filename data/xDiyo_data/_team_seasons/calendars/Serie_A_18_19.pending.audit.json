@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 17932
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=17932/versions/56d8fbd27b534107b2116e44c70ee6f3/manifest.json",
+      "before": "ab9848f24b094c6f1cde525d48acf4f5637aa7b0c5d054dbd182996b3b92d70a",
+      "after": "747f419cf45b65c83402bb8836704bb9d6cd5e012081560e840721fa8ddb0d1e"
+    },
+    {
+      "path": "Serie_A_18_19.manifest.json",
+      "before": "43140a09d2741a13b5132043b07cb3a05f1e215d10b29d6d567ee3651ea39729",
+      "after": "92869fce8054ce717ecad5bfe1de574ed38025f4a0fb3e1a6cd6a7b08f3974fe"
+    }
+  ]
+}

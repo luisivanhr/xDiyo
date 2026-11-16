@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2013/2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 6315
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=6315/versions/ff1fe491618f4d54a52bc57faeecd628/manifest.json",
+      "before": "a7218ea47d69927c5ff557bf4249750584713f2966dfafb609d3692a39c5fc31",
+      "after": "d63d03f83650568a4d30d87c6d79568f973c709e2dc00d69058d0fa7a427c510"
+    },
+    {
+      "path": "Championship_13_14.manifest.json",
+      "before": "0274656324963d00c528119a4849d72401335223c202ed6fede28d9fe7c219ed",
+      "after": "b877817cde40549c7be5898be615acc51de0cd5665d7c95660d022b0829ad104"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 7718
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=7718/versions/ec2d1d0cb04544b4a65bf82faad60362/manifest.json",
+      "before": "2aee0dbcaf889eb1d004f6e2a4ef16f075908ccd55dc232b2cf03fe12126e768",
+      "after": "dfe8134d8a666580212423f76e0441dc4f88c1b1b860908839a0e6067839c169"
+    },
+    {
+      "path": "J2_14_14.manifest.json",
+      "before": "e8b3f4b67c99d85b5d74221ab3b235a9e03b59269fefa0830c6ef9d854383905",
+      "after": "f338b23e2fe3677472febea0a9145d88b2c33e46409ebaf74d8021b8c790ea39"
+    }
+  ]
+}

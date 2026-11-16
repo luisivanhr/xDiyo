@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2026_transition",
+    "phase": "transition",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 87931
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=87931/versions/21cad059c8944667be8d4d067d36b6e2/manifest.json",
+      "before": "f1e3bdb38e82fbdabcd24ef92cba9860dca4670d9517499a79dcbb761763fa8e",
+      "after": "bac178338813f209e558e78b8eededb69150ce95b7ecef255bb4fb3839116cdf"
+    },
+    {
+      "path": "J1_Transition_26_26.manifest.json",
+      "before": "bdb4ed066b623cb982361acf5d9cc3fadc899e17d55f3ee1e1a0b2a1f613cc0e",
+      "after": "895691ea19485228915a7092468792436e6b35f0fe31767f60942b4d06234145"
+    }
+  ]
+}

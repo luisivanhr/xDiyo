@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2012/2013",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 5145
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=5145/versions/9a50a649310c475b968629749f44f682/manifest.json",
+      "before": "e7ee778b0a97dd81bb18ba7854a6b91c240f0dc78065b4c8a4140d5b6aa7918a",
+      "after": "91dc2015831c6699a9ec7c6a4fce5772b7ae42c9787db52b8f7f95d46e193932"
+    },
+    {
+      "path": "Serie_A_12_13.manifest.json",
+      "before": "eacb44fb5d19f61f8bf542b33a22bd3fe3a9adc555a34fcc268f0f739c354f6e",
+      "after": "5f30b746aad924c3f96fe6f0de75a9f57cd8ff66d1a6347339347609b34563ae"
+    }
+  ]
+}

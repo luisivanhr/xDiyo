@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Clausura_17_17",
+  "old_manifest_sha256": "1078f45add45f2f16bb020713496ff4ee2781db8ff57a52ba374fa1343e248ff",
+  "old_publication_sha256": "9f7a9af04868bc5752edb70e6c35406954d8a3e61eb88096391245d6b7ad3f4b",
+  "new_manifest_sha256": "99d53e1a26d1e8f675044a9ad8a518f462535161b4e198c7389f3c944f5a5136",
+  "new_publication_sha256": "24ce30aa2310f8acc78a2995db526fbc9e2614664f2fd83261547aa2bc7cbc94",
+  "matches_sha256": "c64d7b3d07504c86af2da34fbfc9c35ebfde89cedfbdac039777dd2c6a178668",
+  "season_sha256": "78b1a424bd88e100fffcc2ddab531b80e51fa81473c87ca778c8328e776ffcef"
+}

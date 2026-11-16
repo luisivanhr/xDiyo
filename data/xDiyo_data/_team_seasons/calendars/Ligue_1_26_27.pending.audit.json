@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ligue_1",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 34,
+    "season_id": 96127
+  },
+  "files": [
+    {
+      "path": "_tables/competition=34/season=96127/versions/f2947095e9624e6a93247bea3b2e804b/manifest.json",
+      "before": "93a1009baf3345cbe58a07f69118230f2dbda5fa2bb809c840d4ff8414f85ce7",
+      "after": "a3afdcd0bd1429123db3ecfa3589ffa1f603de06873ed09ca122943035ad1542"
+    },
+    {
+      "path": "Ligue_1_26_27.manifest.json",
+      "before": "bbd90625b8d80c024a3f60353bb9dc766798d4f2e0fbb9600c1d9ddf6263bd00",
+      "after": "b0b0ac88962187db044af1cfd93655d46e316864097d8f61a6551049a8574544"
+    }
+  ]
+}

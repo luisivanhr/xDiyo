@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2016",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 11332
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=11332/versions/6d1ae41cf6b94a16980affd29eb4ba11/manifest.json",
+      "before": "d0417032c35751c3ef24f1965bc8161fb572a4e2b10413b0c7a5fa1443aa6949",
+      "after": "55fac435b0ab58a9f79b0b143889dd7a88d52efc8f7f72271e73a8362ab97344"
+    },
+    {
+      "path": "J2_16_16.manifest.json",
+      "before": "1948aad857c4e120ff5606e04eb494c8200061fe6bba2d0afa2c4d1556455651",
+      "after": "1768141aa87fc1af4b4b35ffff5fa7993990e9ab9c683e62e2a590d1f6d183d5"
+    }
+  ]
+}

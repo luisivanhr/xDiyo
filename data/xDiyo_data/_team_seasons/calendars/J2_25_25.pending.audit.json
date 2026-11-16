@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 70418
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=70418/versions/36d24d9ce7da43c4b77df609cdd6f89e/manifest.json",
+      "before": "e598f0c71b1e199545a23e34f0247acad10ff7003901afdafe9d57d285dd405e",
+      "after": "a4161197f62836632333c7ffb6d463f564beb4c80f0165662a37f9d93271c411"
+    },
+    {
+      "path": "J2_25_25.manifest.json",
+      "before": "ff4a528f483eae7394627b03d94166668f8a3b0ca5f4af6cdcc2c17c268daa86",
+      "after": "b0c15bf4e9451e64fca12698370d8ca40788a0f5be3e8a69426984fbbdf07dd6"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Greek_Super_League",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 185,
+    "season_id": 44513
+  },
+  "files": [
+    {
+      "path": "_tables/competition=185/season=44513/versions/9ae288e7cd99434aa7e165e7378178e6/manifest.json",
+      "before": "a5d357aaddea2600f3f4d53727894da7b9a592b90b5598894825085343122af7",
+      "after": "8a256d9e8b3f3f6f18d8baa3a44ca83de9fe5350e96ae3b11abe3fc9254da848"
+    },
+    {
+      "path": "Greek_Super_League_22_23.manifest.json",
+      "before": "c1bf42da5e5a9c710630b1691177eba7f666c4b4c9c1fb22b181ca52254f5710",
+      "after": "d7ef95d7644b15d9aa64ecb719146c1e3360a4a9dc519052ff93f4cab14b55b8"
+    }
+  ]
+}

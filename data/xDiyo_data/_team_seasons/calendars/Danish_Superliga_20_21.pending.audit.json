@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 29247
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=29247/versions/c851f9e87c7b4861b4b872d47f431b66/manifest.json",
+      "before": "9502f774222c7804fa611283ac26a1b14402b9289aade603d6f26d201c663141",
+      "after": "d9fc231f49e88cca248d7b9afa14d28966f6fa7d939d32a5a8556fc2ffc603cd"
+    },
+    {
+      "path": "Danish_Superliga_20_21.manifest.json",
+      "before": "c14dc9d05fa79a6f267acb7be5a65b75754f482c8c1f68dd32dfd39b17ec91b9",
+      "after": "3d0a8ed8644dc3efc033c54e84f0f78a13ce987da605f0ea1142f6297ec062d6"
+    }
+  ]
+}

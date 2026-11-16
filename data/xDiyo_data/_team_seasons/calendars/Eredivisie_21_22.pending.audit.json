@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 36890
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=36890/versions/83ab69379e3343729ec770e87022b7d9/manifest.json",
+      "before": "ccdd65804edd13bce2a387270e20a7262d44690d48b34e3d43188547f31db845",
+      "after": "9daea814e22e65efe8644c8ac96b5a5735919045d4e84ae2f1273ac6a975f2d6"
+    },
+    {
+      "path": "Eredivisie_21_22.manifest.json",
+      "before": "b66a17c536b7bba4d3c5ad3d1a31a0f1e32935a4f1d24f30983f9bd453f43f57",
+      "after": "27a5427ebfb57ae0a55e0ae2b3bf680b2a616021205b5ac398965e4c7589423f"
+    }
+  ]
+}

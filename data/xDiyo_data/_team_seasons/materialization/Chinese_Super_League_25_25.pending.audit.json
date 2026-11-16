@@ -1,0 +1,9 @@
+{
+  "season": "Chinese_Super_League_25_25",
+  "old_manifest_sha256": "e09ae01f52478c0fc14241b28f59c857808ca128d4088ccfa6cefab1213f48c9",
+  "old_publication_sha256": "1a2f434287c8c23a3c5c4af81166faa044dfa7e424fdd2389118c23f3fbaedba",
+  "new_manifest_sha256": "de16b223aba7a8eadfeae92cbe5ccb5f41b1b46f88402ed7cd24887d867140e8",
+  "new_publication_sha256": "03456c2af4b6a156fa4d01efbfc518252cc412295b8e36d85fef4f196967b41d",
+  "matches_sha256": "7cafd545406601ca7abe40ac225253b4177e293fc0c96623e111f32d80a91c40",
+  "season_sha256": "3cbb95066a1912da015863b8954138c231ca0242fd6f468f15a43ea306b379cc"
+}

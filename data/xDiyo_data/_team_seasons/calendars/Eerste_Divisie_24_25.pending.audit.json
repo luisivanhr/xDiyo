@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 61667
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=61667/versions/009c8fade62648df8d076bb7448cc9af/manifest.json",
+      "before": "b795feb471c2953cdce73ef65482a5cb70e7fa2be6bf7c4944aad3aacc3fcdc3",
+      "after": "9755ae79096ac22ab543b1c30e0093932b91eeb2cc4c06d367bb0b10eab89cc4"
+    },
+    {
+      "path": "Eerste_Divisie_24_25.manifest.json",
+      "before": "1b39451b5d1ebb390377c2a1394c4da692511b3d0f4d156e99f4f3958ce02130",
+      "after": "b9560ec4a412fb1ffcd3afdf16d7fab2ed992921270699e601dffa1b2d40791b"
+    }
+  ]
+}

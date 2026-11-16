@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 37475
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=37475/versions/d4ba4c5cc1be445a96e043c5147dc965/manifest.json",
+      "before": "9627f12e064073d512ec5d12fc98b8ecd7ffa1c802c91d5845b0671f8add6077",
+      "after": "041d79728e84c8821a34fbcebceeb8b07a67b9c2bec9c35ee68680abb0fbcf8b"
+    },
+    {
+      "path": "Serie_A_21_22.manifest.json",
+      "before": "dfadb9525550424ada7338f95ab783e3e4d2201a7100d55959cef0d4800b852b",
+      "after": "29bb7d4ee2d57ad61b7a5dd3ad40eedc6504f6a5bdf8053c1ad2b358a4ed5748"
+    }
+  ]
+}

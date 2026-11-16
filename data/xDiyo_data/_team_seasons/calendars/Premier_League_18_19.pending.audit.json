@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premier_League",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 17,
+    "season_id": 17359
+  },
+  "files": [
+    {
+      "path": "_tables/competition=17/season=17359/versions/ab9cf1aef78c4543babacfce3477a590/manifest.json",
+      "before": "f86a309c4b08c8dedb38217124d963571637f2690e6b2818b43f2f98f2626df8",
+      "after": "4370e3e488c8a885e6151b157a3a5b82ca45282686c45800bbe44258c59658c4"
+    },
+    {
+      "path": "Premier_League_18_19.manifest.json",
+      "before": "ba1e56b0c03267d888d82a4f2a49e168bbd9d0d3ed8e7b3cbd7b30368db0f789",
+      "after": "fc6e894884b7b94087d3f59d2ddbb6c9c05312930860e69435237571ee8df423"
+    }
+  ]
+}

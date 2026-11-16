@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 20069
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=20069/versions/a34c68c8bba44308a22aec95ae6b8b31/manifest.json",
+      "before": "af23e183804633c9507b5a9e75bd07b5a1876830d5dc347f4d7634242d04dade",
+      "after": "8da73536d25461b3f649534b76dc67357c5eb9b5a063a81b69b1ce6931ecdaed"
+    },
+    {
+      "path": "LigaPro_19_19.manifest.json",
+      "before": "b45368fd5c43e2dae8d2ecb1df18ae188466709c272e7c230d67cfe204ca2a12",
+      "after": "84fc86f1efcf0236fd9b531965d2c93e0d734f9e191d29c7a4fafc9528721f02"
+    }
+  ]
+}

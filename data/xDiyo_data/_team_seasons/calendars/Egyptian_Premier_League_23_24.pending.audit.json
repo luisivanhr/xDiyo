@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 55005
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=55005/versions/66650a1280124862bccd0040bbe10dc1/manifest.json",
+      "before": "07f55fd51d55194fb92b198335b95b8050785c0a588bc0111a488776edc2570b",
+      "after": "ce4fac875795340458673eeb26f6fabc48dafe28874aff26cc578794e2a76e5a"
+    },
+    {
+      "path": "Egyptian_Premier_League_23_24.manifest.json",
+      "before": "e6a211cd6c70f313f1cc13b8b9f76b5531c2e197af4f0c7495005c1f398d1eda",
+      "after": "f46c2cb02b026f00e042b3727571945aa542e33e847f66cd6d3863052d388d64"
+    }
+  ]
+}

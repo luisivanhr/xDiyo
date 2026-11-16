@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Championship",
+    "annual_season": "2016/2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 18,
+    "season_id": 11784
+  },
+  "files": [
+    {
+      "path": "_tables/competition=18/season=11784/versions/633bb136db664205877de7bf68bb4d88/manifest.json",
+      "before": "dafa35bc83f3cfe854549aac65bf0dc01a1da1fc6b368d4c229b4911b08061a8",
+      "after": "3e01c5ad38979fdcc6c778f73b2e90d7e2c9de97a1578110bcc8fd03da0480a7"
+    },
+    {
+      "path": "Championship_16_17.manifest.json",
+      "before": "240b74a4fbfe614bede8abfc46a6abb09c6bb150d63743c4e16ef8b313d1a924",
+      "after": "79669143608d77fb1fe50958d6d25f958df2adb7c5f511fe37712c7dccc9a54f"
+    }
+  ]
+}

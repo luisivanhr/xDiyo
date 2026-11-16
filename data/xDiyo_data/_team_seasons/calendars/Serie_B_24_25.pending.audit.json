@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 63812
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=63812/versions/64d46fed6c4946e5907212569a810411/manifest.json",
+      "before": "67816b6ab557e72e8eda99c8fe464719644e7a5f33dccaa77549e99d27decbf1",
+      "after": "144224c9ad8608792667b8200f77d8f28762da030e63a5fe5040f50aa9d921d0"
+    },
+    {
+      "path": "Serie_B_24_25.manifest.json",
+      "before": "28c5ea6813a1bac3b1e764046fa885e713969d605814987c4bfb1c84d2b42fc6",
+      "after": "a7f050d2b6bee9e4acb8ab6cef342cf9e00636a0197f513b5b87849c81e6c0a7"
+    }
+  ]
+}

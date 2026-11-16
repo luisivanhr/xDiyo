@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 23873
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=23873/versions/4b6d840298c2433baaf2ebf2bad65f52/manifest.json",
+      "before": "e90b8d508c4abb79198a363fd5827d0b486685e9d4d90601e43f0a17237b19a2",
+      "after": "75dde72ecf6e13aad5d259ab12053719f8b5294a24a0fbaeb2e61c70bc43d374"
+    },
+    {
+      "path": "Eredivisie_19_20.manifest.json",
+      "before": "6a12878f2051c8e88ca49aebce481571e6604bf179e3d6d8c0eb3601f8e2eb39",
+      "after": "893a21b2a15f091a22469cac477ef9cb4b89b8ab27f766860e86fc8c8af96cba"
+    }
+  ]
+}

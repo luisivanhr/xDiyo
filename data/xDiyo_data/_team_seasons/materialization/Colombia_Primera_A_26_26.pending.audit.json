@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_26_26",
+  "old_manifest_sha256": "53637da1debd7671999381e4e080e835468e0217657ffcbe3d4c8beb69b8fcde",
+  "old_publication_sha256": "18ea30d0679b5d59a37b4cf344b8c4a80edd9ff77d30d22a1a05286e632e5cd4",
+  "new_manifest_sha256": "1000d24ad4abd05c2704c29d05ac0facaf8483c9827c43d6e63d0336a038da82",
+  "new_publication_sha256": "caab909f84651d35fea39bba5836e7dd335390da02bb4be17494ce2ca3186e39",
+  "matches_sha256": "61730c2359cb28117d0bb75cb383977d43a5871c4f1dcadbacea7bb244c524c8",
+  "season_sha256": "c1b03b6e176ea0920c0106c5ef91e6121177ce89980a00b2d4b66267348fae68"
+}

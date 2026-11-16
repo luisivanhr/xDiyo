@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "LigaPro",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 240,
+    "season_id": 89674
+  },
+  "files": [
+    {
+      "path": "_tables/competition=240/season=89674/versions/0da7c67244fa4a9ea24804c9c21d35ed/manifest.json",
+      "before": "8d40001c0c1e260a8e612504840caf281e8d13f07c3d0163a3d9dceb83bc459e",
+      "after": "d418b65cb0a512a2860fe9c6e3ea43b936c95e8c5aaaab67613b5860dbd33ca3"
+    },
+    {
+      "path": "LigaPro_26_26.manifest.json",
+      "before": "22a547397a774c4b3f2e3b70f04d72008f00231822a7f4add524b7bfd931419a",
+      "after": "6549263b67fb68599214bb14d6d9576221dfc8f9e54f07aa838a0a7dadc76e64"
+    }
+  ]
+}

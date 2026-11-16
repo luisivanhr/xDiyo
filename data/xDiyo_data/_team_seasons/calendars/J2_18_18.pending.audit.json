@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 16005
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=16005/versions/4ca8015dfbd7444f89811bb6a1c4540c/manifest.json",
+      "before": "d6df03c2d66669850836c2634d9a6458fa91cc2987ca43b10736d69acc3deb71",
+      "after": "541799e3d8cdfee7f1cd5bcb84abd52325a41988c17d75952e3d5d8d222eee20"
+    },
+    {
+      "path": "J2_18_18.manifest.json",
+      "before": "0ea628c53279cc36af45c0f7a01ec690962e215e462e0433424b873918a8b0a3",
+      "after": "c0bc8d25e1935ef3c8b8667751d578f554ad3acfd6dbbd1f8bc8a2c0e77d85d2"
+    }
+  ]
+}

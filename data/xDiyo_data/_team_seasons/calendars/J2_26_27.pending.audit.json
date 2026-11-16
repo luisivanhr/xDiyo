@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J2",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 402,
+    "season_id": 96371
+  },
+  "files": [
+    {
+      "path": "_tables/competition=402/season=96371/versions/134e7ed67f6741c984774ef4a5fc0dce/manifest.json",
+      "before": "44a85448a1cbc1a432ed419e8e66d53c50aed6458519c7047454eca77522cc33",
+      "after": "1cb14d3c4163309a9fcf85ea6d32fabe70b92276131e922e7f0da2032e1ab30b"
+    },
+    {
+      "path": "J2_26_27.manifest.json",
+      "before": "f562c9a73a822370c4132d66bfad445a875b0903d9c956f58f7b79bc35a97831",
+      "after": "9aea6fe483846cb33605ea3cae49020931b2c33d2f9de6e293a30c2369338849"
+    }
+  ]
+}

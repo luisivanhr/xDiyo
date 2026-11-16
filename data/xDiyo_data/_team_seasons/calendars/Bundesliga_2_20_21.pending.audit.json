@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Bundesliga_2",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 44,
+    "season_id": 29312
+  },
+  "files": [
+    {
+      "path": "_tables/competition=44/season=29312/versions/5e717560cfe34ef6a16f5632cf7ad409/manifest.json",
+      "before": "a3ccb0fc3c59cd244934c2f978954f7cbc618ac9629a58ca56193b80cdac8017",
+      "after": "aa9e91588f459f1a565c4f8e8431e2a3dbbb3164fbece600ebd288f5e8c2f9da"
+    },
+    {
+      "path": "Bundesliga_2_20_21.manifest.json",
+      "before": "6a2b1cd62d0e64c42ef0415b3b5496cc75f6f26b09e33f06ea831b311b5b0a52",
+      "after": "00898c2f3aa26db6353827ce94d852dbf112f84a91f5e4bd09bdcb830b6dc161"
+    }
+  ]
+}

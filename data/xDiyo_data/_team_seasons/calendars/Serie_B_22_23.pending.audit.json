@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 44226
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=44226/versions/e369ceb0fc704fa8973108db96961cfe/manifest.json",
+      "before": "da42a1281525fb620ededda22a02ae8ba26c992d22319958eada782836a4336a",
+      "after": "57fe85d7cee38286d0df806b1a8630d2f2802fd4642228133c29ca2265f612f0"
+    },
+    {
+      "path": "Serie_B_22_23.manifest.json",
+      "before": "15a345f4400b3ad8545193eb2f08b8bc81e07a64e819ad79e94fceaefd32b386",
+      "after": "da200a87fa89dcc70515209a443a86ae2e873fa2a527c5d6a144a2b61a7ff050"
+    }
+  ]
+}

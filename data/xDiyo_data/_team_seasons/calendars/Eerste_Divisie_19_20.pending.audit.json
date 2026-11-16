@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 23874
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=23874/versions/f62a900f43254031a677d260a5b9ad1e/manifest.json",
+      "before": "439333bc0626fa63144534b42778c84cd097630aae946eb1361b541c6135b719",
+      "after": "5d7871a513c893c8f5eadab8bc60d65558eb00e6888008a04e4eb6d7ef198f4d"
+    },
+    {
+      "path": "Eerste_Divisie_19_20.manifest.json",
+      "before": "ea0ee5165d56d19fbc53446f3677e30b36ddfd3184b10ce57a8ab57b81fccdbc",
+      "after": "e3d87e0de0dee09001572ad66b54d0fac648265a93ca3925e5b57e67ed8630be"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Danish_Superliga",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 39,
+    "season_id": 23743
+  },
+  "files": [
+    {
+      "path": "_tables/competition=39/season=23743/versions/74c9693c24914287b92a0e307852eab9/manifest.json",
+      "before": "d2ec8ab89097559e175d47cb780680c9d0e7554ed5720a04d62ec297c4e1903a",
+      "after": "0836a60779f0fd1483957e5c9c232c7fcdc6dae70355083e36cf549b6cc9aed5"
+    },
+    {
+      "path": "Danish_Superliga_19_20.manifest.json",
+      "before": "2ecbd52365b3dc5d07b0351d27bd8e3162e98a9c416fd03cd10df2ad2511e9fd",
+      "after": "beab21aa492406881b3d1dd4649b6cda7c2ecf8d9efd51a1db1040cbd31fe5a1"
+    }
+  ]
+}

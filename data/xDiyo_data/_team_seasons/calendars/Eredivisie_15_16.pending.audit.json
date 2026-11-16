@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eredivisie",
+    "annual_season": "2015/2016",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 37,
+    "season_id": 10370
+  },
+  "files": [
+    {
+      "path": "_tables/competition=37/season=10370/versions/49ac092ba2a248cc975771f5f9113fe1/manifest.json",
+      "before": "e30458044da3f4e48c16def1c709c68c7331884b65fb5f310db6d2c2972d8016",
+      "after": "4707105c6a2a03d4c5997ecd651c98681a21c75ef6067e1617d1a3e92f8c73bf"
+    },
+    {
+      "path": "Eredivisie_15_16.manifest.json",
+      "before": "40ce25e2be855bdf9e5ad656b298d890039d3e97822b6b85659ebf992fd8499e",
+      "after": "54c38c046ba03e66c2278c7d3fa7ee12da67cf580dfe0c514e6c9be9dee94638"
+    }
+  ]
+}

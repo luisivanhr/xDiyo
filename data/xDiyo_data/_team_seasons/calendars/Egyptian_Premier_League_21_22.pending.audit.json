@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Egyptian_Premier_League",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 808,
+    "season_id": 39373
+  },
+  "files": [
+    {
+      "path": "_tables/competition=808/season=39373/versions/ea8e2466819c483a80381857d8c5e5d9/manifest.json",
+      "before": "03ee3d57cbbf0b2d97a2cd7d8f709afd1e87dfab1e12990df3f9a2620daef7a8",
+      "after": "3e0514e34eb90b4ff3c088eadf7f365c12aa45c4129c36d7cfbba7f3e4d22887"
+    },
+    {
+      "path": "Egyptian_Premier_League_21_22.manifest.json",
+      "before": "2939ae4a26aac2a5f37929f3257acb0ff9f218865b4f10054c102c64cf89be08",
+      "after": "24df6277d6515c45a673d58a9d3df7e94580aae2c45c8fbe0a1ff787ff2d8447"
+    }
+  ]
+}

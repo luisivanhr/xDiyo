@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_A",
+    "annual_season": "2015/2016",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 23,
+    "season_id": 10596
+  },
+  "files": [
+    {
+      "path": "_tables/competition=23/season=10596/versions/c47222dd2f6546d6b7df109214a18691/manifest.json",
+      "before": "b1aa84ecd33401b4c5ed6e8f125443893059908d2af0d9a467ac17fbfd746cdf",
+      "after": "5042fd462bad94f5507a8c5b4bf63b2fb7df9830c8611188fa0ff05c8e0d9244"
+    },
+    {
+      "path": "Serie_A_15_16.manifest.json",
+      "before": "b1ef8cd9162d1b5c340018c271af2c008b2f80e3f1b5f7fbcd9f35d8af0023eb",
+      "after": "0a7df29ee4ed5698a4c4f75720d126c2b2de1837197e2df1c9eb45cdd2813ae3"
+    }
+  ]
+}

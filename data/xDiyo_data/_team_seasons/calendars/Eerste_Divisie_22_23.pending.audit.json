@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eerste_Divisie",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 131,
+    "season_id": 42258
+  },
+  "files": [
+    {
+      "path": "_tables/competition=131/season=42258/versions/ac6be4d182bd4579b446b363b8c1728a/manifest.json",
+      "before": "19cc7d66873a63d7f0985cf1b104de207d00789885c1b716b00ebb4294be36e7",
+      "after": "ec8d4a0a22b4a19c42a2a2313e2e164cc6751633a8aa259f425873866b521c25"
+    },
+    {
+      "path": "Eerste_Divisie_22_23.manifest.json",
+      "before": "e9b6f4d903cbeec81a1cdf3d6b2c4023296e56907d29b5bcf3337e005f47f08d",
+      "after": "a9d16cdf176d0d4ce8c08d6e581ea79e30fd4c6127e15e1cef434d8c201d8aac"
+    }
+  ]
+}

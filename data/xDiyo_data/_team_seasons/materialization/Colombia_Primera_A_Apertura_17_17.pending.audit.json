@@ -1,0 +1,9 @@
+{
+  "season": "Colombia_Primera_A_Apertura_17_17",
+  "old_manifest_sha256": "fcc59e2a1bfce9fdf56df663e93eab6fc54de30afa39e11169f437a85ddbf4d2",
+  "old_publication_sha256": "02f16c5dab6a6dd2153cbec418f6018c2befcbb7e6934ff41eb5127739fef565",
+  "new_manifest_sha256": "9b4fa7e35340cf2fd6c7659be3ab4b85b324cdf0037777c3cccfd4a4df9256df",
+  "new_publication_sha256": "c0a55611802bd6a3f8c2e42c6a72ca64f36e071c9c5920be698402fdc40313bb",
+  "matches_sha256": "90499bd15dfdc1a0bee83f42f096ba24cb3267653aac8de572547807cc89cff6",
+  "season_sha256": "5d047a77164ef12c2c06ebdc5ea9e746dc758a9e6a883ed2d76fcc44c93d32ee"
+}

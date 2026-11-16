@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "J1",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 196,
+    "season_id": 35273
+  },
+  "files": [
+    {
+      "path": "_tables/competition=196/season=35273/versions/aab3e93954a84713bd400fc3da9f9aeb/manifest.json",
+      "before": "2d3a92bfc8986906e172842745d58d4f028da3b87cefdb368251ccd07a594e40",
+      "after": "09d101c3104fb7861e5d934222b67498d5e76c50b0ee5ef3ecec13f122ef050e"
+    },
+    {
+      "path": "J1_21_21.manifest.json",
+      "before": "663c93b15d03ed312be4b19f310b7b26cab2abcd42b55f7b480efa440d5acd9d",
+      "after": "b0d8301a640238a5bbb5ea1cfabdbf0ae405cdc4f3a04ac14e764acd80a7ebb0"
+    }
+  ]
+}

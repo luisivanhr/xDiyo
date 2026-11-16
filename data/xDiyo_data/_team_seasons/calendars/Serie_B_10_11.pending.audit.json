@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serie_B",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 53,
+    "season_id": 2957
+  },
+  "files": [
+    {
+      "path": "_tables/competition=53/season=2957/versions/1807c08b2bd1414a9283110d29be4e46/manifest.json",
+      "before": "f3e59ed760e64c6224a45fb3c0a8f17b95432f5c547b94ef66f6f6bdd1d26fbd",
+      "after": "51662f2313217efdd74ecb9b0199bf8f3af0311c4fdbe480d974d77ed52940cb"
+    },
+    {
+      "path": "Serie_B_10_11.manifest.json",
+      "before": "cf13cd49e507ae60c77b52f1edb87dd015ef48de884359d0551ab29f7320559f",
+      "after": "7e87b00a6c6fe548cec5608df7e645e9b75c831affd175b5896d06db29473a6f"
+    }
+  ]
+}
