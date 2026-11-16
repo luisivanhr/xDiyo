@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Parva_Liga",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 247,
+    "season_id": 23773
+  },
+  "files": [
+    {
+      "path": "_tables/competition=247/season=23773/versions/679b0b4995ba4adba276d8a3a63b1ff8/manifest.json",
+      "before": "2972a3893f35fbfc96403d6405f9437ef890db689e41def6097e9ccd926206bf",
+      "after": "10293434bd557df85718af1a9bb7ef564cceb212e2da1325410ba45b300d2207"
+    },
+    {
+      "path": "Parva_Liga_19_20.manifest.json",
+      "before": "b24bfd40337981173804fcae59806f232e2ff75d43879a2721f4c66b91895e6e",
+      "after": "5f0c94c5582089592df1bbd48b991567f45a32bab1bebdd772278abf61dabfdf"
+    }
+  ]
+}

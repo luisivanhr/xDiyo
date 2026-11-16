@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 41884
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=41884/versions/b5fd68b575854f25a87618a103b23b2f/manifest.json",
+      "before": "01610c631b9b0b8891d7db8833b94f4f4f9e4ec5e826c611a32dcc57cf95f53c",
+      "after": "06cbbe730a6616758e62d9903474de6b483fcb2d66168d7b2ae01b4a13a04a39"
+    },
+    {
+      "path": "Liga_Profesional_22_22.manifest.json",
+      "before": "4c187c334543611aeb1feb4d82604900d5827e56270f52018862027bf41d2f66",
+      "after": "301356bba6d98022be17c953fe024112b46ddad4ddf8ad8c19c4d13ffcd322b5"
+    }
+  ]
+}

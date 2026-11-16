@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_B",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 390,
+    "season_id": 27593
+  },
+  "files": [
+    {
+      "path": "_tables/competition=390/season=27593/versions/aca0aeae17d54be6b59046e46fc3dc7b/manifest.json",
+      "before": "28227aa1f59a22ffbbcc58dc61230316f129186c5945d6000913a4077d15816f",
+      "after": "f2de6c97b5f59d731812c43a20d6df4922b29fa01a35afede0598e68c8f8bf02"
+    },
+    {
+      "path": "Brazil_Serie_B_20_20.manifest.json",
+      "before": "bc1c4f15592ce953581861fc9214c97baf893f19a82416f0274732f91987ab6a",
+      "after": "0889abdc7224a6e1d86dc775963769af96a9fe68aaecc8514a2bd1c276859f48"
+    }
+  ]
+}

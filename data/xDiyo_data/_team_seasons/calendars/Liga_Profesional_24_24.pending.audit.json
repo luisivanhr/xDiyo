@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 57478
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=57478/versions/9cb59ee4bae44d769966dc566d6f5556/manifest.json",
+      "before": "8d7824a179cc65dc58842d0df2b4bc3438f345cdeac58330b46a223fb1865cee",
+      "after": "70af7aac22bd0ffbe7d7f8e8a1a480e0c7279782cc75a80f67ca49b083c78e36"
+    },
+    {
+      "path": "Liga_Profesional_24_24.manifest.json",
+      "before": "7064090742d25794bd93c0e34c3fdcd9c48a1aa23638cb8d4dd11432f33bf093",
+      "after": "c034f4b0e28f53747de27fc2515779f04c626dcf5e6cd014b03ac2fbb40cc811"
+    }
+  ]
+}

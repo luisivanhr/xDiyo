@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Profesional_21_21",
+  "old_manifest_sha256": "f28f1c8e294df3598a6872059057bc5f881323c214b142bb3dcaf62ef60dfb6a",
+  "old_publication_sha256": "9c53ba975b0c8e078968f667943199b3b9adab1d0ff0bff1027f34699be2b62f",
+  "new_manifest_sha256": "42a3f83db5ffa4253301b02c83d4a06863b7649ea0cae84fc72f573ca4688820",
+  "new_publication_sha256": "e9569e7b0ddd2cc521f2897f9cb7e5bb328b71fa8e1a77c8c644bcf58647c9d0",
+  "matches_sha256": "ac685e62bf1a42d7c6e1a30aa0597ba40100e5e9b285bb58fb98ae9799a67086",
+  "season_sha256": "6282e86b8fa390e7477330e335ef113d31acdcb838530b4f3cef57d8675aef70"
+}

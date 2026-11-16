@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Profesional_Clausura_25_25",
+  "old_manifest_sha256": "51610b004609065cbaca6c16fd0f4d11b85c33637ed2dc021e71dbc4e96bbbc3",
+  "old_publication_sha256": "d60ec91f5317cee32038333861292ff9c6e1209cb1e92a03feed5b2c5fc0adb7",
+  "new_manifest_sha256": "cdee7ba9733d7647ead9c26fe7f8ce0cbad1358f1db2cf7a361c03afe32c0d20",
+  "new_publication_sha256": "fccaa6d5bab49e39d1fd08766242fc4cc469d61dc4f9eb957f0bb9c17d9462c0",
+  "matches_sha256": "fb250017de9d7ab400f3e29a14c90a83ee35c0f206b68952f3d3ce67283296c7",
+  "season_sha256": "678078f3bde1d4c2762dab0927795a92d960a24440ead75c113ed3c87aae3876"
+}

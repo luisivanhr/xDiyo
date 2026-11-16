@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 52383
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=52383/versions/2299d19266e442e6a83f6f0111c5f9c5/manifest.json",
+      "before": "7c0cb3faf54b9bbdf37a012376fdb60e6df2af561a3112e37dd31b9dc7b795bd",
+      "after": "a0807de61f7c8c58d19eb7c55b532bdee3df383dbaee4c0ba6115360308f7761"
+    },
+    {
+      "path": "Pro_League_23_24.manifest.json",
+      "before": "664111bc95088fccc5dba9a02d6ea695acff0bdc0762feceda2057b8103a7b2e",
+      "after": "d29b4382820ecb589d997e9c8dedc4b268531713de41320a2fe00f30d5722e6e"
+    }
+  ]
+}

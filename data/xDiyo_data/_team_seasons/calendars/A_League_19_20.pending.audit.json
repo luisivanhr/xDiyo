@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 24802
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=24802/versions/701a403c2d1b4f87af4d00ce9b4ff780/manifest.json",
+      "before": "2f41b72d64f91187a759dbf292a45ea9833436bf1d8715c9e55969f3f9929b10",
+      "after": "65f27542ca9162b8bdbb9a8beb5ee6c971fb7b39a348f8d414a3e92ea66fd528"
+    },
+    {
+      "path": "A_League_19_20.manifest.json",
+      "before": "0be632cdab9a2d854ca53fd003aed91eb7672d944e1747498d967efadf515385",
+      "after": "48daae4acee1fd5fb414768da487200ab6900100eb24d2e8014c988bd99c8c7e"
+    }
+  ]
+}

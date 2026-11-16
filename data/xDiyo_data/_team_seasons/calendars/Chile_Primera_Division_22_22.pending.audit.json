@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 40515
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=40515/versions/5da5ee0c4cfa4e2b906c9de33fa9ac10/manifest.json",
+      "before": "902d75b1293b375fcf025d54340930476821ff85296b6b550aecc760149ae0c5",
+      "after": "b679f20073dfe16ca62eb891fb97c1b9e8820e139c5cef1fe2ed0e873d792dc6"
+    },
+    {
+      "path": "Chile_Primera_Division_22_22.manifest.json",
+      "before": "0002b9152a00d2ffa5155af5c375af8d384b6e3ba2cc5247546bd3fbe97385b7",
+      "after": "4425d3cdecefeb697471e08be1102db72499493ba378079a5e20a4fe77952d42"
+    }
+  ]
+}

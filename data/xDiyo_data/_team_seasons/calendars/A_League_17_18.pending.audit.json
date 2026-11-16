@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 14404
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=14404/versions/893864b330c140c59d66acdb5be9f7a2/manifest.json",
+      "before": "671997fc3cfd8aa0206a89e111f0493e266421d7aa821c177354cccf81c77281",
+      "after": "bcbcc32801a365e73b7d68d4b2c6a83a1a6c989b47f510ce3a4e728d385b1a0d"
+    },
+    {
+      "path": "A_League_17_18.manifest.json",
+      "before": "9aa3cdf44b32dba18d7b473747ceda3dd1ef7c0983bfa4212e496f7b6c429981",
+      "after": "e504d2f46d1148dbedfb4e7f4306380d64a979b4648e897305d8636137248fef"
+    }
+  ]
+}

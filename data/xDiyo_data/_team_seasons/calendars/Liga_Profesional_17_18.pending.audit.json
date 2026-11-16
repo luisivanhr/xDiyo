@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 13950
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=13950/versions/805c725cc75344a49fe294b0dc72e798/manifest.json",
+      "before": "5513fe5d6ed437ad0cd9dc0c1b0cb6c88adfc33c307e7f6e042fa625098ad330",
+      "after": "30baaa6c1fb98b4a5aeb39a8a4b53c8ab91e53b3c15409a45729734ad4eee44e"
+    },
+    {
+      "path": "Liga_Profesional_17_18.manifest.json",
+      "before": "11525adeed9d4f6f0bf0f68dcfb905093ebc65452fdf17044aef41b8125affc7",
+      "after": "86f7020e4199a8acc2be722818dd5c1a380a1e48a5414b0f72eb0954c1a8f19f"
+    }
+  ]
+}

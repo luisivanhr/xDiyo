@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_A_19_19",
+  "old_manifest_sha256": "84b1e4546f7cbc2fb57702526463e1fb82f3f36cbc822c8d65010ba7a4eb44c2",
+  "old_publication_sha256": "b16d2e30603a6d028cfbc93f5df73af64ab458e04ad413eadfe9cbf7d2baddc2",
+  "new_manifest_sha256": "f739904c891972f36422f60683e5b7fbceb357ad2efb2528ae63ee009e3bdcaf",
+  "new_publication_sha256": "69d66b17039a39646d0ba99234e850c8c1fc6aaafbdb264c89cb9aea430b409d",
+  "matches_sha256": "a7c1451d61c1b75c02f1144ce25477319fe283523bee205a2c4ebc079c4d54db",
+  "season_sha256": "60136757e78b719fb5aa427364fc8be0542bde1bfa6da865b552ce2c008bdfed"
+}

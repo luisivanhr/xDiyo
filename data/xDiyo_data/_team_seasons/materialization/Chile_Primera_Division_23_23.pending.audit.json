@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_23_23",
+  "old_manifest_sha256": "cfd002613e6efd5abb9fd7a25f10eea76b248e53dda11ba1e0e868c6f70b2d5b",
+  "old_publication_sha256": "21e1d39ead43f169829fc366fdfdcb84cc3dc6ae49462924d685566e1aeaf70c",
+  "new_manifest_sha256": "8e768a6f4ab85a42f405036fc99416929f225e2cfed8c4d71c95aa199d130b02",
+  "new_publication_sha256": "50e5a710d11524262ead1113f3078baa314e22b0038bd1f96644e32e4ea5ed44",
+  "matches_sha256": "8e00f0f488144cb6b7de76ca208f5bd30dcf2575f26f89c89c45908ed7eb7274",
+  "season_sha256": "3b99a9ea53fd718612aab3014eef9bef8881b010d0baffea7f72efe0a0e4b70a"
+}

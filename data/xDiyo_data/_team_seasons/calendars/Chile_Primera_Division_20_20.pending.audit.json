@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 26951
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=26951/versions/14ba48d2de454587a8b966a614ea3dc2/manifest.json",
+      "before": "ffb400e3c4618bb3a801ab422e019f5c31cd8b3892cc21792d6dee78c15e5603",
+      "after": "522a3ca03fb7d9bd762decb9005e1114845df771b835de575586d996e5dcc980"
+    },
+    {
+      "path": "Chile_Primera_Division_20_20.manifest.json",
+      "before": "56aaa98acbf21d67c56e7b5416938006c82d60385faf153d8ec26f4f11b8849d",
+      "after": "b96683cbf6bcd3cb84ae5e4c7c85f96c858c51128cc730bc105720d888804adb"
+    }
+  ]
+}

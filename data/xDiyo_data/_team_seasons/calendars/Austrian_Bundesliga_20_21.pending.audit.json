@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 29401
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=29401/versions/45032619dde64333b144807bd003ba52/manifest.json",
+      "before": "27a9cc810dfbe7a826e774be921e49200321062407c247fff49a2f19a5c9bfda",
+      "after": "2bff24b3bf0e305240540ae85288e36ba83e58664ecf6a0ff0051f82405674fb"
+    },
+    {
+      "path": "Austrian_Bundesliga_20_21.manifest.json",
+      "before": "004cb7a70ef0e0c39ad981f0957e09467604089183c48242fe760195a1ac3b86",
+      "after": "3499aeb6406ed810da3eaa7cda14d5ff419043f2ee8d52c0213827dbae7f5048"
+    }
+  ]
+}

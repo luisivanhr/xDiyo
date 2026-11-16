@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2025",
+    "phase": "Clausura",
+    "half": 2,
+    "competition_id": 155,
+    "season_id": 77826,
+    "tournaments": {
+      "156467": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=77826/versions/3c58a5378be945ccbb08495758ae92f4/manifest.json",
+      "before": "cdee7ba9733d7647ead9c26fe7f8ce0cbad1358f1db2cf7a361c03afe32c0d20",
+      "after": "640eb4b63a745ad138d481f4f3598b223674c5fb50269e1c3017de90756cab0e"
+    },
+    {
+      "path": "Liga_Profesional_Clausura_25_25.manifest.json",
+      "before": "fccaa6d5bab49e39d1fd08766242fc4cc469d61dc4f9eb957f0bb9c17d9462c0",
+      "after": "50b580b9a725a9361cc3252d86d3309ebbc07f7e19185978a97d2f51fc7fcc2c"
+    }
+  ]
+}

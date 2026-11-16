@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 52524
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=52524/versions/71e01bbf67c14bafa35b6b369e913551/manifest.json",
+      "before": "5abbab83bb9507a9669f065bc1c2d50e97de79c6f87bb174cbab1cc553a706ad",
+      "after": "030af8b697f4de4034f89d95fc15a01ea51f19600f5d650df8317bf063c3f3ef"
+    },
+    {
+      "path": "Austrian_Bundesliga_23_24.manifest.json",
+      "before": "33d872b7016c3b087cc4589d934840797c9085f77d5f04fc307f3de996667fb8",
+      "after": "c7128bdaad7d014dd4690cc3aeb9ccef4939ba7862d09846f148d9e8e87bf762"
+    }
+  ]
+}

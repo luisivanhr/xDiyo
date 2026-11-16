@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 16183
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=16183/versions/0dc8f6ced8444a1a90bbfe6dc4a15955/manifest.json",
+      "before": "b354e59b9f00bef1413d0e8278f3a4b94f1fc34b475af27871e35df0e38ed318",
+      "after": "7a95c494142a665fa33bd54f7b607d8539afb59afb3e4db059cea40615537856"
+    },
+    {
+      "path": "Brazil_Serie_A_18_18.manifest.json",
+      "before": "1aa3cc56dabaa53bcc9bd8c38cd69dc5f789320ac8f54dab89cdbd1f752c2bdb",
+      "after": "0ba280868484b7f54ddd70dadf1fa71522a0216ce3674ff682a1a3257ced3183"
+    }
+  ]
+}

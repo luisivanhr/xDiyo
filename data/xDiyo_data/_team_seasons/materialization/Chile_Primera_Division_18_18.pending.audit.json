@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_18_18",
+  "old_manifest_sha256": "af479fc4f9cec854960506193086a9b64e04a568f5e8de99886bcadb5b613481",
+  "old_publication_sha256": "4085f74864e3e622d7e78296e8b1621977413a3a8aa4411939e6d396be893c2b",
+  "new_manifest_sha256": "14ee024656bf49aeaa04bbfc152de24fe6abfafaf5675233bf667f921d55fb03",
+  "new_publication_sha256": "74626e33948afcb6ebc0094500edd4e25bea4c7c1b378a915dea33e4d5c6255b",
+  "matches_sha256": "9bf4ebe897e2f89565b5f46e5a560f1b5dc0c6d68ab6372a6a1f56fcf7544bbb",
+  "season_sha256": "ca3197543cf899349736d5ff4f7e0541164ca4839eaf4ce1050b2e0b87b9cec9"
+}

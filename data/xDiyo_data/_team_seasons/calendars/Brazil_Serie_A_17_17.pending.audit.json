@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 13100
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=13100/versions/0c6228610c6e491a910118c388970e21/manifest.json",
+      "before": "669b2c259f8764ca1d7cbba31649b80ab6399a22884f495ddbaf7b15d14baf38",
+      "after": "edb3e116cc43f26e9ecb02c077faeb51c2a7e975a3ef78cf4fe0e959c8a9e537"
+    },
+    {
+      "path": "Brazil_Serie_A_17_17.manifest.json",
+      "before": "80fe19685abc7d10dbf04aa94ed4ced41678f1303eaddaacdf4cf0a65eeb45ff",
+      "after": "8669588283a95359cf5b9fd11d92f3bd3557ce632fe60c6f38933c04039b23bb"
+    }
+  ]
+}

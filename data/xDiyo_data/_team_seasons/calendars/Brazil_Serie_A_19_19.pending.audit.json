@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 22931
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=22931/versions/df9dffee9bff44819beb091e26bdffda/manifest.json",
+      "before": "f739904c891972f36422f60683e5b7fbceb357ad2efb2528ae63ee009e3bdcaf",
+      "after": "22c39d0a2623d1a3152aa03269a1af01b6871635e4c399e7fc493b44a45445e3"
+    },
+    {
+      "path": "Brazil_Serie_A_19_19.manifest.json",
+      "before": "69d66b17039a39646d0ba99234e850c8c1fc6aaafbdb264c89cb9aea430b409d",
+      "after": "318a3036cf99762d5bb9899fcc64dd8a1b3fc33fb4328abe33b6c2c81eee3b26"
+    }
+  ]
+}

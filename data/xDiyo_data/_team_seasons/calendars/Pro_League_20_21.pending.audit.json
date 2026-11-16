@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 28216
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=28216/versions/8e8aef593a564865870bfaa7bd232c81/manifest.json",
+      "before": "b9d409d1463f1a85fe7efca3acf7be4d4d8e359d30ba260a5b71afcaf178a736",
+      "after": "292949b2486e9ead3a0c2cfccf5b6bd31d58128991d5517c43022367d929f93e"
+    },
+    {
+      "path": "Pro_League_20_21.manifest.json",
+      "before": "5cd537711d815d4cc4e89ad389bc626df84a006883befd109937777c4960446e",
+      "after": "784d592ad1f595f9f96cd4bdc31d70b62597ce609e74e85f066a2044de9b0ca4"
+    }
+  ]
+}

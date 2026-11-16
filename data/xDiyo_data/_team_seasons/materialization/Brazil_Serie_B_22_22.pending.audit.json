@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_B_22_22",
+  "old_manifest_sha256": "0351f2a0743047a8838b158a8bf8dd559d7b02797ceb87c9a6af45549f4a6be7",
+  "old_publication_sha256": "77b871b24032e5d93c192c13e447f019c93cbb59519318eea7c7d0850a310305",
+  "new_manifest_sha256": "ac3c66bd3cfff1923a9f4e1a09f5934085f00d631d32afb75a4d8424ad440ad1",
+  "new_publication_sha256": "add1ac250e5d88d24ba0f2a2bc615d69117ea2967d5b767d4112ab892a2441bf",
+  "matches_sha256": "02d46434d44e0e4fc1aa73efc27bd7b7646e2d53b88efa2f7f3af4b215733828",
+  "season_sha256": "c26a7785b5889865216edc646b337531520964db52d78e30e54e4d3a801046a5"
+}

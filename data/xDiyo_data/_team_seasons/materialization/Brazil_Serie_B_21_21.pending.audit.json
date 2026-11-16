@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_B_21_21",
+  "old_manifest_sha256": "0a0cf829138bf2d48d4eca1fb15f70e8ff6cdfc6748783b6d2d4195e87d5d5a2",
+  "old_publication_sha256": "01c6c95da9ce8737a3159c1e1ff816fe753bce591d747a4c2fa4c3baaa6c7f38",
+  "new_manifest_sha256": "1396523d6d22a83fe113b48c84bc9dd3707628e20ccafcf7390789e302968b04",
+  "new_publication_sha256": "8d76c2a430379bce5960fc6c59d5aa20056a24825ca8dc3cf0af3ffc680307b5",
+  "matches_sha256": "9df09703817a43a22e71fcfc29cc262da68a5432eccceb0b384713ec8c6a3d66",
+  "season_sha256": "9bbd13766d5b84ffd5cd227d8d8b941f260387bd9c2b908c017fe55b77ae34f6"
+}

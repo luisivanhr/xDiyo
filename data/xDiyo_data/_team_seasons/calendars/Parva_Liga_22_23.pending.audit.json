@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Parva_Liga",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 247,
+    "season_id": 42282
+  },
+  "files": [
+    {
+      "path": "_tables/competition=247/season=42282/versions/088c7903be2946359c0294bfa196d09d/manifest.json",
+      "before": "6474adc99b4f1e5a92f054ebd30a979162acd303b4e5e53c7c9be0b388cd106f",
+      "after": "b36b560e64ad9e2fe587b2df9848c9f1835cd9971b6f335b446da0e21fe7d4e8"
+    },
+    {
+      "path": "Parva_Liga_22_23.manifest.json",
+      "before": "12b1c04110b823a58a06c96f35813f6910e4dc4ed76293a6a642c5bb0ffa0120",
+      "after": "3b9c6d3de10be02b04039ade30f575f994d7fb293afcd04a396a34ac83bf94b4"
+    }
+  ]
+}

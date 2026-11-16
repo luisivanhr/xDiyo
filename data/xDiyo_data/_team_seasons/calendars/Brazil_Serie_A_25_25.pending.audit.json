@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 72034
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=72034/versions/b592fa154e7f41aba457647acb28aff6/manifest.json",
+      "before": "e17c79e1940d64e6f741775e44922d8443843968220a54508b6de5a5e00ae773",
+      "after": "0938d13af880eca9a7c8b41b1e58d5d827cc36e197d8e32b7f66499e81fc69d5"
+    },
+    {
+      "path": "Brazil_Serie_A_25_25.manifest.json",
+      "before": "1c372e403ad62164c64ba142ad63530d0bbb2ed1fa80f0bc5d486a081bd16045",
+      "after": "3ca71dc725539581e0c67899712127defa2390bea2019c5d398d431217101826"
+    }
+  ]
+}

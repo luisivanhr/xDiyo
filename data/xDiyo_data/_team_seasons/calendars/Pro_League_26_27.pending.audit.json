@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 96616
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=96616/versions/0b0676a43a794042811cbce88b6d8e27/manifest.json",
+      "before": "a2af9167064a5c8c74b021fc8845111ceb75bb222be29441ebd2572a55184e60",
+      "after": "e7dea6d30f578fba1dfae6a795a9a5aec213de8421b123250e4bae20f77019a2"
+    },
+    {
+      "path": "Pro_League_26_27.manifest.json",
+      "before": "cfe4ba42e3ac8dcac256cbfeaf7c8b85bbafdf84c608c5ec5b9d321e8f2b35b5",
+      "after": "bdf5cedac627292374376c4ef421c44588ac3cec4988206dec355be14059e20d"
+    }
+  ]
+}

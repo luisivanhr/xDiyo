@@ -1,0 +1,9 @@
+{
+  "season": "A_League_21_22",
+  "old_manifest_sha256": "5a343950f89e6cae7e64501e1343641e23f7db3198b6fbe59f69f2d11b525941",
+  "old_publication_sha256": "6466f28ea264dfa435fc4bffc5283a049f37051440e7ad9e5135976f3d5491be",
+  "new_manifest_sha256": "4ccf2aeae466efd041f3869c17ba08eea36258ac7f9010152aaa8fb1b3e24dab",
+  "new_publication_sha256": "6c1e211a5e0ab008634c6a3f8790aa3b85d6191020a31d357d0443c47e9c6e82",
+  "matches_sha256": "8d16872798f0444f267f9d4a2374c89a49fa4e87f2f1eeece51618963e920d20",
+  "season_sha256": "80e8636666aeb6fd5e00aa9c0f99b9e3473e820d6335d806697f5e10a0e74fee"
+}

@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_B_19_19",
+  "old_manifest_sha256": "3e5741651d2982c3d2a8a14b6ceb0ed8b62ddd97df409a908fdd4109b3e68e53",
+  "old_publication_sha256": "3e69179c6d2368e0bd32dbfe103f0784659f0fda22c3caff302f6aa18ebe699f",
+  "new_manifest_sha256": "5fbe3b0ac99c5297c6b6f0e0da447cd2eaced7bbd03d495f40d658004bf96d97",
+  "new_publication_sha256": "637e8fe7ca0da48164fde9c3921578f006c3bba8877ebafe0c9b557b975a6246",
+  "matches_sha256": "81249ac0d4da54afa3a15b5cc457a350585069fb4036ff24d54dff074f946120",
+  "season_sha256": "9ffd5436fd57a9253ec5bfe89cea61e1248d5620857de8d160385d4c3a8d2264"
+}

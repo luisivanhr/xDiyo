@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 27591
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=27591/versions/0c897b90dc3e4b1abd8bd3a66ad6b818/manifest.json",
+      "before": "0dfdd2cff460fac8984d7538b15e208a9b0455caf6df7d9c1fd8a4f60be09913",
+      "after": "d83d68307c0c8449cbb4bf2da951808dab666c403b011b60738a8b9abca4cbdc"
+    },
+    {
+      "path": "Brazil_Serie_A_20_21.manifest.json",
+      "before": "b02c2355b075d5d64de83d51d84b66939e7ba69637859c43c795b471f749a124",
+      "after": "7cbc3e9a88231c27f058e5e9113d632af260b4d25167bff04b6277da1b529f48"
+    }
+  ]
+}

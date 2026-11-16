@@ -1,0 +1,9 @@
+{
+  "season": "Austrian_Bundesliga_20_21",
+  "old_manifest_sha256": "aeb0c38d64fa749c680c80fdbf252b9d91e4728fd442e99c4f2b932fd134f949",
+  "old_publication_sha256": "b8af874e1bc167ab305f5fd0624581cf9d3f53c0ff1a9bc8ca2085b0b17625e3",
+  "new_manifest_sha256": "27a9cc810dfbe7a826e774be921e49200321062407c247fff49a2f19a5c9bfda",
+  "new_publication_sha256": "004cb7a70ef0e0c39ad981f0957e09467604089183c48242fe760195a1ac3b86",
+  "matches_sha256": "35b80a67283f83f51b61a335f3ac0a3e2eee951e269fc3830422c1047f96559c",
+  "season_sha256": "e82c31351dd01a316d8a76b2119e9409fe439e6900307d08bec7db6c8d2f21ea"
+}

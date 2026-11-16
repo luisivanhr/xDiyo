@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 22328
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=22328/versions/19e478523ded49c79edcec5956eee8a7/manifest.json",
+      "before": "bdeb5f40877cde3bbd3abddf6b49b51ad7608f4b01c0c92a40233f932bd38352",
+      "after": "e934cab116ef85ec57a4ae4b5f54012bf9358c5208ed32a135bfa56b6a3b885e"
+    },
+    {
+      "path": "Chile_Primera_Division_19_19.manifest.json",
+      "before": "7a4f6fa881302920c9d21b7408cdb7cdd806806b4398950e7aacb9296745063c",
+      "after": "b5696ad49fc22f59c35915636ace5fc52bfcc595f195d258e6fbc492cbff07d4"
+    }
+  ]
+}

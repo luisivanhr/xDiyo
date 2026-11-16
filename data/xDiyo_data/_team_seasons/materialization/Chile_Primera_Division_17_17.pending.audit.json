@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_17_17",
+  "old_manifest_sha256": "0bb90967916a90474ee4ff2edef464bd24267b9b03d2f0d9b0e4b4fa8f238381",
+  "old_publication_sha256": "e107f072fcbba6d2aec6a97191256ea3b988ca2b38dd9f28d4524a0472fb8d10",
+  "new_manifest_sha256": "683c83565f7378f605915c27163ac6d24af62e233a2b2bbf1136dd755a160f38",
+  "new_publication_sha256": "5c8c93101d0dc35bd83ee6e9f11c242e00e5145d0bd860c559e480bb771d1110",
+  "matches_sha256": "9856d95ca9656876603bad807d1cdcbbc31d0c5930dfc72acd9e3bf5f41467e6",
+  "season_sha256": "add2112736d583d4166684efb5abe1abbe574932020ab53a8feed1a4636046a4"
+}

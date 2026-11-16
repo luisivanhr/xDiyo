@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_22_22",
+  "old_manifest_sha256": "20457f0a99118ffad3ffae47c7fa4060119d11d53a8dc55cfdf0c88e78a8d10d",
+  "old_publication_sha256": "05c90687dbf342736eab37563d66eec5a717e2c1c672c4d3e6460f488be48061",
+  "new_manifest_sha256": "902d75b1293b375fcf025d54340930476821ff85296b6b550aecc760149ae0c5",
+  "new_publication_sha256": "0002b9152a00d2ffa5155af5c375af8d384b6e3ba2cc5247546bd3fbe97385b7",
+  "matches_sha256": "0038aa46352e94f46eeaee7fe5db1e8958e5b6437c5799f3d4fc94f2e22d3397",
+  "season_sha256": "fe1113d93def7f6201cbe405a6b7e30275c33a427c331f10fa53df348f1ba01e"
+}

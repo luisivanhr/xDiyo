@@ -1,0 +1,9 @@
+{
+  "season": "Austrian_Bundesliga_26_27",
+  "old_manifest_sha256": "2c7dce11bb89bc6bcdd73c692c4c1e803bddf6329b6f007e23003032773808e8",
+  "old_publication_sha256": "2bee4bc79d55b79212576f569469f94adfce8a6732c361f2845ae9acfde135ab",
+  "new_manifest_sha256": "e8503ddd7e58381cd5679f093f5d371f7acd150dca1eb356a6f7e498a4257d0c",
+  "new_publication_sha256": "64f17f793fd7f0860042f4668eacf253d81fc0e8bb81cdb15bbbb4474bbe5ace",
+  "matches_sha256": "063fab0379d7333fc7ba36af9b977fd8cf716864429579e50139d575171ec8ed",
+  "season_sha256": "456f085a55a30bb939b480f0615c698daddea731f2aa19acdc2a8d357fc25801"
+}

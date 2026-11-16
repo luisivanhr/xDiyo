@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 24239
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=24239/versions/c8b1800459a84d15b3038884fc3b99a7/manifest.json",
+      "before": "0ef16f65fc3090fbd384a83676ad7f9cd02cc531b034d1820be4734e7ebf42a9",
+      "after": "4c6d11804df8a52b25ef3225580b1756cb6dce92196f25113df4b03feea422b9"
+    },
+    {
+      "path": "Liga_Profesional_19_20.manifest.json",
+      "before": "fcb31cf0e26b0323147979a4cc807f407f610a405dfd8fe30a1864ffad9e9ff1",
+      "after": "ceab850c10fe91d3b81ba7c47e1c3a1279634efbbf05e5353471a7725adc4915"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 48017
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=48017/versions/dd04eadbba1143fa9fc2115273cecc35/manifest.json",
+      "before": "8e768a6f4ab85a42f405036fc99416929f225e2cfed8c4d71c95aa199d130b02",
+      "after": "1ee5810d8c08f7e816e53b91ebfdbd418a6dad6e9df902d3bd993b0971d15873"
+    },
+    {
+      "path": "Chile_Primera_Division_23_23.manifest.json",
+      "before": "50e5a710d11524262ead1113f3078baa314e22b0038bd1f96644e32e4ea5ed44",
+      "after": "3e5de40b3dbc3581063c97ad97f054a310ca8c43b49e8ad1f89df5cda09e8f1d"
+    }
+  ]
+}

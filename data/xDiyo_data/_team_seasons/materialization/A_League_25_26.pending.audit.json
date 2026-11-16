@@ -1,0 +1,9 @@
+{
+  "season": "A_League_25_26",
+  "old_manifest_sha256": "c11934eba863ff9e07cb4ce3c25c794f07d35d1993a89e5b4510f014ca9e0c10",
+  "old_publication_sha256": "70461e143c5d67999233c18a042950f137d548dd981498d2320a27a5a74423ee",
+  "new_manifest_sha256": "d1638377f5a85da399784ba6d90012f343d80e20dd489616df6c7e919dbe0053",
+  "new_publication_sha256": "b424ca6fd44a99b34b247dfca45fc6cfc52c203b834ae8c06ae27b6f88a221fe",
+  "matches_sha256": "c8c7aec122adce915c1ec255feeb327e9b4e763e8f94ac46099ebf18eb16000e",
+  "season_sha256": "9404cdc061965eb43881d42cdf9bdcd2cacd4fc1df93264811eef83908fd7d79"
+}

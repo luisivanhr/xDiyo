@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 17343
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=17343/versions/3204401276724c05aa55e54e7d08307f/manifest.json",
+      "before": "6666221e90e1fbc5cd4ca1b2245ae11cae9cde4d68281215605da901086625c2",
+      "after": "19e9451e29170516d0b5ea332f3c2b3184adbeed66ac97dbf10d86f93a7362bc"
+    },
+    {
+      "path": "Pro_League_18_19.manifest.json",
+      "before": "e349d44d37537871524b05baf8ff1ad56fd077017a82a275d0aeec0548312f02",
+      "after": "516fdd814d2d15464c36d76b30558430d249db26468d29a53d661df86f27b10d"
+    }
+  ]
+}

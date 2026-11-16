@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_B",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 390,
+    "season_id": 89840
+  },
+  "files": [
+    {
+      "path": "_tables/competition=390/season=89840/versions/3b7b68bbf9fa426b990881cb8d4ec212/manifest.json",
+      "before": "254e3ded7c23f58109671507454f64a6e63818250f4388c672a0e190edf2658f",
+      "after": "b7a828ece01259d9d52c04326c2fd46decc608e4cf2e7042ad174ba56f328893"
+    },
+    {
+      "path": "Brazil_Serie_B_26_26.manifest.json",
+      "before": "c614f97c379809f37aff57dad7c7143a0469c6c23e1a111eda282b0d7a6d23b9",
+      "after": "30bd979f2581ecf41e8802ff506871a9d308b6a56ec3c6987450abad6f8e0fe3"
+    }
+  ]
+}

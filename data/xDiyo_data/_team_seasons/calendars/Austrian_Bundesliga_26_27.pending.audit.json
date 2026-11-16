@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 97043
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=97043/versions/2f82596d0bad4871ac42872fa32dca8c/manifest.json",
+      "before": "e8503ddd7e58381cd5679f093f5d371f7acd150dca1eb356a6f7e498a4257d0c",
+      "after": "64877e78257dabf319ee1d4c9f054ca9dd89d1cbc04d2d778cca82c891ec3ee0"
+    },
+    {
+      "path": "Austrian_Bundesliga_26_27.manifest.json",
+      "before": "64f17f793fd7f0860042f4668eacf253d81fc0e8bb81cdb15bbbb4474bbe5ace",
+      "after": "e3d5fe9e30691bb3a336848ab6cec2189b0099d98dca2dc316f5722561a490c6"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 77040
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=77040/versions/d43a433ef265452f9aca9e89b1f9e9bb/manifest.json",
+      "before": "b21523a6c3eda9f9a8353f02096cb59aa08fb0b86349817c3eafb53dbea020be",
+      "after": "7372a175c0348b2ad0d960302cc1d6f908617064cae036fce672e0d100452c6e"
+    },
+    {
+      "path": "Pro_League_25_26.manifest.json",
+      "before": "83d024b19c7ea8b5ce955f983e4ec94459ac0d43abf803fb642849fa2fe63a98",
+      "after": "8cad8efebd9e92e71523ae4c340dacac4954d9ca9cc3151b4007598dd0458004"
+    }
+  ]
+}

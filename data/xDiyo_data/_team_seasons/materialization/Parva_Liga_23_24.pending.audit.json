@@ -1,0 +1,9 @@
+{
+  "season": "Parva_Liga_23_24",
+  "old_manifest_sha256": "92950d91684fada35093a9733f2d1f17aabe0dd72bc2ac89a92279bafcadd209",
+  "old_publication_sha256": "da8aba322a2478f86192855a2e661878c5499870dbe242aaba3ec9f577a72583",
+  "new_manifest_sha256": "25bcd07341a7e81cd76cd0927c4c613953ba46fca4db7b378ae4320ceafb9b28",
+  "new_publication_sha256": "665c1be9ac9d8fdc0be948f9ddf7c5bbb356c26e9a171bb961a4086fa6d4ed42",
+  "matches_sha256": "6f5f9809f6457f61cd0924dfb3b660a3688f8f73955bf1f945faddc8bc235aab",
+  "season_sha256": "d42f887b0639acaaf356886a99eb39f431b23e6ab89303f7e066fe10c8b9d566"
+}

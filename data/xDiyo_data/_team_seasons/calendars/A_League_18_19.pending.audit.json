@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 17802
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=17802/versions/f675c5fe770b4ee19b7ff7ef3825725e/manifest.json",
+      "before": "9d731fe6fb767ee04ebfd10d8a67cb8d46d59160167901eb2fffade13375cf69",
+      "after": "92c2e9d71e1e1bbab42b4fddffae9f99a203d53ffca394e17dbb9d4cec0501aa"
+    },
+    {
+      "path": "A_League_18_19.manifest.json",
+      "before": "1e9f732578d5e47bd51427a7250017d8ebe58275d052895df42451b23572f1cc",
+      "after": "ea59b3d77450b0a8e306a519a0aceb201dfaa19f8d9e9b784e5ba6ffbeed3c61"
+    }
+  ]
+}

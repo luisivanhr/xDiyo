@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 64864
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=64864/versions/9e8700f92dc841e9acc454214fe2bbe9/manifest.json",
+      "before": "c22d63a84369e640bb4f8bb6ac282dee528b7d5b0c04c95c8c0910c6af42cd6e",
+      "after": "6fa4e5a591bd95f3d895aabc7c29c4a19169384566de99bb3abdc93f1f500a7f"
+    },
+    {
+      "path": "A_League_24_25.manifest.json",
+      "before": "3db7f1ea91ea981ddd66cca77208cfbb3fe0b9b3777f98062e14456b9b8896bc",
+      "after": "db95be939328f40f3d0ad8b6fff11167fe1d9c160d84bcecf518c6b9676edd51"
+    }
+  ]
+}

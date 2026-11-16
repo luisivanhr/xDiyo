@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 23972
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=23972/versions/0c48a33aaa624b6190d5f7b95fd100e7/manifest.json",
+      "before": "b7ec8f9a9ea10d6eef0a4cc07e9c024161f3fa36155d535f9b91132e5fd8aaa7",
+      "after": "becc12a4af510eb6b4ea4d00dfc1d54366ebdb36ed793e4cb20f3354ed3c4ba5"
+    },
+    {
+      "path": "Austrian_Bundesliga_19_20.manifest.json",
+      "before": "8502497973eb0cc7e7f32bc09fe3ba148e65149ba977120a26b94c3a3ff48d1d",
+      "after": "50e5828df6e4564953be73367934e81f34759b77f9dc87da1785461baa1525e1"
+    }
+  ]
+}

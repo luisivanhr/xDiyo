@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 48982
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=48982/versions/3bbb56043f2445789b1125783547a448/manifest.json",
+      "before": "6c5d8ea6fb8389a71ff196599f4e2d9fb7697f20ac1a28d597ea4f9d255366d3",
+      "after": "a958f0252af5d162cdb66429e9da6f71091be46466509962a7516f8ed2ab5394"
+    },
+    {
+      "path": "Brazil_Serie_A_23_23.manifest.json",
+      "before": "216065faee052b67890fc87a3bb4fa861afeb40943dd771400ca17f96c8c9d10",
+      "after": "83c58a16fe1ce450440b32d433d4556fb78f17b969bee8963f8bfbcd38d5dd2f"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 37231
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=37231/versions/eacba289ba9f42bd9a69d517e99d00ca/manifest.json",
+      "before": "42a3f83db5ffa4253301b02c83d4a06863b7649ea0cae84fc72f573ca4688820",
+      "after": "9e70f4a9e8b185d8fd0fed4ceac9d027c65eef4dfbdb640370bc5199958cfce7"
+    },
+    {
+      "path": "Liga_Profesional_21_21.manifest.json",
+      "before": "e9569e7b0ddd2cc521f2897f9cb7e5bb328b71fa8e1a77c8c644bcf58647c9d0",
+      "after": "5d1924414d2e6d6d585fdbc104c3c2e70ce984fd21223e853d591cf5418d6a73"
+    }
+  ]
+}

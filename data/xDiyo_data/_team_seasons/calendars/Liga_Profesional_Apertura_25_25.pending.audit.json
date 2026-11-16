@@ -1,0 +1,29 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2025",
+    "phase": "Apertura",
+    "half": 1,
+    "competition_id": 155,
+    "season_id": 70268,
+    "tournaments": {
+      "143625": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=70268/versions/22d771a9f0c64d92876b1c5848f16d03/manifest.json",
+      "before": "8ca96815b3e52f44b2a64de8f2475a4c3c5d07f06876a56ea07214f173805e77",
+      "after": "03071c22bcff601e3372eb8a5f91c295b2867c4ee8ad1756b88bb0313627de51"
+    },
+    {
+      "path": "Liga_Profesional_Apertura_25_25.manifest.json",
+      "before": "d5c88104f5261c2f026a7a2efdc677250159cb2a85df80a813f8f5a6ff27e237",
+      "after": "640b237470fa72bcd83276b5e4eb6195fe852b19b128fe03c213f70556616c43"
+    }
+  ]
+}

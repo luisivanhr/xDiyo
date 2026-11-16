@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 38979
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=38979/versions/67d14f1d4f6d4db68d2556efc5903b66/manifest.json",
+      "before": "4ccf2aeae466efd041f3869c17ba08eea36258ac7f9010152aaa8fb1b3e24dab",
+      "after": "77fdb5af7a00606fa2d13526c9aae3f625dd17092a38ea12009c9f2a2292214d"
+    },
+    {
+      "path": "A_League_21_22.manifest.json",
+      "before": "6c1e211a5e0ab008634c6a3f8790aa3b85d6191020a31d357d0443c47e9c6e82",
+      "after": "9776a6e74fd2c27a8fc4867ffb2f96ed1411105224e8dc9fd31331cfa02a86d7"
+    }
+  ]
+}

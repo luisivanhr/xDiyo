@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 24097
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=24097/versions/96259838878c43989b8bfe41d48d75d5/manifest.json",
+      "before": "0246c1957339358a2cfe83b95a179988eaea7957e23d7921ff98aae29a5c1021",
+      "after": "95482ebcf87d583421944e090be9a733f5965e1e5dd6bec46bf4a977bb6a8ded"
+    },
+    {
+      "path": "Pro_League_19_20.manifest.json",
+      "before": "2a8168c14eab10023e6bf93e41b08394df88f012d84746787a9e8f4d6ce5c20c",
+      "after": "001ea42f5da4afe29d2868bb884751384af3fc40cc98849088ac877f308c4277"
+    }
+  ]
+}

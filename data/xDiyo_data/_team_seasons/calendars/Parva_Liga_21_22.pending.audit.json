@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Parva_Liga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 247,
+    "season_id": 37152
+  },
+  "files": [
+    {
+      "path": "_tables/competition=247/season=37152/versions/3f77d518c8df45fdabdebd3ac5f4defb/manifest.json",
+      "before": "ac83c1d507ddc72f02dca28387008d54e324cd7ec772b7523f55d12b59aaab24",
+      "after": "1fac97f78a0bc2667b0401b976596990b92f0990988f145cfcbed9ae24766e46"
+    },
+    {
+      "path": "Parva_Liga_21_22.manifest.json",
+      "before": "e3f1a9fc78d6025edec1cc5ac448bfa88fac658cf377b170230f5ebaea804e94",
+      "after": "9cf79134e7efeffba4ab11aff7c3dbe570fcdcea8c3d1cf983ed7567164bcde4"
+    }
+  ]
+}

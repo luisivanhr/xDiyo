@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 36048
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=36048/versions/0ce0aadf6209465f8035c61436a35c25/manifest.json",
+      "before": "083641d186961b454a5c21e43b19da5c6e056c63dcce52f81de3d8375afa2da5",
+      "after": "431d1cd4e19bfe5e2e7d206671267fcb665edd9d32a007e28363a0e119f86fe3"
+    },
+    {
+      "path": "Chile_Primera_Division_21_21.manifest.json",
+      "before": "394da793001b8fa70dc4b151bbff0d047620f38fb7b55d9244c5d25c8b6a74d0",
+      "after": "4cb6c988746b0a39657bc0fa641b09d81370dccb810a4dbb3ae1f1eb2c4cfb49"
+    }
+  ]
+}

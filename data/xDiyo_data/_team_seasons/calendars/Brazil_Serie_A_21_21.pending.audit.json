@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_A",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 325,
+    "season_id": 36166
+  },
+  "files": [
+    {
+      "path": "_tables/competition=325/season=36166/versions/205e4cdccef649818baa300a04c388fa/manifest.json",
+      "before": "2cd8f6443e9c459d3b68271293163d0ca761fb85f45c39a75dc79f0ef632c9eb",
+      "after": "caee94e30cad56e840d7ca6e447f99c149307e5cf2c47c4501b0a1ef81f1211c"
+    },
+    {
+      "path": "Brazil_Serie_A_21_21.manifest.json",
+      "before": "faa478d90f5416b422747cb99d2e8c63abadcbb934fff664e624f3f517c493e0",
+      "after": "256fddcb2a09d07f23a82346cb8aa1890e0dc1d3e1374d71d1cf55e9f0f914e8"
+    }
+  ]
+}

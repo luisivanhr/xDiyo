@@ -1,0 +1,9 @@
+{
+  "season": "A_League_18_19",
+  "old_manifest_sha256": "7dc47cd1cdf05bb3f5e37f253af29cc955a0ce29ec29dcdba0f7501d8a1aa12d",
+  "old_publication_sha256": "7f4911d8ae4e5415b2af6f292abb84c3f2bf6840dcb74decd103b0ec5fb9e73f",
+  "new_manifest_sha256": "9d731fe6fb767ee04ebfd10d8a67cb8d46d59160167901eb2fffade13375cf69",
+  "new_publication_sha256": "1e9f732578d5e47bd51427a7250017d8ebe58275d052895df42451b23572f1cc",
+  "matches_sha256": "608ea813bc3a7f372174982da889428dabe5af00641c5a97d75bd00009c8649a",
+  "season_sha256": "4cfefca4e6b624e7577a0ab372eaeb44cab1b4368a332a4ccffe2b7c519e42d2"
+}

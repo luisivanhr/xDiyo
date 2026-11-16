@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 13428
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=13428/versions/5bdd31814b49439a95fe2e6237759c27/manifest.json",
+      "before": "a70d4bc852d3b4d46218b13b22027b8d40e73e9bcf30be72cec0528d70502fd4",
+      "after": "50884c4b75147f4e2b36ff32285bd1259523d5be6eebb642363d356efe528c28"
+    },
+    {
+      "path": "Austrian_Bundesliga_17_18.manifest.json",
+      "before": "3ae9130eebf5fa07ba96845480487a8ddb53769b00fb7140f847c65be81abc4c",
+      "after": "4e98954abe5c7b4b531c85bc6ef5708ed9acf24b8868423e751657ea90d9440a"
+    }
+  ]
+}

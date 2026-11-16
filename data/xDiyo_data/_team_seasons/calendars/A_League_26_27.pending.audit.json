@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 98511
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=98511/versions/b86256a67c894ba98fa2d0afd8402956/manifest.json",
+      "before": "e1bd092b80c2f32446a0100f9a243fa77c5328604b7218ad18c455f946eb7bc0",
+      "after": "0e4daf54a2ac22efda4b0e2ad67c6c66680089ec93a1fc162547216554b81663"
+    },
+    {
+      "path": "A_League_26_27.manifest.json",
+      "before": "bf8f87efb007c6b2ce0dbcf9517ad30b06dcb1c5b6a382cb7ad04f258229ff0a",
+      "after": "719d099f3076794101a55672275141af6f8deca81427995edc496c6dbd40bb4d"
+    }
+  ]
+}

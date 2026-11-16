@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_A_26_26",
+  "old_manifest_sha256": "dfce7079e494cfbe6d8435b0f7e936e1d92932e1891abda50dd84f6cafa8bdb9",
+  "old_publication_sha256": "d5cbcbbf656cf483b51f264768372842da4fc433e510948b33e7b280674414e9",
+  "new_manifest_sha256": "0083176594fd193cacb3106259c6b09e99474b540d6ba05f2f373f244313324b",
+  "new_publication_sha256": "f10b8f16f48f0dbaf2597566f2921f56b8b07cd1fdb994cee3de9f2cf9c79c0b",
+  "matches_sha256": "0b6afbec206a9945e0a2c756bcb873ad02c1569536171b9c3a753a88b7d81210",
+  "season_sha256": "88528ae1340c7a22d9b88c0bd57d04f29ebfc502cf73ae87a43949fe21f3b8f3"
+}

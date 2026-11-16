@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_20_20",
+  "old_manifest_sha256": "ab04f51c7fd974e587f547047d701472503e7d1bec5e07fc87753891b370e5bb",
+  "old_publication_sha256": "86111383fc03bf6266588dd2d728549e0903be260aa5793320d1e956419f13f3",
+  "new_manifest_sha256": "ffb400e3c4618bb3a801ab422e019f5c31cd8b3892cc21792d6dee78c15e5603",
+  "new_publication_sha256": "56aaa98acbf21d67c56e7b5416938006c82d60385faf153d8ec26f4f11b8849d",
+  "matches_sha256": "05598bc92ffdbe0c52d4fe71121bf3cfaf117e01fdc459f33101f2c1bf6b002f",
+  "season_sha256": "7aa974e4977af863ded9b832e9b64076fed15592baa4e82842fa845b983cdefe"
+}

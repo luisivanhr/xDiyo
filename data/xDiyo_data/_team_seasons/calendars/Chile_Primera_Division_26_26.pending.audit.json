@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 88493
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=88493/versions/ae4363e35e7f4e089a1f58baf8f85911/manifest.json",
+      "before": "69121850424f2f1967787beb2d6b04f9f47acc1b1b334ffc9413b5a9e2db8a48",
+      "after": "526676e8b7a4d6204cab396f16daf9e546014618819cc55af8e656b78e0ac72b"
+    },
+    {
+      "path": "Chile_Primera_Division_26_26.manifest.json",
+      "before": "64c84a66c018f798c0fe1dbbff2de49294bea2f535447c95c0490daf980c0ecf",
+      "after": "7538b21ca564760d9ccf6e89539ed3c3ed6e301208997b9ea1bdeaaab1518b04"
+    }
+  ]
+}

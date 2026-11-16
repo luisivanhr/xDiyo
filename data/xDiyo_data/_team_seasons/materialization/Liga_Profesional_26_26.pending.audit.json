@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Profesional_26_26",
+  "old_manifest_sha256": "c7719cc1f16fd108a301edfa95d7f1598d131e2dd6b6ebbbd231508c9c61ee57",
+  "old_publication_sha256": "f2d24f2aa324a183ef33462437b5cbecc5006746360af395e5ffc87f974f5b75",
+  "new_manifest_sha256": "4080c428e1547e77dde74d8980fc25c1be5ac639870281f3dc392568aee3d141",
+  "new_publication_sha256": "c7b0bbbe445cbca85925a93de264face8abe8acd75dd63013c8e9c3af7cd2b59",
+  "matches_sha256": "c6d8244278ba599d3c1c56fc5012805c39f12ef7b91e5ed705d987c085b8d8ab",
+  "season_sha256": "ccc53d63e77689a08c82c053baddbb9ca4704901a97aa3736d72daae1b4aac4a"
+}

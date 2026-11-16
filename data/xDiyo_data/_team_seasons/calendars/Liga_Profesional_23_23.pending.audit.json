@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 47647
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=47647/versions/54c02de2759d40c499a9066171426a0d/manifest.json",
+      "before": "9abf18d4915d78264ecba0528174374b61a214cd4b0c1bfcf21acbaa56dff557",
+      "after": "f74d6c115cc6b96041ce621e327fd4a12fe94d9e8ce021013806aedee2926d08"
+    },
+    {
+      "path": "Liga_Profesional_23_23.manifest.json",
+      "before": "891bc1a0754f9ea3f976a5ddc8639d2ec4e41355cc85ba5f57f27162396b12bf",
+      "after": "c573d1aa2fa76416951bbc567d60ed617df876156119bcc1f7a1e14b856fa044"
+    }
+  ]
+}

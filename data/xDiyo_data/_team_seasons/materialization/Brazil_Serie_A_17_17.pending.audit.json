@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_A_17_17",
+  "old_manifest_sha256": "e5283d234cc41a86897253886fb5da844ccc43097cd8245244b04d2ed66fe8b9",
+  "old_publication_sha256": "50f78d5efcd07935bdd54af135f8fb43a61ff9aaa98e7833d76899f6efe1d039",
+  "new_manifest_sha256": "669b2c259f8764ca1d7cbba31649b80ab6399a22884f495ddbaf7b15d14baf38",
+  "new_publication_sha256": "80fe19685abc7d10dbf04aa94ed4ced41678f1303eaddaacdf4cf0a65eeb45ff",
+  "matches_sha256": "a9eea481e545f4207e2c1dca192efba9451e2b54e11aa40105149f3bb349a126",
+  "season_sha256": "d8134aca9a03f2f751cce7320785220568f4c7f8a3af41ec323515ff2e13a4d6"
+}

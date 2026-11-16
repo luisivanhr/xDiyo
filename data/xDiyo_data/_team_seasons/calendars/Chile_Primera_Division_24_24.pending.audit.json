@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 57883
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=57883/versions/5450cb5a766744f1a2d05a61075163cf/manifest.json",
+      "before": "dc19e408e7db4a6711a4518f2ad0571a4cd5afca72fe3e0be4c89fa61744fccd",
+      "after": "a185d47406b845f99a5e0b0373ad38346f524f4ec9ac7d25c5a58a94ff91932e"
+    },
+    {
+      "path": "Chile_Primera_Division_24_24.manifest.json",
+      "before": "c3ec37d0fb1208359a0146d184b914d56a3db5d61410ecbe1a9161bfab8ef2b8",
+      "after": "814c2866dd079f471005ea5002cfa0bf3ac7c1e913ad18f1c892b1203d37c7ac"
+    }
+  ]
+}

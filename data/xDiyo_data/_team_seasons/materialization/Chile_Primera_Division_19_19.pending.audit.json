@@ -1,0 +1,9 @@
+{
+  "season": "Chile_Primera_Division_19_19",
+  "old_manifest_sha256": "7c52638b3c89ec8c2f8491d6b27888b5b864309638018b8a1c38bd2726adedd4",
+  "old_publication_sha256": "7ee8f68a1feb1d37b7feb93c36ef8f6972794bde89e55c0de3d3c03f69a5e852",
+  "new_manifest_sha256": "bdeb5f40877cde3bbd3abddf6b49b51ad7608f4b01c0c92a40233f932bd38352",
+  "new_publication_sha256": "7a4f6fa881302920c9d21b7408cdb7cdd806806b4398950e7aacb9296745063c",
+  "matches_sha256": "3d33a544e98d785c53112decea917916d7d02107a7892e7aa27950f5b64a1b48",
+  "season_sha256": "a4b5abc971fc4f2dbe94fc54794c2ec58f164d948dc86bc8fc705a4e528e2eb2"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_B",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 390,
+    "season_id": 59015
+  },
+  "files": [
+    {
+      "path": "_tables/competition=390/season=59015/versions/2cdf966eabb34cdaa04db91ed50bb871/manifest.json",
+      "before": "901c579e14487bce4b84cc47d6715ab45ede2016f31ffac978311ef8eae0acfc",
+      "after": "f57177f03f8374f5724318ac697e298ddb56b48d6422329e9d9e65781413bdcd"
+    },
+    {
+      "path": "Brazil_Serie_B_24_24.manifest.json",
+      "before": "8282a15b4e65b6868204074b832b1201e3dc396c313049e5d22a73947d6ea028",
+      "after": "f232eccdb1f03148e517a67e39a4d77584514d51dafd2466b79d2bf61acb5283"
+    }
+  ]
+}

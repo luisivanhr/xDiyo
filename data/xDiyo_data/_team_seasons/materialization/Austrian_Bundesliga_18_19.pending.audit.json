@@ -1,0 +1,9 @@
+{
+  "season": "Austrian_Bundesliga_18_19",
+  "old_manifest_sha256": "620cdefa08eca90d95f24d868bedb0eb6fb7f1351ae4e288ecd7aab871e506a9",
+  "old_publication_sha256": "d961255ae4824b037445a7c14bb973a9234c40600800cab02946a85405f706a4",
+  "new_manifest_sha256": "3c865b4e27570a64f44afc5d56c9a91cf75b3fc4e2be398da0e274f1fd6d50c0",
+  "new_publication_sha256": "8e11321e6a4056ec07eb33d4251b65e56967264068b4d196217f237f7ddcdf83",
+  "matches_sha256": "fdd16c8dcf52a1783f5737d513a1c92d829d1e4469cfa14617a653ceace8c1e7",
+  "season_sha256": "3dc1c8644182c16ae1881c64ec61c2228638623289bbc7e28db7cf74273d540e"
+}

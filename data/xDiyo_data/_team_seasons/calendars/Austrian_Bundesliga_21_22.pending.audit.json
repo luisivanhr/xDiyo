@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Austrian_Bundesliga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 45,
+    "season_id": 37145
+  },
+  "files": [
+    {
+      "path": "_tables/competition=45/season=37145/versions/3700f8c9939143a09285a5adbabbb4e7/manifest.json",
+      "before": "9a004deb8b3e2b3ff1e3a8c8fb4dd6d851490812e30b2aea0e90f745f252f355",
+      "after": "38817e5360267fea43136584828a7307ae52ea917bc5d02a7702620e5417a069"
+    },
+    {
+      "path": "Austrian_Bundesliga_21_22.manifest.json",
+      "before": "201d9e3d8d3b64cbb4ade4d23a28c00a16c16bc5716b344e47c0f5d232606007",
+      "after": "3a2ffeb7a673d9971ff6a45c5636a271359a9397550a7aa4b6ecebe932649108"
+    }
+  ]
+}

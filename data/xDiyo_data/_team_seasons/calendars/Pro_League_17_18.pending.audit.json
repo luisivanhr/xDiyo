@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 13375
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=13375/versions/c197845a247c4cb987fb0cbf7906b095/manifest.json",
+      "before": "6ff847ea0b709aeabe841ef7d7bb6edcbada8cf44cf4998050d41176d5bb212f",
+      "after": "7b9ca79437db07ced4542f78a878f582e7589a3e853ac73f6c735a2bcecc8677"
+    },
+    {
+      "path": "Pro_League_17_18.manifest.json",
+      "before": "f9ff98992a2e45935492c747e2296a2416e1f5204444fce35946a625df093578",
+      "after": "54aa9b0a4baac64907da627ad6540e5034e0770e460433003d812674c8780d3c"
+    }
+  ]
+}

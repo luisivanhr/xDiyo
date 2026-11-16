@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_B",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 390,
+    "season_id": 40560
+  },
+  "files": [
+    {
+      "path": "_tables/competition=390/season=40560/versions/f136b54aeaf84c4ba41882a63b41a0eb/manifest.json",
+      "before": "ac3c66bd3cfff1923a9f4e1a09f5934085f00d631d32afb75a4d8424ad440ad1",
+      "after": "f57faeb3e55a76f2f1be2ff4f2af5bc207dd792653779de5d6e9c3398a105ace"
+    },
+    {
+      "path": "Brazil_Serie_B_22_22.manifest.json",
+      "before": "add1ac250e5d88d24ba0f2a2bc615d69117ea2967d5b767d4112ab892a2441bf",
+      "after": "6f0f75a4b5c8f38f8c4f3bc0427cf6612d85ba3240b97ec9a80ac23c1deb8892"
+    }
+  ]
+}

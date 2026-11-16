@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Profesional_17_18",
+  "old_manifest_sha256": "e76e4da2fcfeefed22ee53af19a964e0f4d9c1c01eb916c450959ad7a7784f7d",
+  "old_publication_sha256": "a3b19ac39b9c11ca0f049ca74fc6389f15d8d8df55095b8dd2c23d28b6582fed",
+  "new_manifest_sha256": "5513fe5d6ed437ad0cd9dc0c1b0cb6c88adfc33c307e7f6e042fa625098ad330",
+  "new_publication_sha256": "11525adeed9d4f6f0bf0f68dcfb905093ebc65452fdf17044aef41b8125affc7",
+  "matches_sha256": "ad71ff74643af47c4e4177526eaba063f31198f7eaf0efc8b8526dd1a0241132",
+  "season_sha256": "8dd5f295132f7b86567f0fbf2398cbf51ffc27244c723204bd6d812801384f38"
+}

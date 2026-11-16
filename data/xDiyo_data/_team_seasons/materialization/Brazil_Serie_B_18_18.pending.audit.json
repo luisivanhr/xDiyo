@@ -1,0 +1,9 @@
+{
+  "season": "Brazil_Serie_B_18_18",
+  "old_manifest_sha256": "0b54bdd83673ad736367e4e3834bb521a4efb7a5789ce647960ace7e4bc64d91",
+  "old_publication_sha256": "0b1e0ed4596d81800b4ed9d9d784b9cfee0f10bfca7d6b31694c6e2f9098d0cc",
+  "new_manifest_sha256": "d39eb5fab60f7c4136af4bd2978b3632d7738b973ac787788049fa14eaffce68",
+  "new_publication_sha256": "d7532b4c290a31bdf78496cc8b47b2e52207b35b7d07768974cee53288700893",
+  "matches_sha256": "050a1615cc50a7fb4ac9ad4d5775fec62944ef31c1d83709d3a5f2df569d8c3b",
+  "season_sha256": "94052c6b64bcd8563dce5858f88c2bc1529c8ddc70ce61de49348d3730b00dbf"
+}

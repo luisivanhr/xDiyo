@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Pro_League",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 38,
+    "season_id": 2741
+  },
+  "files": [
+    {
+      "path": "_tables/competition=38/season=2741/versions/c38a1173a6a04649995660f1db22a1c8/manifest.json",
+      "before": "f55f682a7637326d08c694e8178b01929b5c099a8c56185e9e538a30310c22d8",
+      "after": "bb791045d47680aece80b92f610ffe0f5725fd91d926f36944ae09ead3022107"
+    },
+    {
+      "path": "Pro_League_10_11.manifest.json",
+      "before": "e7424423637c8725bccee27148257b38e6c6fa2edbd01d9fd0a2528a8d265004",
+      "after": "d681365e91afbd2e48ba69462874c424a09377c7595ba76f06e06176228a6f32"
+    }
+  ]
+}

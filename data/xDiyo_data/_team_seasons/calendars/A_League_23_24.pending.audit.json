@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "A_League",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 136,
+    "season_id": 54447
+  },
+  "files": [
+    {
+      "path": "_tables/competition=136/season=54447/versions/fc8d6c59622047f6acde3976c05f1ded/manifest.json",
+      "before": "a3b198fbd0e04093a51ae4075a1763b74b9c2e6ad20f700b35d901e4fa801756",
+      "after": "8ab47631bf8fdae6b9b7a06103149d6c50048fb6a12a3251b64e09d3d1d86f73"
+    },
+    {
+      "path": "A_League_23_24.manifest.json",
+      "before": "e025c86828a854fa515eac76b72df130fb1aa0da4e5872d37643d0fd5e85c30f",
+      "after": "1af4b617b712240d297e8127ec21573c35927145c79eee2a7f0acb833c317cb5"
+    }
+  ]
+}

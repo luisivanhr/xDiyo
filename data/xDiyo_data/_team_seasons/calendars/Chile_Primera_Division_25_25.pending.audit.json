@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Chile_Primera_Division",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 11653,
+    "season_id": 71131
+  },
+  "files": [
+    {
+      "path": "_tables/competition=11653/season=71131/versions/d2011ed3951e45a0a9ae411ca8f7f855/manifest.json",
+      "before": "7ea73e07e6626a9ef22a1ed0ff90e038bafe7b35fd5acf793409de9f1014167d",
+      "after": "2b1831ffe7ecbea801a7772239adfa9511c365451649fc7b04f3e314a88dd450"
+    },
+    {
+      "path": "Chile_Primera_Division_25_25.manifest.json",
+      "before": "0b57889675caa9310c9e104de91b84f1223472c9eba52895d9bdbf4ffcd43a11",
+      "after": "0c53fa6d1e80b5f108659aa1c4b1e85fbbb58ed3f26f7ac38f0a9aec4d4407f0"
+    }
+  ]
+}

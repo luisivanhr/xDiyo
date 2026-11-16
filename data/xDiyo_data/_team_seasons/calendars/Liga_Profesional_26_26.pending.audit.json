@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Profesional",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 155,
+    "season_id": 87913,
+    "tournaments": {
+      "156467": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "143625": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=155/season=87913/versions/44078cfc76004644b683e0f1b2bdfe02/manifest.json",
+      "before": "4080c428e1547e77dde74d8980fc25c1be5ac639870281f3dc392568aee3d141",
+      "after": "29fa49db693de43854d234664ad93aa4283d488e8d8c79ffc43eaa8f6b4dbf2d"
+    },
+    {
+      "path": "Liga_Profesional_26_26.manifest.json",
+      "before": "c7b0bbbe445cbca85925a93de264face8abe8acd75dd63013c8e9c3af7cd2b59",
+      "after": "f73bb4ce315ae76f55353d5d0c4fea406291acc859fb088fc7cc2dd75510fb15"
+    }
+  ]
+}

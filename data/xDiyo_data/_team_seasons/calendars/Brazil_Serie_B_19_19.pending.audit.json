@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Brazil_Serie_B",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 390,
+    "season_id": 22932
+  },
+  "files": [
+    {
+      "path": "_tables/competition=390/season=22932/versions/7c57648724a443eb8363ad05659a94cd/manifest.json",
+      "before": "5fbe3b0ac99c5297c6b6f0e0da447cd2eaced7bbd03d495f40d658004bf96d97",
+      "after": "25c5627caa1bc1742461c5f98472928c486c8d9f9bc93b030f6513780f2bb7b0"
+    },
+    {
+      "path": "Brazil_Serie_B_19_19.manifest.json",
+      "before": "637e8fe7ca0da48164fde9c3921578f006c3bba8877ebafe0c9b557b975a6246",
+      "after": "fa8d61196241bb617322c7f35b973ff0f67ce47d3629558cfa6d64ab75d2ee07"
+    }
+  ]
+}
