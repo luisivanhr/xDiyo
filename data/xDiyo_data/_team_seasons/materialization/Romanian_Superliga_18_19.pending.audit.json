@@ -1,0 +1,9 @@
+{
+  "season": "Romanian_Superliga_18_19",
+  "old_manifest_sha256": "9ff6264693776c561d230bea1846fda067b84cae15fe20f57427e4da3781f85d",
+  "old_publication_sha256": "15da7e36562f869d5331417f57c300fa44c36c107a265c2b8907657796e81fc1",
+  "new_manifest_sha256": "569dc9a4113548e8ed870c282ff83edfef80552447601e6029d6e15fea31ed01",
+  "new_publication_sha256": "60f2ae77b2cc07ac907b8274db4c72fc3bfba4f75b5b2744517199d28687f994",
+  "matches_sha256": "60cd56f491ef80f50c43babffbfe28b7c21caf70d389eb35550d54b2b28fef20",
+  "season_sha256": "bcac42f57982bff29f100ee5c5681834b74d7c877bb86cec0d8877e82799364a"
+}

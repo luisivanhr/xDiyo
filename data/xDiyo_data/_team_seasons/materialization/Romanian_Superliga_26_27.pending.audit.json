@@ -1,0 +1,9 @@
+{
+  "season": "Romanian_Superliga_26_27",
+  "old_manifest_sha256": "c0201c1235a2dad93c1b10a9f25b64529b5de2fccc194591d986ebc474adae22",
+  "old_publication_sha256": "9d93bbef7cb4f2a8e6c9848e87df5bea6478cd6b1f44354f0025be03b80e29c7",
+  "new_manifest_sha256": "7ccbd8ab4b7aa8020ba4b0ad054bab8431564147733c7b80b9bcac35921df00f",
+  "new_publication_sha256": "3da0d6d40536555b63a20d346c7aa9ffbb1157894c40efcba31f4cf8f6186124",
+  "matches_sha256": "1855130c1e35a08de91e60c31e9a27823b138b46bb79b19fd80a9b74dc0a042c",
+  "season_sha256": "633a7d500c94e376fb9840f7a837c9700571d5b4209c63b7ee6e8a73f5f33865"
+}

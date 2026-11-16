@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 96658
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=96658/versions/1f38a8a73d644b17bc5ea170d420c7ab/manifest.json",
+      "before": "18e6f1c7dac9674021847edfbdf2000ad302d067620e0e1f953143e0abee4546",
+      "after": "de9636b6e9a58e95e7da8d4393c11a7e78d80d8940049bf9d32f975f0d9248fe"
+    },
+    {
+      "path": "Premiership_26_27.manifest.json",
+      "before": "085476cdb95fbdcb80980aa620a9ca24d46dc81d40d77c3ae8dcbef1efd93c12",
+      "after": "dcf1ac1cc0fe645bff7534b241b1708fa13ce0e19d470182cdbd62f8c9a05560"
+    }
+  ]
+}

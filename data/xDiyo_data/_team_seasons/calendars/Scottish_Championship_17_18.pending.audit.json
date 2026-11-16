@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Scottish_Championship",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 206,
+    "season_id": 13458
+  },
+  "files": [
+    {
+      "path": "_tables/competition=206/season=13458/versions/ad31c5334a4e457099439da9d9efd749/manifest.json",
+      "before": "81dfb31a14fbf3b0d4e19a016625b34e861b43afe96b92b804b49a6a55734ea3",
+      "after": "b96debbb4264531041e8e4f5722a074729153a7f8aa9ab6476d7ce9d3e94e5fa"
+    },
+    {
+      "path": "Scottish_Championship_17_18.manifest.json",
+      "before": "45cf1a8cd69e3551e3d943613676441e535773cb8a8619763593b1a97f1c5abe",
+      "after": "2461dad30dd5bc54526a9be352a548045674542118bac8c95fa1ec6e98e57278"
+    }
+  ]
+}

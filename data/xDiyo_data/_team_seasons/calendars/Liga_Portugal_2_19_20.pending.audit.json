@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal_2",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 239,
+    "season_id": 24151
+  },
+  "files": [
+    {
+      "path": "_tables/competition=239/season=24151/versions/4e89de56befc4a4393929a3a7b842715/manifest.json",
+      "before": "70f77193b0d3cfb113fff7481e02ec75ed1f2da9c0705655b5f873bf69e99168",
+      "after": "4dcfb1eafc37c9a0f01b7fca00885261bd45f2ffac85b311ab28c801b8f080ce"
+    },
+    {
+      "path": "Liga_Portugal_2_19_20.manifest.json",
+      "before": "5d1ff10752f525dcc38d4ecc7e1a9d2570a75abec7dd87c4bd11f1181327c9ee",
+      "after": "679ce2590891773cf25e5536b12584bd09082847f8bbaf6f8fdf15ea7ead2116"
+    }
+  ]
+}

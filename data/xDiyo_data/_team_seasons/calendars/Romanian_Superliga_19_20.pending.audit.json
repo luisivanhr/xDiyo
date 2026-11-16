@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 24051
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=24051/versions/37e1b9737fd44ebebc21afb42dcbb2d7/manifest.json",
+      "before": "806e361a2689337864854dd154ad428c9c89a4b91bde2d62e5e8e834123a07a0",
+      "after": "41a5d0cd4180326efc9aad33dd2d8e60574c423e346db27b130fc15187ee1026"
+    },
+    {
+      "path": "Romanian_Superliga_19_20.manifest.json",
+      "before": "885626d7dcba5d37416ab7232c6a2d5a0caedcff1f96c779e4f796da69b8886a",
+      "after": "cd310f8219be9396c40f666bebbe880f654a61c70d2753f87a4c686fb5c7fc97"
+    }
+  ]
+}

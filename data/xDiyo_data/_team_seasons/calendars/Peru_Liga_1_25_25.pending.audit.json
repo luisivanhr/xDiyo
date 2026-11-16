@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 70962,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=70962/versions/52a56ef82c65419dbaa8a71d9c9ac37c/manifest.json",
+      "before": "1685a4faef1b8571916d458106afc43de876cca524d5a55f4421808ad298f108",
+      "after": "2722ce1f5c1b67b10253386421b48938b083d20ac0c319ef0a46a6a5bfc5668f"
+    },
+    {
+      "path": "Peru_Liga_1_25_25.manifest.json",
+      "before": "759b5667b2044b62c094176934512a6bc1be5af15bb3c2342d64a2dd0601f28c",
+      "after": "e768f5b216ed274656fb77a4f38045851d7f818395d8c4761bc2448e57cd49ae"
+    }
+  ]
+}

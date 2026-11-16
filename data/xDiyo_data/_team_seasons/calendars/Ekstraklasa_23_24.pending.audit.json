@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 52176
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=52176/versions/bf1aea23dbee4c48b0775b38e39e6b05/manifest.json",
+      "before": "5a77a8457f3139e23795a7f9f58fe8cdec143fff4435abcf6eb591ade52efaf5",
+      "after": "0ff732ea4f65e54f457c0b5f0b544388030607481eb10ae619a58822dc74256d"
+    },
+    {
+      "path": "Ekstraklasa_23_24.manifest.json",
+      "before": "7468b83dad428d9638293c5f259b94bcad89746293d838e3deffdfb1541ffaa8",
+      "after": "f90d4df6eee672d4c59d40a9e53f06675d555fc3c2350a80db1bbc403bcaa2a2"
+    }
+  ]
+}

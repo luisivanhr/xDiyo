@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serbian_Superliga",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 210,
+    "season_id": 13440
+  },
+  "files": [
+    {
+      "path": "_tables/competition=210/season=13440/versions/fbc12d20fb9542aa9f5278dfcd3e1f37/manifest.json",
+      "before": "60dc828bf660bb8a55f2e7d0451542d1497a828eac5c7e3780e35e679c0d03ad",
+      "after": "a2bde9c7dd68f6b6aa62a947d0b7a11b9e02206dd39db41320f93926cda15601"
+    },
+    {
+      "path": "Serbian_Superliga_17_18.manifest.json",
+      "before": "b439c219530d5d7e57adc5e0ac4f71db8c7028055249a66fe5ad8b0869bdf24d",
+      "after": "ab20d51fcef1b00985246f68ec1135c522d2016974de831efbe12d5350a01f7c"
+    }
+  ]
+}

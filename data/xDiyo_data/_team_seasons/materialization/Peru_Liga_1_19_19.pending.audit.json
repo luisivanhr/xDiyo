@@ -1,0 +1,9 @@
+{
+  "season": "Peru_Liga_1_19_19",
+  "old_manifest_sha256": "6b7411038fdf9f2ebd2c4e3e426ad37684336dbcb1009262fbab3fad13cc248f",
+  "old_publication_sha256": "d75ae11062ed41309c6009bac378b57f8ae998c10359297806bd225e844fc62c",
+  "new_manifest_sha256": "45a136a9bcc72d4ffdf0dc1b7d3aec01ad26381c9edba4329ab60d6f7f580664",
+  "new_publication_sha256": "1f0898d6a6ac5d050bf2e163d206914b1a4de4c2045d5a6d2ba557884333984f",
+  "matches_sha256": "123983b5f384ee705bd921bbeace625fbfe8d695e32ba3388fbd2102f92cfff9",
+  "season_sha256": "a4c4c0ea9ab5ca8f3d998f213a93c5493b46f2523e3f5dceb197abc13cf279a5"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2013/2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 6309
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=6309/versions/9f7fc2f29d034763a65119441d97442d/manifest.json",
+      "before": "918dcc80488148bc97fc6a07bd6aeb3db3818ba35233d79eb3670b2e1160bc56",
+      "after": "b35d363cf55f39a5e40d4d0bbfd4f45479a248dad2f36c4cb26ee56312b440c9"
+    },
+    {
+      "path": "Premiership_13_14.manifest.json",
+      "before": "194df8cca33bbe0a442b744c1855d62f22474e71c386d18246d4669890923e27",
+      "after": "479c1734773767e13e9d8b0d7c771c5a87a65d654f592cf1df2289a1e06e4ba1"
+    }
+  ]
+}

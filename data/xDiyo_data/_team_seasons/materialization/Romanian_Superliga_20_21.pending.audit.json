@@ -1,0 +1,9 @@
+{
+  "season": "Romanian_Superliga_20_21",
+  "old_manifest_sha256": "3670135e82777359ab2033b4b472106cb5e1121aa39dc047f6ff14052dc5fb7f",
+  "old_publication_sha256": "1232c760d4168d882996b76386e7aca8b0250c1a9ee4830298515b8d4e945f95",
+  "new_manifest_sha256": "fb7937ace5eda931cf20636860b059c9235de5ac91c752d68ea0a104042de862",
+  "new_publication_sha256": "15e876e37766df74c81390136b6f73db63993b8b194edf9d80946637d57fd07e",
+  "matches_sha256": "848235ee2f30e4569274f9fb27062f6e107e3e2dee73cf5b9c5e2eef29bb00d1",
+  "season_sha256": "ef3527d129ba1f7417523e67abe30e534aad86cdee77ac66deafaf4f254d7d30"
+}

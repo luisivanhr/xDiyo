@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 87809
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=87809/versions/10bd6212e1cb40ae81497cd109fb11ce/manifest.json",
+      "before": "ba3cb19059bc695fbfb0407628c67a3b2337f5bd07ae3aef3499a36461bd22ed",
+      "after": "77a479291678ee28bb28172d4fd0ef25c3091a4529f18dd4c4c8c84853c8ce70"
+    },
+    {
+      "path": "Eliteserien_26_26.manifest.json",
+      "before": "5c56ea6254050e5b7346d38e7eeeddd6c8242740b82bb47fb0d4034f1475e424",
+      "after": "e13053e8c1a5453dd6adf9e2b2415acdd0a673abb1439dffd07fcacd8dfdb057"
+    }
+  ]
+}

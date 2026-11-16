@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 37062
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=37062/versions/96f60e0bc2604bb58d7187fef732c193/manifest.json",
+      "before": "a7323113518636bcfe0f540586ca3fd7e825057aeaed2d1f226289c39d3a76cc",
+      "after": "e2f67802ee31af860d7a56454e17958b0647d324afcc8a3d7bf3878d7c0495a9"
+    },
+    {
+      "path": "Ekstraklasa_21_22.manifest.json",
+      "before": "d6b5a38c802d7f2b1da58524f6bb7ad7b24bb29d31f8f3a89bcfaf6d83bc1c8e",
+      "after": "dccb3238e5eb278b2f3fbf90d5cd6c799909222cc06b76812443c77ef76e82d3"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal_2",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 239,
+    "season_id": 42663
+  },
+  "files": [
+    {
+      "path": "_tables/competition=239/season=42663/versions/a793421c57c1421089c6043d1fab7b54/manifest.json",
+      "before": "2dc239673a0b1ac230b30b1848ba6b0a509637c237ef949448843fc1137925be",
+      "after": "200b7cfee5af0c4e34a41e725c9c9e11855faf10b991a5b2fb02783340e16e6b"
+    },
+    {
+      "path": "Liga_Portugal_2_22_23.manifest.json",
+      "before": "c1aac2b871a913b9b1a2f02296324f1cf981e044042c1bc16caecbb72a405815",
+      "after": "08dfb9e17ddc2d056c276dd7a15e80d5cbff20753834b11b845eb5d6921fa5fc"
+    }
+  ]
+}

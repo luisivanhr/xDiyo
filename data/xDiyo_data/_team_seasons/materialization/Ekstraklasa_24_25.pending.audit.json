@@ -1,0 +1,9 @@
+{
+  "season": "Ekstraklasa_24_25",
+  "old_manifest_sha256": "1c0142c2e10fa9cf12640745b1a52c71027d3d5d9f820b9b079e7c11014969f9",
+  "old_publication_sha256": "3d735463ab03bad561706ea4aaf8763a1f874d79462c475fb18bb3990a17e000",
+  "new_manifest_sha256": "bc9bed5ff977c701000be5cb046aef86dfbe3a86f33f2f654530f4e3156f1d66",
+  "new_publication_sha256": "d0ae260ff473b01c9d1a117eabc2230538029a8cc43cdaa582ec32bba30af073",
+  "matches_sha256": "e96245f3ffd94a545f2b6ed73b051ed09fe2397c29c388e4be31c8a80bbbfd93",
+  "season_sha256": "d531f24193df0a453f27889c0577c6825efc8c0d56c23e3e705dd1bc0b7272ee"
+}

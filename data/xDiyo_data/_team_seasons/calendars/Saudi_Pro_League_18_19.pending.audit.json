@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Saudi_Pro_League",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 955,
+    "season_id": 17906
+  },
+  "files": [
+    {
+      "path": "_tables/competition=955/season=17906/versions/35649f2e15d64c5f8f82e46450831f36/manifest.json",
+      "before": "64c9914e5c2500a85b6e5b61894121464212d8e5443b2c7bf21e168a2503b2e5",
+      "after": "03e23f0749ff4a544471fadbb48dd34835ad94b3addd1d13842db02e5b8f8076"
+    },
+    {
+      "path": "Saudi_Pro_League_18_19.manifest.json",
+      "before": "a43b392ee909574b9b6c54dbc6ee678eff75e6464b2757336b4b47e1e2285b03",
+      "after": "4b5aea83deb90bee00f76190d640d938ffd788d6f196a272df3af78c2692a913"
+    }
+  ]
+}

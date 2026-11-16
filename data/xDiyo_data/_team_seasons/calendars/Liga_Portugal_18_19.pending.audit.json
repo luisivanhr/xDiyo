@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 238,
+    "season_id": 17714
+  },
+  "files": [
+    {
+      "path": "_tables/competition=238/season=17714/versions/8b8f9859916c4917b1c1de1a1aa082b8/manifest.json",
+      "before": "24e33cdcfcc09362b579d8c765f010ed10e876b9cc5d2d9ada998e0bdafd7511",
+      "after": "87e06cc029820baba9461cb1f5ffd7a45718ed69ac717a8f8e3aa897e99a1ef5"
+    },
+    {
+      "path": "Liga_Portugal_18_19.manifest.json",
+      "before": "2cd8ebf0d1403b1563487da21c8fc5239195d01c61ca013f938c453fc3bdc03e",
+      "after": "a3d823b9cc8437d559f63dceb43606ff0f4823209547109e3a262b90a9c73e62"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 17678
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=17678/versions/5d4f6d3a9cb64897a5b1ff9868803bf6/manifest.json",
+      "before": "569dc9a4113548e8ed870c282ff83edfef80552447601e6029d6e15fea31ed01",
+      "after": "9f5c71156b51367b2b80058f2f5cb443fd1d8f7599851fc855f25cf65dbfa0d7"
+    },
+    {
+      "path": "Romanian_Superliga_18_19.manifest.json",
+      "before": "60f2ae77b2cc07ac907b8274db4c72fc3bfba4f75b5b2744517199d28687f994",
+      "after": "29c858a1cc552a79619da419da8da59e73779d2cd28f50731e71d5e06cdca6c6"
+    }
+  ]
+}

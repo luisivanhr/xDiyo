@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 62408
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=62408/versions/61789eb0b8254edda1703c6aa5ee42e8/manifest.json",
+      "before": "46904519738550d21f5ee0a625400bb6747af719170c0988760436f81a0dcc86",
+      "after": "a4d96122a5caf37f5f6c5bfdb9ed892a2f87c0c981fcde2de619fb0b365437ab"
+    },
+    {
+      "path": "Premiership_24_25.manifest.json",
+      "before": "2ad0cbecf81a2414bbc98ab6742715b36fa499e21f15d5231432269fb3b0a460",
+      "after": "24baf95d71e1144fd1d161fcd0fe6af9aaa47f3817453c0aceda54719d034700"
+    }
+  ]
+}

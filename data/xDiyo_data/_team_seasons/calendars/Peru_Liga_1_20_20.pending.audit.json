@@ -1,0 +1,37 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 27096,
+    "tournaments": {
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      },
+      "89701": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "89702": {
+        "phase": "Clausura",
+        "half": 2
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=27096/versions/4e135c817d814c76937a7cc9e0db7548/manifest.json",
+      "before": "6a35e7da3911f7aff048f903f4cb7854b2242b25b4fbb60ed10110bb785e7d6b",
+      "after": "c386f2985b4c0fb8c0207f4d94c176735451579bc5c5620d3c7e0508c796ace3"
+    },
+    {
+      "path": "Peru_Liga_1_20_20.manifest.json",
+      "before": "d1f085813018346abe5e792fd5c63af5291ad3ed9c055390e323dbe998f5bc06",
+      "after": "5a0f0a7254093cfcacba45fc6a0d39f65c3db0ae0a48362db7cee163847cfd01"
+    }
+  ]
+}

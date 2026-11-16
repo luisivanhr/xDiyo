@@ -1,0 +1,9 @@
+{
+  "season": "Scottish_Championship_17_18",
+  "old_manifest_sha256": "cfa3df81f769a40406d9484ebc958c69433ef4e2da12756d1601b5e44fe171e7",
+  "old_publication_sha256": "1f021b5e8bc8d3539b12c186e532f564ef4247fe7bbd39f2a3267fe552e2f0b6",
+  "new_manifest_sha256": "81dfb31a14fbf3b0d4e19a016625b34e861b43afe96b92b804b49a6a55734ea3",
+  "new_publication_sha256": "45cf1a8cd69e3551e3d943613676441e535773cb8a8619763593b1a97f1c5abe",
+  "matches_sha256": "14f1cc633de1fa233073af3eabccc8ea0a85bcb0bff59e4b98c011a19e36cfae",
+  "season_sha256": "731ea78f164bbbf680e168f39093a62bde247da99f1d3f2e858c512175698a4e"
+}

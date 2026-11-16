@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 88529,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=88529/versions/e0a995904258413ba8853e40e5b2bcfa/manifest.json",
+      "before": "c28fb510904fa57378ccebff966ab9f35bfb94ead4208457b0d29cc863fd93a7",
+      "after": "f40ee6262eea68bae62c06c78fc8ac287dc4af9f77d4f5cb5afb2586a2ba12b3"
+    },
+    {
+      "path": "Peru_Liga_1_26_26.manifest.json",
+      "before": "542e0601f02041048b3720ae161dac6e0fd1411efef588e7e385dd1172706af4",
+      "after": "23163f41c08fd121f73a0388f9b703186300b3de69992e3891167b7f10f5c73e"
+    }
+  ]
+}

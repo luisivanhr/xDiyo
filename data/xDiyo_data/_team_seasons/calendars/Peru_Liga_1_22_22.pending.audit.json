@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 40118,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=40118/versions/303052f5b2834706b7ad137c7eef7808/manifest.json",
+      "before": "087dccff66b4b8e16d204c493094a7285c2dde84180ac9691ff70cbda9d52b79",
+      "after": "daa79707202c7eb9ba2bfbc660960795b18ef781df7429c7c27662f41ea247b8"
+    },
+    {
+      "path": "Peru_Liga_1_22_22.manifest.json",
+      "before": "0f77a889ab9f28b9526e82f99cd9494aa40253398b5da4595a9dd99131ab932b",
+      "after": "0644bfceb8a329eb48349c5630b082e30e92528133090e369f24acee31a64838"
+    }
+  ]
+}

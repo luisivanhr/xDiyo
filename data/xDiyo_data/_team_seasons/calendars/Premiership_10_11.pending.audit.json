@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2010/2011",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 2752
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=2752/versions/f9b8fd8222954facb05d5752e9bdedd7/manifest.json",
+      "before": "d3127371c5ef26ddfc1eefb70a06288060c17b00b760b02a96fd6ac521596ccf",
+      "after": "0693d0416f9a2079cf5e0d7bf7bd95a35ba7ff20972089d29a597ffd860bc31f"
+    },
+    {
+      "path": "Premiership_10_11.manifest.json",
+      "before": "fd81fe74133846774d69e849f3eefca98df9277a518cd3c79757a01de0b9476f",
+      "after": "036b1972371a48260e3ce63a034968c3d18f63deb852bbf9e259822d4c57a00b"
+    }
+  ]
+}

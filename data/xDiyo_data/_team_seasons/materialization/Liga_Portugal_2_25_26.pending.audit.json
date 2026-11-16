@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Portugal_2_25_26",
+  "old_manifest_sha256": "57afa48589af89c4685b9ebe857b73333d8287c9932ed42bb9dc14e2d229f451",
+  "old_publication_sha256": "92149869ff6631df782f57c5951784fcc524f42756b9937a9fb753cec1acc5d6",
+  "new_manifest_sha256": "f6d3c7833dc689a57ddff903ff59e6170c2f33fbdfe103b6ea6d1df32cb206ea",
+  "new_publication_sha256": "8b7c35f6e049485c793f4b0dfff58210edf5bb91774547309b90a7fd6b0fc627",
+  "matches_sha256": "c2eef5b79891376fb330790d4811a5af1e0338caaacf49adc45722f8dff18975",
+  "season_sha256": "611b723897540739a3fad8d5b1ce6482989dcd301b07821bbf5d078029a5f782"
+}

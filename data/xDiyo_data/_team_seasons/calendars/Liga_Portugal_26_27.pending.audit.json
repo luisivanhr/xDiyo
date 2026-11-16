@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 238,
+    "season_id": 97436
+  },
+  "files": [
+    {
+      "path": "_tables/competition=238/season=97436/versions/456a7f02707d4b00a102fdec7007e0a3/manifest.json",
+      "before": "82f055b6d3295802f19e61ca2352c175687058fe3313c80568bf4022aab9719a",
+      "after": "6b369552a9a0fae40978ddfdc30f11409b5726f660adcf76bab49b9a6f2dfeac"
+    },
+    {
+      "path": "Liga_Portugal_26_27.manifest.json",
+      "before": "c7328d08e1a3a1b7355dc7accdb3d24a3e7fcd142244f20e3ea382d21dbc4484",
+      "after": "d20c5abedd8d043e78f93048f8af0d00a23d78c47f6cf9f5adc2dda93bf82f9e"
+    }
+  ]
+}

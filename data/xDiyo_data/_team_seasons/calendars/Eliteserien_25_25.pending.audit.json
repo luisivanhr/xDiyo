@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 70174
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=70174/versions/27583c425fb142ad94f11442c47c25e2/manifest.json",
+      "before": "559042e602db4d53031eb24237bc4725411c17e1c669ad0c9f3399edaa9f36c6",
+      "after": "950d15a59ab9ccb97bc9abe952697ff7cf3071033ed0f158dfd5a2fcce41f19b"
+    },
+    {
+      "path": "Eliteserien_25_25.manifest.json",
+      "before": "f14a2397cdcf1aaf372acd239e2b8f47e9b0f7bf86d677145bd171aaeb38b8e4",
+      "after": "f6085564a6fb3965cca373624d38939109714c1ad92d4f096d1418c053298bc1"
+    }
+  ]
+}

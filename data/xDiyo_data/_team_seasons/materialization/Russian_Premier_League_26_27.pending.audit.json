@@ -1,0 +1,9 @@
+{
+  "season": "Russian_Premier_League_26_27",
+  "old_manifest_sha256": "8a17d2e3da89714ddff9bb9eb4a2eca9605a3a28eae3ae768ba551e0acbe0df9",
+  "old_publication_sha256": "e6f9216ad5eab8ed31d93b30d32b6cb2fa278f08fa08e5a4cd3918a19052f701",
+  "new_manifest_sha256": "74ac89f495f1f3dc5f382823772bc7ded8143c3d32311bd47dee6f83f101491d",
+  "new_publication_sha256": "12ac60059bbf5a4fa7c70fc806a76f3461665f0d3d2f641514b6af665de7c30a",
+  "matches_sha256": "07e5b538b48b14f49f13ab2d6f054d9efd75ca4bd9f4ad236ca0a207ab1e0593",
+  "season_sha256": "eb466c9ef4cff8fe0d8d47792210f65543565e61d3005323ebe323b78286336c"
+}

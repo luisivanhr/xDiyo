@@ -1,0 +1,9 @@
+{
+  "season": "Ekstraklasa_19_20",
+  "old_manifest_sha256": "56c0b077897d4016b5b4e524aea6b54470060573cd45dce8ad3e96550f051325",
+  "old_publication_sha256": "01915ec210ea8b256df2b15332cc47863ae5e8a56ba486883ca974fa57dc3ead",
+  "new_manifest_sha256": "0b17ae33ac25d0c80e732dbd635189dba9ec3bf398e8579c443fc71898db8620",
+  "new_publication_sha256": "dac35064cdec8e4aa6c6db2f16f8267d14ea686128d016d97c0b2f8fd5e5e11b",
+  "matches_sha256": "8e775e603540ffccde5d4317b5ca9d7826cf90a78df08ff29741e96982b095ee",
+  "season_sha256": "c2b22f45f2d9d44c6dd0693acd5a7fc905c0c4822b3975e899d89219d42e245d"
+}

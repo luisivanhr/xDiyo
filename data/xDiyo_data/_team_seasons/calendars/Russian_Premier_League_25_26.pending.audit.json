@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Russian_Premier_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 203,
+    "season_id": 77142
+  },
+  "files": [
+    {
+      "path": "_tables/competition=203/season=77142/versions/4ba05cb5e69e4e87aa166f9ca5fdf162/manifest.json",
+      "before": "c23df54f11fbf63dd06c04f5849b2243eedd438ed245b7ab11ae90a2fc6487cf",
+      "after": "0f6674f80140176c49d01898b58964a38592ebb4500c5b1d815f42fd49de9d6e"
+    },
+    {
+      "path": "Russian_Premier_League_25_26.manifest.json",
+      "before": "4c28d3624033db4eadd43741a0fc964bad2604a1dde784a5935dc8d8ba06a144",
+      "after": "7ee23675612ba782f628c3b65a062c516e0cb744c613008a0107093f725b6469"
+    }
+  ]
+}

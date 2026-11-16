@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Portugal_23_24",
+  "old_manifest_sha256": "869838989ed1339fbf87ad19242fbae2af7c2d63aa4b4253db0e851b5d585531",
+  "old_publication_sha256": "9c7d1bd195d1b872ff285396c006050ec9fb5b2de901642f81346cf2b99ef9f6",
+  "new_manifest_sha256": "643db64b726e9098fe22587534344eb91faf8ba4fc11cfb58c26e328cf1973f1",
+  "new_publication_sha256": "cbce2b0ee2ead9d1dd08bf06b6a8ad5102cd80d3fda85108e251ff04ec17175e",
+  "matches_sha256": "31872c0636d9987588234e9de2db0929e331de7bbcd144c4ba8bb3061eb67890",
+  "season_sha256": "ced4d46560be84ee60d6a8840b8e16785c488c972d29863c3ef194ee43d02993"
+}

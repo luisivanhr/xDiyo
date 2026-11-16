@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Eliteserien",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 20,
+    "season_id": 57322
+  },
+  "files": [
+    {
+      "path": "_tables/competition=20/season=57322/versions/98435ae9ee634c1faa7b2331f89855b9/manifest.json",
+      "before": "b6ad20c64a362a61b49686e6fcad7f223bb90a6a1f84b308e70510f8469ccc22",
+      "after": "cc53c13e2ea727c7e02f1ab9aef114ef63ada673aac1f554312d0fcf8c688286"
+    },
+    {
+      "path": "Eliteserien_24_24.manifest.json",
+      "before": "856d31f5782e2b0f053b73ba26066bcc1f45503834bc222c4fd945e4becf39ec",
+      "after": "9317f54ff13fdb705eca680a502333a9a3971a9f7b41c2fcd0b586927d82f3be"
+    }
+  ]
+}

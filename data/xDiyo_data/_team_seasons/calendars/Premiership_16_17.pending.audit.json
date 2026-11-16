@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2016/2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 11743
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=11743/versions/e74b2a9bb233496fa778e6f4d789e135/manifest.json",
+      "before": "d693e12618c65effca2a634eed99e1bcee3dad929f11502dc4dfa19cf7b2fe7c",
+      "after": "ccd2702c232b34810349cfbaf0e7bef370450deed7e53d06534f346a3d5dbd99"
+    },
+    {
+      "path": "Premiership_16_17.manifest.json",
+      "before": "7b42966179e352ba61bd1a95b90703a7c6b03f04504e62fc98270be5dbfdbef1",
+      "after": "5136a822ac75013a876817eb89cdc63ad0eec74c842eccad997ab28d6761a94e"
+    }
+  ]
+}

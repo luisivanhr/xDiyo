@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Portugal_18_19",
+  "old_manifest_sha256": "389db9257b8a26bb093852ad1468703cbbcffea57efc4156a994dbaa79be6ca7",
+  "old_publication_sha256": "e50ccf480d128faa410449176807978316528d2d33c8954293170f1011d5ab60",
+  "new_manifest_sha256": "24e33cdcfcc09362b579d8c765f010ed10e876b9cc5d2d9ada998e0bdafd7511",
+  "new_publication_sha256": "2cd8ebf0d1403b1563487da21c8fc5239195d01c61ca013f938c453fc3bdc03e",
+  "matches_sha256": "04fd151abda14b52ced9dd913891f2d9417074cf7724713203592cd1b747b444",
+  "season_sha256": "6757fa26f08a5f439d3fffab53a2e0b3a3250241b9a8d26232209d8b81b52974"
+}

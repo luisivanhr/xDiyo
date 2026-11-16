@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 42576
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=42576/versions/ed330033a48b4ff686f9f3b362be46b1/manifest.json",
+      "before": "cb24654c850913a72d1180d8fc529fa39254f0b518657888f868437d9aa0364a",
+      "after": "e05813c1ec1219b8fc770191b58914f1a804cf33ae39b8a66f0a351a854d05d4"
+    },
+    {
+      "path": "Romanian_Superliga_22_23.manifest.json",
+      "before": "4b04adc30f6e071ef3a05e596548ec20677a4da2b9fc0c882c2fa93524ac3898",
+      "after": "6517de1da95d47d18f5d0ce2b23b931ded0b01f30cc04eb64dcb79c68953f09a"
+    }
+  ]
+}

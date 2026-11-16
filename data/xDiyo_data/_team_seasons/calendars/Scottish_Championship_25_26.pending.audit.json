@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Scottish_Championship",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 206,
+    "season_id": 77037
+  },
+  "files": [
+    {
+      "path": "_tables/competition=206/season=77037/versions/8d8249d1c5994efd8cab3e192a0c7f38/manifest.json",
+      "before": "773376ee56b926a24486d2fb87dca457d334f55d79554ce8739cac80b9e33611",
+      "after": "d225deaf0c4c486dd9fd54a28c0d75abdf4185af94ee41839ae772003bba9f5a"
+    },
+    {
+      "path": "Scottish_Championship_25_26.manifest.json",
+      "before": "f4a42b31f3d4b3d2a41ea9e329d9b2fe57647c0ef24413b7a452e0bd50075f10",
+      "after": "5ec5b55748c1ca1b3179ebd9b5ef5ded33a9a6f8390734b20c8639cf5dd34d7d"
+    }
+  ]
+}

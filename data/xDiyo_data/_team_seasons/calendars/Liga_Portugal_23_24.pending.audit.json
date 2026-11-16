@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 238,
+    "season_id": 52769
+  },
+  "files": [
+    {
+      "path": "_tables/competition=238/season=52769/versions/a54b188534d74b85b4a463e4d945e685/manifest.json",
+      "before": "643db64b726e9098fe22587534344eb91faf8ba4fc11cfb58c26e328cf1973f1",
+      "after": "079b9c928286b5c9f7f8c53110c5c058a59c7c7f72b6165c1ed2c997508aaf14"
+    },
+    {
+      "path": "Liga_Portugal_23_24.manifest.json",
+      "before": "cbce2b0ee2ead9d1dd08bf06b6a8ad5102cd80d3fda85108e251ff04ec17175e",
+      "after": "f378ed23209cbd8a7543836a3055490e4d567b7b16bb4a4c27073545d653121f"
+    }
+  ]
+}

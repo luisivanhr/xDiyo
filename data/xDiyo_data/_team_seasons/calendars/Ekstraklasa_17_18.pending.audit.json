@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 13350
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=13350/versions/5ea3c8d7133f4d5bb320587f727e7910/manifest.json",
+      "before": "cdabb2578186abe1dcdf8cfb021dd0f6ac45c52d90b09ceca772f82e4ea0fe2a",
+      "after": "630a0aef47310c3cd7e78105f7b130cab8ad4329bee638fe488892a94562e355"
+    },
+    {
+      "path": "Ekstraklasa_17_18.manifest.json",
+      "before": "b0546dbd03d2725a18e246b5c7baf46195fbb3d83dca45f8c7a3f283831ef19f",
+      "after": "6e751544955552426b2a30e5b0ef3d79cdbf25c1a94ca1f93f85b97226e829c6"
+    }
+  ]
+}

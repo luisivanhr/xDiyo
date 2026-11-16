@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 23987
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=23987/versions/2ebea6262d8047e0a1bb6801e8c9b92d/manifest.json",
+      "before": "827ef85a568e42f12fe560b189a362a2412f2e9e8c73403d411bd381608b80d1",
+      "after": "de659ca834fb9a4d4acdff94c30134aab0dfd0477e7ba28ff49c02c34e8f6de7"
+    },
+    {
+      "path": "Premiership_19_20.manifest.json",
+      "before": "658b171096db41354cd426d1f97a0600924e643602540790218a3d288122d657",
+      "after": "3a0449b21a5cb4354c713cf8070fae2346db7a9ea28bd097ce8511b0d7bd2f86"
+    }
+  ]
+}

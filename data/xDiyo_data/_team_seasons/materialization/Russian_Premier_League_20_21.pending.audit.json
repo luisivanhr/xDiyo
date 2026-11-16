@@ -1,0 +1,9 @@
+{
+  "season": "Russian_Premier_League_20_21",
+  "old_manifest_sha256": "08206235f0c8f817930b17a9381efb7110771f28ffd199e2030688af3dbc685e",
+  "old_publication_sha256": "121fe2643def27b56d47cc4e15f2bb573a3c18e4af6836c4c6b9a67d37322b9e",
+  "new_manifest_sha256": "c6c032033369ca8a805c9b1e844ee95bd827f3652560afcbfb29c4265ffc229b",
+  "new_publication_sha256": "d197b577bc8e27ea4a43de752be1085bcfcfa0f7fabbabbcca750f3d6cb05cf3",
+  "matches_sha256": "62ee361f1000da33fd10f7a1da220164c330e73dfcc2305aa99f4aa0b017afaf",
+  "season_sha256": "3b3da090264e1da37420219584724641fa4ec496dd0c609b3323a3c107bd6acc"
+}

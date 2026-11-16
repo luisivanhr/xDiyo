@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 57741,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=57741/versions/e7dad5f354484876a350b155f91fb39f/manifest.json",
+      "before": "137c0a0284469d044589869e069c1554bd052f9713b8739af5d4004fa0b03139",
+      "after": "ccbe4ea50296862ec900d30320f2b34705ff15f64055573a8ea3dc1163dd7467"
+    },
+    {
+      "path": "Peru_Liga_1_24_24.manifest.json",
+      "before": "fea735cfff5087e5702ff67db1dc5d0bb263ef06cdfd384ca5fb8d8c4c410394",
+      "after": "2cd2f970022d2850645426dcd2ecbff203bf10f154b3fc4bb7e6857113bca3af"
+    }
+  ]
+}

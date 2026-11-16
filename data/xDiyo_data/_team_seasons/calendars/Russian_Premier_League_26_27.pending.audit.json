@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Russian_Premier_League",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 203,
+    "season_id": 97023
+  },
+  "files": [
+    {
+      "path": "_tables/competition=203/season=97023/versions/66e5a4a587a9491097d03fa4008a6697/manifest.json",
+      "before": "74ac89f495f1f3dc5f382823772bc7ded8143c3d32311bd47dee6f83f101491d",
+      "after": "8fbe6436864fc1c68482ec98450b558870867e7e06ffd2a8acc3f9e0ecb34858"
+    },
+    {
+      "path": "Russian_Premier_League_26_27.manifest.json",
+      "before": "12ac60059bbf5a4fa7c70fc806a76f3461665f0d3d2f641514b6af665de7c30a",
+      "after": "4c9b19ad311e7aefc8b9985d9024be02b90f5c9fa4360581395579361113f1c3"
+    }
+  ]
+}

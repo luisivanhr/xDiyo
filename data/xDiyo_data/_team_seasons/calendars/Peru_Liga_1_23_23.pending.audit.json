@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 48078,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=48078/versions/4df30323a226437a830cb893f367cd1a/manifest.json",
+      "before": "80c54b97e00ff5b9fd790f5e3d6305aac0ca84bc77ced88e44c0429236503436",
+      "after": "ba8890197a7f8991176cb2b2e11fea8a744cab5194ed9e2c64e28613564112cd"
+    },
+    {
+      "path": "Peru_Liga_1_23_23.manifest.json",
+      "before": "d5f82deefa9f3fcb2c4751e913667683cac64d362658437574f980f3efb6c393",
+      "after": "db0a1943ae9dbc820b14abe51bcf6264e2bcfd40e4de6dbd520f8f4613e31744"
+    }
+  ]
+}

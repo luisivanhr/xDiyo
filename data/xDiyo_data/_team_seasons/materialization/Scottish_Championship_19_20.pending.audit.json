@@ -1,0 +1,9 @@
+{
+  "season": "Scottish_Championship_19_20",
+  "old_manifest_sha256": "b583a4f4ef9a24387038c2b8df411792ea68edb7594e52e252c5372c020207f7",
+  "old_publication_sha256": "27ae91e6ce4e2bf2d4c9c681b9baa67fab3af5bd5bf180b2a775c02538bedab9",
+  "new_manifest_sha256": "faa88bce18eb2182817e405e70a609745024bc43d3b0bced4034471fa1fae7f2",
+  "new_publication_sha256": "2f3e94324b2fdb3fc9263e11a4eb634535e10e880eb9639373f613d854525f88",
+  "matches_sha256": "428334a01a15fb01a8b63bc9465106fe6f07d6fe7a353b5966dbb0ff1a241d5d",
+  "season_sha256": "e73178c7dc7ee1c16b642a6c861b0106c4b332041ad11e49a1d6e191eb733811"
+}

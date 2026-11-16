@@ -1,0 +1,9 @@
+{
+  "season": "Russian_Premier_League_18_19",
+  "old_manifest_sha256": "46c52d96a99880f74b86fe3d1c0a81255a42dad90bb5442f2b04de0efc9bafb4",
+  "old_publication_sha256": "86c31eeb1f691f20c167f5f9e88063d8e6ff231b598741999f82f8d90aac0ce9",
+  "new_manifest_sha256": "644b9cbb19bdb34ea4284d918e0e533885f7ec304ffa4bef9260f53bd91fd0b4",
+  "new_publication_sha256": "9b1ef1c05721a0d07484ae18733944d2e8cbf972d60ed4f1197abf4927fef451",
+  "matches_sha256": "0ffaab1c2802c73f8eebec0a513bdf3b6c7ff8c5fc0c854f6e6940f5fe55beeb",
+  "season_sha256": "b0db2f1a12f2c8308fd0183c77932921539c74d14e328994c437543fc39912df"
+}

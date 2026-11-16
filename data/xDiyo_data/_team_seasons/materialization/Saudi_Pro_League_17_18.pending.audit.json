@@ -1,0 +1,9 @@
+{
+  "season": "Saudi_Pro_League_17_18",
+  "old_manifest_sha256": "d5c26089dbe113524ffaa12cab3970800bc7d0919bb3c7cb034032aeedec9f92",
+  "old_publication_sha256": "ac46bb4889332360c403ddfb382b3035c74e8135150db392dc3501139abf00ed",
+  "new_manifest_sha256": "1ac6c451b347d1f57e0ab97fc74fa53f9b025cf90b7309d700cfedb2d29ad6b9",
+  "new_publication_sha256": "80d2f16c63da4371e4c00c903ee9accaf8d417765d4cd4203e5a295303d4fe30",
+  "matches_sha256": "50f76b0aa1e529d5b2d243841020be68ced3b541541ce0c10871665619a5410c",
+  "season_sha256": "cde50a455d239fe7bccd54d0f82dad8bea363b87ca380b5b655cf6a9ca46d0cb"
+}

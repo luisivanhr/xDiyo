@@ -1,0 +1,9 @@
+{
+  "season": "Peru_Liga_1_17_17",
+  "old_manifest_sha256": "2004fa45bcb91fe35f1c37963877d741dc0a6f091322be33898e35a9dc4e9466",
+  "old_publication_sha256": "6792e380725e52e07021c8c0d5426608a1625c3f267285443b40f77cd6490a87",
+  "new_manifest_sha256": "acb08a7ea0b622f40c62bcfcee45eda46e820e6cd15917263c3855b035df3b4b",
+  "new_publication_sha256": "0c880187895faf210f665d39e2abf7675111c1fe0b56c9778c341565031e7c08",
+  "matches_sha256": "a5df907cb2d3796004eae4e058d1eaf4e19fa7dfa6a5efd96c07ad8fa9131d39",
+  "season_sha256": "51a8ed8dee74eb7bc27b7b2c81af9b26f2e5ac8b20971197beacd039abd2079e"
+}

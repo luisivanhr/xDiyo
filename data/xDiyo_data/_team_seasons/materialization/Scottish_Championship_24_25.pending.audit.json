@@ -1,0 +1,9 @@
+{
+  "season": "Scottish_Championship_24_25",
+  "old_manifest_sha256": "b23300649baf4ac4d29c62c2a6760018a7ba139568f6dc27008af49a6e6c2d98",
+  "old_publication_sha256": "6e4ffeebb454900709f96c1e792d9d57ca3f952824bca6e5d67332ca3ebfb604",
+  "new_manifest_sha256": "88dfe108874272a91f7a867a490fdb178f00db092255e6dc595d8f4752b12ec5",
+  "new_publication_sha256": "15f3cc26a9358a4983ea080edb3b85fabb8b1fc00cb7bd8cd531edfbc3c82a3d",
+  "matches_sha256": "b0f84083cd7117efa68c0e1d6e8f42f0e8581bc45db277712fb669582859c5c5",
+  "season_sha256": "90b5390711412a3b77f0e4a95307e09b5bcf108281fd81d02ebb8dc2218f4f10"
+}

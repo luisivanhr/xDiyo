@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Saudi_Pro_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 955,
+    "season_id": 80443
+  },
+  "files": [
+    {
+      "path": "_tables/competition=955/season=80443/versions/190b348ebc964f4c9a19bece9595349c/manifest.json",
+      "before": "be3a3bccf3375415064a58ec99e3d2806aa683ddd1e2a99fc80fd2ad4eedc98a",
+      "after": "24ecf85b62da0edb7a5c90be62245ed8eddf5c781e52ea315796bf08d3a4da2c"
+    },
+    {
+      "path": "Saudi_Pro_League_25_26.manifest.json",
+      "before": "3ef8e37c0bebf108f98ef0c77438b73a66e644a827133264e3d62cf25c762a7b",
+      "after": "436106d422dbdea1d01830c783f45711c72b7510168dd5f6e505e31606c1f89e"
+    }
+  ]
+}

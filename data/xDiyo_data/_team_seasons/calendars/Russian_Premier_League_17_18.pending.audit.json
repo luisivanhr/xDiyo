@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Russian_Premier_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 203,
+    "season_id": 13387
+  },
+  "files": [
+    {
+      "path": "_tables/competition=203/season=13387/versions/a925606dabdd45ac8e7dbdf1c0ffb725/manifest.json",
+      "before": "e925f969897fe557d7b9e5303f18ab3a206563eb2f78eb5a47d395ce2ea66b75",
+      "after": "36053064a5e53299714f61f383b5644230d27816f7f34929cc47673037fe206e"
+    },
+    {
+      "path": "Russian_Premier_League_17_18.manifest.json",
+      "before": "858eb56f2c549f3867b6b6d85cec0e09fa904fe2f83c193f24bc0e2178959d99",
+      "after": "d98282adec64f535e5e4855f789d917fc526025c8292bee50fb0af029d8de132"
+    }
+  ]
+}

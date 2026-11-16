@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Premiership",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 36,
+    "season_id": 52588
+  },
+  "files": [
+    {
+      "path": "_tables/competition=36/season=52588/versions/df61b5105cad45e1aa4aac3e09cbb1fb/manifest.json",
+      "before": "7c3525f26f9e11a3374260feb3000fe2ef72cfb88800e7b655078fcf20c29ac2",
+      "after": "d4dd250d1253901ed8efc0b09bf0f02d46e55bd98f70fa013a256f1f018cc03a"
+    },
+    {
+      "path": "Premiership_23_24.manifest.json",
+      "before": "e7cb71046cd1442631c0f3d949d5a982cd75868b2a0314b419e2870fc46fa4f6",
+      "after": "63dc5bc95df3f1e747b2d1f253ce98c9a1af55b42b51caaf4c96947b9d72a157"
+    }
+  ]
+}

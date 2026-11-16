@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Liga_Portugal",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 238,
+    "season_id": 63670
+  },
+  "files": [
+    {
+      "path": "_tables/competition=238/season=63670/versions/f6e9c389910541ceb92bf20188f8b101/manifest.json",
+      "before": "5d2cb4f536605f172793b84274879eb79ba446cee1c61ac7729fb67bcc21e8eb",
+      "after": "ad460ae813761dc65eb286378d1eb91870803023f0363e36d09d9dee8a111c66"
+    },
+    {
+      "path": "Liga_Portugal_24_25.manifest.json",
+      "before": "314ae9615804330911674b8fb0bb7e36310349bbe4e59b20eb5a3d8f3a0452f0",
+      "after": "45ffe95518ded78fbdfe48cefa3513198a647a53a6a865fd498f13a2021e29f5"
+    }
+  ]
+}

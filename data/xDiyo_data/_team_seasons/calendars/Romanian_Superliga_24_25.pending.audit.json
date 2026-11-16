@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 62837
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=62837/versions/c6935b444caa425c9d944e255f99ab2e/manifest.json",
+      "before": "a6245d79ff1111068be06f9a2c271f3e1fe8fdef44a280903b49fc68a5edc8b8",
+      "after": "527fc3f90175a25856393b0476344151c5ec98ce00a90b063d5aeee46c676a96"
+    },
+    {
+      "path": "Romanian_Superliga_24_25.manifest.json",
+      "before": "d01bf585007c797d790e523c14723a54f2c35d59b319d32716445907b67fd060",
+      "after": "ab0e3409cd670e2640c912cc2cba40218cee297dd6e1fb2dc1eb2094b8017e0b"
+    }
+  ]
+}

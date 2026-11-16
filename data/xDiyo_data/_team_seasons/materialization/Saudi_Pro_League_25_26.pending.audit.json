@@ -1,0 +1,9 @@
+{
+  "season": "Saudi_Pro_League_25_26",
+  "old_manifest_sha256": "efd0579d3bd801db4cecb0b0fab6116efe034422ef5b13bf79f34a1fbb6798af",
+  "old_publication_sha256": "666c673d9ae47217f8fdfb7e3870947a3b50c1b576603ce3abc68966f0124829",
+  "new_manifest_sha256": "be3a3bccf3375415064a58ec99e3d2806aa683ddd1e2a99fc80fd2ad4eedc98a",
+  "new_publication_sha256": "3ef8e37c0bebf108f98ef0c77438b73a66e644a827133264e3d62cf25c762a7b",
+  "matches_sha256": "f054ccd8b12b2fb7b1c5eb45947195d39d3a5828f1bc4db87d03075154f310fa",
+  "season_sha256": "045a772f476f73a51370a13863be9d2b9843fa733b035a373794876b0b1ce8cd"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 97124
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=97124/versions/7bbec04144af461c95fd43078bf7f5b4/manifest.json",
+      "before": "7ccbd8ab4b7aa8020ba4b0ad054bab8431564147733c7b80b9bcac35921df00f",
+      "after": "b5bd7fc8cbf6b1fc50759193f880cf17b301704ac8691a6b014ea2fec94eeab3"
+    },
+    {
+      "path": "Romanian_Superliga_26_27.manifest.json",
+      "before": "3da0d6d40536555b63a20d346c7aa9ffbb1157894c40efcba31f4cf8f6186124",
+      "after": "2bcbb8e098a78bbc77e2ea41e65fa05c8fd5781780d993519860041dfceebc33"
+    }
+  ]
+}

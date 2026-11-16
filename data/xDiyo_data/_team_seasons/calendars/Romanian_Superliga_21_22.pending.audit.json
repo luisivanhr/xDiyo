@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 37234
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=37234/versions/a57fbcb4812d4e7e86eb2a608e8fcf31/manifest.json",
+      "before": "7072829c94daa4b97f4eb054bc177dab4c66024131923425ddfac78530287b79",
+      "after": "539fadbe412dde7e1f26fbce0d238fe7261d70efc50736b2adaee4b92480d9e4"
+    },
+    {
+      "path": "Romanian_Superliga_21_22.manifest.json",
+      "before": "7f2e925e6865fb52d781e7b3a4d9e596ebd4791328d4011bc9f0bc0000740716",
+      "after": "ab71ea62b23ab6a0ad7d2ec60d5a84180ffcef05a5022d6cd0d03af5e82e9f17"
+    }
+  ]
+}

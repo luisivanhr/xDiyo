@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 29222
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=29222/versions/2a34a81cc11b475ea46e84892ce81337/manifest.json",
+      "before": "c7f17de1b8f30bcec410da5e8b624ba1fe64f0ff3af6fc345c2003782b291e58",
+      "after": "8bbb4803e0b5f568bd0271e95f43ea575373dad77d5d4ae216a580d8b8ddd738"
+    },
+    {
+      "path": "Ekstraklasa_20_21.manifest.json",
+      "before": "904662076b6f3dadef33c0a780464d8c0e2303af617d57e088e93d7e720b16c3",
+      "after": "44f0599a95df79a7bc9b97ed1530e35d98484fbf2bfaa0d7ce0dee597b059934"
+    }
+  ]
+}

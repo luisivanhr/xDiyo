@@ -1,0 +1,9 @@
+{
+  "season": "Liga_Portugal_20_21",
+  "old_manifest_sha256": "bcde20dcd07b39f32aac2534ee70578596be7b7fed3abc89ce403dd94b0f8f41",
+  "old_publication_sha256": "6bec332875d570dbcc75ff9aea0ee45b1fbd11f23cd365be73633eb507ce951c",
+  "new_manifest_sha256": "d20058e11ef187c5c10967cbd00d6bea1f62eeafb84fbf0152a29ea24ce7447d",
+  "new_publication_sha256": "2b779a167e6663ea9ca0de0343fc02bd30de31556bde9d26ba0ea79b34af4337",
+  "matches_sha256": "f621152721438ed122f6acdb4821ad0a5e4a9e27a89915fb40d8629806d50caf",
+  "season_sha256": "d3ed69eb7ae2795e77bae4c756e60e1ba6f498328b9f17de6fc059de4713223f"
+}

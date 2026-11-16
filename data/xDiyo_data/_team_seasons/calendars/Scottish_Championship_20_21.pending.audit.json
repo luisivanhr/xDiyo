@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Scottish_Championship",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 206,
+    "season_id": 29268
+  },
+  "files": [
+    {
+      "path": "_tables/competition=206/season=29268/versions/80e0b2c2b5cf478cbee95dbe13a1bb75/manifest.json",
+      "before": "6ed4aec2ec80faf7b815b9626284b280b170fd5de16283605b08a08c76f7d3ea",
+      "after": "2f37200c52c5bdca5e6572a9411c879799efd621ddad1399e48a3bf483fd9b31"
+    },
+    {
+      "path": "Scottish_Championship_20_21.manifest.json",
+      "before": "c24af3d2f2bd545619c5d20415892beea692d6bddf0b71984c8c3da8acf42760",
+      "after": "da73e2d6f78e4c3af871f6326542bc887865154e215b3efdcb9d2b7d8f6f9503"
+    }
+  ]
+}

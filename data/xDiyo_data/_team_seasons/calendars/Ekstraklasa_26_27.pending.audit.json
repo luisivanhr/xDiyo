@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 96144
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=96144/versions/1b63e28a05374f00a7f24d1128d4bd19/manifest.json",
+      "before": "e212776511a4ce3b8b242ae43d44d70bb2f5ef729c76b262d6bf0c45298e80c9",
+      "after": "1f1ec7b21345b16100b0cd6982b27a641e9c13be9bdcc1e8c14523ab139fed8f"
+    },
+    {
+      "path": "Ekstraklasa_26_27.manifest.json",
+      "before": "5f3f0015b31267afedf537b90e2214a6451e34748e0a79883b28d6e31da37215",
+      "after": "8de6b03515086e4eb35151456c6e0ac6ebd557885a206bf5b857bcb385505fe6"
+    }
+  ]
+}

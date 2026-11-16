@@ -1,0 +1,41 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 16007,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      },
+      "57598": {
+        "phase": "Verano",
+        "half": null
+      },
+      "57645": {
+        "phase": "Verano",
+        "half": null
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=16007/versions/8cd1d4ca0c0641e7b31a5a3d0771dd64/manifest.json",
+      "before": "bdec985d677a08ad5c68a0aaa0906a1641dd6e172932eb2d53ad56e55e55dc4d",
+      "after": "72faf3355e80bdf4ca66407bc8ce446fc300705d5d1dd1d8513326e89cc0c24e"
+    },
+    {
+      "path": "Peru_Liga_1_18_18.manifest.json",
+      "before": "3416e91511e0279c660328939df8936f88505bdca0620ec9d6a7a4504d7a63af",
+      "after": "2f4a1de09c602b8fc5b47d13f248b205f064ada19465c6c8e4c5a59825d09633"
+    }
+  ]
+}

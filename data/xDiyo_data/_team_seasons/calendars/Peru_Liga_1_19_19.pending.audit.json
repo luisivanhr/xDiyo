@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 22349,
+    "tournaments": {
+      "34468": {
+        "phase": "Clausura",
+        "half": 2
+      },
+      "34467": {
+        "phase": "Apertura",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=22349/versions/b149c137a3d04d59baf831dbbecf071f/manifest.json",
+      "before": "45a136a9bcc72d4ffdf0dc1b7d3aec01ad26381c9edba4329ab60d6f7f580664",
+      "after": "5b415ce8f1d0c0707b74895bc9504d0c24119b56941f7b5ca2f7f314d179a87f"
+    },
+    {
+      "path": "Peru_Liga_1_19_19.manifest.json",
+      "before": "1f0898d6a6ac5d050bf2e163d206914b1a4de4c2045d5a6d2ba557884333984f",
+      "after": "4cebe3579b59e8aec6cbab75e0f843c71ddcd8bce84d0c8be1fc423d77c140e4"
+    }
+  ]
+}

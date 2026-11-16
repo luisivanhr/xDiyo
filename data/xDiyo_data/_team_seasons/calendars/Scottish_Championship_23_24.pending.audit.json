@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Scottish_Championship",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 206,
+    "season_id": 52606
+  },
+  "files": [
+    {
+      "path": "_tables/competition=206/season=52606/versions/0e5f0658323946d790f380a0cb5d0bd1/manifest.json",
+      "before": "c68c851d50b2c38764d400b818622eeac597d248997950992341bf3a044e9335",
+      "after": "7bed44c8d3621c9c737f34c1049b784506c671155ebe114ea1ad5ac54fcfe001"
+    },
+    {
+      "path": "Scottish_Championship_23_24.manifest.json",
+      "before": "3047d85b6752960519d92b357a0ff8aaa53fa032de65e857b1dec4c559790b29",
+      "after": "a71efcb1479cdf8ac7f1574d0668760178c4ccb84bcf76354b0fd2c844acce84"
+    }
+  ]
+}

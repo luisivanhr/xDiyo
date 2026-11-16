@@ -1,0 +1,9 @@
+{
+  "season": "Eliteserien_26_26",
+  "old_manifest_sha256": "5e4f7af473bbc5caf784e3329f3e035f7e1ed4d58b0f128a52ca05f119ffa3e8",
+  "old_publication_sha256": "83bfcce75e0db85eeaf68e16c5cbba7a109d068d2fecb1999406a6c32ebf53ef",
+  "new_manifest_sha256": "ba3cb19059bc695fbfb0407628c67a3b2337f5bd07ae3aef3499a36461bd22ed",
+  "new_publication_sha256": "5c56ea6254050e5b7346d38e7eeeddd6c8242740b82bb47fb0d4034f1475e424",
+  "matches_sha256": "1dd4b0c78bd8a46a0c3291360a7d22c6ea255ccb611d786014a07e79f7b79f10",
+  "season_sha256": "bffbccb8f064e289044abe6c1f2b25f67f4160a3f7629b6e8a690b18e2160711"
+}

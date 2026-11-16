@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ekstraklasa",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 202,
+    "season_id": 17361
+  },
+  "files": [
+    {
+      "path": "_tables/competition=202/season=17361/versions/73d0395377694364b867144889d6a968/manifest.json",
+      "before": "9647e177d0f4c433f6e218e4a243f59d5b06342606c50d42113649a365613723",
+      "after": "7f242a9f3c5c6c3bade64e93e461300e4b1bcdb07c297632c6b952649b5a642a"
+    },
+    {
+      "path": "Ekstraklasa_18_19.manifest.json",
+      "before": "82b263657937cd599ef4d3c1ab9b2f17dfdf3dc20bdeb9d3963744972871f6a6",
+      "after": "b703c92e3d20e8533a1bce2f6d1b97486bbaffdc0b8328404e2e047bfb27f4d6"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Peru_Liga_1",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 406,
+    "season_id": 35813,
+    "tournaments": {
+      "34468": {
+        "phase": "Second stage",
+        "half": 2
+      },
+      "51": {
+        "phase": "First stage",
+        "half": 1
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "_tables/competition=406/season=35813/versions/10e6c24429324f4995c25cb539dd49e7/manifest.json",
+      "before": "aa5b4284d3d164a689def29e24f43195fc2f2210f4809e794d6a48e1cd8d54c8",
+      "after": "60ca95a639bdd1e22b1df8fea3020615b7953d61e5d8e1f38ba93293655e7f5c"
+    },
+    {
+      "path": "Peru_Liga_1_21_21.manifest.json",
+      "before": "5d33de6e5b2a39e36e9506af96fb8f77c610a1c56ed11185fc9072893d91e654",
+      "after": "e2d9aa12780916ed9a574ccf108331b608da90bf40c02f28feeea616bec125a8"
+    }
+  ]
+}

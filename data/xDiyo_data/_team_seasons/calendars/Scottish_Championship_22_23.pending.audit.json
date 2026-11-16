@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Scottish_Championship",
+    "annual_season": "2022/2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 206,
+    "season_id": 41958
+  },
+  "files": [
+    {
+      "path": "_tables/competition=206/season=41958/versions/a13ed11fc6c54a51a778ac6d83a8c264/manifest.json",
+      "before": "67a835fcc9b61c09dada2b5228c45dc6e4838f793ead09f134ae67a63fe27152",
+      "after": "0127298b6e542eace30c00c07f4b791980bceb02ee4f240bd846393d97623366"
+    },
+    {
+      "path": "Scottish_Championship_22_23.manifest.json",
+      "before": "a28d3783c4081a6fd6e858b2a0781aec8f64221ae8d122d236c79a40d26d5fda",
+      "after": "efaecf0e5526d9bf8ee77991f4ba8be31368bcd88d1e3fcf131cae23f58d4725"
+    }
+  ]
+}

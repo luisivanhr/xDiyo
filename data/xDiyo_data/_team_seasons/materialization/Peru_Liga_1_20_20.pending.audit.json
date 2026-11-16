@@ -1,0 +1,9 @@
+{
+  "season": "Peru_Liga_1_20_20",
+  "old_manifest_sha256": "ed96b717e444fceeed41167cc30bf954b78205c4d90135aaf85c377e721ab8af",
+  "old_publication_sha256": "213574477239ff629a285b61ad175ed91519d705545175bf5c1c442a477e2ec8",
+  "new_manifest_sha256": "6a35e7da3911f7aff048f903f4cb7854b2242b25b4fbb60ed10110bb785e7d6b",
+  "new_publication_sha256": "d1f085813018346abe5e792fd5c63af5291ad3ed9c055390e323dbe998f5bc06",
+  "matches_sha256": "98b95b398088cbe53d79c2a84d881b43241dd5578511f93527591a44f668c135",
+  "season_sha256": "dd47003340acb8f8d7ebf49b44c3c88b3bf758a77abc98d3bca9f15dfc3fc554"
+}

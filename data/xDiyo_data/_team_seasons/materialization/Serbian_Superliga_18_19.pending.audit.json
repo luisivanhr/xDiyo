@@ -1,0 +1,9 @@
+{
+  "season": "Serbian_Superliga_18_19",
+  "old_manifest_sha256": "6948a1fc7e7f9aaac0693b1796e4e0054ed5833a62f1ac21c1a2d46529a0ea36",
+  "old_publication_sha256": "312c58beabbaa0a48b34c780652c760eabf6900d6353438f6456ee082093c3da",
+  "new_manifest_sha256": "d51c7e728fa0b265508a5d3c5479b351044593d00ee1a5b9bc8119bece6ecc13",
+  "new_publication_sha256": "1983aa234ec901f0b29065e3610840b22793293f8035ae8a22603b2cb872f7d5",
+  "matches_sha256": "e95db63d6a06c8f4923766b842b1fa32f20629f148aabcc1c94421eaff1c039a",
+  "season_sha256": "4231cc59e7b733cf1611b312fb93a4774ac877d4661c715570c00eb6e8df7bd0"
+}

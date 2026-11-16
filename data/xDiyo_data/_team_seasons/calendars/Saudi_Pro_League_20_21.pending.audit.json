@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Saudi_Pro_League",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 955,
+    "season_id": 34459
+  },
+  "files": [
+    {
+      "path": "_tables/competition=955/season=34459/versions/61b149a1693d43baa08d2aee97645cbe/manifest.json",
+      "before": "06f5dcd1b005c7108cb04d922fc3ff8cf845731ddebab97635d378589d64f86a",
+      "after": "c9292f4af4d5abe8eaa042cd73633a507b8ed9081dee239b668eed8f4af012bf"
+    },
+    {
+      "path": "Saudi_Pro_League_20_21.manifest.json",
+      "before": "4517c28774a7e8f6c452b54ebd218f851503703ed9da4a2f0bbd982da199140b",
+      "after": "c33841011f470aa5f4725d9c1bbf899b1b0fcbe2ffcd97b94012414eeeb76702"
+    }
+  ]
+}

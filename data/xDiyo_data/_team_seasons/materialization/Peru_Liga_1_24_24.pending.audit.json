@@ -1,0 +1,9 @@
+{
+  "season": "Peru_Liga_1_24_24",
+  "old_manifest_sha256": "fd269ef853acf983468637fb58f4d25a5b4e13b63de12911876efe6b08c80906",
+  "old_publication_sha256": "b1379f4f052d4fb63c91d5c825f9955dd73746c9c0a95f085e6524119a75475b",
+  "new_manifest_sha256": "137c0a0284469d044589869e069c1554bd052f9713b8739af5d4004fa0b03139",
+  "new_publication_sha256": "fea735cfff5087e5702ff67db1dc5d0bb263ef06cdfd384ca5fb8d8c4c410394",
+  "matches_sha256": "cf86467eacdbac8c0df73240b462e5ec993957c2ef8c34aec1c3e6c8110f9b5f",
+  "season_sha256": "ade021cda75ac347b5d20a7129fb936f689c826c8c853234e6b57b7608721c30"
+}

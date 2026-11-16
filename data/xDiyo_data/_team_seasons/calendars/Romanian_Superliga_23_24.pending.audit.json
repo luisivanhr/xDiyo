@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Romanian_Superliga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 152,
+    "season_id": 52541
+  },
+  "files": [
+    {
+      "path": "_tables/competition=152/season=52541/versions/40075bbcfc96471ab806e0b494442feb/manifest.json",
+      "before": "c3002f949730f65b669ac15dcf73c0cfd53d218ab4c8cb8d3e851e13cbf086c3",
+      "after": "48dd6231501330325bab6dadaaa55889ce7612a8a6dd223bcf35eca49eb0f8aa"
+    },
+    {
+      "path": "Romanian_Superliga_23_24.manifest.json",
+      "before": "dc58734631467f64228f6d35a8eb46ef02f93fcdce02da3dd85cd93bc3b1d1a3",
+      "after": "1cb0cb2c39b8e54ae6234fba3ca4dd221908d73c9d93f36b1ba1d9ae11e019ac"
+    }
+  ]
+}
