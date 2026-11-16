@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2012/2013",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 4959
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=4959/versions/2119d2784fdf4153a596bc31d5c9b016/manifest.json",
+      "before": "fbe0dc95d6fcc34e5df5e03c67f13871f55c7b89b508bf65115594f4219e3e2b",
+      "after": "ac54adbc9055566768942894e1bafd4ce6bfb58c817c7c26d8d4ee614c1e1379"
+    },
+    {
+      "path": "La_Liga_12_13.manifest.json",
+      "before": "06509352901b89af53fcf5cdc7098ffceb9d95252a836930c18f441fd9bba1d6",
+      "after": "a652dd56c1679bdda4990418ff44e713a47304cb54d7fb56334f242f4c8888ac"
+    }
+  ]
+}

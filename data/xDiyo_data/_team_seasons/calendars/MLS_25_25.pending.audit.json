@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 70158
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=70158/versions/e960a1ca8b0143e6810e5be5351b14fd/manifest.json",
+      "before": "2fdd10f4df30facc0b8ec903b6120524cd1d61f5381f066f9bb3ad06b011b909",
+      "after": "471dbfbb9e19f44e18f748d7ae74678211a16ca1c895174f99d9e57b2e6d647f"
+    },
+    {
+      "path": "MLS_25_25.manifest.json",
+      "before": "c20d46687329511deba93cead2e5342822b08dd6717e625fd09186c5e2385b96",
+      "after": "b2716ff0b1f5ea46d765f93b47e975c36a56a716440dfc149d8325a6f2223979"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 62048
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=62048/versions/96c2ef16bd524a9d8b72d9d9859f8b4b/manifest.json",
+      "before": "94c5ec0fc71b3a54db7ea05854432608eb011971d333fbf65ac41e9282ff4bb6",
+      "after": "da0d762d4d8a4939b7360180ebae5884bd3aab2509258515bbf7e5f773a2573f"
+    },
+    {
+      "path": "La_Liga_2_24_25.manifest.json",
+      "before": "123674e01869ed4a1712bef2fc13e6f6ec9919a7236fffa937de36e352f60185",
+      "after": "6de66bc2f530e78bd6c6da676e7cfff6677dc2425a65ac346b4ca19b05f14198"
+    }
+  ]
+}

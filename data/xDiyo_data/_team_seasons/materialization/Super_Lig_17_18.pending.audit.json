@@ -1,0 +1,9 @@
+{
+  "season": "Super_Lig_17_18",
+  "old_manifest_sha256": "5bd0c281dd743465695ff3d525389e16cb87a0014693a4b962566e9aa4217ac1",
+  "old_publication_sha256": "911162ae1692fd60be0eb0c507fd004fbb32556e5bf12e4807692e729b3beb88",
+  "new_manifest_sha256": "29db853bd2c198f2fdf3ef0fd892d1b1250f194684deefe1fe54ab1dc07fc8d0",
+  "new_publication_sha256": "4a57c74c58c3d14c4e7bd6d738df1994dafbe813257ca1a466a02f7e29c073ce",
+  "matches_sha256": "fc0b6e896266a1d6ffca2d01d49bac3fb3dfc21dc3c65e4d269538a72c78b34e",
+  "season_sha256": "ff549e7e281bc6855fc58c3b882bd6349eaaaed06646e1ea76c549d5b92f09a0"
+}

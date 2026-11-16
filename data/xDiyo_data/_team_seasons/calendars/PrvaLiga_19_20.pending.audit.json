@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "PrvaLiga",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 212,
+    "season_id": 23997
+  },
+  "files": [
+    {
+      "path": "_tables/competition=212/season=23997/versions/e1fc54eda8fc4f06be7b962ecbd2a736/manifest.json",
+      "before": "2295f1f191f121310058b439d38e438e5a126470e8f980ded11c0563f4ad2f15",
+      "after": "1e7662490209573bfbbdf7b50e0ab5a49de6571f690627c658260d4e0dfacb7d"
+    },
+    {
+      "path": "PrvaLiga_19_20.manifest.json",
+      "before": "6ab5f62e02e0416ac71c4c9d751c2980fd5d2fd7a66405beb79745b061275688",
+      "after": "6e4262e04e82b8ec58a5ac5518fdc5fd6e550846bd0e713cce4829b3e42bdb86"
+    }
+  ]
+}

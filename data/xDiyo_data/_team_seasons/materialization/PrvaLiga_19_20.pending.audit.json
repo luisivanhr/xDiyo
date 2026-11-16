@@ -1,0 +1,9 @@
+{
+  "season": "PrvaLiga_19_20",
+  "old_manifest_sha256": "aa60bde4f8ffc806e45067f679ddf33d4560a4e5ca90e59bf1ea220572d1c995",
+  "old_publication_sha256": "87d90585cbd4e5a57af9a7228c8992a6bb6adf070cb95a24f306b69a69a2a894",
+  "new_manifest_sha256": "2295f1f191f121310058b439d38e438e5a126470e8f980ded11c0563f4ad2f15",
+  "new_publication_sha256": "6ab5f62e02e0416ac71c4c9d751c2980fd5d2fd7a66405beb79745b061275688",
+  "matches_sha256": "b906722796989e38b20c2c51c07f37235d37b63e98e518cf686da83ae76f0d56",
+  "season_sha256": "ba8b24dd8c725a3af8e038f80fba08c84e52efe92c459c71d3b5b04f7e8e2605"
+}

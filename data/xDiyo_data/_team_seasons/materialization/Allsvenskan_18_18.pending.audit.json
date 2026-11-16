@@ -1,0 +1,9 @@
+{
+  "season": "Allsvenskan_18_18",
+  "old_manifest_sha256": "a091d96ec603c75440daa6fddb310d9307c507f2ba4095c8094cb172bed4ac14",
+  "old_publication_sha256": "0ebdcba40c6091c1cbf2e6cd0770ec9735d816f6bb03f8c04e042df76a0c160c",
+  "new_manifest_sha256": "2dd9213fa8e6578315eaf16bbefacf35de2ac9f4a72270c3b6c6e99fe15ccee5",
+  "new_publication_sha256": "b4d667a7f00a2357599ef879967a00f14e3d5f48c52628b66e200d716f327405",
+  "matches_sha256": "fe666cb4f29606a015a31ec95ecb3e8aee14fd449ddecc14679567d256d68a55",
+  "season_sha256": "845347c01f7226fa507051f44ce0cda61042aae0c2d48dfa8c4b3cbc8be20b69"
+}

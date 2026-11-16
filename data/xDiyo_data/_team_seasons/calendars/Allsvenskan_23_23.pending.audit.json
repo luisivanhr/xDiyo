@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2023",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 47730
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=47730/versions/096c8e8b52e042c59c84166320ce71b2/manifest.json",
+      "before": "6ebec13518bde303a918a71689d3dc173f2875f2bd2430ab87e0817874aad2db",
+      "after": "42ae85f1bf9a1a0b232c2aaf56860f03f363e154c2650ac8728f8e28f1625a5b"
+    },
+    {
+      "path": "Allsvenskan_23_23.manifest.json",
+      "before": "78e79724842be6cd0318c5089b6dec376c6ef226b1715d1efe3183703b1b01f5",
+      "after": "0e753244b8f4c8b70234e9e0811663478d7f0f4ced07f988289a7fc447c66d48"
+    }
+  ]
+}

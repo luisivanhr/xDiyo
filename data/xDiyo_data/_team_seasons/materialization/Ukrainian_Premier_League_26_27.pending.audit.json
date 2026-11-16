@@ -1,0 +1,9 @@
+{
+  "season": "Ukrainian_Premier_League_26_27",
+  "old_manifest_sha256": "6a8305f1eca109c31d5a468dd834e2a9031cffa424f3130012deb9274db3fd12",
+  "old_publication_sha256": "df4b30c6253828d3ad8902ee938876c69aefc9464a38cc21a1d250c0e5818944",
+  "new_manifest_sha256": "200caa41927e8ad4578d988747a795b7a37b69d7f08d866e99854cf67e7232a9",
+  "new_publication_sha256": "3b3430f4079b51c75c843de6803a891af707bb0115c58ffd3710095b79be5a49",
+  "matches_sha256": "5b69805638e106eb7a6f3af2418dff30a75355d586d1973aab2c961872c6636b",
+  "season_sha256": "f12ff17c30bc7cc6dd6f1046024abed79cb3181ee4f8398f0343f5e1e46f60e8"
+}

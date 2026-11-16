@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ukrainian_Premier_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 218,
+    "season_id": 23995
+  },
+  "files": [
+    {
+      "path": "_tables/competition=218/season=23995/versions/b3de071fcbe64c9a99c94ae57633be70/manifest.json",
+      "before": "455f6b88deae3fed8d84cf08934e4620d00f3778a7acd0b5430cbe7b97f5c150",
+      "after": "0eba13578fe98d9f8d28ef6aa1715f5aad747e2c9b4d871e103f63a51fe927e8"
+    },
+    {
+      "path": "Ukrainian_Premier_League_19_20.manifest.json",
+      "before": "861e813c1abee8e3c746a2495dab2da56e345b9cba26442f3683104cec422ab8",
+      "after": "3239d029eb6c2790ed73260bbebddd204f5d702db57b96eb0d7ecf03d2a2bd9f"
+    }
+  ]
+}

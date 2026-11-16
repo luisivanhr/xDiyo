@@ -1,0 +1,9 @@
+{
+  "season": "Serbian_Superliga_24_25",
+  "old_manifest_sha256": "242380ba1cb07f9c2cb78c45ebfa3f27bbce5f465f57ba60d6654963c6d76297",
+  "old_publication_sha256": "4b40fb55853755c2616afa571c85c5ad978aad395299ce0167e8dd625ee001b8",
+  "new_manifest_sha256": "e0ec9a9fcb1eae56579e9685585519b91cb39b6db194b0132cca2b95d2389dd0",
+  "new_publication_sha256": "f4ceca64f75b410d966f2ebee712233fb4415f4bb4e594d41d54653319830ec8",
+  "matches_sha256": "c5a901d1574822df2be008afbdef051826cbb8b8c37cea32f574d1d41cccd166",
+  "season_sha256": "ea1c5bb9116bbf63efc47540cc7cc1ac5a863c730e16b43d3625d023e39badaf"
+}

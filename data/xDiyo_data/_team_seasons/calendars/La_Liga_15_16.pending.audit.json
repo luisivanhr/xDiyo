@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2015/2016",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 10495
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=10495/versions/de811d14c0f6495095c3e84a80a4ca20/manifest.json",
+      "before": "16b9975e71c86a35b45dc3a12980a715ba52fbad9c906a7d7bfc054650aedb09",
+      "after": "de9646b95bbef2f58c8a34256594e42fbee96576fc16d6f4e3527c37660cd2e6"
+    },
+    {
+      "path": "La_Liga_15_16.manifest.json",
+      "before": "8de1a06bd6435de523e213d184a5f9ce799cd65d122d49472ed438dc6038828a",
+      "after": "02a34ba12a57600918af92e21f8a8d2e36bf5fb3772ece8a5389c412c8b46b3a"
+    }
+  ]
+}

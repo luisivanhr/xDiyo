@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2016/2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 11913
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=11913/versions/4b3127e761154a00b84b4226f25bb12f/manifest.json",
+      "before": "56a645a2a53dafdc4ce34e8d4bfe4cb239b3ebc207bed05b80ff0e43b7cbc92a",
+      "after": "5647a4d1ad4370ba7a70298e7b4aed5424e3046247681e0231e4e65f91859039"
+    },
+    {
+      "path": "La_Liga_2_16_17.manifest.json",
+      "before": "3644bf1dc7a0aaa257b3283638b7ee05227fc2e51ce9b56f09e346a9eca59c40",
+      "after": "457437196b6b416aba9a99cf2fb0e38a50ab483d365438d5cccb90e2c730376b"
+    }
+  ]
+}

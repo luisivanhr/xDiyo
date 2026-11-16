@@ -1,0 +1,9 @@
+{
+  "season": "Super_Lig_19_20",
+  "old_manifest_sha256": "135c8ed719f244dbc243e8e08fb8867ee2a2c3732db2b5a574028eab0d5caea7",
+  "old_publication_sha256": "a6e29d02162a12f642c7bdc6dd33c3b459671d55562bbbe46d547df47064b3a6",
+  "new_manifest_sha256": "6c1d91c9d2fadbaf41bf871403205a9448e6fd3d53bbb64278a737574aadf4a1",
+  "new_publication_sha256": "a1e92ae2494aa1524cabf7641f1af540cbf5411c780b64a119791a2f1a466a74",
+  "matches_sha256": "2bcaa004b2361b5cf769173e675eed603f9991c2b1dbcb68dc2049c4544422d4",
+  "season_sha256": "7581f0105e09a38454d7e4ae91174349283ad3790919ee3f3aad05102b241dea"
+}

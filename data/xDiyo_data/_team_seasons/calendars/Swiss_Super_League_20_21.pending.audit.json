@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Swiss_Super_League",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 215,
+    "season_id": 32512
+  },
+  "files": [
+    {
+      "path": "_tables/competition=215/season=32512/versions/6975fb5b9cdc461386e3be418c6e3c4b/manifest.json",
+      "before": "f66077ef8541ecfeb093060bcf549fc75aa28de850440a8029c660346afdb8c6",
+      "after": "745367b8b6d9135fc1fbff8d358362b38355f24228cff569b0202b1fbf98245e"
+    },
+    {
+      "path": "Swiss_Super_League_20_21.manifest.json",
+      "before": "0cbcbca475825b57c868714d96a108229a7e63d7e34ffa013dcae8730a2e7291",
+      "after": "3981e4f93c795154bc07f443098f6e1eec36a7be7dba5417126b758a02b40b56"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "season": "MLS_20_20",
+  "old_manifest_sha256": "da6379cc94c70f76c0a9b71958a9a1306ee7924e8a3bd1f1d303d7bbcb7a3c99",
+  "old_publication_sha256": "5e085ed2205476ad2bc9839e6b890b6af6dca1143bd8b6fb8986fdc1dcab642b",
+  "new_manifest_sha256": "db1f7865fb140742f162a34e8e65f142635d73b1a3e900524054a5087c313091",
+  "new_publication_sha256": "78507ae47a78b193219d6aa26f1803052e8411991e43e7317b938afbb1eab664",
+  "matches_sha256": "d3c507f8a0c7f35a8da8ae26a3e46cec3f2e010159c3dd2fb3ba5ac1fb545267",
+  "season_sha256": "6a8625398c435706549f13cce8de1e65fc55fbde4e3ea1aa21a5b164e2adbcc3"
+}

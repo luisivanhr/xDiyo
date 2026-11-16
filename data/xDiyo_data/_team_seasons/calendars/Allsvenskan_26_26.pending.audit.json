@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 87925
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=87925/versions/496e063373994a428d2e72c0ea346d18/manifest.json",
+      "before": "01cf8e2271dea03ddcdd451c1efbaa9b01ca9b09d12510ddb71f69d8080390ba",
+      "after": "51e64c3b08738aac6bbe160db2c58cbfa7ab7ad5aeb4f61815866b3d16d1f3f0"
+    },
+    {
+      "path": "Allsvenskan_26_26.manifest.json",
+      "before": "15e194e5b7e830d7ed7dcbddf59b867c140e8d005c15f411333ca0c6d1e63849",
+      "after": "cfc7c9efb8e750f4b306831fbac6ccdeb199e0c65eee9e22110c39a63630704d"
+    }
+  ]
+}

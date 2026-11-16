@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 26784
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=26784/versions/055f6299b9df4fd6846b02495dfd4515/manifest.json",
+      "before": "f144b79b6d9a94aa1dd58dc1b02b0771ef7e066513fc8737c1cacc400ebbcb31",
+      "after": "e97f66df44677f205ae92287321672c486a5e1133ebae09ff3400a9719d535f8"
+    },
+    {
+      "path": "Allsvenskan_20_20.manifest.json",
+      "before": "30cd47bf1b07eadaa3a5b04eff61e5b22f1ebe255ab8a79f5e486c9c99d8bbe3",
+      "after": "bca784013248cee0853828267530588b749275125ded34ab53973a0d65cf2e2b"
+    }
+  ]
+}

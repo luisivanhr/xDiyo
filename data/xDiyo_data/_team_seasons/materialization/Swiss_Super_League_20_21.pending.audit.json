@@ -1,0 +1,9 @@
+{
+  "season": "Swiss_Super_League_20_21",
+  "old_manifest_sha256": "a7851cc19261286836e01e90788408922a6a813a9b26495aa3f86d5f13b507bf",
+  "old_publication_sha256": "c4b5162c4f749deb7fb84ca2b37f1540dee9fb919a81d301c721ac618958bdac",
+  "new_manifest_sha256": "f66077ef8541ecfeb093060bcf549fc75aa28de850440a8029c660346afdb8c6",
+  "new_publication_sha256": "0cbcbca475825b57c868714d96a108229a7e63d7e34ffa013dcae8730a2e7291",
+  "matches_sha256": "4eba4f822ee814ac96efedeee3cc30e9b1f1302c8ddc88f6e35d133df3710208",
+  "season_sha256": "7ae48a98ccc59a2c469be257c874444c336ec4f587ecb26d89e130020ced9480"
+}

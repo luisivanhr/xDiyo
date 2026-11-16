@@ -1,0 +1,9 @@
+{
+  "season": "Allsvenskan_21_21",
+  "old_manifest_sha256": "ef2a085a8a8a15ddcce9d48fa870559def0fa0f5c7a8c3e959df7799225c83c3",
+  "old_publication_sha256": "c130314bf8bea11487c8a531442ad658d4523616662702afb65f4517fae1d968",
+  "new_manifest_sha256": "1c132258e9b03adef95be6854b4982fd9a7654c5b1ea32aa52156c1ae52e89bd",
+  "new_publication_sha256": "aa1d30af167537b39d81271fccff8075123127c39bc2bd413a7c7c213a03a8e1",
+  "matches_sha256": "7679a0060058746f004d21d9654b419b3b22fbc381d57e099aadca5e544f2485",
+  "season_sha256": "31128541c2c99071b4cfc0b31871901ecfe56d3b9958a469c6fd339a2ecf436f"
+}

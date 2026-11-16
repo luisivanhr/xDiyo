@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2020/2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 29506
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=29506/versions/23afc02d45ef4552a1cf1caf8e34fa29/manifest.json",
+      "before": "1fab4a5928eb99576bf099f106c51bfaf7f26678bd738bd8b13f8659e72c19f4",
+      "after": "cb245e6232156199a48bb444d44451c258627d84d557bcd83edc3fe000124e74"
+    },
+    {
+      "path": "Super_Lig_20_21.manifest.json",
+      "before": "87a9f4f2525b030bd09710c78db41c89f2b7f8af389dd030c678930d1a8bfca4",
+      "after": "3adb853d51d05a95a2f2c3d54fca35d78dcad4a78fcd2e5a61007a230cf49cfb"
+    }
+  ]
+}

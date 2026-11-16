@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serbian_Superliga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 210,
+    "season_id": 37148
+  },
+  "files": [
+    {
+      "path": "_tables/competition=210/season=37148/versions/d89f3c2e6758450290bd85e85a33a3f8/manifest.json",
+      "before": "faf9ec6e51fcc0674a7e3759310bd9d259ff06d7135cb9c7c4acbc186c0c0473",
+      "after": "033f84a4fe8d4b6ec8b4da0fc84d3baa70b4c60a17bf3894e2e2baaddb888456"
+    },
+    {
+      "path": "Serbian_Superliga_21_22.manifest.json",
+      "before": "026be84d5ffac883fe160f5f852714f796aaaba6c40095b72fd1041c3a6530c6",
+      "after": "4624983833e96ae123f78cdc3fd300a8d567c0ea5ba4932b46846b1d3b3c480d"
+    }
+  ]
+}

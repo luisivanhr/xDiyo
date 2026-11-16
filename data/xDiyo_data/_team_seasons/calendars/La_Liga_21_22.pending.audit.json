@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 37223
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=37223/versions/15b741d4c9cd4ff4b20acba6450dc87c/manifest.json",
+      "before": "b318dc97ac3a6118ff7b864640dfac1f8158bed5cc30b4b61f471d87e2df65fd",
+      "after": "b34857a5af3ff949e8962a01226c15b0ef49aef1878222294e64d27e65bb927f"
+    },
+    {
+      "path": "La_Liga_21_22.manifest.json",
+      "before": "0dc018cc53b787424d8c633c3c7a3500795e2871c3f6cbb6d37c434c86c800d9",
+      "after": "0c319b79e80788c27e370fd46ab1bc64fdc6e5ef96ce7625fcfc3aa21c416689"
+    }
+  ]
+}

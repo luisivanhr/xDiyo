@@ -1,0 +1,9 @@
+{
+  "season": "Allsvenskan_19_19",
+  "old_manifest_sha256": "f1caffc2cbd8eb2da9b2cae6b06d01c993c71cb7222f6f14f019df92b3c89ab6",
+  "old_publication_sha256": "70efdf113c7bab53c5d233ddc44fb6cefd666a5228be32ffbb6f65969bc39223",
+  "new_manifest_sha256": "ca9436af4c2dd738c791d1baa8b0f6cd3e73816f46b62423d9c9f489130f177a",
+  "new_publication_sha256": "7e095342e4d35d5bf0559c9fb3186992e65ace67605d30ce2960164e52c03bfd",
+  "matches_sha256": "69765f320fbf084b0f66208fcac0eb9993487896122c1ce45932e8f1cf56d7b5",
+  "season_sha256": "502a58ec3d05472cbac5599767052648daa8e8cc7c7d6b1e94019e406004a290"
+}

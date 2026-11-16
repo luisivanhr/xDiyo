@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Swiss_Super_League",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 215,
+    "season_id": 23982
+  },
+  "files": [
+    {
+      "path": "_tables/competition=215/season=23982/versions/51153ad3722849a4b7d9c638dd3580d5/manifest.json",
+      "before": "96bdcb2ec501f73fd71363fe59534b7b23a61c6c4189e95e0475fe80996c83db",
+      "after": "ea385c6ed85a57a943246c142e5ca20549c774896ea6e7d2d97eaf40806ad11d"
+    },
+    {
+      "path": "Swiss_Super_League_19_20.manifest.json",
+      "before": "c16d042ab732b4ac3ad377f3daec916b997da22116164d06f97bb7de0a5df5ff",
+      "after": "1cbd2b19cf293b0a4eb70642ce3149bda87f35936b05c5feedd55c4669cac5d4"
+    }
+  ]
+}

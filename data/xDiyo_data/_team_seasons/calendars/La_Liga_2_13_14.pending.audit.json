@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2013/2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 6767
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=6767/versions/c80e6411e15f4d8db7cc9e3552e250d5/manifest.json",
+      "before": "c465838f64a9f047312b10c10df7611692b1938ef919f292594b20a49e56719d",
+      "after": "40a60c9db7315afa4fc56035b6956292f57388db1f72297c57eb073af373ada2"
+    },
+    {
+      "path": "La_Liga_2_13_14.manifest.json",
+      "before": "06cb739e714a9e9d189a9bb7ec7828258850e75e580334a9c113046f72fb889e",
+      "after": "0e14b54c4581ee1ed87b344bd079bccd51df37dd553aa7ddb76c996b044e104f"
+    }
+  ]
+}

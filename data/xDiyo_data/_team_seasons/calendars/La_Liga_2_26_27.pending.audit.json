@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 97280
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=97280/versions/d855464397b44b8ebe25f27e1b4a05cb/manifest.json",
+      "before": "daf2422099477b6e3a986d4a35f074d506a5af9b604ea141868c03ac0d62218d",
+      "after": "074c746994f53443e125769a54ac02c9f948e680dd54eca296fc5e824c4aa90f"
+    },
+    {
+      "path": "La_Liga_2_26_27.manifest.json",
+      "before": "ad4561217b64fc88692b4b17c809be2bc3e65b8a05eaaed505d10dc2c3be3754",
+      "after": "94d6016b0442cc1d25a011a8fee62ae7aee772d5fbdef20931f89337c0ecde77"
+    }
+  ]
+}

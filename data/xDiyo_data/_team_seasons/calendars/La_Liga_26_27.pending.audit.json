@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 97268
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=97268/versions/d272bad02d9846ca9936bf44cc074098/manifest.json",
+      "before": "cbeaedb69081dca5aa33e7b005668d1628ffa54bd2b6cecf197457f263283a87",
+      "after": "5d2f90cec1b673c8356b244cb6b1df00a665a3ca27c1412fa32394612452bdd6"
+    },
+    {
+      "path": "La_Liga_26_27.manifest.json",
+      "before": "dc3da196e675e1ede0398f33e277f60a6646a7827d9a9b00e5666489be3c48ec",
+      "after": "07f02e6bbe69983af15eb26cfbd6a5c63c139b37bd4628aabb843a1f8d413001"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 40071
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=40071/versions/f70edcef0db146909d31ede8b1e5e524/manifest.json",
+      "before": "938f9578c65e7b34cb31147f569302a0964ef7de483b250ab14692e2afa2e7da",
+      "after": "866d380483b98a0c1c1fd6739ab19da304ef35b71d00acbc83025eb275dde8aa"
+    },
+    {
+      "path": "MLS_22_22.manifest.json",
+      "before": "272bdfe090cc86b07bdb4d1dbdf0d02fe5bf824b82c8fae52846ff6857eea0ab",
+      "after": "fd9b24752e1ac3df6b4ea7b55681e2acb3dd890b460b9ec4a2d379b46608cd42"
+    }
+  ]
+}

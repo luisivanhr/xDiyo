@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 19949
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=19949/versions/80acbfbf250440a3896a4f82465906fe/manifest.json",
+      "before": "ca9436af4c2dd738c791d1baa8b0f6cd3e73816f46b62423d9c9f489130f177a",
+      "after": "7be10bfae1f9440d6040256c9023b47ebc3b6f0a7b4eef8765847cf85d5e353c"
+    },
+    {
+      "path": "Allsvenskan_19_19.manifest.json",
+      "before": "7e095342e4d35d5bf0559c9fb3186992e65ace67605d30ce2960164e52c03bfd",
+      "after": "13e6f8e9c51a07cec51ad78e3e8795ec88960c63e503b5ca2b08dd85905226f8"
+    }
+  ]
+}

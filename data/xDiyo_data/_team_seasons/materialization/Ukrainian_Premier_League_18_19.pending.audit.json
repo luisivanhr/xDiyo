@@ -1,0 +1,9 @@
+{
+  "season": "Ukrainian_Premier_League_18_19",
+  "old_manifest_sha256": "50bfdcecf845e0cf8c5949a2d4c7198eb660f0aa1570a01164707fb85f10df44",
+  "old_publication_sha256": "29648622f1d283ee0eeedcedfa356b8d4ed15ffc7190e461683cfb036b89aba8",
+  "new_manifest_sha256": "1a17b9dc8c9bab09fb58921bcc936d6130ede5054b831ac7f52918cb1c6077ae",
+  "new_publication_sha256": "6b5f4d3729164d32aef4c27f28804c71cdbe8dffad02b61c1db171f0f6ae26b6",
+  "matches_sha256": "39ee7730be66457aa9e9f86339982420dea71c01bc42f9980d5d0514c46af4e9",
+  "season_sha256": "0ae734972db671a629952d5322888c3dcbcedcbae47d4c5105b658dfe427699e"
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 52376
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=52376/versions/29428db1e9d4409692678f952d37c196/manifest.json",
+      "before": "b243270adec3a6a6fdf726a1aa7c20616641acf901a8ac79ae808d4721ffd6bd",
+      "after": "4b1306aa69701480af35a58424c23a3fab0a6b531cdebc0ac3a0beb07f7e77b6"
+    },
+    {
+      "path": "La_Liga_23_24.manifest.json",
+      "before": "ac21317e9ed6b8337c93d58bb589fe5ee35aa3be579cbcccbaca7ac0beb2d52e",
+      "after": "4503296ecf99943c4079c94d939d5cad022eba6423dbd14d42d17eb6c4049860"
+    }
+  ]
+}

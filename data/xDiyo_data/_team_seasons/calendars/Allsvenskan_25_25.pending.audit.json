@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 69956
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=69956/versions/c3621c91e1924ff0b09a6b3b2fcd666a/manifest.json",
+      "before": "40dc1fc30befdff18ca28b1c158ab841cac81d15a167b75b1a2a283abc6cf261",
+      "after": "c7d482d0fd15c0083f9adb429970d307a88c735a98cade1e7e9b6883d9f809f2"
+    },
+    {
+      "path": "Allsvenskan_25_25.manifest.json",
+      "before": "a5f81d8db9385638b389d9ab5e7c75c92f9aecada45ead8fbbb255d4d549a3dd",
+      "after": "b303c466d2ecf796f7d38f84a8574ac1b39ed83395b992a66e49b8108170615b"
+    }
+  ]
+}

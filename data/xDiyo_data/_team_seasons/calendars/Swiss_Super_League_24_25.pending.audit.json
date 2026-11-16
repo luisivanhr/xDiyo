@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Swiss_Super_League",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 215,
+    "season_id": 61658
+  },
+  "files": [
+    {
+      "path": "_tables/competition=215/season=61658/versions/61fd321603c8459f976695fa04165a47/manifest.json",
+      "before": "a1264f5f079b089e543081878c3431588147aeaee3da7e3efb42b20a3b12e8e5",
+      "after": "de82a1aa4c795ae796281069c4409bb3051b653a335d63d4c9dd4d1acaa93edd"
+    },
+    {
+      "path": "Swiss_Super_League_24_25.manifest.json",
+      "before": "888d786df61204d31ec0af60e59a1cb8301ad915e4a6fcc393b136316099043e",
+      "after": "7de6f0dd632dc4a5ca02c136a31370f0043b9fe4eeb28e7262a0805aada3e93b"
+    }
+  ]
+}

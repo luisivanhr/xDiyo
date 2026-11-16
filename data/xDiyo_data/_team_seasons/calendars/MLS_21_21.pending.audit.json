@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 35964
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=35964/versions/133aa2c2748b45dca44e6befdbf9ae18/manifest.json",
+      "before": "c08b5296a0a8c1089fd0f180a2786d5aa717b9ec5d4dbbde120ca1d74945a4e7",
+      "after": "388f0dc19eed355975abfcd8764d9dfdd76e889ce575673233ecacf5aa4a2cb7"
+    },
+    {
+      "path": "MLS_21_21.manifest.json",
+      "before": "702b562b08456474a8752a2a49e4fb5a7397213734fcf43f6de193ea90c959f1",
+      "after": "a15602c2185491ecb353088f8c8c67a677db616a94793f985ec902c5d9bcf24c"
+    }
+  ]
+}

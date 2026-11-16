@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Swiss_Super_League",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 215,
+    "season_id": 52366
+  },
+  "files": [
+    {
+      "path": "_tables/competition=215/season=52366/versions/a98acb5010324f37a3130a8c16fd88e2/manifest.json",
+      "before": "1161ea16b3e5d8e0c91a8d5fbf468d866ac798f99fa2d8156bcabbc658071e48",
+      "after": "7574de5b003ac542488b0017e0b73225a034253dd3efc9f5770e92898a55d6c3"
+    },
+    {
+      "path": "Swiss_Super_League_23_24.manifest.json",
+      "before": "384dd9cc92cf829eb8b02b88939923da97aebb1e31bca1bf0b54738b20083877",
+      "after": "45e2cd1bf01dddb523d981b39a8cc4541f1b29df3cbb205197d5cdf4d55fb74e"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 40406
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=40406/versions/c8de7dccb8f245e783cfd1ec17cab659/manifest.json",
+      "before": "ce7611e79ce07d378a454eaf0a7a5016306ab5c32513ef8408d1922d11f27583",
+      "after": "eaa34ebcdfdb73c6b66ea6a03ac7c28c4720087dfdcfb71a920fdbce85ce3bbe"
+    },
+    {
+      "path": "Allsvenskan_22_22.manifest.json",
+      "before": "42dcbc7493f3149948fb3cbc8857d4bd0615757ade55f7d673a31a04a23554e2",
+      "after": "f0d5f06b523d245d735ec39ea9e7a07b06d5f2b3d8379c18efd606293ae20647"
+    }
+  ]
+}

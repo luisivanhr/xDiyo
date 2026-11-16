@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2013/2014",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 6559
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=6559/versions/0e084db630d24bfe9f3d5c86591c45db/manifest.json",
+      "before": "08e2d2330580f9e73b3cd84a990a40ab9ec0ade08961c2fe6e7cc6d36de206bf",
+      "after": "994d6a0e09d0c634ca579024d2b85c4dfb0500884764bec827feb678ead2cc41"
+    },
+    {
+      "path": "La_Liga_13_14.manifest.json",
+      "before": "765e9a24b0057f29cdb98d22eefbac537884b7464c41426f48c958deb4b3d96f",
+      "after": "ef9064fc63ab18457db61d74ea892c9a66039b94a44b245ca6820512bc6b10b1"
+    }
+  ]
+}

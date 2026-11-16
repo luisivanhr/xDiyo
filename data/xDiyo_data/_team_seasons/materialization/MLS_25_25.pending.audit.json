@@ -1,0 +1,9 @@
+{
+  "season": "MLS_25_25",
+  "old_manifest_sha256": "8450bd725a93bb6879feb603e767037a82077e1ef6fd2bd5c0b79056539e8457",
+  "old_publication_sha256": "88b3a7b1ba5ab58b97d5b45a378079e05365eaf5e4278895930143e4d416680d",
+  "new_manifest_sha256": "2fdd10f4df30facc0b8ec903b6120524cd1d61f5381f066f9bb3ad06b011b909",
+  "new_publication_sha256": "c20d46687329511deba93cead2e5342822b08dd6717e625fd09186c5e2385b96",
+  "matches_sha256": "fb6c1176ab4684e5cee090bd5e2ee2ef7c969b61ef02beb7ab21db510428fb55",
+  "season_sha256": "fd51cf82aeb876aac2f7c588efaac062da3563f76e32280bcb9dd9f613646b6c"
+}

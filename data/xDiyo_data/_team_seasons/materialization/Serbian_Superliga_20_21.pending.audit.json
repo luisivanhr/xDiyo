@@ -1,0 +1,9 @@
+{
+  "season": "Serbian_Superliga_20_21",
+  "old_manifest_sha256": "f9e7ffb52c9ff63eb48e15c809cd5ca384040559315efdf33585722bc80f49b4",
+  "old_publication_sha256": "1944177a8c36cec3b7c04e3cb5c3b617966191521a4508d1306dd67141c0e72d",
+  "new_manifest_sha256": "fee7b47feeec85fa7d9886b9bb74f49d82a49f67c58099d0cd49b44dafb84b0e",
+  "new_publication_sha256": "0a51b93350e644b8794115f99680b80fd96be68ec3087f377ca8034f3628dc0d",
+  "matches_sha256": "fb117588135f66c305c57653bfe00d614c77c08c9856e3d35b4055bbb67533d9",
+  "season_sha256": "805f33487820d5cfe31340864a8f62641cb355a7ce78ca0de419de0797b5e992"
+}

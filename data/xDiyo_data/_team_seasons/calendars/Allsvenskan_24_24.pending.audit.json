@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 57284
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=57284/versions/9e8b2719fede4eadaac0901d153d83f9/manifest.json",
+      "before": "34bcf77405274c1366642eed583bc1c25635845e01da5fd2345054efecfa4126",
+      "after": "46474ec8c13ed360d5d93650e48b500b632162f421acce880d2b45a7465fe264"
+    },
+    {
+      "path": "Allsvenskan_24_24.manifest.json",
+      "before": "b4087b77ed3e238deb2fa7cea8afef78ebdd0ffd2c12bea398d92c8b82ab7bf4",
+      "after": "3e1775808f44d5162cdafe0a4a2ca0cc5d695cd16e77511c2dbe11e77e11cba9"
+    }
+  ]
+}

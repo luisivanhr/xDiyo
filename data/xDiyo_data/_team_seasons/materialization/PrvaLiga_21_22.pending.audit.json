@@ -1,0 +1,9 @@
+{
+  "season": "PrvaLiga_21_22",
+  "old_manifest_sha256": "7c77383a5ad68435e04c21c34cd36a03788b29a7bd136edfd2f33f450089fb15",
+  "old_publication_sha256": "e16b461f5ee3933abdc9ebb70bfa1440ff61620fc34b922d0ed0414bc06b9582",
+  "new_manifest_sha256": "1ecfc1e394cafa0b7be22efcbcf67c08b254ef5dff2b3f0bee68f66ef8de855a",
+  "new_publication_sha256": "016bae430d8c420052f46031f7932138e9f8816d13ccdcff562b408f01c7c039",
+  "matches_sha256": "9fcdd0ad095aa15df0b90bba9fe7673146632686f5dd713867f7308cc24364c6",
+  "season_sha256": "48bf02333cc50b37b1068074bd56ba61683efed5ebdb29137444716648d38804"
+}

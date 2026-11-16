@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ukrainian_Premier_League",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 218,
+    "season_id": 97214
+  },
+  "files": [
+    {
+      "path": "_tables/competition=218/season=97214/versions/272d553195394d33b8e8ced9b251c255/manifest.json",
+      "before": "200caa41927e8ad4578d988747a795b7a37b69d7f08d866e99854cf67e7232a9",
+      "after": "1ee83d944b07c2ecf56f75e158cd739441e65bd2026bb814ccba7b8ceceded03"
+    },
+    {
+      "path": "Ukrainian_Premier_League_26_27.manifest.json",
+      "before": "3b3430f4079b51c75c843de6803a891af707bb0115c58ffd3710095b79be5a49",
+      "after": "055c4ef38cd5ebe00acb9c87d88f5ed4cbb9eebc64ff4b22f24f17ea5c74741a"
+    }
+  ]
+}

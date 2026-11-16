@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "PrvaLiga",
+    "annual_season": "2021/2022",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 212,
+    "season_id": 37326
+  },
+  "files": [
+    {
+      "path": "_tables/competition=212/season=37326/versions/bf267a6b18634e7d969428152f12aa3c/manifest.json",
+      "before": "1ecfc1e394cafa0b7be22efcbcf67c08b254ef5dff2b3f0bee68f66ef8de855a",
+      "after": "c9963939e271d7620aba8d0f92cbe06bd4477052da0c90e9dd9e09408e0eed81"
+    },
+    {
+      "path": "PrvaLiga_21_22.manifest.json",
+      "before": "016bae430d8c420052f46031f7932138e9f8816d13ccdcff562b408f01c7c039",
+      "after": "3043938c0560ad19ae57d44dfeb435f14470420159c22dfde7b0953d560220d0"
+    }
+  ]
+}

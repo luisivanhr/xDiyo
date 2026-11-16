@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 53190
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=53190/versions/0c11dcede4b7404388e3e1b2ce42bf4d/manifest.json",
+      "before": "a07aa4e54dd70c9e3e35206cbde66568dbf68343d5c4327b4609b1bcfbb18cc4",
+      "after": "999ce0e2e978982701b2c4629a22fcfebbd5b69f35ece008904249c39a6f858b"
+    },
+    {
+      "path": "Super_Lig_23_24.manifest.json",
+      "before": "9609f73ba076b321c542be51156094ac052add538e41cdf1a9a49426defc381a",
+      "after": "60b2781070ae1de142f12c7860ac4eaf83156881d754d25c86c9d49878b86660"
+    }
+  ]
+}

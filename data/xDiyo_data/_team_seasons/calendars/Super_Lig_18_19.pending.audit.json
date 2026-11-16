@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 17762
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=17762/versions/cfb2745db2654094aaa697bb4eb2e4f6/manifest.json",
+      "before": "8727147902a3d8dede689b36be9ef9c7f195eada1b4661cab0e529a0d1a5a5b2",
+      "after": "41ac68bc6be63f4f59c7ceb79aea5cb9c027a10b8a84cf8358bb93c9c7ed715e"
+    },
+    {
+      "path": "Super_Lig_18_19.manifest.json",
+      "before": "af6ad942b9eb7537c97be8a4f212bde1cd72740fb7ac8a0b17e3297fc19ff2f2",
+      "after": "74b6517046c4a61884edd313798c2970faf4aaa8786fec754d5ccddb057d0d6d"
+    }
+  ]
+}

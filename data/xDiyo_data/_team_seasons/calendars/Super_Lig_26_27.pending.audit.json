@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2026/2027",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 98080
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=98080/versions/4b960bca2fe1409f97110513271b8169/manifest.json",
+      "before": "bf8b42b091267a072b790bdbb9f28067daa6d431d4fcaa67827a78d0bb4ebc03",
+      "after": "0460f10752bb960abbd2445759716624036cd46efdaf93d31bf96b65c7f78a83"
+    },
+    {
+      "path": "Super_Lig_26_27.manifest.json",
+      "before": "e500b6ae8d218cccadbe87326fc0cdabc4eed3eeb7550e8a0e096702bd542039",
+      "after": "50f234443f6f2b9739bae4e57c9cdf47797d842120a6f908df8ee93c69f7ab9f"
+    }
+  ]
+}

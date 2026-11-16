@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ukrainian_Premier_League",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 218,
+    "season_id": 77625
+  },
+  "files": [
+    {
+      "path": "_tables/competition=218/season=77625/versions/0350c010179c4cdb9433983f22f9cc62/manifest.json",
+      "before": "bd88b0ac47e9203f52b19bf4d3a6e1f2a6b28a65af8b0b3869363695d56c3405",
+      "after": "b13893012a15fc6058c56cedd4b1c2c18efd7a958a5bb65e0d664031823017eb"
+    },
+    {
+      "path": "Ukrainian_Premier_League_25_26.manifest.json",
+      "before": "dbacbddb34c656fb60dffeaadec3bf4e8c7f5607ae4275fa4a27610d9ff45ddd",
+      "after": "a82baee302690761d43e848d5e0d4997b2fca6112a9b28849263b0084f481467"
+    }
+  ]
+}

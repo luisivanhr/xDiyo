@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2019/2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 24407
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=24407/versions/12df9e9c639e4df883aead520a831eb3/manifest.json",
+      "before": "6c1d91c9d2fadbaf41bf871403205a9448e6fd3d53bbb64278a737574aadf4a1",
+      "after": "c8079aae4a1a810fd5491abdb4730b6e2e1fe293e2de98cdfee6d86c65d12e87"
+    },
+    {
+      "path": "Super_Lig_19_20.manifest.json",
+      "before": "a1e92ae2494aa1524cabf7641f1af540cbf5411c780b64a119791a2f1a466a74",
+      "after": "d52951462b0362f612516b68c305f5d31f31fe1e97015da507f9407d0bc3b76a"
+    }
+  ]
+}

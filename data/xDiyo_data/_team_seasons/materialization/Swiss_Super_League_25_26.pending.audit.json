@@ -1,0 +1,9 @@
+{
+  "season": "Swiss_Super_League_25_26",
+  "old_manifest_sha256": "01e93c9b37720a0a92ac5f064f33b9dd9512f93912d70eaed7076a28aee1a4d6",
+  "old_publication_sha256": "c401403bf594d88bd080a4b90ad55da6aabf91cc4fc986ad91909bf941af6763",
+  "new_manifest_sha256": "09235b4749046274ca89c3b91c0cc4594a84f6fc519f02776722504540a145c5",
+  "new_publication_sha256": "f2252f1921920c04019ef680a053a45b63e0ff3d86e9bb8ecc4bd18ead98718a",
+  "matches_sha256": "7226dc753042f9923b08bac065045b642ed3c3ebefac6e04133d52fa2c76c46d",
+  "season_sha256": "80f909008d2d5ce488299f31fc31037ef7e7fa8343d0ddfbe77c6716e8df35a7"
+}

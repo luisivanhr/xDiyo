@@ -1,0 +1,9 @@
+{
+  "season": "Allsvenskan_20_20",
+  "old_manifest_sha256": "660882a40f2016a4e561611756acc091a7f5559950843bccf32de9588eda5616",
+  "old_publication_sha256": "c16e29ef940998f9453d3374c6386555261cf5996e7b63d92a97f5014fc05eae",
+  "new_manifest_sha256": "f144b79b6d9a94aa1dd58dc1b02b0771ef7e066513fc8737c1cacc400ebbcb31",
+  "new_publication_sha256": "30cd47bf1b07eadaa3a5b04eff61e5b22f1ebe255ab8a79f5e486c9c99d8bbe3",
+  "matches_sha256": "e035a63023237d5fa5c42f1ade9ed5f10fb3017db3cf2c424e204c03247ab43c",
+  "season_sha256": "6ed70b277be8280fd68ee7a0b2d865dd5143525183f7ddb2757c8da95d9652df"
+}

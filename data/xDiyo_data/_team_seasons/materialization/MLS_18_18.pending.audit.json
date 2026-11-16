@@ -1,0 +1,9 @@
+{
+  "season": "MLS_18_18",
+  "old_manifest_sha256": "09f2e06b70a9afae06f0e2d3baeaa29f77e19bca1e4f5aeea23cd77e7600c60c",
+  "old_publication_sha256": "fb79c2e362b72851b05614b5f534b5ad383bdb8191b5598595ab273e15cc1f2f",
+  "new_manifest_sha256": "54c2087ed55f630dfd65c4e749d05dbd5c2fb4da1301bfd5c7080a520d648c53",
+  "new_publication_sha256": "68847442b62878379d0a69a98dd21e1bcfcf1b6ff9bfa6a187b47e205a57130f",
+  "matches_sha256": "1f1a6ec988962274917e41f7e8ae3655a9bbcdcca4669f247483175afccb65df",
+  "season_sha256": "5a8f80530050f8a1eec7538e6858620befb9b54289cacbb285f48f2e6c9264c4"
+}

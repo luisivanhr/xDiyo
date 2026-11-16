@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ukrainian_Premier_League",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 218,
+    "season_id": 52774
+  },
+  "files": [
+    {
+      "path": "_tables/competition=218/season=52774/versions/beb2f722b8b14dd5bf214f566dbddcaf/manifest.json",
+      "before": "f93f59c3923a76a8d9dab7c5f72ed1e3dd95c4d55928cf81df628cfbd224e96a",
+      "after": "95131ba5ced24d7aedb74d791752243cd387b52657e9f587e11299061be33897"
+    },
+    {
+      "path": "Ukrainian_Premier_League_23_24.manifest.json",
+      "before": "cdda608922acf87324de304a511780b15cc8186dbfb378119b4ac44ad090d596",
+      "after": "4fb1544e8ae7fb8aa02944bb1c6ea23489da9f5f9a4b4c02997cdbb0450ef675"
+    }
+  ]
+}

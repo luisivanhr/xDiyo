@@ -1,0 +1,9 @@
+{
+  "season": "Swiss_Super_League_18_19",
+  "old_manifest_sha256": "7a0d27c11090037a77b92a3b223a8a9d8ff4bb42ff46a1a9bd522b7addc4fc01",
+  "old_publication_sha256": "869a88b2c8379e96f17610cb70c196eb8a7e20eff7246328eeb0ece3227fdceb",
+  "new_manifest_sha256": "08fba7398bdef8fe1f86f661bb55fb87922df46be93575dfc265fe3b3506fd79",
+  "new_publication_sha256": "4f39a06168e891d283213f0b6c446815eaf76e8739bdd4ac842617634462d512",
+  "matches_sha256": "c82bc188ac403ee7188c4994acb618911747f9d2b3d718eb84b90bf7ed0f02a7",
+  "season_sha256": "cbddcc922278e381e3f50b1ef67e8c8a387d8591a130d9d09954f52860e0d7f2"
+}

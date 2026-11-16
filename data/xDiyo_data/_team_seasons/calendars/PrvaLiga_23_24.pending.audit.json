@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "PrvaLiga",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 212,
+    "season_id": 52395
+  },
+  "files": [
+    {
+      "path": "_tables/competition=212/season=52395/versions/2ebb637dfc5f4b17955c847a76222081/manifest.json",
+      "before": "7a806f7a80e8b1fbbf7b31c30a8c054edf82cfc36a551bf8acb56a81ec9ac244",
+      "after": "284fd2fddc52b949c72966352d39cf47fc306778cac2eae54f2dfe808fb1b291"
+    },
+    {
+      "path": "PrvaLiga_23_24.manifest.json",
+      "before": "40308f642750b76a1f4176c249a892c962513be4ca417ba529304a32467b0fff",
+      "after": "8ddac0e600f40c6554e86eef892f673460d9e94b2e95c31e0398f8ec07ac5de5"
+    }
+  ]
+}

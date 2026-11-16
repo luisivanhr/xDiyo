@@ -1,0 +1,9 @@
+{
+  "season": "MLS_22_22",
+  "old_manifest_sha256": "4f0f4c04b10071baff5ed0323916ccb39221149b2d866787cde0fa6d8ed595ee",
+  "old_publication_sha256": "37ae3b83eec5073c545307e0ce5b0c1080a0c364683cabbab7f77f2c22c78384",
+  "new_manifest_sha256": "938f9578c65e7b34cb31147f569302a0964ef7de483b250ab14692e2afa2e7da",
+  "new_publication_sha256": "272bdfe090cc86b07bdb4d1dbdf0d02fe5bf824b82c8fae52846ff6857eea0ab",
+  "matches_sha256": "9b62cdca3519d461481bf0380f558d3e5b36c5020033ca6abbd82b8072086c72",
+  "season_sha256": "54f492d8c689def0ba4866d8fe764bc1dc5a8bf3aec295520d2a7ff43bc5fe10"
+}

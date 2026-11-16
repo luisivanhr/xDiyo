@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Serbian_Superliga",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 210,
+    "season_id": 61448
+  },
+  "files": [
+    {
+      "path": "_tables/competition=210/season=61448/versions/f33e14415453430b95ea81783a89a86c/manifest.json",
+      "before": "e0ec9a9fcb1eae56579e9685585519b91cb39b6db194b0132cca2b95d2389dd0",
+      "after": "da3f274708eca4d470f1e9ce20f7e4e00506e91fe8e8fe0c4e1edec220f7e80a"
+    },
+    {
+      "path": "Serbian_Superliga_24_25.manifest.json",
+      "before": "f4ceca64f75b410d966f2ebee712233fb4415f4bb4e594d41d54653319830ec8",
+      "after": "de7459d294dcbc81be3a601a68847cd1e8c578dfcb6481b3897977dce2112289"
+    }
+  ]
+}

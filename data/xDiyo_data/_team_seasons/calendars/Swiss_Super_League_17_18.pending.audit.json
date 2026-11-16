@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Swiss_Super_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 215,
+    "season_id": 13426
+  },
+  "files": [
+    {
+      "path": "_tables/competition=215/season=13426/versions/8a36059eeec642da81ff2ffd34e0184b/manifest.json",
+      "before": "0d93ec0a19d01e5c907d32100746641c374b733673e814d2d3a54f004c27f23f",
+      "after": "4049e77fdc54241b6d2775e118d52524f7a9e474d196d898323fa2227a20b1ab"
+    },
+    {
+      "path": "Swiss_Super_League_17_18.manifest.json",
+      "before": "0c58257df45df8c31c442be08c356b457f5d3078d7fa1411b1231f23e65677a2",
+      "after": "a20350c226ea8a1d61137f858fb92ff8616c1362906a4a45d88e5336e6931994"
+    }
+  ]
+}

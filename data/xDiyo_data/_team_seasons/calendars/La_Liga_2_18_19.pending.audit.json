@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 18034
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=18034/versions/dec055c442cf41b2b680acad3d68cb80/manifest.json",
+      "before": "acc184eede580274d076255972fba4edff777fffebc9c5976d7aa3a06ccec1ed",
+      "after": "aeb2277a904c626cfd8a26761157a6b8aa64b1466066de3345591af8ec196c9a"
+    },
+    {
+      "path": "La_Liga_2_18_19.manifest.json",
+      "before": "e83b9525d8818f3974123be4b16a90a81855d08d0deab2fc9e41aaa9218c1d8d",
+      "after": "ce34f52ef1465757fdda434ff55725cf850ed4fef7b30a43ea3f43f7b87d0426"
+    }
+  ]
+}

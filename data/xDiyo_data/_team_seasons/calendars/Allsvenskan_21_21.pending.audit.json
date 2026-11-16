@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2021",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 35306
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=35306/versions/39a3f9d046944e549be52d4ca79d42dc/manifest.json",
+      "before": "1c132258e9b03adef95be6854b4982fd9a7654c5b1ea32aa52156c1ae52e89bd",
+      "after": "671b8a07ac077b57f30ff3987eca9dfc3ffcc478090ada7f48991497afee10e3"
+    },
+    {
+      "path": "Allsvenskan_21_21.manifest.json",
+      "before": "aa1d30af167537b39d81271fccff8075123127c39bc2bd413a7c7c213a03a8e1",
+      "after": "953e49cf1d3c5ff98f2908eecf19fdb55f3d4ec0bb645d3f79ca72077be79f39"
+    }
+  ]
+}

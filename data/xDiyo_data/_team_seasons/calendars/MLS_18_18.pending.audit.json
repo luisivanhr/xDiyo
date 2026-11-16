@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 15813
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=15813/versions/c943c81fb4f94c0783150f191dedf951/manifest.json",
+      "before": "54c2087ed55f630dfd65c4e749d05dbd5c2fb4da1301bfd5c7080a520d648c53",
+      "after": "1af8de396e2c43ac3cd086f53c9d5af02f54e954cac5729896d084a93eab8840"
+    },
+    {
+      "path": "MLS_18_18.manifest.json",
+      "before": "68847442b62878379d0a69a98dd21e1bcfcf1b6ff9bfa6a187b47e205a57130f",
+      "after": "58662916afcad4c8c36c607bef29bfec12c8dd06cb2ef5d8122f771318556bf3"
+    }
+  ]
+}

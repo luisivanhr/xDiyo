@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 13662
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=13662/versions/ee292d6402cb40868f0479dcd81aa48e/manifest.json",
+      "before": "1ec92e17297878d6fa94c8d36311114e9b2bc1647c78109b00b6fb70eb6599fa",
+      "after": "c9f78dfbdf407a54455ecb614ad1382a9946e8e12e3f7df51f8c02cb0eae8bd0"
+    },
+    {
+      "path": "La_Liga_17_18.manifest.json",
+      "before": "b9b22349a293e6213a928fc0bd5b65e12acadc5414a693c3d31979237ffae90e",
+      "after": "685b4b6b406f3d579b866b3c774cc98f0349c03c82733fe06b789144f680b248"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 57317
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=57317/versions/67b515d91dcd4708be5da28bda72c406/manifest.json",
+      "before": "58b21264904c93ccbc449f58889fcdc80314aa38b7db4d854c83be70d11afbcf",
+      "after": "5bef70dffa2a7ef1bdeb22e3cb93ad7f38f80f06974996ae4f03f7c8bad7f4f5"
+    },
+    {
+      "path": "MLS_24_24.manifest.json",
+      "before": "752c6e77cec4aaed7ad4751711d9adc44cb34cfbbff80b575de730186347ecb6",
+      "after": "38e035af97e66137cce48ef6861c7d37a68bdc92447e2f0c412a6374843d9b44"
+    }
+  ]
+}

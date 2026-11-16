@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 86668
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=86668/versions/c3310f925e24482691a8f218a7c26020/manifest.json",
+      "before": "88e7855b973eb6b25737caffe1e7eeff50dde2e306c4ad1e38b0112e36ff945e",
+      "after": "6b4ebfec2d5c2d12a422a958f4ea3edb83b481e6960382767f2c88cdfbd64eb7"
+    },
+    {
+      "path": "MLS_26_26.manifest.json",
+      "before": "6b158e53cd52a1c296c0c6d1b5ec62c066c67c53d50b3635f5055da63323c65f",
+      "after": "ead6a7076578ef82adfa7ecf35698347d282a759b08868180a8a4e79fff6ce55"
+    }
+  ]
+}

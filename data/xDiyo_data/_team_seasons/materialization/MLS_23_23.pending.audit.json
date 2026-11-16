@@ -1,0 +1,9 @@
+{
+  "season": "MLS_23_23",
+  "old_manifest_sha256": "d837bc3e83c4624c86a85a269b12fe930498326dae4a9a3e3e5342b183d3733b",
+  "old_publication_sha256": "5a36196acc46f73b35cc1e13ece19966f8a10aaa7e3fb58be71f363643650ca6",
+  "new_manifest_sha256": "58dfef451e14b9039f0a767d3d937243cfa84e95c87c4f7b8a43f58db9cc0fdd",
+  "new_publication_sha256": "3aa0e1777241f1b1cde0a9f9fd22ec8bba0574f6a88965034d90aab6be19c4d3",
+  "matches_sha256": "3cd76df95e50f34b6a18b2a7da5e38679ce9b6c85a5ebf633bde688489efa511",
+  "season_sha256": "ccb89d8206fa11a93c88e8724ebe6409235642a4379992b3bdb0eb235620f4b6"
+}

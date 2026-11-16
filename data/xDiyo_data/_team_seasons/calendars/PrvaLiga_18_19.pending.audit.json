@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "PrvaLiga",
+    "annual_season": "2018/2019",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 212,
+    "season_id": 17483
+  },
+  "files": [
+    {
+      "path": "_tables/competition=212/season=17483/versions/30f9c26610c44415ae206f2745acb5e5/manifest.json",
+      "before": "dc516561cf049557a50b60af5499779c286f5f23e98f3997e2dec2f754be759b",
+      "after": "d2957c8f67b080cc890d7b0174084227990668c5e38e9efc7e5b4bd6d752fe55"
+    },
+    {
+      "path": "PrvaLiga_18_19.manifest.json",
+      "before": "b5b09e08b0ae52eecdab57c32d9dc4e2fd155924557505c7f7b971c13f7ca41c",
+      "after": "983bcc5537c1967301f241dbd0c7cec121a9d4581343863063d6dda7a13116b9"
+    }
+  ]
+}

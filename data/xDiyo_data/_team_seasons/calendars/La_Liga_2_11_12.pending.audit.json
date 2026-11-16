@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2011/2012",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 3503
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=3503/versions/d30f1f31d5714f938292a85507c127a2/manifest.json",
+      "before": "afc7856c520101cf1c01537091faded441f74f05f8986f292cb52a4fc4ed2af3",
+      "after": "96f231b0ff7b9eff3ed09f98f1ad4514c24bcb1c5e9ed62ddbaeb464a81f8f4c"
+    },
+    {
+      "path": "La_Liga_2_11_12.manifest.json",
+      "before": "c8e00a61aab0e69038b442092baca400b274499bb8c546e94304752670b72b4a",
+      "after": "42a49f0ae0d92707cc9e31f93746427663106c1e2096b554e2d5a0482874cc1c"
+    }
+  ]
+}

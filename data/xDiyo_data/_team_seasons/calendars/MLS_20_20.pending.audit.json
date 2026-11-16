@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "MLS",
+    "annual_season": "2020",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 242,
+    "season_id": 26780
+  },
+  "files": [
+    {
+      "path": "_tables/competition=242/season=26780/versions/c3f41d41f01549cba90dace61295bcb1/manifest.json",
+      "before": "db1f7865fb140742f162a34e8e65f142635d73b1a3e900524054a5087c313091",
+      "after": "dcaebeb6ed1cda03013da30bbb95fd39c19e1c3e8ff55041654c46e7b6031e8b"
+    },
+    {
+      "path": "MLS_20_20.manifest.json",
+      "before": "78507ae47a78b193219d6aa26f1803052e8411991e43e7317b938afbb1eab664",
+      "after": "0321891e78e587daa8d3a4e3cf5dba7f0a8db838c3622835feb9a06c1ee14f1b"
+    }
+  ]
+}

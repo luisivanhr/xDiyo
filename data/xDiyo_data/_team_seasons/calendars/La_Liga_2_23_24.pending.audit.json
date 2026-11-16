@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga_2",
+    "annual_season": "2023/2024",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 54,
+    "season_id": 52563
+  },
+  "files": [
+    {
+      "path": "_tables/competition=54/season=52563/versions/8838bc8f74de45759c6367f0a852ec05/manifest.json",
+      "before": "ddd6303bb3785c265c46d9b3c46aa6c01957ab5ea6268132ae571acbef751989",
+      "after": "f5771447021602672bfaebd9a6ba909dd55ea0a7ec4d7a0d98f1ea4521c3d5cd"
+    },
+    {
+      "path": "La_Liga_2_23_24.manifest.json",
+      "before": "8a32661cf931af0972fe3b3bcf05683ea1d9b4cfa652eb3e0b1263410ed58b2c",
+      "after": "3dd5df94e8697e263c3c13f6cbf67fd36afd4f3122af8c8bd8f68b99e9e967b9"
+    }
+  ]
+}

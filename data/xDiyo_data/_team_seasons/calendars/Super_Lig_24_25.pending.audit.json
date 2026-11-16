@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Super_Lig",
+    "annual_season": "2024/2025",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 52,
+    "season_id": 63814
+  },
+  "files": [
+    {
+      "path": "_tables/competition=52/season=63814/versions/62b5d96210f540eb9091174f6444ee2e/manifest.json",
+      "before": "e267e525fd4cced7a96272a133a1ec78c3f2998de373105f3f7b992f613c66a3",
+      "after": "0bde2bb5f0a3f79db3f2bc9f84cd220fbd26fc98a3a07bfcee38398cbd76789f"
+    },
+    {
+      "path": "Super_Lig_24_25.manifest.json",
+      "before": "17625f8ae608b656a89ea650df6d3ad5b661cc2183cd6809daada2e16c21d973",
+      "after": "d0605c189fcd9dffe7e745daa2456285eff79183b80389d9812de8e3804cb6e4"
+    }
+  ]
+}

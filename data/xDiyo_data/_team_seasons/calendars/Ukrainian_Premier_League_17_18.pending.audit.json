@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Ukrainian_Premier_League",
+    "annual_season": "2017/2018",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 218,
+    "season_id": 13336
+  },
+  "files": [
+    {
+      "path": "_tables/competition=218/season=13336/versions/98d07cee47e9495bb5449d0990336deb/manifest.json",
+      "before": "59abcf74d744515cec544e566a9edbfea26f95e5aa17e0f039136db588bf4b1f",
+      "after": "5b5e72d7f83365fd8d8dd23618edaab47a58bbf56cfa3aa37ee98ba0b01cfe3e"
+    },
+    {
+      "path": "Ukrainian_Premier_League_17_18.manifest.json",
+      "before": "d9251d637d5e9a39d57e0546ffad0c04715b42f8001e11742b09d8cef975d08f",
+      "after": "07a9386410b8d344307918a79574a24d3d2a83cd7613be8002095c6e43f74f8b"
+    }
+  ]
+}

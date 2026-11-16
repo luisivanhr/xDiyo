@@ -1,0 +1,9 @@
+{
+  "season": "Super_Lig_22_23",
+  "old_manifest_sha256": "d29788a50fe76787d241a35cdb6e37ead60e952e4c72b51a2bbd215c54c5590a",
+  "old_publication_sha256": "d551ed3b8773ee133548b628566e6f3396a515a00eed2c59101369b40aa8ed47",
+  "new_manifest_sha256": "3312abeb1508dd5f2e431a05646f4da8ad7a8601a9a3a0f4617e84e975945ed9",
+  "new_publication_sha256": "d1f2282fee56937d5f96c4b1d41280c5640c2b22f22637866f5ca356d676440d",
+  "matches_sha256": "e0942a5d97c559066dcfdb33d11f822cff0d430aec6f51b74ec4bdc1c80145f7",
+  "season_sha256": "01dd222fb2fef940fc53d8c0c041ce2b294246f4a8f47e6e0463eaad43397d81"
+}

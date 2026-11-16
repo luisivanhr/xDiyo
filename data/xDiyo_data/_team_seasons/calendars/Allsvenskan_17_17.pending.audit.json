@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "Allsvenskan",
+    "annual_season": "2017",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 40,
+    "season_id": 12836
+  },
+  "files": [
+    {
+      "path": "_tables/competition=40/season=12836/versions/c6ad5568a2c94c0787d7c3e8e01b7e55/manifest.json",
+      "before": "8e41bcb3ba1297a2051fee83b38a68a9a32b624b68dc30903469b61acc39a207",
+      "after": "92a5cf58b59839692c04722adea570935dd2a5547b1dbf09c76a33b7292fd72e"
+    },
+    {
+      "path": "Allsvenskan_17_17.manifest.json",
+      "before": "6583c7aac3aad3cf6afc64cda9eadc138f56e8c4545777ab3a9712bbcf8cda17",
+      "after": "73850eb25758735f8de9fd887018c45bc68c69b84cc150295d3d1754919a9da8"
+    }
+  ]
+}

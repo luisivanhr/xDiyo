@@ -1,0 +1,23 @@
+{
+  "calendar": {
+    "policy": "native_annual_calendar_v1",
+    "annual_league": "La_Liga",
+    "annual_season": "2025/2026",
+    "phase": "regular",
+    "half": null,
+    "competition_id": 8,
+    "season_id": 77559
+  },
+  "files": [
+    {
+      "path": "_tables/competition=8/season=77559/versions/c199f09c90ad430681e277c09dd08420/manifest.json",
+      "before": "304cfe781c1a9e4eba8012c46db3bedc92136373479bbf0f15fb433fe77952e8",
+      "after": "df8fe956d728f4bb654b4fc699674ebe883bab3fc837811bfd07ab094533425e"
+    },
+    {
+      "path": "La_Liga_25_26.manifest.json",
+      "before": "58fd0464925eb0bf363d12dd424e4674ea8120783ccc84180b309b11dee3b261",
+      "after": "86cdc78fc0827398f8d3be4e14e622c112961d657ea09c978afa81d6b462351f"
+    }
+  ]
+}
