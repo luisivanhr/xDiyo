@@ -80,4 +80,7 @@ def inspect_season(data_root, season_stem, *, record_path=None) -> "pd.DataFrame
             }
     catalogue.attrs["source"] = {"season": season_stem, "version": source.manifest["version"],
                                   "manifest_path": str(source.path)}
+    if 'native_integration' in source.manifest:
+        catalogue.attrs['native_integration'] = source.manifest['native_integration']
+        catalogue.attrs['column_semantics'] = 'Physical schema listed; native load applies the pinned display-name and administrative-ruling overlays.'
     return catalogue

@@ -41,7 +41,7 @@ def _schedule(frame):
     if missing:
         raise ValueError(f'SeasonCountdown needs schedule identity columns: {sorted(missing)}')
     names = _KEYS + ['round'] + [c for c in ('kickoff_at', 'kickoff_utc', 'tournament_id',
-             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase') if c in frame]
+             'source_league', 'source_season', 'team_id', 'home_id', 'away_id', 'side', 'opponent_id', 'season_phase', 'native_countdown_rule') if c in frame]
     data = frame[names].reset_index(drop=True).copy()
     data.attrs = {}
     if {'side', 'team_id', 'opponent_id'} <= set(data) and 'home_id' not in data:
@@ -146,6 +146,14 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
         league = str(leagues[0]) if len(leagues) else ''
         season = str(seasons[0]) if len(seasons) else ''
         mode = expression.format
+        from ..data.native_integration import native_rule
+        rule = native_rule(games, 'countdown')
+        if rule and rule['status'] == 'supported':
+            if mode not in ('auto', rule['format']):
+                raise ValueError('Countdown format conflicts with verified native calendar')
+            if expression.total_rounds is not None and expression.total_rounds != rule['total_rounds']:
+                raise ValueError('Countdown total_rounds conflicts with verified native calendar')
+            mode = rule['format']
         if mode == 'auto':
             mode = ('double' if league in _DOUBLE else 'single' if league.startswith('Liga_MX_')
                     else 'scotland' if league == 'Premiership' else 'japan_transition' if league == 'J1_Transition' else None)
@@ -190,6 +198,8 @@ def season_countdown(metadata, expression, *, schedule_history=None, team_season
             if n < 2:
                 raise ValueError(f'SeasonCountdown has no complete team membership for {key}.')
         total = expression.total_rounds
+        if rule and rule['status'] == 'supported':
+            total = rule['total_rounds']
         if total is None:
             total = 38 if mode == 'scotland' else 18 if mode == 'japan_transition' else (n - 1 if n % 2 == 0 else n) * (2 if mode == 'double' else 1)
         if total < 2:

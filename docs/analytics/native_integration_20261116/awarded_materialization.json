@@ -1,0 +1,59 @@
+[
+  {
+    "stem": "Chile_Primera_Division_26_26",
+    "changed": [
+      15352954,
+      15352964
+    ],
+    "files": [
+      {
+        "path": "_tables/competition=11653/season=88493/versions/ae4363e35e7f4e089a1f58baf8f85911/matches.parquet",
+        "before": "7c5896dde9a9331aa13c0869f710ff86ba2504c827ddf3ed3586806e19141310",
+        "after": "a96a46d4b3501cabeac25b4fc53bce6a80edf2f816eb123d63fe0c4623db7d88"
+      },
+      {
+        "path": "Chile_Primera_Division_26_26.parquet",
+        "before": "91b087f359707c79deb8d27e4933fc9b5cf27b95929be0089edc4158bc173236",
+        "after": "954138c9f2778289aeb981b515015fcbad49ce01872aa1f329a6d9596e464629"
+      },
+      {
+        "path": "_tables/competition=11653/season=88493/versions/ae4363e35e7f4e089a1f58baf8f85911/manifest.json",
+        "before": "77542e0dc551961d7fafcf7dc3f2b32eb931e1ac84441e0f2348bc214724203a",
+        "after": "e8e97669eeffb28dc2c96bc46cf3bc479dba7307aa0257df2a807faf01796021"
+      },
+      {
+        "path": "Chile_Primera_Division_26_26.manifest.json",
+        "before": "46acd4c5a9c4344e662d2a1308716384cd8f61e704605f197ae0242e1bc0898e",
+        "after": "97daa767498d896817be6bf902e5e634c585102a4858963adbd401c38b64826e"
+      }
+    ]
+  },
+  {
+    "stem": "Colombia_Primera_A_Clausura_25_25",
+    "changed": [
+      14115336
+    ],
+    "files": [
+      {
+        "path": "_tables/competition=11536/season=77825/versions/fde9f9fe74584841b310a206de625bb4/matches.parquet",
+        "before": "d3ec3207d0e339134bb1e7e5864b291bc73e450914e4b828d27437e9fab1a8c0",
+        "after": "be1d83b55fe5a4163117bd0c438c1e88ee406e8f1cbcfed3e8108c8e9556d472"
+      },
+      {
+        "path": "Colombia_Primera_A_Clausura_25_25.parquet",
+        "before": "18eae0a5dd68339fec2d15ed9268e1b9dba02fca0f203071e6dd640cc8b9e80c",
+        "after": "dbbeff253af7cb9133213b2ffd4eb6d5fccdd19a36e3a6d66f6a911f5dde4b51"
+      },
+      {
+        "path": "_tables/competition=11536/season=77825/versions/fde9f9fe74584841b310a206de625bb4/manifest.json",
+        "before": "2d3a07a29288d93b19348078edf8bf29e90fe4155d02ad6108a534f44d0d16c8",
+        "after": "216ce0e4f21be34a24efc92090a943d3c2458558c4319a00af42f8bc2213765c"
+      },
+      {
+        "path": "Colombia_Primera_A_Clausura_25_25.manifest.json",
+        "before": "042904f47bae6d40b5c730c214696850d48b2d0f305ccf5114657b8f358ba243",
+        "after": "f081e710bd172f4153f7d7ca8346a5ae7b10ceff31f8b356e73455936e1ef033"
+      }
+    ]
+  }
+]

@@ -1,0 +1,3707 @@
+{
+  "plan_sha256": "d2ed3c3ec5d2b0809a45b14f1aa8ae7d6b92977247c0a11a9bfda5cf98f82625",
+  "receipts": [
+    {
+      "stem": "Liga_Profesional_17_18",
+      "manifest_sha256": "76f73334d3ae83fe0074b9349230472048b526622701583ca56de206ba96258b",
+      "publication_sha256": "630a42932654580bc7af22286f87827b7c2f0f23badbceebc7d2af7bbbb60642",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_18_19",
+      "manifest_sha256": "be184c79664cf9f3e46f55562218a39122204b3bb7b5f1b1dbe9c92c31f6f042",
+      "publication_sha256": "5e3e5cc620adc4d4977d4d933e7f116ccb82c7f9c69dd993eda85d908d2fdb0d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_19_20",
+      "manifest_sha256": "8b2c144a5d9d41f2940179538642bf36b7c7dd072fc909f3de1193c4c4a0b05c",
+      "publication_sha256": "60e37bec544ebeeaa0e51346f1d33ebc19e12f8f2fd5e8fd53b46e63b886c11d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_21_21",
+      "manifest_sha256": "cbc0a2723e1c7df03500616bca4971386c1cf8a93fc1b4ce1c6908cc5bf628cc",
+      "publication_sha256": "d40ff6ecf867706e5589eec5c21a418ab303b49816beaccbfbab4b8f3c39505a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_22_22",
+      "manifest_sha256": "d214c8ff09e0688455c27f26f87d51210a9b8a7e4a01ddda28858ffd9c72f894",
+      "publication_sha256": "ffff297f5d3ba54d9593108f268a3062e0fd2664328c3897a8a2ea9c1029b356",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_23_23",
+      "manifest_sha256": "69d74a0a8a1189b502031256ad5dab1dc5c79ec41a749381898de8b817603757",
+      "publication_sha256": "21fd4816130f90f3d3fe335919d31827c62c919a482f76ec40c9c8e63aea725b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_24_24",
+      "manifest_sha256": "79d1775bb0d227b5b300b20849c5b526c252b52406dc2ffb04cea2f14c424673",
+      "publication_sha256": "9a26d2201127af677dce44d4de7687fe39af6f70963916b0eec6dbc8cbf2c8ce",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_26_26",
+      "manifest_sha256": "c99549350ba5470d57167abca2d807be9ac4847cc9c07ff624eaba2861c3d177",
+      "publication_sha256": "c68c0a6d03e74c82d293ff98fc41879e8e7729c01c4cb3975204a39436def247",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_Apertura_25_25",
+      "manifest_sha256": "131c6a5ac08854f83de8f74de3bc444df23f09a980e14b77f360c17a4c6db632",
+      "publication_sha256": "c03f9d39b611b6b0f6e6e21e189cc32e7b47509cc9308947d4c48ef9ae8d692b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Profesional_Clausura_25_25",
+      "manifest_sha256": "dd2fe02dd9b9fd93fdb7fa4bb289f8a16d7eac36b2e1678b9ab5797ad5b05fbd",
+      "publication_sha256": "b3930b75947929c1115b561a19f85f2bd27e5d7574b7e506e5262b1350c97827",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_17_18",
+      "manifest_sha256": "f1ae2ab0e94a628bb68bc27fef5e6cc39d978304546d0eb175063e317ed2733e",
+      "publication_sha256": "82d86fdd780c4afbdb227eb20fc56ad7a1fd7db7f703a14f9fe2d8d7ac93d3c0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_18_19",
+      "manifest_sha256": "40b4879871e3026be6e3af0a8780a7e9d7824216d041ae293bf7078702d4a3db",
+      "publication_sha256": "2d09a14a4a15016db2a9bb7f8e1a66e863c7b03d73e2493009f942bae84d2fce",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_19_20",
+      "manifest_sha256": "cb5ec4dd05be7c0355be8f4f03e896fb83c79f75d042eb13955b5b5d63ea22da",
+      "publication_sha256": "3a8618499250959df9e373d26916073dad97662a8e11fab4d9f796073228b9c1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_20_21",
+      "manifest_sha256": "aab5203f80eb8c10a614fd11e040542f1301807baad9996937de5abe6b6f65a8",
+      "publication_sha256": "76fd93e6f00169631f3239b17e65cc64199075052b40310445b8a35f23da93c2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_21_22",
+      "manifest_sha256": "f52dfb8981a0d4eec7bb90a0ca7b1e5b495059d2eac89fc89fecc245e19259a8",
+      "publication_sha256": "5c3640e3104c0aed8cb551e041d8b9beb70eef5e66dfdf2b0ea49142386a0152",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_22_23",
+      "manifest_sha256": "a10f7d5739bfa16bfbac9f2e7ae0122769d333e545e479e45902ee6b82f8833e",
+      "publication_sha256": "d0d65d8192f37590df76db0b84bbca5cea86d029f67ddf7f506f5ce299423d8e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_23_24",
+      "manifest_sha256": "75fda96256d51e25812ed1862b5484a5dd5f59a6b916a6d32598bc47758dd864",
+      "publication_sha256": "75a769c2414d582bfe9b7bff42068acd71083ae3a222e1e2f0bcd0e5a31ccc46",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_24_25",
+      "manifest_sha256": "89bb5b5d4a7a53c91b8426708b4e046969f15c71d2a20554b634f9f4c8a9cd8d",
+      "publication_sha256": "00b65e10cf87109b855d45603f4de7bfb4a1d9c0b7436a21cb48d7fc2861956f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_25_26",
+      "manifest_sha256": "5d8f905770b853e60e09ea255ba6676e7485d9e1e52cbafad429f9c7afe80c31",
+      "publication_sha256": "474b86b72a6e14f4bff3d14bd684a0090911cdf28f6146791d267d4439188fdd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "A_League_26_27",
+      "manifest_sha256": "10063bfe51185095107df4e3cd5b240deb02f6f4652cb9acaac1916823a62948",
+      "publication_sha256": "6333a9978e9f54b9b692375a811a578e3b287d92d1f24da8ff1a74ad77b62d0c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_17_18",
+      "manifest_sha256": "8652805d35830880053d8cf0e3fe91296792a869423e40280bcdb7a1cff73166",
+      "publication_sha256": "9b1d35d39ad1895071d017ddc8cbfbe5190d9067023023706e666c3b18fded41",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_18_19",
+      "manifest_sha256": "6935a3cfb89b1cd97586a109e3114831e5aa5d495e80cb4a7b6337451c47df82",
+      "publication_sha256": "909c2c488fe9d04061190798d9169182614e89aa783ea64f2de68b6034eee084",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_19_20",
+      "manifest_sha256": "b1c1e55c4a6f2d0a4b773b967fbab749cd7a5b5350e3ebf8bbd8c790b2c01bab",
+      "publication_sha256": "7c0c2149e71e1cd60ee8dbbf0d51a7a126bb3ee3faa77e183e6496a8668b29c3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_20_21",
+      "manifest_sha256": "aa581988e878b6091604057e239a9fe559a9d6565ef1bc4ae42150509f7be700",
+      "publication_sha256": "49fb849babc84eb83c58a3289caa5f4d871a30c4417eba7f510a516e88006eaf",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_21_22",
+      "manifest_sha256": "c816c8308d021421dcfdae5da074c63db948fb725542a94b0631b65eb0965594",
+      "publication_sha256": "5a66e6fe805a44adec1f875426c0051da1dd430ec26a8d4d2a613ef6f832a262",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_22_23",
+      "manifest_sha256": "6adca5e45f0014ea5f95fef486e429825fc44c6d36c0825470865c7d4825332c",
+      "publication_sha256": "5a1c8ae9be463f5781968c5cc81eab48ed103288641c1af0a3f535c5adfa1fc4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_23_24",
+      "manifest_sha256": "cdab30a38f5bdb810b5e6df799f603a43d732481d1d927dae538b3ce6019a7e2",
+      "publication_sha256": "ad8df304cf11554d0cfdc997102911c86ad005a61f634593b0ed05959ed0d386",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_24_25",
+      "manifest_sha256": "0fba6d6870d0c7028a400c8dd060b03ff6ca27609e5cb43ecd547de248532f3c",
+      "publication_sha256": "bf7221d9a973f303e633316c944b13435809b4a62e94d8df2eaa407f65de192d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_25_26",
+      "manifest_sha256": "4b37b4bbb87c181c3fa26b53c806f03147639e974a2ead58a5835c9c524482b4",
+      "publication_sha256": "3c3eb27fa638d5182e615322ef2fa4f4d7dbad1ce2306f2ab2c6110926bb3dbd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Austrian_Bundesliga_26_27",
+      "manifest_sha256": "11fcd039dbc9ba9bedb0a58fc9b2d4a78335dc8144c152f24016344dcb139df6",
+      "publication_sha256": "26490fb4a353371302e2d1b1a708de9480e127f59a132a8f3fd3ab4bd6249986",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_10_11",
+      "manifest_sha256": "2f9b09655ec43b639f59e2b77229b4faaf560976125e0953186f69ea0185f364",
+      "publication_sha256": "675cc9ff2842288944eecfca0efcf2b7429ffd830b3abc785f289137b6f6462c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_11_12",
+      "manifest_sha256": "b7efaca07d2eb74e0cb7e3a0c2b181e24933b7d5d929df5294fe7531e6da3584",
+      "publication_sha256": "83af5c2c00ac1b2efa990238a1c6ef681abad11e47c5db98a3ee871d6a88992e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_12_13",
+      "manifest_sha256": "f6daa68c09c3e6390cc731d036a287e38a0dc271bb72338e493f447fe31e4a02",
+      "publication_sha256": "4d0f6ca13c3ebc249bc2aed3c532f5cd943dd75dc87c6b2b46b25c52240f80e9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_13_14",
+      "manifest_sha256": "f1399becb29c71aa9c3f23c1b91fbc3c7bbaefb25404fc197d0eeb396b7f48c8",
+      "publication_sha256": "c9404018553435407e94c871382030c66bdded42289ed47184ebf6c0982060dd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_14_15",
+      "manifest_sha256": "6a975e2a8f30f1677a0da52446663b1a1e28583d75ed519bf0b00e61e338fe9f",
+      "publication_sha256": "d50e02b7bdc77091cd5a6c1f789263c382576d136d369a03aeac75c2dbec3533",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_15_16",
+      "manifest_sha256": "714956501b81341e85867b7b4aa499c2fff8cef73cad5ba62e6ceca0fb67dd06",
+      "publication_sha256": "ac7cf135f4afe46b151fa28ba0ae68def1d971f60bf2ef79839e5c3193a11dfa",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_16_17",
+      "manifest_sha256": "8675d63529498fd1cee85b7c9e027bafef12d59a7b7dfe3ee980a1932147e69b",
+      "publication_sha256": "ca4a67fa881dcfd3f18d6d3b336df32315707b0cf6f25f92fe2cb181631bd4e9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_17_18",
+      "manifest_sha256": "22a089ece0ea189b4ce5240a3d1f2d8ff9fff15b5aea575153b91fbd2f58950c",
+      "publication_sha256": "1e936cc6347c5df4a9d14a90fe1dc10bc73d743a8216d90cecc8c1c8c67bc0af",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_18_19",
+      "manifest_sha256": "caf257fb5634a3911c38ae367a1fa41d065094b7b265ab09436585e9827d5a7f",
+      "publication_sha256": "3247aea83f189c59d86863d1368abb25c326e6580362242ae87ad426a89eadbe",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_19_20",
+      "manifest_sha256": "601e1cf96cd9995975d06dbeef8a6378ef555ef4fef45bcb47c1cdbfabe3ff18",
+      "publication_sha256": "de1208739a6f4bcd45fead90a85c095a230b67092166053466d94618a66361d3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_20_21",
+      "manifest_sha256": "de30915c95b1916f4ef90f7ce5face5ed1b878ecbdaa3c8974c6e36495bddbd6",
+      "publication_sha256": "130e5a0efcb0751b4af1656850b1ccc335d6af5fc239cfbb101348d4e8707678",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_21_22",
+      "manifest_sha256": "1bc6d2d2f116d77e89f443e7778f230fd03f74a658af644bb9a8356548017751",
+      "publication_sha256": "c126d323bb11513c67197147cb27024b68aed7493e5426f4bcacd5a072909872",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_22_23",
+      "manifest_sha256": "a4563abdc9be1558a6bf79e71e2eeb67f955d84f95a2d45a650dcf147170b2a5",
+      "publication_sha256": "2d39889569789d537c02d40f410f973221ae674a664b5f8ddf7a1d29048a6909",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_23_24",
+      "manifest_sha256": "9bbe61878e73d5583336df5753ab27f84d5a026138791bc46c2708b6f3d52b90",
+      "publication_sha256": "9d9ee22846253c8f6aea331ba789a42eaa49505cf17f242bc879aad259a41b76",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_24_25",
+      "manifest_sha256": "850ac373ea20892ce960b61099049cc44c57a82cbf30029b53919b3d88104c30",
+      "publication_sha256": "f4470cd366d81b75911e3758461d6084d1f0f693cfbcab6be72978bfbd868078",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_25_26",
+      "manifest_sha256": "194c9ac9355744d8e774db8f366a3f7c975c21dc5d8aff4423813e2bdf748d40",
+      "publication_sha256": "8880d8a8f505194b68c77e6453b806e95324cb9ebc12a0a2c26eb2bf9950afec",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Pro_League_26_27",
+      "manifest_sha256": "f21d1471fb9d844c2705dc00602c92d05ee9755ef63d686d734c73a6cd4ce4a2",
+      "publication_sha256": "0fb809a3890747ff607d78a4abfe7e3e84dca9eebead61801a3c79b0ad473762",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_17_17",
+      "manifest_sha256": "465f6bac51c633578dc001de69ef54fe6afa76fbfc49d7f98054195c431901c2",
+      "publication_sha256": "a2f6d46396295c3f9b5757c3402a6866d8dc31759d34ae963f24991c2e8b1520",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_18_18",
+      "manifest_sha256": "e0a78f4edb89661366e339003d8e6967a39b9ea5561ddfb53b9a347cf5b7f134",
+      "publication_sha256": "270176fd248c508c39e2f4673000b1b4d2b2b856a8680778e4096b9ed521bd58",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_19_19",
+      "manifest_sha256": "640b57e257e2972ac3497f6db93fce2eda7b72eaf927824298b6eea8e75a08a6",
+      "publication_sha256": "d5c362e2699e3b8dda2a21de124431d1704f8e77bdce52ee46fa931f99e35ff3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_20_21",
+      "manifest_sha256": "476af822ea12cd4b71b372a05b5b231fc1546e84fff2e48a9c2daf805536d10e",
+      "publication_sha256": "c95258b28b77bbe794fcb0984240b5bec4fc984b9b8c570e2792154145fe04fd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_21_21",
+      "manifest_sha256": "c1d3b57d9078be263f3bfc20c688ae0a566b2a1a8a510588eb24d5039756bc9b",
+      "publication_sha256": "19e813ed603ecaac69ee7fc7ed3de993967870ced216df6b940a00c08e1fc9e8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_22_22",
+      "manifest_sha256": "a1dba36323e4404e1ac4e687208537b5a90dcf615aba147238f9d7b00d33a6c8",
+      "publication_sha256": "cbd54b2535e90dd4f73f1e9b1adb87dfe033aa31a240475721153753a711d238",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_23_23",
+      "manifest_sha256": "75e9d2ae5286c8b9821f73ea89dfe35521f3f611d69d288400facce7c2e9f739",
+      "publication_sha256": "0e4df74c8262ed066331f51c0eeb79cc66a01befd2cd5f052677149af588cb09",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_24_24",
+      "manifest_sha256": "93cd8e0b877d029711b17c7c9342bbcf8817251dca51654eb841c9f90482dd61",
+      "publication_sha256": "dd56178d67496dbc934068cf336cf69f4d99d6ada418293456e88ec4167ef366",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_25_25",
+      "manifest_sha256": "beec02220d8afded8077148d4da488531a0ca210b6d387d557154ad48bcb760d",
+      "publication_sha256": "044e86d0feabdc382f5643d5299e079adad878f1dc2558fcf5d3a1ce0d1d9ac1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_A_26_26",
+      "manifest_sha256": "4c070954b202091bcb2d48afda3bebabfca4d73ca19a6a1fbcbd0b9c339fca5b",
+      "publication_sha256": "1af7da7558ec6d11ed5e3c53990faeb22436499eca888b4b2eb44c46600ba017",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_17_17",
+      "manifest_sha256": "365220d669909aa875337a049fbfe5988e43cf96ba020f2c161b568738b0e60f",
+      "publication_sha256": "7f6325419bfdefea657dde5645db5b112e4b5747fc096a25ecfc13c246847e9d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_18_18",
+      "manifest_sha256": "abc0d230cae2f710972308c0c5590cb66ee03dcfcbaca6b7ff139cc1932a0943",
+      "publication_sha256": "044f14c162ae22f2412226de5d94b00cecb93643273e427195fbfc13ff4682d5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_19_19",
+      "manifest_sha256": "ac3c574e4097c0d0cc038d530894457eab310f16b48738ef7fb4a67fcccca72f",
+      "publication_sha256": "6bdad39a8a056bce92b4f6e754c9a421de920eb7ff46ee245ba562c85d59c1cd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_20_20",
+      "manifest_sha256": "8b1a41435b3c37abce8473fdeae7741ec607a7abdbffb17aa8b043fd13cce54f",
+      "publication_sha256": "03334ffcd383c09633a40ca6b3cea64eef54e3a8c7866285b334436eaaef3c36",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_21_21",
+      "manifest_sha256": "4d949d5db7dfbc26728cc561ce2ff54f333029587cf6730be88cac88be21f592",
+      "publication_sha256": "c081fd54d3f7552206fc320d4735985a6bcd6bf338145470a55dc77bc19a6682",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_22_22",
+      "manifest_sha256": "644046744e6cc849a9baee3edd9b342a7ff093afd2933fd7cd8cbdfc3c53d4ec",
+      "publication_sha256": "e5761bbd6f9454939ad20412ad37a1127d90291fbdaa5121330a5c2ebdf1a1a7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_23_23",
+      "manifest_sha256": "3bd93e85070795c9aaf24a6e5340b7e94d17d31e3fcc5595db4772e86f0e62b7",
+      "publication_sha256": "ae15bc3738ff488b8713b7513d46361e0f607e19afb7256fd44d009e7f1d7ce1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_24_24",
+      "manifest_sha256": "2d33fb683cc217cd3423cbcacae820ececc5ea3941e4e1faec8c2f8c50e4b1e7",
+      "publication_sha256": "5e695be9b85869751e72f7ed89bdb00a6fb3c5ed893156ecaf222a49261fc062",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_25_25",
+      "manifest_sha256": "563894dabde43a48d43e0914fd47b89f2bf63dc860cc00d4186ba3888eca657f",
+      "publication_sha256": "126a75371285d0e5327b6c47bacd33037570892f6480f605fafea108341c1786",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Brazil_Serie_B_26_26",
+      "manifest_sha256": "283c2b01243e805c4a6db8fa29602da2a87d090728ff71d9cc1ba9354d5afb66",
+      "publication_sha256": "82dc709a109dc5f08140ad48b418092142661be760b6b5b4c4b7e53ad61724d8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_17_18",
+      "manifest_sha256": "ec374dcd00e594668da5296349a7aa4d8f513cabab9e652b3a1b5ae7d9652b9a",
+      "publication_sha256": "8eac2fbbdc625455a38ff68ab08f69c0a2a4bea76d4b87cf9fa825ae1386e096",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_18_19",
+      "manifest_sha256": "8f0b09596d197903be3869f4c5bd3420181525cb4f8101fda8e29d15952b0d16",
+      "publication_sha256": "af3ddcee6fe8bd994f2f72614cbab45ce2b40e371bec29651517da9c60ded0a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_19_20",
+      "manifest_sha256": "8bd4b02a8525d6d12c1abacd1179c246407f37bfff866a450783d20cb033bc7d",
+      "publication_sha256": "58183183a526c9d10ac6a1952900a33834478652a98d062837cf1579c885da13",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_20_21",
+      "manifest_sha256": "96736c7f7c63d199bd9b4e8010576148dee871a6082af67466f97c729ad9cecf",
+      "publication_sha256": "2298552e2fcf1e8a20082bf0051662cc75fa83554193eba4995a4f4b6a4c1f68",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_21_22",
+      "manifest_sha256": "8d02212d0f1e43c0fce7a972c4d7fbf780af9b1ce78c82b2cb4117d44d97f2cf",
+      "publication_sha256": "7a7e9b58373ed7fcd98c20b4930a7985f028ad9bbca514fe3563a2832049186c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_22_23",
+      "manifest_sha256": "5400198afafa45e7fb7714b82a9b954bd5e7a82c6cb146d88dca1be9ef9cb84a",
+      "publication_sha256": "acc2fec0898e329672228c5773cdeb8b5d7a8fada13f70a5ecb9714f73594f44",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_23_24",
+      "manifest_sha256": "0064ee0815996286c2d93dd10337f99f22b8d30b36dd3fea2a66c2554419d8c0",
+      "publication_sha256": "68ce601188057a84295c422818aa1e1991da1497b237635287848d7564e5cf47",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_24_25",
+      "manifest_sha256": "e6a131a04de0b6289c74536942b844ad16adfe48b66c7b6030b4a4e9d10e5968",
+      "publication_sha256": "979c96cc5bf0ddd59e463c33366bf35c3c6ec7c2a0399a04610d7e41df787f86",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_25_26",
+      "manifest_sha256": "e78b664f3e10a2f5b94188649565bde74d703930cd46ce91defb46bdfbc34eeb",
+      "publication_sha256": "a8265f1cc57a65123036cac29e0d5041a9d82302ff903d36cd425c03a38ea7ab",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Parva_Liga_26_27",
+      "manifest_sha256": "beede89f76cf5d4ca72e805d35b122ec61ef7ae4c01931ac1f36c99604a43e7d",
+      "publication_sha256": "fddb2707c46d69fef6767660cb6ff19a9a6d4c0c4c0f55dd7b744f1aaef76bbc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_17_17",
+      "manifest_sha256": "94ca19bd295f4add70ec14afc12435c10a4cf2292e310cdf23b7655970d5a740",
+      "publication_sha256": "8af8abf81e136ea988a16fe7d101c50cfd8c697afcd0c5e3812c9e11f9805b50",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_18_18",
+      "manifest_sha256": "8c468d303c55c01baaaea7e146cd177b1518002c9de55948728ad72f2b5bc789",
+      "publication_sha256": "a6b2b57384d54b42f0405efbb6f926d3f1e7ec17b1ae5935812d8b5d37816a69",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_19_19",
+      "manifest_sha256": "c9056d229b1419ec5b77b8ac578878ed259c338ffc45822c1113dec2e50532ea",
+      "publication_sha256": "2f653c0dd414347f24893f0c7e97d1df64ec68fc9ebfe8f3991515174ba0cb53",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_20_20",
+      "manifest_sha256": "12c3978b6e7d9cf334ed9bfdf114491460898be7c679e7dac8fe17a58dfcd79a",
+      "publication_sha256": "d0235c3c3f0711c80442ddcbb5bf3429f6cb949113453d5bc900893aece46711",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_21_21",
+      "manifest_sha256": "bb9b63eaacb79beecd6e4c6679b97eda2dc7fd8cf7718844003a8b3cc11c0985",
+      "publication_sha256": "ee86f89190ff67f625e28fab54db7f878f7db84be2552a7f151707d807d8d449",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_22_22",
+      "manifest_sha256": "356a3d463f3afe28ef38a6dfc913552b1142ab334dde66ff2059f679928c518b",
+      "publication_sha256": "7093fb0027c1ba17718e0d21a4dee8e193d6d40f14c0a0fa48ee53f8396e2189",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_23_23",
+      "manifest_sha256": "846faeced0ebe4db02af828a083c966e1051e936371d4d9f174db93891fad2a6",
+      "publication_sha256": "3ed6ed8d73f7a7ba1f3dde57a08983a81dc3b7e1eced5ab99a5564c3a571fb82",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_24_24",
+      "manifest_sha256": "30db33bc65336e2e672892bc5bf6fc8fdde73072735879092dfa8b8d98ae7db8",
+      "publication_sha256": "7eb027e4287df51d3ac4278fa4b4070bef570cd420003cdff7fa82596beb0dbb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_25_25",
+      "manifest_sha256": "dc7cd440eccd1f8d50f3fa24e7eca85c153ca6fa352e0b3f7b681f45b9cceff5",
+      "publication_sha256": "33c4f2f93687de08129efc1218b6c0f73dca70715b7321260b3d24697a96cb49",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chile_Primera_Division_26_26",
+      "manifest_sha256": "e8e97669eeffb28dc2c96bc46cf3bc479dba7307aa0257df2a807faf01796021",
+      "publication_sha256": "97daa767498d896817be6bf902e5e634c585102a4858963adbd401c38b64826e",
+      "observation_tables_rewritten": true
+    },
+    {
+      "stem": "Chinese_Super_League_17_17",
+      "manifest_sha256": "5e2d4d281ab079e75a6f4bda47b2f05c4f933d65869a3025388ce6a235e5e3c9",
+      "publication_sha256": "9b18ec066707635ba28dde3bbe76dfdb41f60d412e8de60427a7b7a03a546ac6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_18_18",
+      "manifest_sha256": "69b9207311400233cba0fe5ae3a20b750ddcd2dd97353148edfd93e82b17f658",
+      "publication_sha256": "3cdf7e274f6b789553bca12c401f578b96120dc6554983dc9662d2c16ce54c8d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_19_19",
+      "manifest_sha256": "bf7b51dcfd6d7fbaf91baebe41921b99b1c3149d014d8e0e87228af7c387b262",
+      "publication_sha256": "4a9c58f0a33b815a43c1aeb2ac130f5e281aead77eea6494532cac26bbb23c80",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_20_20",
+      "manifest_sha256": "1b5cdb8735c3acc500a25cf7cd445e564e3a5a5d7a8cf7d0fe9bf5c08ad63ee5",
+      "publication_sha256": "6a964421684f20063e546e6000f882adc58ce0b94b2ee6c39205c0117525b9ef",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_21_21",
+      "manifest_sha256": "5560e7f70494c8c786eea6f88623cfb5072a0b201d23892c2d8b1df698eb8270",
+      "publication_sha256": "c7c26f997d649a6dc289c45d9125a9279f8ac27a6dbe37dc0086596203763815",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_22_22",
+      "manifest_sha256": "f1ec1a1313423bdcc2ff0894696bd9d8a21b4b88b6ce8e7c757ea2a75440f775",
+      "publication_sha256": "642c56a9f845f6a3c841ee755fe0d0cc33e5f12caa27ddd4e155e2afd4283e7c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_23_23",
+      "manifest_sha256": "981b067f1a79eacf162d14b89468c68a2172103c6daf4dd983d2b22f9b0ca81d",
+      "publication_sha256": "83a03e30606ff967172f4e88dfa5c8205b8b29cda9a5a9af78d6a8b83b63498e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_24_24",
+      "manifest_sha256": "1fee01e2e51fff9f2b7caf5252a1b346a7b1f9dda2cee7107391305cf39254b9",
+      "publication_sha256": "89e3d75bf7192c9f7bf1e28082544647c61d77dc0662de379dcdd11a7759ea86",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_25_25",
+      "manifest_sha256": "6d5c8bd0ffc319826a708cfe6610981f127b0aaed0acc690fdf900f2bf049083",
+      "publication_sha256": "c25faeca3418aa49cfc221ba8b798d5fe5f518657a63e0bffda1ac6433e01e26",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Chinese_Super_League_26_26",
+      "manifest_sha256": "1a928914dbe4b25db35b8e3a297ac4170ebde17a32b4c0cde71a28eb1e209d99",
+      "publication_sha256": "3aae5cf12b8736d06a9556abe5bf7a2c6703739b62221b58eca45cad7076d299",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_26_26",
+      "manifest_sha256": "3cd23b420ce5d93f70fbe4c11e3a7bc14cfd179912c759b8df2f278b00b6cfa6",
+      "publication_sha256": "3ff28d6573cde71b8f51aac01389aba78d7744221a669dd7511717183e41e5f8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_17_17",
+      "manifest_sha256": "fda274910ff29d1b38bd9e582fa1a95b6db61caf606f122cbfe85f1301b27d9f",
+      "publication_sha256": "6890d5f9a4c685d9024160108371bb47fc488652b2b0eec77984e68c3f5318ca",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_18_18",
+      "manifest_sha256": "2829e85e64e28d7352b4208e7aa6b26727dd02ee9975113033195e8be324771f",
+      "publication_sha256": "da7b169a9422023a1fcf2a235bb8e1318fb783b13b166317650919a83e76dfcb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_19_19",
+      "manifest_sha256": "e185ec70d69336b364aa8af544b02a4c749465d742091be2fb5ee1eff3287ab2",
+      "publication_sha256": "c1c705e603dd9472e19cd72afd6789da6ad10e363fe25e3dadcc98543ae13c18",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_20_20",
+      "manifest_sha256": "800ce12587fabd2286477693a65f1ad6b27758871b037314525ade41032ddbaf",
+      "publication_sha256": "2f01dd3b57b7589cb2736fcf33b5346bdf8d2ee4f99726d4fc3f548cffb0ec9d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_21_21",
+      "manifest_sha256": "6643e0b02881cb927e334fe8a93c372413c50232b8d664039c5b284eda5e3078",
+      "publication_sha256": "71d787920fe3babf9445b72e82e085acc512d1d424849ea2103b7bc936ba530e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_22_22",
+      "manifest_sha256": "a13b34cd0b8d4aff65de0e8f0e0f2b5389c0eed0d595c950c2b0bf3cdce2dfbf",
+      "publication_sha256": "8b0a8f65f6252f12f162f3c46db830d5309651f6cc86dd74fcadc38f6d0405e0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_23_23",
+      "manifest_sha256": "a64b111b6fbe98b3a5738d02fe3b2749a2310ec089350bc5486ccd5b2e0ab932",
+      "publication_sha256": "5d9dfe66b01342d5f7661f08b06651e27b15ead568bc07097fff9c2301249969",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_24_24",
+      "manifest_sha256": "8ba1e1015e365b5bf3bac7417925fa803e87f0ef0e8b8af3b6d4d395209e2ba3",
+      "publication_sha256": "29e45d2bb418537f6f41eb57abe46b5e780ae030aa7def1cd0f1492823e23770",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_25_25",
+      "manifest_sha256": "77abdb80dbabf034b95ed1b61669ebda0a20d47a2715bfe5414954e0c21968c4",
+      "publication_sha256": "93f1f38771526911eae7f8d93cc88e2f2dfe16284bc945185de29bf0c4d851c3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_17_17",
+      "manifest_sha256": "f58b24ad7e672fd50367e2362f90fd3cd46de1c7747e7fccdc9e897f853637c8",
+      "publication_sha256": "34f5690109412cd02c4605c5002c7dd328fb25519dae5215087eddba482c0989",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_18_18",
+      "manifest_sha256": "a8376c01b4ed04d3ef50e05665cb25253a4d948ccdb6d56d801b455cf30b993e",
+      "publication_sha256": "ef82d4f2745b134c516306b94ae7599b9a6f8c4991900e1cff0a782c8f94eec9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_19_19",
+      "manifest_sha256": "90db5d9fcbf0ada530ce1d47ca2cb555b795f5ef4e51ba65e4b0639cf972aab4",
+      "publication_sha256": "a3e6a0a8ce166af5d6b8bcad860d3cbdf814790a2a74e22c7f5865e64bb66cf5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_21_21",
+      "manifest_sha256": "d48f4340cf28d529fd4c543716444604890705cc2a55f7addde9c40ae4d2622e",
+      "publication_sha256": "973b4a1f6fe3946815d980e12fb4dd10da9e6ed6e1f9ab026b4f6e8b570e079b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_22_22",
+      "manifest_sha256": "ed371c4683f1ca729a63f61d6d7ce8daa08b69b096623168d9f0bfafc324c3dd",
+      "publication_sha256": "69d09b8f6a1ccf05e4714841dd69172dc4f0d51ee7089727b96bb8d5c7870418",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_23_23",
+      "manifest_sha256": "70662693776d84695f1a08297494209b87b8c5bc4fc512b0c201ba2adeef390f",
+      "publication_sha256": "801312e4a59c0f70d4ce4ec4d32b25c6a797cad3aef01b76d8eda01d12e3346f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_24_24",
+      "manifest_sha256": "77619dab07bf9de105a9daa120c733b0db4264c8595f5e85a3fd208be51c6b74",
+      "publication_sha256": "8c73135ac391e4dba6a996bf2c956f4cbae9819a582adf38df73105338fd3e85",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_25_25",
+      "manifest_sha256": "216ce0e4f21be34a24efc92090a943d3c2458558c4319a00af42f8bc2213765c",
+      "publication_sha256": "f081e710bd172f4153f7d7ca8346a5ae7b10ceff31f8b356e73455936e1ef033",
+      "observation_tables_rewritten": true
+    },
+    {
+      "stem": "HNL_17_18",
+      "manifest_sha256": "572a188bbe505b80b011ee72be66d6e035930be68e6a2dfbe3780ba387819098",
+      "publication_sha256": "eb4ffa3e969442450162b3dbddffe74ddd9f911afa9d91a2073317167594848c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_18_19",
+      "manifest_sha256": "ceebdcdb709b3977c0d351653a03c7d1931858536a8c3890c1209a838781e191",
+      "publication_sha256": "7c4da62c979129e4d90309b06c0439b01558889b692d717ab830a4bb574bb7a9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_19_20",
+      "manifest_sha256": "829c8cb98f03d324a0e0650b2aa2dc775a89da64d91e84cbfaf922b9b3d0aab4",
+      "publication_sha256": "1acb86f339e28cdee2b792e780477088579c9e1f6bba93e12a432dfd7a17dd85",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_20_21",
+      "manifest_sha256": "c4966a18d6e89ace948db4fd927abac3f8b68a8811c350059e52c31a63ab1009",
+      "publication_sha256": "faba704a86fdb809699d460fbe81323285a8e953e419d436cdf229938f1d20a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_21_22",
+      "manifest_sha256": "8613f0b20e4fc6e61345d5271691916c796780ea29a88649c56ec44d0df8a6a2",
+      "publication_sha256": "ab294841293f2e1f975f7eab72d86f8324ac7e038f39064571b8da1b7679f809",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_22_23",
+      "manifest_sha256": "66eb540ffdb5e54133437d042422c95b6816b4c98b36b86c038d9e11fb581fb3",
+      "publication_sha256": "2248e677dbdc593cc13aba687165a6668d1a60138e1d7456b55e5c20c354b993",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_23_24",
+      "manifest_sha256": "6268fe1c8df079300b9a3744f594c82d6fc295e2d1d5e6bbf3ccdc0cae4f1213",
+      "publication_sha256": "3dc6a9eb83f348e1d0fe5abb3d605856d6ed6be0807280e95abcd189fa31fd20",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_24_25",
+      "manifest_sha256": "fc062918dd43ddbbdea89da5726f6726bbb664c3a10865f2e477701355b35f7c",
+      "publication_sha256": "d0cf9b5f9203a93f31fd9fd3ad9414d7c9293174ad9b2a54bc9831dd1454fa00",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_25_26",
+      "manifest_sha256": "c1936acd44d1e73c3857fd67491bdfdf4d293fb5df9c4c774d9d63a55a56733e",
+      "publication_sha256": "b58e4c373686cd31766dfea6fa8fbbae4211fec49b9d5568d16c81bc1f8f8541",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "HNL_26_27",
+      "manifest_sha256": "8279e19bbac7f269aa90a4d14cdce43e19203ffda69d907f380f09e4adbc5597",
+      "publication_sha256": "1c92aba846953aff3a287e952e75ae8281ec33ff14dd7d5872a38c9caaced913",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_17_18",
+      "manifest_sha256": "5501318a5b9eff14e72b88a93d0e1b0a8aa3dd3ad8ad3c7b4c63491331ff826f",
+      "publication_sha256": "b2063ea2f1cfc83c13995a501b672f735cd6918d6240b1513cb115e02bf3e72a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_18_19",
+      "manifest_sha256": "445995b9254279e97a986684f612ea7e5e2a9863a6fc8fe8226d6a80179dbcd3",
+      "publication_sha256": "beeb7f1293e7b4e0211bc76f465b33fe2980fc7254378f86925fe59cebad7a27",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_19_20",
+      "manifest_sha256": "7c275d799724e0544eb9fe577a10499b3df9c9bd90c4f25b289f648dd5db290c",
+      "publication_sha256": "6949d9d1305612dc95c7ce9d634726aaba5f1acd339c13642cf3465e491fae9b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_20_21",
+      "manifest_sha256": "89a952e61e5ff120488baba948cc6a332de421c28f18d1dfc83f3f5b72bc40bd",
+      "publication_sha256": "597fce17c5bc145034fe3aa2f43d8878d81008cb3159c11d6af9e6377b5788f9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_21_22",
+      "manifest_sha256": "6237d0ba34a23cd61d77271a26ca4452aa31d28f08ac6cfb2af512bf3c0fef99",
+      "publication_sha256": "0679f101118cdb3288a441bcd81bd2f99162cdef8f331c49cf56c46f8b14d36d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_22_23",
+      "manifest_sha256": "5fcea90c844c75007efba5d208800a1d8ab93468af39f13eb1a95536be938793",
+      "publication_sha256": "8589633ecf40b5a40167b9c0a390dadac93c70f7654d3545fefcf7d862f3a67e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_23_24",
+      "manifest_sha256": "b2a7c7376389bfe540ff59bdef5caa5fb8a62e8d93b5d9c5a04f19cbe7035bf9",
+      "publication_sha256": "adc5027cf2448626544cbe325f6d7e50ac5e8e7abdc7cd6ae0a713d57308178f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_24_25",
+      "manifest_sha256": "8594ceb9bdf84893bedf771c8f0a008777b55d5bd5500c00498c30948a93b52a",
+      "publication_sha256": "2e395abe356d440b92c07303e4b7445640bbe6a84028b9e9747c34cc702554e6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_25_26",
+      "manifest_sha256": "43b0c41ac48dfb873f2619713afbe2708153f679c4a7cdd9979dbb9b6056ef32",
+      "publication_sha256": "a99f4277bac247e9449b6339c9e2197a8a6cae0e71e506e54e8047686d6c4199",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Czech_First_League_26_27",
+      "manifest_sha256": "ccea3e0e7b37325eed1f38d36e12e877a6d01c5255bc86aca1e041ae03856531",
+      "publication_sha256": "e3b952c228b2a2b1e9fc84225700ffc7893027770b3c254b1b1b64a253c6fcd0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_17_18",
+      "manifest_sha256": "cc9fb95a66746d768bc1424c6972022aaf0ae3fae5d97480a9b521d6ad1bd6c2",
+      "publication_sha256": "3ead126f79bf4c80f80c206af5d7b718d05b77ffe8f5f6564b4a97b223fc9afc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_18_19",
+      "manifest_sha256": "8b908af2bff0d75ca1e38c379502571e1279b43bca13389e8cad6fcae67308d2",
+      "publication_sha256": "92c1891dca4aea2465675b70a96b5c7b72e4f55eb19557fb2875666103966e56",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_19_20",
+      "manifest_sha256": "c92fb756543c4daab0eb3ae6a526896df23c3f84056d6e1f463ea7bd910519c5",
+      "publication_sha256": "72d555d8740bdf5b68491bcdc353c8d5596e550c9a9be2545ebf2e1d2d7dfe53",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_20_21",
+      "manifest_sha256": "8b5da3987008d9f670dafad4f07ffdafe27580c1956eb29a9dba8d8521247db0",
+      "publication_sha256": "6035702082c748be5b5b4c42b392310565723028b180888ec63b2d7cca1e906c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_21_22",
+      "manifest_sha256": "c9314645af0e4531539a98246ae825dee20259241aedc3b745f6927699c44c71",
+      "publication_sha256": "49fa060138d500a4ffdcf6fd4e93b9f15f88c37984b78f197dddf439e6f57fe7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_22_23",
+      "manifest_sha256": "46bbee1bb71c9c5bd77227a0330a74f5f5bfff093be012d07038157692ca20c2",
+      "publication_sha256": "ab34f6f74ca8ab45799dd4469651d58b91c50bfe33ea065dc2f5238ba98cefe3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_23_24",
+      "manifest_sha256": "b18c8d16a948e62ec30b4ead6a27af683b1da4d6f9568143af8c9b557b20ff02",
+      "publication_sha256": "e0862fc116742b386653bbd5448c03565389bd31f6af85b64be0ba36bfeb19bb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_24_25",
+      "manifest_sha256": "12a190c684bdb00c785e44a1fccffff6c7ed96addf0b64fbd5d00af860e89646",
+      "publication_sha256": "32b4d96faedb099a9f7cfdc50edb43f45acc4fc414b616d54d2782d1f7921536",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_25_26",
+      "manifest_sha256": "b3009f990b6b4baeb59906f8babe68137184ebd3ef81ba46efa1edab2a7f329a",
+      "publication_sha256": "85e277c5ff1703537f28cd2c650106d3d1c3d8ed9ed7de159640205ec24be735",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Danish_Superliga_26_27",
+      "manifest_sha256": "e4be8e00345629b83eee317ef631931a58a401dd0ac9572d55ab603481f80466",
+      "publication_sha256": "c4d3b03f1130a068efa4fa08349976706480a2baf774924533f07f617b2e7ffb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_17_17",
+      "manifest_sha256": "073da4e91127858a7b18beab4638ed1f7d171a2ac908085db9c38a5b35a64a5c",
+      "publication_sha256": "fc0ed89f9d56168b9f24a59e051e34542a657871a4d51850dca353e8f5135974",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_18_18",
+      "manifest_sha256": "4a3d6a745a37c9752ea2d8a3e9cb7df48fb48a0e72daedf7b2153bf58e0956b6",
+      "publication_sha256": "c3a4aff0a3f659a4219287d1c45686ac07f32a87be795a9df04d0c515fe760b7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_19_19",
+      "manifest_sha256": "06a506d386a47ebf814e5c2901b7eb213a3807b6a4b7ef64a9b8def673b21e21",
+      "publication_sha256": "f8d3284702fbcdaa27d6b9bcbd092279504aca0d6e069bb96fdb4d3358ba7564",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_20_20",
+      "manifest_sha256": "2a3cde736a30c7edff423b4f61fe8b0f7ac67d0f0580c5aff04418d21686d815",
+      "publication_sha256": "50f3088f2015ed6f2b7e34783c171a14c4a3913a9fb4bd11dfaedb30240b669d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_21_21",
+      "manifest_sha256": "59fbc2fff0444d3eef7b4126d23228e0d53a70b5c6bcc659f3df50380c99e574",
+      "publication_sha256": "615f9c886c7f70c3e9867c6c7cb92c8f90ee56ba88ba543ead2f563b9e5668ec",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_22_22",
+      "manifest_sha256": "c9b869544a7ff2163db3c3414da46320feb36bf363cf826af91cd7cfeecdcd59",
+      "publication_sha256": "38fc475a32b30789c176c1b35458156d9f3c683e71486913545ae85e0f44885a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_23_23",
+      "manifest_sha256": "d3eb88f1e437bd84c31174252f17e6d9b1ab48bc16c3896dbbaa5e1958f9e738",
+      "publication_sha256": "d31f800541f3b783e06cc1e275b3ff4fce5f1434393a0b93d53bcfbabaf27d37",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_24_24",
+      "manifest_sha256": "ac70e6fe65e60f3efe6b3692ebe79985eeee59d7d5c97850d0881d59d9bf38a7",
+      "publication_sha256": "34c10aa241a9c2609d2e02855d2b133df140f74e5c5d90a26ba3601c63019e31",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_25_25",
+      "manifest_sha256": "fdc3d629b192ce3b4e91051d8bdae1afeef316d035b161eaaf2972c921038f9e",
+      "publication_sha256": "4b321342b2446d7bcc1ea28a285a88e63ff988d526ca6dd1c8b646d88c642e8d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "LigaPro_26_26",
+      "manifest_sha256": "3f77e7ac5231d440f8288d455d05db30d7dbd2eca561aed2161fdbfa0e5f0feb",
+      "publication_sha256": "cb2275af404db37652bda3ace0d77e6661d30f373f37a415cb8f2601847633d9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_17_18",
+      "manifest_sha256": "cea95c7498b889d2cdb28b8f2049c2b805af13e213e5c59bf9fb6ed11b41e070",
+      "publication_sha256": "243af37fcef81daaa35c63092071620a6a4b0cc736d1c4c2fbc64808b850d377",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_18_19",
+      "manifest_sha256": "ec57d9f76086a12faf808295db3ceef2b11771a9c5cd6574fac6fb1e1ecd58c8",
+      "publication_sha256": "9bc3277871a7a9671d98d399c39900d58913cf7903a758f869bc409733c93462",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_19_20",
+      "manifest_sha256": "a755bafee76ab75cc7f55ef7143afbb968331f402482261e14f63dc88eb990a9",
+      "publication_sha256": "906d6bfc9db371aa2745b69386b31554fccbc790e15a599cb900faf6562c5023",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_20_21",
+      "manifest_sha256": "bfc0acb15927ee554b4999a54de0a39f3d8720b397224d1547be3f4260a58157",
+      "publication_sha256": "b7660b5e8838de764e329d1110df4f993b7c63660b68f99afcbc53b8601860a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_21_22",
+      "manifest_sha256": "40295dbb439bdc1ab63d658129d9edc701d3e2ce237c041676ec7a0b9fff022c",
+      "publication_sha256": "0e495a4fe0618144bcbf6dd4a488bd38bb84d4d9600d356bff5bae03f7982c6f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_22_23",
+      "manifest_sha256": "bcdf328016f4542a4d0dbde972e79578b57c0557e16a90ddf5d2f3991158cf5f",
+      "publication_sha256": "8f05013d353ab5f5f61e96191fab87ab2aff601765a960001246ef8595d84369",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_23_24",
+      "manifest_sha256": "c8e1f32118d7ad5f83ef0cae9d763a74fe279a13507210b82ea54e9847a85cf7",
+      "publication_sha256": "837339b26acf634f3d16d29ae8b968946248e534d9994d15bb2533bb5ee65dd4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_24_25",
+      "manifest_sha256": "6d64bff7e72ca95ad310a8b9f35d39b8905ab4ce40531304eb0d4fd5c764af80",
+      "publication_sha256": "d026be0e83afb90c85daeb5e3ed5ac1d3e36dfda6ad3e27a552067b70ceda409",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_25_26",
+      "manifest_sha256": "d5ba678326c9cb083b85a97f00c54fabc00157748bdcb5891266baa02f47c2e9",
+      "publication_sha256": "edb42e1381c8db9e53443597cb1d1c46d0567260afb4759d874a5d7267cbddf8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Egyptian_Premier_League_26_27",
+      "manifest_sha256": "60b65405794b26de19ea909d95fca6f27765de5b25bc7181117f2015ad2e4eb1",
+      "publication_sha256": "4a4cc8f1529ac9edf86e54b38ac508bc98ee7edfe170caf8c20bbfc02f9ca4b5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_10_11",
+      "manifest_sha256": "8bbc93d4ee6be83c4d49cbc251924547520de280135d8f361d2f01d215b8b53d",
+      "publication_sha256": "993ca79d29915312309d603fb5f8dc551c6c410da639d8042c3a0e7534377c46",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_11_12",
+      "manifest_sha256": "d534c4a7c672528740665a4fd49551d336d88c85e127a0ea7f070301a1f39bda",
+      "publication_sha256": "2c8b5769148e1f42809b50950eb7f17584265ebd03fa0e826cfb95bc457ef614",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_12_13",
+      "manifest_sha256": "a12b19ab41ea666ab1f627107e9df4c7911a3cf8ef331f328f0519333c3921d1",
+      "publication_sha256": "ff2f3d534a57e6a18abc4b064c8466caf69f3872dcb8b4a3d6fb282fb05f6a2d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_13_14",
+      "manifest_sha256": "b34b54723dd43c647c043e6c57056b5a84daa4c7890829493a6f7df97ab682b3",
+      "publication_sha256": "86d174da0538541df444551625f6a360efe4df26dc728d4e0fccfdf7433c82d2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_14_15",
+      "manifest_sha256": "9baf8c650ae288934027521e6a770971307a5690fd6914a673892456c38aff4d",
+      "publication_sha256": "e38222e9fa4b085fa0a9711ac0f9d72c9a20d6a8f882621499eb58d0d02d59da",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_15_16",
+      "manifest_sha256": "71b41e969c95820eb423d4445a054e28ab5ebbf229d6079b2955b01d2da018a6",
+      "publication_sha256": "ed9d61c58c87581474b9fbcdfe757db54fb4fc6ebf0a793ec10504b75ad7215d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_16_17",
+      "manifest_sha256": "75924448844dfb07e4932015364136dc17172c066368858657ff72442ab7210d",
+      "publication_sha256": "8fd056d994947eb3efffb18ff365e85e8ef6e93aefb33c68f3f580e06cf89502",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_17_18",
+      "manifest_sha256": "a5ebcd188b2dd6f42daeed08c06e68d6725b5f8d84ddaa2d195b224c709262a7",
+      "publication_sha256": "d74a238b8d05eb651813be10f97a4dd0105087ee4e67f360c45783e12728d9d7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_18_19",
+      "manifest_sha256": "034ebd32bce9b9415655b017d86f6aae8134e4ecda6bda524a14d15d2bb77bb3",
+      "publication_sha256": "1f981fd4bc5a82a63e3083827e7e10d1bcea117998ed94ab6f361517da799e95",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_19_20",
+      "manifest_sha256": "2858c961bc45c045c684e54a35b9c157e5a7fc2e2093257e46bc9ae024532809",
+      "publication_sha256": "58e5e5a241aea2339e6f11b84ff617d0422111e622d1ed417945c890ab1720b5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_20_21",
+      "manifest_sha256": "913116328ef0fae08edbe784bc0353b8ffdddf7ce736b698d280fe3f2e87d42f",
+      "publication_sha256": "18fc130d560d91a4ee8da5996dd2a2145b8815be0656ac6e2c7301a6b49c21b2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_21_22",
+      "manifest_sha256": "5ba5eca3d489698b165c4b9b5bdede7d63acf55b2504d0202cdbc3ffda5bc3f7",
+      "publication_sha256": "2ca42ddd0690ee09fc219475d62d97353f732c1dcaf4bd0e4bc35d2d22ad5a00",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_22_23",
+      "manifest_sha256": "de4ee6435c25a845368b023287e080ae888d074bad9755f4be107ce6c526a327",
+      "publication_sha256": "00577d165febe00fee0f7ab9899a8c9cb6867a355f1ff1dd54272bfad05e8f1b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_23_24",
+      "manifest_sha256": "160164ec19fb9067e3b2c1f4c4a6b99ac60ed021d1440ce026b09225df2c756d",
+      "publication_sha256": "e810c0285f5577b8821990adfab9b5d31c1c8a9680bbee9eced209150e4da9db",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_24_25",
+      "manifest_sha256": "3c82c787c79428cfd4e0515957535d2eccd671d6e0f1a263e063fb9e87574197",
+      "publication_sha256": "0d9e06a0d019ed68c4f98b6c7c7782c125373bae4510c6ad557d129e1dd2b13f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_25_26",
+      "manifest_sha256": "a0c77eb7aa14931ec5c3ce0f05e56f36dbb9737a6997744dd16d98afe9065ae8",
+      "publication_sha256": "79eae2fae23f7f0799237c384e020ac1657204e3b7e3589442b6a4855bc8ad85",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premier_League_26_27",
+      "manifest_sha256": "c6ac4391edb7991e3d0742ab8817a940e275b2732b5019d2b41809db4565692f",
+      "publication_sha256": "2ad67d7fa778b26b53bd353c671ee0b27672b878507bae40bdc715cdf637044e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_10_11",
+      "manifest_sha256": "280adbf84439d9e709fc4665290cb2c65d7f0d585d071e36714731c4b83ab845",
+      "publication_sha256": "9f9f363d980213a58756d65c57f658579fc52b21edf2decf5009bcb0f8efaeaa",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_11_12",
+      "manifest_sha256": "60e6972d2863f16f06011f18a4193af3effe79c869cde6ecb91665067bf380d3",
+      "publication_sha256": "c24bf4703c1b65dc842fd0c9762161df9d0ddcc63fbf1ffe5aa5f043364515ea",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_12_13",
+      "manifest_sha256": "931cd57d8e6804d476c50f7b002e0dbdc868863120698b162c60cb4c36f3494a",
+      "publication_sha256": "8788c647a02f0c34e8f23f7f6f555ab8099342f55acac5023502e17d389ae3e3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_13_14",
+      "manifest_sha256": "ce225d4b1c7e404f48e9d8c6cbcfe745962cdd79fb35c0130836db401fa43978",
+      "publication_sha256": "8a8909b5f5ab51bb5970bb72d8301ed661597eca607cbd003d6d29038271756e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_14_15",
+      "manifest_sha256": "7a07d5b86e79f03a7c99f6edcfeab9f7dfa08806138858b4b194129de70b716d",
+      "publication_sha256": "0db7bc96a5bb54753ec041c15180617644375bc69885191a17055ba5f8203a0a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_15_16",
+      "manifest_sha256": "c2507b35b191125f81c057d6e06f3d231f39d94b3d488a167c3d9669623b019a",
+      "publication_sha256": "7069dfaf8ee8be3fe6e4ac218276c66cc9a4b57fb73b14552870943c1ce46c32",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_16_17",
+      "manifest_sha256": "96d20771e56b33266efe99dc9f30eebeb67d1d6085742d080add9d2f33beeb36",
+      "publication_sha256": "33b4cf59b1d1dda7a243e36f06304dc51c3bd2e992482f14a6745f78d326efe9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_17_18",
+      "manifest_sha256": "f7f19fe440f5472750a63fc1e5d42a54ae32ae55f75a7a5b352526e0e2a830ea",
+      "publication_sha256": "a4f9897fa67ebb516fe5e92b9ccc332e6431d90006610d08a7ca2508be189c14",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_18_19",
+      "manifest_sha256": "bdd67b9ca0bab541c41c0de3c7c0d7f87b0346b78caad5a9f3896843faf41011",
+      "publication_sha256": "f902172bef6e4440d8d03e64c9530b3a9dd268631678fb63ae70d23a4b26e751",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_19_20",
+      "manifest_sha256": "d0824b87099ed718027fe668c20186c5fe184ddd0f493f05e9066dfb43e76185",
+      "publication_sha256": "b5d931711706b220bd1cfdbd17d5276e172f2a179e00d011e3682b4c61b19cd5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_20_21",
+      "manifest_sha256": "75cea723e53af7869c5c423d92e6119408425b2a922ec26bf85d3c031357b8f9",
+      "publication_sha256": "b12a6a850fb47538c69f5eaa001468c2b52241d594d2227081885c5a897bfa0d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_21_22",
+      "manifest_sha256": "a025f8335a9ebd7ec5d27944c55f3b08484422971da576110c9a7d20972f4712",
+      "publication_sha256": "ff6d9ce202417302e8dd5488defe59517a74a02f0f5d5cdb012385557dcdb121",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_22_23",
+      "manifest_sha256": "40d99c52772706662e39f54ff4a0daad9be54e98ccf805d2b817dd463097c759",
+      "publication_sha256": "620da7842bdcdbaf55bae81b58c418f78c9b470a674752240bb0b0870a4320b1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_23_24",
+      "manifest_sha256": "660c66cbc237ebaf7d2c3b4d43749918cf6d0afa77ab076a8d40bf7eceda13b6",
+      "publication_sha256": "e1ce1cad6e717c141b430c9c09027a1668770eb17fe4db3d8a3434692c0984b8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_24_25",
+      "manifest_sha256": "f1365eed05fdc5658c29fe363aae9c97103715eddd936fe1cab036168ba844ac",
+      "publication_sha256": "cf39d786d69d5e8e204387a9b7821871ddc1ff4ce57e44d37e5e986880604852",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_25_26",
+      "manifest_sha256": "dea30ea982e82cad00c5c6bae5846d33a2cd0a19478435db7f991d9fd9d8d920",
+      "publication_sha256": "a067e18698098b0bc5b8c6fec0daf20bf0d9722b5f9d49f350ae84c6a1486c43",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Championship_26_27",
+      "manifest_sha256": "8870b5c71f4da2c1caf09681da65e84a6d9a9554b2ac942df32618eb65c8cea1",
+      "publication_sha256": "df06c685aa6b1a67e64062b5734e25cb7f09c7a31f4d1a7dda33e62625beef2a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_10_11",
+      "manifest_sha256": "d1149d4a9d1de01f0bab2adf801696f6ef0bb9cebde3abb5a1471f907246e835",
+      "publication_sha256": "3db2cbd3b2c7188190a86e6275b5fbe970e6c8721304eed04cde4d16feedeaa1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_11_12",
+      "manifest_sha256": "42d1043fec7cb294009aab205c9c7812efb0a7f1bde4bbc39fed2277eed907f0",
+      "publication_sha256": "55ff56a2181fcd00bb0db27f9953a16c13a0123944a8cae3c9691b47708c03ed",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_12_13",
+      "manifest_sha256": "3d9e37e5edc45a1dfd50ac2e67e8ced7b0f9d3a3cfc36047ce8a1c588ce7d42e",
+      "publication_sha256": "89a2f9d69cd02597547415e5f33f3418ac01c73d7b64458baf86916bf55bb40c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_13_14",
+      "manifest_sha256": "fc0705c9484810d6187421a5422e33e7530bf675264fb58253783ef2e9353378",
+      "publication_sha256": "bd6de3ba5f7b6e61595844656fcd99f2fc20d4798bbe34061a3432e277180047",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_14_15",
+      "manifest_sha256": "2860f278a1706bacbb91ecd37dcd4ee225cb9afa75dfc1d26b316c7d75d02688",
+      "publication_sha256": "244ff3834a2a9a9070ded9380c3dd060c217592c9fd26c32d0e54372bc2275cc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_15_16",
+      "manifest_sha256": "99130ca5c6dc50058120adbb8dd9dcae451035cb03f181005e494e9aea91a2d4",
+      "publication_sha256": "f0d8eaf85e953fdee58ee8f546ca4da1bfecc26c0a17ab91a40bef4e7d2ef193",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_16_17",
+      "manifest_sha256": "f50db1e424ff8ba31e3865d5843d88662c551886b4d643a69b3e0337a9d88651",
+      "publication_sha256": "56e57d715dd9b380b93a90d94355e35b099332ab8bd3244bd5ce9dda571fe7e2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_17_18",
+      "manifest_sha256": "71dce72bfb9b5cd04f031275c405a45955468ab8995ae696a2021beb00b6fce2",
+      "publication_sha256": "2ad2619b84f37dc477e05be88dab0a3d7ff3f9bf9606ee4fbbd74c6d1bf92d9c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_18_19",
+      "manifest_sha256": "ec86ecbfeba89a4e41ff6cbc5033178f0f5d762e2d1550c6494e83c721a8c384",
+      "publication_sha256": "72b1a06a328e9a821b9b9f8c3bb477b8447c88dc08075025555951afde17935b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_19_20",
+      "manifest_sha256": "d8f6942e44675618f09dda2d410a85086fca7e0802116cad50ff7d2538f03697",
+      "publication_sha256": "089f4daee89945cdde19e45f4380f341ddcc189cda0b935515c64a9377b8f7a1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_20_21",
+      "manifest_sha256": "09052730765a5ab56ac4918b2d03a8d9851c4787c2489cd725e31ecf8c0e9092",
+      "publication_sha256": "9e2c7c7c39a9432fff0f3c45251e1ee545a9f86206b779169be4d4ddee6407cb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_21_22",
+      "manifest_sha256": "8b727530aa34911563e1fb0711064c69343bdf24e3bf02e0a483ce1af68589c6",
+      "publication_sha256": "d73f47d3871f5c2beab66bd0bbf8f2f571a7dfe6b521306076d994281a20b12d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_22_23",
+      "manifest_sha256": "557b6032f70a2df869680f3762ef2429838ee2df056c1b8640e4a0209fdfc9d9",
+      "publication_sha256": "1c530917838103b9aed188adce264d5e44f9d79ec3163566109521e4c45d6b51",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_23_24",
+      "manifest_sha256": "843041ae7656e0c4f1c9cd3774d131ea7eb3d4c83b067ced8ac53d04d818085d",
+      "publication_sha256": "ad5ecc57e059c267bdb20d31b831e501d28fad1ad2c441503adcd945c25102cb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_24_25",
+      "manifest_sha256": "5cc0ed36874c68e2a1cd190c148c2fdecc6e17e45716a4e8fd0b56999e3f969b",
+      "publication_sha256": "997b5a37bd674aec7c1cfc97cb5a1ad0dfa7b1ca358f73e5aea54f669593446b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_25_26",
+      "manifest_sha256": "b411e2fd99c1ea65816f37a3b351e2f0bcf9b7abf59ffd0b9585ea28c4447145",
+      "publication_sha256": "eaa0928c54aa047a25be4f1c84ff6a88d9963d2e75273929d8fcfac56a84003b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_1_26_27",
+      "manifest_sha256": "7c6ff3e62e3b8a5f75746f7d964d3c44bb3e7bff49d55f11a84e2ea619108639",
+      "publication_sha256": "5a5e8e32976ee794cfb8e49295700abb8fe8a4070fc3d1c52395ba84ecc9d32c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_10_11",
+      "manifest_sha256": "add177f186cb655af139ecd237799b2e21520bea0075e347b83db507c345486f",
+      "publication_sha256": "9416e35b1d3d9300f8b2a3c2843ca69bad24d588e965f44230616118b7c5ad9a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_11_12",
+      "manifest_sha256": "f54e932cffa35114d3ee8e6933fa1e6062c72d512ab9ee28a27d80078321e6e5",
+      "publication_sha256": "4c0673b91f9f77ed830b90bc688b145c426ebc8b4c632507ec500a1fd3bbe0ac",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_12_13",
+      "manifest_sha256": "ef0fa66b53d1508722140ec9e2401b304b346e2b1be5765151f51601e32b25ce",
+      "publication_sha256": "94b3812d0d4fa716f000b202654e8e869956550367df6a93d920c12450f8bccd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_13_14",
+      "manifest_sha256": "b39cbc170466eef613cafdae5ebd1a0bcdfe4264eedabb802aa991b43e05372f",
+      "publication_sha256": "c63bf3e4ede4581b8181dc4eae032f81ff2033c72e6e38704891e025af59e9f1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_14_15",
+      "manifest_sha256": "d86dc28dd05d0e4ac41e6d5e90eda4dcf0289492e7953d5d017eb759c8374277",
+      "publication_sha256": "11abbea8b690d721c6dfb9a2bc6ed498f5f087ab0aeaf35e8bfe92770085b080",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_15_16",
+      "manifest_sha256": "9c884e291fb922bedf209b652c7854ddc365d337f0d58f0f9d065abe3052bc34",
+      "publication_sha256": "d181458350a6c72a1af0cb3562b7bfcd02aac17548de3d9de58da076c4f7628a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_16_17",
+      "manifest_sha256": "616d471a8504a8b617e99bae67a8246732e44be730755ce79004aae6347b53cf",
+      "publication_sha256": "bca9ea57bf922031db857feaacb85f096475426e4e73d66cce37e10247596f6a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_17_18",
+      "manifest_sha256": "32d32ecf202159dfef759f18304ca748da587be47c604f654c70aaad4296b985",
+      "publication_sha256": "49d142b5f42031fa0fb4ce33391f272a2a79fa54aef54f38fce12fa490d5915c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_18_19",
+      "manifest_sha256": "83226d19db649a8fa43fc8a493e9c4eef3e2ab3aca461d04315457b40f3233d2",
+      "publication_sha256": "a90f6a1c90a02babc86a77efbeed2d287e4dd744cc3e74cf461beb98b5eb46a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_19_20",
+      "manifest_sha256": "35b40261f0365bb5263b5995d17d067c007756786b1c18bae9f2f97df49a25f9",
+      "publication_sha256": "dfb1b7cca62065a251c1f9493dc345d91687d6dde310d2a7659c60e035c2116d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_20_21",
+      "manifest_sha256": "ea9575b9e89df0ddf18bbc4a2c48e77a79c74aefd61d70196696e61773ade888",
+      "publication_sha256": "12627e310ef6ab7fa660d28ef3c5756d8907ce9641996c8a198b54fb08c0015b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_21_22",
+      "manifest_sha256": "cc45c33a09dfbf51e0ae14ea0b2f7d97fb107f25f0e7706c7dfde2866dc1e071",
+      "publication_sha256": "5a444e7247ddffea295e5282825b6f6e65c8a0da9b9fcb56eaab18bd0f410669",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_22_23",
+      "manifest_sha256": "fafa55b218e4d5d3f5483be1f77f1dc7172494e317b139b23bdb37e39ae84ea5",
+      "publication_sha256": "f29fd5521bd5edc5aa00429d35f7eabf0132f8e23a6d654d75f170e9798b2545",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_23_24",
+      "manifest_sha256": "dcc7e4a54bd7a0791f9686a0fee2b062f0802a283dd503e977cf6713693c03fd",
+      "publication_sha256": "661fc06ae1a8b42096ddc925efeb261624ee25f38aef16cad548afee1acc77aa",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_24_25",
+      "manifest_sha256": "2a1d3194dd72e8185b7ef16bdcf2b2d2f93da32484acfa753832551f7e1edca7",
+      "publication_sha256": "5bbbea5dd04f64f366403b3c21e859b4d99ff241e0b929f645766135dde39774",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_25_26",
+      "manifest_sha256": "d3e2f47770eacf0ca569fbd245f55f81b52567518f437a944f9276bd38c4c939",
+      "publication_sha256": "7393ddfe1296a62a4b6d70736b65df1bfb160c934e8c8715dca146122d10b2ea",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ligue_2_26_27",
+      "manifest_sha256": "624293f92a178d3e559270a3b709a441daac7b3c874f06ab6f20bef6ebcfb96e",
+      "publication_sha256": "7c5ed25bce9e8579c5a65adf5c24df48fcd71d129182e293aaea6fefa3a75798",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_10_11",
+      "manifest_sha256": "aff79656737d9110ce3531c7112112dc6f43129d244c75d86e7ad3f966c3e0f1",
+      "publication_sha256": "984e99a1a86b69a412ce64b7d620cec5e126bd11944565877ca6589d1fedbc74",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_11_12",
+      "manifest_sha256": "454e3bcd3e802641e0e7de4929250f743b8cac14195a006c94e0a4c14b8df057",
+      "publication_sha256": "8e8245282d98da9b4af0b039dfd9818842516383febbbef42d411eef367ec04b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_12_13",
+      "manifest_sha256": "317bcaf2915de1b31aa538f5769e16bfc7b8d7d056630a8c3bb273216d2daebe",
+      "publication_sha256": "fcc1febb6e18ac1878450e64d872054de7eb25fbb6d543e76aef5890faf7b2e1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_13_14",
+      "manifest_sha256": "6b1334c209cbd2724acacc2ee542803aa72848c8befcf5912cf5126408bc2f06",
+      "publication_sha256": "61c70511e693ae0342397a7c3f3cfb1e449fa11bfc1f1b7d6083a6c616751bc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_14_15",
+      "manifest_sha256": "02845ca27152ad67141029a8b65300ace19db6272ee1480c490e5fd57193ab78",
+      "publication_sha256": "5333d56a5a02b5bbf9b7f750b0dbabe40353368d0127ed2d2460dd506177c940",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_15_16",
+      "manifest_sha256": "752c28ee593c1657b7f533e8495ba4229d5ccd55ae607a019c8a8766eed4fc87",
+      "publication_sha256": "d2b985c9af2a35c60dd9e8a500f4267e7923b29f5493be8ce4fd65b955c299e1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_16_17",
+      "manifest_sha256": "0a16a36deac6590e0ac9b03933f3cdd3755f26c9e30a4fd4156b6495ed3a990f",
+      "publication_sha256": "1add09d97b6eafc8d0a14226f228cee3e45b1a9668338e602afd83d0ea613ea8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_17_18",
+      "manifest_sha256": "fad51e7d2bcd5751dc1ac941e76b1c8b62c1317d58e6385a2f6d9ddad8bba96f",
+      "publication_sha256": "aeee6d6fc6f9d23f316e7eb6925fd0e061d3f219c3d19b426cc40e7c90cf3042",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_18_19",
+      "manifest_sha256": "430eb75f2f4ce53aecf230bf1f1dd586ccd608144584b7514bb8faa926617e4f",
+      "publication_sha256": "5057157947afef02d192f40486bbeb07588d2da8003ad2665c8fd156e133dd9f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_19_20",
+      "manifest_sha256": "eabe8d80320dfbc6f16d09f54c0eb11eb68505a8d72cade9b31eaf5d7562944c",
+      "publication_sha256": "0967f93ff3a5627ae109d2de6409d0cf3828e0c8690899cfb862ee49bce5620b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_20_21",
+      "manifest_sha256": "91aa713e702f2940e801a3c5045dfc59e5be8fb8d41a7ee1ca10e8b791a9bc65",
+      "publication_sha256": "fec319eba6642d6ee5c65daaaa0497be8972cc38b40a292dcec3b567e1cf5271",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_21_22",
+      "manifest_sha256": "c8ef45fef0ab95177102088ab91ea8c5e466196ee92d57ede78e346fee153e7a",
+      "publication_sha256": "665fc71adf6cf46f4b9900ba52fbbaa224824054713a7855b19cfc9ae43d61bb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_22_23",
+      "manifest_sha256": "a60415da7db632daea7e9180e885841a3c979ef7033b1169a497b593bc929dac",
+      "publication_sha256": "3a49acf1c5c19bd552a3c426114a9d9acd71789964935e9909d0480621d949e8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_23_24",
+      "manifest_sha256": "8c697ffcb790968f1fa9d7628d2ee56f26a52d83de336974d5f2db125b2587ca",
+      "publication_sha256": "df17c8c24e2382edeee3d46e8eb19e2c523c8ac2441f439d0d1df437e37c6183",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_24_25",
+      "manifest_sha256": "bc1bb9a24360be60fef160183431836de95e621b17c08e08a06d2b8c7c2266b2",
+      "publication_sha256": "9017a0e28f1c0ce62103242f942e1b7e10539e17ca4f039ace6335fa6e06672d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_25_26",
+      "manifest_sha256": "ff89dfc091c4f9369454926ed62561b38af389a73085e6771f79f5a6f2c3d835",
+      "publication_sha256": "31d545c2f1555061531792ad7cfb86d7a3c30a724934894ed4546da6f2292a73",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_26_27",
+      "manifest_sha256": "a1519aeae2412c3f8f73dea3e36926519801816a65b791943963e024a1907609",
+      "publication_sha256": "26bd773dd6eac4e93fea717a833785b7e9d30444736cfe34d1413c75d93a76e0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_10_11",
+      "manifest_sha256": "67dee9bc62a749c48b74b2c47ede288713873814f9425873999b700ea5e721d7",
+      "publication_sha256": "0842da23c6ac00cfc2b4dc4b18abc726f54a04e4995913d0277af971a01e6d42",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_11_12",
+      "manifest_sha256": "57c695eb8c8d40da0a054bb06ed9d1ac75630d2591e768493e7afaf44e0b07f7",
+      "publication_sha256": "29ac4281ec82aa527b1fb5e14f94b9380a0d27f0726febcff9e4278ff164c392",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_12_13",
+      "manifest_sha256": "062276c1a29f53dbad8fefe9f532f544f867ffbe14e7d610f84368fb88ea49ef",
+      "publication_sha256": "989a5fa6c83494ea9fbc2d6b5d83a9ec088d2a4e825c4db3e3c4caa1e975d6b1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_13_14",
+      "manifest_sha256": "d14942bf87122b5c788329849a7315083bd5345c608de309065e7e0be22009fb",
+      "publication_sha256": "35ff2044ceb53f1bed34c85ad6a49d47f36672eec71bf635d0d619a92faea771",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_14_15",
+      "manifest_sha256": "7d903d773137a15fecd3475eb2ee4c0f830af1736fd4ad4bbed096ee7c0f9e9a",
+      "publication_sha256": "001d5d71f769aad63b3b7682281c03496165c38eb46d0522c923df09606298da",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_15_16",
+      "manifest_sha256": "799181752051843740d3b897a151600746fff5754e27c1b57ac6c59c2656f470",
+      "publication_sha256": "e426b75f47cbd4789a0d6c1bb5a1331e19b01e32fabbbfdd5dd919d982e0fe5f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_16_17",
+      "manifest_sha256": "d62d946fa25b6c2d7dca8c31cf42bd84a6ac5c7af7e89dad1fa9337b138de93d",
+      "publication_sha256": "2ecfef38a9179d2e79e5f67577a5b7bcf9d6b7bd7be135873b7e3377a53ae584",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_17_18",
+      "manifest_sha256": "70f3bbbf7d43dc796ee7c3f83399bc6dd78ba77cec0acac452a48eece341e2b9",
+      "publication_sha256": "06039eb553541bcaa3b11b0067b453ded800c6d8b342a51b4a7ebe04ccae891b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_18_19",
+      "manifest_sha256": "6e3e80d273a156238a25ccc2c60cf5c24bbf478d4656e709a47257d0d6f27563",
+      "publication_sha256": "edc7b44bfab046e47d0e83d47f6f88a518534618d1ee6ec364056aa6e3339df6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_19_20",
+      "manifest_sha256": "33cee5791bf623f583c4d92495634321b59ad9ce65504861fbd3f2f24ce8f0a1",
+      "publication_sha256": "21dac798ad26a4d50ac3244a6bda68fcc4bd2c4a9444c4dac97dac552b6c0890",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_20_21",
+      "manifest_sha256": "129f0c55a121abb0e4a98379077d8aa273056b88e403f54945244046164d6181",
+      "publication_sha256": "5345267ae3272f86ebe857690553f3ea263fbabb70e7999a2a8d10086c766c76",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_21_22",
+      "manifest_sha256": "ea3df7915998fd72e9eab8b45c6786c96901b86dc9841684aa948bbecae5950e",
+      "publication_sha256": "4755db9a571c4d13e761a3bf0559d6806eb40741a78da222e074380d87724d79",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_22_23",
+      "manifest_sha256": "fe32ee1a741af11e19c63bce2319a5de96fdeed3219ede1f784ecd6bc5e1df79",
+      "publication_sha256": "e8b5642bf082b548806fb772b827b67d3f7373f9812d919a6290dd0c2c8e769a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_23_24",
+      "manifest_sha256": "c8515f5b166adb4e86f66c76f36092e4b16b74245fdd305a44681c1844bc4b58",
+      "publication_sha256": "431f5f681d589de623888c5ec3ee15c46aaabebb4e1a926d429863e1316fad0c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_24_25",
+      "manifest_sha256": "6703775b92e14d35131c2e016003207a63a7dcd930c2cd2110c626db027869aa",
+      "publication_sha256": "01614b30e98d9ce5ed5ac6ae100700266e0341561fa629b60d163c5ce6ef6c3c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_25_26",
+      "manifest_sha256": "ba2202159ffd436871cf601c1e4713e81867fd72f8caf5fff20b2af23ea07741",
+      "publication_sha256": "296dc657c449c6f3789c10039f5773d8e6d85ef7e47439e3b6d03fbd4dc451d4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Bundesliga_2_26_27",
+      "manifest_sha256": "c0896f53671318caf678c1139149a1a5a7186a5d12b58237484bb14c65ca967f",
+      "publication_sha256": "2e19d6072e65bbe6fb364a18a26823bf856948ed2841158bfb2c69386dd55b6e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_17_18",
+      "manifest_sha256": "38b0d9e092c8b17a17ee4b39be233db4fb82b50a9e625fa7b2c28f153f0e9b17",
+      "publication_sha256": "bf6f6b342ba288bd76028860eea1e626b8ab42345a0efbca49ce108e55f14614",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_18_19",
+      "manifest_sha256": "e4697de0cbf1960cb9c520e5d54fb067ddf75de969e51f3d7dbaaefc520b1b31",
+      "publication_sha256": "a5d916d97812aa1a214ac298218dffd6f6f5036426c4ba767b960c4e70b84d1e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_19_20",
+      "manifest_sha256": "c5f55ae0c38a4f94832a9fff74c6128f17cdbb29c4be383811e9734d752dc01f",
+      "publication_sha256": "049e59a370de3a3fa5283bacd4d9dcbf4a75886dcffca164a41f370632887253",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_20_21",
+      "manifest_sha256": "b842592258ed684be4df37ded572eead87c26de7b06de01110a9363e81f451be",
+      "publication_sha256": "beefdcd0fe9b4441f02b12649e7e259e535586ff519871bfa4886e6c82e77656",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_21_22",
+      "manifest_sha256": "28a36c772a8a2602f776ad3b36fba54661ff8199cb550d4f73e39ba95395b61f",
+      "publication_sha256": "1476f1abefdb85ace925a96bf8c34c2112c94acc9d173deff7399902e02932a5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_22_23",
+      "manifest_sha256": "ac69b42e5f3259f9e2bcee3f9ca38bb90b8bf0d2a8554fb28686ded9d0f1431e",
+      "publication_sha256": "cc30424a65f4de8be76c52009824920a13bf26b8cbcc211d38119d180a94c2b7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_23_24",
+      "manifest_sha256": "755b82df1e9557ba28869b4f3594a37ab80c12cd5794d63e59de96647e7180f3",
+      "publication_sha256": "c7c1063d536de5c116e4060d4db6dfeaba8cb994b45c03e5fd8de6ceb6cdc2c6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_24_25",
+      "manifest_sha256": "5a9e390fe1d631140cfa3a26d51a9afc3a220b4451b2871611d00e753ec252a9",
+      "publication_sha256": "07dca1ddfcf00974c145382fed9629b25b9785cd50980ad2bc51a12a84cae26d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_25_26",
+      "manifest_sha256": "e5606fe772bad1daeb8cf4c9241a87573cafa89b85e78a172ac27192428a07eb",
+      "publication_sha256": "385a2111a22d45d9893aadb77a4d096e4e4e69b58c312bdbf5401d96dc72aa35",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Greek_Super_League_26_27",
+      "manifest_sha256": "e3d88ec09afee803f75311b5213b744a91a9cf58c886ce8c2447d41bd9a02687",
+      "publication_sha256": "670276610132ef4e5edbcbfd4df47c6377df9af22fbc294fc358cd150f72e0b9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_10_11",
+      "manifest_sha256": "d727820ba788b1479ce33de261ce807477afe7fbb15507e0cb3b4d3f18803734",
+      "publication_sha256": "85a34930e2b0a602aef397b0656ed130595a308a0cc8bb3f8d64d949d829658e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_11_12",
+      "manifest_sha256": "9866a79e950e73648eaecd6903549be234dd1b054eb9115843029d1a204a79e3",
+      "publication_sha256": "a620ce9f191f5193e2f943d2e0067cc861d8b34a2a93e380360afb5eb4263d30",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_12_13",
+      "manifest_sha256": "06db530a40bf5293374a853ee3c0422c9b3d5bf10514969cfbe494af25b99707",
+      "publication_sha256": "8f0839ea8b3dbbf93c9d02fcc483a54dad23b7d9faf7e47ba6881822495c8554",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_13_14",
+      "manifest_sha256": "4a3d9b58d97e33b4517b36eca8116d9f7831d6fe09096fef77513732ab5e26fd",
+      "publication_sha256": "d714ba5bd766b46438258669610b2f7a262279f18ed5c0a8b013f9acb91d8cea",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_14_15",
+      "manifest_sha256": "0b653d625529b9ee923cd9fbeeaeb63fff0977827524081155d275d3408896c8",
+      "publication_sha256": "439122c3b4a34f9941299e03d05bdca1942bf2a65fb4c071c65b90f55eb2cdc4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_15_16",
+      "manifest_sha256": "13f98213cbcffb13321de2c282339253825b56259fff0ca9c91885f3cfdc9b25",
+      "publication_sha256": "743dfdd52830696db38045ca297578dd075b95b18538188850ae3dd41eb16e21",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_16_17",
+      "manifest_sha256": "20e9f23faec9965abab1205d6995935ec3855fbbd2c2b856d608885e64b1853d",
+      "publication_sha256": "f70d18c93e0802e4b31fb1aa5c70477199cc36f2e6dc99f6ebe9ec8006126245",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_17_18",
+      "manifest_sha256": "4233616c67d7771a1a667a1bdf5d1a7b5f14222cb090af56ff5b158caa42280d",
+      "publication_sha256": "40d9bd18c29dfc5b5231dee3f10123b0bb23cca2cb226ac37731b5e4f8ce76db",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_18_19",
+      "manifest_sha256": "a1f6bceba830c33df6e823a507aa03b19e6c67a6ae18b57ee071982d6fd73772",
+      "publication_sha256": "10e1bdecf1179bb2f52571a90fe81ebe4e511b702e1c10761c015a48b7d2c141",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_19_20",
+      "manifest_sha256": "3cd1118d4cc51367efb5bf1784bf1e71dfe0c339bc08d690a6fb6b5e7782280c",
+      "publication_sha256": "78218d3ff160abf1d7a50967a636b1e2ed67efe3c473fd57b9864ec3170fb55d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_20_21",
+      "manifest_sha256": "bb652af0a2ffcca5655e4a40bc864a2eec311474f6ca39091ed6ebeba407c990",
+      "publication_sha256": "9a1900ed1263e7cbca6cc05f4306856b3cc00969af47493b97f364dd78d34d23",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_21_22",
+      "manifest_sha256": "c199f3f3e5938fb580b06670d0be82bc675ce7e6fa6b545961c902088d304d49",
+      "publication_sha256": "5494cceac02347f8cb39b5dd414bca30a9858e0f2963ff8cb10f5081e88b2cc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_22_23",
+      "manifest_sha256": "a9c4106ba98863c99e22eb4bf156dad0eb05523e757be143346a622db753574b",
+      "publication_sha256": "02686fabb2e37cfe1e74e20e6607e9dbe727eb866462accb53e4186d4ae4ae07",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_23_24",
+      "manifest_sha256": "e339cf0292681938636b402d4adc64b981949a40e30724787b4dc107882a4b99",
+      "publication_sha256": "2b116112d2d14dd7a9b85bfd5e1db3b8e274f1423b73cac3d34e19157fae7c91",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_24_25",
+      "manifest_sha256": "850abc4506841419ea9a1ec81aa28729591e5af9a5be36f44c0df86e487112fe",
+      "publication_sha256": "9a2fb680642c99999fa67737642806864f60a2f79522811b81b9dc11d4d28b72",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_25_26",
+      "manifest_sha256": "a1ddb8a4502d283f99319a9953f492225f011596abf8520581f3855ac01fec81",
+      "publication_sha256": "f78bba58858729fa9a8c90b702161669eea152d15be64f49a9aafac9006adec0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_A_26_27",
+      "manifest_sha256": "d80e3a7adff3e6101a9f0739486163e6ed3aa932b0318acedd97a9b828f05000",
+      "publication_sha256": "bc656aafb355c067e34e03fd2ad605f1dde5605990e6acb25a01bdf9958c27bc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_10_11",
+      "manifest_sha256": "68f0d916a5a6b3619938acb3c929c5abf631d1f80eb690fa4c156d4160be049e",
+      "publication_sha256": "d83af7028d1f202cc92ad70321884605521ce84bc6e5a1f82360011b6fdc1147",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_11_12",
+      "manifest_sha256": "af06be7d09f7fde0a004f5b2b414e28dd0fbe6f118a73c9fb27d527c1a89b278",
+      "publication_sha256": "c0972bb5ec745ab7591e1f32e280e06b8ce03df05f5a9e724752505ebc11c4a9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_12_13",
+      "manifest_sha256": "8d31cf33e2f225a4220c8b276816c45cf72d755f9b421de65abb559c7c3cb147",
+      "publication_sha256": "1f0d428f68ddacd583ea15231c228aafb96633ac6fee8182b8451047e66ad640",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_13_14",
+      "manifest_sha256": "efbd528c51271af3b8fa3823bb5d0fd29a5705358582848d7b48a3afc9412e2d",
+      "publication_sha256": "dbaaea5740e0c0e16072e12c942468d6a377e3489d105cea8267cc485edda55c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_14_15",
+      "manifest_sha256": "e895ece9badf1cf1e0cbe85c75cf6e8c29ab2c3629bfef275f3c3d9c13b786f9",
+      "publication_sha256": "eb91340920ba4d76d6d35a76af8f3ad8612fbc53a4931ec73cf55181dff34364",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_15_16",
+      "manifest_sha256": "c6e7ad4046f13bf2bfa29cc19155af15fd788df0a59f9578704a4704c4906beb",
+      "publication_sha256": "ceaf775340e79e484f64118b47d1b642f785c5479291f9c7001cab716d87f98d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_16_17",
+      "manifest_sha256": "5b261f8f90be0314c39bf9696ee360d5b0562fe755058b62d3f54b07e56a4936",
+      "publication_sha256": "22599b1e0228e9dedbabbc670041b5e4cc1c3b38a05751ec0667f3cc01c468f9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_17_18",
+      "manifest_sha256": "8b0c0eb72fc6bf2b887ab9cf9b66659a76a6ce6f3e175c46c6201e1b8882e65b",
+      "publication_sha256": "532708001601960b2f240c8a1d40c0f7c477e174f43a0616a1b4cfd737d61b9d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_18_19",
+      "manifest_sha256": "6308fde0c55a155f924b4e78b7dae47a659dc134614ae6e6525818dcce1929fc",
+      "publication_sha256": "144c3c1eaf70ef0837fe67bb9686cb43bf945f7480c9bcb672e47c5aee8ee7b5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_19_20",
+      "manifest_sha256": "fbc756d11fdbdd7d47324f756a343d2f574e4109ad50d7f32368e64e393e9cb7",
+      "publication_sha256": "14c436186166fe26a3483110156178e1704f0075e8c8ed5c28e51c116c6f4e01",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_20_21",
+      "manifest_sha256": "c59a9c62fa075264be91f00eba1043b0ab1c843780e549663e899b098a140fb1",
+      "publication_sha256": "4ecc20fe0242d5dd5e615d3a684117215254eb6f8223aa08d05ef70fec46474a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_21_22",
+      "manifest_sha256": "4901fefbab120213b0ac52da963cdc4ae608d7e0591a3b691e4279eecbb8955d",
+      "publication_sha256": "e3207548afe20180882848b091e3599ab593264f49277b8de8b46817f5e9f812",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_22_23",
+      "manifest_sha256": "b08e43a6c8e7915c005bc8391546baa5b95968878d37ab20bf93272ec30e8c0b",
+      "publication_sha256": "518757f27d39d98de067a229a3a15db8d86caaae10ef128a42a2f47cc46bad46",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_23_24",
+      "manifest_sha256": "ac3888e8a3059fdfa220c96c31034dc1a9f87fda48557c8b8ac6706bb05620f0",
+      "publication_sha256": "356af6379fb2f109943ca5004cadf982d7c578070fd0e1c11996946382212fd9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_24_25",
+      "manifest_sha256": "7d060dea83f6f7c0a25bdfcb4f977c4446b0d3405d1e6144793a79ae8e3a8903",
+      "publication_sha256": "2f9fdd5436d3c56c6ae14a52101154d259009f87902e91fdc479bca2640abd84",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_25_26",
+      "manifest_sha256": "2a18c745c95ec2a421c684049bacd9cf7d4d023a29acbbfb78d4f79d2c00c31c",
+      "publication_sha256": "736fa88537394510e4969d38857ceab3e7b937d4c8b23c8adb85e892fdab4436",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serie_B_26_27",
+      "manifest_sha256": "3d93c3cf2433f1af173c9ccd88ab79090b36adfafed741327368f2cd1ad15492",
+      "publication_sha256": "d01d531ad4259a32e4c54b8a6b7c405311d0b0992381438f29a3217ccf50e8cf",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_10_10",
+      "manifest_sha256": "5d7ef2e4a15a5030937f99c61c864e04376e27ae3a19b3465bc4e2e5ba901324",
+      "publication_sha256": "4d8dcace7f8b53c1d6c53da777430c262b8c694b87f9a63230256a481d5fbc75",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_11_11",
+      "manifest_sha256": "aec7c3144a84f3201cd1f6854f3b28a6314a74573100f12c7c1a225176c79a93",
+      "publication_sha256": "df9ba23f6bec4dac2ff2a5ed6166cf0a267364049bdd511ae6c6d8a56ad1a02a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_12_12",
+      "manifest_sha256": "8a556535a41122a3ae01128533b0b9e0629d9fb9d132b3840f677282a351f235",
+      "publication_sha256": "963eb4077e4766e69a7cbd42ea5b7c3747b77f86ab746c136716a1880d2e3564",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_13_13",
+      "manifest_sha256": "5127aed7d6095656472c29b5dc2430b698f52f61bac622cb489000d594ac5c86",
+      "publication_sha256": "7fd9a9b862655d28a6c97614cae885e07d0cd537b110e8e5fad49610e2456947",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_14_14",
+      "manifest_sha256": "9a7b9840fd56f7014c5a266e18aa8c3fdcc3288cf8dc27d197f12ba44c39c1d5",
+      "publication_sha256": "0027c4faf60a49c8819841f9fa61cba323e8ea24ea2bc759a22eb935567122eb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_15_15",
+      "manifest_sha256": "51d498f1743156315ccf4231971f8a720e6f6d573e282d03b41abfe0b11ba38d",
+      "publication_sha256": "5d81a27adef9915075f9ca1f326b886bdfb02d21f57a1a09ec91c55c505e232a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_16_16",
+      "manifest_sha256": "1cbb9eef8d2976c1028b0396a235a489c701abdf36479d40ec3b0986a3473c1c",
+      "publication_sha256": "4f89f2eda6e326c34d091aeb6fcee16be6e9520b567db276ff26167d00b8a192",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_17_17",
+      "manifest_sha256": "ecbee23b7b5b0d8087a1bbe8f343a9a9b6edb4a73c205306872007c8f0920c19",
+      "publication_sha256": "08f62e4f91f5603a026a0e868b4cb782a792e70f5368f4675b22ff155d5c4264",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_18_18",
+      "manifest_sha256": "63a9354752f141be4403ff4d1bc3b74e972697228522e982c0d28e7d2ca72ff2",
+      "publication_sha256": "deb478ffe2dc74a500710298b24acb21f8500c541cae07302ab5d15c01b2cc6d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_19_19",
+      "manifest_sha256": "c6041ae8a11d23a9142575681941a41e610dbea9867c98f7a9d2aba927e021da",
+      "publication_sha256": "4f1be7459ff9092d23ffb3ca01edd523373bfc93bf609a9df393c20beb6c6911",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_20_20",
+      "manifest_sha256": "e7303728f152825ea38042d6f3547de7ebc689fd7eab037d5d0f564e57cea7dd",
+      "publication_sha256": "1370b7997a4ee9390d03152d1f166432442db48daa52abdd2a8e983d5e7036e6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_21_21",
+      "manifest_sha256": "33a45ccbd31cf42ea6f42bcb50994a20407184287ae75cdfefc95ccbe5306bc7",
+      "publication_sha256": "1ddd77cf77f7fb0acdc5b9ba751ae471d78f9bd7dca884967138207007465075",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_22_22",
+      "manifest_sha256": "47524423ad80894609d67b6bd4ec4a3c8e25a1eac6cab0bfbf5054aee10be4e3",
+      "publication_sha256": "2e2703c6006f5e86a3fccb66c9f6f7eb27d73aa6ad9f84634060477156dd9dcd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_23_23",
+      "manifest_sha256": "6b9007d6bf6f4d48062fa0e1bfc041fc1e0547a73eca08faa96ca95ed4548ad8",
+      "publication_sha256": "7a24a868051456aaa4cd10c771623eb887b6c2aad8f672bcac36aedc2b9cae11",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_24_24",
+      "manifest_sha256": "44451ab1fceaa33b824cfea38fa7cf3631794b5bb9c330531c147f6a3ec9dee6",
+      "publication_sha256": "0d76655c62636b67d963e2308cb964e44eb268b67e0afcfd6d57cf758f97c698",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_25_25",
+      "manifest_sha256": "ded5e968792ac3a9c380aacedc9e8ead1da62007f12a5cbcc53f8a1cb48186c6",
+      "publication_sha256": "41e2cd69f811001dc672fd98f1f31a5963938a14985c981b64562167b973312a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_26_27",
+      "manifest_sha256": "0a196844c75b2fad553718696681eb721e611a5c8ef12c824bae4ce7ddf34099",
+      "publication_sha256": "842ba92cfaa1628e0cc10eee95a78e6c67ebe8e8da7d9d0ef627a27692c7d044",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J1_Transition_26_26",
+      "manifest_sha256": "4155bc366f46a3b28ada69a0e7c0cf0ffaf67e5a2a9d78105d3ecd82c11bade5",
+      "publication_sha256": "516b6a2b1e7ae6faf96f4d19e4caef130521aef0a54a17cb41d54f0dd8aeb116",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_10_10",
+      "manifest_sha256": "4fe0ded4cc0d2b2e34c3e7992e98c30fd5d6691a7434e70b691579853ad341cc",
+      "publication_sha256": "8b4acbcac441973898a2514e9bfe133e7d08ac7b635b0cd084a6e66075036384",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_11_11",
+      "manifest_sha256": "024c5ee247175ab589ae56da262393759dad131dc877319b1b4b3d7d0969c5b7",
+      "publication_sha256": "cd5f3ec13db2161df3713a26cd1817c5a01ae44d2c16fd13718a87bd434f5f79",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_12_12",
+      "manifest_sha256": "3aa1e64a133e0aad8b4d4fa39b63158c8a01913b7dfeb78fb915481dbbd98e7f",
+      "publication_sha256": "23b6c4dc31c13edf2cfe2e47a1fbb44b8cecfea3125d3e14bbfbb23b03cf8288",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_13_13",
+      "manifest_sha256": "84740e0039621044cf809969672e4ce7045ca852a51059132e7893364a35bc93",
+      "publication_sha256": "435d5271652d000826285c268ee2b42541c3f4090ebb20135f7e91aa57d65ade",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_14_14",
+      "manifest_sha256": "0046cbb1bb7d26db675a58ea7bf99bbf07ee30965ea18d2e5bb3704c1f0cce96",
+      "publication_sha256": "fb54d2ae69e58c220a422da40e6a3f7c6b18809ffcc5d96ea7efba2d11a0b0bc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_15_15",
+      "manifest_sha256": "3578bd8ab1160362aa2059e226bf940e928cb5ca13b3db679125cfda640a0bb0",
+      "publication_sha256": "b82e9801bddad511571ebdf42813c7154f33669df7544e16391cfe28063c8ef0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_16_16",
+      "manifest_sha256": "ee14a08916f1c41fa58875a89c449790fe50daf1789ab1e969a47e7ce21b363a",
+      "publication_sha256": "8ccc58818566fe5809bb380aeddf3e38d019330b3288076e3e02a7f4ab24a936",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_17_17",
+      "manifest_sha256": "0bf61693381bb24c177973a9ca6c414eb9ed568ccbb9d31c68a63877f0240143",
+      "publication_sha256": "bb9aa4b541027476ba5f5baf2174953583ee87e4689937c491edc547c07e40a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_18_18",
+      "manifest_sha256": "ab60b82371e0ca271477aeaa88b34109ca89ba60d96db06f8af166d7a0e165e1",
+      "publication_sha256": "387aab7f1975db5bb734da9c24bdaea9524a4e56bb9a1c89e39fff03d41e1706",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_19_19",
+      "manifest_sha256": "4cb84cae44586569ec571566ee02c469702750425fbb205050374a09a21db892",
+      "publication_sha256": "54307ce5fe5eaa9528f05f772570565eb74a9ea1f91efc6c2aef54d5169ce8c9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_20_20",
+      "manifest_sha256": "f45a1583fbaffd7785d6a3b7857fb1beaab390a063f3f5871690e34249fa3264",
+      "publication_sha256": "b4bd0efeac8ef38893077f0f147d8b4f394e8cd6ca02d498451f0fd6d213f5e1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_21_21",
+      "manifest_sha256": "3941610cc6177f0a1ba7724d2281b5a024aa094049125bde5db345fa7fdc9f6f",
+      "publication_sha256": "fd6f1ccc273ed15b2c8ac88b19437d57796989511eb7feeeca0ec39f7ebf6d15",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_22_22",
+      "manifest_sha256": "779136a0ef42f4a7a35c8d8377bfd9fd329cced581f1025d2b08f53beb6710cb",
+      "publication_sha256": "bcc06aaabc4733bb8cdbe6ca074444aeeca120938ce4cc920d8cf2c61fef1c1e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_23_23",
+      "manifest_sha256": "307e8e5d5631e172df02e1918838c0837fadc0a81b1838f4aba12bab7cd3d479",
+      "publication_sha256": "de8d706aac86b19aeeb155c78b07d0e25ca28e6574156b0b067900f05f037c09",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_24_24",
+      "manifest_sha256": "2daff0e2ff3076de876830e1b763fa673a7253f1fce9debc8014b4027b99224c",
+      "publication_sha256": "0e6a40d906a5dc65a6ea5f94668097f48bf331c322d8d1faf7ec7d01065362f1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_25_25",
+      "manifest_sha256": "28c79e26360ccdd6f3c8943e04ea1fd3f2c47cabe847655211ecf2aa764d8e5f",
+      "publication_sha256": "d590617c60763c5c3860edf48ef7e1e8d34d38abfa77f283ea0872f9f9843173",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "J2_26_27",
+      "manifest_sha256": "6acdb5e7eb344acc659528027e632397bb3a386f77f802fd62877f7669047a03",
+      "publication_sha256": "1a6d675d3dcd2f271684aeec9cf21b6bc41c781684397df79ea8320f0d077bc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_10_11",
+      "manifest_sha256": "a0ddcac63373b7d07e9ef22cea41be5c3f2a2738abbb387b89e0a76b27723dfe",
+      "publication_sha256": "060555606ef9c45aaec7ccd98ab141b5c87a65801ba0d4be0cf4e246bfe479b7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_11_12",
+      "manifest_sha256": "9cba29da62319f2dff37c264c5d954ed6d30e1acae0ca495d4de03c74e0a49a9",
+      "publication_sha256": "8c826ddd54debca2782c4e4b25282c92b7ba5dd81a0b25f496b0aba6c0fe6a37",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_12_13",
+      "manifest_sha256": "0a96321532bcae8571c2eec8ae4892ea7d12b4a4c66054373f711bd711d616f1",
+      "publication_sha256": "0d16538ebfd4abf45233ee486fc332eb204a85548178d539ae45a33ad848ea9f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_13_14",
+      "manifest_sha256": "f4c66c7f1a7209d5cff50b41b3e2dc52b7e9fc6264fafab2cc0b6a18105e3048",
+      "publication_sha256": "1dbfaebfff9b79c8908a703dea78fce5c7f965c3adc61d72df9968e109464127",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_14_15",
+      "manifest_sha256": "e3e89b41fd88ff516f7668ac8a728259e60bc0336b3ef3fe3a0cbd8924a5964f",
+      "publication_sha256": "2f1843ba64f2e342663188c55598aa3eac3a5e69e9a56b83a2865663c8091552",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_15_16",
+      "manifest_sha256": "3fa9b4d7b14114d6c537a3d104d7e383e48ee6b95aefc440d55aa2e8df7e8969",
+      "publication_sha256": "16cecd6dd402d316f42b981172234656b189beaa694a49b04aeef00f53a3acf4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_16_17",
+      "manifest_sha256": "814ba7c9e6045028cd29f6d589c75c7fd53a819e2686f5451c9e56787baeb1dc",
+      "publication_sha256": "7b6c062ed18cf329ca649f9358f109c8f3e7ac7346f622f8c9203ee0418fc10f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_17_18",
+      "manifest_sha256": "21881cb041027e76d706931b46f10fc5a50ca1df6dcc366d3a5966287e28e081",
+      "publication_sha256": "a47bd0319bcdd9f9657560747f61f23aabc2170991fb6af2701b1c2546bbb187",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_18_19",
+      "manifest_sha256": "49d12c931ffb8e71f7f8d154c23768d296eaa35bccc96669353ee8366462fb53",
+      "publication_sha256": "935d9adb4809788390c09542d1d6d1f3ced49b0216f632356d285d52b1e6167f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_19_20",
+      "manifest_sha256": "1caf2697c33ef2a5a3f8306c214754a8f43eb55db8a39d0c70d069240c71fbd2",
+      "publication_sha256": "c3227b6cc7a73d3ef5d6b5563bd997ae54adcd0bb97cd7fd49834a259be9899b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_20_21",
+      "manifest_sha256": "4055e0cce28a529d4c11d0a631ed1ccac594e3d2efe6a6ca27c8c196dc02537a",
+      "publication_sha256": "44bfcb3eb529cd834d6be287cfd91e451180cbd7930374b86078ab92f26e3f04",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_21_22",
+      "manifest_sha256": "e307eeeee6792b3947cae9367386069ea4015a65f412520f04b3b89827da61a5",
+      "publication_sha256": "ba103e7abc3fe9d1d3b3ff05ef23d22ae9a00971461ef40547ba6588b55bda8b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_22_23",
+      "manifest_sha256": "da53b346b13d666a7467d584375a2f10d519e5bd4b71c09d5decef27fe6754f2",
+      "publication_sha256": "3d4dbe872aebc3f7a425285ef17c85a29d84b5286f6eb0542bca55b8822c838b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_23_24",
+      "manifest_sha256": "23279609938b7c597a1ba344ab7144ff4d11696736652981796e68115613033e",
+      "publication_sha256": "40d7d85534bfebbb6435b4f7ef5525b32d4bc3131b15b274a337af03cc56260f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_24_25",
+      "manifest_sha256": "b82839788c27c23b17cc21374e57153bab4632f866234022804c2d9bc4fc81fb",
+      "publication_sha256": "61746cad89bc66d7ab6b6bc397caa3d8f5e9671a7cfe5a366331e23183a49d3f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_25_26",
+      "manifest_sha256": "ab063c79121abcb43a3816738b4867a82413fa25a95c82d45564ceb185af2ca8",
+      "publication_sha256": "8b132a30a6ceca1b47c4b9829ddb53b0086f3cc5fc9a599ab57fd5101e0a36d4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Apertura_26_26",
+      "manifest_sha256": "95c0cec3ca2843f5cfda66ba8ef0b028a5e0ced180a68e8dc87a9f291157b483",
+      "publication_sha256": "bfb654332492be3f1e8588974298ca6b177c79e4158d1cfff719c85ec8d58710",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_10_11",
+      "manifest_sha256": "aa95a5e42921246a64e56c366fce5789a6c813f30ba077b7bba1e2b12265ff18",
+      "publication_sha256": "2ac3dd2fc973cfb8ff16f1315a01fcc21b7b5d1611a0f949f2c0abcbec9eb547",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_11_12",
+      "manifest_sha256": "954342abc4bcf4d76a9d33350536fe24160d3e9a4834c8b3e6cf0a3ea17583ea",
+      "publication_sha256": "b2000ccd771d90449ddae2feac9dcc8e1da9fb392e0011441c5ab21beb095540",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_12_13",
+      "manifest_sha256": "75bc57287b417ad304a56a02e0b8f89990644b7247b64453c2e87949911f6653",
+      "publication_sha256": "da7455af269f7f9aec2280b5b7ceb560dce830605b240de07ddee0d9cf892bce",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_13_14",
+      "manifest_sha256": "d872e6bfa202b4ccb8fb411dc40d9d1a516b4cc923a638f16c8a06bff704e60b",
+      "publication_sha256": "afe34ee44d2bc5dde65d738b53065162380e6e6576b3909caff75de1060f9dd1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_14_15",
+      "manifest_sha256": "21225ab5320c59beb4e6e2ee73f49069c80b611e7cb2dfe7ffaa0a55bb03c08e",
+      "publication_sha256": "a8901bc04149464363e2f99984d0d596ba80fd585e6214d5e3b11d0f8b5324d4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_15_16",
+      "manifest_sha256": "ba861c026ff76003a55c8d55f6c363381c1ecf08eab7b6c309714c8d805e1f97",
+      "publication_sha256": "845e908e71410ecee5116ce9258904010fea7a9aa4f3b812faf266651bb3548a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_16_17",
+      "manifest_sha256": "4e67c1ae5cfb87d6660bc2399640844dd50f3fddc9591490e2faa53c3c76cbfa",
+      "publication_sha256": "a52b65c9b2a628d4e9252acf2dd8f08883d01aa863c2cb41ff4c2023fda99007",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_17_18",
+      "manifest_sha256": "092d27a887ddae1c992c2f6b5d93ad19b44728ce93df008ef0823b4770161a95",
+      "publication_sha256": "61d26b8c6973f2e29e229207b60469fa41fcb3ae85ed4198f5ea339f9e645041",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_18_19",
+      "manifest_sha256": "08aedd91314ba018c4e8bdca54ca54c95969dfb58c972c490904bdfc5a0e66d7",
+      "publication_sha256": "0ebd70e3908fccad4130165db84d73caf7ffd62dc40be2da031b33f2222413da",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_19_20",
+      "manifest_sha256": "365c7350f1052698b1462f861c18cc520c20a07ed0c3e4e2efe6a009bf98a4b2",
+      "publication_sha256": "acbe2223cc520703caac48fce2a161a902fcc5cc2af11b3647e242bde497e9a7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_20_21",
+      "manifest_sha256": "125a7310cc9e8d9bec8c2ad707bbe0a91123d41022ea6df94d60335cb0cc0a53",
+      "publication_sha256": "ba27ccfb7f1e528f5009ea6eb6d4a0f88bfe48a7993bf5d76d3d8c97355726c8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_21_22",
+      "manifest_sha256": "3eae4089b79b6a6f05740e401234d04c31fff297a7a73a227d80f2e81b43cb2f",
+      "publication_sha256": "7b281fde559a3960544720dd41e245ff9bc5894e5f473e3dd7013b67e7a1b155",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_22_23",
+      "manifest_sha256": "e1c0ae0ce26069fc96105eaed43abd30a63c23cfd88907349f6d2c7dda623cf8",
+      "publication_sha256": "118272ba5f45a8976803da235c85ee68491ddc39139f1c1ce77395330017affe",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_23_24",
+      "manifest_sha256": "35f18b1735faf92a14a5b79f11bde9bcc927fb9f48808e050a3fe58764827097",
+      "publication_sha256": "07fc0c078e9e7692b570ab8987a4e570d26f11e9d670f2c1077ce9c04e68bfb3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_24_25",
+      "manifest_sha256": "7d31c8b616eeb239a18fad0d9189cb54bdf2ae04dcc216f454279fbd80082220",
+      "publication_sha256": "4bb092ab12f78b06052c0d75fa12f7b89591db30097cfbd730cf44cc856c21ea",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_MX_Clausura_25_26",
+      "manifest_sha256": "08e11832cb57197f74e33845821d02ad59a9527ca00ecb165fa5490991633748",
+      "publication_sha256": "faee3f789601af46f4610fa656402766cc0339a759ec544b1e889a04b1cc2b79",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_10_11",
+      "manifest_sha256": "bbf526cff9cf5035705967115b324a21e68ac89a5ab57ee106040a18061155b4",
+      "publication_sha256": "491e43ec7c8209d0f94033d2c2695222be020bfade492eeeddbf4c170993c61e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_11_12",
+      "manifest_sha256": "fc7f9dfb0d9e37b66533661a6c0059e7f33b9722a5bdd2ef01d87d1c8841d979",
+      "publication_sha256": "2fbbe6c369b9016834a162b7a56416b6dea55efe975eb161273d015454a53ff2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_12_13",
+      "manifest_sha256": "a17e12a96a61b1fe4931b32f20e0326e01c43fc3c79c891a26856cf803045082",
+      "publication_sha256": "b8671ba6881415bded6087957482ac610ad2c7b4a9b23b60de03570e1c59fbf9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_13_14",
+      "manifest_sha256": "97be15702e0aa15544c83d743e32f3956b5a102c1d94ea9aeedb724a651cec80",
+      "publication_sha256": "ae07ffb9995661f7fb85ca7a00b1ecbdd668b70e93487af75f752d5af6096091",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_14_15",
+      "manifest_sha256": "21e4799d8d838f94b67e97643c6c3325f3881eaf4227e7de10fa4f125b581388",
+      "publication_sha256": "d29e9ed0ed4915b71cf25786f730ac97f910d60e7ef40ef8c120fd785b092427",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_15_16",
+      "manifest_sha256": "9bb8dc68d127d0908af645d8715b3a271ebf5d85e404ffd50a6f595c715652da",
+      "publication_sha256": "7586cfce9def781b8cbb06b83e74f034965ccbf9116493beb80b08b242e2c0cf",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_16_17",
+      "manifest_sha256": "f8c5a72987182725c9b03382ba6fe22f5446e90c8e69297477d33905659d4444",
+      "publication_sha256": "5b10b1fce5ff38db3e096a46e0c22a92b71c372d0f465a01acefb2ca9e44a9e2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_17_18",
+      "manifest_sha256": "16ad4d49b901dd44bf81d087ba383917bcfb1c073a9b44fa18f10d35293df37e",
+      "publication_sha256": "efbd53a67381f78a625e7a11a06f81a65a2dc0c8f2363c9f33d5482104a40bfd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_18_19",
+      "manifest_sha256": "1885c2ab60e93c1e6016a8565d21ce46e10c3cfb99902d8d79f00ab6aa0ca8ea",
+      "publication_sha256": "87516e421387663e63dc3047604adb2a048b615dbb370c5e570ed61703656d60",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_19_20",
+      "manifest_sha256": "21839cb955dd927415a15499116d79964036f8a3307e1b25f3d6370776efcf81",
+      "publication_sha256": "022369061f4a27098fc2f8afd165d8e709c995e920c6df0e264a12fd153000f6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_20_21",
+      "manifest_sha256": "9f7953c48c0ae33e7e403f0bf35275f88366cc5315f4327fa68005d5c1f937aa",
+      "publication_sha256": "eed54d2cae5c33ed80a0e68ff8437e7548d61c7c8ee8ac5f45d93a5c15e02db6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_21_22",
+      "manifest_sha256": "3088a1310c1e3ea9451e16763667f20a63b52d8fc27191cdef057de0d218de62",
+      "publication_sha256": "c49735a2b63a74434bb65ca03c07d5bfe8bd32259ceca58b87c7099171bff52a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_22_23",
+      "manifest_sha256": "a847e110430378cbd35b75c62d03530ecdfe4511dabf7524125a99cfad6610a3",
+      "publication_sha256": "0c9ddc05fac5d0788fca18d9c825ae9dd2787038475df88a71f44146be288e62",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_23_24",
+      "manifest_sha256": "60d904cd7d6c125bef9be6ffcea45aff2f6129817f50193824936c4ac7b2e06c",
+      "publication_sha256": "896634603732ce9f5980d5e26e68ad5694b065ba34d29c632f5fca7603771307",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_24_25",
+      "manifest_sha256": "485e19761db78b918ecf5bac3c7a99dd0971355d9df3414d5813ecaf59c192b7",
+      "publication_sha256": "b7b65f2bf69ae3422cb88cd351d28c491d056133e9dfd4cc79f58f676b1ff1af",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_25_26",
+      "manifest_sha256": "311f438018edbbc7813bcb004c74356c5675b2bbfac9b67a4b6f15ac0c2e8ed3",
+      "publication_sha256": "26c12f10cf4c3ba31b8fe0ffccca4f7d4f4092113c10ab1ca6a6adc876c6d69a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eredivisie_26_27",
+      "manifest_sha256": "21ba54154a5d70c9f107cd588ea75bfb1372459f74592d264ed8834e0cf8fce1",
+      "publication_sha256": "9ff1cc5c25831ad70c8bb9df680d6ea7f915925b967ad0f8dd1143fcd558bee7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_17_18",
+      "manifest_sha256": "4b8b1de60e8becee5ffa40686444d5d2c7680ae5d637d450e0554037057aed34",
+      "publication_sha256": "09ea07338ca5686fc82f7a9aab2b6a625ad118707d0816922cbb094b7721b8b8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_18_19",
+      "manifest_sha256": "0e3c0c0b5f837a8efba29569de348f7a33252ed531902d6b4fda70b8694e2055",
+      "publication_sha256": "951d3392a0e0766b9e680d3650f9baf24246f48e6dddfd2233d2c2f2f5bda6d3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_19_20",
+      "manifest_sha256": "b509588d7dd324415f686f7867ee54716439381b71a1cbcb9ffb90c3f959417e",
+      "publication_sha256": "91c036d79a426f38e438722be17d0e049a370947424092538f4f4484c9e7fb54",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_20_21",
+      "manifest_sha256": "d4d93ce766298fd1d8edb5b9a452463235df82b25808f089f474acd17a3cac14",
+      "publication_sha256": "d75d0c89a1e5fa4019eb78dbe8fa20b392a8e08445f1b3032fd502ab41f4c0d3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_21_22",
+      "manifest_sha256": "953bfe352957554fd6b4527d6ccdba43300992bc3d57afd238aded1123ce955c",
+      "publication_sha256": "467d183b9626b2ee23e5ac424c0b8ee89fd119f25c9f23d8a17031d84f4360b8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_22_23",
+      "manifest_sha256": "642f565e5f129f2ae3299111bf635580443ce7fd5f4beee75e570a37f9561056",
+      "publication_sha256": "c6e4ca7f38f58fd7a0fcc6bf426bd4f54a5e57cb6d15e0d741dce835392a7140",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_23_24",
+      "manifest_sha256": "6cb1f5ff43e3b9faca372ca5fff8cea3d8a06d7c23db066a4dc4b5be3d979cd4",
+      "publication_sha256": "0982b9b7440be5cdcbdaa5969cf194b7189f987b51be62696f5362c148d13197",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_24_25",
+      "manifest_sha256": "fe31ebd8a46e9107add8b490c10134597f3caef64cae7389f0f68574898877ca",
+      "publication_sha256": "704512655c8edbe4f677efbf5bcf62f52863c56da4f8703d3dd916b89fe1d734",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_25_26",
+      "manifest_sha256": "e4cb680fb73bc173005e0be4cd06f202dbf50c643c1ad129ab71fa2c5405629c",
+      "publication_sha256": "e0e690cd8fbc51b8d53e6c3ef51aa40784b33977387e777ceeac7fc37a42b70f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eerste_Divisie_26_27",
+      "manifest_sha256": "512a79d3847cea6955bdf274f7e3b0f93408829d21eb8f6a5ac954cbf869efce",
+      "publication_sha256": "0c95b2e0dcc7e572a2214e8c7471a5d6df18325e1c4f54a34acef6217e1254ab",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_17_17",
+      "manifest_sha256": "3afdb80002a0fcffd1274b0bfb5af9489ed56d42dc49ffc5e05711308aa62d89",
+      "publication_sha256": "d71bbd2b8922bc56f619ce1bec8be33bc03365222f457231fdfd30a1612a6c8b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_18_18",
+      "manifest_sha256": "6e5a1798e04959352272eaf741ccf8a0a8ca591bf0978162387e9bb49676c4b8",
+      "publication_sha256": "bd8711d212e52191938abbeb7d8d89d6be595da655512fbd2e03ebb21d4bc1c1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_19_19",
+      "manifest_sha256": "cbd6977bd3a642a48ae03e9488de7307acd6b13576586a2934d7f9485163cab8",
+      "publication_sha256": "4961c68d3b4d22749e908cf61a8504d74881d67777bd50b1da3969d989d3207c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_20_20",
+      "manifest_sha256": "fbf554a6796e0d3d5007d5c371dfae5fff71a717f52e385b48ff61f9cb6b799c",
+      "publication_sha256": "f5807123bebcc093f79e9b8336779e7ef8cbb666b62639df3f947a4cc45ab319",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_21_21",
+      "manifest_sha256": "5a916c6394d81d3360d94222b69ed1f372af8d674f4618990ec6c5672b9d32d1",
+      "publication_sha256": "679629a95ba80930ca8c2cf209f4b83fb3024637c048305f061c917c4b1ce521",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_22_22",
+      "manifest_sha256": "154c5ab9d03326894eedd35724fa4f7b3ee82ed3551a82187210403b41e9ce06",
+      "publication_sha256": "af88315c6e7468eb7592e623f9efa071dff17dfa37ffeb80f74aba7ecbeb7a0d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_23_23",
+      "manifest_sha256": "a054dc76982c55ec3f6aca87ea4fffeca6832f627f93441a7b46228eda5874e5",
+      "publication_sha256": "2d7bf42378551274ad2aa2c87083228f11d663fdb717275c33019be318d90c15",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_24_24",
+      "manifest_sha256": "0e8929ee9540253850c1127325a0a99c243fa7907aaff04704dfdec795113532",
+      "publication_sha256": "4e63007ef50604cb76a42f434ec45909e5d3386cc4ac132d371c772cc1957f0c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_25_25",
+      "manifest_sha256": "b5c621a3d2b051760ebea6a9b6a4732aac9346be930f8304a68c6597b393e498",
+      "publication_sha256": "b30b05d4ae14f262bb11f272b836c2b377d149019a5cfe18a6720e3221026f9e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Eliteserien_26_26",
+      "manifest_sha256": "94bf96a57d71f8e9f42f652dd6eaf28dcbf29e52b33389278ad36ff9695b13c2",
+      "publication_sha256": "7d36b47db99f47831376441d5824d1bdcccb9e8d81293770f075ec3cd094cbbd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_17_17",
+      "manifest_sha256": "a046599cd22d86ac224f4007f3ca6f0afdb822bc5a1381d6992e812a998447d5",
+      "publication_sha256": "fb39bd97f22e45015425aace86e661003c3c3af438a349743d807dda578f2194",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_18_18",
+      "manifest_sha256": "71ec142f4c6ef602d029b2428586c3a4901daffb5cc13267f102cb91c9c5e3c7",
+      "publication_sha256": "3cb73cd1bc3f9574802fa4825479f064efcd51a629ee8b8f95ce9559a7a65723",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_19_19",
+      "manifest_sha256": "109db9121ce376d2ff2427993d851474972074847bffaf81fb6960b87b9fba16",
+      "publication_sha256": "a831eedf1e94c1ca5e4be9cf418b95e07875eb59cda95383306f2364ec82a8fa",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_20_20",
+      "manifest_sha256": "6e118885af370663c5453e778dd87f0d4e30111fb3b714c44b3bff3ea05975c5",
+      "publication_sha256": "0708d452a1d83d31de578403c6db67ce828dff1b7610024e395e7ef906d90242",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_21_21",
+      "manifest_sha256": "4e9b199d29a42bcbb4620a22a0654e4b3876d5c400266596484fdfa137b921c0",
+      "publication_sha256": "656e67366133eaa76d8194323595d51183f5013cc4dead12deb2688153f84186",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_22_22",
+      "manifest_sha256": "83843e799c2ed0f13279158f1f2732e098fffee8343584d812cb40acf29602da",
+      "publication_sha256": "5103fe4222daedc2cc0e3041dbcddca1b53a23e53cb29d7cb805be94a19d8842",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_23_23",
+      "manifest_sha256": "4f34690f79e1cf78c44849fb011df127af9b5b3b5f0eddcb90a4e8f8f295cfe9",
+      "publication_sha256": "48b4e27de7cea33bcc3ce20b5fd061fa001bdf1e371d5f365aa203ff794a5679",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_24_24",
+      "manifest_sha256": "3cff19a175c39d3ca9cee564a10ebe2989b1dfe34e00097b2f73cb2ef8e538b3",
+      "publication_sha256": "29b41061343ab8b4cd204b1ad7088c866e8d7834181733c5e044b7ae910ad512",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_25_25",
+      "manifest_sha256": "1fefdd61abc9dffeeac005752c15fa55b2c93c2533e6df0ee53cdf72440a7b41",
+      "publication_sha256": "052c555307d644de9d1e9bb30db4e612573b7cccec4281ad7232b5b0b89aff07",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Peru_Liga_1_26_26",
+      "manifest_sha256": "71265dd96b68b4b67f65351f7c3b3691a731326b0333ac3d67cf297837fcdb40",
+      "publication_sha256": "85c9bf0c73e12bf99d3e9267d2d8b7373aae30de3409c851d08503db7e945481",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_17_18",
+      "manifest_sha256": "3011cc3f7a35f43f575201b7743706e2b8ae370cc45276998be67c47de5c9d4c",
+      "publication_sha256": "aae1aab097a67b55be9eb7dc9ba748ea35607292a8687634afc8a69e2f8cd975",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_18_19",
+      "manifest_sha256": "304b58395ad76ca4e550c8e01dc0e198563f32f9b60ccb6bc0ebb75def4cefea",
+      "publication_sha256": "aec887369e73ea20aa4fa68f211fe3e21c3887cecd72cf85dfb65c716934fa4d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_19_20",
+      "manifest_sha256": "bb33724612d38b0f8ab0f206d84b39bd3756ba0494ccb55b9799d34caa3ea1e8",
+      "publication_sha256": "1cc3573026db307bc5bfca494adcdf93121e1d6b836b43588893715fb0ece526",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_20_21",
+      "manifest_sha256": "173baec24d70ab7cf5aadfb19d537681949c46de65ddb76c76596605f45261b5",
+      "publication_sha256": "7aa9c76702332d4122d37ccc63c44100c2b94215109648f8497f78fb65412886",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_21_22",
+      "manifest_sha256": "52976dc69a9574da5ec8ed5609f58161b63e7dc02b338a19f1150fe6490fad28",
+      "publication_sha256": "1ff0fcaec6db90b7420af1787b0a93d3fc25b949d092bf92c10019399265c557",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_22_23",
+      "manifest_sha256": "528ed5588967a089edcefcc76774a83e01177880e7f7cb680719fe01fbe81d71",
+      "publication_sha256": "4a5aa61a86085504c75282f45a89ed720a9ee56c6cdf7e784cb33cd2c0e030d8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_23_24",
+      "manifest_sha256": "de60f6fafca82219bf57c2c1863ee7e3829c88647f3a1d46230dd24fd9faeceb",
+      "publication_sha256": "cb554277a2b4678d3b94831499a43fce5bbf93bcda82de36c1d092682a07e211",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_24_25",
+      "manifest_sha256": "ce34c066e629de145ce0bc18d732de3aec51684dc2072ae1cb1a365dfe4f0d5d",
+      "publication_sha256": "f4e35e6fb77aed9d270cc9878e3cfc364c4eab877bb3d8389e88ace030d67ac4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_25_26",
+      "manifest_sha256": "9bd3b023aa93d042f088dde60ddae78ab2c84a9ed345406bcaeb818414bd3c68",
+      "publication_sha256": "06eaf32a5ba9a0abadf03f26d67fa4979a89a6cb88578f150cf69a58a5dcb2bc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ekstraklasa_26_27",
+      "manifest_sha256": "9ecd09cc8eb8abda53bf14da125ddbd82539c6156915ffe9b6b7923dda533574",
+      "publication_sha256": "6bac66560756e29e9efcf7ccc3e5603e54fb11b8827288706ff9e11d1ce27053",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_17_18",
+      "manifest_sha256": "035d2f79cc4aa6b73cd5ceebe8cfcdcc7852ee278a7f3f4b7b2867913e83885b",
+      "publication_sha256": "47d3a3cb6629b5a29f1b292a80f24cbe29d52e9ee9b246de8ff25fbae5bc159f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_18_19",
+      "manifest_sha256": "6f8347929b80cac1f683c694e6b54592b6fd6234bbb06eb14c4a8633dcdc385a",
+      "publication_sha256": "3ee7baba8d2b871109e592dc4e74aa69dec04dd64122bdc414449fc1a5c3610d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_19_20",
+      "manifest_sha256": "4d10be22075907ceb8d6bf2227435c42373635fe42c76d611d10c8c84c24130d",
+      "publication_sha256": "48301f54866b48a12d27fcc68ea76244adebdec464d2b5c9fbd69a4376b36b22",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_20_21",
+      "manifest_sha256": "101fc2abf6fea15612224b1ee547a627cec2c73080999543af953aec55d965c4",
+      "publication_sha256": "6e1376582096d582061eb6461c06686734b4f80211c5b311b4b78ebb20e6f7cb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_21_22",
+      "manifest_sha256": "ced8dfe44137f5bb696769310d8aa0250c367e454aea18a86dab57a7a1513ef2",
+      "publication_sha256": "52871053d2252197a91a0f5c07ac38923a987fe5e3e9f6fed2dfc5ed6b504402",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_22_23",
+      "manifest_sha256": "1fba5daf209f336ecacb852e299113ab3fb871bef1c1fed4d4668ed4be4452a2",
+      "publication_sha256": "eccf3c5de12b52af52ac9a7d91a37e6eb63c502805ded7545bb575f49fa020df",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_23_24",
+      "manifest_sha256": "2610d93527af059b0e1534f1752ed2b50aa0ba8257b7670785168cf8f0262ad0",
+      "publication_sha256": "caec17d2d1086d4f61e3e32bac17b26a26c636674ccb34f379a5de267f5bccf4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_24_25",
+      "manifest_sha256": "da2fc6618ce8a7447e809940d652cacb224dc940a2f6e376e56c276ba2cde22a",
+      "publication_sha256": "97604c2ecafe23a5e3ec4bf3ba754d60bc7ab089f89003cbd3c20d30929d87b6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_25_26",
+      "manifest_sha256": "2e9d726f3fe714900043e0bbc544c957b5e42ec27f6e1f51b4fec312e61722c3",
+      "publication_sha256": "a8ed3fb1446947c6bcfe35f0be405a812f99f80d78343c4806a0000fcb7d3b24",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_26_27",
+      "manifest_sha256": "8955ccc33e6ec097c77eacdc9ff231023247deddeffd08788a0f65bfb7fee078",
+      "publication_sha256": "001c61bac7985d2d42464261552115e9d5357fc041335e4597c228a76d3537e5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_17_18",
+      "manifest_sha256": "da35c4eeace25f3b35600ff6b7341577872380d69a4334e876baafdb53fa303a",
+      "publication_sha256": "4974ae59e2b7006182dbf3c7e35fef718e834d9d59ae5d5ccafea6a3725ae1fe",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_18_19",
+      "manifest_sha256": "2d591afcd2ec5e022303e605e913817ab37250b1c14937d5663dda631ec5ed40",
+      "publication_sha256": "43fa043ee11fe0b466147ba7c99d8ba795bd7c3af1929ddcc23cdc50fcad3c84",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_19_20",
+      "manifest_sha256": "4171a40c92fabcba87199532d81a4f85a640763b5a1fef9ea3ae9eae194b0492",
+      "publication_sha256": "a4bf19c24ff960cb438e22e795b448ed563c114563e6571cb96c23ed57870efc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_20_21",
+      "manifest_sha256": "a8b1a6531a7a84f90d9fc0468924f9b3aa0158b8a93002d78891878df8cfe68e",
+      "publication_sha256": "78714b7406a8e0d911428b95e38a46a0dcba60f6026c4b824f510a5b2659a0ad",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_21_22",
+      "manifest_sha256": "ef9dd736433fe99467a2f02c90cc24dcfb6d5f931a2a47e38ba4ed8e7ecc1959",
+      "publication_sha256": "e6540f52cde103dbfa967a89bf14351fe3c2220d82bfe704ae37d304c10244e7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_22_23",
+      "manifest_sha256": "1235c789efc908dfc85e4dca3bb88424466269384416017f213d50b4a39062ce",
+      "publication_sha256": "2a43934e447fdaf65185ac3c600faf6e8bd5ac6bbb7052d61b8bc4119d34b5db",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_23_24",
+      "manifest_sha256": "4ee41378aa08f16833b408628b5fdb8fc397266c51ced34452402ccdcf98b175",
+      "publication_sha256": "0ef9c76b3a7306f9adc145274b86162753302b7932a572c0461167fbff120fef",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_24_25",
+      "manifest_sha256": "5eba09ba00ed960efbf3b35d96ccf965a9a5b77e332d58c5f2b5caed296902be",
+      "publication_sha256": "ff34870316ae8296a76ea46a3f51a61e6a27ec2fa1e0f0a19d98fddee7007655",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_25_26",
+      "manifest_sha256": "6f398a1eaa99a041bd7f14abe8663d998a3c4c073d996004e02e9eb66e1ff819",
+      "publication_sha256": "fb1905c8e1aa939e1a0485a5292766f7c7d108012cbfca2f6ddcb61681ef1118",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Liga_Portugal_2_26_27",
+      "manifest_sha256": "4d49163e519abd44bf1c2b3468ffeae36b46d8af7da300d6599a2ddc17e4f6d2",
+      "publication_sha256": "1e4073bae1e29ad338ae41935a73447c926d15e0f6a4488fbea2d6b843b7d2c2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_17_18",
+      "manifest_sha256": "f65ad78b9ee4b392361a4b4e7a073a5f41c077472e1f12476420933b3e2592f8",
+      "publication_sha256": "2d6da7c2a4599f547be6e60e78f28f7b489bdaa465d8bcd9885bb9a9f255835f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_18_19",
+      "manifest_sha256": "31210f66de9f45451590eb7c388ee295f4ce654097688056dd82a1f7cc68c022",
+      "publication_sha256": "095d7ecf6e20d3757b757e31e7c29a21394d167f496bc0c154ebac4677175396",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_19_20",
+      "manifest_sha256": "374c6948bc011ea12dfb469fd4ebaacf877592e18e3e179ffcc765cee086d437",
+      "publication_sha256": "392b94d45dc77abce4055886ce361d2571f3e28cd01032885a2aa3547f2a5d1e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_20_21",
+      "manifest_sha256": "2169bccde525baf3ef667797d4c576b863979125ab5edbe128f3d2b84a2d1641",
+      "publication_sha256": "32c9f2ed6e17835247b16ddaeb079c4fbb788980a7846df1cf48d8edad0484be",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_21_22",
+      "manifest_sha256": "129aefd32b9e48a7ad419c44a25aaa67660fa74db7f8264a4e66ab1b5ccfdc74",
+      "publication_sha256": "598268d25c6c0a72ab9681f52f3db4871c45742da19392a9380c5f8a9fbba572",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_22_23",
+      "manifest_sha256": "17ced4ecea5bcd3d3541083fd4d1e41e06deb8eb78a07703f157a83e6cee1fd7",
+      "publication_sha256": "e3a5d38d0f083f01793d81058fd56ef9809dfac42409cce624b1deb715ba85b1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_23_24",
+      "manifest_sha256": "71139bd8ce44239e2757bcb1448eb3b2050178fbc65c39789b35d235301514a9",
+      "publication_sha256": "f84b82167b5c54d6bdb00b4e0aa561e0b45c775ca8d7c0e4fa41e0759a31b349",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_24_25",
+      "manifest_sha256": "83b8cc19210cbe144a6280be777bd7a3214f0cd07e01bea767e6e4f59baad18a",
+      "publication_sha256": "cc93f4ac07b3a374fb23f8e99430dd0962eb07a863bdadfe2ac92ab4e083cc27",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_25_26",
+      "manifest_sha256": "9201a6e3751b98f4746007be1aa9296a9ed8e88fb12059b55b725ee67da885e4",
+      "publication_sha256": "e38f2571e0e7b44dff0151e16c25ad438d3adf68f4dcb75991a9966c915b8236",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Romanian_Superliga_26_27",
+      "manifest_sha256": "d8cce79c6c18ad040367287dff8b4922a90b1b6c1a5d9d03df3a6789e958ccae",
+      "publication_sha256": "251ddc0bb0c0b4fdb4aab6a8be39b4618797c31aa0ddfb6d0100656a834f4e0c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_17_18",
+      "manifest_sha256": "673693d98fd3e355d53e23b4a438d34848857dc7575404185336f2cf72e1ebf3",
+      "publication_sha256": "ce675d78042e0a3fb685b77bbd9eef4fd862abd64ea77b460f9d78ff49f7384d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_18_19",
+      "manifest_sha256": "6f3c41425d72a829778d20f40158729231f9411326b9421aa333261eca8e3887",
+      "publication_sha256": "6871aa3a9187520749651a91ece8388738e1bf68deb71f87091f1187c0cd3466",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_19_20",
+      "manifest_sha256": "54a181b0da135da60978c382fd5391ab5d57f9cb6a052fb135519d74c663906d",
+      "publication_sha256": "5702485d282fc8b7b66117f1ca9bf9f1d760edabcb0f99d9841a8b079830a0a9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_20_21",
+      "manifest_sha256": "bb6a17e6673c4d2fb6fd605473ae05581ac3c8cc9d903d38ceee0b8d923f3f58",
+      "publication_sha256": "552c12f95c6f2568edeb84a02a1d910c1cd26ff0ae0dd0e9350bc06f67f5dd87",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_21_22",
+      "manifest_sha256": "207ee755f0931a0a2cb296dbc1ab0715d8b82f61c035367794f2f503192f9252",
+      "publication_sha256": "a6a087c76c50bc5d4f6488c0e5892a6d1d34626dbc99c5833008b2704f2aab78",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_22_23",
+      "manifest_sha256": "034dbc7d529de1ff007f7131f21c100327571a5c803a66f5b338853440b41523",
+      "publication_sha256": "a8a06d2d2148a7706d67f440db9882035a1a05101a35c84a571f18892d3805fb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_23_24",
+      "manifest_sha256": "0c9cb3ee6cf4d6f05db0fa5c062712552192afed5813310c98f70eef8140ee4d",
+      "publication_sha256": "1feaca4a35eba32a2abd99cb272f0fb50230c2d37824183b6c862164d26f6876",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_24_25",
+      "manifest_sha256": "711d043f13aa0e13175362dce764a8f9b6c1c5a38c95625e76ea1659b5f23de8",
+      "publication_sha256": "234ea3f3d0618c05bd7ce27c6dca6d5a5d3e47ffe380aef4f7bb17a90d156912",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_25_26",
+      "manifest_sha256": "86e514ef60496fa10db99e50527468341be028a4d9e2a29776539df1adfbe136",
+      "publication_sha256": "b52ef92392353fdfe76662798f2e83ac00f097e0b80530457cac1bff0dbcd4fa",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Russian_Premier_League_26_27",
+      "manifest_sha256": "d31e176fc52c6406a026984a9dad57ee42500c3479b2034fc54c7c8abfa3532f",
+      "publication_sha256": "fb1d6b624865335a8349a2f6da546ea3814f7b3088a4f75bf8b6a639c0cb32d0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_17_18",
+      "manifest_sha256": "ee76d7f57a0df7d4311aae467638846f16e17220a79cb761057bdeee30bcde6f",
+      "publication_sha256": "6799a68aad80dac1cb66add75a432a1bd5be1a426428ac38d0ac220a1a615925",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_18_19",
+      "manifest_sha256": "ac2ccfbdb28e29569891863d0b65c85bdd2f85a09e397409e85fcb0fc227650c",
+      "publication_sha256": "e632dda5ff5f12e0921fe1e354f0de6876e900670937998ad2b863842f2572e0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_19_20",
+      "manifest_sha256": "52ff41ed59448ceafa4a457a5e87e235e85fd24a9b1a6fafb71d9154b6a87b63",
+      "publication_sha256": "5fb8b8ef39c6dc9e8185734e384a70e696b8a9dee4b51d5c7d84a302650bda34",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_20_21",
+      "manifest_sha256": "5d8bbbd69369a61dc19e2e8d390e2a559336efe62f77564adeccc3fa205e072e",
+      "publication_sha256": "22e64ae45306130d1648768daf574fbb57a74dec6d944b96f12dcd2e66ef3515",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_21_22",
+      "manifest_sha256": "f1557da3432cd6d09810c33c91f0cbbc8775e54c559ec614a23d652e9723fd79",
+      "publication_sha256": "16fc047921927b3b322b555cc594de24b1fdb87bbfa52937f9a4c880f19506b2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_22_23",
+      "manifest_sha256": "b903c6643bb4c22b6df76f8eda74038c2b70c29c2e68181f3db45b403456b71a",
+      "publication_sha256": "711359699dadd8d82b3af4584a0408d5a1c46e33aaf0490256fe3371f5d7e7ae",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_23_24",
+      "manifest_sha256": "d8d0b5174dd6e6f634eff4f8b9905fa46e45f32b4477de53e5924310444696c4",
+      "publication_sha256": "33771814a61148aa722b97c2c9b2a906e6b4f7d0e4416ebdcc9cea2dff143281",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_24_25",
+      "manifest_sha256": "63ffb972fe8b0f350301ffd5060a285f06aeb8cff16dcf29e432e6c08f44b418",
+      "publication_sha256": "33219284bbe25d13f4e402b58e00c63377cd3352c20fb5cd38e12d02d10a801f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_25_26",
+      "manifest_sha256": "927e382b75d330ecab9b6696f3844518a250cc0d8f2c72f0361e8517d0b0f6ec",
+      "publication_sha256": "698662c6720e41728345a53cf616ff69ae49f889c334803087fbf105fbbd0f9c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Saudi_Pro_League_26_27",
+      "manifest_sha256": "46b3fae22b6a8d5d450f49151f67001bab7a88fd12b7012579ce8418786c0e49",
+      "publication_sha256": "ee451a6cfad11a794a4f0e0d6aeae0913e54bbbc42a195218b92b7877e0b2c92",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_10_11",
+      "manifest_sha256": "0e401cb5e40ad3fa4392065ca38dccd3e8032aa6a45bca8fa40fbb46c5ea0397",
+      "publication_sha256": "2774be84fb749f4caa0ec1259b6b694c053f15d9e7b764993976a702b2ae8d5f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_11_12",
+      "manifest_sha256": "6b9569e6327ca2352b811b0a36f18a923bb3e4f96af01cf6005aee8190fc8fcc",
+      "publication_sha256": "721bb598718f0c001c88818662c3e9c1720c6a4a7b8e140d1d0e3644cdcbaa41",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_12_13",
+      "manifest_sha256": "4b02c8adb4b11ddd47af6ed72ebc993797d39aa90c5c9cb2badca1f69d9c14c2",
+      "publication_sha256": "dc9f87d9a1445a3ae6e57a50c688d43e681e5e5a06ea77b5ff38a34a9555b9a9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_13_14",
+      "manifest_sha256": "ed9d80154741fceaa475fc1b341910e9aa929295c390ce484bc4ec9b95f8e2de",
+      "publication_sha256": "7fd05af6cc059a6c09066e52ee6c2b6358a4304317e24e9d4301656196ebdcd6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_14_15",
+      "manifest_sha256": "63ad5a6865f0bb68978e99521a27e76368b86a89149346c4126ef6034c161fbd",
+      "publication_sha256": "af6d1f1f2d625ee69158e6b330c7a3ed589921cf54d11a1a6092c9792c46386f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_15_16",
+      "manifest_sha256": "11ada1aad8253ed2aee7887892755bc42362235e3722f132f9d25e5a428f3518",
+      "publication_sha256": "78235087c64dcfb5749ba94d9f35e99a3d32f761e97a9a7a76a2d9f12085dee1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_16_17",
+      "manifest_sha256": "8d8a98c35792108631692c44abd5df607898a9d7df6c9ffd8e3ffed4decf808e",
+      "publication_sha256": "88edd0c2ace9157a79b799b9b67f235e902cb9fd86f21e52984fa5c00f000c1c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_17_18",
+      "manifest_sha256": "276acdfeaf402de03f38547c2ba3553845172df1a4310b75b6d0fb004f81a859",
+      "publication_sha256": "94b4a526f3573fb5c201503e0677488eca5545958597b614e897e3184d269581",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_18_19",
+      "manifest_sha256": "1a9fdce3f112b9b01f780c4838108cd00804b21adf3d23abfc0f4b3c0a52bca6",
+      "publication_sha256": "6e5df7f0863d4fea01a4058d182d33016bd7423a64bdbb2aa85337397ddbd5ed",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_19_20",
+      "manifest_sha256": "9b8d500f2b87b43c486d83f4aa397462ffed281efdea626a6d0b5762126294e9",
+      "publication_sha256": "0c83f1dd56fb9bac5fd9b02514e27beecdf6dfc27c445c7a2a984fa208471b67",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_20_21",
+      "manifest_sha256": "1644bbdad9e5b919bafaab9129a91df117ab78d1e7aea3a1e844ff7e71646272",
+      "publication_sha256": "7f4b8636cbda67e5aebb5cd55b9b1b1d3e9141c7bb50bfdedd06a674ce32ef21",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_21_22",
+      "manifest_sha256": "2f875b26f828fc1df7b004fb9b8a4bc682a8f42ff219a764f9a107ccaf4e1c01",
+      "publication_sha256": "f94a7d7e48d5058c879fd2d22464873562ebdc73264430b392190be80a38c9b2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_22_23",
+      "manifest_sha256": "7a08204848abd16c8be93454f8661205630e261dddadac03d669987b05902b5d",
+      "publication_sha256": "90832f64e128dde1ee816b24a3f2921b09566767d2d86a00e7fa429f5ba15a7c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_23_24",
+      "manifest_sha256": "bcbdb7180e621631701f5a81b050f583877cadee4ab8aa94781b5c2d4448c0e9",
+      "publication_sha256": "7431c7f1bfd548987e532582bc0e55e8fcdab2f266b667b3a0ed09812577e355",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_24_25",
+      "manifest_sha256": "feeeba4cf04cc197defd2f4c7de5ec49b76af0384c470bb5150faa7db8947020",
+      "publication_sha256": "8d8ae16a32e93cff46dbdc9f4a8fb4b308977e091b49fb5cb17ce3a6476ded23",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_25_26",
+      "manifest_sha256": "b4860783069e5e91476858c0131da1d369d5e1508b6da8a4f3d09160f51f7728",
+      "publication_sha256": "eaccce2755f76f45fb4362a58a0161eeea673c528d951d9ae669ff4e0926aa56",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Premiership_26_27",
+      "manifest_sha256": "510e888eb1ae706433eb2846b6345a9f6a1095260a2a24b8d107bb16c7b36b2d",
+      "publication_sha256": "2aa8d418ad2c8ca8477b0c29ceab7ecd221c604d123ee6302c52ed099519d079",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_17_18",
+      "manifest_sha256": "79f99997542e2b57fbf4132c422ce9ea826f61ab76953da21dd5fbd50ccc40d5",
+      "publication_sha256": "251bff30a1de280960d52aac0b489525edf3a74871473cf690db771721a66d2f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_18_19",
+      "manifest_sha256": "9f231146b479de3adb12f136b9671d7f744f7937ec8e8edce7942d935abce8e4",
+      "publication_sha256": "78a85e4b4253487a2d9e7c4f900c8b2b88625b30e587b8825dfbf6d35fdc28a9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_19_20",
+      "manifest_sha256": "2f5c63c5e13328b1efe1ccc63087ec194eda038e57c139efd9a5d43f0f2640ec",
+      "publication_sha256": "808f611d2607590fabea52750eb89ba4183cc078d53b8dfab134cd700b53bcf0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_20_21",
+      "manifest_sha256": "3a03e015fc4b18133b9eed5e26e4864166d2ec46019a714cb2cf9e9679543a3e",
+      "publication_sha256": "be13bc56312b625c5558cbc028e4f10daaa7d8f6802a442b9e1e9cc14c3f9ea5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_21_22",
+      "manifest_sha256": "4f54bd9d783473e3bbb1cf70128db2ecb92319c0411bc815f3ef8f587936c83f",
+      "publication_sha256": "e137ad0fc1831f35b319cf37725eb3b78c3c26e38c23597e69bea9e4bd2a7cc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_22_23",
+      "manifest_sha256": "6dab8fd26d0157685d92576f2b2a4d91366e1b3315296a6425062ba793565392",
+      "publication_sha256": "6ef1655b8371f34e3f4d1800ec925a130c25a4e345870f16308979569b7c95fb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_23_24",
+      "manifest_sha256": "ef5be4bbf8c318aacf5af5d75673bba486d6a05f036ca0b338d38a7d295648c2",
+      "publication_sha256": "00a7bbce7cd3c26cc1d1c550b9ced14e0e79c199dc58e0d8b25a5d70f795b57f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_24_25",
+      "manifest_sha256": "dbeb48225bb0d632dddaa2ae0f638ab38094234b3db21d80d7968059813d8249",
+      "publication_sha256": "afc63c6907d5393a990137b4966e4611877093bb54c0156a142cb589d4cfbe9c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_25_26",
+      "manifest_sha256": "44796be2cdeaf708a191730c535afd2d1b896b1470a8686bb678a6c6e0ea3d2d",
+      "publication_sha256": "4d7b40fed5bf3941ea60c79d003997f0aa2acbf78818cc21cbba96194869427d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Scottish_Championship_26_27",
+      "manifest_sha256": "bc4c7ab0b9d58ca82b4ad0a1dcd04bb526ad124c2718c6879cbbca3015826fe5",
+      "publication_sha256": "84ecaf84a9ef44cd31da139b22559b4bbde85cbc523d88341ba33cedd630a8d3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_17_18",
+      "manifest_sha256": "6ce487fbc026c845abe6ccbfb97be029988d3df25cb82b6153ad3b0f93c94b41",
+      "publication_sha256": "16d0818cf637f3000b850683a61bfb8d8b64a1b29d16a5d3b3ba14a5ffc165f0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_18_19",
+      "manifest_sha256": "718664c8e223ee3073efdd12a9611236b857063cd2be02da6e15453286aecf80",
+      "publication_sha256": "8934a737b6df8e11e3f29def37bc09e01fc1747370dec0772a8a6ce359bc6e5b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_19_20",
+      "manifest_sha256": "61cff4e74e00a5e3c522865dfccb74f8439b2349a49078a43f53b1316daef112",
+      "publication_sha256": "32d51661a03226981615924611f6bba4378f7c1b9b3cd78da1d78f60b01032d9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_20_21",
+      "manifest_sha256": "35c4ae6f1ffe686f1caa1fd31bd71762eed5139d3f6fcd69b9c7fd02dfa94c8e",
+      "publication_sha256": "95c80e7039a1375a03a3675267719f5af58585ec2ccedffa8c0cf4fd13da3652",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_21_22",
+      "manifest_sha256": "e02920f1fa06419c7fbf32202ff15b7a0c8e62fd60d28c8853c936f6fe029198",
+      "publication_sha256": "fb4618dc3c231ae8551731b93d3aead8cf742b221a11aae87fb1aa06a46f5665",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_22_23",
+      "manifest_sha256": "06c5b270a08d6cf96a251cdae57937d080e1d1d2dc1d4ccfd5a462b6fbdaaccd",
+      "publication_sha256": "f04b50e57f3e2a50cd2bfbd124e33cf3bb75b25f72c1c2d02356d68fb9cc42c7",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_23_24",
+      "manifest_sha256": "c922ec326696ffde5cf272792f5739a7f243cf0385bdf4bc2902f096c991b56b",
+      "publication_sha256": "c8e17c16b3584e807d4885c124f647b8a61d4b18c379e3e1ab775a5d5c901fb4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_24_25",
+      "manifest_sha256": "9a56953752f4ae4ea89c0d58cf389cdf32f681cfd155779da9bc7710d8e4f2c6",
+      "publication_sha256": "72cc24308db9670e3ca26365675d3f1774fe141ff7d44a48b0d10970ae8adcf6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_25_26",
+      "manifest_sha256": "4b0c938ee4d8e20085cb68805dba30b7674519d4594820cbc3f8edc88181a73c",
+      "publication_sha256": "3e3796aa43e9c79252d496a3e2136f24f5342a96bbed4bb90a0c7347fdb6adcd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Serbian_Superliga_26_27",
+      "manifest_sha256": "fe8acac42f5806d64fd16766842e0ad497db61e86954188da4d32b1e4a2f7f5b",
+      "publication_sha256": "ffe78623b6d235b5776be46b46633247f165861ba9f73ddd3ea3755db8cef5f9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_17_18",
+      "manifest_sha256": "95376bd62dafa7bcdb9db8c3ff43b372b0df960725491c14b99a4c82700ccde3",
+      "publication_sha256": "33ac52e76b445edf2ee79133018011f1f200e869b07eca1ddd92759aa674266a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_18_19",
+      "manifest_sha256": "f76dcc15b927d0dc50711e101f7c8431db74916622943086996911ad3e26981e",
+      "publication_sha256": "cd84a1b6849810a0b22f21727e33f9f58feb92e2d7c946f1664ac542507a8e6a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_19_20",
+      "manifest_sha256": "2d815a362b7d89f75cf6acc9be3f38487243e36b4785bca8019f8ebffc75a3c4",
+      "publication_sha256": "d450a17bc4bc383f2629ed9d87b43803849557d8ecd5684ec310fa97d5d875b3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_20_21",
+      "manifest_sha256": "6978951d27298157f8c57845b4c8b57e83d38c08b8a7b9aa2380fc9628ff50d1",
+      "publication_sha256": "43542a443eb52d38f49e7d994d5c4c1c0ec1830bf2123cceed0e7f0049ef9bf0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_21_22",
+      "manifest_sha256": "28d9a19c40485e76a91931e67a18a67366141943699628077294cf9d0a5db578",
+      "publication_sha256": "f3cbe69aae85da6c958eebe94336ad3b2d1de4a50985671db09f823ff7af5a84",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_22_23",
+      "manifest_sha256": "54ad38b4467606aba72cf2a9d24f807ce2155368d81c5d8e22ad614d4ba59272",
+      "publication_sha256": "e2fb40f41fa19c00461cea431b45f641c96008a8676bc1ea5f592a10555c1b46",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_23_24",
+      "manifest_sha256": "451874a81578b70b808205732106beb5018e2cbcd3a256219d6d50fc1bbae33d",
+      "publication_sha256": "758a84bc11b4722918ddb81ef67b6bfef2612a8d5d5f16914ccc9ffa4e49f554",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_24_25",
+      "manifest_sha256": "84ee9367e8fa4edb391fb8809475e8f6422879762562c5ddac87aa32d26fdafc",
+      "publication_sha256": "eb007efe905a906169a3cdb1232963d6e25888c3c88e33206b958183e76c2fc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_25_26",
+      "manifest_sha256": "0385585567daea5a8398012af3cfe9d0413b3f0eb04b6c49391bd26d01728e7b",
+      "publication_sha256": "304242e6d75ace55d679f5f80a24886bba5218c80b9f87ea26bfedb7d913c571",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "PrvaLiga_26_27",
+      "manifest_sha256": "071b26ea72c741631555c736b28542672b335debeee2a370cf6cbd5b234464f3",
+      "publication_sha256": "c1c382711e79c9fe79ca308dddca78bd9770210e5f337dacfa00977bfa24fcf0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_10_11",
+      "manifest_sha256": "c2da05f2626ed4813edeced38a08dd2ea5881660385e900e83c0c45ba1b61114",
+      "publication_sha256": "53d4e8a6bb4aea85906986a6f175b279e94c7372ca93fa9b214ae68d0fdb615c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_11_12",
+      "manifest_sha256": "a562a1f652c1b5e24e49ee7c88e64a906b2ab8d67d0442ef5a9d0f72be59638b",
+      "publication_sha256": "4e9c1ecd74c00ccde8d5944a00a6ab89aef088ae5888d7bf4a33767d126dbbb2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_12_13",
+      "manifest_sha256": "ce13d0803145e2f886927e48352381040c0671ceec23e8136a2b47d908cb2864",
+      "publication_sha256": "37b378eb9c23a7c0026fee618ea7e41ed767977addebe96410390b852baa229c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_13_14",
+      "manifest_sha256": "8704607aaf3524f533c967ac67e5bef4712de0d2214c1c442912e6f772861099",
+      "publication_sha256": "f13a4ef7679fa2c3e5f1afbf2d3b1380af5842ff97dbad7a399bbd37dd987cfc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_14_15",
+      "manifest_sha256": "601c3359115c1f362e4d44821694a323b4bf11d14396d85719d435a353b9ad38",
+      "publication_sha256": "f150c21b93fbdd4f453a7e883bcfdbf6497f6d02afb8d885f73bc1719433d66a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_15_16",
+      "manifest_sha256": "0cf18270d855e9c4d611feda95d67a44b2969fe9e8842eaac1060a04c6a65f9d",
+      "publication_sha256": "38f16bba9e722aa3f6e5d85686bd05a014cb17607144abdc78bfab67125b59a2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_16_17",
+      "manifest_sha256": "a1536f150ae63cb17f90c4ccf97b36dd22350dc3a8eb75009dbdcbc9e74ece0e",
+      "publication_sha256": "afb0c2d9d939beb9baeb924237d2a6d4a5381ed0ecefbe5bea1c2af0f7483dda",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_17_18",
+      "manifest_sha256": "c92d148f329a899ba797bb0357b1bda43d779ca26266657b88d72e12737b1fbd",
+      "publication_sha256": "75b24cd3f6abec8787fa3d7acd8ee1f445e207a795ec83a0ebe511fa0e1d794d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_18_19",
+      "manifest_sha256": "a9e0c39e9d8c5c69b81c5a38b737549f07664ac06644b25d7e9bc70ad844c1a8",
+      "publication_sha256": "25b2d1fa0e1029ad00ae3b7965f24c1f12d88e078dabd06d27c3ed32276411be",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_19_20",
+      "manifest_sha256": "0587b194e279bdd9f4e7a2dac1ceee85856e2598cbb0254bef35186ba7b34a19",
+      "publication_sha256": "310324d14ecd429f9e1e0f7d4c2aadb43053c57876c22218018d3ee71bfd3ecb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_20_21",
+      "manifest_sha256": "c397a1c8c58b35040bfc04b51447a3356cfb6a00daf969019c73ca4e5bf1c77f",
+      "publication_sha256": "4793c106f89846426025808385d6f4a87f1c1978b6b74f3ae262255a6334119d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_21_22",
+      "manifest_sha256": "31a712c7bc8e6cdf3c14bab3ee56515b0a7a6c81f70fc2306b5e6bbdac4489f5",
+      "publication_sha256": "9e348b10988deee213f28e0cb936fc0af16d577564e0d78e98132ec8e3fe81d6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_22_23",
+      "manifest_sha256": "f41c992ddb1dda7cfd433f96bd9b24ab6df1da34a4faca5ec49a3b3cfe1f9971",
+      "publication_sha256": "bba81786bbe342791185f598ab6abea9d9ed7afc3dd4d65dddd11d718248a356",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_23_24",
+      "manifest_sha256": "8cace79c57fd2709fe47e5fcfe18d385afd7a704509c6723674bf03c593fae8c",
+      "publication_sha256": "09842ad41e968fa9b80947bae42f88e08e68fc7792b443faab331992fd01e0a8",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_24_25",
+      "manifest_sha256": "c8df704371003faf80921fda06866a65d19065b18e856a053ee4976a7b9de8ea",
+      "publication_sha256": "4e48277e670396495f4fb922d31ab1d29975af5bfb3b294ac7d45cf4dd56bb1d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_25_26",
+      "manifest_sha256": "367dc199f99f4f5a0d47b881c1021309245b56cce8101fbca2994abf1c5dfff7",
+      "publication_sha256": "92d0530802221bb90e0a998dd46206ed2ed0231ef749e7cc08e2e5dc2b95e264",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_26_27",
+      "manifest_sha256": "e204ba63aed2e45a59772321702df322044812511f936ed45f8f1974bf6946d4",
+      "publication_sha256": "26ff2aecb3f55d258e4f2e95487a78502014140efc98ccb0b87bf240fe9f988d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_10_11",
+      "manifest_sha256": "89c6f658318277c4373e4b0a20aba743e86d49945b03a265126f43481cc50c29",
+      "publication_sha256": "404f3bd74fc870208e32480062a3199411aeb364e87911e11bd3e8be22aa0ca4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_11_12",
+      "manifest_sha256": "5db1072cc66103da307fcd4124d29142083145cc02b95b08f350f1c153270d14",
+      "publication_sha256": "d5b6f6589044745586a18cc0714e1b82c79dc1b67609a3232df8d32e56a4cd71",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_12_13",
+      "manifest_sha256": "72f6ace5f06303bdbbdc9ec1411456a5b4e4d71adb198b61f7eb38f8489a5ecd",
+      "publication_sha256": "83387c187e4b5b9399006fa52e94d644e394a978c02e524e2ee81d72c7dec3e5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_13_14",
+      "manifest_sha256": "c76494e6bb5f76484652bc88253f17820c57feb5e5cd2078457a14adb93fcb5c",
+      "publication_sha256": "37e0ad6bb3513b954035aa1954bd7fc59aff2372fbc1acc63950e2fb1cbb1dc0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_14_15",
+      "manifest_sha256": "d10a2c902fad78c864f8eb917f282d078bc1168e4db35ecae8ada6ea0e135ccb",
+      "publication_sha256": "d5867334aa250d9be41d89f83e97fa2e8835a07250f9b22c1747e09921f88d84",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_15_16",
+      "manifest_sha256": "c62b70c2385cb5fe0ebbdb00d3486fd1f3c29f7e6e85e92e2e21cd4486a7bd60",
+      "publication_sha256": "2dbf56cc2d4f5814f2b219181b87616bce893cde98de34927380c4bf74ecc784",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_16_17",
+      "manifest_sha256": "7288220ba0760ffcd2e72acf0810ff0fe78176c2bbe7023d91d7d407b9a95968",
+      "publication_sha256": "b349d56147307d6a3d4729a56c108888a4a761a130611d90a05d1a07af5e24bc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_17_18",
+      "manifest_sha256": "fa314ee07204cca08e156f9386e28a65ecdfb4fc5e2bd82acc32292130ce656e",
+      "publication_sha256": "27150fffc0be0dfa7cb5ff91adb56c6f75fa51e53361176a6a87c7415640559a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_18_19",
+      "manifest_sha256": "49fc628cd33bc147ab7e42e8c9c5f118b8590a100522cb34a7f0d2990d58df23",
+      "publication_sha256": "8f12afa4679f4392447acd8a7dbc265a5f700e481d4628ee7dce1f97ee2e0669",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_19_20",
+      "manifest_sha256": "8266fd944d932cb4470a9dd4b3603156641c7f199211eafbe38235c6be1c5a90",
+      "publication_sha256": "4c94265e27863b22ae3d3048f4f728ff4b058871cf39332785c4b173f63205f3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_20_21",
+      "manifest_sha256": "26fe3fca98de9dd1a1f2372b97587ac754766592956529a130367abf821cbc8f",
+      "publication_sha256": "f9d342341ee94370989528f8f206024c7f195b440f9013410cde0bc2c74aebc3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_21_22",
+      "manifest_sha256": "55cbbe625d01ccf9321c23f0870ec0df3d8bad0603377205a931635064a269d0",
+      "publication_sha256": "ec145da7f5a18d0bcf03ba3ac829eda50134eec86be47642230cd6fcb703bc5d",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_22_23",
+      "manifest_sha256": "5b3b9c06fe3c11fac5001e3915efd2c4dab7a46193c5b7083a6bd3af70abbdc0",
+      "publication_sha256": "65e3482f84c18052961a26121927c7807c5ca33ae7713fc57755885183e7fb6e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_23_24",
+      "manifest_sha256": "77cb0987bf81209e11e1642ef7b3b15e96ee5f30253870b6632d86af5a392b3b",
+      "publication_sha256": "a18b769dddf4a4becfc71881b973787b82ab3199a20fcfc286f2c6f1ef86e6b2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_24_25",
+      "manifest_sha256": "45c5a35fdfaf9389e4fc5be3fa955980430ee7cb258fb927f7933c02309b6b09",
+      "publication_sha256": "72a4f5e1844af34ff9ce6fd8b799c0a0ee615e237352c16883572a645b012ca6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_25_26",
+      "manifest_sha256": "f7a725bdc42e0e540cec701534a13029321e4602f695f9b66b73eda5fe0f6691",
+      "publication_sha256": "9f5a43a052702294e9e462a935a6e03ee1124ff5b4f2b234eedc56ed2715da13",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "La_Liga_2_26_27",
+      "manifest_sha256": "260d70cfac911c6cae3e420da5a582a1ed2bb870fdafea7e1de98aeba11a9e91",
+      "publication_sha256": "1d4e0f85fcf7dc6ba472f623d8bf8b28f47a3954b492baf2296d59e7230e4f7c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_17_17",
+      "manifest_sha256": "b0d4928271a365f6269e3378dfb1fb157cfd6bc7325e5b4b5953b521be03e8ca",
+      "publication_sha256": "55d0c8d21ed67ecffb4f66639886d68c23bd1c944b37a2da8ef1374e89fe8cfd",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_18_18",
+      "manifest_sha256": "ab154126e73b5b878ea7700df77dbb12afeef6fa0d5fd71d94de0e5c94b0bfb9",
+      "publication_sha256": "513288c7d7e8ebe4e530f9f85abbd80f30d4c0eb987fa3e269a7d7079f09ad08",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_19_19",
+      "manifest_sha256": "3e3bd86f87ee5115310c2a680bed5042ff90739e380482ef43785f937ea30b53",
+      "publication_sha256": "40bf7766417c71952c05dc95534332ada7996f06ae6015869a3b9834db1db4eb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_20_20",
+      "manifest_sha256": "121cabea15e981188c9372f35fdd6b092c87d54ac616e52992b51901260daba9",
+      "publication_sha256": "610522fb111433b6790bf480111e232f44a45c82a08a4dae44b141ac70c17265",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_21_21",
+      "manifest_sha256": "3735bca476295c427997a88ea09a439b0fbb356d16d192a303b746f7da125160",
+      "publication_sha256": "4f625a1226807e8d0bedfc161013263a1bb968be52e391dbd874ef6ef93305f9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_22_22",
+      "manifest_sha256": "292c5defc789fb50f5101a127c6095d111a7cdb33bf57864d6c88701dbacb8f2",
+      "publication_sha256": "bc721d03d2c7f42087ec786caa820e34b0cd13655a6692db0fb794fb171c0e8f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_23_23",
+      "manifest_sha256": "2b3940ba5f5a887f2295c36db3239aebe1188c6b9fb0acba5243b5a4bf3ceeaf",
+      "publication_sha256": "4365c89896dde8c36b235af01f126c1c3c39d0d24f04026a48f65f2937541316",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_24_24",
+      "manifest_sha256": "43be312589d59a8f26a32bfce67f0d7d58e750cc0a115e7ddf9b22730429bb11",
+      "publication_sha256": "57432a53d52e5fd4b3b2ea8e89b3522d6822ea0fa1418e24da1f2522236b9584",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_25_25",
+      "manifest_sha256": "b295bd2a1f8bc24a7e342ca0dcba8b0df6126781f8ab0f091544e1f97429cba0",
+      "publication_sha256": "83e2e47be4caa047932a0bde1057ff5aee4bbe9f1e892c35abea9ef03b5bd073",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Allsvenskan_26_26",
+      "manifest_sha256": "12c7470f3e112d49a6caa34861f4d50aac54ca9519f6bc2547377c0a70b3576d",
+      "publication_sha256": "d18547cf05127aa9f63c6da09ca8dd7cb4b95d300ae56648df6736b3fc874711",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_17_18",
+      "manifest_sha256": "21e07a56e6ad3620002127c22186ad6f59f5213f27ebfa7788aecae88c66dd58",
+      "publication_sha256": "81e2a2f14da0487faa611e6ac2e98578d119247c236f6ee93a97195aed9ef4ed",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_18_19",
+      "manifest_sha256": "20dbb9cd2e68c071cea7f821431b806e4a14bf8955986f922e6e81dfc79372fc",
+      "publication_sha256": "cb8c56dc27e5a910bb7c578eb4b0c5768d33cb30657c1175f5c5992dd0de1f19",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_19_20",
+      "manifest_sha256": "7355b7679abe5d34ce27ab510f42c40a723f5c8102235b4d590ee991e8dc33ab",
+      "publication_sha256": "da622899cf53ad71d35500c5c56456589059cae36a5ed6120fa2cff2c7b51601",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_20_21",
+      "manifest_sha256": "43a1ed8cd222d3a6952e370f1fb400f5d69589bb7c69f8470ddb5855934d231c",
+      "publication_sha256": "68384c7cf36f5cc5bd1c9c5b36b4e7ce349d765187ff318049ba42837383a83f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_21_22",
+      "manifest_sha256": "abb2794e6c2ce9f07d9ec29892cc85313289a78e539efd5c6bdc16fbb26a7d9a",
+      "publication_sha256": "a490e81cbe5986f7746170d53cddabe4acd350138f12f0d35967299206677f5e",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_22_23",
+      "manifest_sha256": "6bb838eb13bdc30a680b2452d98083bf3bc4ff3d9dbed152a06cbd7f8977d611",
+      "publication_sha256": "75b30d8b109862a4ba4640f9624dccf62dfdbaa5e6a4e2aabb9e31d049b6a900",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_23_24",
+      "manifest_sha256": "79b65cc48dfbbb705aa0f7ca6d347e8ebf7c97d9898a597441f02244cd7405ce",
+      "publication_sha256": "a8887b7c5a2d3855d16a1538b055a0d8eebaf6a4c423262c4574fb68344cc205",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_24_25",
+      "manifest_sha256": "3222c0e869386c4d1d5cdd70d3a1f46fa48a81d9c77112d898e66ee5027bca93",
+      "publication_sha256": "76d2aee5fe38b8071b4e1bcb733d892a8b289e4ae5cf1c06844aa8ba4cd112d1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_25_26",
+      "manifest_sha256": "31740cae4254cb367e4eda3ad5db0b540d0ba2d064a00daeaddc6f96de224a04",
+      "publication_sha256": "da6dfaffe208e44a64e5660d87da8e2ff79028d4124357247b5c458292104e0b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Swiss_Super_League_26_27",
+      "manifest_sha256": "02db3c3944657e7676f1604208dee5792644904382c8c04f9aea0bb07cc80635",
+      "publication_sha256": "3d625cd00a9a0ee63ef1bb28c98f128aefd2ccb97173b9427f6a5cace21af9af",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_17_18",
+      "manifest_sha256": "0372d2cc69c6e5feb8ac82d08e6e5999c60b2c10a988606293cf43a8ce261523",
+      "publication_sha256": "9ee08fa40f98aa7a495158867c5078ef664d4e02f37796f0dbf44fa189a1d5ae",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_18_19",
+      "manifest_sha256": "07fca061579e16d633b20c56ada2111bb2456a3a3cef92319e110f634c1a5fbc",
+      "publication_sha256": "e8f1ba2c199f72a5189bc4c18c47f6b105823742c6ae2484035b7aba83503b41",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_19_20",
+      "manifest_sha256": "5610ab6523dd4070d3f9f3ddc55b9786642c0d9ef4763954585df3b30d11e523",
+      "publication_sha256": "de03275d1809c24a02d433c19749dac3d0aa18f0056a6f8a6c74620fc5d2e8d4",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_20_21",
+      "manifest_sha256": "9f8e06456401fe8a34cfd2f7f6a5658c354886c46290ae76871a7eda76ab92b9",
+      "publication_sha256": "9011e861d9553f76a57604cf9fec2d7350442754be707bb5bbcd401b7f83760a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_21_22",
+      "manifest_sha256": "214bc1eb51f3ad6d1c44b245f1e42c24b9f139f9be23db35ca82e9bd39642085",
+      "publication_sha256": "4e9eb7cd73e2ba14bdb540d8bfb9a029b5e974c16ca25adf1da6057a7c3032c9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_22_23",
+      "manifest_sha256": "e4fb1665b99d01e44c0fec0c5991422aa32a3854ea4617fc10c129131145c5aa",
+      "publication_sha256": "0090bb4354f34bc2ce641dc456aabd69040baa464ab2b79049d4bfecf3feb6b3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_23_24",
+      "manifest_sha256": "ed88d4bff80f9e7ac1de143cea4aa044e1e21f93b33d7861d13b989be3bd4b09",
+      "publication_sha256": "031e702edf00b8fa8631b121ed7ee28ec8444493ed528029811e5c62f131dfa9",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_24_25",
+      "manifest_sha256": "1ba0bb3a2019a6cc0b58a3d69e0aee21a091f6be97ff53fdc3d087c49f33abc8",
+      "publication_sha256": "0e5d566871662f26b009d80d5521d06ac46b9e9c365db7d7a1d5702f4fcfa4b0",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_25_26",
+      "manifest_sha256": "ccd473548f37f607f32a32e0e8122a159a1143bc9709231127ba95e7877d157d",
+      "publication_sha256": "4dac91a16e92a62bb9da43a2abcb9bccc760a6fdf0a3f82eed75d71b7c166d2b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Super_Lig_26_27",
+      "manifest_sha256": "058eb011a122b8798072ea22ad414a0c4e4da0af6b4acc5ef7ccfbddbb3dfae0",
+      "publication_sha256": "e6513527a5536cce8f615884d2b0952bca93559311a8f480b29ea074cd42ffb3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_17_18",
+      "manifest_sha256": "c6f7a1002bcb00bfd2944f0102bfbab13fd38da08ca430a9cddf78d081065b48",
+      "publication_sha256": "368f04729fe78418e19a0ce4ff7d96c279dbbf069837681630de53e4da545d20",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_18_19",
+      "manifest_sha256": "3f0b97951d2a7606fdee1357be6f98c9f479d06068fc73c6c669140875880b6e",
+      "publication_sha256": "be62552cd8730504bbf5e50a3839b85b38c8307e5424f2f13b801a7b666740a1",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_19_20",
+      "manifest_sha256": "3505a9c31d0b012a16634309772566988faa0b1ce2b7c2d038e00f03e8cf22de",
+      "publication_sha256": "d6287f95d572bce4e66cf76a3d55773ce31a24a0430f1ec3b8874e0f45cdab64",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_20_21",
+      "manifest_sha256": "d716504ddd6532e5fd0c10f63b26724ea51af6dd28e872fb00e637cc6b9c2331",
+      "publication_sha256": "219b04772531b2b95613f2c70d4f362d99b116384f47b0cde483e3ce4f72c80b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_21_22",
+      "manifest_sha256": "91dfc5e95aadf2ea1deb6602c7ac4c85b6161f15ef376f562aa773bd1cb77291",
+      "publication_sha256": "89b702f38d013f900d1c59458b7018c9eeccee5daec5821587af73e24576a8bc",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_22_23",
+      "manifest_sha256": "7c40a14e314ec1818e12d55ffff723d966ee2d8760095b2adc0572cdea2d25da",
+      "publication_sha256": "47dfe97fe5eb1bbf6c2340dd597952b5211f3cbd3a4282bfd60d8714c437d06c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_23_24",
+      "manifest_sha256": "673f4f71975ecb96cb273a878abe4bdd209e18bd5516a89faa282eba34d83c7c",
+      "publication_sha256": "720a10b453107e6642b0d13603bc0ba46327f411d9243ca2f4ea770c98f42f34",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_24_25",
+      "manifest_sha256": "1c06f9689a4cc7a0b646f8e58e34010872a24a905c2427c1d3b8db769c634c6e",
+      "publication_sha256": "69652f767842762b661a36150ca9e328d31f5d14baa04cf2da5c3c690c672b73",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_25_26",
+      "manifest_sha256": "4c2a47d9bbdb58b744f4fd005250e9dcc0946ef309bffa2e518beb42aaef9c1c",
+      "publication_sha256": "73b7f5dc1da32ff4d7fa713cf7a0fafe74d9e20549cbf4fbf124a8505a6487e3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "Ukrainian_Premier_League_26_27",
+      "manifest_sha256": "f810b38c215b57baebbaa4ae9ef18a265ecfe25777835b32f8505d0a3f8f976e",
+      "publication_sha256": "586125eec4f8fc8bd6c568cc36d9aa6d07e1403918f8c6f8709cd1509babef2b",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_17_17",
+      "manifest_sha256": "812c4a7032e0e8adb0354600e8aac5bd9e1e2e8d172576734bbce5e90e805172",
+      "publication_sha256": "e099c804c9cec65a8666ff533dd5746f4444ff5b5c7fecfe2548ae621098d6d5",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_18_18",
+      "manifest_sha256": "13db9a3649e6f246bce33d8bce69038dd3c8c837d804379438152e1ef61a531b",
+      "publication_sha256": "a75718b4fb72b677fe2a8a6a076e98721048d99ba38c5ff8c36dc05d1631d61a",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_19_19",
+      "manifest_sha256": "23452faeba82a9f40c573f5fc07500a07da03aacc7171cef5a2ed4588033535a",
+      "publication_sha256": "4270a7f0c6eda4ad8759e6a2c9360161f6b2d9d039b15d815a4ddda3fd6dd0e2",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_20_20",
+      "manifest_sha256": "6bf6b1d9c90639cb6a72f6058f59ca25ea8cd9e9582ad1f6711c7aeacd9f4394",
+      "publication_sha256": "b74bfa321d18f97abe62c53f784204df36e9e05109dc7e0d65ea4545b220befb",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_21_21",
+      "manifest_sha256": "82986ffe55f86bbf6c3d1bb3e2d13a0348a4083f8ba490b36850b7b721f82b7f",
+      "publication_sha256": "e55e06a88a38f6586fab21782d3e31ff9b22a6fe4c99d6454914945ecc42dac6",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_22_22",
+      "manifest_sha256": "b1a08bfda981a2b13e11c5f75c3f035e5bf7e633ed013bda026784de3c10d10d",
+      "publication_sha256": "460340fce936b27e5e24d5e77adc6a7aebda84fa5867def644126437c418faab",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_23_23",
+      "manifest_sha256": "0a0b5334788d738615ae9da3c3dae7cbd416201c804dc057f5f289902401666e",
+      "publication_sha256": "9c9067604f96658cec91178588ec8b2f7e4ac447532f187d0326099b69567e4f",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_24_24",
+      "manifest_sha256": "b5eea20338f5a67d0ec681310ab7a078914494a31363f476fc35fca10c182c13",
+      "publication_sha256": "81fe560af889a26ae142fb296319b9b973202eed7826587ed5ab3408025f750c",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_25_25",
+      "manifest_sha256": "58cb4a4d722b9f252dc9dc12fa057a5cfe75f37cd5469b2e0a8fe20b62e280e2",
+      "publication_sha256": "5f7760c013ca24912ef0f0dd6733e6143a144b975de695229c659ce972bb8fe3",
+      "observation_tables_rewritten": false
+    },
+    {
+      "stem": "MLS_26_26",
+      "manifest_sha256": "cc776e44a45c5627a40ab4f119f36909c2b20d00deaf6524a85e47af6efae48b",
+      "publication_sha256": "ff673fca0c24217a8a0424fb6b1bb4cbcc2277c2088ce3d5d06be7a597816e88",
+      "observation_tables_rewritten": false
+    }
+  ]
+}

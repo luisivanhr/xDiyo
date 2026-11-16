@@ -1,0 +1,115 @@
+{
+  "baseline": "fa2014db73336d7ec1a3d3432749ebe4f37e62ee",
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+  "pandas": "2.3.3",
+  "pyarrow": "22.0.0",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python_tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "409",
+    "time": "52.554",
+    "timestamp": "2026-11-16T21:37:36.954204+09:00",
+    "hostname": "Ivan-tachi"
+  },
+  "javascript": {
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "commands": [
+    [
+      "python",
+      "-m",
+      "pytest",
+      "tests/analytics/test_native_integration.py",
+      "tests/analytics/test_recipe_refresh.py",
+      "tests/analytics/test_loading.py",
+      "tests/analytics/test_awarded_loading.py",
+      "tests/analytics/test_library_consolidation.py",
+      "tests/analytics/test_team_history.py",
+      "tests/analytics/test_fixture_assembly.py",
+      "tests/analytics/test_season_countdown.py",
+      "tests/analytics/test_derived_standings.py",
+      "tests/analytics/test_standings_available_publication.py",
+      "tests/analytics/test_standings_incomplete_regular.py",
+      "tests/analytics/test_standings_result_versions.py",
+      "tests/analytics/test_temporal_splits.py",
+      "tests/analytics/test_ui_recipe_cutoffs.py",
+      "tests/analytics/test_ui_server.py",
+      "tests/analytics/test_movement_enrichment.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=docs\\analytics\\native_integration_20261116\\tests.xml"
+    ],
+    [
+      "node",
+      "--experimental-vm-modules",
+      "--test",
+      "tests/analytics/ui_feature_discovery.mjs",
+      "tests/analytics/ui_feature_bundles.mjs",
+      "tests/analytics/ui_composition.mjs"
+    ],
+    [
+      "python",
+      "examples/verify_native_integration_20261116.py"
+    ]
+  ],
+  "working_file_sha256": {
+    "examples/audit_native_identity_20261116.py": "dbccbe73517184ee62aceeb50a39a3d0371d6f53d332e9bd86d844d42f1da5e2",
+    "examples/integrate_native_20261116.py": "8fa393383fd829ec315f1d721d98692b7dec08a42c7e188434375f7903231e6c",
+    "examples/refresh_recipe_data.py": "db981f5c15e6ffad03e4b23f7caeb8289739f8a3a6b770b5f0b2d6792374b022",
+    "examples/verify_native_integration_20261116.py": "bf876b87456ab44a5ad1ed456af930fae80e401f803150e71c5a36605f163187",
+    "src/xdiyo_analytics/data/__init__.py": "549c575b4e67699ae10e6baf4ab6d5626603f7d86edea5583613f87cc8e90789",
+    "src/xdiyo_analytics/data/inspection.py": "20857a6d42d680534c37d4baa14321e09ce5c7a4b89b40c347862a0fc8a7c79d",
+    "src/xdiyo_analytics/data/loading.py": "c3523f14168db9bfd4dc5e4cad6757fe4516c0f40e4175af379b2976439dcc0f",
+    "src/xdiyo_analytics/data/native_integration.py": "014490584bf167c29c563934e9836b21bebc8f1c6c403faec5e8068b2bf9fc13",
+    "src/xdiyo_analytics/data/native_publication.py": "da7b29431e344809b935a30688123ae855780bb7479af3026703f83d555c4550",
+    "src/xdiyo_analytics/features/countdown.py": "6567994b68cdfc6e1403511078d2fd7c3cd28fc2d5c9e67902655cb124040b03",
+    "src/xdiyo_analytics/histories/team.py": "6329eeb9b025f16592769d3730a2d0a722ce0d620ce4f764b5116043f3dfb1e8",
+    "src/xdiyo_analytics/labels/creation.py": "f87b8ddc542fe71e9157189ac28e9e263a48e7d0391e92079f3c477ad5ebaa68",
+    "src/xdiyo_analytics/ratings/standings.py": "eb0819b8cdd931413b4322d2204b910506f95132e1f14644074e06eed1385e93",
+    "src/xdiyo_analytics/ui/recipe.py": "b43b2bf77478d831a71b632a60bb3d689e428673ff3e7a3f5fb975582d24b3d3",
+    "src/xdiyo_analytics/ui/refresh.py": "0a261e75b18735c7e0cc83cde4196584c9b989d193aba39675da5cdd9e8ae57e",
+    "src/xdiyo_analytics/ui/server.py": "9adf0fa7fda4a5f0a24ad6dcdfafa5712c464e2d674235b6e064200e795b7ce3",
+    "src/xdiyo_analytics/ui/static/app.js": "9287661e7439e1b141c637f01b20df6be8d101b527e8c313f5478088bb2793be",
+    "tests/analytics/test_native_integration.py": "581b9705ef28644837bae1939e7b0b8b2f90c14a380a0837b68f34e4371e88d7",
+    "tests/analytics/ui_feature_discovery.mjs": "99934ea77644ec8a63e96c88541c5034626b82075178c1da44284995cb22bca1"
+  },
+  "receipts": {
+    "tests.xml": "d0d5a53d849ed0647aff446b2a4c8683e70232bbda127e6f3af29462cf2a34d4",
+    "javascript-tests.log": "fc7991a4c71b717baa8451535a563253750e6d3c18e081ffb60da0ef99095daa",
+    "verification.json": "0eeecd9b750395f7c39532bf3108d3fec4c8e08ebcdf6ad16a2dac6e5aef0b15"
+  },
+  "limitations": [
+    "No model training or experiments run",
+    "Historical publication availability remains conditional retrospective where exact evidence is absent",
+    "Unsupported format scopes fail explicitly",
+    "One pre-existing pandas concat FutureWarning"
+  ],
+  "staged_git_blob_sha256": {
+    "examples/audit_native_identity_20261116.py": "dbccbe73517184ee62aceeb50a39a3d0371d6f53d332e9bd86d844d42f1da5e2",
+    "examples/integrate_native_20261116.py": "8fa393383fd829ec315f1d721d98692b7dec08a42c7e188434375f7903231e6c",
+    "examples/refresh_recipe_data.py": "db981f5c15e6ffad03e4b23f7caeb8289739f8a3a6b770b5f0b2d6792374b022",
+    "examples/verify_native_integration_20261116.py": "bf876b87456ab44a5ad1ed456af930fae80e401f803150e71c5a36605f163187",
+    "src/xdiyo_analytics/data/__init__.py": "f9eeb19732ccbdfe243df3b4039df4dde10ec9c86a24deef2cd3e2826fc181b3",
+    "src/xdiyo_analytics/data/inspection.py": "20857a6d42d680534c37d4baa14321e09ce5c7a4b89b40c347862a0fc8a7c79d",
+    "src/xdiyo_analytics/data/loading.py": "c3523f14168db9bfd4dc5e4cad6757fe4516c0f40e4175af379b2976439dcc0f",
+    "src/xdiyo_analytics/data/native_integration.py": "014490584bf167c29c563934e9836b21bebc8f1c6c403faec5e8068b2bf9fc13",
+    "src/xdiyo_analytics/data/native_publication.py": "da7b29431e344809b935a30688123ae855780bb7479af3026703f83d555c4550",
+    "src/xdiyo_analytics/features/countdown.py": "6567994b68cdfc6e1403511078d2fd7c3cd28fc2d5c9e67902655cb124040b03",
+    "src/xdiyo_analytics/histories/team.py": "6329eeb9b025f16592769d3730a2d0a722ce0d620ce4f764b5116043f3dfb1e8",
+    "src/xdiyo_analytics/labels/creation.py": "f87b8ddc542fe71e9157189ac28e9e263a48e7d0391e92079f3c477ad5ebaa68",
+    "src/xdiyo_analytics/ratings/standings.py": "eb0819b8cdd931413b4322d2204b910506f95132e1f14644074e06eed1385e93",
+    "src/xdiyo_analytics/ui/recipe.py": "9160b87cfa9a4cd5fe202550af10d8cdc2e1f0fb8e48f5d3389e0cec9227745a",
+    "src/xdiyo_analytics/ui/refresh.py": "0a261e75b18735c7e0cc83cde4196584c9b989d193aba39675da5cdd9e8ae57e",
+    "src/xdiyo_analytics/ui/server.py": "2cfb323a58735f46452fefd19dae680a8511dc0a72f7ea1bb65fdd228d3c7b55",
+    "src/xdiyo_analytics/ui/static/app.js": "ce0143d1678bebbbdd1253d5d107eeb46676752af3f529c98631d09ba7bb97e8",
+    "tests/analytics/test_native_integration.py": "581b9705ef28644837bae1939e7b0b8b2f90c14a380a0837b68f34e4371e88d7",
+    "tests/analytics/ui_feature_discovery.mjs": "272cc12d641be48cdee49788de6d8932257b3f46170686560954ec7935940204"
+  },
+  "source_hash_note": "Working hashes describe tested bytes; staged Git blob hashes identify committed source with repository newline normalization. Verification scripts and evidence preserve exact bytes via .gitattributes."
+}

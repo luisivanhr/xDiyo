@@ -85,6 +85,10 @@ def _policy(timing, reviewed_points):
 
 def _canonical(history, roster, available_at, *, timing='available_at_cutoff', meetings_per_pair=None,
                allow_incomplete_schedule=False):
+    if 'native_standings_rule' in history:
+        from ..data.native_integration import native_rule
+        for _, population in history.groupby(['competition_id', 'season_id'], sort=False):
+            native_rule(population, 'standings')
     if roster is None:
         raise ValueError("DerivedStandings requires verified complete team_seasons membership, not teams seen in a fold.")
     scope = ("competition_id", "season_id")

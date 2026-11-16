@@ -6,6 +6,7 @@ from .selection import STAT_CATEGORIES, list_stat_bundles, select_stats
 from .prediction import PredictionFixtures, load_prediction_fixtures, select_prediction_fixtures
 from .movements import derive_movements, save_movement_enrichment
 from .international_statistics import homogenize_international_statistics, international_statistic_mapping
+from .native_integration import supervised_native_rows
 
 __all__ = [
     "SeasonData", "load_season", "load_seasons", "inspect_season",
@@ -13,6 +14,7 @@ __all__ = [
     "PredictionFixtures", "load_prediction_fixtures", "select_prediction_fixtures",
     "derive_movements", "save_movement_enrichment",
     "homogenize_international_statistics", "international_statistic_mapping",
+    "supervised_native_rows",
 ]
 
 from .catalogue import list_datasets, inspect_coverage, select_data, resolve_selection

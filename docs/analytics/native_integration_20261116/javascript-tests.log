@@ -1,0 +1,31 @@
+✔ Composition child estimator has an editable native model selector (2.3219ms)
+✔ Chronological plan exposes mode choices and safety declarations (1.3591ms)
+✔ Reporter staking and complete-ticket gates are native component fields (0.2111ms)
+✔ Classification schema preserves numeric and text labels distinctly (0.3582ms)
+✔ one template expands multiple stats with shared settings and independent clones (1.5985ms)
+✔ inventory window, span and lag defaults are materialized and named (0.4173ms)
+✔ period filtering, all-period union and same-key groups remain distinguishable (0.8586ms)
+✔ collisions suffix names without modifying existing feature names (0.7984ms)
+✔ ambiguous templates and duplicate statistics are rejected (1.8887ms)
+(node:191036) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ empty pre_reporters features names the correction before Run while Prepare still discovers (9.3387ms)
+✔ empty post_reporters targets names the correction before Run while Prepare still discovers (4.2866ms)
+✔ native discovery displays provider names while retaining stable recipe keys (4.0865ms)
+✔ report embeds retained HTML and expands into a disposable native dialog without API execution (14.848ms)
+✔ discovery updates reporter choices on the same page without a job-result host and only once (17.4722ms)
+✔ an older preparation cannot publish choices after feature edits (5.9509ms)
+✔ a run finishing after navigation away from results still refreshes reporter choices (4.3845ms)
+✔ run completion also populates choices and data or layout edits invalidate them (5.5861ms)
+✔ empty enabled outer selection discovers all folds on Evaluation without changing the live recipe (4.8878ms)
+✔ prepare preserves prior fold choice and selected run cannot overwrite the full outer list (4.24ms)
+✔ prospective post IDs follow outer order and stale explicit subsets are cleared (4.7713ms)
+✔ a selected run without full discovery supplies only local post choices (4.6238ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.0322

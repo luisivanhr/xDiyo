@@ -1,0 +1,600 @@
+{
+  "publications": 617,
+  "fixtures": 172274,
+  "tables_verified": 8731,
+  "unchanged_tables": 8729,
+  "changed_tables": [
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=11653\\season=88493\\versions\\ae4363e35e7f4e089a1f58baf8f85911\\matches.parquet",
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\data\\xDiyo_data\\_tables\\competition=11536\\season=77825\\versions\\fde9f9fe74584841b310a206de625bb4\\matches.parquet"
+  ],
+  "duplicate_identities": [],
+  "new_awarded_rows": 40,
+  "awarded_corrections": {
+    "Chile_Primera_Division_26_26": [
+      15352954,
+      15352964
+    ],
+    "Colombia_Primera_A_Clausura_25_25": [
+      14115336
+    ]
+  },
+  "new_format_status": {
+    "countdown": {
+      "supported": 196,
+      "unsupported": 132
+    },
+    "standings": {
+      "supported": 194,
+      "unsupported": 134
+    }
+  },
+  "demo": {
+    "rows": 380,
+    "folds": 3,
+    "stale_recipe_failure": "The saved season manifest has changed",
+    "trained": false
+  },
+  "samples": {
+    "Allsvenskan_19_19": {
+      "scope": {
+        "league_id": 40,
+        "league_name": "Allsvenskan",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "season_end": 2019,
+        "season_id": 19949,
+        "season_start": 2019
+      },
+      "native_season": {
+        "id": 19949,
+        "name": "Allsvenskan 2019",
+        "year": "2019"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "Allsvenskan",
+        "annual_season": "2019",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 40,
+        "season_id": 19949
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "supported",
+          "table_scope": [
+            "competition_id",
+            "season_id"
+          ],
+          "tournament_ids": [
+            24
+          ],
+          "rule": "independent_3_1_0",
+          "meetings_per_pair": 2,
+          "official_table": false,
+          "basis": "sporting_result_form_ranks_not_administrative_final_table"
+        },
+        "countdown": {
+          "status": "supported",
+          "format": "double",
+          "total_rounds": 30,
+          "team_count": 16,
+          "tournament_ids": [
+            24
+          ],
+          "basis": "verified_regular_scope_and_complete_pair_schedule"
+        },
+        "format_sources": "https://www.sofascore.com/football/tournament/sweden/allsvenskan/40",
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "published_scope",
+        "played_rows": 240,
+        "source_snapshot_flag": false,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "Brazil_Serie_A_20_21": {
+      "scope": {
+        "league_id": 325,
+        "league_name": "Brazil_Serie_A",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "season_end": 2021,
+        "season_id": 27591,
+        "season_start": 2020
+      },
+      "native_season": {
+        "id": 27591,
+        "name": "Brasileir\u00e3o S\u00e9rie A 20/21",
+        "year": "20/21"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "Brazil_Serie_A",
+        "annual_season": "2020",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 325,
+        "season_id": 27591
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "supported",
+          "table_scope": [
+            "competition_id",
+            "season_id"
+          ],
+          "tournament_ids": [
+            83
+          ],
+          "rule": "independent_3_1_0",
+          "meetings_per_pair": 2,
+          "official_table": false,
+          "basis": "sporting_result_form_ranks_not_administrative_final_table"
+        },
+        "countdown": {
+          "status": "supported",
+          "format": "double",
+          "total_rounds": 38,
+          "team_count": 20,
+          "tournament_ids": [
+            83
+          ],
+          "basis": "verified_regular_scope_and_complete_pair_schedule"
+        },
+        "format_sources": "https://www.sofascore.com/football/tournament/brazil/brasileirao-serie-a/325",
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "published_scope",
+        "played_rows": 380,
+        "source_snapshot_flag": false,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "Liga_Portugal_24_25": {
+      "scope": {
+        "league_id": 238,
+        "league_name": "Liga_Portugal",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "season_end": 2025,
+        "season_id": 63670,
+        "season_start": 2024
+      },
+      "native_season": {
+        "id": 63670,
+        "name": "Liga Portugal 24/25",
+        "year": "24/25"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "Liga_Portugal",
+        "annual_season": "2024/2025",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 238,
+        "season_id": 63670
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "supported",
+          "table_scope": [
+            "competition_id",
+            "season_id"
+          ],
+          "tournament_ids": [
+            52
+          ],
+          "rule": "independent_3_1_0",
+          "meetings_per_pair": 2,
+          "official_table": false,
+          "basis": "sporting_result_form_ranks_not_administrative_final_table"
+        },
+        "countdown": {
+          "status": "supported",
+          "format": "double",
+          "total_rounds": 34,
+          "team_count": 18,
+          "tournament_ids": [
+            52
+          ],
+          "basis": "verified_regular_scope_and_complete_pair_schedule"
+        },
+        "format_sources": "https://www.sofascore.com/football/tournament/portugal/liga-portugal-betclic/238",
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "published_scope",
+        "played_rows": 306,
+        "source_snapshot_flag": false,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "Colombia_Primera_A_26_26": {
+      "scope": {
+        "event_ids": [],
+        "league_id": 11539,
+        "league_name": "Colombia_Primera_A",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "season_end": 2026,
+        "season_id": 88503,
+        "season_start": 2026
+      },
+      "native_season": {
+        "id": 88503,
+        "name": "Liga DIMAYOR 2026",
+        "year": "2026"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "Colombia_Primera_A",
+        "annual_season": "2026",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 11539,
+        "season_id": 88503,
+        "tournaments": {
+          "19232": {
+            "phase": "Apertura",
+            "half": 1
+          },
+          "189591": {
+            "phase": "Clausura",
+            "half": 2
+          }
+        }
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "unsupported",
+          "reason": "Independent table/calendar scope or competition format requires implementation/review"
+        },
+        "countdown": {
+          "status": "unsupported",
+          "reason": "Independent table/calendar scope or competition format requires implementation/review"
+        },
+        "format_sources": [
+          "https://dimayor.com.co/2017/12/12/balance-de-la-asamblea-extraordinaria-de-la-dimayor/",
+          "https://dimayor.com.co/2020/09/09/sintesis-de-la-asamblea-extraordinaria-de-la-dimayor-9/",
+          "https://dimayor.com.co/wp-content/uploads/2024/09/REGLAMENTO-LIGA_2DO-SEMESTRE_3.pdf",
+          "https://dimayor.com.co/wp-content/uploads/2025/04/REGLAMENTO-LIGA-V1-2025-04-03.pdf",
+          "https://dimayor.com.co/wp-content/uploads/2026/01/REGLAMENTO-LIGA-2026-V12.pdf"
+        ],
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "completed_match_snapshot",
+        "played_rows": 373,
+        "source_snapshot_flag": true,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "J1_Transition_26_26": {
+      "scope": {
+        "league_id": 196,
+        "league_name": "J1_Transition",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "season_end": 2026,
+        "season_id": 87931,
+        "season_start": 2026
+      },
+      "native_season": {
+        "id": 87931,
+        "name": "J1 League 2026",
+        "year": "2026"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "J1",
+        "annual_season": "2026_transition",
+        "phase": "transition",
+        "half": null,
+        "competition_id": 196,
+        "season_id": 87931
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "legacy_verified",
+          "reason": "Existing explicit DerivedStandings membership/schedule validation remains required"
+        },
+        "countdown": {
+          "status": "legacy_verified",
+          "reason": "Existing ID/phase-specific countdown checks remain required"
+        },
+        "format_sources": "https://www.jleague.jp/news/article/29712/?mode=pc",
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "published_scope",
+        "played_rows": 180,
+        "source_snapshot_flag": false,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "J1_26_27": {
+      "scope": {
+        "league_id": 196,
+        "league_name": "J1",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "season_end": 2027,
+        "season_id": 96370,
+        "season_start": 2026
+      },
+      "native_season": {
+        "id": 96370,
+        "name": "J1 League 26/27",
+        "year": "26/27"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "J1",
+        "annual_season": "2026/2027",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 196,
+        "season_id": 96370
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "legacy_verified",
+          "reason": "Existing explicit DerivedStandings membership/schedule validation remains required"
+        },
+        "countdown": {
+          "status": "legacy_verified",
+          "reason": "Existing ID/phase-specific countdown checks remain required"
+        },
+        "format_sources": "https://www.jleague.jp/corporate/about_competitions/season/",
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "completed_match_snapshot",
+        "played_rows": 80,
+        "source_snapshot_flag": true,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    },
+    "Chile_Primera_Division_19_19": {
+      "scope": {
+        "event_ids": [],
+        "league_id": 11653,
+        "league_name": "Chile_Primera_Division",
+        "rounds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          26
+        ],
+        "season_end": 2019,
+        "season_id": 22328,
+        "season_start": 2019
+      },
+      "native_season": {
+        "id": 22328,
+        "name": "Primera Divisi\u00f3n 2019",
+        "year": "2019"
+      },
+      "annual": {
+        "policy": "native_annual_calendar_v1",
+        "annual_league": "Chile_Primera_Division",
+        "annual_season": "2019",
+        "phase": "regular",
+        "half": null,
+        "competition_id": 11653,
+        "season_id": 22328
+      },
+      "rules": {
+        "enforce": true,
+        "standings": {
+          "status": "unsupported",
+          "reason": "Administrative or annulled results require independently timed table/ruling scope; source sporting scores remain separate"
+        },
+        "countdown": {
+          "status": "supported",
+          "format": "double",
+          "total_rounds": 30,
+          "team_count": 16,
+          "tournament_ids": [
+            64475
+          ],
+          "basis": "planned_double_round_robin_curtailed_after_played_rounds"
+        },
+        "format_sources": [
+          "https://www.anfp.cl/?jet_download=9709a3d50c40172afee6952ce6416cf49c60464a",
+          "https://cruzados.cl/wp-content/uploads/2022/02/Memoria-Cruzados-SADP-2017.pdf"
+        ],
+        "scope_warning": "Annual grouping is not a standings-table or countdown-calendar identity"
+      },
+      "coverage": {
+        "kind": "curtailed",
+        "played_rows": 193,
+        "source_snapshot_flag": true,
+        "note": "Coverage applies to the selected native stages only; see archive_cohort"
+      }
+    }
+  },
+  "active_input_pins_unchanged": true,
+  "scripts": {
+    "C:\\Users\\luisi\\Documents\\Programming\\Python\\xDiyo\\examples\\verify_native_integration_20261116.py": "bf876b87456ab44a5ad1ed456af930fae80e401f803150e71c5a36605f163187",
+    "examples\\integrate_native_20261116.py": "8fa393383fd829ec315f1d721d98692b7dec08a42c7e188434375f7903231e6c",
+    "examples\\audit_native_identity_20261116.py": "dbccbe73517184ee62aceeb50a39a3d0371d6f53d332e9bd86d844d42f1da5e2"
+  }
+}

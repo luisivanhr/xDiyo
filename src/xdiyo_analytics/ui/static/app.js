@@ -61,7 +61,9 @@ async function discoverData(force=false){
   if(recipe.data_selection){choices=await api('named-choices',source);publications=[];}
   else {const data=await api('discover',{root:source.data_root});choices=await api('choices',{root:source.data_root,seasons:source.seasons,leagues:source.leagues});publications=data.publications;}
   if(key!==JSON.stringify(recipe.data_selection||recipe.data))return;
-  discovered({seasons:[...new Set(publications.map(p=>p.season))].sort(),leagues:[...new Set(publications.map(p=>p.league))].sort()});
+  const selectedPublications=publications.filter(p=>source.leagues==null||source.leagues.includes(p.league));
+  const seasonChoices=[...new Set(selectedPublications.map(p=>p.season))].sort().map(value=>{const names=[...new Set(selectedPublications.filter(p=>p.season===value&&p.season_label).map(p=>p.season_label))];return names.length?{value,label:names.length===1?names[0]:`${value} · ${names.slice(0,2).join(' / ')}${names.length>2?' …':''}`}:value;});
+  discovered({seasons:seasonChoices,leagues:[...new Map(publications.map(p=>[p.league,{value:p.league,label:p.league_label||p.league}])).values()].sort((a,b)=>a.label.localeCompare(b.label))});
   available=choices;discovered({...available,stat_keys:[...new Set((available.stats||[]).map(s=>s.key))],identity_columns:['source_league','home_id','away_id','team_id','opponent_id']});discoveryKey=key;
  }finally{discoveryBusy=false;}if(stage==='data')render();
 }
@@ -127,7 +129,7 @@ function render(){
   content.append(namedDataPanel(recipe,api,changed,()=>discoverData(true)));
   if(!recipe.data_selection){
   content.append(section('Update recipe to current data','Refresh saved data references after a dataset update. Saves a new recipe, preserves experiment settings, and does not train a model.',el('button',{text:'Update recipe to current data',onclick:action(async()=>{const result=await api('refresh-data',{recipe});recipe=result.recipe;changed();render();await discoverData(true);notice('Updated recipe saved to '+result.path);modal(el('h2',{text:'Data references updated'}),el('p',{text:'Saved to '+result.path}),table({columns:['Season','Reference changed'],rows:result.changes.map(c=>[c.season,c.changed?'Yes':'No'])}));})})));
-  const select=el('select',{'aria-label':'Season file to inspect'});(available.publications||[]).forEach(p=>select.append(el('option',{value:p.stem,text:p.stem.replaceAll('_',' ')})));
+  const select=el('select',{'aria-label':'Season file to inspect'});(available.publications||[]).forEach(p=>select.append(el('option',{value:p.stem,text:p.season_label?`${p.league_label} · ${p.season_label} [${p.stem}]`:p.stem.replaceAll('_',' ')})));
   content.append(section('Source data','Choose the available leagues and seasons. Awarded matches are excluded by default.',parameterFields(catalog.stages.data.fields,recipe.data,()=>{changed();}),el('button',{text:'Refresh available data',onclick:action(()=>discoverData(true))}),el('p',{class:'help',text:discoveryBusy?'Reading available data…':`${publications.length} season files · ${available.stats?.length||0} available statistic identities`})));
   content.append(section('Available observations','Inspect the selected season’s usable tables, without collection bookkeeping.',el('div',{class:'inline'},select,el('button',{text:'Inspect season tables',disabled:!select.options.length,onclick:action(async()=>{const info=await api('inspect',{root:recipe.data.data_root,stem:select.value});modal(el('h2',{text:select.value.replaceAll('_',' ')}),table(info.tables),el('p',{class:'help',text:`${info.stats.length} statistic identities. Choose them by name under Target or Features.`}));})}))));
   content.append(optional('Statistic bundles and extra statistics','stat_selection',()=>options('stat_selection')));

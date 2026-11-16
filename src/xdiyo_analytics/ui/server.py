@@ -358,7 +358,12 @@ class BuilderState:
                 stem = path.name.removesuffix('.manifest.json')
                 parts = stem.rsplit('_', 2)
                 if len(parts) == 3:
-                    publications.append({'stem': stem, 'league': parts[0], 'season': '_'.join(parts[1:])})
+                    info = json.loads(path.read_text(encoding='utf-8')).get('native_integration', {})
+                    entry = {'stem': stem, 'league': parts[0], 'season': '_'.join(parts[1:])}
+                    if info:
+                        entry.update(league_label=info['competition']['name'], season_label=info['season']['name'],
+                                     native_identity=info['season'], rules=info['rules'])
+                    publications.append(entry)
             return {'publications': publications}
         if route == 'choices':
             from ..data._source import _open_source
@@ -388,6 +393,7 @@ class BuilderState:
                             if {f'{side}_id',f'{side}_name'} <= set(frame):
                                 names.update({str(i): str(n) for i,n in frame[[f'{side}_id',f'{side}_name']].dropna().drop_duplicates().itertuples(index=False,name=None)})
                         if 'round' in frame: round_values = frame['round'].dropna().unique().tolist()
+                    names.update({k:v['name'] for k,v in source.manifest.get('native_integration', {}).get('teams', {}).items()})
                     self.discovery_cache[cache_key] = (stats, names, round_values)
                 stats, names, round_values = self.discovery_cache[cache_key]
                 identities.update(stats)

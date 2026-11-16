@@ -40,7 +40,7 @@ for(const [section,page,field,title] of [['pre_reporters','pre','features','Feat
  });
 }
 
-async function harness({deferred=false,previewData=preview,foldIds=null}={}){
+async function harness({deferred=false,previewData=preview,foldIds=null,publications=[]}={}){
  const elements=new Map(),discovery={},seenForms=[],calls=[],jobs=new Map();
  const query=id=>id==='#job-result'?null:elements.get(id)||elements.set(id,new Element()).get(id);
  const recipe={version:1,data:{data_root:'synthetic',seasons:['24_25']},features:{corners_mean:{component:'features.RollingMean',params:{window:5}}},labels:{corners:{}},target:'corners',assembly:{layout:'match'},ratings:{},history:{},feature_options:{},split:{component:'splits.TemporalSplit'},split_options:{},pre_reporters:{plot:{component:'reporting.FeatureDistributionReporter',params:{}}},fitted_reporters:{},post_reporters:{},analysis_options:{},stat_selection:null};
@@ -50,7 +50,7 @@ async function harness({deferred=false,previewData=preview,foldIds=null}={}){
  const jobResponse=new Promise(resolve=>{release=resolve;});
  const fetch=async(url,options)=>{
   const action=url.split('/').at(-1),body=JSON.parse(options.body);calls.push({action,body});
-  const responses={catalog,discover:{publications:[]},choices:{stats:[],teams:[],rounds:[],publications:[]}};
+  const responses={catalog,discover:{publications},choices:{stats:[],teams:[],rounds:[],publications}};
   if(['prepare','run'].includes(action)){
    const id='job-'+(jobs.size+1),selected=body.recipe.fold_ids,p=structuredClone(previewData);
    if(action==='run'&&selected!=null)p.folds=selected.map((position,index)=>({...p.folds[position],fold:index}));
@@ -66,11 +66,21 @@ async function harness({deferred=false,previewData=preview,foldIds=null}={}){
  const forms=new vm.SyntheticModule(Object.keys(exports),function(){for(const [name,value] of Object.entries(exports))this.setExport(name,value);},{context});
  const app=new vm.SourceTextModule(source+'\nexport {refreshJob,changed,showHtml};export function testState(){return {recipe,stage,preparedColumns,appliedPreviewJob};}',{context});
  const grid=new vm.SourceTextModule(readFileSync(new URL('../../src/xdiyo_analytics/ui/static/grid-fields.js',import.meta.url),'utf8'),{context});
- await app.link(name=>{if(name==='./forms.js')return forms;if(name==='./grid-fields.js')return grid;throw new Error(`Unexpected app import: ${name}`);});await app.evaluate();
+ const named=new vm.SourceTextModule(readFileSync(new URL('../../src/xdiyo_analytics/ui/static/named-data.js',import.meta.url),'utf8'),{context});
+ await app.link(name=>{if(name==='./forms.js')return forms;if(name==='./grid-fields.js')return grid;if(name==='./named-data.js')return named;throw new Error(`Unexpected app import: ${name}`);});await app.evaluate();
  const navigate=async title=>{const link=query('#navigation').children.find(item=>item.textContent===title);assert.ok(link);await link.onclick({preventDefault(){}});};
  const findButton=(node,text)=>node?.tag==='button'&&node.text===text?node:(node?.children||[]).map(child=>findButton(child,text)).find(Boolean);
  return {app:app.namespace,discovery,seenForms,calls,navigate,query,body,release:()=>release([...jobs.values()].at(-1)),findButton};
 }
+
+test('native discovery displays provider names while retaining stable recipe keys',async()=>{
+ const h=await harness({publications:[{stem:'Brazil_Serie_A_20_21',league:'Brazil_Serie_A',season:'20_21',league_label:'Campeonato Brasileiro Série A',season_label:'Brasileirão Série A 2020'}]});
+ await flush();
+ assert.deepEqual(h.discovery.leagues,[{value:'Brazil_Serie_A',label:'Campeonato Brasileiro Série A'}]);
+ assert.deepEqual(h.discovery.seasons,[{value:'20_21',label:'Brasileirão Série A 2020'}]);
+ const walk=n=>[n,...(n?.children||[]).flatMap(walk)];
+ assert.ok(walk(h.query('#content')).some(n=>n?.tag==='option'&&n.value==='Brazil_Serie_A_20_21'&&n.text.includes('Brasileirão Série A 2020')));
+});
 
 test('report embeds retained HTML and expands into a disposable native dialog without API execution',async()=>{
  const h=await harness(),html='<h1>Retained report</h1>',before=h.calls.length;

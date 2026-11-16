@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "name": "Native metadata refresh demonstration",
+  "output_dir": "experiments",
+  "config": {},
+  "team_badges": null,
+  "data": {
+    "data_root": "data\\xDiyo_data",
+    "seasons": [
+      "20_21"
+    ],
+    "leagues": [
+      "Brazil_Serie_A"
+    ],
+    "tables": [
+      "matches",
+      "team_seasons"
+    ],
+    "include_awarded": false,
+    "record_dir": "docs\\analytics\\native_integration_20261116\\demo_v1_data_records",
+    "verify_hashes": true
+  },
+  "data_selection": null,
+  "dataset_migration": null,
+  "stat_selection": null,
+  "history": {},
+  "feature_options": {},
+  "cutoff_hours": null,
+  "feature_preset": null,
+  "preset_seasons": null,
+  "derived_features": {},
+  "context_features": {},
+  "identity_features": null,
+  "numeric_features": null,
+  "ratings": {},
+  "features": {
+    "season": {
+      "component": "features.SeasonCountdown",
+      "params": {}
+    }
+  },
+  "labels": {
+    "result": {
+      "component": "labels.Outcome",
+      "params": {
+        "perspective": "home"
+      }
+    }
+  },
+  "target": "result",
+  "assembly": {
+    "layout": "match",
+    "drop_missing_targets": true
+  },
+  "split": {
+    "component": "splits.TemporalSplit",
+    "params": {
+      "train_size": 20,
+      "test_size": 5,
+      "unit": "rounds"
+    }
+  },
+  "split_options": {},
+  "fold_ids": null,
+  "pre_reporters": {},
+  "fitted_reporters": {},
+  "analysis_options": {},
+  "model": {
+    "component": "sklearn.linear_model.Lasso",
+    "params": {
+      "alpha": 0.1,
+      "max_iter": 5000
+    }
+  },
+  "preprocessors": [
+    {
+      "component": "sklearn.impute.SimpleImputer",
+      "params": {
+        "strategy": "median"
+      }
+    },
+    {
+      "component": "sklearn.preprocessing.StandardScaler",
+      "params": {}
+    }
+  ],
+  "adapter": null,
+  "target_transformer": null,
+  "prediction_methods": [
+    "predict"
+  ],
+  "candidate": {},
+  "search": null,
+  "execution": {
+    "component": "training.ExecutionPolicy",
+    "params": {}
+  },
+  "refit": null,
+  "checkpoint": null,
+  "post_reporters": {},
+  "run": {
+    "reuse": true
+  },
+  "artifact_export": null,
+  "prediction": {
+    "model_path": "",
+    "rounds": null,
+    "statuses": [
+      "notstarted"
+    ],
+    "as_of": null
+  }
+}

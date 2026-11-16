@@ -69,6 +69,8 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
     context = keys + [name for name in (
         "competition_id", "tournament_id", "season_id", "season_year", "round", "season_phase",
         "annual_league", "annual_season", "annual_phase", "season_half",
+        "competition_name", "season_name", "season_label", "tournament_name",
+        "native_countdown_rule", "native_standings_rule",
         "status", "status_code", "is_awarded", "provider_is_awarded",
         "play_status", "completion_date", "result_available_at", "result_review_json",
         "stage_json", "standings_table_id", "standings_rule", "standings_result_available_at",
@@ -93,6 +95,9 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
         for prefix, role in ((side, "team"), (opponent, "opponent")):
             if f"{prefix}_name" in matches:
                 part[f"{role}_name"] = matches[f"{prefix}_name"]
+            if f'{prefix}_display_name' in matches:
+                part[f'{role}_source_name'] = part[f'{role}_name']
+                part[f'{role}_name'] = matches[f'{prefix}_display_name']
             for field in ('got_promoted', 'got_demoted', 'season_entry'):
                 if f'{prefix}_{field}' in matches:
                     part[f'{role}_{field}'] = matches[f'{prefix}_{field}']

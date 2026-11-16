@@ -1,0 +1,618 @@
+stem,competition_id,season_id,old_league_key,sofascore_competition,old_season_key,sofascore_season,sofascore_year,annual_season,old_filename,current_filename
+Liga_Profesional_17_18,155,13950,Liga_Profesional,Liga Profesional de Fútbol,17_18,Superliga 17/18,17/18,2017/2018,Liga_Profesional_17_18.parquet,Liga_Profesional_17_18.parquet
+Liga_Profesional_18_19,155,18113,Liga_Profesional,Liga Profesional de Fútbol,18_19,Superliga 18/19,18/19,2018/2019,Liga_Profesional_18_19.parquet,Liga_Profesional_18_19.parquet
+Liga_Profesional_19_20,155,24239,Liga_Profesional,Liga Profesional de Fútbol,19_20,Superliga 19/20,19/20,2019/2020,Liga_Profesional_19_20.parquet,Liga_Profesional_19_20.parquet
+Liga_Profesional_21_21,155,37231,Liga_Profesional,Liga Profesional de Fútbol,21_21,Superliga 2021,2021,2021,Liga_Profesional_21_21.parquet,Liga_Profesional_21_21.parquet
+Liga_Profesional_22_22,155,41884,Liga_Profesional,Liga Profesional de Fútbol,22_22,Liga Profesional 2022,2022,2022,Liga_Profesional_22_22.parquet,Liga_Profesional_22_22.parquet
+Liga_Profesional_23_23,155,47647,Liga_Profesional,Liga Profesional de Fútbol,23_23,Liga Profesional 2023,2023,2023,Liga_Profesional_23_23.parquet,Liga_Profesional_23_23.parquet
+Liga_Profesional_24_24,155,57478,Liga_Profesional,Liga Profesional de Fútbol,24_24,Liga Profesional 2024,2024,2024,Liga_Profesional_24_24.parquet,Liga_Profesional_24_24.parquet
+Liga_Profesional_26_26,155,87913,Liga_Profesional,Liga Profesional de Fútbol,26_26,Primera LPF 2026,2026,2026,Liga_Profesional_26_26.parquet,Liga_Profesional_26_26.parquet
+Liga_Profesional_Apertura_25_25,155,70268,Liga_Profesional_Apertura,Liga Profesional de Fútbol,25_25,Torneo Apertura,2025,2025,Liga_Profesional_Apertura_25_25.parquet,Liga_Profesional_Apertura_25_25.parquet
+Liga_Profesional_Clausura_25_25,155,77826,Liga_Profesional_Clausura,Liga Profesional de Fútbol,25_25,Torneo Clausura,2025,2025,Liga_Profesional_Clausura_25_25.parquet,Liga_Profesional_Clausura_25_25.parquet
+A_League_17_18,136,14404,A_League,A-League Men,17_18,A-League 17/18,17/18,2017/2018,A_League_17_18.parquet,A_League_17_18.parquet
+A_League_18_19,136,17802,A_League,A-League Men,18_19,A-League 18/19,18/19,2018/2019,A_League_18_19.parquet,A_League_18_19.parquet
+A_League_19_20,136,24802,A_League,A-League Men,19_20,A-League 19/20,19/20,2019/2020,A_League_19_20.parquet,A_League_19_20.parquet
+A_League_20_21,136,34942,A_League,A-League Men,20_21,A-League 20/21,20/21,2020/2021,A_League_20_21.parquet,A_League_20_21.parquet
+A_League_21_22,136,38979,A_League,A-League Men,21_22,A-League 21/22,21/22,2021/2022,A_League_21_22.parquet,A_League_21_22.parquet
+A_League_22_23,136,44709,A_League,A-League Men,22_23,A-League 22/23,22/23,2022/2023,A_League_22_23.parquet,A_League_22_23.parquet
+A_League_23_24,136,54447,A_League,A-League Men,23_24,A-League 23/24,23/24,2023/2024,A_League_23_24.parquet,A_League_23_24.parquet
+A_League_24_25,136,64864,A_League,A-League Men,24_25,A-League 24/25,24/25,2024/2025,A_League_24_25.parquet,A_League_24_25.parquet
+A_League_25_26,136,82603,A_League,A-League Men,25_26,A-League 25/26,25/26,2025/2026,A_League_25_26.parquet,A_League_25_26.parquet
+A_League_26_27,136,98511,A_League,A-League Men,26_27,A-League 26/27,26/27,2026/2027,A_League_26_27.parquet,A_League_26_27.parquet
+Austrian_Bundesliga_17_18,45,13428,Austrian_Bundesliga,Austrian Bundesliga,17_18,Bundesliga 17/18,17/18,2017/2018,Austrian_Bundesliga_17_18.parquet,Austrian_Bundesliga_17_18.parquet
+Austrian_Bundesliga_18_19,45,17454,Austrian_Bundesliga,Austrian Bundesliga,18_19,Bundesliga 18/19,18/19,2018/2019,Austrian_Bundesliga_18_19.parquet,Austrian_Bundesliga_18_19.parquet
+Austrian_Bundesliga_19_20,45,23972,Austrian_Bundesliga,Austrian Bundesliga,19_20,Bundesliga 19/20,19/20,2019/2020,Austrian_Bundesliga_19_20.parquet,Austrian_Bundesliga_19_20.parquet
+Austrian_Bundesliga_20_21,45,29401,Austrian_Bundesliga,Austrian Bundesliga,20_21,Bundesliga 20/21,20/21,2020/2021,Austrian_Bundesliga_20_21.parquet,Austrian_Bundesliga_20_21.parquet
+Austrian_Bundesliga_21_22,45,37145,Austrian_Bundesliga,Austrian Bundesliga,21_22,Bundesliga 21/22,21/22,2021/2022,Austrian_Bundesliga_21_22.parquet,Austrian_Bundesliga_21_22.parquet
+Austrian_Bundesliga_22_23,45,42386,Austrian_Bundesliga,Austrian Bundesliga,22_23,Bundesliga 22/23,22/23,2022/2023,Austrian_Bundesliga_22_23.parquet,Austrian_Bundesliga_22_23.parquet
+Austrian_Bundesliga_23_24,45,52524,Austrian_Bundesliga,Austrian Bundesliga,23_24,Bundesliga 23/24,23/24,2023/2024,Austrian_Bundesliga_23_24.parquet,Austrian_Bundesliga_23_24.parquet
+Austrian_Bundesliga_24_25,45,62629,Austrian_Bundesliga,Austrian Bundesliga,24_25,Bundesliga 24/25,24/25,2024/2025,Austrian_Bundesliga_24_25.parquet,Austrian_Bundesliga_24_25.parquet
+Austrian_Bundesliga_25_26,45,77382,Austrian_Bundesliga,Austrian Bundesliga,25_26,Bundesliga 25/26,25/26,2025/2026,Austrian_Bundesliga_25_26.parquet,Austrian_Bundesliga_25_26.parquet
+Austrian_Bundesliga_26_27,45,97043,Austrian_Bundesliga,Austrian Bundesliga,26_27,Bundesliga 26/27,26/27,2026/2027,Austrian_Bundesliga_26_27.parquet,Austrian_Bundesliga_26_27.parquet
+Pro_League_10_11,38,2741,Pro_League,Pro League,10_11,Jupiler Pro League 10/11,10/11,2010/2011,Pro_League_10_11.parquet,Pro_League_10_11.parquet
+Pro_League_11_12,38,3414,Pro_League,Pro League,11_12,Pro League 11/12,11/12,2011/2012,Pro_League_11_12.parquet,Pro_League_11_12.parquet
+Pro_League_12_13,38,4676,Pro_League,Pro League,12_13,Pro League 12/13,12/13,2012/2013,Pro_League_12_13.parquet,Pro_League_12_13.parquet
+Pro_League_13_14,38,6241,Pro_League,Pro League,13_14,Pro League 13/14,13/14,2013/2014,Pro_League_13_14.parquet,Pro_League_13_14.parquet
+Pro_League_14_15,38,8168,Pro_League,Pro League,14_15,Pro League 14/15,14/15,2014/2015,Pro_League_14_15.parquet,Pro_League_14_15.parquet
+Pro_League_15_16,38,10335,Pro_League,Pro League,15_16,Pro League 15/16,15/16,2015/2016,Pro_League_15_16.parquet,Pro_League_15_16.parquet
+Pro_League_16_17,38,11829,Pro_League,Pro League,16_17,First Division A 16/17,16/17,2016/2017,Pro_League_16_17.parquet,Pro_League_16_17.parquet
+Pro_League_17_18,38,13375,Pro_League,Pro League,17_18,First Division A 17/18,17/18,2017/2018,Pro_League_17_18.parquet,Pro_League_17_18.parquet
+Pro_League_18_19,38,17343,Pro_League,Pro League,18_19,First Division A 18/19,18/19,2018/2019,Pro_League_18_19.parquet,Pro_League_18_19.parquet
+Pro_League_19_20,38,24097,Pro_League,Pro League,19_20,First Division A 19/20,19/20,2019/2020,Pro_League_19_20.parquet,Pro_League_19_20.parquet
+Pro_League_20_21,38,28216,Pro_League,Pro League,20_21,First Division A 20/21,20/21,2020/2021,Pro_League_20_21.parquet,Pro_League_20_21.parquet
+Pro_League_21_22,38,36894,Pro_League,Pro League,21_22,First Division A 21/22,21/22,2021/2022,Pro_League_21_22.parquet,Pro_League_21_22.parquet
+Pro_League_22_23,38,42404,Pro_League,Pro League,22_23,Pro League 22/23,22/23,2022/2023,Pro_League_22_23.parquet,Pro_League_22_23.parquet
+Pro_League_23_24,38,52383,Pro_League,Pro League,23_24,Pro League 23/24,23/24,2023/2024,Pro_League_23_24.parquet,Pro_League_23_24.parquet
+Pro_League_24_25,38,61459,Pro_League,Pro League,24_25,Pro League 24/25,24/25,2024/2025,Pro_League_24_25.parquet,Pro_League_24_25.parquet
+Pro_League_25_26,38,77040,Pro_League,Pro League,25_26,Pro League 25/26,25/26,2025/2026,Pro_League_25_26.parquet,Pro_League_25_26.parquet
+Pro_League_26_27,38,96616,Pro_League,Pro League,26_27,Pro League 26/27,26/27,2026/2027,Pro_League_26_27.parquet,Pro_League_26_27.parquet
+Brazil_Serie_A_17_17,325,13100,Brazil_Serie_A,Campeonato Brasileiro Série A,17_17,Brasileirão Série A 2017,2017,2017,Brazil_Serie_A_17_17.parquet,Brazil_Serie_A_17_17.parquet
+Brazil_Serie_A_18_18,325,16183,Brazil_Serie_A,Campeonato Brasileiro Série A,18_18,Brasileirão Série A 2018,2018,2018,Brazil_Serie_A_18_18.parquet,Brazil_Serie_A_18_18.parquet
+Brazil_Serie_A_19_19,325,22931,Brazil_Serie_A,Campeonato Brasileiro Série A,19_19,Brasileirão Série A 2019,2019,2019,Brazil_Serie_A_19_19.parquet,Brazil_Serie_A_19_19.parquet
+Brazil_Serie_A_20_21,325,27591,Brazil_Serie_A,Campeonato Brasileiro Série A,20_21,Brasileirão Série A 20/21,20/21,2020,Brazil_Serie_A_20_21.parquet,Brazil_Serie_A_20_21.parquet
+Brazil_Serie_A_21_21,325,36166,Brazil_Serie_A,Campeonato Brasileiro Série A,21_21,Brasileirão Série A 2021,2021,2021,Brazil_Serie_A_21_21.parquet,Brazil_Serie_A_21_21.parquet
+Brazil_Serie_A_22_22,325,40557,Brazil_Serie_A,Campeonato Brasileiro Série A,22_22,Brasileirão Série A 2022,2022,2022,Brazil_Serie_A_22_22.parquet,Brazil_Serie_A_22_22.parquet
+Brazil_Serie_A_23_23,325,48982,Brazil_Serie_A,Campeonato Brasileiro Série A,23_23,Brasileirão Série A 2023,2023,2023,Brazil_Serie_A_23_23.parquet,Brazil_Serie_A_23_23.parquet
+Brazil_Serie_A_24_24,325,58766,Brazil_Serie_A,Campeonato Brasileiro Série A,24_24,Brasileirão Betano 2024,2024,2024,Brazil_Serie_A_24_24.parquet,Brazil_Serie_A_24_24.parquet
+Brazil_Serie_A_25_25,325,72034,Brazil_Serie_A,Campeonato Brasileiro Série A,25_25,Brasileiro Serie A 2025,2025,2025,Brazil_Serie_A_25_25.parquet,Brazil_Serie_A_25_25.parquet
+Brazil_Serie_A_26_26,325,87678,Brazil_Serie_A,Campeonato Brasileiro Série A,26_26,Brasileiro Serie A 2026,2026,2026,Brazil_Serie_A_26_26.parquet,Brazil_Serie_A_26_26.parquet
+Brazil_Serie_B_17_17,390,13101,Brazil_Serie_B,Brasileirão Série B,17_17,Brasileiro Série B 2017,2017,2017,Brazil_Serie_B_17_17.parquet,Brazil_Serie_B_17_17.parquet
+Brazil_Serie_B_18_18,390,16184,Brazil_Serie_B,Brasileirão Série B,18_18,Brasileiro Série B 2018,2018,2018,Brazil_Serie_B_18_18.parquet,Brazil_Serie_B_18_18.parquet
+Brazil_Serie_B_19_19,390,22932,Brazil_Serie_B,Brasileirão Série B,19_19,Brasileiro Série B 2019,2019,2019,Brazil_Serie_B_19_19.parquet,Brazil_Serie_B_19_19.parquet
+Brazil_Serie_B_20_20,390,27593,Brazil_Serie_B,Brasileirão Série B,20_20,Brasileiro Série B 2020,2020,2020,Brazil_Serie_B_20_20.parquet,Brazil_Serie_B_20_20.parquet
+Brazil_Serie_B_21_21,390,36162,Brazil_Serie_B,Brasileirão Série B,21_21,Brasileiro Série B 2021,2021,2021,Brazil_Serie_B_21_21.parquet,Brazil_Serie_B_21_21.parquet
+Brazil_Serie_B_22_22,390,40560,Brazil_Serie_B,Brasileirão Série B,22_22,Brasileiro Série B 2022,2022,2022,Brazil_Serie_B_22_22.parquet,Brazil_Serie_B_22_22.parquet
+Brazil_Serie_B_23_23,390,49058,Brazil_Serie_B,Brasileirão Série B,23_23,Brasileiro Série B 2023,2023,2023,Brazil_Serie_B_23_23.parquet,Brazil_Serie_B_23_23.parquet
+Brazil_Serie_B_24_24,390,59015,Brazil_Serie_B,Brasileirão Série B,24_24,Brasileiro Serie B 2024,2024,2024,Brazil_Serie_B_24_24.parquet,Brazil_Serie_B_24_24.parquet
+Brazil_Serie_B_25_25,390,72603,Brazil_Serie_B,Brasileirão Série B,25_25,Brasileiro Serie B 2025,2025,2025,Brazil_Serie_B_25_25.parquet,Brazil_Serie_B_25_25.parquet
+Brazil_Serie_B_26_26,390,89840,Brazil_Serie_B,Brasileirão Série B,26_26,Brasileiro Serie B 2026,2026,2026,Brazil_Serie_B_26_26.parquet,Brazil_Serie_B_26_26.parquet
+Parva_Liga_17_18,247,13483,Parva_Liga,Parva Liga,17_18,First Professional League 17/18,17/18,2017/2018,Parva_Liga_17_18.parquet,Parva_Liga_17_18.parquet
+Parva_Liga_18_19,247,17330,Parva_Liga,Parva Liga,18_19,First Professional League 18/19,18/19,2018/2019,Parva_Liga_18_19.parquet,Parva_Liga_18_19.parquet
+Parva_Liga_19_20,247,23773,Parva_Liga,Parva Liga,19_20,First Professional League 19/20,19/20,2019/2020,Parva_Liga_19_20.parquet,Parva_Liga_19_20.parquet
+Parva_Liga_20_21,247,29203,Parva_Liga,Parva Liga,20_21,First Professional League 20/21,20/21,2020/2021,Parva_Liga_20_21.parquet,Parva_Liga_20_21.parquet
+Parva_Liga_21_22,247,37152,Parva_Liga,Parva Liga,21_22,First Professional League 21/22,21/22,2021/2022,Parva_Liga_21_22.parquet,Parva_Liga_21_22.parquet
+Parva_Liga_22_23,247,42282,Parva_Liga,Parva Liga,22_23,First Professional League 22/23,22/23,2022/2023,Parva_Liga_22_23.parquet,Parva_Liga_22_23.parquet
+Parva_Liga_23_24,247,52173,Parva_Liga,Parva Liga,23_24,Parva Liga 23/24,23/24,2023/2024,Parva_Liga_23_24.parquet,Parva_Liga_23_24.parquet
+Parva_Liga_24_25,247,61477,Parva_Liga,Parva Liga,24_25,Parva Liga 24/25,24/25,2024/2025,Parva_Liga_24_25.parquet,Parva_Liga_24_25.parquet
+Parva_Liga_25_26,247,76882,Parva_Liga,Parva Liga,25_26,Parva Liga 25/26,25/26,2025/2026,Parva_Liga_25_26.parquet,Parva_Liga_25_26.parquet
+Parva_Liga_26_27,247,95923,Parva_Liga,Parva Liga,26_27,Parva Liga 26/27,26/27,2026/2027,Parva_Liga_26_27.parquet,Parva_Liga_26_27.parquet
+Chile_Primera_Division_17_17,11653,13475,Chile_Primera_Division,Liga de Primera,17_17,Primera División 2017,2017,2017,Chile_Primera_Division_17_17.parquet,Chile_Primera_Division_17_17.parquet
+Chile_Primera_Division_18_18,11653,15995,Chile_Primera_Division,Liga de Primera,18_18,Primera División 2018,2018,2018,Chile_Primera_Division_18_18.parquet,Chile_Primera_Division_18_18.parquet
+Chile_Primera_Division_19_19,11653,22328,Chile_Primera_Division,Liga de Primera,19_19,Primera División 2019,2019,2019,Chile_Primera_Division_19_19.parquet,Chile_Primera_Division_19_19.parquet
+Chile_Primera_Division_20_20,11653,26951,Chile_Primera_Division,Liga de Primera,20_20,Primera División 2020,2020,2020,Chile_Primera_Division_20_20.parquet,Chile_Primera_Division_20_20.parquet
+Chile_Primera_Division_21_21,11653,36048,Chile_Primera_Division,Liga de Primera,21_21,Primera División 2021,2021,2021,Chile_Primera_Division_21_21.parquet,Chile_Primera_Division_21_21.parquet
+Chile_Primera_Division_22_22,11653,40515,Chile_Primera_Division,Liga de Primera,22_22,Primera División 2022,2022,2022,Chile_Primera_Division_22_22.parquet,Chile_Primera_Division_22_22.parquet
+Chile_Primera_Division_23_23,11653,48017,Chile_Primera_Division,Liga de Primera,23_23,Primera División 2023,2023,2023,Chile_Primera_Division_23_23.parquet,Chile_Primera_Division_23_23.parquet
+Chile_Primera_Division_24_24,11653,57883,Chile_Primera_Division,Liga de Primera,24_24,Primera División 2024,2024,2024,Chile_Primera_Division_24_24.parquet,Chile_Primera_Division_24_24.parquet
+Chile_Primera_Division_25_25,11653,71131,Chile_Primera_Division,Liga de Primera,25_25,Liga de Primera 2025,2025,2025,Chile_Primera_Division_25_25.parquet,Chile_Primera_Division_25_25.parquet
+Chile_Primera_Division_26_26,11653,88493,Chile_Primera_Division,Liga de Primera,26_26,Primera Division 2026,2026,2026,Chile_Primera_Division_26_26.parquet,Chile_Primera_Division_26_26.parquet
+Chinese_Super_League_17_17,649,12938,Chinese_Super_League,Chinese Super League,17_17,Chinese Super League 2017,2017,2017,Chinese_Super_League_17_17.parquet,Chinese_Super_League_17_17.parquet
+Chinese_Super_League_18_18,649,16186,Chinese_Super_League,Chinese Super League,18_18,Chinese Super League 2018,2018,2018,Chinese_Super_League_18_18.parquet,Chinese_Super_League_18_18.parquet
+Chinese_Super_League_19_19,649,22556,Chinese_Super_League,Chinese Super League,19_19,Chinese Super League 2019,2019,2019,Chinese_Super_League_19_19.parquet,Chinese_Super_League_19_19.parquet
+Chinese_Super_League_20_20,649,28232,Chinese_Super_League,Chinese Super League,20_20,Chinese Super League 2020,2020,2020,Chinese_Super_League_20_20.parquet,Chinese_Super_League_20_20.parquet
+Chinese_Super_League_21_21,649,36257,Chinese_Super_League,Chinese Super League,21_21,Chinese Super League 2021,2021,2021,Chinese_Super_League_21_21.parquet,Chinese_Super_League_21_21.parquet
+Chinese_Super_League_22_22,649,41892,Chinese_Super_League,Chinese Super League,22_22,Chinese Super League 2022,2022,2022,Chinese_Super_League_22_22.parquet,Chinese_Super_League_22_22.parquet
+Chinese_Super_League_23_23,649,49950,Chinese_Super_League,Chinese Super League,23_23,Super League 2023,2023,2023,Chinese_Super_League_23_23.parquet,Chinese_Super_League_23_23.parquet
+Chinese_Super_League_24_24,649,58388,Chinese_Super_League,Chinese Super League,24_24,Chinese Super League 2024,2024,2024,Chinese_Super_League_24_24.parquet,Chinese_Super_League_24_24.parquet
+Chinese_Super_League_25_25,649,71364,Chinese_Super_League,Chinese Super League,25_25,Chinese Super League 2025,2025,2025,Chinese_Super_League_25_25.parquet,Chinese_Super_League_25_25.parquet
+Chinese_Super_League_26_26,649,90049,Chinese_Super_League,Chinese Super League,26_26,Chinese Super League 2026,2026,2026,Chinese_Super_League_26_26.parquet,Chinese_Super_League_26_26.parquet
+Colombia_Primera_A_26_26,11539,88503,Colombia_Primera_A,Primera A,26_26,Liga DIMAYOR 2026,2026,2026,Colombia_Primera_A_26_26.parquet,Colombia_Primera_A_26_26.parquet
+Colombia_Primera_A_Apertura_17_17,11539,12882,Colombia_Primera_A_Apertura,Primera A,17_17,Primera A 2017,2017,2017,Colombia_Primera_A_Apertura_17_17.parquet,Colombia_Primera_A_Apertura_17_17.parquet
+Colombia_Primera_A_Apertura_18_18,11539,16044,Colombia_Primera_A_Apertura,Primera A,18_18,Primera A 2018,2018,2018,Colombia_Primera_A_Apertura_18_18.parquet,Colombia_Primera_A_Apertura_18_18.parquet
+Colombia_Primera_A_Apertura_19_19,11539,20160,Colombia_Primera_A_Apertura,Primera A,19_19,Primera A 2019,2019,2019,Colombia_Primera_A_Apertura_19_19.parquet,Colombia_Primera_A_Apertura_19_19.parquet
+Colombia_Primera_A_Apertura_20_20,11539,26956,Colombia_Primera_A_Apertura,Primera A,20_20,Primera A 2020,2020,2020,Colombia_Primera_A_Apertura_20_20.parquet,Colombia_Primera_A_Apertura_20_20.parquet
+Colombia_Primera_A_Apertura_21_21,11539,35235,Colombia_Primera_A_Apertura,Primera A,21_21,"Primera A 2021, Apertura",2021,2021,Colombia_Primera_A_Apertura_21_21.parquet,Colombia_Primera_A_Apertura_21_21.parquet
+Colombia_Primera_A_Apertura_22_22,11539,40320,Colombia_Primera_A_Apertura,Primera A,22_22,"Primera A, Apertura 2022",2022,2022,Colombia_Primera_A_Apertura_22_22.parquet,Colombia_Primera_A_Apertura_22_22.parquet
+Colombia_Primera_A_Apertura_23_23,11539,48283,Colombia_Primera_A_Apertura,Primera A,23_23,"Primera A 2023, Apertura",2023,2023,Colombia_Primera_A_Apertura_23_23.parquet,Colombia_Primera_A_Apertura_23_23.parquet
+Colombia_Primera_A_Apertura_24_24,11539,57374,Colombia_Primera_A_Apertura,Primera A,24_24,"Primera A, Apertura 2024",2024,2024,Colombia_Primera_A_Apertura_24_24.parquet,Colombia_Primera_A_Apertura_24_24.parquet
+Colombia_Primera_A_Apertura_25_25,11539,70681,Colombia_Primera_A_Apertura,Primera A,25_25,"Primera A, Apertura 2025",2025,2025,Colombia_Primera_A_Apertura_25_25.parquet,Colombia_Primera_A_Apertura_25_25.parquet
+Colombia_Primera_A_Clausura_17_17,11536,12882,Colombia_Primera_A_Clausura,"Primera A, Finalización",17_17,Primera A 2017,2017,2017,Colombia_Primera_A_Clausura_17_17.parquet,Colombia_Primera_A_Clausura_17_17.parquet
+Colombia_Primera_A_Clausura_18_18,11536,19511,Colombia_Primera_A_Clausura,"Primera A, Finalización",18_18,"Primera A 2018, Clausura",2018,2018,Colombia_Primera_A_Clausura_18_18.parquet,Colombia_Primera_A_Clausura_18_18.parquet
+Colombia_Primera_A_Clausura_19_19,11536,24014,Colombia_Primera_A_Clausura,"Primera A, Finalización",19_19,"Primera A 2019, Clausura",2019,2019,Colombia_Primera_A_Clausura_19_19.parquet,Colombia_Primera_A_Clausura_19_19.parquet
+Colombia_Primera_A_Clausura_21_21,11536,37473,Colombia_Primera_A_Clausura,"Primera A, Finalización",21_21,"Primera A 2021, Clausura",2021,2021,Colombia_Primera_A_Clausura_21_21.parquet,Colombia_Primera_A_Clausura_21_21.parquet
+Colombia_Primera_A_Clausura_22_22,11536,42387,Colombia_Primera_A_Clausura,"Primera A, Finalización",22_22,"Primera A, Clausura 2022",2022,2022,Colombia_Primera_A_Clausura_22_22.parquet,Colombia_Primera_A_Clausura_22_22.parquet
+Colombia_Primera_A_Clausura_23_23,11536,52847,Colombia_Primera_A_Clausura,"Primera A, Finalización",23_23,"Primera A, Clausura 2023",2023,2023,Colombia_Primera_A_Clausura_23_23.parquet,Colombia_Primera_A_Clausura_23_23.parquet
+Colombia_Primera_A_Clausura_24_24,11536,63819,Colombia_Primera_A_Clausura,"Primera A, Finalización",24_24,"Primera A, Finalización 2024",2024,2024,Colombia_Primera_A_Clausura_24_24.parquet,Colombia_Primera_A_Clausura_24_24.parquet
+Colombia_Primera_A_Clausura_25_25,11536,77825,Colombia_Primera_A_Clausura,"Primera A, Finalización",25_25,"Primera A, Clausura 2025",2025,2025,Colombia_Primera_A_Clausura_25_25.parquet,Colombia_Primera_A_Clausura_25_25.parquet
+HNL_17_18,170,13517,HNL,HNL,17_18,1. HNL 17/18,17/18,2017/2018,HNL_17_18.parquet,HNL_17_18.parquet
+HNL_18_19,170,17456,HNL,HNL,18_19,1. HNL 18/19,18/19,2018/2019,HNL_18_19.parquet,HNL_18_19.parquet
+HNL_19_20,170,23778,HNL,HNL,19_20,1. HNL 19/20,19/20,2019/2020,HNL_19_20.parquet,HNL_19_20.parquet
+HNL_20_21,170,29241,HNL,HNL,20_21,1. HNL 20/21,20/21,2020/2021,HNL_20_21.parquet,HNL_20_21.parquet
+HNL_21_22,170,37053,HNL,HNL,21_22,1. HNL 21/22,21/22,2021/2022,HNL_21_22.parquet,HNL_21_22.parquet
+HNL_22_23,170,42138,HNL,HNL,22_23,1. HNL 22/23,22/23,2022/2023,HNL_22_23.parquet,HNL_22_23.parquet
+HNL_23_24,170,52147,HNL,HNL,23_24,HNL 23/24,23/24,2023/2024,HNL_23_24.parquet,HNL_23_24.parquet
+HNL_24_25,170,61243,HNL,HNL,24_25,HNL 24/25,24/25,2024/2025,HNL_24_25.parquet,HNL_24_25.parquet
+HNL_25_26,170,76980,HNL,HNL,25_26,HNL 25/26,25/26,2025/2026,HNL_25_26.parquet,HNL_25_26.parquet
+HNL_26_27,170,95727,HNL,HNL,26_27,HNL 26/27,26/27,2026/2027,HNL_26_27.parquet,HNL_26_27.parquet
+Czech_First_League_17_18,172,13444,Czech_First_League,Czech First League,17_18,Chance Liga 17/18,17/18,2017/2018,Czech_First_League_17_18.parquet,Czech_First_League_17_18.parquet
+Czech_First_League_18_19,172,17475,Czech_First_League,Czech First League,18_19,Chance Liga 18/19,18/19,2018/2019,Czech_First_League_18_19.parquet,Czech_First_League_18_19.parquet
+Czech_First_League_19_20,172,23984,Czech_First_League,Czech First League,19_20,Chance Liga 19/20,19/20,2019/2020,Czech_First_League_19_20.parquet,Czech_First_League_19_20.parquet
+Czech_First_League_20_21,172,29300,Czech_First_League,Czech First League,20_21,Chance Liga 20/21,20/21,2020/2021,Czech_First_League_20_21.parquet,Czech_First_League_20_21.parquet
+Czech_First_League_21_22,172,37051,Czech_First_League,Czech First League,21_22,Chance Liga 21/22,21/22,2021/2022,Czech_First_League_21_22.parquet,Czech_First_League_21_22.parquet
+Czech_First_League_22_23,172,42398,Czech_First_League,Czech First League,22_23,Chance Liga 22/23,22/23,2022/2023,Czech_First_League_22_23.parquet,Czech_First_League_22_23.parquet
+Czech_First_League_23_24,172,52364,Czech_First_League,Czech First League,23_24,Chance Liga 23/24,23/24,2023/2024,Czech_First_League_23_24.parquet,Czech_First_League_23_24.parquet
+Czech_First_League_24_25,172,61716,Czech_First_League,Czech First League,24_25,Chance Liga 24/25,24/25,2024/2025,Czech_First_League_24_25.parquet,Czech_First_League_24_25.parquet
+Czech_First_League_25_26,172,77019,Czech_First_League,Czech First League,25_26,Chance Liga 25/26,25/26,2025/2026,Czech_First_League_25_26.parquet,Czech_First_League_25_26.parquet
+Czech_First_League_26_27,172,96966,Czech_First_League,Czech First League,26_27,1. Liga 26/27,26/27,2026/2027,Czech_First_League_26_27.parquet,Czech_First_League_26_27.parquet
+Danish_Superliga_17_18,39,13378,Danish_Superliga,Danish Superliga,17_18,Superligaen 17/18,17/18,2017/2018,Danish_Superliga_17_18.parquet,Danish_Superliga_17_18.parquet
+Danish_Superliga_18_19,39,17268,Danish_Superliga,Danish Superliga,18_19,Superligaen 18/19,18/19,2018/2019,Danish_Superliga_18_19.parquet,Danish_Superliga_18_19.parquet
+Danish_Superliga_19_20,39,23743,Danish_Superliga,Danish Superliga,19_20,Superligaen 19/20,19/20,2019/2020,Danish_Superliga_19_20.parquet,Danish_Superliga_19_20.parquet
+Danish_Superliga_20_21,39,29247,Danish_Superliga,Danish Superliga,20_21,Superligaen 20/21,20/21,2020/2021,Danish_Superliga_20_21.parquet,Danish_Superliga_20_21.parquet
+Danish_Superliga_21_22,39,36834,Danish_Superliga,Danish Superliga,21_22,Superligaen 21/22,21/22,2021/2022,Danish_Superliga_21_22.parquet,Danish_Superliga_21_22.parquet
+Danish_Superliga_22_23,39,41914,Danish_Superliga,Danish Superliga,22_23,Superligaen 22/23,22/23,2022/2023,Danish_Superliga_22_23.parquet,Danish_Superliga_22_23.parquet
+Danish_Superliga_23_24,39,52172,Danish_Superliga,Danish Superliga,23_24,Superliga 23/24,23/24,2023/2024,Danish_Superliga_23_24.parquet,Danish_Superliga_23_24.parquet
+Danish_Superliga_24_25,39,61326,Danish_Superliga,Danish Superliga,24_25,Superliga 24/25,24/25,2024/2025,Danish_Superliga_24_25.parquet,Danish_Superliga_24_25.parquet
+Danish_Superliga_25_26,39,76491,Danish_Superliga,Danish Superliga,25_26,Superliga 25/26,25/26,2025/2026,Danish_Superliga_25_26.parquet,Danish_Superliga_25_26.parquet
+Danish_Superliga_26_27,39,95785,Danish_Superliga,Danish Superliga,26_27,Superliga 26/27,26/27,2026/2027,Danish_Superliga_26_27.parquet,Danish_Superliga_26_27.parquet
+LigaPro_17_17,240,12847,LigaPro,LigaPro Serie A,17_17,Serie A 2017,2017,2017,LigaPro_17_17.parquet,LigaPro_17_17.parquet
+LigaPro_18_18,240,16023,LigaPro,LigaPro Serie A,18_18,Serie A 2018,2018,2018,LigaPro_18_18.parquet,LigaPro_18_18.parquet
+LigaPro_19_19,240,20069,LigaPro,LigaPro Serie A,19_19,"LigaPro, Primera A 2019",2019,2019,LigaPro_19_19.parquet,LigaPro_19_19.parquet
+LigaPro_20_20,240,26952,LigaPro,LigaPro Serie A,20_20,LigaPro Primera A 2020,2020,2020,LigaPro_20_20.parquet,LigaPro_20_20.parquet
+LigaPro_21_21,240,35552,LigaPro,LigaPro Serie A,21_21,LigaPro Primera A 2021,2021,2021,LigaPro_21_21.parquet,LigaPro_21_21.parquet
+LigaPro_22_22,240,40503,LigaPro,LigaPro Serie A,22_22,LigaPro Primera A 2022,2022,2022,LigaPro_22_22.parquet,LigaPro_22_22.parquet
+LigaPro_23_23,240,48720,LigaPro,LigaPro Serie A,23_23,LigaPro Primera A 2023,2023,2023,LigaPro_23_23.parquet,LigaPro_23_23.parquet
+LigaPro_24_24,240,58043,LigaPro,LigaPro Serie A,24_24,LigaPro Primera A 2024,2024,2024,LigaPro_24_24.parquet,LigaPro_24_24.parquet
+LigaPro_25_25,240,71184,LigaPro,LigaPro Serie A,25_25,LigaPro Primera A 2025,2025,2025,LigaPro_25_25.parquet,LigaPro_25_25.parquet
+LigaPro_26_26,240,89674,LigaPro,LigaPro Serie A,26_26,LigaPro Primera A 2026,2026,2026,LigaPro_26_26.parquet,LigaPro_26_26.parquet
+Egyptian_Premier_League_17_18,808,14262,Egyptian_Premier_League,Egyptian Premier League,17_18,Premier League 17/18,17/18,2017/2018,Egyptian_Premier_League_17_18.parquet,Egyptian_Premier_League_17_18.parquet
+Egyptian_Premier_League_18_19,808,18033,Egyptian_Premier_League,Egyptian Premier League,18_19,Premier League 18/19,18/19,2018/2019,Egyptian_Premier_League_18_19.parquet,Egyptian_Premier_League_18_19.parquet
+Egyptian_Premier_League_19_20,808,25455,Egyptian_Premier_League,Egyptian Premier League,19_20,Premier League 19/20,19/20,2019/2020,Egyptian_Premier_League_19_20.parquet,Egyptian_Premier_League_19_20.parquet
+Egyptian_Premier_League_20_21,808,34930,Egyptian_Premier_League,Egyptian Premier League,20_21,Premier League 20/21,20/21,2020/2021,Egyptian_Premier_League_20_21.parquet,Egyptian_Premier_League_20_21.parquet
+Egyptian_Premier_League_21_22,808,39373,Egyptian_Premier_League,Egyptian Premier League,21_22,Premier League 21/22,21/22,2021/2022,Egyptian_Premier_League_21_22.parquet,Egyptian_Premier_League_21_22.parquet
+Egyptian_Premier_League_22_23,808,46713,Egyptian_Premier_League,Egyptian Premier League,22_23,Premier League 22/23,22/23,2022/2023,Egyptian_Premier_League_22_23.parquet,Egyptian_Premier_League_22_23.parquet
+Egyptian_Premier_League_23_24,808,55005,Egyptian_Premier_League,Egyptian Premier League,23_24,Premier League 23/24,23/24,2023/2024,Egyptian_Premier_League_23_24.parquet,Egyptian_Premier_League_23_24.parquet
+Egyptian_Premier_League_24_25,808,68147,Egyptian_Premier_League,Egyptian Premier League,24_25,Premier League 24/25,24/25,2024/2025,Egyptian_Premier_League_24_25.parquet,Egyptian_Premier_League_24_25.parquet
+Egyptian_Premier_League_25_26,808,79317,Egyptian_Premier_League,Egyptian Premier League,25_26,Premier League 25/26,25/26,2025/2026,Egyptian_Premier_League_25_26.parquet,Egyptian_Premier_League_25_26.parquet
+Egyptian_Premier_League_26_27,808,100148,Egyptian_Premier_League,Egyptian Premier League,26_27,Premier League 26/27,26/27,2026/2027,Egyptian_Premier_League_26_27.parquet,Egyptian_Premier_League_26_27.parquet
+Premier_League_10_11,17,2746,Premier_League,Premier League,10_11,Premier League 10/11,10/11,2010/2011,Premier_League_10_11.parquet,Premier_League_10_11.parquet
+Premier_League_11_12,17,3391,Premier_League,Premier League,11_12,Premier League 11/12,11/12,2011/2012,Premier_League_11_12.parquet,Premier_League_11_12.parquet
+Premier_League_12_13,17,4710,Premier_League,Premier League,12_13,Premier League 12/13,12/13,2012/2013,Premier_League_12_13.parquet,Premier_League_12_13.parquet
+Premier_League_13_14,17,6311,Premier_League,Premier League,13_14,Premier League 13/14,13/14,2013/2014,Premier_League_13_14.parquet,Premier_League_13_14.parquet
+Premier_League_14_15,17,8186,Premier_League,Premier League,14_15,Premier League 14/15,14/15,2014/2015,Premier_League_14_15.parquet,Premier_League_14_15.parquet
+Premier_League_15_16,17,10356,Premier_League,Premier League,15_16,Premier League 15/16,15/16,2015/2016,Premier_League_15_16.parquet,Premier_League_15_16.parquet
+Premier_League_16_17,17,11733,Premier_League,Premier League,16_17,Premier League 16/17,16/17,2016/2017,Premier_League_16_17.parquet,Premier_League_16_17.parquet
+Premier_League_17_18,17,13380,Premier_League,Premier League,17_18,Premier League 17/18,17/18,2017/2018,Premier_League_17_18.parquet,Premier_League_17_18.parquet
+Premier_League_18_19,17,17359,Premier_League,Premier League,18_19,Premier League 18/19,18/19,2018/2019,Premier_League_18_19.parquet,Premier_League_18_19.parquet
+Premier_League_19_20,17,23776,Premier_League,Premier League,19_20,Premier League 19/20,19/20,2019/2020,Premier_League_19_20.parquet,Premier_League_19_20.parquet
+Premier_League_20_21,17,29415,Premier_League,Premier League,20_21,Premier League 20/21,20/21,2020/2021,Premier_League_20_21.parquet,Premier_League_20_21.parquet
+Premier_League_21_22,17,37036,Premier_League,Premier League,21_22,Premier League 21/22,21/22,2021/2022,Premier_League_21_22.parquet,Premier_League_21_22.parquet
+Premier_League_22_23,17,41886,Premier_League,Premier League,22_23,Premier League 22/23,22/23,2022/2023,Premier_League_22_23.parquet,Premier_League_22_23.parquet
+Premier_League_23_24,17,52186,Premier_League,Premier League,23_24,Premier League 23/24,23/24,2023/2024,Premier_League_23_24.parquet,Premier_League_23_24.parquet
+Premier_League_24_25,17,61627,Premier_League,Premier League,24_25,Premier League 24/25,24/25,2024/2025,Premier_League_24_25.parquet,Premier_League_24_25.parquet
+Premier_League_25_26,17,76986,Premier_League,Premier League,25_26,Premier League 25/26,25/26,2025/2026,Premier_League_25_26.parquet,Premier_League_25_26.parquet
+Premier_League_26_27,17,96668,Premier_League,Premier League,26_27,Premier League 26/27,26/27,2026/2027,Premier_League_26_27.parquet,Premier_League_26_27.parquet
+Championship_10_11,18,2748,Championship,Championship,10_11,Championship 10/11,10/11,2010/2011,Championship_10_11.parquet,Championship_10_11.parquet
+Championship_11_12,18,3395,Championship,Championship,11_12,Championship 11/12,11/12,2011/2012,Championship_11_12.parquet,Championship_11_12.parquet
+Championship_12_13,18,4714,Championship,Championship,12_13,Championship 12/13,12/13,2012/2013,Championship_12_13.parquet,Championship_12_13.parquet
+Championship_13_14,18,6315,Championship,Championship,13_14,Championship 13/14,13/14,2013/2014,Championship_13_14.parquet,Championship_13_14.parquet
+Championship_14_15,18,8188,Championship,Championship,14_15,Championship 14/15,14/15,2014/2015,Championship_14_15.parquet,Championship_14_15.parquet
+Championship_15_16,18,10358,Championship,Championship,15_16,Championship 15/16,15/16,2015/2016,Championship_15_16.parquet,Championship_15_16.parquet
+Championship_16_17,18,11784,Championship,Championship,16_17,Championship 16/17,16/17,2016/2017,Championship_16_17.parquet,Championship_16_17.parquet
+Championship_17_18,18,13429,Championship,Championship,17_18,Championship 17/18,17/18,2017/2018,Championship_17_18.parquet,Championship_17_18.parquet
+Championship_18_19,18,17473,Championship,Championship,18_19,Championship 18/19,18/19,2018/2019,Championship_18_19.parquet,Championship_18_19.parquet
+Championship_19_20,18,23976,Championship,Championship,19_20,Championship 19/20,19/20,2019/2020,Championship_19_20.parquet,Championship_19_20.parquet
+Championship_20_21,18,29438,Championship,Championship,20_21,Championship 20/21,20/21,2020/2021,Championship_20_21.parquet,Championship_20_21.parquet
+Championship_21_22,18,37154,Championship,Championship,21_22,Championship 21/22,21/22,2021/2022,Championship_21_22.parquet,Championship_21_22.parquet
+Championship_22_23,18,42401,Championship,Championship,22_23,Championship 22/23,22/23,2022/2023,Championship_22_23.parquet,Championship_22_23.parquet
+Championship_23_24,18,52367,Championship,Championship,23_24,Championship 23/24,23/24,2023/2024,Championship_23_24.parquet,Championship_23_24.parquet
+Championship_24_25,18,61961,Championship,Championship,24_25,Championship 24/25,24/25,2024/2025,Championship_24_25.parquet,Championship_24_25.parquet
+Championship_25_26,18,77347,Championship,Championship,25_26,Championship 25/26,25/26,2025/2026,Championship_25_26.parquet,Championship_25_26.parquet
+Championship_26_27,18,97037,Championship,Championship,26_27,Championship 26/27,26/27,2026/2027,Championship_26_27.parquet,Championship_26_27.parquet
+Ligue_1_10_11,34,2719,Ligue_1,Ligue 1,10_11,Ligue 1 10/11,10/11,2010/2011,Ligue_1_10_11.parquet,Ligue_1_10_11.parquet
+Ligue_1_11_12,34,3380,Ligue_1,Ligue 1,11_12,Ligue 1 11/12,11/12,2011/2012,Ligue_1_11_12.parquet,Ligue_1_11_12.parquet
+Ligue_1_12_13,34,4616,Ligue_1,Ligue 1,12_13,Ligue 1 12/13,12/13,2012/2013,Ligue_1_12_13.parquet,Ligue_1_12_13.parquet
+Ligue_1_13_14,34,6271,Ligue_1,Ligue 1,13_14,Ligue 1 13/14,13/14,2013/2014,Ligue_1_13_14.parquet,Ligue_1_13_14.parquet
+Ligue_1_14_15,34,8122,Ligue_1,Ligue 1,14_15,Ligue 1 14/15,14/15,2014/2015,Ligue_1_14_15.parquet,Ligue_1_14_15.parquet
+Ligue_1_15_16,34,10373,Ligue_1,Ligue 1,15_16,Ligue 1 15/16,15/16,2015/2016,Ligue_1_15_16.parquet,Ligue_1_15_16.parquet
+Ligue_1_16_17,34,11648,Ligue_1,Ligue 1,16_17,Ligue 1 16/17,16/17,2016/2017,Ligue_1_16_17.parquet,Ligue_1_16_17.parquet
+Ligue_1_17_18,34,13384,Ligue_1,Ligue 1,17_18,Ligue 1 17/18,17/18,2017/2018,Ligue_1_17_18.parquet,Ligue_1_17_18.parquet
+Ligue_1_18_19,34,17279,Ligue_1,Ligue 1,18_19,Ligue 1 18/19,18/19,2018/2019,Ligue_1_18_19.parquet,Ligue_1_18_19.parquet
+Ligue_1_19_20,34,23872,Ligue_1,Ligue 1,19_20,Ligue 1 19/20,19/20,2019/2020,Ligue_1_19_20.parquet,Ligue_1_19_20.parquet
+Ligue_1_20_21,34,28222,Ligue_1,Ligue 1,20_21,Ligue 1 20/21,20/21,2020/2021,Ligue_1_20_21.parquet,Ligue_1_20_21.parquet
+Ligue_1_21_22,34,37167,Ligue_1,Ligue 1,21_22,Ligue 1 21/22,21/22,2021/2022,Ligue_1_21_22.parquet,Ligue_1_21_22.parquet
+Ligue_1_22_23,34,42273,Ligue_1,Ligue 1,22_23,Ligue 1 22/23,22/23,2022/2023,Ligue_1_22_23.parquet,Ligue_1_22_23.parquet
+Ligue_1_23_24,34,52571,Ligue_1,Ligue 1,23_24,Ligue 1 23/24,23/24,2023/2024,Ligue_1_23_24.parquet,Ligue_1_23_24.parquet
+Ligue_1_24_25,34,61736,Ligue_1,Ligue 1,24_25,Ligue 1 24/25,24/25,2024/2025,Ligue_1_24_25.parquet,Ligue_1_24_25.parquet
+Ligue_1_25_26,34,77356,Ligue_1,Ligue 1,25_26,Ligue 1 25/26,25/26,2025/2026,Ligue_1_25_26.parquet,Ligue_1_25_26.parquet
+Ligue_1_26_27,34,96127,Ligue_1,Ligue 1,26_27,Ligue 1 26/27,26/27,2026/2027,Ligue_1_26_27.parquet,Ligue_1_26_27.parquet
+Ligue_2_10_11,182,2720,Ligue_2,Ligue 2,10_11,Ligue 2 10/11,10/11,2010/2011,Ligue_2_10_11.parquet,Ligue_2_10_11.parquet
+Ligue_2_11_12,182,3381,Ligue_2,Ligue 2,11_12,Ligue 2 11/12,11/12,2011/2012,Ligue_2_11_12.parquet,Ligue_2_11_12.parquet
+Ligue_2_12_13,182,4618,Ligue_2,Ligue 2,12_13,Ligue 2 12/13,12/13,2012/2013,Ligue_2_12_13.parquet,Ligue_2_12_13.parquet
+Ligue_2_13_14,182,6273,Ligue_2,Ligue 2,13_14,Ligue 2 13/14,13/14,2013/2014,Ligue_2_13_14.parquet,Ligue_2_13_14.parquet
+Ligue_2_14_15,182,8124,Ligue_2,Ligue 2,14_15,Ligue 2 14/15,14/15,2014/2015,Ligue_2_14_15.parquet,Ligue_2_14_15.parquet
+Ligue_2_15_16,182,10374,Ligue_2,Ligue 2,15_16,Ligue 2 15/16,15/16,2015/2016,Ligue_2_15_16.parquet,Ligue_2_15_16.parquet
+Ligue_2_16_17,182,11690,Ligue_2,Ligue 2,16_17,Ligue 2 16/17,16/17,2016/2017,Ligue_2_16_17.parquet,Ligue_2_16_17.parquet
+Ligue_2_17_18,182,13385,Ligue_2,Ligue 2,17_18,Ligue 2 17/18,17/18,2017/2018,Ligue_2_17_18.parquet,Ligue_2_17_18.parquet
+Ligue_2_18_19,182,17373,Ligue_2,Ligue 2,18_19,Ligue 2 18/19,18/19,2018/2019,Ligue_2_18_19.parquet,Ligue_2_18_19.parquet
+Ligue_2_19_20,182,23875,Ligue_2,Ligue 2,19_20,Ligue 2 19/20,19/20,2019/2020,Ligue_2_19_20.parquet,Ligue_2_19_20.parquet
+Ligue_2_20_21,182,28223,Ligue_2,Ligue 2,20_21,Ligue 2 20/21,20/21,2020/2021,Ligue_2_20_21.parquet,Ligue_2_20_21.parquet
+Ligue_2_21_22,182,37169,Ligue_2,Ligue 2,21_22,Ligue 2 21/22,21/22,2021/2022,Ligue_2_21_22.parquet,Ligue_2_21_22.parquet
+Ligue_2_22_23,182,42272,Ligue_2,Ligue 2,22_23,Ligue 2 22/23,22/23,2022/2023,Ligue_2_22_23.parquet,Ligue_2_22_23.parquet
+Ligue_2_23_24,182,52572,Ligue_2,Ligue 2,23_24,Ligue 2 23/24,23/24,2023/2024,Ligue_2_23_24.parquet,Ligue_2_23_24.parquet
+Ligue_2_24_25,182,61737,Ligue_2,Ligue 2,24_25,Ligue 2 24/25,24/25,2024/2025,Ligue_2_24_25.parquet,Ligue_2_24_25.parquet
+Ligue_2_25_26,182,77357,Ligue_2,Ligue 2,25_26,Ligue 2 25/26,25/26,2025/2026,Ligue_2_25_26.parquet,Ligue_2_25_26.parquet
+Ligue_2_26_27,182,96109,Ligue_2,Ligue 2,26_27,Ligue 2 26/27,26/27,2026/2027,Ligue_2_26_27.parquet,Ligue_2_26_27.parquet
+Bundesliga_10_11,35,2811,Bundesliga,Bundesliga,10_11,Bundesliga 10/11,10/11,2010/2011,Bundesliga_10_11.parquet,Bundesliga_10_11.parquet
+Bundesliga_11_12,35,3405,Bundesliga,Bundesliga,11_12,Bundesliga 11/12,11/12,2011/2012,Bundesliga_11_12.parquet,Bundesliga_11_12.parquet
+Bundesliga_12_13,35,4792,Bundesliga,Bundesliga,12_13,Bundesliga 12/13,12/13,2012/2013,Bundesliga_12_13.parquet,Bundesliga_12_13.parquet
+Bundesliga_13_14,35,6303,Bundesliga,Bundesliga,13_14,Bundesliga 13/14,13/14,2013/2014,Bundesliga_13_14.parquet,Bundesliga_13_14.parquet
+Bundesliga_14_15,35,8238,Bundesliga,Bundesliga,14_15,Bundesliga 14/15,14/15,2014/2015,Bundesliga_14_15.parquet,Bundesliga_14_15.parquet
+Bundesliga_15_16,35,10419,Bundesliga,Bundesliga,15_16,Bundesliga 15/16,15/16,2015/2016,Bundesliga_15_16.parquet,Bundesliga_15_16.parquet
+Bundesliga_16_17,35,11818,Bundesliga,Bundesliga,16_17,Bundesliga 16/17,16/17,2016/2017,Bundesliga_16_17.parquet,Bundesliga_16_17.parquet
+Bundesliga_17_18,35,13477,Bundesliga,Bundesliga,17_18,Bundesliga 17/18,17/18,2017/2018,Bundesliga_17_18.parquet,Bundesliga_17_18.parquet
+Bundesliga_18_19,35,17597,Bundesliga,Bundesliga,18_19,Bundesliga 18/19,18/19,2018/2019,Bundesliga_18_19.parquet,Bundesliga_18_19.parquet
+Bundesliga_19_20,35,23538,Bundesliga,Bundesliga,19_20,Bundesliga 19/20,19/20,2019/2020,Bundesliga_19_20.parquet,Bundesliga_19_20.parquet
+Bundesliga_20_21,35,28210,Bundesliga,Bundesliga,20_21,Bundesliga 20/21,20/21,2020/2021,Bundesliga_20_21.parquet,Bundesliga_20_21.parquet
+Bundesliga_21_22,35,37166,Bundesliga,Bundesliga,21_22,Bundesliga 21/22,21/22,2021/2022,Bundesliga_21_22.parquet,Bundesliga_21_22.parquet
+Bundesliga_22_23,35,42268,Bundesliga,Bundesliga,22_23,Bundesliga 22/23,22/23,2022/2023,Bundesliga_22_23.parquet,Bundesliga_22_23.parquet
+Bundesliga_23_24,35,52608,Bundesliga,Bundesliga,23_24,Bundesliga 23/24,23/24,2023/2024,Bundesliga_23_24.parquet,Bundesliga_23_24.parquet
+Bundesliga_24_25,35,63516,Bundesliga,Bundesliga,24_25,Bundesliga 24/25,24/25,2024/2025,Bundesliga_24_25.parquet,Bundesliga_24_25.parquet
+Bundesliga_25_26,35,77333,Bundesliga,Bundesliga,25_26,Bundesliga 25/26,25/26,2025/2026,Bundesliga_25_26.parquet,Bundesliga_25_26.parquet
+Bundesliga_26_27,35,97464,Bundesliga,Bundesliga,26_27,Bundesliga 26/27,26/27,2026/2027,Bundesliga_26_27.parquet,Bundesliga_26_27.parquet
+Bundesliga_2_10_11,44,2812,Bundesliga_2,2. Bundesliga,10_11,2nd Bundesliga 10/11,10/11,2010/2011,Bundesliga_2_10_11.parquet,Bundesliga_2_10_11.parquet
+Bundesliga_2_11_12,44,3406,Bundesliga_2,2. Bundesliga,11_12,2nd Bundesliga 11/12,11/12,2011/2012,Bundesliga_2_11_12.parquet,Bundesliga_2_11_12.parquet
+Bundesliga_2_12_13,44,4794,Bundesliga_2,2. Bundesliga,12_13,2nd Bundesliga 12/13,12/13,2012/2013,Bundesliga_2_12_13.parquet,Bundesliga_2_12_13.parquet
+Bundesliga_2_13_14,44,6335,Bundesliga_2,2. Bundesliga,13_14,2nd Bundesliga 13/14,13/14,2013/2014,Bundesliga_2_13_14.parquet,Bundesliga_2_13_14.parquet
+Bundesliga_2_14_15,44,8240,Bundesliga_2,2. Bundesliga,14_15,2nd Bundesliga 14/15,14/15,2014/2015,Bundesliga_2_14_15.parquet,Bundesliga_2_14_15.parquet
+Bundesliga_2_15_16,44,10420,Bundesliga_2,2. Bundesliga,15_16,2nd Bundesliga 15/16,15/16,2015/2016,Bundesliga_2_15_16.parquet,Bundesliga_2_15_16.parquet
+Bundesliga_2_16_17,44,11819,Bundesliga_2,2. Bundesliga,16_17,2nd Bundesliga 16/17,16/17,2016/2017,Bundesliga_2_16_17.parquet,Bundesliga_2_16_17.parquet
+Bundesliga_2_17_18,44,13476,Bundesliga_2,2. Bundesliga,17_18,2nd Bundesliga 17/18,17/18,2017/2018,Bundesliga_2_17_18.parquet,Bundesliga_2_17_18.parquet
+Bundesliga_2_18_19,44,17598,Bundesliga_2,2. Bundesliga,18_19,2nd Bundesliga 18/19,18/19,2018/2019,Bundesliga_2_18_19.parquet,Bundesliga_2_18_19.parquet
+Bundesliga_2_19_20,44,24043,Bundesliga_2,2. Bundesliga,19_20,2nd Bundesliga 19/20,19/20,2019/2020,Bundesliga_2_19_20.parquet,Bundesliga_2_19_20.parquet
+Bundesliga_2_20_21,44,29312,Bundesliga_2,2. Bundesliga,20_21,2nd Bundesliga 20/21,20/21,2020/2021,Bundesliga_2_20_21.parquet,Bundesliga_2_20_21.parquet
+Bundesliga_2_21_22,44,37168,Bundesliga_2,2. Bundesliga,21_22,2nd Bundesliga 21/22,21/22,2021/2022,Bundesliga_2_21_22.parquet,Bundesliga_2_21_22.parquet
+Bundesliga_2_22_23,44,42269,Bundesliga_2,2. Bundesliga,22_23,2nd Bundesliga 22/23,22/23,2022/2023,Bundesliga_2_22_23.parquet,Bundesliga_2_22_23.parquet
+Bundesliga_2_23_24,44,52607,Bundesliga_2,2. Bundesliga,23_24,2nd Bundesliga 23/24,23/24,2023/2024,Bundesliga_2_23_24.parquet,Bundesliga_2_23_24.parquet
+Bundesliga_2_24_25,44,63514,Bundesliga_2,2. Bundesliga,24_25,2. Bundesliga 24/25,24/25,2024/2025,Bundesliga_2_24_25.parquet,Bundesliga_2_24_25.parquet
+Bundesliga_2_25_26,44,77354,Bundesliga_2,2. Bundesliga,25_26,2. Bundesliga 25/26,25/26,2025/2026,Bundesliga_2_25_26.parquet,Bundesliga_2_25_26.parquet
+Bundesliga_2_26_27,44,97406,Bundesliga_2,2. Bundesliga,26_27,2. Bundesliga 26/27,26/27,2026/2027,Bundesliga_2_26_27.parquet,Bundesliga_2_26_27.parquet
+Greek_Super_League_17_18,185,13598,Greek_Super_League,Stoiximan Super League,17_18,Super League 17/18,17/18,2017/2018,Greek_Super_League_17_18.parquet,Greek_Super_League_17_18.parquet
+Greek_Super_League_18_19,185,18287,Greek_Super_League,Stoiximan Super League,18_19,Super League 18/19,18/19,2018/2019,Greek_Super_League_18_19.parquet,Greek_Super_League_18_19.parquet
+Greek_Super_League_19_20,185,24108,Greek_Super_League,Stoiximan Super League,19_20,Super League 1 19/20,19/20,2019/2020,Greek_Super_League_19_20.parquet,Greek_Super_League_19_20.parquet
+Greek_Super_League_20_21,185,32553,Greek_Super_League,Stoiximan Super League,20_21,Super League 1 20/21,20/21,2020/2021,Greek_Super_League_20_21.parquet,Greek_Super_League_20_21.parquet
+Greek_Super_League_21_22,185,37707,Greek_Super_League,Stoiximan Super League,21_22,Super League 1 21/22,21/22,2021/2022,Greek_Super_League_21_22.parquet,Greek_Super_League_21_22.parquet
+Greek_Super_League_22_23,185,44513,Greek_Super_League,Stoiximan Super League,22_23,Stoiximan Super League 22/23,22/23,2022/2023,Greek_Super_League_22_23.parquet,Greek_Super_League_22_23.parquet
+Greek_Super_League_23_24,185,53223,Greek_Super_League,Stoiximan Super League,23_24,Stoiximan Super League 23/24,23/24,2023/2024,Greek_Super_League_23_24.parquet,Greek_Super_League_23_24.parquet
+Greek_Super_League_24_25,185,64052,Greek_Super_League,Stoiximan Super League,24_25,Super League 24/25,24/25,2024/2025,Greek_Super_League_24_25.parquet,Greek_Super_League_24_25.parquet
+Greek_Super_League_25_26,185,78175,Greek_Super_League,Stoiximan Super League,25_26,Super League 25/26,25/26,2025/2026,Greek_Super_League_25_26.parquet,Greek_Super_League_25_26.parquet
+Greek_Super_League_26_27,185,98659,Greek_Super_League,Stoiximan Super League,26_27,Super League 26/27,26/27,2026/2027,Greek_Super_League_26_27.parquet,Greek_Super_League_26_27.parquet
+Serie_A_10_11,23,2930,Serie_A,Serie A,10_11,Serie A 10/11,10/11,2010/2011,Serie_A_10_11.parquet,Serie_A_10_11.parquet
+Serie_A_11_12,23,3639,Serie_A,Serie A,11_12,Serie A 11/12,11/12,2011/2012,Serie_A_11_12.parquet,Serie_A_11_12.parquet
+Serie_A_12_13,23,5145,Serie_A,Serie A,12_13,Serie A 12/13,12/13,2012/2013,Serie_A_12_13.parquet,Serie_A_12_13.parquet
+Serie_A_13_14,23,6797,Serie_A,Serie A,13_14,Serie A 13/14,13/14,2013/2014,Serie_A_13_14.parquet,Serie_A_13_14.parquet
+Serie_A_14_15,23,8618,Serie_A,Serie A,14_15,Serie A 14/15,14/15,2014/2015,Serie_A_14_15.parquet,Serie_A_14_15.parquet
+Serie_A_15_16,23,10596,Serie_A,Serie A,15_16,Serie A 15/16,15/16,2015/2016,Serie_A_15_16.parquet,Serie_A_15_16.parquet
+Serie_A_16_17,23,11966,Serie_A,Serie A,16_17,Serie A 16/17,16/17,2016/2017,Serie_A_16_17.parquet,Serie_A_16_17.parquet
+Serie_A_17_18,23,13768,Serie_A,Serie A,17_18,Serie A 17/18,17/18,2017/2018,Serie_A_17_18.parquet,Serie_A_17_18.parquet
+Serie_A_18_19,23,17932,Serie_A,Serie A,18_19,Serie A 18/19,18/19,2018/2019,Serie_A_18_19.parquet,Serie_A_18_19.parquet
+Serie_A_19_20,23,24644,Serie_A,Serie A,19_20,Serie A 19/20,19/20,2019/2020,Serie_A_19_20.parquet,Serie_A_19_20.parquet
+Serie_A_20_21,23,32523,Serie_A,Serie A,20_21,Serie A 20/21,20/21,2020/2021,Serie_A_20_21.parquet,Serie_A_20_21.parquet
+Serie_A_21_22,23,37475,Serie_A,Serie A,21_22,Serie A 21/22,21/22,2021/2022,Serie_A_21_22.parquet,Serie_A_21_22.parquet
+Serie_A_22_23,23,42415,Serie_A,Serie A,22_23,Serie A 22/23,22/23,2022/2023,Serie_A_22_23.parquet,Serie_A_22_23.parquet
+Serie_A_23_24,23,52760,Serie_A,Serie A,23_24,Serie A 23/24,23/24,2023/2024,Serie_A_23_24.parquet,Serie_A_23_24.parquet
+Serie_A_24_25,23,63515,Serie_A,Serie A,24_25,Serie A 24/25,24/25,2024/2025,Serie_A_24_25.parquet,Serie_A_24_25.parquet
+Serie_A_25_26,23,76457,Serie_A,Serie A,25_26,Serie A 25/26,25/26,2025/2026,Serie_A_25_26.parquet,Serie_A_25_26.parquet
+Serie_A_26_27,23,95836,Serie_A,Serie A,26_27,Serie A 26/27,26/27,2026/2027,Serie_A_26_27.parquet,Serie_A_26_27.parquet
+Serie_B_10_11,53,2957,Serie_B,Serie B,10_11,Serie B 10/11,10/11,2010/2011,Serie_B_10_11.parquet,Serie_B_10_11.parquet
+Serie_B_11_12,53,3667,Serie_B,Serie B,11_12,Serie B 11/12,11/12,2011/2012,Serie_B_11_12.parquet,Serie_B_11_12.parquet
+Serie_B_12_13,53,5183,Serie_B,Serie B,12_13,Serie B 12/13,12/13,2012/2013,Serie_B_12_13.parquet,Serie_B_12_13.parquet
+Serie_B_13_14,53,6821,Serie_B,Serie B,13_14,Serie B 13/14,13/14,2013/2014,Serie_B_13_14.parquet,Serie_B_13_14.parquet
+Serie_B_14_15,53,8712,Serie_B,Serie B,14_15,Serie B 14/15,14/15,2014/2015,Serie_B_14_15.parquet,Serie_B_14_15.parquet
+Serie_B_15_16,53,10753,Serie_B,Serie B,15_16,Serie B 15/16,15/16,2015/2016,Serie_B_15_16.parquet,Serie_B_15_16.parquet
+Serie_B_16_17,53,12091,Serie_B,Serie B,16_17,Serie B 16/17,16/17,2016/2017,Serie_B_16_17.parquet,Serie_B_16_17.parquet
+Serie_B_17_18,53,13899,Serie_B,Serie B,17_18,Serie B 17/18,17/18,2017/2018,Serie_B_17_18.parquet,Serie_B_17_18.parquet
+Serie_B_18_19,53,18325,Serie_B,Serie B,18_19,Serie B 18/19,18/19,2018/2019,Serie_B_18_19.parquet,Serie_B_18_19.parquet
+Serie_B_19_20,53,24758,Serie_B,Serie B,19_20,Serie B 19/20,19/20,2019/2020,Serie_B_19_20.parquet,Serie_B_19_20.parquet
+Serie_B_20_21,53,32622,Serie_B,Serie B,20_21,Serie B 20/21,20/21,2020/2021,Serie_B_20_21.parquet,Serie_B_20_21.parquet
+Serie_B_21_22,53,37642,Serie_B,Serie B,21_22,Serie B 21/22,21/22,2021/2022,Serie_B_21_22.parquet,Serie_B_21_22.parquet
+Serie_B_22_23,53,44226,Serie_B,Serie B,22_23,Serie B 22/23,22/23,2022/2023,Serie_B_22_23.parquet,Serie_B_22_23.parquet
+Serie_B_23_24,53,52947,Serie_B,Serie B,23_24,Serie B 23/24,23/24,2023/2024,Serie_B_23_24.parquet,Serie_B_23_24.parquet
+Serie_B_24_25,53,63812,Serie_B,Serie B,24_25,Serie B 24/25,24/25,2024/2025,Serie_B_24_25.parquet,Serie_B_24_25.parquet
+Serie_B_25_26,53,79502,Serie_B,Serie B,25_26,Serie B 25/26,25/26,2025/2026,Serie_B_25_26.parquet,Serie_B_25_26.parquet
+Serie_B_26_27,53,99067,Serie_B,Serie B,26_27,Serie B 26/27,26/27,2026/2027,Serie_B_26_27.parquet,Serie_B_26_27.parquet
+J1_10_10,196,2601,J1,J1 League,10_10,J.League 2010,2010,2010,J1_10_10.parquet,J1_10_10.parquet
+J1_11_11,196,3227,J1,J1 League,11_11,J.League 2011,2011,2011,J1_11_11.parquet,J1_11_11.parquet
+J1_12_12,196,4290,J1,J1 League,12_12,J.League 2012,2012,2012,J1_12_12.parquet,J1_12_12.parquet
+J1_13_13,196,5916,J1,J1 League,13_13,J.League 2013,2013,2013,J1_13_13.parquet,J1_13_13.parquet
+J1_14_14,196,7714,J1,J1 League,14_14,J.League 2014,2014,2014,J1_14_14.parquet,J1_14_14.parquet
+J1_15_15,196,9765,J1,J1 League,15_15,J.League 2015,2015,2015,J1_15_15.parquet,J1_15_15.parquet
+J1_16_16,196,11307,J1,J1 League,16_16,J.League 2016,2016,2016,J1_16_16.parquet,J1_16_16.parquet
+J1_17_17,196,12879,J1,J1 League,17_17,J.League 2017,2017,2017,J1_17_17.parquet,J1_17_17.parquet
+J1_18_18,196,16004,J1,J1 League,18_18,J.League 2018,2018,2018,J1_18_18.parquet,J1_18_18.parquet
+J1_19_19,196,22479,J1,J1 League,19_19,J.League 2019,2019,2019,J1_19_19.parquet,J1_19_19.parquet
+J1_20_20,196,27042,J1,J1 League,20_20,J.League 2020,2020,2020,J1_20_20.parquet,J1_20_20.parquet
+J1_21_21,196,35273,J1,J1 League,21_21,J.League 2021,2021,2021,J1_21_21.parquet,J1_21_21.parquet
+J1_22_22,196,40230,J1,J1 League,22_22,J.League 2022,2022,2022,J1_22_22.parquet,J1_22_22.parquet
+J1_23_23,196,48055,J1,J1 League,23_23,J.League 2023,2023,2023,J1_23_23.parquet,J1_23_23.parquet
+J1_24_24,196,57353,J1,J1 League,24_24,J.League 2024,2024,2024,J1_24_24.parquet,J1_24_24.parquet
+J1_25_25,196,69871,J1,J1 League,25_25,J.League 2025,2025,2025,J1_25_25.parquet,J1_25_25.parquet
+J1_26_27,196,96370,J1,J1 League,26_27,J1 League 26/27,26/27,2026/2027,J1_26_27.parquet,J1_26_27.parquet
+J1_Transition_26_26,196,87931,J1_Transition,J1 League,26_26,J1 League 2026,2026,2026_transition,J1_Transition_26_26.parquet,J1_Transition_26_26.parquet
+J2_10_10,402,2602,J2,J2 League,10_10,J-League 2 2010,2010,2010,J2_10_10.parquet,J2_10_10.parquet
+J2_11_11,402,3228,J2,J2 League,11_11,J.League 2 2011,2011,2011,J2_11_11.parquet,J2_11_11.parquet
+J2_12_12,402,4292,J2,J2 League,12_12,J.League 2 2012,2012,2012,J2_12_12.parquet,J2_12_12.parquet
+J2_13_13,402,5918,J2,J2 League,13_13,J.League 2 2013,2013,2013,J2_13_13.parquet,J2_13_13.parquet
+J2_14_14,402,7718,J2,J2 League,14_14,J.League 2 2014,2014,2014,J2_14_14.parquet,J2_14_14.parquet
+J2_15_15,402,9772,J2,J2 League,15_15,J.League 2 2015,2015,2015,J2_15_15.parquet,J2_15_15.parquet
+J2_16_16,402,11332,J2,J2 League,16_16,J.League 2 2016,2016,2016,J2_16_16.parquet,J2_16_16.parquet
+J2_17_17,402,12880,J2,J2 League,17_17,J.League 2 2017,2017,2017,J2_17_17.parquet,J2_17_17.parquet
+J2_18_18,402,16005,J2,J2 League,18_18,J.League 2 2018,2018,2018,J2_18_18.parquet,J2_18_18.parquet
+J2_19_19,402,22480,J2,J2 League,19_19,J.League 2 2019,2019,2019,J2_19_19.parquet,J2_19_19.parquet
+J2_20_20,402,27159,J2,J2 League,20_20,J.League 2 2020,2020,2020,J2_20_20.parquet,J2_20_20.parquet
+J2_21_21,402,35274,J2,J2 League,21_21,J.League 2 2021,2021,2021,J2_21_21.parquet,J2_21_21.parquet
+J2_22_22,402,40276,J2,J2 League,22_22,J.League 2 2022,2022,2022,J2_22_22.parquet,J2_22_22.parquet
+J2_23_23,402,48054,J2,J2 League,23_23,J.League 2 2023,2023,2023,J2_23_23.parquet,J2_23_23.parquet
+J2_24_24,402,57365,J2,J2 League,24_24,J.League 2 2024,2024,2024,J2_24_24.parquet,J2_24_24.parquet
+J2_25_25,402,70418,J2,J2 League,25_25,J.League 2 2025,2025,2025,J2_25_25.parquet,J2_25_25.parquet
+J2_26_27,402,96371,J2,J2 League,26_27,J2/J3 League 26/27,26/27,2026/2027,J2_26_27.parquet,J2_26_27.parquet
+Liga_MX_Apertura_10_11,11621,2770,Liga_MX_Apertura,"Liga MX, Apertura",10_11,Primera Division 10/11,10/11,2010/2011,Liga_MX_Apertura_10_11.parquet,Liga_MX_Apertura_10_11.parquet
+Liga_MX_Apertura_11_12,11621,3400,Liga_MX_Apertura,"Liga MX, Apertura",11_12,Primera Division 11/12,11/12,2011/2012,Liga_MX_Apertura_11_12.parquet,Liga_MX_Apertura_11_12.parquet
+Liga_MX_Apertura_12_13,11621,4869,Liga_MX_Apertura,"Liga MX, Apertura",12_13,Primera Division 12/13,12/13,2012/2013,Liga_MX_Apertura_12_13.parquet,Liga_MX_Apertura_12_13.parquet
+Liga_MX_Apertura_13_14,11621,6305,Liga_MX_Apertura,"Liga MX, Apertura",13_14,Primera Division 13/14,13/14,2013/2014,Liga_MX_Apertura_13_14.parquet,Liga_MX_Apertura_13_14.parquet
+Liga_MX_Apertura_14_15,11621,8176,Liga_MX_Apertura,"Liga MX, Apertura",14_15,Primera Division 14/15,14/15,2014/2015,Liga_MX_Apertura_14_15.parquet,Liga_MX_Apertura_14_15.parquet
+Liga_MX_Apertura_15_16,11621,10355,Liga_MX_Apertura,"Liga MX, Apertura",15_16,Primera Division 15/16,15/16,2015/2016,Liga_MX_Apertura_15_16.parquet,Liga_MX_Apertura_15_16.parquet
+Liga_MX_Apertura_16_17,11621,11740,Liga_MX_Apertura,"Liga MX, Apertura",16_17,Primera Division 16/17,16/17,2016/2017,Liga_MX_Apertura_16_17.parquet,Liga_MX_Apertura_16_17.parquet
+Liga_MX_Apertura_17_18,11621,13413,Liga_MX_Apertura,"Liga MX, Apertura",17_18,Primera Division 17/18,17/18,2017/2018,Liga_MX_Apertura_17_18.parquet,Liga_MX_Apertura_17_18.parquet
+Liga_MX_Apertura_18_19,11621,17518,Liga_MX_Apertura,"Liga MX, Apertura",18_19,Primera Division 18/19,18/19,2018/2019,Liga_MX_Apertura_18_19.parquet,Liga_MX_Apertura_18_19.parquet
+Liga_MX_Apertura_19_20,11621,24002,Liga_MX_Apertura,"Liga MX, Apertura",19_20,"Primera Division, Apertura 2019",19/20,2019/2020,Liga_MX_Apertura_19_20.parquet,Liga_MX_Apertura_19_20.parquet
+Liga_MX_Apertura_20_21,11621,28233,Liga_MX_Apertura,"Liga MX, Apertura",20_21,"Primera Division, Apertura 2020",20/21,2020/2021,Liga_MX_Apertura_20_21.parquet,Liga_MX_Apertura_20_21.parquet
+Liga_MX_Apertura_21_22,11621,37238,Liga_MX_Apertura,"Liga MX, Apertura",21_22,"Primera Division, Apertura 2021",21/22,2021/2022,Liga_MX_Apertura_21_22.parquet,Liga_MX_Apertura_21_22.parquet
+Liga_MX_Apertura_22_23,11621,42017,Liga_MX_Apertura,"Liga MX, Apertura",22_23,"Primera Division, Apertura 2022",22/23,2022/2023,Liga_MX_Apertura_22_23.parquet,Liga_MX_Apertura_22_23.parquet
+Liga_MX_Apertura_23_24,11621,52052,Liga_MX_Apertura,"Liga MX, Apertura",23_24,"Liga MX, Apertura 2023",23/24,2023/2024,Liga_MX_Apertura_23_24.parquet,Liga_MX_Apertura_23_24.parquet
+Liga_MX_Apertura_24_25,11621,61419,Liga_MX_Apertura,"Liga MX, Apertura",24_25,"Liga MX, Apertura 2024",24/25,2024/2025,Liga_MX_Apertura_24_25.parquet,Liga_MX_Apertura_24_25.parquet
+Liga_MX_Apertura_25_26,11621,76500,Liga_MX_Apertura,"Liga MX, Apertura",25_26,"Liga MX, Apertura 2025",25/26,2025/2026,Liga_MX_Apertura_25_26.parquet,Liga_MX_Apertura_25_26.parquet
+Liga_MX_Apertura_26_26,11621,96191,Liga_MX_Apertura,"Liga MX, Apertura",26_26,"Liga MX, Apertura 2026",2026,2026/2027,Liga_MX_Apertura_26_26.parquet,Liga_MX_Apertura_26_26.parquet
+Liga_MX_Clausura_10_11,11621,2770,Liga_MX_Clausura,"Liga MX, Apertura",10_11,Primera Division 10/11,10/11,2010/2011,Liga_MX_Clausura_10_11.parquet,Liga_MX_Clausura_10_11.parquet
+Liga_MX_Clausura_11_12,11620,3400,Liga_MX_Clausura,"Liga MX, Clausura",11_12,Primera Division 11/12,11/12,2011/2012,Liga_MX_Clausura_11_12.parquet,Liga_MX_Clausura_11_12.parquet
+Liga_MX_Clausura_12_13,11620,4869,Liga_MX_Clausura,"Liga MX, Clausura",12_13,Primera Division 12/13,12/13,2012/2013,Liga_MX_Clausura_12_13.parquet,Liga_MX_Clausura_12_13.parquet
+Liga_MX_Clausura_13_14,11620,6305,Liga_MX_Clausura,"Liga MX, Clausura",13_14,Primera Division 13/14,13/14,2013/2014,Liga_MX_Clausura_13_14.parquet,Liga_MX_Clausura_13_14.parquet
+Liga_MX_Clausura_14_15,11620,8176,Liga_MX_Clausura,"Liga MX, Clausura",14_15,Primera Division 14/15,14/15,2014/2015,Liga_MX_Clausura_14_15.parquet,Liga_MX_Clausura_14_15.parquet
+Liga_MX_Clausura_15_16,11620,10355,Liga_MX_Clausura,"Liga MX, Clausura",15_16,Primera Division 15/16,15/16,2015/2016,Liga_MX_Clausura_15_16.parquet,Liga_MX_Clausura_15_16.parquet
+Liga_MX_Clausura_16_17,11620,19779,Liga_MX_Clausura,"Liga MX, Clausura",16_17,Primera Division 16/17. Clausura,16/17,2016/2017,Liga_MX_Clausura_16_17.parquet,Liga_MX_Clausura_16_17.parquet
+Liga_MX_Clausura_17_18,11620,19778,Liga_MX_Clausura,"Liga MX, Clausura",17_18,Primera Division 17/18. Clausura,17/18,2017/2018,Liga_MX_Clausura_17_18.parquet,Liga_MX_Clausura_17_18.parquet
+Liga_MX_Clausura_18_19,11620,19974,Liga_MX_Clausura,"Liga MX, Clausura",18_19,Primera Division 18/19. Clausura,18/19,2018/2019,Liga_MX_Clausura_18_19.parquet,Liga_MX_Clausura_18_19.parquet
+Liga_MX_Clausura_19_20,11620,26789,Liga_MX_Clausura,"Liga MX, Clausura",19_20,Primera Division. Clausura 2020,19/20,2019/2020,Liga_MX_Clausura_19_20.parquet,Liga_MX_Clausura_19_20.parquet
+Liga_MX_Clausura_20_21,11620,35117,Liga_MX_Clausura,"Liga MX, Clausura",20_21,"Primera Division, Clausura 2021",20/21,2020/2021,Liga_MX_Clausura_20_21.parquet,Liga_MX_Clausura_20_21.parquet
+Liga_MX_Clausura_21_22,11620,40080,Liga_MX_Clausura,"Liga MX, Clausura",21_22,"Primera Division, Clausura 2022",21/22,2021/2022,Liga_MX_Clausura_21_22.parquet,Liga_MX_Clausura_21_22.parquet
+Liga_MX_Clausura_22_23,11620,47656,Liga_MX_Clausura,"Liga MX, Clausura",22_23,"Primera Division, Clausura 2023",22/23,2022/2023,Liga_MX_Clausura_22_23.parquet,Liga_MX_Clausura_22_23.parquet
+Liga_MX_Clausura_23_24,11620,57315,Liga_MX_Clausura,"Liga MX, Clausura",23_24,"Liga MX, Clausura 2024",23/24,2023/2024,Liga_MX_Clausura_23_24.parquet,Liga_MX_Clausura_23_24.parquet
+Liga_MX_Clausura_24_25,11620,70096,Liga_MX_Clausura,"Liga MX, Clausura",24_25,"Liga MX, Clausura 2025",24/25,2024/2025,Liga_MX_Clausura_24_25.parquet,Liga_MX_Clausura_24_25.parquet
+Liga_MX_Clausura_25_26,11620,87699,Liga_MX_Clausura,"Liga MX, Clausura",25_26,"Liga MX, Clausura 2026",25/26,2025/2026,Liga_MX_Clausura_25_26.parquet,Liga_MX_Clausura_25_26.parquet
+Eredivisie_10_11,37,2745,Eredivisie,VriendenLoterij Eredivisie,10_11,Eredivisie 10/11,10/11,2010/2011,Eredivisie_10_11.parquet,Eredivisie_10_11.parquet
+Eredivisie_11_12,37,3432,Eredivisie,VriendenLoterij Eredivisie,11_12,Eredivisie 11/12,11/12,2011/2012,Eredivisie_11_12.parquet,Eredivisie_11_12.parquet
+Eredivisie_12_13,37,4746,Eredivisie,VriendenLoterij Eredivisie,12_13,Eredivisie 12/13,12/13,2012/2013,Eredivisie_12_13.parquet,Eredivisie_12_13.parquet
+Eredivisie_13_14,37,6267,Eredivisie,VriendenLoterij Eredivisie,13_14,Eredivisie 13/14,13/14,2013/2014,Eredivisie_13_14.parquet,Eredivisie_13_14.parquet
+Eredivisie_14_15,37,8170,Eredivisie,VriendenLoterij Eredivisie,14_15,Eredivisie 14/15,14/15,2014/2015,Eredivisie_14_15.parquet,Eredivisie_14_15.parquet
+Eredivisie_15_16,37,10370,Eredivisie,VriendenLoterij Eredivisie,15_16,Eredivisie 15/16,15/16,2015/2016,Eredivisie_15_16.parquet,Eredivisie_15_16.parquet
+Eredivisie_16_17,37,11777,Eredivisie,VriendenLoterij Eredivisie,16_17,Eredivisie 16/17,16/17,2016/2017,Eredivisie_16_17.parquet,Eredivisie_16_17.parquet
+Eredivisie_17_18,37,13399,Eredivisie,VriendenLoterij Eredivisie,17_18,Eredivisie 17/18,17/18,2017/2018,Eredivisie_17_18.parquet,Eredivisie_17_18.parquet
+Eredivisie_18_19,37,17353,Eredivisie,VriendenLoterij Eredivisie,18_19,Eredivisie 18/19,18/19,2018/2019,Eredivisie_18_19.parquet,Eredivisie_18_19.parquet
+Eredivisie_19_20,37,23873,Eredivisie,VriendenLoterij Eredivisie,19_20,Eredivisie 19/20,19/20,2019/2020,Eredivisie_19_20.parquet,Eredivisie_19_20.parquet
+Eredivisie_20_21,37,29186,Eredivisie,VriendenLoterij Eredivisie,20_21,Eredivisie 20/21,20/21,2020/2021,Eredivisie_20_21.parquet,Eredivisie_20_21.parquet
+Eredivisie_21_22,37,36890,Eredivisie,VriendenLoterij Eredivisie,21_22,Eredivisie 21/22,21/22,2021/2022,Eredivisie_21_22.parquet,Eredivisie_21_22.parquet
+Eredivisie_22_23,37,42256,Eredivisie,VriendenLoterij Eredivisie,22_23,Eredivisie 22/23,22/23,2022/2023,Eredivisie_22_23.parquet,Eredivisie_22_23.parquet
+Eredivisie_23_24,37,52554,Eredivisie,VriendenLoterij Eredivisie,23_24,Eredivisie 23/24,23/24,2023/2024,Eredivisie_23_24.parquet,Eredivisie_23_24.parquet
+Eredivisie_24_25,37,61666,Eredivisie,VriendenLoterij Eredivisie,24_25,Eredivisie 24/25,24/25,2024/2025,Eredivisie_24_25.parquet,Eredivisie_24_25.parquet
+Eredivisie_25_26,37,77012,Eredivisie,VriendenLoterij Eredivisie,25_26,VriendenLoterij Eredivisie 25/26,25/26,2025/2026,Eredivisie_25_26.parquet,Eredivisie_25_26.parquet
+Eredivisie_26_27,37,96143,Eredivisie,VriendenLoterij Eredivisie,26_27,Eredivisie 26/27,26/27,2026/2027,Eredivisie_26_27.parquet,Eredivisie_26_27.parquet
+Eerste_Divisie_17_18,131,13401,Eerste_Divisie,Eerste Divisie,17_18,Eerste Divisie 17/18,17/18,2017/2018,Eerste_Divisie_17_18.parquet,Eerste_Divisie_17_18.parquet
+Eerste_Divisie_18_19,131,17824,Eerste_Divisie,Eerste Divisie,18_19,Eerste Divisie 18/19,18/19,2018/2019,Eerste_Divisie_18_19.parquet,Eerste_Divisie_18_19.parquet
+Eerste_Divisie_19_20,131,23874,Eerste_Divisie,Eerste Divisie,19_20,Eerste Divisie 19/20,19/20,2019/2020,Eerste_Divisie_19_20.parquet,Eerste_Divisie_19_20.parquet
+Eerste_Divisie_20_21,131,29187,Eerste_Divisie,Eerste Divisie,20_21,Eerste Divisie 20/21,20/21,2020/2021,Eerste_Divisie_20_21.parquet,Eerste_Divisie_20_21.parquet
+Eerste_Divisie_21_22,131,36893,Eerste_Divisie,Eerste Divisie,21_22,Eerste Divisie 21/22,21/22,2021/2022,Eerste_Divisie_21_22.parquet,Eerste_Divisie_21_22.parquet
+Eerste_Divisie_22_23,131,42258,Eerste_Divisie,Eerste Divisie,22_23,Eerste Divisie 22/23,22/23,2022/2023,Eerste_Divisie_22_23.parquet,Eerste_Divisie_22_23.parquet
+Eerste_Divisie_23_24,131,52556,Eerste_Divisie,Eerste Divisie,23_24,Eerste Divisie 23/24,23/24,2023/2024,Eerste_Divisie_23_24.parquet,Eerste_Divisie_23_24.parquet
+Eerste_Divisie_24_25,131,61667,Eerste_Divisie,Eerste Divisie,24_25,Eerste Divisie 24/25,24/25,2024/2025,Eerste_Divisie_24_25.parquet,Eerste_Divisie_24_25.parquet
+Eerste_Divisie_25_26,131,77156,Eerste_Divisie,Eerste Divisie,25_26,Eerste Divisie 25/26,25/26,2025/2026,Eerste_Divisie_25_26.parquet,Eerste_Divisie_25_26.parquet
+Eerste_Divisie_26_27,131,96187,Eerste_Divisie,Eerste Divisie,26_27,Eerste Divisie 26/27,26/27,2026/2027,Eerste_Divisie_26_27.parquet,Eerste_Divisie_26_27.parquet
+Eliteserien_17_17,20,12783,Eliteserien,Eliteserien,17_17,Eliteserien 2017,2017,2017,Eliteserien_17_17.parquet,Eliteserien_17_17.parquet
+Eliteserien_18_18,20,15752,Eliteserien,Eliteserien,18_18,Eliteserien 2018,2018,2018,Eliteserien_18_18.parquet,Eliteserien_18_18.parquet
+Eliteserien_19_19,20,19977,Eliteserien,Eliteserien,19_19,Eliteserien 2019,2019,2019,Eliteserien_19_19.parquet,Eliteserien_19_19.parquet
+Eliteserien_20_20,20,26799,Eliteserien,Eliteserien,20_20,Eliteserien 2020,2020,2020,Eliteserien_20_20.parquet,Eliteserien_20_20.parquet
+Eliteserien_21_21,20,35403,Eliteserien,Eliteserien,21_21,Eliteserien 2021,2021,2021,Eliteserien_21_21.parquet,Eliteserien_21_21.parquet
+Eliteserien_22_22,20,40405,Eliteserien,Eliteserien,22_22,Eliteserien 2022,2022,2022,Eliteserien_22_22.parquet,Eliteserien_22_22.parquet
+Eliteserien_23_23,20,47806,Eliteserien,Eliteserien,23_23,Eliteserien 2023,2023,2023,Eliteserien_23_23.parquet,Eliteserien_23_23.parquet
+Eliteserien_24_24,20,57322,Eliteserien,Eliteserien,24_24,Eliteserien 2024,2024,2024,Eliteserien_24_24.parquet,Eliteserien_24_24.parquet
+Eliteserien_25_25,20,70174,Eliteserien,Eliteserien,25_25,Eliteserien 2025,2025,2025,Eliteserien_25_25.parquet,Eliteserien_25_25.parquet
+Eliteserien_26_26,20,87809,Eliteserien,Eliteserien,26_26,Eliteserien 2026,2026,2026,Eliteserien_26_26.parquet,Eliteserien_26_26.parquet
+Peru_Liga_1_17_17,406,12872,Peru_Liga_1,Liga 1 Te Apuesto,17_17,Primera Division 2017,2017,2017,Peru_Liga_1_17_17.parquet,Peru_Liga_1_17_17.parquet
+Peru_Liga_1_18_18,406,16007,Peru_Liga_1,Liga 1 Te Apuesto,18_18,Primera Division 2018,2018,2018,Peru_Liga_1_18_18.parquet,Peru_Liga_1_18_18.parquet
+Peru_Liga_1_19_19,406,22349,Peru_Liga_1,Liga 1 Te Apuesto,19_19,Primera Division 2019,2019,2019,Peru_Liga_1_19_19.parquet,Peru_Liga_1_19_19.parquet
+Peru_Liga_1_20_20,406,27096,Peru_Liga_1,Liga 1 Te Apuesto,20_20,Primera Division 2020,2020,2020,Peru_Liga_1_20_20.parquet,Peru_Liga_1_20_20.parquet
+Peru_Liga_1_21_21,406,35813,Peru_Liga_1,Liga 1 Te Apuesto,21_21,Primera Division 2021,2021,2021,Peru_Liga_1_21_21.parquet,Peru_Liga_1_21_21.parquet
+Peru_Liga_1_22_22,406,40118,Peru_Liga_1,Liga 1 Te Apuesto,22_22,Primera Division 2022,2022,2022,Peru_Liga_1_22_22.parquet,Peru_Liga_1_22_22.parquet
+Peru_Liga_1_23_23,406,48078,Peru_Liga_1,Liga 1 Te Apuesto,23_23,Primera Division 2023,2023,2023,Peru_Liga_1_23_23.parquet,Peru_Liga_1_23_23.parquet
+Peru_Liga_1_24_24,406,57741,Peru_Liga_1,Liga 1 Te Apuesto,24_24,Liga 1 2024,2024,2024,Peru_Liga_1_24_24.parquet,Peru_Liga_1_24_24.parquet
+Peru_Liga_1_25_25,406,70962,Peru_Liga_1,Liga 1 Te Apuesto,25_25,Liga 1 2025,2025,2025,Peru_Liga_1_25_25.parquet,Peru_Liga_1_25_25.parquet
+Peru_Liga_1_26_26,406,88529,Peru_Liga_1,Liga 1 Te Apuesto,26_26,Liga 1 2026,2026,2026,Peru_Liga_1_26_26.parquet,Peru_Liga_1_26_26.parquet
+Ekstraklasa_17_18,202,13350,Ekstraklasa,Ekstraklasa,17_18,Ekstraklasa 17/18,17/18,2017/2018,Ekstraklasa_17_18.parquet,Ekstraklasa_17_18.parquet
+Ekstraklasa_18_19,202,17361,Ekstraklasa,Ekstraklasa,18_19,Ekstraklasa 18/19,18/19,2018/2019,Ekstraklasa_18_19.parquet,Ekstraklasa_18_19.parquet
+Ekstraklasa_19_20,202,23666,Ekstraklasa,Ekstraklasa,19_20,Ekstraklasa 19/20,19/20,2019/2020,Ekstraklasa_19_20.parquet,Ekstraklasa_19_20.parquet
+Ekstraklasa_20_21,202,29222,Ekstraklasa,Ekstraklasa,20_21,Ekstraklasa 20/21,20/21,2020/2021,Ekstraklasa_20_21.parquet,Ekstraklasa_20_21.parquet
+Ekstraklasa_21_22,202,37062,Ekstraklasa,Ekstraklasa,21_22,Ekstraklasa 21/22,21/22,2021/2022,Ekstraklasa_21_22.parquet,Ekstraklasa_21_22.parquet
+Ekstraklasa_22_23,202,42004,Ekstraklasa,Ekstraklasa,22_23,Ekstraklasa 22/23,22/23,2022/2023,Ekstraklasa_22_23.parquet,Ekstraklasa_22_23.parquet
+Ekstraklasa_23_24,202,52176,Ekstraklasa,Ekstraklasa,23_24,Ekstraklasa 23/24,23/24,2023/2024,Ekstraklasa_23_24.parquet,Ekstraklasa_23_24.parquet
+Ekstraklasa_24_25,202,61236,Ekstraklasa,Ekstraklasa,24_25,Ekstraklasa 24/25,24/25,2024/2025,Ekstraklasa_24_25.parquet,Ekstraklasa_24_25.parquet
+Ekstraklasa_25_26,202,76477,Ekstraklasa,Ekstraklasa,25_26,Ekstraklasa 25/26,25/26,2025/2026,Ekstraklasa_25_26.parquet,Ekstraklasa_25_26.parquet
+Ekstraklasa_26_27,202,96144,Ekstraklasa,Ekstraklasa,26_27,Ekstraklasa 26/27,26/27,2026/2027,Ekstraklasa_26_27.parquet,Ekstraklasa_26_27.parquet
+Liga_Portugal_17_18,238,13539,Liga_Portugal,Liga Portugal Betclic,17_18,Primeira Liga 17/18,17/18,2017/2018,Liga_Portugal_17_18.parquet,Liga_Portugal_17_18.parquet
+Liga_Portugal_18_19,238,17714,Liga_Portugal,Liga Portugal Betclic,18_19,Primeira Liga 18/19,18/19,2018/2019,Liga_Portugal_18_19.parquet,Liga_Portugal_18_19.parquet
+Liga_Portugal_19_20,238,24150,Liga_Portugal,Liga Portugal Betclic,19_20,Primeira Liga 19/20,19/20,2019/2020,Liga_Portugal_19_20.parquet,Liga_Portugal_19_20.parquet
+Liga_Portugal_20_21,238,32456,Liga_Portugal,Liga Portugal Betclic,20_21,Primeira Liga 20/21,20/21,2020/2021,Liga_Portugal_20_21.parquet,Liga_Portugal_20_21.parquet
+Liga_Portugal_21_22,238,37358,Liga_Portugal,Liga Portugal Betclic,21_22,Primeira Liga 21/22,21/22,2021/2022,Liga_Portugal_21_22.parquet,Liga_Portugal_21_22.parquet
+Liga_Portugal_22_23,238,42655,Liga_Portugal,Liga Portugal Betclic,22_23,Primeira Liga 22/23,22/23,2022/2023,Liga_Portugal_22_23.parquet,Liga_Portugal_22_23.parquet
+Liga_Portugal_23_24,238,52769,Liga_Portugal,Liga Portugal Betclic,23_24,Liga Portugal 23/24,23/24,2023/2024,Liga_Portugal_23_24.parquet,Liga_Portugal_23_24.parquet
+Liga_Portugal_24_25,238,63670,Liga_Portugal,Liga Portugal Betclic,24_25,Liga Portugal 24/25,24/25,2024/2025,Liga_Portugal_24_25.parquet,Liga_Portugal_24_25.parquet
+Liga_Portugal_25_26,238,77806,Liga_Portugal,Liga Portugal Betclic,25_26,Liga Portugal 25/26,25/26,2025/2026,Liga_Portugal_25_26.parquet,Liga_Portugal_25_26.parquet
+Liga_Portugal_26_27,238,97436,Liga_Portugal,Liga Portugal Betclic,26_27,Liga Portugal 26/27,26/27,2026/2027,Liga_Portugal_26_27.parquet,Liga_Portugal_26_27.parquet
+Liga_Portugal_2_17_18,239,13855,Liga_Portugal_2,Liga Portugal 2,17_18,Segunda Liga 17/18,17/18,2017/2018,Liga_Portugal_2_17_18.parquet,Liga_Portugal_2_17_18.parquet
+Liga_Portugal_2_18_19,239,17715,Liga_Portugal_2,Liga Portugal 2,18_19,Segunda Liga 18/19,18/19,2018/2019,Liga_Portugal_2_18_19.parquet,Liga_Portugal_2_18_19.parquet
+Liga_Portugal_2_19_20,239,24151,Liga_Portugal_2,Liga Portugal 2,19_20,Segunda Liga 19/20,19/20,2019/2020,Liga_Portugal_2_19_20.parquet,Liga_Portugal_2_19_20.parquet
+Liga_Portugal_2_20_21,239,32474,Liga_Portugal_2,Liga Portugal 2,20_21,Segunda Liga 20/21,20/21,2020/2021,Liga_Portugal_2_20_21.parquet,Liga_Portugal_2_20_21.parquet
+Liga_Portugal_2_21_22,239,37424,Liga_Portugal_2,Liga Portugal 2,21_22,Liga Portugal 2 21/22,21/22,2021/2022,Liga_Portugal_2_21_22.parquet,Liga_Portugal_2_21_22.parquet
+Liga_Portugal_2_22_23,239,42663,Liga_Portugal_2,Liga Portugal 2,22_23,Liga Portugal 2 22/23,22/23,2022/2023,Liga_Portugal_2_22_23.parquet,Liga_Portugal_2_22_23.parquet
+Liga_Portugal_2_23_24,239,52770,Liga_Portugal_2,Liga Portugal 2,23_24,Liga Portugal 2 23/24,23/24,2023/2024,Liga_Portugal_2_23_24.parquet,Liga_Portugal_2_23_24.parquet
+Liga_Portugal_2_24_25,239,63676,Liga_Portugal_2,Liga Portugal 2,24_25,Liga Portugal 2 24/25,24/25,2024/2025,Liga_Portugal_2_24_25.parquet,Liga_Portugal_2_24_25.parquet
+Liga_Portugal_2_25_26,239,77801,Liga_Portugal_2,Liga Portugal 2,25_26,Liga Portugal 2 25/26,25/26,2025/2026,Liga_Portugal_2_25_26.parquet,Liga_Portugal_2_25_26.parquet
+Liga_Portugal_2_26_27,239,97470,Liga_Portugal_2,Liga Portugal 2,26_27,Liga Portugal 2 26/27,26/27,2026/2027,Liga_Portugal_2_26_27.parquet,Liga_Portugal_2_26_27.parquet
+Romanian_Superliga_17_18,152,13535,Romanian_Superliga,SuperLiga României,17_18,Liga I 17/18,17/18,2017/2018,Romanian_Superliga_17_18.parquet,Romanian_Superliga_17_18.parquet
+Romanian_Superliga_18_19,152,17678,Romanian_Superliga,SuperLiga României,18_19,Liga I 18/19,18/19,2018/2019,Romanian_Superliga_18_19.parquet,Romanian_Superliga_18_19.parquet
+Romanian_Superliga_19_20,152,24051,Romanian_Superliga,SuperLiga României,19_20,Liga I 19/20,19/20,2019/2020,Romanian_Superliga_19_20.parquet,Romanian_Superliga_19_20.parquet
+Romanian_Superliga_20_21,152,29376,Romanian_Superliga,SuperLiga României,20_21,Liga I 20/21,20/21,2020/2021,Romanian_Superliga_20_21.parquet,Romanian_Superliga_20_21.parquet
+Romanian_Superliga_21_22,152,37234,Romanian_Superliga,SuperLiga României,21_22,Liga I 21/22,21/22,2021/2022,Romanian_Superliga_21_22.parquet,Romanian_Superliga_21_22.parquet
+Romanian_Superliga_22_23,152,42576,Romanian_Superliga,SuperLiga României,22_23,Liga I 22/23,22/23,2022/2023,Romanian_Superliga_22_23.parquet,Romanian_Superliga_22_23.parquet
+Romanian_Superliga_23_24,152,52541,Romanian_Superliga,SuperLiga României,23_24,Liga I 23/24,23/24,2023/2024,Romanian_Superliga_23_24.parquet,Romanian_Superliga_23_24.parquet
+Romanian_Superliga_24_25,152,62837,Romanian_Superliga,SuperLiga României,24_25,Superliga 24/25,24/25,2024/2025,Romanian_Superliga_24_25.parquet,Romanian_Superliga_24_25.parquet
+Romanian_Superliga_25_26,152,77312,Romanian_Superliga,SuperLiga României,25_26,Superliga 25/26,25/26,2025/2026,Romanian_Superliga_25_26.parquet,Romanian_Superliga_25_26.parquet
+Romanian_Superliga_26_27,152,97124,Romanian_Superliga,SuperLiga României,26_27,Superliga 26/27,26/27,2026/2027,Romanian_Superliga_26_27.parquet,Romanian_Superliga_26_27.parquet
+Russian_Premier_League_17_18,203,13387,Russian_Premier_League,Russian Premier League,17_18,Premier League 17/18,17/18,2017/2018,Russian_Premier_League_17_18.parquet,Russian_Premier_League_17_18.parquet
+Russian_Premier_League_18_19,203,17753,Russian_Premier_League,Russian Premier League,18_19,Premier League 18/19,18/19,2018/2019,Russian_Premier_League_18_19.parquet,Russian_Premier_League_18_19.parquet
+Russian_Premier_League_19_20,203,23682,Russian_Premier_League,Russian Premier League,19_20,Premier League 19/20,19/20,2019/2020,Russian_Premier_League_19_20.parquet,Russian_Premier_League_19_20.parquet
+Russian_Premier_League_20_21,203,29200,Russian_Premier_League,Russian Premier League,20_21,Premier League 20/21,20/21,2020/2021,Russian_Premier_League_20_21.parquet,Russian_Premier_League_20_21.parquet
+Russian_Premier_League_21_22,203,37038,Russian_Premier_League,Russian Premier League,21_22,Premier League 21/22,21/22,2021/2022,Russian_Premier_League_21_22.parquet,Russian_Premier_League_21_22.parquet
+Russian_Premier_League_22_23,203,42388,Russian_Premier_League,Russian Premier League,22_23,Premier League 22/23,22/23,2022/2023,Russian_Premier_League_22_23.parquet,Russian_Premier_League_22_23.parquet
+Russian_Premier_League_23_24,203,52470,Russian_Premier_League,Russian Premier League,23_24,Premier League 23/24,23/24,2023/2024,Russian_Premier_League_23_24.parquet,Russian_Premier_League_23_24.parquet
+Russian_Premier_League_24_25,203,61712,Russian_Premier_League,Russian Premier League,24_25,Premier League 24/25,24/25,2024/2025,Russian_Premier_League_24_25.parquet,Russian_Premier_League_24_25.parquet
+Russian_Premier_League_25_26,203,77142,Russian_Premier_League,Russian Premier League,25_26,Premier League 25/26,25/26,2025/2026,Russian_Premier_League_25_26.parquet,Russian_Premier_League_25_26.parquet
+Russian_Premier_League_26_27,203,97023,Russian_Premier_League,Russian Premier League,26_27,Premier League 26/27,26/27,2026/2027,Russian_Premier_League_26_27.parquet,Russian_Premier_League_26_27.parquet
+Saudi_Pro_League_17_18,955,13982,Saudi_Pro_League,Saudi Pro League,17_18,Saudi Pro League 17/18,17/18,2017/2018,Saudi_Pro_League_17_18.parquet,Saudi_Pro_League_17_18.parquet
+Saudi_Pro_League_18_19,955,17906,Saudi_Pro_League,Saudi Pro League,18_19,Saudi Pro League 18/19,18/19,2018/2019,Saudi_Pro_League_18_19.parquet,Saudi_Pro_League_18_19.parquet
+Saudi_Pro_League_19_20,955,24744,Saudi_Pro_League,Saudi Pro League,19_20,Saudi Pro League 19/20,19/20,2019/2020,Saudi_Pro_League_19_20.parquet,Saudi_Pro_League_19_20.parquet
+Saudi_Pro_League_20_21,955,34459,Saudi_Pro_League,Saudi Pro League,20_21,Saudi Pro League 20/21,20/21,2020/2021,Saudi_Pro_League_20_21.parquet,Saudi_Pro_League_20_21.parquet
+Saudi_Pro_League_21_22,955,37597,Saudi_Pro_League,Saudi Pro League,21_22,Saudi Pro League 1/22,21/22,2021/2022,Saudi_Pro_League_21_22.parquet,Saudi_Pro_League_21_22.parquet
+Saudi_Pro_League_22_23,955,44908,Saudi_Pro_League,Saudi Pro League,22_23,Saudi Pro League 22/23,22/23,2022/2023,Saudi_Pro_League_22_23.parquet,Saudi_Pro_League_22_23.parquet
+Saudi_Pro_League_23_24,955,53241,Saudi_Pro_League,Saudi Pro League,23_24,Saudi Pro League 23/24,23/24,2023/2024,Saudi_Pro_League_23_24.parquet,Saudi_Pro_League_23_24.parquet
+Saudi_Pro_League_24_25,955,63998,Saudi_Pro_League,Saudi Pro League,24_25,Saudi Pro League 24/25,24/25,2024/2025,Saudi_Pro_League_24_25.parquet,Saudi_Pro_League_24_25.parquet
+Saudi_Pro_League_25_26,955,80443,Saudi_Pro_League,Saudi Pro League,25_26,Saudi Pro League 25/26,25/26,2025/2026,Saudi_Pro_League_25_26.parquet,Saudi_Pro_League_25_26.parquet
+Saudi_Pro_League_26_27,955,99275,Saudi_Pro_League,Saudi Pro League,26_27,Saudi Pro League 26/27,26/27,2026/2027,Saudi_Pro_League_26_27.parquet,Saudi_Pro_League_26_27.parquet
+Premiership_10_11,36,2752,Premiership,Scottish Premiership,10_11,Premier League 10/11,10/11,2010/2011,Premiership_10_11.parquet,Premiership_10_11.parquet
+Premiership_11_12,36,3392,Premiership,Scottish Premiership,11_12,Premier League 11/12,11/12,2011/2012,Premiership_11_12.parquet,Premiership_11_12.parquet
+Premiership_12_13,36,4728,Premiership,Scottish Premiership,12_13,Premier League 12/13,12/13,2012/2013,Premiership_12_13.parquet,Premiership_12_13.parquet
+Premiership_13_14,36,6309,Premiership,Scottish Premiership,13_14,Premier League 13/14,13/14,2013/2014,Premiership_13_14.parquet,Premiership_13_14.parquet
+Premiership_14_15,36,8190,Premiership,Scottish Premiership,14_15,Premiership 14/15,14/15,2014/2015,Premiership_14_15.parquet,Premiership_14_15.parquet
+Premiership_15_16,36,10379,Premiership,Scottish Premiership,15_16,Premiership 15/16,15/16,2015/2016,Premiership_15_16.parquet,Premiership_15_16.parquet
+Premiership_16_17,36,11743,Premiership,Scottish Premiership,16_17,Premiership 16/17,16/17,2016/2017,Premiership_16_17.parquet,Premiership_16_17.parquet
+Premiership_17_18,36,13448,Premiership,Scottish Premiership,17_18,Premiership 17/18,17/18,2017/2018,Premiership_17_18.parquet,Premiership_17_18.parquet
+Premiership_18_19,36,17364,Premiership,Scottish Premiership,18_19,Premiership 18/19,18/19,2018/2019,Premiership_18_19.parquet,Premiership_18_19.parquet
+Premiership_19_20,36,23987,Premiership,Scottish Premiership,19_20,Premiership 19/20,19/20,2019/2020,Premiership_19_20.parquet,Premiership_19_20.parquet
+Premiership_20_21,36,28212,Premiership,Scottish Premiership,20_21,Premiership 20/21,20/21,2020/2021,Premiership_20_21.parquet,Premiership_20_21.parquet
+Premiership_21_22,36,37029,Premiership,Scottish Premiership,21_22,Premiership 21/22,21/22,2021/2022,Premiership_21_22.parquet,Premiership_21_22.parquet
+Premiership_22_23,36,41957,Premiership,Scottish Premiership,22_23,Premiership 22/23,22/23,2022/2023,Premiership_22_23.parquet,Premiership_22_23.parquet
+Premiership_23_24,36,52588,Premiership,Scottish Premiership,23_24,Premiership 23/24,23/24,2023/2024,Premiership_23_24.parquet,Premiership_23_24.parquet
+Premiership_24_25,36,62408,Premiership,Scottish Premiership,24_25,Premiership 24/25,24/25,2024/2025,Premiership_24_25.parquet,Premiership_24_25.parquet
+Premiership_25_26,36,77128,Premiership,Scottish Premiership,25_26,Premiership 25/26,25/26,2025/2026,Premiership_25_26.parquet,Premiership_25_26.parquet
+Premiership_26_27,36,96658,Premiership,Scottish Premiership,26_27,Premiership 26/27,26/27,2026/2027,Premiership_26_27.parquet,Premiership_26_27.parquet
+Scottish_Championship_17_18,206,13458,Scottish_Championship,Scottish Championship,17_18,Championship 17/18,17/18,2017/2018,Scottish_Championship_17_18.parquet,Scottish_Championship_17_18.parquet
+Scottish_Championship_18_19,206,17366,Scottish_Championship,Scottish Championship,18_19,Championship 18/19,18/19,2018/2019,Scottish_Championship_18_19.parquet,Scottish_Championship_18_19.parquet
+Scottish_Championship_19_20,206,23988,Scottish_Championship,Scottish Championship,19_20,Championship 19/20,19/20,2019/2020,Scottish_Championship_19_20.parquet,Scottish_Championship_19_20.parquet
+Scottish_Championship_20_21,206,29268,Scottish_Championship,Scottish Championship,20_21,Championship 20/21,20/21,2020/2021,Scottish_Championship_20_21.parquet,Scottish_Championship_20_21.parquet
+Scottish_Championship_21_22,206,37030,Scottish_Championship,Scottish Championship,21_22,Championship 21/22,21/22,2021/2022,Scottish_Championship_21_22.parquet,Scottish_Championship_21_22.parquet
+Scottish_Championship_22_23,206,41958,Scottish_Championship,Scottish Championship,22_23,Championship 22/23,22/23,2022/2023,Scottish_Championship_22_23.parquet,Scottish_Championship_22_23.parquet
+Scottish_Championship_23_24,206,52606,Scottish_Championship,Scottish Championship,23_24,Championship 23/24,23/24,2023/2024,Scottish_Championship_23_24.parquet,Scottish_Championship_23_24.parquet
+Scottish_Championship_24_25,206,62411,Scottish_Championship,Scottish Championship,24_25,Championship 24/25,24/25,2024/2025,Scottish_Championship_24_25.parquet,Scottish_Championship_24_25.parquet
+Scottish_Championship_25_26,206,77037,Scottish_Championship,Scottish Championship,25_26,Championship 25/26,25/26,2025/2026,Scottish_Championship_25_26.parquet,Scottish_Championship_25_26.parquet
+Scottish_Championship_26_27,206,96614,Scottish_Championship,Scottish Championship,26_27,Championship 26/27,26/27,2026/2027,Scottish_Championship_26_27.parquet,Scottish_Championship_26_27.parquet
+Serbian_Superliga_17_18,210,13440,Serbian_Superliga,Mozzart Bet Superliga,17_18,Superliga 17/18,17/18,2017/2018,Serbian_Superliga_17_18.parquet,Serbian_Superliga_17_18.parquet
+Serbian_Superliga_18_19,210,17445,Serbian_Superliga,Mozzart Bet Superliga,18_19,Superliga 18/19,18/19,2018/2019,Serbian_Superliga_18_19.parquet,Serbian_Superliga_18_19.parquet
+Serbian_Superliga_19_20,210,23779,Serbian_Superliga,Mozzart Bet Superliga,19_20,Superliga 19/20,19/20,2019/2020,Serbian_Superliga_19_20.parquet,Serbian_Superliga_19_20.parquet
+Serbian_Superliga_20_21,210,28237,Serbian_Superliga,Mozzart Bet Superliga,20_21,Superliga 20/21,20/21,2020/2021,Serbian_Superliga_20_21.parquet,Serbian_Superliga_20_21.parquet
+Serbian_Superliga_21_22,210,37148,Serbian_Superliga,Mozzart Bet Superliga,21_22,Superliga 21/22,21/22,2021/2022,Serbian_Superliga_21_22.parquet,Serbian_Superliga_21_22.parquet
+Serbian_Superliga_22_23,210,42260,Serbian_Superliga,Mozzart Bet Superliga,22_23,Superliga 22/23,22/23,2022/2023,Serbian_Superliga_22_23.parquet,Serbian_Superliga_22_23.parquet
+Serbian_Superliga_23_24,210,53417,Serbian_Superliga,Mozzart Bet Superliga,23_24,Superliga 23/24,23/24,2023/2024,Serbian_Superliga_23_24.parquet,Serbian_Superliga_23_24.parquet
+Serbian_Superliga_24_25,210,61448,Serbian_Superliga,Mozzart Bet Superliga,24_25,Superliga 24/25,24/25,2024/2025,Serbian_Superliga_24_25.parquet,Serbian_Superliga_24_25.parquet
+Serbian_Superliga_25_26,210,76909,Serbian_Superliga,Mozzart Bet Superliga,25_26,Superliga 25/26,25/26,2025/2026,Serbian_Superliga_25_26.parquet,Serbian_Superliga_25_26.parquet
+Serbian_Superliga_26_27,210,96249,Serbian_Superliga,Mozzart Bet Superliga,26_27,Superliga 26/27,26/27,2026/2027,Serbian_Superliga_26_27.parquet,Serbian_Superliga_26_27.parquet
+PrvaLiga_17_18,212,13457,PrvaLiga,PrvaLiga,17_18,PrvaLiga 17/18,17/18,2017/2018,PrvaLiga_17_18.parquet,PrvaLiga_17_18.parquet
+PrvaLiga_18_19,212,17483,PrvaLiga,PrvaLiga,18_19,PrvaLiga 18/19,18/19,2018/2019,PrvaLiga_18_19.parquet,PrvaLiga_18_19.parquet
+PrvaLiga_19_20,212,23997,PrvaLiga,PrvaLiga,19_20,PrvaLiga 19/20,19/20,2019/2020,PrvaLiga_19_20.parquet,PrvaLiga_19_20.parquet
+PrvaLiga_20_21,212,29284,PrvaLiga,PrvaLiga,20_21,PrvaLiga 20/21,20/21,2020/2021,PrvaLiga_20_21.parquet,PrvaLiga_20_21.parquet
+PrvaLiga_21_22,212,37326,PrvaLiga,PrvaLiga,21_22,PrvaLiga 21/22,21/22,2021/2022,PrvaLiga_21_22.parquet,PrvaLiga_21_22.parquet
+PrvaLiga_22_23,212,42565,PrvaLiga,PrvaLiga,22_23,PrvaLiga 22/23,22/23,2022/2023,PrvaLiga_22_23.parquet,PrvaLiga_22_23.parquet
+PrvaLiga_23_24,212,52395,PrvaLiga,PrvaLiga,23_24,1. SNL 23/24,23/24,2023/2024,PrvaLiga_23_24.parquet,PrvaLiga_23_24.parquet
+PrvaLiga_24_25,212,62660,PrvaLiga,PrvaLiga,24_25,PrvaLiga 24/25,24/25,2024/2025,PrvaLiga_24_25.parquet,PrvaLiga_24_25.parquet
+PrvaLiga_25_26,212,77283,PrvaLiga,PrvaLiga,25_26,PrvaLiga 25/26,25/26,2025/2026,PrvaLiga_25_26.parquet,PrvaLiga_25_26.parquet
+PrvaLiga_26_27,212,96864,PrvaLiga,PrvaLiga,26_27,PrvaLiga 26/27,26/27,2026/2027,PrvaLiga_26_27.parquet,PrvaLiga_26_27.parquet
+La_Liga_10_11,8,2896,La_Liga,LaLiga,10_11,Liga BBVA 10/11,10/11,2010/2011,La_Liga_10_11.parquet,La_Liga_10_11.parquet
+La_Liga_11_12,8,3502,La_Liga,LaLiga,11_12,Primera Division 11/12,11/12,2011/2012,La_Liga_11_12.parquet,La_Liga_11_12.parquet
+La_Liga_12_13,8,4959,La_Liga,LaLiga,12_13,Primera Division 12/13,12/13,2012/2013,La_Liga_12_13.parquet,La_Liga_12_13.parquet
+La_Liga_13_14,8,6559,La_Liga,LaLiga,13_14,Primera Division 13/14,13/14,2013/2014,La_Liga_13_14.parquet,La_Liga_13_14.parquet
+La_Liga_14_15,8,8578,La_Liga,LaLiga,14_15,Primera Division 14/15,14/15,2014/2015,La_Liga_14_15.parquet,La_Liga_14_15.parquet
+La_Liga_15_16,8,10495,La_Liga,LaLiga,15_16,Primera Division 15/16,15/16,2015/2016,La_Liga_15_16.parquet,La_Liga_15_16.parquet
+La_Liga_16_17,8,11906,La_Liga,LaLiga,16_17,LaLiga 16/17,16/17,2016/2017,La_Liga_16_17.parquet,La_Liga_16_17.parquet
+La_Liga_17_18,8,13662,La_Liga,LaLiga,17_18,LaLiga 17/18,17/18,2017/2018,La_Liga_17_18.parquet,La_Liga_17_18.parquet
+La_Liga_18_19,8,18020,La_Liga,LaLiga,18_19,LaLiga 18/19,18/19,2018/2019,La_Liga_18_19.parquet,La_Liga_18_19.parquet
+La_Liga_19_20,8,24127,La_Liga,LaLiga,19_20,LaLiga 19/20,19/20,2019/2020,La_Liga_19_20.parquet,La_Liga_19_20.parquet
+La_Liga_20_21,8,32501,La_Liga,LaLiga,20_21,LaLiga 20/21,20/21,2020/2021,La_Liga_20_21.parquet,La_Liga_20_21.parquet
+La_Liga_21_22,8,37223,La_Liga,LaLiga,21_22,LaLiga 21/22,21/22,2021/2022,La_Liga_21_22.parquet,La_Liga_21_22.parquet
+La_Liga_22_23,8,42409,La_Liga,LaLiga,22_23,LaLiga 22/23,22/23,2022/2023,La_Liga_22_23.parquet,La_Liga_22_23.parquet
+La_Liga_23_24,8,52376,La_Liga,LaLiga,23_24,LaLiga 23/24,23/24,2023/2024,La_Liga_23_24.parquet,La_Liga_23_24.parquet
+La_Liga_24_25,8,61643,La_Liga,LaLiga,24_25,LaLiga 24/25,24/25,2024/2025,La_Liga_24_25.parquet,La_Liga_24_25.parquet
+La_Liga_25_26,8,77559,La_Liga,LaLiga,25_26,LaLiga 25/26,25/26,2025/2026,La_Liga_25_26.parquet,La_Liga_25_26.parquet
+La_Liga_26_27,8,97268,La_Liga,LaLiga,26_27,LaLiga 26/27,26/27,2026/2027,La_Liga_26_27.parquet,La_Liga_26_27.parquet
+La_Liga_2_10_11,54,2897,La_Liga_2,LaLiga 2,10_11,Liga Adelante 10/11,10/11,2010/2011,La_Liga_2_10_11.parquet,La_Liga_2_10_11.parquet
+La_Liga_2_11_12,54,3503,La_Liga_2,LaLiga 2,11_12,Segunda Division 11/12,11/12,2011/2012,La_Liga_2_11_12.parquet,La_Liga_2_11_12.parquet
+La_Liga_2_12_13,54,4963,La_Liga_2,LaLiga 2,12_13,Segunda Division 12/13,12/13,2012/2013,La_Liga_2_12_13.parquet,La_Liga_2_12_13.parquet
+La_Liga_2_13_14,54,6767,La_Liga_2,LaLiga 2,13_14,Segunda Division 13/14,13/14,2013/2014,La_Liga_2_13_14.parquet,La_Liga_2_13_14.parquet
+La_Liga_2_14_15,54,8580,La_Liga_2,LaLiga 2,14_15,Segunda Division 14/15,14/15,2014/2015,La_Liga_2_14_15.parquet,La_Liga_2_14_15.parquet
+La_Liga_2_15_16,54,10500,La_Liga_2,LaLiga 2,15_16,Segunda Division 15/16,15/16,2015/2016,La_Liga_2_15_16.parquet,La_Liga_2_15_16.parquet
+La_Liga_2_16_17,54,11913,La_Liga_2,LaLiga 2,16_17,Segunda Division 16/17,16/17,2016/2017,La_Liga_2_16_17.parquet,La_Liga_2_16_17.parquet
+La_Liga_2_17_18,54,13670,La_Liga_2,LaLiga 2,17_18,La Liga 2 17/18,17/18,2017/2018,La_Liga_2_17_18.parquet,La_Liga_2_17_18.parquet
+La_Liga_2_18_19,54,18034,La_Liga_2,LaLiga 2,18_19,LaLiga 2 18/19,18/19,2018/2019,La_Liga_2_18_19.parquet,La_Liga_2_18_19.parquet
+La_Liga_2_19_20,54,24149,La_Liga_2,LaLiga 2,19_20,LaLiga 2 19/20,19/20,2019/2020,La_Liga_2_19_20.parquet,La_Liga_2_19_20.parquet
+La_Liga_2_20_21,54,32502,La_Liga_2,LaLiga 2,20_21,LaLiga 2 20/21,20/21,2020/2021,La_Liga_2_20_21.parquet,La_Liga_2_20_21.parquet
+La_Liga_2_21_22,54,37225,La_Liga_2,LaLiga 2,21_22,LaLiga 2 21/22,21/22,2021/2022,La_Liga_2_21_22.parquet,La_Liga_2_21_22.parquet
+La_Liga_2_22_23,54,42410,La_Liga_2,LaLiga 2,22_23,LaLiga 2 22/23,22/23,2022/2023,La_Liga_2_22_23.parquet,La_Liga_2_22_23.parquet
+La_Liga_2_23_24,54,52563,La_Liga_2,LaLiga 2,23_24,LaLiga 2 23/24,23/24,2023/2024,La_Liga_2_23_24.parquet,La_Liga_2_23_24.parquet
+La_Liga_2_24_25,54,62048,La_Liga_2,LaLiga 2,24_25,LaLiga 2 24/25,24/25,2024/2025,La_Liga_2_24_25.parquet,La_Liga_2_24_25.parquet
+La_Liga_2_25_26,54,77558,La_Liga_2,LaLiga 2,25_26,LaLiga 2 25/26,25/26,2025/2026,La_Liga_2_25_26.parquet,La_Liga_2_25_26.parquet
+La_Liga_2_26_27,54,97280,La_Liga_2,LaLiga 2,26_27,LaLiga 2 26/27,26/27,2026/2027,La_Liga_2_26_27.parquet,La_Liga_2_26_27.parquet
+Allsvenskan_17_17,40,12836,Allsvenskan,Allsvenskan,17_17,Allsvenskan 2017,2017,2017,Allsvenskan_17_17.parquet,Allsvenskan_17_17.parquet
+Allsvenskan_18_18,40,15731,Allsvenskan,Allsvenskan,18_18,Allsvenskan 2018,2018,2018,Allsvenskan_18_18.parquet,Allsvenskan_18_18.parquet
+Allsvenskan_19_19,40,19949,Allsvenskan,Allsvenskan,19_19,Allsvenskan 2019,2019,2019,Allsvenskan_19_19.parquet,Allsvenskan_19_19.parquet
+Allsvenskan_20_20,40,26784,Allsvenskan,Allsvenskan,20_20,Allsvenskan 2020,2020,2020,Allsvenskan_20_20.parquet,Allsvenskan_20_20.parquet
+Allsvenskan_21_21,40,35306,Allsvenskan,Allsvenskan,21_21,Allsvenskan 2021,2021,2021,Allsvenskan_21_21.parquet,Allsvenskan_21_21.parquet
+Allsvenskan_22_22,40,40406,Allsvenskan,Allsvenskan,22_22,Allsvenskan 2022,2022,2022,Allsvenskan_22_22.parquet,Allsvenskan_22_22.parquet
+Allsvenskan_23_23,40,47730,Allsvenskan,Allsvenskan,23_23,Allsvenskan 2023,2023,2023,Allsvenskan_23_23.parquet,Allsvenskan_23_23.parquet
+Allsvenskan_24_24,40,57284,Allsvenskan,Allsvenskan,24_24,Allsvenskan 2024,2024,2024,Allsvenskan_24_24.parquet,Allsvenskan_24_24.parquet
+Allsvenskan_25_25,40,69956,Allsvenskan,Allsvenskan,25_25,Allsvenskan 2025,2025,2025,Allsvenskan_25_25.parquet,Allsvenskan_25_25.parquet
+Allsvenskan_26_26,40,87925,Allsvenskan,Allsvenskan,26_26,Allsvenskan 2026,2026,2026,Allsvenskan_26_26.parquet,Allsvenskan_26_26.parquet
+Swiss_Super_League_17_18,215,13426,Swiss_Super_League,Swiss Super League,17_18,Super League 17/18,17/18,2017/2018,Swiss_Super_League_17_18.parquet,Swiss_Super_League_17_18.parquet
+Swiss_Super_League_18_19,215,17465,Swiss_Super_League,Swiss Super League,18_19,Super League 18/19,18/19,2018/2019,Swiss_Super_League_18_19.parquet,Swiss_Super_League_18_19.parquet
+Swiss_Super_League_19_20,215,23982,Swiss_Super_League,Swiss Super League,19_20,Super League 19/20,19/20,2019/2020,Swiss_Super_League_19_20.parquet,Swiss_Super_League_19_20.parquet
+Swiss_Super_League_20_21,215,32512,Swiss_Super_League,Swiss Super League,20_21,Super League 20/21,20/21,2020/2021,Swiss_Super_League_20_21.parquet,Swiss_Super_League_20_21.parquet
+Swiss_Super_League_21_22,215,37158,Swiss_Super_League,Swiss Super League,21_22,Super League 21/22,21/22,2021/2022,Swiss_Super_League_21_22.parquet,Swiss_Super_League_21_22.parquet
+Swiss_Super_League_22_23,215,42276,Swiss_Super_League,Swiss Super League,22_23,Super League 22/23,22/23,2022/2023,Swiss_Super_League_22_23.parquet,Swiss_Super_League_22_23.parquet
+Swiss_Super_League_23_24,215,52366,Swiss_Super_League,Swiss Super League,23_24,Super League 23/24,23/24,2023/2024,Swiss_Super_League_23_24.parquet,Swiss_Super_League_23_24.parquet
+Swiss_Super_League_24_25,215,61658,Swiss_Super_League,Swiss Super League,24_25,Super League 24/25,24/25,2024/2025,Swiss_Super_League_24_25.parquet,Swiss_Super_League_24_25.parquet
+Swiss_Super_League_25_26,215,77152,Swiss_Super_League,Swiss Super League,25_26,Super League 25/26,25/26,2025/2026,Swiss_Super_League_25_26.parquet,Swiss_Super_League_25_26.parquet
+Swiss_Super_League_26_27,215,96589,Swiss_Super_League,Swiss Super League,26_27,Super League 26/27,26/27,2026/2027,Swiss_Super_League_26_27.parquet,Swiss_Super_League_26_27.parquet
+Super_Lig_17_18,52,13575,Super_Lig,Trendyol Süper Lig,17_18,Super Lig 17/18,17/18,2017/2018,Super_Lig_17_18.parquet,Super_Lig_17_18.parquet
+Super_Lig_18_19,52,17762,Super_Lig,Trendyol Süper Lig,18_19,Super Lig 18/19,18/19,2018/2019,Super_Lig_18_19.parquet,Super_Lig_18_19.parquet
+Super_Lig_19_20,52,24407,Super_Lig,Trendyol Süper Lig,19_20,Super Lig 19/20,19/20,2019/2020,Super_Lig_19_20.parquet,Super_Lig_19_20.parquet
+Super_Lig_20_21,52,29506,Super_Lig,Trendyol Süper Lig,20_21,Super Lig 20/21,20/21,2020/2021,Super_Lig_20_21.parquet,Super_Lig_20_21.parquet
+Super_Lig_21_22,52,37466,Super_Lig,Trendyol Süper Lig,21_22,Super Lig 21/22,21/22,2021/2022,Super_Lig_21_22.parquet,Super_Lig_21_22.parquet
+Super_Lig_22_23,52,42632,Super_Lig,Trendyol Süper Lig,22_23,Super Lig 22/23,22/23,2022/2023,Super_Lig_22_23.parquet,Super_Lig_22_23.parquet
+Super_Lig_23_24,52,53190,Super_Lig,Trendyol Süper Lig,23_24,Super Lig 23/24,23/24,2023/2024,Super_Lig_23_24.parquet,Super_Lig_23_24.parquet
+Super_Lig_24_25,52,63814,Super_Lig,Trendyol Süper Lig,24_25,Super Lig 24/25,24/25,2024/2025,Super_Lig_24_25.parquet,Super_Lig_24_25.parquet
+Super_Lig_25_26,52,77805,Super_Lig,Trendyol Süper Lig,25_26,Super Lig 25/26,25/26,2025/2026,Super_Lig_25_26.parquet,Super_Lig_25_26.parquet
+Super_Lig_26_27,52,98080,Super_Lig,Trendyol Süper Lig,26_27,Super Lig 26/27,26/27,2026/2027,Super_Lig_26_27.parquet,Super_Lig_26_27.parquet
+Ukrainian_Premier_League_17_18,218,13336,Ukrainian_Premier_League,Ukrainian Premier League,17_18,Premier League 17/18,17/18,2017/2018,Ukrainian_Premier_League_17_18.parquet,Ukrainian_Premier_League_17_18.parquet
+Ukrainian_Premier_League_18_19,218,17356,Ukrainian_Premier_League,Ukrainian Premier League,18_19,Premier League 18/19,18/19,2018/2019,Ukrainian_Premier_League_18_19.parquet,Ukrainian_Premier_League_18_19.parquet
+Ukrainian_Premier_League_19_20,218,23995,Ukrainian_Premier_League,Ukrainian Premier League,19_20,Premier League 19/20,19/20,2019/2020,Ukrainian_Premier_League_19_20.parquet,Ukrainian_Premier_League_19_20.parquet
+Ukrainian_Premier_League_20_21,218,29387,Ukrainian_Premier_League,Ukrainian Premier League,20_21,Premier League 20/21,20/21,2020/2021,Ukrainian_Premier_League_20_21.parquet,Ukrainian_Premier_League_20_21.parquet
+Ukrainian_Premier_League_21_22,218,37040,Ukrainian_Premier_League,Ukrainian Premier League,21_22,Premier League 21/22,21/22,2021/2022,Ukrainian_Premier_League_21_22.parquet,Ukrainian_Premier_League_21_22.parquet
+Ukrainian_Premier_League_22_23,218,45034,Ukrainian_Premier_League,Ukrainian Premier League,22_23,Premier League 22/23,22/23,2022/2023,Ukrainian_Premier_League_22_23.parquet,Ukrainian_Premier_League_22_23.parquet
+Ukrainian_Premier_League_23_24,218,52774,Ukrainian_Premier_League,Ukrainian Premier League,23_24,Premier League 23/24,23/24,2023/2024,Ukrainian_Premier_League_23_24.parquet,Ukrainian_Premier_League_23_24.parquet
+Ukrainian_Premier_League_24_25,218,62656,Ukrainian_Premier_League,Ukrainian Premier League,24_25,Premier League 24/25,24/25,2024/2025,Ukrainian_Premier_League_24_25.parquet,Ukrainian_Premier_League_24_25.parquet
+Ukrainian_Premier_League_25_26,218,77625,Ukrainian_Premier_League,Ukrainian Premier League,25_26,Premier League 25/26,25/26,2025/2026,Ukrainian_Premier_League_25_26.parquet,Ukrainian_Premier_League_25_26.parquet
+Ukrainian_Premier_League_26_27,218,97214,Ukrainian_Premier_League,Ukrainian Premier League,26_27,Premier League 26/27,26/27,2026/2027,Ukrainian_Premier_League_26_27.parquet,Ukrainian_Premier_League_26_27.parquet
+MLS_17_17,242,12825,MLS,MLS,17_17,Major League Soccer 2017,2017,2017,MLS_17_17.parquet,MLS_17_17.parquet
+MLS_18_18,242,15813,MLS,MLS,18_18,Major League Soccer 2018,2018,2018,MLS_18_18.parquet,MLS_18_18.parquet
+MLS_19_19,242,20108,MLS,MLS,19_19,Major League Soccer 2019,2019,2019,MLS_19_19.parquet,MLS_19_19.parquet
+MLS_20_20,242,26780,MLS,MLS,20_20,MLS 2020,2020,2020,MLS_20_20.parquet,MLS_20_20.parquet
+MLS_21_21,242,35964,MLS,MLS,21_21,Major League Soccer 2021,2021,2021,MLS_21_21.parquet,MLS_21_21.parquet
+MLS_22_22,242,40071,MLS,MLS,22_22,Major League Soccer 2022,2022,2022,MLS_22_22.parquet,MLS_22_22.parquet
+MLS_23_23,242,47955,MLS,MLS,23_23,Major League Soccer 2023,2023,2023,MLS_23_23.parquet,MLS_23_23.parquet
+MLS_24_24,242,57317,MLS,MLS,24_24,MLS 2024,2024,2024,MLS_24_24.parquet,MLS_24_24.parquet
+MLS_25_25,242,70158,MLS,MLS,25_25,MLS 2025,2025,2025,MLS_25_25.parquet,MLS_25_25.parquet
+MLS_26_26,242,86668,MLS,MLS,26_26,MLS 2026,2026,2026,MLS_26_26.parquet,MLS_26_26.parquet

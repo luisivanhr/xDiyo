@@ -276,6 +276,9 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     for column in ('home_name', 'away_name'):
         if column not in names:
             names = names.assign(**{column: pd.NA})
+        display = column.removesuffix('_name') + '_display_name'
+        if display in names:
+            names = names.assign(**{column: names[display]})
     team_catalog = TeamCatalog.from_matches(names)
     if recipe.get('team_badges'):
         badge_path = Path(recipe['team_badges'])

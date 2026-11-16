@@ -179,11 +179,19 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
     if "statistics" in frames:
         _check_statistics(frames["statistics"], frames.get("matches"))
     excluded = []
+    integration = source.manifest.get('native_integration')
+    if integration:
+        from .native_integration import attach_integration, validate_integration
+        validate_integration(integration, source.manifest['scope'])
+        if 'matches' in frames:
+            frames['matches'] = attach_integration(frames['matches'], integration)
     matches = frames.get("matches")
     if not include_awarded:
         if matches is None and any("event_id" in frame and not frame.empty for frame in frames.values()):
             matches = _read_table(source, "matches", verify_hashes)
             _check_matches(matches, source.manifest["scope"])
+            if integration:
+                matches = attach_integration(matches, integration)
         if matches is not None and "is_awarded" in matches:
             excluded = matches.loc[matches.is_awarded.eq(True).fillna(False), "event_id"].tolist()
             if excluded:
@@ -193,6 +201,10 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
                 "manifest_path": str(source.path), "tables": tuple(tables),
                 "include_awarded": include_awarded, "excluded_awarded_event_ids": excluded,
                 "awarded_flag_available": matches is not None and "is_awarded" in matches}
+    if integration:
+        provenance['native_integration'] = {k:integration[k] for k in
+            ('policy','competition','season','rules','coverage','availability') if k in integration}
+        provenance['native_integration']['manifest_sha256'] = source.record['manifest_sha256']
     if '/_tables/cohorts/' in source.path.as_posix():
         provenance['shared_provider_identity'] = True
     if enrichment is not None:

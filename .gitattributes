@@ -1,5 +1,5 @@
 # Published checksums describe exact bytes; do not rewrite them on checkout.
-data/xDiyo_data/** -text
+data/xDiyo_data/** -text whitespace=cr-at-eol
 # Frozen GAT audit references are verified against supplied SHA-256 hashes.
 tests/analytics/reference/gat_*_11ffa446.txt -text
 # The standalone viewer preserves the supplied stylesheet and its SHA-256.
@@ -74,3 +74,11 @@ src/xdiyo_analytics/data/season_calendar.py text eol=lf
 src/xdiyo_analytics/data/loading.py text eol=lf
 src/xdiyo_analytics/histories/team.py text eol=lf
 tests/analytics/test_library_consolidation.py text eol=lf
+
+# Native integration evidence and verification scripts bind exact bytes.
+docs/analytics/native_integration_20261116/** -text whitespace=cr-at-eol
+docs/analytics/native_integration_20261116/*.log -whitespace
+examples/audit_native_identity_20261116.py text eol=lf
+examples/integrate_native_20261116.py text eol=lf
+examples/verify_native_integration_20261116.py text eol=lf
+examples/refresh_recipe_data.py text eol=lf
