@@ -197,6 +197,13 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
         provenance['shared_provider_identity'] = True
     if enrichment is not None:
         provenance['team_seasons'] = enrichment[1]
+    if 'season_calendar' in source.manifest:
+        from .season_calendar import attach_calendar, validate_calendar
+        calendar = source.manifest['season_calendar']
+        validate_calendar(calendar, source.manifest['scope'])
+        provenance['season_calendar'] = calendar
+        if 'matches' in frames:
+            frames['matches'] = attach_calendar(frames['matches'], calendar)
     for name, frame in frames.items():
         frame.attrs["source"] = {**provenance, "table": name}
     source.save()

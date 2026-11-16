@@ -65,3 +65,12 @@ docs/analytics/dataset-catalogue/*.log -whitespace
 data/fixture_rounds/** -text -whitespace
 docs/analytics/fixture-rounds-v59-validation/** -text -whitespace
 docs/analytics/round-team-integration/** -text -whitespace
+
+# Native expansion receipts bind exact source and observation bytes.
+docs/analytics/data/library_*20261116.* -text whitespace=cr-at-eol
+examples/prepare_library_20261116.py text eol=lf
+examples/verify_library_20261116.py text eol=lf
+src/xdiyo_analytics/data/season_calendar.py text eol=lf
+src/xdiyo_analytics/data/loading.py text eol=lf
+src/xdiyo_analytics/histories/team.py text eol=lf
+tests/analytics/test_library_consolidation.py text eol=lf

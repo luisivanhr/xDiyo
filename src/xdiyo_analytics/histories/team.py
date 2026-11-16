@@ -68,6 +68,7 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
 
     context = keys + [name for name in (
         "competition_id", "tournament_id", "season_id", "season_year", "round", "season_phase",
+        "annual_league", "annual_season", "annual_phase", "season_half",
         "status", "status_code", "is_awarded", "provider_is_awarded",
         "play_status", "completion_date", "result_available_at", "result_review_json",
         "stage_json", "standings_table_id", "standings_rule", "standings_result_available_at",

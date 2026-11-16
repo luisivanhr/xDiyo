@@ -1,0 +1,87 @@
+{
+  "script_sha256": "9ecc766ebaee386e4ca063b9c548dfe4c1456cba3841b3a9f413bc3c4e4dcd59",
+  "source_hashes": {
+    "src/xdiyo_analytics/data/season_calendar.py": "ec3985af26379aaff02273026816d88e89a61564ae8bf4e71b6ab13c1458a37b",
+    "src/xdiyo_analytics/data/loading.py": "4d35b5da777647f83a0f3f7a61b7f33aa2099a1bb238df1d7da5d8df308008ba",
+    "src/xdiyo_analytics/histories/team.py": "5bd7bef9952cf3addf46f600410a7514bb4e41d7f81fc5f21694e1a0173f75d4",
+    "examples/prepare_library_20261116.py": "37ee66f362a808ddbf77ac57970add5a1901b69fdd76f3d5de987ba01c4bb843",
+    "tests/analytics/test_library_consolidation.py": "f6f4808b743a61183f131c3f3641d5d60a62595ca0c84475845c551cc113f330"
+  },
+  "publication_receipt_sha256": "65d1f2ad05f49ba3bef1e0ffbcf1557cefe6abc7262d00cbc1118ebd0090b87e",
+  "validated_publications": 617,
+  "validated_matches": 172274,
+  "checks": [
+    {
+      "stem": "Greek_Super_League_20_21",
+      "matches": 182,
+      "team_rows": 364,
+      "feature_rows": 364,
+      "assembled_rows": 182,
+      "columns": [
+        "home::promoted",
+        "home::relegated",
+        "away::promoted",
+        "away::relegated"
+      ],
+      "source_manifest_sha256": "abe3a67feb9b0f0a5cf920db8e61286b2a7b8fd54f9fab6bfecc414749eabc5e"
+    },
+    {
+      "stem": "Colombia_Primera_A_Apertura_21_21",
+      "matches": 171,
+      "team_rows": 342,
+      "feature_rows": 342,
+      "assembled_rows": 171,
+      "columns": [
+        "home::promoted",
+        "home::relegated",
+        "away::promoted",
+        "away::relegated"
+      ],
+      "source_manifest_sha256": "0cae17278fa20dde27eacd8103e1771afa79bddec14fe03f0cdd05f57f072d9b"
+    },
+    {
+      "stem": "Colombia_Primera_A_Clausura_21_21",
+      "matches": 200,
+      "team_rows": 400,
+      "feature_rows": 400,
+      "assembled_rows": 200,
+      "columns": [
+        "home::promoted",
+        "home::relegated",
+        "away::promoted",
+        "away::relegated"
+      ],
+      "source_manifest_sha256": "99aa28c8f89c8e86aaad579aa388e3d8d205780210114cafbb7ddd19cd2426c5"
+    },
+    {
+      "stem": "Brazil_Serie_B_17_17",
+      "matches": 380,
+      "team_rows": 760,
+      "feature_rows": 760,
+      "assembled_rows": 380,
+      "columns": [
+        "home::promoted",
+        "home::relegated",
+        "away::promoted",
+        "away::relegated"
+      ],
+      "source_manifest_sha256": "2b6b95279ddfea2cac94edd92b0f239ad2a56ff419fd604669a2981ae81c3893"
+    },
+    {
+      "stem": "Liga_Profesional_26_26",
+      "matches": 480,
+      "team_rows": 960,
+      "feature_rows": 960,
+      "assembled_rows": 480,
+      "columns": [
+        "home::promoted",
+        "home::relegated",
+        "away::promoted",
+        "away::relegated"
+      ],
+      "source_manifest_sha256": "29fa49db693de43854d234664ad93aa4283d488e8d8c79ffc43eaa8f6b4dbf2d"
+    }
+  ],
+  "japan_2016_countdown_parity_rows": 612,
+  "combined_colombia_2017_matches": 400
+}

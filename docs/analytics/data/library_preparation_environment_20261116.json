@@ -1,0 +1,30 @@
+{
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\luisi\\Documents\\Programming\\Python\\.misc314\\Scripts\\python.exe",
+  "pandas": "2.3.3",
+  "pyarrow": "22.0.0",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "test_suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "236",
+    "time": "16.696",
+    "timestamp": "2026-11-16T20:15:51.412753+09:00",
+    "hostname": "Ivan-tachi"
+  },
+  "test_receipt_sha256": "1d249442ff0409916e21ce757236278202505a0f308f0fe807b2c038bf1c7a50",
+  "verification_receipt_sha256": "e50b1c03f469e39261bd2dc09e7f03deaf15f7d8f63b9685d6d5a7145cca4241",
+  "commands": [
+    "python examples/prepare_library_20261116.py --apply",
+    "python examples/verify_library_20261116.py",
+    "python -m pytest tests/analytics/test_library_consolidation.py tests/analytics/test_movement_enrichment.py tests/analytics/test_movement_review.py tests/analytics/test_mexico_enrichment.py tests/analytics/test_japan_enrichment.py tests/analytics/test_loading.py tests/analytics/test_awarded_loading.py tests/analytics/test_team_history.py tests/analytics/test_fixture_assembly.py tests/analytics/test_selection.py tests/analytics/test_recipe_refresh.py tests/analytics/test_season_countdown.py -q --junitxml=docs/analytics/data/library_preparation_tests_20261116.xml"
+  ],
+  "notes": [
+    "Recipe refresh hard-link tests require normal Windows permissions; sandbox denial was resolved by rerunning unchanged tests outside the sandbox.",
+    "No training or collector operations were performed.",
+    "Existing older Snappy observation files preserved byte-for-byte; all new enrichment/rewrites use ZSTD.",
+    "Pre-push source line endings normalized to LF; final whole-publication verifier rerun with exact committed-byte source hashes. Python source text is unchanged."
+  ]
+}
