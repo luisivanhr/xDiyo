@@ -1,0 +1,14 @@
+{
+  "eligible": 3629,
+  "matched": 3629,
+  "unresolved": 0,
+  "mapping_basis": {
+    "exact_sofascore_id_and_kickoff_within_one_hour": 2957,
+    "team_ids_learned_from_exact_external_matches_and_kickoff_within_one_hour": 665,
+    "reviewed_exact_teams_and_kickoff_conflicting_external_id": 6,
+    "reviewed_exact_external_id_and_teams_kickoff_disagreement": 1
+  },
+  "gaps_by_league": {},
+  "bookmakers": 366,
+  "planned_requests": 442738
+}

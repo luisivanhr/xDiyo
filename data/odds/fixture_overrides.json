@@ -1,0 +1,92 @@
+[
+  {
+    "vendor_match_id": "56465",
+    "event_id": "7827147",
+    "source_league": "Eredivisie",
+    "source_season": "18_19",
+    "vendor_scheduled_at": "2019-04-29 20:00:00",
+    "native_kickoff_at": "2019-04-24 17:45:00+00:00",
+    "reason": "Suspended on 24 April; resumed 29 April 2019",
+    "evidence": "https://peczwolle.nl/nieuws/duel-pec-zwolle-fc-groningen-gestaakt"
+  },
+  {
+    "vendor_match_id": "55638",
+    "event_id": "9564565",
+    "source_league": "Eredivisie",
+    "source_season": "21_22",
+    "vendor_scheduled_at": "2022-04-19 18:45:00",
+    "native_kickoff_at": "2022-03-04 19:00:00+00:00",
+    "reason": "Suspended on 4 March; resumed 19 April 2022",
+    "evidence": "https://nos.nl/artikel/2425734-sparta-houdt-stand-in-resterende-374-seconden-en-boekt-belangrijke-zege-op-vitesse"
+  },
+  {
+    "vendor_match_id": "55299",
+    "event_id": "10382035",
+    "source_league": "Eredivisie",
+    "source_season": "22_23",
+    "vendor_scheduled_at": "2023-05-16 15:00:00",
+    "native_kickoff_at": "2023-05-14 12:30:00+00:00",
+    "reason": "Suspended on 14 May; resumed 16 May 2023",
+    "evidence": "https://www.knvb.nl/nieuws/betaald-voetbal/eredivisie/67697/fc-groningen-ajax-op-dinsdag-16-mei-uitgespeeld"
+  },
+  {
+    "vendor_match_id": "55317",
+    "event_id": "10382295",
+    "source_league": "Eredivisie",
+    "source_season": "22_23",
+    "vendor_scheduled_at": "2023-04-25 15:00:00",
+    "native_kickoff_at": "2023-04-22 18:00:00+00:00",
+    "reason": "Suspended on 22 April; resumed 25 April 2023",
+    "evidence": "https://www.knvb.nl/nieuws/betaald-voetbal/eredivisie/67643/fc-groningen-%E2%80%93-nec-op-dinsdag-25-april-uitgespeeld"
+  },
+  {
+    "vendor_match_id": "85690",
+    "event_id": "9565060",
+    "source_league": "Pro_League",
+    "source_season": "21_22",
+    "vendor_scheduled_at": "2022-01-18 20:00:00",
+    "native_kickoff_at": "2022-01-15 17:30:00+00:00",
+    "reason": "Suspended on 15 January; resumed 18 January 2022",
+    "evidence": "https://www.bruzz.be/sport/seraing-union-gestaakt-door-dichte-mist-tweede-helft-op-18-januari-2022-01-15"
+  },
+  {
+    "vendor_match_id": "85876",
+    "event_id": "9617448",
+    "source_league": "Pro_League",
+    "source_season": "21_22",
+    "vendor_scheduled_at": "2021-07-27 20:00:00",
+    "native_kickoff_at": "2021-07-24 16:30:00+00:00",
+    "reason": "Suspended on 24 July; resumed 27 July 2021",
+    "evidence": "https://www.nieuwsblad.be/sport/voetbal/regen-boven-het-kiel-maakt-vroegtijdig-einde-aan-beerschot-%E2%80%93-cercle-dinsdagavond-worden-laatste-35-minuten-afgewerkt/56238331.html"
+  },
+  {
+    "vendor_match_id": "10560",
+    "event_id": "7141993",
+    "source_league": "Serie_A",
+    "source_season": "16_17",
+    "vendor_scheduled_at": "2016-12-15 20:00:00",
+    "native_kickoff_at": "2016-09-11 13:00:00+00:00",
+    "reason": "Suspended on 11 September; resumed 15 December 2016",
+    "evidence": "https://www.rainews.it/archivio-rainews/articoli/Serie-A-Lazovic-stende-la-Fiorentina-Il-Genoa-vince-1-0-il-recupero-cddfba42-6915-4578-a452-b9e6ced1c29e.html"
+  },
+  {
+    "vendor_match_id": "42151",
+    "event_id": "7897260",
+    "source_league": "La_Liga_2",
+    "source_season": "18_19",
+    "vendor_scheduled_at": "2018-10-15 16:00:00",
+    "native_kickoff_at": "2018-10-14 16:00:00+00:00",
+    "reason": "Suspended on 14 October; resumed 15 October 2018",
+    "evidence": "https://gimnasticdetarragona.cat/nastic-ad-alcorcon-2/"
+  },
+  {
+    "vendor_match_id": "48870",
+    "event_id": "8993617",
+    "source_league": "Serie_B",
+    "source_season": "20_21",
+    "vendor_scheduled_at": "2020-11-01 14:00:00",
+    "native_kickoff_at": "2020-10-31 15:00:00+00:00",
+    "reason": "Suspended on 31 October; resumed 1 November 2020",
+    "evidence": "https://www.pianetaserieb.it/news/101291822598/ufficiale-venezia-empoli-proseguira-domani"
+  }
+]

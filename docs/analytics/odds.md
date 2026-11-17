@@ -6,9 +6,13 @@ league-season pairs present in the native data directory's manifest filenames.
 The caller chooses the seasons explicitly. The current extraction includes all
 matching seasons through **2026/27**, including the partial current season.
 
-The purchased data lives under `data/odds/database/`, which is excluded from Git.
-The extraction code and documentation can be shared without sharing the data.
-The original workbooks remain unchanged.
+The reviewed extraction is published under
+`data/odds/footiqo/29a84259c0b8a53578d8b6bc/`, with fixture mappings and
+source manifests. The separate OddsPapi archive is published using Git LFS and
+is explicitly incomplete. See [published data](../../data/odds/README.md) for
+coverage, loading instructions and integrity verification. Original workbooks,
+account state and download recovery parts remain local. `data/odds/database/`
+in the extraction example below is an optional local output directory.
 
 ## Extract and load
 

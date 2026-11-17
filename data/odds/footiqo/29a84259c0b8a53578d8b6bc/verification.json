@@ -1,0 +1,15 @@
+{
+  "snapshot": "29a84259c0b8a53578d8b6bc",
+  "league_season_pairs": 135,
+  "source_sheet_partitions": 277,
+  "files": 6946,
+  "bytes": 56646944,
+  "unique_provider_matches": 45695,
+  "counts": {
+    "fixtures": 97039,
+    "quotes_valid": 2121796,
+    "quotes_missing": 116754,
+    "quotes_invalid_decimal_odds": 2
+  },
+  "verified": "All payload hashes, row counts, price states, unique market keys and fixture/quote identities checked."
+}

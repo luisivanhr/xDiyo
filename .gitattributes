@@ -102,3 +102,7 @@ examples/verify_native_preflight_20261116.py text eol=lf
 docs/analytics/native_preflight_20261116/** -text whitespace=cr-at-eol
 docs/analytics/native_preflight_20261116/*.log -whitespace
 examples/verify_native_query_loading_20261116.py text eol=lf
+
+# Odds manifests bind exact bytes. Keep the large price archive in Git LFS.
+data/odds/** -text whitespace=cr-at-eol
+data/odds/oddspapi/20261028/historical_odds.parquet filter=lfs diff=lfs merge=lfs -text

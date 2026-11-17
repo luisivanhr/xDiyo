@@ -1,0 +1,16 @@
+{
+  "crosswalk_version": 1,
+  "version": "2d830f97d6799add94b50663",
+  "snapshot": "29a84259c0b8a53578d8b6bc",
+  "snapshot_manifest_sha256": "c8e64221b576e3b7547866cb07057e8c9230692a2189327034294d470713f144",
+  "files": [
+    {
+      "path": "fixtures.parquet",
+      "sha256": "7ad37ff66da9d8759f1457ec56195f243277946bc50fe07245a6676e9e6c6fc2"
+    }
+  ],
+  "status_counts": {
+    "matched": 45271,
+    "unmatched": 424
+  }
+}

@@ -1,6 +1,23 @@
 .venv/
-# Private purchased odds and derived snapshots are not redistributed.
-/data/odds/
+# Publish reviewed odds outputs; keep account state and download/recovery files local.
+/data/odds/*
+!/data/odds/README.md
+!/data/odds/publication.json
+!/data/odds/footiqo/
+!/data/odds/mappings/
+!/data/odds/footiqo_crosswalks/
+!/data/odds/fixture_overrides.json
+!/data/odds/team_aliases.csv
+!/data/odds/oddspapi/
+/data/odds/oddspapi/*
+!/data/odds/oddspapi/20261028/
+/data/odds/oddspapi/20261028/*
+!/data/odds/oddspapi/20261028/historical_odds.parquet
+!/data/odds/oddspapi/20261028/consolidation.json
+!/data/odds/oddspapi/20261028/download_scope.json
+!/data/odds/oddspapi/20261028/fixture_plan.json
+!/data/odds/oddspapi/20261028/bookmaker_plan.json
+!/data/odds/oddspapi/20261028/team_crosswalk.json
 __pycache__/
 *.py[cod]
 .pytest_cache/

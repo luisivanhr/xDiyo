@@ -1,0 +1,474 @@
+source_league,vendor_team,native_team_id,native_names,method,support,candidates
+Bundesliga,Arminia Bielefeld,2540,Arminia Bielefeld,unique_normalized_name,0,{}
+Bundesliga,Augsburg,2600,FC Augsburg,known_opponent_schedule,57,{}
+Bundesliga,B. Monchengladbach,2527,Borussia M'gladbach,known_opponent_schedule,57,{}
+Bundesliga,Bayer Leverkusen,2681,Bayer 04 Leverkusen,known_opponent_schedule,57,{}
+Bundesliga,Bayern Munich,2672,FC Bayern München,known_opponent_schedule,56,{}
+Bundesliga,Bochum,2542,VfL Bochum 1848,known_opponent_schedule,20,{}
+Bundesliga,Darmstadt,2576,Darmstadt 98,known_opponent_schedule,14,{}
+Bundesliga,Dortmund,2673,Borussia Dortmund,known_opponent_schedule,57,{}
+Bundesliga,Dusseldorf,2588,Fortuna Düsseldorf,known_opponent_schedule,8,{}
+Bundesliga,Eintracht Frankfurt,2674,Eintracht Frankfurt,unique_normalized_name,0,{}
+Bundesliga,Elversberg,2598,SV 07 Elversberg,known_opponent_schedule,4,{}
+Bundesliga,FC Koln,2671,1. FC Köln,known_opponent_schedule,47,{}
+Bundesliga,Freiburg,2538,SC Freiburg,known_opponent_schedule,53,{}
+Bundesliga,Greuther Furth,2551,SpVgg Greuther Fürth,known_opponent_schedule,6,{}
+Bundesliga,Hamburger SV,2676,Hamburger SV,unique_normalized_name,0,{}
+Bundesliga,Hannover,2541,Hannover 96,known_opponent_schedule,14,{}
+Bundesliga,Heidenheim,5885,1. FC Heidenheim,known_opponent_schedule,16,{}
+Bundesliga,Hertha Berlin,2528,Hertha BSC,known_opponent_schedule,40,{}
+Bundesliga,Hoffenheim,2569,TSG Hoffenheim,known_opponent_schedule,56,{}
+Bundesliga,Holstein Kiel,2573,Holstein Kiel,unique_normalized_name,0,{}
+Bundesliga,Ingolstadt,5880,FC Ingolstadt 04,known_opponent_schedule,10,{}
+Bundesliga,Mainz,2556,1. FSV Mainz 05,known_opponent_schedule,58,{}
+Bundesliga,Nurnberg,2523,1. FC Nürnberg,known_opponent_schedule,4,{}
+Bundesliga,Paderborn,2561,SC Paderborn 07,known_opponent_schedule,4,{}
+Bundesliga,RB Leipzig,36360,RB Leipzig,unique_normalized_name,0,{}
+Bundesliga,Schalke,2530,FC Schalke 04,known_opponent_schedule,34,{}
+Bundesliga,St. Pauli,2526,FC St. Pauli,known_opponent_schedule,12,{}
+Bundesliga,Stuttgart,2677,VfB Stuttgart,known_opponent_schedule,46,{}
+Bundesliga,Union Berlin,2547,1. FC Union Berlin,known_opponent_schedule,37,{}
+Bundesliga,Werder Bremen,2534,SV Werder Bremen,known_opponent_schedule,51,{}
+Bundesliga,Wolfsburg,2524,VfL Wolfsburg,known_opponent_schedule,56,{}
+Bundesliga_2,Arminia Bielefeld,2540,Arminia Bielefeld,unique_normalized_name,0,{}
+Bundesliga_2,Aue,2566,Erzgebirge Aue,known_opponent_schedule,42,{}
+Bundesliga_2,Bochum,2542,VfL Bochum 1848,known_opponent_schedule,44,{}
+Bundesliga_2,Braunschweig,2557,Eintracht Braunschweig,known_opponent_schedule,44,{}
+Bundesliga_2,Cottbus,2532,Energie Cottbus,known_opponent_schedule,5,{}
+Bundesliga_2,Darmstadt,2576,Darmstadt 98,known_opponent_schedule,65,{}
+Bundesliga_2,Duisburg,2543,MSV Duisburg,known_opponent_schedule,14,{}
+Bundesliga_2,Dusseldorf,2588,Fortuna Düsseldorf,known_opponent_schedule,50,{}
+Bundesliga_2,Elversberg,2598,SV 07 Elversberg,known_opponent_schedule,20,{}
+Bundesliga_2,FC Koln,2671,1. FC Köln,known_opponent_schedule,12,{}
+Bundesliga_2,Greuther Furth,2551,SpVgg Greuther Fürth,known_opponent_schedule,62,{}
+Bundesliga_2,Hamburger SV,2676,Hamburger SV,unique_normalized_name,0,{}
+Bundesliga_2,Hannover,2541,Hannover 96,known_opponent_schedule,57,{}
+Bundesliga_2,Hansa Rostock,2533,FC Hansa Rostock,known_opponent_schedule,24,{}
+Bundesliga_2,Heidenheim,5885,1. FC Heidenheim,known_opponent_schedule,54,{}
+Bundesliga_2,Hertha Berlin,2528,Hertha BSC,known_opponent_schedule,22,{}
+Bundesliga_2,Holstein Kiel,2573,Holstein Kiel,unique_normalized_name,0,{}
+Bundesliga_2,Ingolstadt,5880,FC Ingolstadt 04,known_opponent_schedule,22,{}
+Bundesliga_2,Kaiserslautern,2675,1. FC Kaiserslautern,known_opponent_schedule,35,{}
+Bundesliga_2,Karlsruher SC,2553,Karlsruher SC,unique_normalized_name,0,{}
+Bundesliga_2,Magdeburg,2591,1. FC Magdeburg,known_opponent_schedule,38,{}
+Bundesliga_2,Nurnberg,2523,1. FC Nürnberg,known_opponent_schedule,66,{}
+Bundesliga_2,Paderborn,2561,SC Paderborn 07,known_opponent_schedule,52,{}
+Bundesliga_2,Preussen Munster,2590,Preußen Münster,known_opponent_schedule,12,{}
+Bundesliga_2,Regensburg,2567,SSV Jahn Regensburg,known_opponent_schedule,54,{}
+Bundesliga_2,SG Dynamo Dresden,2595,SG Dynamo Dresden,unique_normalized_name,0,{}
+Bundesliga_2,Sandhausen,6157,SV Sandhausen,known_opponent_schedule,50,{}
+Bundesliga_2,Schalke,2530,FC Schalke 04,known_opponent_schedule,28,{}
+Bundesliga_2,St. Pauli,2526,FC St. Pauli,known_opponent_schedule,60,{}
+Bundesliga_2,Stuttgart,2677,VfB Stuttgart,known_opponent_schedule,12,{}
+Bundesliga_2,Ulm,2580,SSV Ulm 1846,known_opponent_schedule,4,{}
+Bundesliga_2,Union Berlin,2547,1. FC Union Berlin,known_opponent_schedule,14,{}
+Bundesliga_2,VfL Osnabruck,2581,VfL Osnabrück,unique_normalized_name,0,{}
+Bundesliga_2,Wehen,2597,SV Wehen Wiesbaden,known_opponent_schedule,20,{}
+Bundesliga_2,Werder Bremen,2534,SV Werder Bremen,known_opponent_schedule,8,{}
+Bundesliga_2,Wolfsburg,2524,VfL Wolfsburg,known_opponent_schedule,5,{}
+Bundesliga_2,Wurzburger Kickers,23947,FC Würzburger Kickers,known_opponent_schedule,8,{}
+Championship,Aston Villa,40,Aston Villa,unique_normalized_name,0,{}
+Championship,Barnsley,23,Barnsley,unique_normalized_name,0,{}
+Championship,Birmingham,9,Birmingham City,known_opponent_schedule,134,{}
+Championship,Blackburn,46,Blackburn Rovers,known_opponent_schedule,129,{}
+Championship,Blackpool,67,Blackpool,unique_normalized_name,0,{}
+Championship,Bolton,5,Bolton Wanderers,known_opponent_schedule,30,{}
+Championship,Bournemouth,60,Bournemouth,unique_normalized_name,0,{}
+Championship,Brentford,50,Brentford,unique_normalized_name,0,{}
+Championship,Brighton,30,Brighton & Hove Albion,known_opponent_schedule,12,{}
+Championship,Bristol City,58,Bristol City,unique_normalized_name,0,{}
+Championship,Burnley,6,Burnley,unique_normalized_name,0,{}
+Championship,Burton,134,Burton Albion,known_opponent_schedule,30,{}
+Championship,Cardiff,61,Cardiff City,known_opponent_schedule,120,{}
+Championship,Charlton,47,Charlton Athletic,known_opponent_schedule,29,{}
+Championship,Coventry,11,Coventry City,known_opponent_schedule,88,{}
+Championship,Derby,27,Derby County,known_opponent_schedule,118,{}
+Championship,Fulham,43,Fulham,unique_normalized_name,0,{}
+Championship,Huddersfield,59,Huddersfield Town,known_opponent_schedule,86,{}
+Championship,Hull,96,Hull City,known_opponent_schedule,116,{}
+Championship,Ipswich,32,Ipswich Town,known_opponent_schedule,68,{}
+Championship,Leeds,34,Leeds United,known_opponent_schedule,82,{}
+Championship,Leicester,31,Leicester City,known_opponent_schedule,26,{}
+Championship,Lincoln,92,Lincoln City,known_opponent_schedule,4,{}
+Championship,Luton,72,Luton Town,known_opponent_schedule,76,{}
+Championship,Middlesbrough,36,Middlesbrough,unique_normalized_name,0,{}
+Championship,Millwall,25,Millwall,unique_normalized_name,0,{}
+Championship,Newcastle,39,Newcastle United,known_opponent_schedule,12,{}
+Championship,Norwich,263,Norwich City,known_opponent_schedule,117,{}
+Championship,Nottingham,14,Nottingham Forest,known_opponent_schedule,88,{}
+Championship,Oxford Utd,95,Oxford United,known_opponent_schedule,28,{}
+Championship,Peterborough,54,Peterborough United,known_opponent_schedule,16,{}
+Championship,Plymouth,71,Plymouth Argyle,known_opponent_schedule,26,{}
+Championship,Portsmouth,2,Portsmouth,unique_normalized_name,0,{}
+Championship,Preston,21,Preston North End,known_opponent_schedule,146,{}
+Championship,QPR,1,Queens Park Rangers,known_opponent_schedule,146,{}
+Championship,Reading,28,Reading,unique_normalized_name,0,{}
+Championship,Rotherham,13,Rotherham United,known_opponent_schedule,68,{}
+Championship,Sheffield Utd,15,Sheffield United,known_opponent_schedule,90,{}
+Championship,Sheffield Wed,12,Sheffield Wednesday,known_opponent_schedule,112,{}
+Championship,Southampton,45,Southampton,unique_normalized_name,0,{}
+Championship,Stoke,29,Stoke City,known_opponent_schedule,116,{}
+Championship,Sunderland,41,Sunderland,unique_normalized_name,0,{}
+Championship,Swansea,74,Swansea City,known_opponent_schedule,118,{}
+Championship,Watford,24,Watford,unique_normalized_name,0,{}
+Championship,West Brom,8,West Bromwich Albion,known_opponent_schedule,101,{}
+Championship,West Ham,37,West Ham United,known_opponent_schedule,4,{}
+Championship,Wigan,49,Wigan Athletic,known_opponent_schedule,54,{}
+Championship,Wolves,3,Wolverhampton,known_opponent_schedule,30,{}
+Championship,Wrexham,64,Wrexham,unique_normalized_name,0,{}
+Championship,Wycombe,62,Wycombe Wanderers,known_opponent_schedule,16,{}
+Eredivisie,AZ Alkmaar,2950,AZ Alkmaar,unique_normalized_name,0,{}
+Eredivisie,Ajax,2953,AFC Ajax,known_opponent_schedule,108,{}
+Eredivisie,Almere City,2990,Almere City FC,known_opponent_schedule,20,{}
+Eredivisie,Cambuur,2970,SC Cambuur,known_opponent_schedule,34,{}
+Eredivisie,De Graafschap,2949,De Graafschap,unique_normalized_name,0,{}
+Eredivisie,Den Haag,2966,ADO Den Haag,known_opponent_schedule,56,{}
+Eredivisie,Excelsior,2967,Excelsior,unique_normalized_name,0,{}
+Eredivisie,FC Emmen,2965,FC Emmen,unique_normalized_name,0,{}
+Eredivisie,FC Volendam,2968,FC Volendam,unique_normalized_name,0,{}
+Eredivisie,Feyenoord,2959,Feyenoord,unique_normalized_name,0,{}
+Eredivisie,G.A. Eagles,2979,Go Ahead Eagles,known_opponent_schedule,56,{}
+Eredivisie,Groningen,2951,FC Groningen,known_opponent_schedule,96,{}
+Eredivisie,Heerenveen,2964,SC Heerenveen,known_opponent_schedule,110,{}
+Eredivisie,Heracles,2977,Heracles Almelo,known_opponent_schedule,93,{}
+Eredivisie,NAC Breda,2947,NAC Breda,unique_normalized_name,0,{}
+Eredivisie,Nijmegen,2962,NEC Nijmegen,known_opponent_schedule,66,{}
+Eredivisie,PSV,2952,PSV Eindhoven,known_opponent_schedule,109,{}
+Eredivisie,Roda,2954,Roda JC Kerkrade,known_opponent_schedule,22,{}
+Eredivisie,Sittard,2957,Fortuna Sittard,known_opponent_schedule,88,{}
+Eredivisie,Sparta Rotterdam,2960,Sparta Rotterdam,unique_normalized_name,0,{}
+Eredivisie,Telstar,2972,SC Telstar,known_opponent_schedule,14,{}
+Eredivisie,Twente,2955,FC Twente,known_opponent_schedule,95,{}
+Eredivisie,Utrecht,2948,FC Utrecht,known_opponent_schedule,111,{}
+Eredivisie,Venlo,2980,VVV-Venlo,known_opponent_schedule,43,{}
+Eredivisie,Vitesse,2958,Vitesse,unique_normalized_name,0,{}
+Eredivisie,Waalwijk,2956,RKC Waalwijk,known_opponent_schedule,59,{}
+Eredivisie,Willem II,2961,Willem II Tilburg,known_opponent_schedule,72,{}
+Eredivisie,Zwolle,2971,PEC Zwolle,known_opponent_schedule,96,{}
+La_Liga,Alaves,2885,Deportivo Alavés,known_opponent_schedule,209,{}
+La_Liga,Almeria,2858,Almería,unique_normalized_name,0,{}
+La_Liga,Ath Bilbao,2825,Athletic Club,known_opponent_schedule,253,{}
+La_Liga,Atl. Madrid,2836,Atlético Madrid,known_opponent_schedule,255,{}
+La_Liga,Barcelona,2817,FC Barcelona,known_opponent_schedule,254,{}
+La_Liga,Betis,2816,Real Betis,known_opponent_schedule,255,{}
+La_Liga,Cadiz CF,4488,Cádiz,known_opponent_schedule,94,{}
+La_Liga,Celta Vigo,2821,Celta Vigo,unique_normalized_name,0,{}
+La_Liga,Dep. A Coruna,2832,Deportivo de A Coruña,known_opponent_schedule,5,{}
+La_Liga,Dep. La Coruna,2832,Deportivo de A Coruña,known_opponent_schedule,60,{}
+La_Liga,Eibar,2839,Eibar,unique_normalized_name,0,{}
+La_Liga,Elche,2846,Elche,unique_normalized_name,0,{}
+La_Liga,Espanyol,2814,Espanyol,unique_normalized_name,0,{}
+La_Liga,Getafe,2859,Getafe,unique_normalized_name,0,{}
+La_Liga,Gijon,2852,Sporting Gijón,known_opponent_schedule,40,{}
+La_Liga,Girona,24264,Girona FC,known_opponent_schedule,140,{}
+La_Liga,Granada CF,33779,Granada,known_opponent_schedule,132,{}
+La_Liga,Huesca,24265,Huesca,unique_normalized_name,0,{}
+La_Liga,Las Palmas,6577,UD Las Palmas,known_opponent_schedule,106,{}
+La_Liga,Leganes,2845,Leganés,unique_normalized_name,0,{}
+La_Liga,Levante,2849,Levante UD,known_opponent_schedule,161,{}
+La_Liga,Malaga,2830,Málaga CF,known_opponent_schedule,64,{}
+La_Liga,Mallorca,2826,Mallorca,unique_normalized_name,0,{}
+La_Liga,Osasuna,2820,Osasuna,unique_normalized_name,0,{}
+La_Liga,Oviedo,2851,Real Oviedo,known_opponent_schedule,24,{}
+La_Liga,Racing Santander,2835,Real Racing Club,known_opponent_schedule,5,{}
+La_Liga,Rayo Vallecano,2818,Rayo Vallecano,unique_normalized_name,0,{}
+La_Liga,Real Madrid,2829,Real Madrid,unique_normalized_name,0,{}
+La_Liga,Real Sociedad,2824,Real Sociedad,unique_normalized_name,0,{}
+La_Liga,Sevilla,2833,Sevilla,unique_normalized_name,0,{}
+La_Liga,Valencia,2828,Valencia,unique_normalized_name,0,{}
+La_Liga,Valladolid,2831,Real Valladolid,known_opponent_schedule,120,{}
+La_Liga,Villarreal,2819,Villarreal,unique_normalized_name,0,{}
+La_Liga_2,Alaves,2885,Deportivo Alavés,known_opponent_schedule,10,{}
+La_Liga_2,Albacete,2848,Albacete Balompié,known_opponent_schedule,112,{}
+La_Liga_2,Alcorcon,24322,AD Alcorcón,known_opponent_schedule,106,{}
+La_Liga_2,Almeria,2858,Almería,unique_normalized_name,0,{}
+La_Liga_2,Amorebieta,54103,SD Amorebieta,known_opponent_schedule,26,{}
+La_Liga_2,Andorra,324871,FC Andorra,known_opponent_schedule,40,{}
+La_Liga_2,Barcelona B,24343,Barcelona Atlètic,known_opponent_schedule,16,{}
+La_Liga_2,Burgos CF,2854,Burgos Club de Fútbol,known_opponent_schedule,65,{}
+La_Liga_2,Cadiz CF,4488,Cádiz,known_opponent_schedule,95,{}
+La_Liga_2,Castellon,5067,CD Castellón,known_opponent_schedule,43,{}
+La_Liga_2,Celta Vigo B,24336,Celta Fortuna,known_opponent_schedule,6,{}
+La_Liga_2,Ceuta,2869,AD Ceuta,known_opponent_schedule,17,{}
+La_Liga_2,Cordoba,2850,Córdoba,unique_normalized_name,0,{}
+La_Liga_2,Cultural Leonesa,2868,Cultural Leonesa,unique_normalized_name,0,{}
+La_Liga_2,Dep. A Coruna,2832,Deportivo de A Coruña,known_opponent_schedule,58,{}
+La_Liga_2,Eibar,2839,Eibar,unique_normalized_name,0,{}
+La_Liga_2,Elche,2846,Elche,unique_normalized_name,0,{}
+La_Liga_2,Eldense,47321,CD Eldense,known_opponent_schedule,28,{}
+La_Liga_2,Espanyol,2814,Espanyol,unique_normalized_name,0,{}
+La_Liga_2,Extremadura UD,43758,Extremadura UD,unique_normalized_name,0,{}
+La_Liga_2,FC Cartagena SAD,24329,FC Cartagena,known_opponent_schedule,62,{}
+La_Liga_2,Fuenlabrada,35097,CF Fuenlabrada,known_opponent_schedule,42,{}
+La_Liga_2,Getafe,2859,Getafe,unique_normalized_name,0,{}
+La_Liga_2,Gijon,2852,Sporting Gijón,known_opponent_schedule,124,{}
+La_Liga_2,Gimnastic,2840,Gimnàstic de Tarragona,known_opponent_schedule,52,{}
+La_Liga_2,Girona,24264,Girona FC,known_opponent_schedule,64,{}
+La_Liga_2,Granada CF,33779,Granada,known_opponent_schedule,74,{}
+La_Liga_2,Huesca,24265,Huesca,unique_normalized_name,0,{}
+La_Liga_2,Las Palmas,6577,UD Las Palmas,known_opponent_schedule,85,{}
+La_Liga_2,Leganes,2845,Leganés,unique_normalized_name,0,{}
+La_Liga_2,Levante,2849,Levante UD,known_opponent_schedule,54,{}
+La_Liga_2,Lorca FC,115067,Lorca FC,unique_normalized_name,0,{}
+La_Liga_2,Lugo,24332,CD Lugo,known_opponent_schedule,104,{}
+La_Liga_2,Malaga,2830,Málaga CF,known_opponent_schedule,96,{}
+La_Liga_2,Mallorca,2826,Mallorca,unique_normalized_name,0,{}
+La_Liga_2,Mirandes,35092,Mirandés,unique_normalized_name,0,{}
+La_Liga_2,Numancia,2855,Numancia,unique_normalized_name,0,{}
+La_Liga_2,Osasuna,2820,Osasuna,unique_normalized_name,0,{}
+La_Liga_2,Oviedo,2851,Real Oviedo,known_opponent_schedule,129,{}
+La_Liga_2,Ponferradina,6195,SD Ponferradina,known_opponent_schedule,52,{}
+La_Liga_2,Racing Club Ferrol,2843,Racing de Ferrol,known_opponent_schedule,24,{}
+La_Liga_2,Racing Santander,2835,Real Racing Club,known_opponent_schedule,64,{}
+La_Liga_2,Rayo Majadahonda,202074,Rayo Majadahonda,unique_normalized_name,0,{}
+La_Liga_2,Rayo Vallecano,2818,Rayo Vallecano,unique_normalized_name,0,{}
+La_Liga_2,Real Sociedad B,24360,Real Sociedad B,unique_normalized_name,0,{}
+La_Liga_2,Reus FCR,37589,Reus Deportiu,known_opponent_schedule,44,{}
+La_Liga_2,Sabadell,24335,CE Sabadell,known_opponent_schedule,17,{}
+La_Liga_2,Sevilla FC B,7762,Sevilla Atlético,known_opponent_schedule,36,{}
+La_Liga_2,Tenerife,2822,CD Tenerife,known_opponent_schedule,132,{}
+La_Liga_2,UCAM Murcia,55785,UCAM Murcia,unique_normalized_name,0,{}
+La_Liga_2,UD Ibiza,24368,UD Ibiza,unique_normalized_name,0,{}
+La_Liga_2,UD Logrones,37057,UD Logroñés,unique_normalized_name,0,{}
+La_Liga_2,Valladolid,2831,Real Valladolid,known_opponent_schedule,80,{}
+La_Liga_2,Villarreal B,24338,Villarreal B U23,known_opponent_schedule,22,{}
+La_Liga_2,Zaragoza,2815,Real Zaragoza,known_opponent_schedule,144,{}
+Ligue_1,AC Ajaccio,1660,Ajaccio,known_opponent_schedule,18,{}
+Ligue_1,Amiens,1676,Amiens SC,known_opponent_schedule,52,{}
+Ligue_1,Angers,1684,Angers,unique_normalized_name,0,{}
+Ligue_1,Auxerre,1646,Auxerre,unique_normalized_name,0,{}
+Ligue_1,Bastia,1655,Bastia,unique_normalized_name,0,{}
+Ligue_1,Bordeaux,1645,Bordeaux,unique_normalized_name,0,{}
+Ligue_1,Brest,1715,Stade Brestois,known_opponent_schedule,124,{}
+Ligue_1,Caen,1667,Stade Malherbe Caen,known_opponent_schedule,90,{}
+Ligue_1,Clermont,1680,Clermont Foot,known_opponent_schedule,52,{}
+Ligue_1,Dijon,1686,Dijon,unique_normalized_name,0,{}
+Ligue_1,GFC Ajaccio,7924,GFC Ajaccio,unique_normalized_name,0,{}
+Ligue_1,Guingamp,1654,Guingamp,unique_normalized_name,0,{}
+Ligue_1,Le Havre,1662,Le Havre,unique_normalized_name,0,{}
+Ligue_1,Le Mans,1672,Le Mans,unique_normalized_name,0,{}
+Ligue_1,Lens,1648,RC Lens,known_opponent_schedule,109,{}
+Ligue_1,Lille,1643,Lille,unique_normalized_name,0,{}
+Ligue_1,Lorient,1656,Lorient,unique_normalized_name,0,{}
+Ligue_1,Lyon,1649,Olympique Lyonnais,known_opponent_schedule,213,{}
+Ligue_1,Marseille,1641,Olympique de Marseille,known_opponent_schedule,211,{}
+Ligue_1,Metz,1651,Metz,unique_normalized_name,0,{}
+Ligue_1,Monaco,1653,AS Monaco,known_opponent_schedule,210,{}
+Ligue_1,Montpellier,1642,Montpellier,unique_normalized_name,0,{}
+Ligue_1,Nancy,1675,Nancy,unique_normalized_name,0,{}
+Ligue_1,Nantes,1647,Nantes,unique_normalized_name,0,{}
+Ligue_1,Nice,1661,Nice,unique_normalized_name,0,{}
+Ligue_1,Nimes,1663,Nîmes Olympique,known_opponent_schedule,49,{}
+Ligue_1,PSG,1644,Paris Saint-Germain,known_opponent_schedule,211,{}
+Ligue_1,Paris FC,6070,Paris FC,unique_normalized_name,0,{}
+Ligue_1,Reims,1682,Stade de Reims,known_opponent_schedule,140,{}
+Ligue_1,Rennes,1658,Stade Rennais,known_opponent_schedule,212,{}
+Ligue_1,St Etienne,1678,Saint-Étienne,known_opponent_schedule,155,{}
+Ligue_1,Strasbourg,1659,RC Strasbourg,known_opponent_schedule,161,{}
+Ligue_1,Toulouse,1681,Toulouse,unique_normalized_name,0,{}
+Ligue_1,Troyes,1652,Troyes,unique_normalized_name,0,{}
+Ligue_2,AC Ajaccio,1660,Ajaccio,known_opponent_schedule,135,{}
+Ligue_2,Amiens,1676,Amiens SC,known_opponent_schedule,110,{}
+Ligue_2,Angers,1684,Angers,unique_normalized_name,0,{}
+Ligue_2,Annecy,210894,Annecy FC,known_opponent_schedule,70,{}
+Ligue_2,Auxerre,1646,Auxerre,unique_normalized_name,0,{}
+Ligue_2,Bastia,1655,Bastia,unique_normalized_name,0,{}
+Ligue_2,Beziers,62200,AS Béziers,known_opponent_schedule,22,{}
+Ligue_2,Bordeaux,1645,Bordeaux,unique_normalized_name,0,{}
+Ligue_2,Boulogne,1711,US Boulogne Côte-d'Opale,known_opponent_schedule,18,{}
+Ligue_2,Bourg en Bresse,35056,Bourg-en-Bresse,unique_normalized_name,0,{}
+Ligue_2,Brest,1715,Stade Brestois,known_opponent_schedule,42,{}
+Ligue_2,Caen,1667,Stade Malherbe Caen,known_opponent_schedule,111,{}
+Ligue_2,Chambly,61612,FC Chambly Oise,known_opponent_schedule,39,{}
+Ligue_2,Chateauroux,1666,Châteauroux,unique_normalized_name,0,{}
+Ligue_2,Clermont,1680,Clermont Foot,known_opponent_schedule,111,{}
+Ligue_2,Concarneau,6917,US Concarneau,known_opponent_schedule,18,{}
+Ligue_2,Dijon,1686,Dijon,unique_normalized_name,0,{}
+Ligue_2,Dunkerque,6918,USL Dunkerque,known_opponent_schedule,93,{}
+Ligue_2,GFC Ajaccio,7924,GFC Ajaccio,unique_normalized_name,0,{}
+Ligue_2,Grenoble,1671,Grenoble Foot 38,known_opponent_schedule,148,{}
+Ligue_2,Guingamp,1654,Guingamp,unique_normalized_name,0,{}
+Ligue_2,Laval,1673,Stade Lavallois,known_opponent_schedule,70,{}
+Ligue_2,Le Havre,1662,Le Havre,unique_normalized_name,0,{}
+Ligue_2,Le Mans,1672,Le Mans,unique_normalized_name,0,{}
+Ligue_2,Lens,1648,RC Lens,known_opponent_schedule,58,{}
+Ligue_2,Lorient,1656,Lorient,unique_normalized_name,0,{}
+Ligue_2,Martigues,1664,FC Martigues,known_opponent_schedule,14,{}
+Ligue_2,Metz,1651,Metz,unique_normalized_name,0,{}
+Ligue_2,Montpellier,1642,Montpellier,unique_normalized_name,0,{}
+Ligue_2,Nancy,1675,Nancy,unique_normalized_name,0,{}
+Ligue_2,Nantes,1647,Nantes,unique_normalized_name,0,{}
+Ligue_2,Nimes,1663,Nîmes Olympique,known_opponent_schedule,62,{}
+Ligue_2,Niort,1665,Chamois Niortais,known_opponent_schedule,122,{}
+Ligue_2,Orleans,6921,US Orléans,known_opponent_schedule,56,{}
+Ligue_2,Paris FC,6070,Paris FC,unique_normalized_name,0,{}
+Ligue_2,Pau FC,1685,Pau FC,unique_normalized_name,0,{}
+Ligue_2,Quevilly Rouen,210099,Quevilly - Rouen Métropole,known_opponent_schedule,79,{}
+Ligue_2,Red Star,52874,Red Star FC,known_opponent_schedule,53,{}
+Ligue_2,Reims,1682,Stade de Reims,known_opponent_schedule,37,{}
+Ligue_2,Rodez,6925,Rodez AF,known_opponent_schedule,132,{}
+Ligue_2,Sochaux,1657,Sochaux,unique_normalized_name,0,{}
+Ligue_2,St Etienne,1678,Saint-Étienne,known_opponent_schedule,56,{}
+Ligue_2,Toulouse,1681,Toulouse,unique_normalized_name,0,{}
+Ligue_2,Tours,1727,Tours FC,known_opponent_schedule,20,{}
+Ligue_2,Troyes,1652,Troyes,unique_normalized_name,0,{}
+Ligue_2,Valenciennes,5061,Valenciennes,unique_normalized_name,0,{}
+Premier_League,Arsenal,42,Arsenal,unique_normalized_name,0,{}
+Premier_League,Aston Villa,40,Aston Villa,unique_normalized_name,0,{}
+Premier_League,Bournemouth,60,Bournemouth,unique_normalized_name,0,{}
+Premier_League,Brentford,50,Brentford,unique_normalized_name,0,{}
+Premier_League,Brighton,30,Brighton & Hove Albion,known_opponent_schedule,181,{}
+Premier_League,Burnley,6,Burnley,unique_normalized_name,0,{}
+Premier_League,Cardiff,61,Cardiff City,known_opponent_schedule,20,{}
+Premier_League,Chelsea,38,Chelsea,unique_normalized_name,0,{}
+Premier_League,Coventry,11,Coventry City,known_opponent_schedule,5,{}
+Premier_League,Crystal Palace,7,Crystal Palace,unique_normalized_name,0,{}
+Premier_League,Everton,48,Everton,unique_normalized_name,0,{}
+Premier_League,Fulham,43,Fulham,unique_normalized_name,0,{}
+Premier_League,Huddersfield,59,Huddersfield Town,known_opponent_schedule,38,{}
+Premier_League,Hull,96,Hull City,known_opponent_schedule,24,{}
+Premier_League,Ipswich,32,Ipswich Town,known_opponent_schedule,23,{}
+Premier_League,Leeds,34,Leeds United,known_opponent_schedule,82,{}
+Premier_League,Leicester,31,Leicester City,known_opponent_schedule,178,{}
+Premier_League,Liverpool,44,Liverpool FC,known_opponent_schedule,222,{}
+Premier_League,Luton,72,Luton Town,known_opponent_schedule,20,{}
+Premier_League,Manchester City,17,Manchester City,unique_normalized_name,0,{}
+Premier_League,Manchester Utd,35,Manchester United,known_opponent_schedule,223,{}
+Premier_League,Middlesbrough,36,Middlesbrough,unique_normalized_name,0,{}
+Premier_League,Newcastle,39,Newcastle United,known_opponent_schedule,199,{}
+Premier_League,Norwich,263,Norwich City,known_opponent_schedule,60,{}
+Premier_League,Nottingham,14,Nottingham Forest,known_opponent_schedule,83,{}
+Premier_League,Sheffield Utd,15,Sheffield United,known_opponent_schedule,58,{}
+Premier_League,Southampton,45,Southampton,unique_normalized_name,0,{}
+Premier_League,Stoke,29,Stoke City,known_opponent_schedule,60,{}
+Premier_League,Sunderland,41,Sunderland,unique_normalized_name,0,{}
+Premier_League,Swansea,74,Swansea City,known_opponent_schedule,60,{}
+Premier_League,Tottenham,33,Tottenham Hotspur,known_opponent_schedule,223,{}
+Premier_League,Watford,24,Watford,unique_normalized_name,0,{}
+Premier_League,West Brom,8,West Bromwich Albion,known_opponent_schedule,78,{}
+Premier_League,West Ham,37,West Ham United,known_opponent_schedule,220,{}
+Premier_League,Wolves,3,Wolverhampton,known_opponent_schedule,160,{}
+Premiership,Aberdeen,2355,Aberdeen,unique_normalized_name,0,{}
+Premiership,Celtic,2352,Celtic,unique_normalized_name,0,{}
+Premiership,Dundee FC,2357,Dundee FC,unique_normalized_name,0,{}
+Premiership,Dundee Utd,2349,Dundee United,known_opponent_schedule,170,{}
+Premiership,Falkirk,2363,Falkirk FC,known_opponent_schedule,32,{}
+Premiership,Hamilton,2376,Hamilton Academical,known_opponent_schedule,34,{}
+Premiership,Hearts,2353,Heart of Midlothian,known_opponent_schedule,174,{}
+Premiership,Hibernian,2354,Hibernian,unique_normalized_name,0,{}
+Premiership,Kilmarnock,2347,Kilmarnock,unique_normalized_name,0,{}
+Premiership,Livingston,2356,Livingston,unique_normalized_name,0,{}
+Premiership,Motherwell,2346,Motherwell,unique_normalized_name,0,{}
+Premiership,Rangers,2351,Rangers,unique_normalized_name,0,{}
+Premiership,Ross County,2365,Ross County,unique_normalized_name,0,{}
+Premiership,St Johnstone,2348,St. Johnstone,unique_normalized_name,0,{}
+Premiership,St. Mirren,2359,St. Mirren,unique_normalized_name,0,{}
+Pro_League,Anderlecht,2900,RSC Anderlecht,known_opponent_schedule,35,{}
+Pro_League,Antwerp,2889,Royal Antwerp FC,known_opponent_schedule,36,{}
+Pro_League,Beerschot VA,169260,K. Beerschot V.A.,known_opponent_schedule,12,{}
+Pro_League,Beveren,4859,SK Beveren,known_opponent_schedule,4,{}
+Pro_League,Cercle Brugge KSV,2929,Cercle Brugge,known_opponent_schedule,30,{}
+Pro_League,Charleroi,2898,RC Sporting Charleroi,known_opponent_schedule,31,{}
+Pro_League,Club Brugge KV,2888,Club Brugge KV,unique_normalized_name,0,{}
+Pro_League,Dender,389232,FCV Dender,known_opponent_schedule,12,{}
+Pro_League,Eupen,2926,KAS Eupen,known_opponent_schedule,18,{}
+Pro_League,Genk,2890,KRC Genk,known_opponent_schedule,36,{}
+Pro_League,Gent,2903,KAA Gent,known_opponent_schedule,35,{}
+Pro_League,KV Mechelen,5044,KV Mechelen,unique_normalized_name,0,{}
+Pro_League,Kortrijk,4858,KV Kortrijk,known_opponent_schedule,24,{}
+Pro_League,Leuven,2918,Oud-Heverlee Leuven,known_opponent_schedule,31,{}
+Pro_League,Lommel SK,5046,Lommel SK,unique_normalized_name,0,{}
+Pro_League,Mouscron,44019,Royal Excel Mouscron,known_opponent_schedule,4,{}
+Pro_League,Oostende,4494,KV Oostende,known_opponent_schedule,14,{}
+Pro_League,RAAL La Louviere,368506,RAAL La Louvière,unique_normalized_name,0,{}
+Pro_League,RWDM Brussels,204219,RWDM Brussels,unique_normalized_name,0,{}
+Pro_League,Royale Union SG,4860,Royale Union Saint-Gilloise,known_opponent_schedule,29,{}
+Pro_League,Seraing,204712,RFC Seraing,known_opponent_schedule,8,{}
+Pro_League,St. Liege,2901,Standard Liège,known_opponent_schedule,34,{}
+Pro_League,St. Truiden,2895,Sint-Truidense VV,known_opponent_schedule,30,{}
+Pro_League,Waregem,2933,SV Zulte Waregem,known_opponent_schedule,18,{}
+Pro_League,Westerlo,2893,KVC Westerlo,known_opponent_schedule,24,{}
+Serie_A,AC Milan,2692,AC Milan,unique_normalized_name,0,{}
+Serie_A,AS Roma,2702,AS Roma,unique_normalized_name,0,{}
+Serie_A,Atalanta,2686,Atalanta,unique_normalized_name,0,{}
+Serie_A,Benevento,2759,Benevento,unique_normalized_name,0,{}
+Serie_A,Bologna,2685,Bologna,unique_normalized_name,0,{}
+Serie_A,Brescia,2691,Brescia,unique_normalized_name,0,{}
+Serie_A,Cagliari,2719,Cagliari,unique_normalized_name,0,{}
+Serie_A,Carpi,43685,Carpi,unique_normalized_name,0,{}
+Serie_A,Chievo,2694,Chievo Verona,known_opponent_schedule,136,{}
+Serie_A,Como,2704,Como,unique_normalized_name,0,{}
+Serie_A,Cremonese,2761,Cremonese,unique_normalized_name,0,{}
+Serie_A,Crotone,2718,FC Crotone,known_opponent_schedule,100,{}
+Serie_A,Empoli,2705,Empoli,unique_normalized_name,0,{}
+Serie_A,Fiorentina,2693,Fiorentina,unique_normalized_name,0,{}
+Serie_A,Frosinone,2801,Frosinone,unique_normalized_name,0,{}
+Serie_A,Genoa,2713,Genoa,unique_normalized_name,0,{}
+Serie_A,Inter,2697,Inter,unique_normalized_name,0,{}
+Serie_A,Juventus,2687,Juventus,unique_normalized_name,0,{}
+Serie_A,Lazio,2699,Lazio,unique_normalized_name,0,{}
+Serie_A,Lecce,2689,Lecce,unique_normalized_name,0,{}
+Serie_A,Monza,2729,Monza,unique_normalized_name,0,{}
+Serie_A,Napoli,2714,SSC Napoli,known_opponent_schedule,385,{}
+Serie_A,Palermo,2715,Palermo,unique_normalized_name,0,{}
+Serie_A,Parma,2690,Parma,unique_normalized_name,0,{}
+Serie_A,Pescara,7935,Pescara,unique_normalized_name,0,{}
+Serie_A,Pisa,2737,Pisa,unique_normalized_name,0,{}
+Serie_A,Salernitana,2710,US Salernitana 1919,known_opponent_schedule,102,{}
+Serie_A,Sampdoria,2711,Sampdoria,unique_normalized_name,0,{}
+Serie_A,Sassuolo,2793,Sassuolo,unique_normalized_name,0,{}
+Serie_A,Spal,113755,SPAL,unique_normalized_name,0,{}
+Serie_A,Spezia,2735,Spezia,unique_normalized_name,0,{}
+Serie_A,Torino,2696,Torino,unique_normalized_name,0,{}
+Serie_A,Udinese,2695,Udinese,unique_normalized_name,0,{}
+Serie_A,Venezia,2688,Venezia,unique_normalized_name,0,{}
+Serie_A,Verona,2701,Hellas Verona,known_opponent_schedule,309,{}
+Serie_B,Alessandria,25155,Alessandria,unique_normalized_name,0,{}
+Serie_B,Arezzo,2731,Arezzo,unique_normalized_name,0,{}
+Serie_B,Ascoli,2707,Ascoli,unique_normalized_name,0,{}
+Serie_B,Avellino,2730,US Avellino 1912,known_opponent_schedule,41,{}
+Serie_B,Bari,2712,Bari,unique_normalized_name,0,{}
+Serie_B,Benevento,2759,Benevento,unique_normalized_name,0,{}
+Serie_B,Brescia,2691,Brescia,unique_normalized_name,0,{}
+Serie_B,Cagliari,2719,Cagliari,unique_normalized_name,0,{}
+Serie_B,Carrarese,2745,Carrarese,unique_normalized_name,0,{}
+Serie_B,Catanzaro,2796,Catanzaro,unique_normalized_name,0,{}
+Serie_B,Cesena,2742,Cesena,unique_normalized_name,0,{}
+Serie_B,Chievo,2694,Chievo Verona,known_opponent_schedule,62,{}
+Serie_B,Cittadella,2717,Cittadella,unique_normalized_name,0,{}
+Serie_B,Como,2704,Como,unique_normalized_name,0,{}
+Serie_B,Cosenza,2716,Cosenza,unique_normalized_name,0,{}
+Serie_B,Cremonese,2761,Cremonese,unique_normalized_name,0,{}
+Serie_B,Crotone,2718,FC Crotone,known_opponent_schedule,66,{}
+Serie_B,Empoli,2705,Empoli,unique_normalized_name,0,{}
+Serie_B,Entella,43680,Virtus Entella,known_opponent_schedule,103,{}
+Serie_B,FeralpiSalo,37173,Feralpisalò,unique_normalized_name,0,{}
+Serie_B,Frosinone,2801,Frosinone,unique_normalized_name,0,{}
+Serie_B,Genoa,2713,Genoa,unique_normalized_name,0,{}
+Serie_B,Juve Stabia,5324,Juve Stabia,unique_normalized_name,0,{}
+Serie_B,L.R. Vicenza,2722,L.R. Vicenza,unique_normalized_name,0,{}
+Serie_B,Lecce,2689,Lecce,unique_normalized_name,0,{}
+Serie_B,Lecco,7933,Lecco,unique_normalized_name,0,{}
+Serie_B,Livorno,2726,US Livorno 1915,known_opponent_schedule,30,{}
+Serie_B,Mantova,2770,Mantova,unique_normalized_name,0,{}
+Serie_B,Modena,2706,Modena,unique_normalized_name,0,{}
+Serie_B,Monza,2729,Monza,unique_normalized_name,0,{}
+Serie_B,Padova,2741,Padova,unique_normalized_name,0,{}
+Serie_B,Palermo,2715,Palermo,unique_normalized_name,0,{}
+Serie_B,Parma,2690,Parma,unique_normalized_name,0,{}
+Serie_B,Perugia,2698,Perugia,unique_normalized_name,0,{}
+Serie_B,Pescara,7935,Pescara,unique_normalized_name,0,{}
+Serie_B,Pisa,2737,Pisa,unique_normalized_name,0,{}
+Serie_B,Pordenone,111205,Pordenone,unique_normalized_name,0,{}
+Serie_B,Reggiana,24516,Reggiana,unique_normalized_name,0,{}
+Serie_B,Reggina,491246,Reggina 1914,known_opponent_schedule,106,{}
+Serie_B,Salernitana,2710,US Salernitana 1919,known_opponent_schedule,99,{}
+Serie_B,Sampdoria,2711,Sampdoria,unique_normalized_name,0,{}
+Serie_B,Sassuolo,2793,Sassuolo,unique_normalized_name,0,{}
+Serie_B,Spal,113755,SPAL,unique_normalized_name,0,{}
+Serie_B,Spezia,2735,Spezia,unique_normalized_name,0,{}
+Serie_B,Sudtirol,2760,Südtirol,unique_normalized_name,0,{}
+Serie_B,Ternana,2708,Ternana,unique_normalized_name,0,{}
+Serie_B,Trapani,43686,Trapani,unique_normalized_name,0,{}
+Serie_B,Venezia,2688,Venezia,unique_normalized_name,0,{}
+Serie_B,Verona,2701,Hellas Verona,known_opponent_schedule,5,{}
