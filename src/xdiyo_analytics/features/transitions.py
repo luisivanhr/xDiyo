@@ -7,7 +7,7 @@ from .league import LeaguePopulation
 
 def _season_start_year(rows):
     import re
-    for column in ('source_season', 'season_year', 'season_stem'):
+    for column in ('experiment_season', 'source_season', 'season_year', 'season_stem'):
         if column not in rows:
             continue
         years = set()
@@ -18,6 +18,8 @@ def _season_start_year(rows):
                 years.add(year + 2000 if year < 100 else year)
         if len(years) == 1:
             return years.pop()
+        if column == "experiment_season":
+            return None  # Never substitute a storage alias for unparseable native metadata.
     return None
 
 
@@ -38,7 +40,8 @@ def build_team_seasons(history, competition_info, *, season_years=None,
 
     competition_info maps competition IDs to {'tier': int, 'system': str}.
     season_years optionally maps (competition_id, season_id) to full (start,end)
-    years. Otherwise source_season/season_year labels are parsed. Membership is
+    years. Otherwise experiment_season is preferred, with the historical
+    source_season then season_year order retained when it is absent. Membership is
     observed-partial unless explicitly named in complete_memberships. A new
     appearance alone never establishes promotion/relegation.
     """
@@ -51,7 +54,7 @@ def build_team_seasons(history, competition_info, *, season_years=None,
         config = competition_info[key[0]]
         years = None if season_years is None else season_years.get(key)
         if years is None:
-            column = "source_season" if "source_season" in rows else "season_year"
+            column = next((c for c in ("experiment_season", "source_season", "season_year") if c in rows), "season_year")
             labels = rows[column].dropna().unique()
             if len(labels) != 1:
                 raise ValueError(f"Supply season_years for {key}.")

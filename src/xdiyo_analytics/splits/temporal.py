@@ -18,7 +18,9 @@ class TemporalSplit(Splitter):
     and test. gap_time additionally requires training labels to be available by
     fit_at-gap_time. Neither setting controls feature histories or refitting.
 
-    Seasons pool leagues by their shared source_season label. league_seasons
+    Seasons pool leagues by their verified scope experiment_season (YYYY/YYYY).
+    Missing or ambiguous native metadata raises; no storage-year inference is made.
+    Use block_by=("source_season",) explicitly to reproduce legacy grouping. league_seasons
     retains separate competition calendars and native season IDs. Rounds default
     to separate competitions; kickoffs default to one pooled calendar.
     calendar_by=() explicitly pools; block_by can supply
@@ -111,11 +113,28 @@ class TemporalSplit(Splitter):
         else:
             calendars, calendar_keys = np.zeros(len(kicks), dtype=int), [()]
         if self.block_by is None:
-            block_by = {"rounds": ("season_id", "round"), "seasons": ("source_season",),
+            block_by = {"rounds": ("season_id", "round"), "seasons": ("experiment_season",),
                         "league_seasons": ("season_id",),
                         "kickoffs": ("kickoff_at",)}[self.unit]
         else:
             block_by = self.block_by
+        if self.unit == "league_seasons" and self.block_by is None and "competition_id" not in calendar_by:
+            block_by = ("competition_id", "season_id")
+        season_policy = "explicit_blocks_v1" if self.block_by is not None else "sofascore_year_pair_v1"
+        if self.unit == "seasons" and self.block_by is None:
+            required = ("competition_id", "season_id", "experiment_season")
+            if any(c not in matches.meta for c in required):
+                raise ValueError("Season splits require competition_id, season_id and experiment_season; "
+                                 "reload scope year-pair metadata or explicitly use block_by=('source_season',) for legacy experiments.")
+            matches.columns(required)
+            native = matches.meta[list(required)].drop_duplicates()
+            if native.experiment_season.astype(str).str.strip().eq("").any():
+                raise ValueError("Native experiment_season cannot be blank.")
+            from ..data.season_convention import validate_season_pair
+            for value in native.experiment_season.unique():
+                validate_season_pair(value)
+            if native.groupby(["competition_id", "season_id"]).experiment_season.nunique().gt(1).any():
+                raise ValueError("A native season identity has conflicting experiment_season values.")
         block_by = matches.columns(block_by)
         if not block_by:
             raise ValueError("block_by cannot be empty.")
@@ -166,6 +185,7 @@ class TemporalSplit(Splitter):
                     "scheme": "temporal", "retrospective": False,
                     "calendar": calendar_key, "calendar_by": calendar_by,
                     "block_by": block_by, "unit": self.unit, "window": self.window,
+                    "season_policy": season_policy,
                     "fit_at": fit_at, "training_boundary": boundary,
                     "train_blocks": tuple(keys[train_begin:train_end]),
                     "test_blocks": tuple(keys[test_begin:test_end]),

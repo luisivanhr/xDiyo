@@ -70,6 +70,7 @@ def build_team_history(data: SeasonData, *, stat_fields=("value",)):
         "competition_id", "tournament_id", "season_id", "season_year", "round", "season_phase",
         "annual_league", "annual_season", "annual_phase", "season_half",
         "competition_name", "season_name", "season_label", "tournament_name",
+        "experiment_season", "season_start", "season_end",
         "native_countdown_rule", "native_standings_rule",
         "countdown_calendar_id", "native_target",
         "status", "status_code", "is_awarded", "provider_is_awarded",

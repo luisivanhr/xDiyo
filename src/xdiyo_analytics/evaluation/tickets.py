@@ -186,12 +186,16 @@ def compose_bets(ledger, composition, *, match_columns=("event_id",), stake_poli
         else:
             # League-specific season IDs cannot identify a shared cross-league
             # season. Require the export's common season label in that mode.
-            grouping_keys = (("source_season",), ("round",)) if policy.grouping == "round" else (
+            grouping_keys = (("experiment_season", "source_season"), ("round",)) if policy.grouping == "round" else (
                 ("competition_id", "source_league"), ("season_id", "source_season"), ("round",))
             for choices in grouping_keys:
                 key = next((key for key in choices if key in selected), None)
                 if key is None:
-                    raise ValueError("Round tickets need season and round metadata (source_season across leagues); league_round also needs league metadata.")
+                    raise ValueError("Round tickets need season and round metadata (native experiment_season, or legacy source_season across leagues); league_round also needs league metadata.")
+                if key == "experiment_season":
+                    from ..data.season_convention import validate_season_pair
+                    for value in selected[key].unique():
+                        validate_season_pair(value)
                 groups.append(key)
         if selected[groups].isna().any().any():
             raise ValueError("Ticket grouping metadata must be nonmissing.")
@@ -285,7 +289,7 @@ def _finish_composition(tickets, membership, composition, templates, prepared, d
                 if 'group_id' in selected:
                     selected = selected.iloc[summary_groups.get(record['template'], {}).get(record['group_id'], [])]
                 else:
-                    for key in ('fold_id','competition_id','source_league','season_id','source_season','round','tournament_id','stage_id','stage'):
+                    for key in ('fold_id','competition_id','source_league','season_id','experiment_season','source_season','round','tournament_id','stage_id','stage'):
                         if key in record and key in selected:
                             selected = selected.loc[selected[key].eq(record[key])]
                 record.update(selected_tickets=len(selected), selected_stake=_finite_accounting_sum(selected.stake),

@@ -12,7 +12,7 @@ def dataset(n=12, *, layout='match', shuffle=False, specs=None):
     records = []
     for i, spec in enumerate(specs):
         competition, season = spec.get('competition', 17), spec.get('season', 2024)
-        shared = dict(source_league=spec.get('league', f'L{competition}'), source_season=str(season), competition_id=competition, season_id=season, event_id=spec.get('event', BASE + i), kickoff_at=pd.Timestamp('2024-01-01', tz='UTC') + pd.Timedelta(days=spec.get('day', i)), round=spec.get('round', i + 1), stage=spec.get('stage', 'league'), case=i)
+        shared = dict(source_league=spec.get('league', f'L{competition}'), source_season=str(season), experiment_season=spec.get("experiment_season", f"{season}/{season}"), competition_id=competition, season_id=season, event_id=spec.get('event', BASE + i), kickoff_at=pd.Timestamp('2024-01-01', tz='UTC') + pd.Timedelta(days=spec.get('day', i)), round=spec.get('round', i + 1), stage=spec.get('stage', 'league'), case=i)
         home, away = BASE + 1000 + 2 * i, BASE + 1001 + 2 * i
         if layout == 'match':
             records.append(dict(shared, home_id=home, away_id=away))

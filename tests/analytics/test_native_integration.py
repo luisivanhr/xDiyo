@@ -185,6 +185,7 @@ def test_ui_discovery_and_team_choices_keep_keys_but_show_sofascore_names(export
         row=state.dispatch('discover',{'root':str(export.root)})['publications'][0]
         assert row['league']=='Premier_League' and row['league_label']=='Premier League'
         assert row['season_label']=='Premier League 24/25'
+        assert row['experiment_season']=='2024/2025'
         choices=state.dispatch('choices',{'root':str(export.root),'seasons':['24_25']})
         assert 'Verified Home' in [t['label'] for t in choices['teams']]
     finally:state.executor.shutdown()

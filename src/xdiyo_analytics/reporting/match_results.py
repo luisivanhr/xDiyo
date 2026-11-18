@@ -45,7 +45,7 @@ def fixture_rows(context, display):
     """Shared fixture identities, team names and offline badges for result tables."""
     meta = context.metadata
     league_col = display.league_column or ("source_league" if "source_league" in meta else "competition_id")
-    season_col = display.season_column or ("source_season" if "source_season" in meta else "season_id")
+    season_col = display.season_column or next((c for c in ("experiment_season", "source_season") if c in meta), "season_id")
     for field, column in (("league", league_col), ("season", season_col), ("round", "round")):
         if (getattr(display, field) is not None or field in {"league", "season"}) and column not in meta:
             raise KeyError(f"Match-result {field} metadata is unavailable: {column}")
@@ -111,7 +111,8 @@ class MatchResultReporter(PredictionReporter):
     catalog accepts TeamCatalog or an ID mapping. show_badges embeds optional
     local assets once per team, so saved HTML/notebook output works offline.
     Metadata names are used when present, otherwise catalog names or Team <ID>.
-    league_column/season_column default to source_* then competition_id/season_id.
+    league_column defaults to source_league then competition_id.
+    season_column defaults to experiment_season, then legacy source_season/season_id.
     """
     partition: str = "score"
     target: object = None

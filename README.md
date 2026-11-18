@@ -46,3 +46,7 @@ For a code-first experiment, use [notebook 18: Lasso for total match corners](no
 For a broad feature experiment with prediction intervals, use [notebook 19: XGBoost quantiles for total corners](notebooks/19_xgboost_quantile_total_corners.ipynb). It trains separate 10th, 50th and 90th percentile models and inspects held-out pinball loss, interval coverage and quantile crossings. The [guide](docs/analytics/xgboost_quantile_total_corners.md) explains its features, GPU configuration and saved results.
 
 For exact-count classification using the same full feature bank, use [notebook 20: XGBoost classifier for total corners](notebooks/20_xgboost_classifier_total_corners.ipynb). It adds a chronological hyperparameter grid, fitting-only class weights and match predictions with a two-corner tolerance. The [guide](docs/analytics/xgboost_classifier_total_corners.md) explains class probabilities, saved results and execution scope.
+
+## Experiment season convention
+
+New experiments use the [SofaScore year-pair season standard](docs/analytics/sofascore_season_standard.md), not storage aliases or annual-cycle remapping.

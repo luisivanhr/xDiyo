@@ -105,13 +105,14 @@ def _fold_description(metadata, fold):
             parts.append(str(leagues[0]).replace('_', ' '))
         elif len(leagues):
             parts.append(f'{len(leagues)} leagues')
-    if 'source_season' in metadata:
+    season_column = next((c for c in ('experiment_season', 'source_season') if c in metadata), None)
+    if season_column is not None:
         for title, rows in [('train', train), ('test', test)]:
             if 'kickoff_at' in rows:
                 rows = rows.sort_values('kickoff_at', kind='stable')
-            seasons = rows.source_season.dropna().astype(str).drop_duplicates().tolist()
+            seasons = rows[season_column].dropna().astype(str).drop_duplicates().tolist()
             if seasons:
-                label = ', '.join(s.replace('_', '/') for s in seasons)
+                label = ', '.join(s.replace('_', '/') for s in seasons) if season_column == 'source_season' else ', '.join(seasons)
                 parts.append(f'{title} {label}')
     if fold.metadata.get('gap_unit') == 'rounds' and fold.metadata.get('gap') and 'round' in test:
         import pandas as pd
@@ -365,11 +366,17 @@ class BuilderState:
                 stem = path.name.removesuffix('.manifest.json')
                 parts = stem.rsplit('_', 2)
                 if len(parts) == 3:
-                    info = json.loads(path.read_text(encoding='utf-8')).get('native_integration', {})
+                    publication = json.loads(path.read_text(encoding='utf-8'))
+                    info = publication.get('native_integration', {})
                     entry = {'stem': stem, 'league': parts[0], 'season': '_'.join(parts[1:])}
                     if info:
                         entry.update(league_label=info['competition']['name'], season_label=info['season']['name'],
                                      native_identity=info['season'], rules=info['rules'])
+                    from ..data._source import _open_source
+                    from ..data.season_convention import season_pair
+                    if publication.get("manifest"):
+                        scope = _open_source(root, stem).manifest["scope"]
+                        entry["experiment_season"] = season_pair(scope["season_start"], scope["season_end"])
                     publications.append(entry)
             return {'publications': publications}
         if route == 'choices':

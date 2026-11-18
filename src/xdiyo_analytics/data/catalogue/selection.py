@@ -269,6 +269,17 @@ def selected_history(data):
     timing={int(r.event_id):b for r,b in zip(matches.itertuples(),bounds)}
     # Add grouping metadata after the native statistics reshape (which joins by fixture).
     history['source_season']=history.event_id.map(dict(zip(matches.event_id,matches.season_year)))
+    # The reviewed catalogue's season_year is already its stored year-pair label.
+    # Only promote exact full-year pairs, never infer from provider display names.
+    from ..season_convention import season_pair
+    canonical = {}
+    for event, label in zip(matches.event_id, matches.season_year):
+        parts = str(label).split("/")
+        if len(parts) == 2 and all(len(p) == 4 and p.isdigit() for p in parts):
+            canonical[event] = season_pair(*(int(p) for p in parts))
+    if len(canonical) == matches.event_id.nunique():
+        history["experiment_season"] = history.event_id.map(canonical)
+
     history['kickoff_at']=pd.to_datetime([timing[int(e)][0] for e in history.event_id],utc=True)
     history['result_available_at']=pd.to_datetime([timing[int(e)][1] for e in history.event_id],utc=True)
     history['catalogue_history_available_at']=history.result_available_at.where(history.event_id.isin(selection['history_ids']))

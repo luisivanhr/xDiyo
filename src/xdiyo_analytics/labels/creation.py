@@ -244,6 +244,7 @@ def create_labels(history, labels):
         "kickoff_at", "round", "season_phase", "stage", "tournament_id", "stage_id", "status", "is_awarded", "play_status", "completion_date", "result_available_at", "team_id", "opponent_id", "side",
         "annual_league", "annual_season", "annual_phase", "season_half",
         "competition_name", "season_name", "season_label", "tournament_name",
+        "experiment_season", "season_start", "season_end",
         "native_countdown_rule", "native_standings_rule",
         "countdown_calendar_id", "standings_table_id", "standings_rule", "native_target",
     ) if c in history]]))

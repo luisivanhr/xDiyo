@@ -62,7 +62,7 @@ async function discoverData(force=false){
   else {const data=await api('discover',{root:source.data_root});choices=await api('choices',{root:source.data_root,seasons:source.seasons,leagues:source.leagues});publications=data.publications;}
   if(key!==JSON.stringify(recipe.data_selection||recipe.data))return;
   const selectedPublications=publications.filter(p=>source.leagues==null||source.leagues.includes(p.league));
-  const seasonChoices=[...new Set(selectedPublications.map(p=>p.season))].sort().map(value=>{const names=[...new Set(selectedPublications.filter(p=>p.season===value&&p.season_label).map(p=>p.season_label))];return names.length?{value,label:names.length===1?names[0]:`${value} · ${names.slice(0,2).join(' / ')}${names.length>2?' …':''}`}:value;});
+  const seasonChoices=[...new Set(selectedPublications.map(p=>p.season))].sort().map(value=>{const names=[...new Set(selectedPublications.filter(p=>p.season===value&&(p.experiment_season||p.season_label)).map(p=>p.experiment_season||p.season_label))];return names.length?{value,label:names.length===1?names[0]:`${value} · ${names.slice(0,2).join(' / ')}${names.length>2?' …':''}`}:value;});
   discovered({seasons:seasonChoices,leagues:[...new Map(publications.map(p=>[p.league,{value:p.league,label:p.league_label||p.league}])).values()].sort((a,b)=>a.label.localeCompare(b.label))});
   available=choices;discovered({...available,stat_keys:[...new Set((available.stats||[]).map(s=>s.key))],identity_columns:['source_league','home_id','away_id','team_id','opponent_id']});discoveryKey=key;
  }finally{discoveryBusy=false;}if(stage==='data')render();

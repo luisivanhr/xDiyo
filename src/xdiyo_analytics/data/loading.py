@@ -216,6 +216,10 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
         provenance['season_calendar'] = calendar
         if 'matches' in frames:
             frames['matches'] = attach_calendar(frames['matches'], calendar)
+    from .season_convention import attach_season_convention, POLICY as SEASON_POLICY
+    if "matches" in frames:
+        frames["matches"] = attach_season_convention(frames["matches"], source.manifest["scope"])
+    provenance["season_convention"] = SEASON_POLICY
     for name, frame in frames.items():
         frame.attrs["source"] = {**provenance, "table": name}
     source.save()

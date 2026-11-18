@@ -701,7 +701,7 @@ def validate_frame(frame, *, placement_at=None, _cache=None):
                     states.append('unverified')
                 if _ticket_binding({k:row.get(k) for k in binding if k not in missing}) != {k:v for k,v in binding.items() if k not in missing}:
                     changed = {k for k,v in binding.items() if k not in missing and _ticket_binding({k:row[k]}).get(k)!=v}
-                    if changed & {'fold_id','competition_id','season_id','source_league','source_season','stage','round'}:
+                    if changed & {'fold_id','competition_id','season_id','source_league','source_season','experiment_season','stage','round'}:
                         raise ValueError('Ticket grouping differs from certified temporal identity.')
                     raise ValueError(f'Temporal ticket binding changed: {sorted(changed)} differ for ticket {row.get("ticket_id")}.')
                 legs = p['legs']
