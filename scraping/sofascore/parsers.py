@@ -7,6 +7,8 @@ import math
 
 from .discovery import event_status
 from .event_round import match_round, match_season
+from .event_sides import opposite_side, reviewed_reversed_sides
+from .event_scores import match_scores
 
 
 def encoded(value):
@@ -108,9 +110,14 @@ def parse_match(event, *, observed_at=None):
     for side in ("home","away"):
         team = event.get(side+"Team") or {}
         row.update({side+"_id":team.get("id"),side+"_name":team.get("name"),side+"_slug":team.get("slug")})
-        scores = event.get(side+"Score") or {}
+        scores = match_scores(event, side)
         for field in ("current","display","period1","period2","extra1","extra2","overtime","penalties"):
             row[side+"_score_"+field] = number(scores.get(field))
+    if reviewed_reversed_sides(event):
+        for key in tuple(row):
+            if key.startswith("home_"):
+                other = "away_" + key[5:]
+                row[key], row[other] = row[other], row[key]
     return row
 
 
@@ -118,8 +125,14 @@ def parse_component(job, payload, event, profile, *, observed_at, raw_hash):
     validate_payload(job.component,payload)
     tables = defaultdict(list)
     context = {"event_id":event["id"],"source_key":job.key,"raw_hash":raw_hash,"observed_at":observed_at}
+    reverse_sides = reviewed_reversed_sides(event)
 
     def put(table, row):
+        if reverse_sides:
+            if "side" in row:
+                row["side"] = opposite_side(row["side"])
+            if type(row.get("is_home")) is bool:
+                row["is_home"] = not row["is_home"]
         tables[table].append({**context, **row})
 
     def coverage(component, side, status):

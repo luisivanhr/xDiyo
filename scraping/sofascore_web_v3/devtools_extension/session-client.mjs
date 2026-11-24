@@ -7,7 +7,10 @@ export async function requestInPage(eventId, path, headers, expiresAt, executeBe
     (path===`/unique-tournament/${discovery.competition_id}/seasons` ||
       (Number.isSafeInteger(discovery.season_id) && discovery.season_id>0 &&
        (new RegExp(`^/unique-tournament/${discovery.competition_id}/season/${discovery.season_id}/(?:rounds|standings/total|events/round/[1-9]\\d*)$`).test(path) ||
-        (discovery.inspection_only===true && path===`/unique-tournament/${discovery.competition_id}/season/${discovery.season_id}/events/round/0`))));
+        (discovery.inspection_only===true && path===`/unique-tournament/${discovery.competition_id}/season/${discovery.season_id}/events/round/0`) ||
+        (discovery.inspection_only===true && ["last","next"].includes(discovery.event_page_direction) &&
+         Number.isSafeInteger(discovery.event_page_number) && discovery.event_page_number>=0 && discovery.event_page_number<4096 &&
+         path===`/unique-tournament/${discovery.competition_id}/season/${discovery.season_id}/events/${discovery.event_page_direction}/${discovery.event_page_number}`))));
   const allowedEvent=discovery===null && Number.isSafeInteger(eventId) && eventId>0 &&
     new RegExp(`^/event/${eventId}(?:/(?:lineups|statistics|incidents|shotmap|pregame-form)|/heatmap/[1-9]\\d*)?$`).test(path);
   if (location.origin !== "https://www.sofascore.com" || typeof path !== "string" ||
@@ -62,8 +65,9 @@ export async function requestInPage(eventId, path, headers, expiresAt, executeBe
 }
 
 export class ChromeSessionClient {
-  constructor(chrome,{now=()=>Date.now()}={}) {
-    this.chrome=chrome; this.now=now; this.session=null; this.minimumStarted=0;
+  constructor(chrome,{now=()=>Date.now(),readTimeoutMs=10000}={}) {
+    this.chrome=chrome; this.now=now; this.readTimeoutMs=readTimeoutMs;
+    this.session=null; this.minimumStarted=0;
     // Retain only the observed first-party headers, never the growing Network log.
     this.listener=entry=>{
       const candidate=selectSessionHeaders([entry],this.now());
@@ -90,11 +94,16 @@ export class ChromeSessionClient {
     this.session=null;
   }
   async refresh() {
+    // Live observations already replace cached session evidence. An expired
+    // cache needs normal page renewal, not another copy of the growing HAR.
+    if (this.session) return;
     let timer;
     try {
       const log=await Promise.race([
         new Promise(resolve=>this.chrome.devtools.network.getHAR(resolve)),
-        new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(new Error("Session Network log read timed out")),10000);}),
+        // This optional bootstrap read may time out locally. Leave readiness
+        // unchanged so callers use their existing bounded, validated renewal.
+        new Promise(resolve=>{timer=setTimeout(()=>resolve(null),this.readTimeoutMs);}),
       ]);
       const candidate=selectSessionHeaders(log?.entries || [],this.now());
       if (candidate && candidate.started>=this.minimumStarted && (!this.session || candidate.started>=this.session.started)) this.session=candidate;
@@ -107,7 +116,8 @@ export class ChromeSessionClient {
   async requestDiscovery(job) {
     if (typeof job.lease!=="string" || !/^[a-f0-9]{32}$/.test(job.lease)) throw new Error("Missing discovery lease");
     return this.dispatch({},job.path,{competition_id:job.competition_id,season_id:job.season_id,
-      inspection_only:job.inspection_only===true});
+      inspection_only:job.inspection_only===true,event_page_direction:job.event_page_direction,
+      event_page_number:job.event_page_number});
   }
   async dispatch(job,path,discovery) {
     if (!this.ready()) throw new Error("No recently successful, unexpired Chrome session; resume after site renewal");

@@ -361,13 +361,14 @@ def _publish_daily_campaign(directory):
             result["seasons"].append({"stem": season["stem"], "state": season["state"], "history_ids": [], "prediction_ids": [], "unfinished_ids": []})
             continue
         tables = assemble_season(season, reports, config["profile"], items)
-        years = cohort["years"]
+        years = season.get("years", cohort["years"])
         scope = Scope(season["competition_id"], season["season_id"], tuple(r["round"] for r in tables["matches"]),
                       league_name=season["league"], season_start=years[0], season_end=years[1])
         baseline = next((source["sha256"] for source in season["sources"] if Path(source["root"]).resolve() == output.resolve()), None)
         published = install_season(tables, output, season["stem"], scope, Profile(**config["profile"]),
             {"collection": "daily_update", "campaign_id": config["campaign_id"], "discovery_id": cohort["discovery_id"],
-             "cohort_sha256": result["cohort_sha256"], "scope": "Observed completed history plus selected current/next regular round; not a claim that the season is finished.",
+             "cohort_sha256": result["cohort_sha256"], "scope": "Observed completed history plus selected regular-season fixtures; not a claim that the season is finished.",
+             "selection_start": season.get("selection_start"), "selection_end": season.get("selection_end"),
              "reused_matches": len(season["reused_ids"]), "last_completed_round": season["last_completed_round"], "target_round": season["target_round"]},
              expected_prior=baseline)
         rows = tables["matches"]

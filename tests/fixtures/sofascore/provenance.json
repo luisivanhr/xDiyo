@@ -54,5 +54,26 @@
     "fetched_at_utc": 1789147338.0823889,
     "raw_sha256": "99428ea78198ffaa96a6033590473b0571be6b4f172c870666d3a00db78e7620",
     "fixture_transform": "Removed unrelated public player profile fields and translations; IDs and football fields preserved."
+  },
+  {
+    "file": "10025391_event.json",
+    "endpoint": "/event/10025391",
+    "fetched_at_utc": "2026-11-14T09:06:57.664Z",
+    "raw_sha256": "49e6b0f21f057c019abfef4da0f36f21b8a9ddc344cda05294b117617a8afe60",
+    "fixture_transform": "Original full event response from Chrome sanitized HAR; no fields changed. HTTP304 cached response body retained by DevTools."
+  },
+  {
+    "file": "11031965_event.json",
+    "endpoint": "/event/11031965",
+    "fetched_at_utc": "2026-11-14T10:07:50.890Z",
+    "raw_sha256": "18069bbbcc6e41af692626808adc006a8d7c85c2e9181438391d0a8ec83b820e",
+    "fixture_transform": "Original full Chrome HTTP 200 response; fields and byte content unchanged."
+  },
+  {
+    "file": "11031965_incidents.json",
+    "endpoint": "/event/11031965/incidents",
+    "fetched_at_utc": "2026-11-14T10:07:50.966Z",
+    "raw_sha256": "dea6a2c5230769aa89b2df259ac5108485d6eaa6fcb9ecda88a8953d7a3b76ca",
+    "fixture_transform": "Original full Chrome HTTP 200 response; fields and byte content unchanged."
   }
 ]

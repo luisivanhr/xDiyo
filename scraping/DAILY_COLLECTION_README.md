@@ -1,21 +1,34 @@
 # Daily history and prediction-fixture collection
 
 Use [run_daily_collection.py](run_daily_collection.py) with the xDiyo Network
-Capture extension **0.4.0**. Chrome discovers and captures the provider responses;
+Capture extension **0.4.1**. Chrome discovers and captures the provider responses;
 the script waits locally and publishes the finished collection automatically.
 Python makes no Sofascore HTTP requests.
 
+## Source checkout setup
+
+From the project root, install the collector dependencies in a virtual environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".[collector]"
+```
+
+For the offline Python tests also install pytest (`pytest>=8,<10`). Run the
+collector scripts from this checkout. The collector extra supplies the Selenium
+bindings used by the browser client and its simulated browser tests.
+
 ## Start a run
 
-1. Reload **xDiyo Network Capture** at `chrome://extensions`, then close and reopen
-   DevTools. The panel must show **Version 0.4.0**. This also reconnects the updated
-   Python writer; the existing native-host registration is sufficient.
-   If the panel reports that a reload is required, close DevTools and reopen it
-   after reloading the extension. An old open session can still hold earlier code.
+1. Let any active historical collection finish first. Keep its Chrome session,
+   pacing and converter running. For a new run, verify that the DevTools panel and native host
+   both report version **0.4.1**. When ready to begin a new daily run, disconnect the completed campaign
+   and reconnect the prepared Discovery ID to load a fresh Python native host.
 2. Edit the short settings block in `scraping/run_daily_collection.py`. The default
-   season is **26/27**; change it to **25/26** to update the previously collected
-   season. The season is explicit, so an advertised future season is never chosen
-   accidentally. `LEAGUES = None` selects all 13 registered leagues.
+   split-year season is **26/27**, and `CALENDAR_SEASON` is **2026**. These are
+   independent explicit selectors; an advertised future season is never chosen
+   accidentally. `LEAGUES = None` selects the original 13 plus all **32 new
+   leagues** in the November coverage expansion, for **45 leagues** in total.
 3. From the xDiyo project folder, run:
 
    ```powershell
@@ -76,27 +89,34 @@ collector. Stop collection with the extension's Pause button.
 
 ## Which matches are selected
 
-Each league is handled independently within the selected season:
+New prepared daily runs use schema 2. Each league has its own saved season years:
 
-- Discover the regular numbered rounds through Sofascore's current round. When
-  that round is settled, continue to the first round with unfinished fixtures.
-  These compact round inventories are refreshed on a new run, so rescheduled
-  fixtures and changed results are seen.
-- Keep the completed history and **the whole current/next round**. A partly played
-  round includes its finished, in-progress and unplayed matches. Completed matches
-  become history immediately. Live/interrupted matches remain unfinished until a
-  subsequent run captures their final result.
+- Enumerate the advertised regular numbered rounds as compact inventories. This
+  covers rescheduled earlier fixtures and ordinary stages that reuse round
+  numbers. Finished components are reused after identity/hash checks.
+- Keep completed history, live/interrupted and postponed matches, plus scheduled
+  fixtures in the next **14 days**. The interval is fixed at preparation and saved
+  in the discovery and publication evidence. Change `FIXTURE_WINDOW_DAYS` to
+  select 1–60 days. Metadata is refreshed when each selected match is captured.
 - Revisit unresolved older fixtures. An old postponement does not prevent moving
   to the next scheduled round. A unique later replacement with the same league,
   season, round and ordered teams supersedes the obsolete postponed/abandoned ID.
   Ambiguous identities or incomplete team coverage require review.
-- Exclude playoffs and post-split/group stages, matching the recent regular-season
-  collection. Cancelled/abandoned entries without a finished result remain in the
+- Exclude playoffs and post-split stages. Retain the ordinary Apertura/Clausura
+  stages, Argentina's regular zones and MLS conferences; never renumber rounds.
+  Cancelled/abandoned entries without a finished result remain in the
   discovery inventory and its preview, outside prediction/history selection.
 - An ended regular season has history and **no next round**. A season absent from
-  a league's season list is reported as `season_not_listed`. Neither condition
-  prevents the other leagues from being collected. An access error or malformed
+  the requested inventory is reported as `season_not_listed` and blocks creation
+  until the selection is reviewed; it is never silently dropped or replaced by
+  the latest season. `outside_fixture_window` means fixtures are advertised but
+  later than the selected interval. An access error or malformed
   response remains an error; it is not treated as proof that a season ended.
+
+Saved schema-1 daily IDs retain their original current/next-round selection and
+missing-season behavior. `--resume` never upgrades or rewrites an existing run.
+Calling the helper with plain legacy league dictionaries also preserves schema 1;
+catalog names or dictionaries with `season_kind` select schema 2.
 
 Prediction candidates are fixtures still marked `notstarted` whose scheduled
 kickoff is in the future. Postponed, live and finished matches are not prediction
@@ -130,8 +150,11 @@ is never filled with invented zeros.
 
 | Setting | Meaning |
 | --- | --- |
-| `SEASON` | Explicit provider year pair, for example `26/27` |
-| `LEAGUES` | `None` for the 13 saved leagues, or a list of league specifications |
+| `SEASON` | Split-year cycle, for example `26/27` |
+| `CALENDAR_SEASON` | Calendar year, for example `2026`; change independently at New Year |
+| `LEAGUES` | `None` for all 45 leagues, or a list of catalog names |
+| `SEASON_OVERRIDES` | Selected league name → explicit calendar year or split cycle |
+| `FIXTURE_WINDOW_DAYS` | Scheduled future fixture window; default 14 days |
 | `INCLUDE_LINEUPS` | Save lineups/player statistics when available; defaults to `True` |
 | `RANDOM_DELAY_MAX_SECONDS` | `None` by default, or an extra random wait from 0 to T seconds between requests |
 | `LINEUP_WINDOW_HOURS` | Request upcoming pregame/lineup data inside this window; defaults to 24 hours |
@@ -149,22 +172,51 @@ explicitly so. No final statistics/xG/heatmap requests are made for unfinished m
 To select existing leagues in the script:
 
 ```python
-from scraping.sofascore_web_v3.discovery import league_catalog
-LEAGUES = [league for league in league_catalog()
-           if league["name"] in {"Premier_League", "La_Liga"}]
+LEAGUES = ["Premier_League", "Brazil_Serie_A", "Eliteserien", "MLS"]
+SEASON = "26/27"
+CALENDAR_SEASON = "2026"
+# At New Year, keep SEASON="26/27" and set CALENDAR_SEASON="2027".
+# SEASON_OVERRIDES = {"Allsvenskan": "2026"}  # Only if selected above.
 ```
 
-To add another regular league, include a specification such as
-`{"name": "League_Name", "competition_id": THE_PROVIDER_ID, "meetings_per_pair": 2}`
-using its actual Sofascore competition ID. Daily mode validates each selected
-round's team coverage. Multi-group or nonstandard formats need their own validation;
-do not turn off the checks. The extension also exposes a daily/whole-season selector
-for manual creation; reconnect its daily Discovery ID with the script to publish it.
+The complete catalog is `daily_league_catalog()` in
+[`daily_catalog.py`](sofascore_web_v3/daily_catalog.py), with the canonical archive
+output names. Calendar leagues are Liga Profesional, Brazil A/B, Chile, China,
+Colombia, Ecuador, Norway, Peru, Sweden and MLS. All other new leagues use a
+split-year selector. Calendar outputs use `26_26`; split-year outputs use `26_27`.
+The manual extension form retains its original small historical catalog. Prepare
+expanded daily IDs with this script/helper and reconnect them in the same panel.
+
+Schema 2 requires exact competition/season identity, all advertised regular round
+responses, unique fixture identities, known statuses and standings reconciliation
+by ordinary stage. Standard round robins also require complete, nonconflicting
+team coverage per round. Uneven schedules and conferences are checked against
+played counts without assuming every team plays in every numbered round. Unknown
+group/round labels, missing rounds, ambiguous inventories and count discrepancies
+block collection. Raw provider responses are retained for review. A new provider
+format must be reviewed; these rules do not authorize guessing or bypassing gaps.
+
+Format references used for this extension:
+
+- [MLS competition guidelines](https://www.mlssoccer.com/about/competition-guidelines)
+  distinguish its conference schedule from a full pairwise round robin.
+- [Argentina's 2026 fixture](https://www.ligaprofesional.ar/notas/primera/2025/12/11/fixtures-de-la-temporada-2026/)
+  identifies the ordinary Apertura/Clausura zones and interzonal fixtures.
+- [Peru's provider competition](https://www.sofascore.com/football/tournament/peru/liga-1/406)
+  supplies distinct ordinary stage tables within a calendar year.
+- [Colombia's current competition](https://www.sofascore.com/football/tournament/colombia/primera-a-apertura/11539)
+  is 11539 for the combined 2026 inventory. ID 241 shows the obsolete 2011
+  inventory. This correction is confined to new daily selection; existing archive
+  configurations are untouched. Exact returned identities remain mandatory.
+
+Pre-split selection uses the regular standings participants and the reviewed
+number of meetings (three in Scotland/Switzerland, one in Egypt, two in the other
+selected split leagues). Championship/relegation/placement groups remain excluded.
 
 ## Saved data and loading
 
 Updates go to **`data/xDiyo_data`**, alongside the historical seasons, using the
-same `<League>_26_27.parquet` naming convention and typed season/relational format.
+same `<League>_26_27.parquet` or `<League>_26_26.parquet` naming convention and typed season/relational format.
 The converter reuses completed matches and updates the selected season by event
 ID, retaining completed history, repaired fields and previous immutable versions.
 Other seasons are left unchanged. This folder is both the default history source
@@ -200,7 +252,7 @@ For a small notebook, run the same two helpers from a kernel opened in the proje
 
 ```python
 from scraping.sofascore_web_v3.daily import prepare_daily_run, watch_daily_run
-run = prepare_daily_run(season="26/27", include_lineups=True)
+run = prepare_daily_run(season="26/27", calendar_season="2026", include_lineups=True)
 watch_daily_run(run["discovery_id"])
 ```
 
@@ -209,10 +261,14 @@ printed ID. Preparing/watching never launches another browser.
 
 ## Validation status
 
-Offline tests cover mixed and ended seasons, incomplete inventories, partial
+Offline tests cover all 32 new catalog entries, mixed calendar/split publication
+and prediction loading, ordinary stages, conferences, uneven schedules, and
+pre-split exclusions, as well as mixed and ended seasons, incomplete inventories, partial
 rounds, postponed replacements, fresh-status request selection, repeated runs,
 profile changes, same-ID result updates, source preservation, snapshot phases,
 publication rollback and resume. The saved Premier League 2025/26 compatibility
-check reused all 380 completed matches without provider requests. The daily flow
-has not yet had a live Chrome collection run; the existing historical route was
-already exercised live.
+check reused all 380 completed matches without provider requests. A saved original
+13-league daily run has already published successfully. The expanded route was
+also replayed against saved Chrome responses for all nine current-season cohorts
+in coverage wave 1; all passed, without new provider requests. Live daily capture
+across all 45 leagues is still pending the current historical collection's finish.

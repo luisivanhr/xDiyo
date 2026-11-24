@@ -11,6 +11,26 @@ def verified_finished_event(event):
     alongside the old postponed status. Never infer completion from a score alone.
     https://www.repubblica.it/sport/calcio/serie-b/2013/11/24/news/palermo_latina-71816673/
     """
+    # MVV-Roda's remaining 48 minutes were completed on 29 November 2021,
+    # finishing 1-1. Only the resumed record is completed; the 0-0 October
+    # abandonment stays excluded. KNVB's resumption decision and the final
+    # match report are retained in coverage_europe3_reviewed_fixtures.json.
+    if (event.get("id") == 9985017
+            and (event.get("tournament") or {}).get("uniqueTournament", {}).get("id") == 131
+            and (event.get("season") or {}).get("id") == 36893
+            and (event.get("season") or {}).get("year") in {"21/22", "2021/22", "2021/2022"}
+            and (event.get("roundInfo") or {}).get("round") == 13
+            and (event.get("homeTeam") or {}).get("id") == 2976
+            and (event.get("awayTeam") or {}).get("id") == 2954
+            and event.get("startTimestamp") == 1638187200
+            and (event.get("status") or {}).get("type") == "canceled"
+            and (event.get("status") or {}).get("code") == 90
+            and (event.get("status") or {}).get("description") == "Abandoned"
+            and event.get("isAwarded", False) is False
+            and all((event.get(side) or {}).get("current") == 1
+                    and (event.get(side) or {}).get("display") == 1
+                    for side in ("homeScore", "awayScore"))):
+        return True
     # Tokushima-Yamagata, J2 round 33, was played 16 September 2013 (2-2).
     # Both clubs' archives confirm the completed fixture, despite the stale flag.
     # https://www.vortis.jp/game/match/?year=2013
@@ -88,6 +108,8 @@ def event_status(event):
 
 
 def round_jobs(scope, locale="en"):
+    if scope.event_ids:
+        raise ValueError("An explicit saved-fixture scope cannot enumerate provider rounds")
     return [Job(f"/unique-tournament/{scope.league_id}/season/{scope.season_id}/events/round/{r}",
                 "discovery", locale=locale, reasons=(f"round:{r}",)) for r in scope.rounds]
 

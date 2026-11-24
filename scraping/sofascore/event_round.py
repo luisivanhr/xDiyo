@@ -48,10 +48,108 @@ SERIE_B_2015_ROUND_FOUR = {
 }
 
 
+def reviewed_egypt_2019_round(event):
+    """Eight COVID-restart fixtures lack roundInfo in the original response.
+
+    Captured original Chrome HARs establish the event identity; contemporary
+    match reports establish round 14, 15, 18 or 19. Sources are retained with
+    the Egypt review receipt. No provider field is changed in raw storage.
+    """
+    rule = {
+        8816749: (42368, 43560, 1596736800, 1, 0, 14),
+        8822046: (43559, 209028, 1596985200, 2, 1, 18),
+        8822047: (6910, 43564, 1596996000, 2, 0, 15),
+        8823198: (175002, 216375, 1597077000, 3, 0, 19),
+        8831404: (209028, 373168, 1597327200, 1, 1, 19),
+        8831405: (43563, 42365, 1597336200, 1, 1, 19),
+        8835330: (43565, 35187, 1597413600, 1, 1, 19),
+        8835333: (43562, 6910, 1597431600, 1, 1, 19),
+    }.get(event.get("id"))
+    season, status = event.get("season") or {}, event.get("status") or {}
+    tournament = event.get("tournament") or {}
+    actual = ((event.get("homeTeam") or {}).get("id"), (event.get("awayTeam") or {}).get("id"),
+              event.get("startTimestamp"), (event.get("homeScore") or {}).get("current"),
+              (event.get("awayScore") or {}).get("current"))
+    if (rule and actual == rule[:-1] and event.get("roundInfo") is None
+            and tournament.get("id") == 38612 and tournament.get("isGroup") is False
+            and (tournament.get("uniqueTournament") or {}).get("id") == 808
+            and season.get("id") == 25455 and season.get("year") in {"19/20", "2019/20", "2019/2020"}
+            and status.get("type") == "finished" and status.get("code") == 100
+            and event.get("isAwarded", False) is False):
+        return rule[-1]
+    return None
+
+
+def reviewed_egypt_2020_round(event):
+    """Match reports identify exact postponed games; never rewrite raw data.
+
+    https://www.youm7.com/story/2021/1/18/-/5163983
+    https://www.mahttmsr.com/8567
+    https://www.btolat.com/news/250957
+    https://english.ahram.org.eg/NewsContent/6/51/418503/Sports/Egyptian-Football/Egyptian-Premier-League-results--scorers-th-matchd.aspx
+    """
+    rule = {
+        9278105: (7, 42366, 42365, 1610982000, 0, 1, 6),
+        9289854: (7, 35187, 43564, 1614610800, 0, 1, 4),
+        9689650: (29, 6910, 371622, 1628362800, 4, 0, 23),
+        9689656: (30, 43559, 371622, 1628614800, 1, 2, 29),
+        9689657: (30, 43565, 266626, 1628442000, 1, 1, 29),
+        9689658: (30, 43560, 42365, 1628449200, 3, 1, 29),
+        9689659: (30, 43561, 175002, 1628449200, 1, 1, 29),
+        9689660: (30, 35187, 42368, 1628622000, 1, 2, 29),
+        9689663: (30, 58319, 43568, 1628614800, 2, 2, 29),
+        9689664: (30, 43564, 43563, 1628528400, 0, 0, 29),
+    }.get(event.get("id"))
+    season, status = event.get("season") or {}, event.get("status") or {}
+    actual = ((event.get("roundInfo") or {}).get("round"),
+              (event.get("homeTeam") or {}).get("id"), (event.get("awayTeam") or {}).get("id"),
+              event.get("startTimestamp"), (event.get("homeScore") or {}).get("current"),
+              (event.get("awayScore") or {}).get("current"))
+    if (rule and actual == rule[:-1]
+            and (event.get("tournament") or {}).get("uniqueTournament", {}).get("id") == 808
+            and season.get("id") == 34930 and season.get("year") in {"20/21", "2020/21", "2020/2021"}
+            and status.get("type") == "finished" and status.get("code") == 100
+            and event.get("isAwarded", False) is False):
+        return rule[-1]
+    return None
+
+
+def reviewed_remaining_round(event):
+    """Exact postponed-game labels, checked against the original fixture lists.
+
+    Colo-Colo/Wanderers: ANFP's rescheduled date-30 notice, 6 November 2021.
+    Alianza Petrolera/DIM: the 26 October 2021 date-16 match report.
+    Tecnico/Mushuc Runa: LigaPro's official second-stage 2024 calendar, date 8.
+    Sources and original response hashes are retained in the remaining review.
+    """
+    rule = {
+        10829731: (155, 41884, 68, 3205, 3202, 1666288800, 1, 2, None, 23),
+        9927907: (11653, 36048, 64475, 3155, 3150, 1636232400, 3, 0, 31, 30),
+        9652499: (11536, 37473, 19236, 89156, 6115, 1635289200, 3, 0, 15, 16),
+        12014145: (240, 58043, 1387, 21941, 134976, 1727728200, 2, 2, 6, 8),
+    }.get(event.get("id"))
+    tournament, status = event.get("tournament") or {}, event.get("status") or {}
+    actual = ((tournament.get("uniqueTournament") or {}).get("id"),
+              (event.get("season") or {}).get("id"), tournament.get("id"),
+              (event.get("homeTeam") or {}).get("id"), (event.get("awayTeam") or {}).get("id"),
+              event.get("startTimestamp"), (event.get("homeScore") or {}).get("current"),
+              (event.get("awayScore") or {}).get("current"), (event.get("roundInfo") or {}).get("round"))
+    if (rule and actual == rule[:-1] and status.get("type") == "finished"
+            and status.get("code") == 100 and not event.get("isAwarded", False)):
+        return rule[-1]
+    return None
+
+
 def match_round(event):
     """Return the provider round, or the verified correction for exact identity."""
     if reviewed_j2_2018_metadata(event):
         return 39
+    if (remaining_round := reviewed_remaining_round(event)) is not None:
+        return remaining_round
+    if (egypt_round := reviewed_egypt_2019_round(event)) is not None:
+        return egypt_round
+    if (egypt_round := reviewed_egypt_2020_round(event)) is not None:
+        return egypt_round
     number = (event.get("roundInfo") or {}).get("round")
     # The rescheduled Lecce-Ascoli match has no roundInfo in Sofascore.
     # It completed round 22 on 23 March 2019; preserve the raw missing label.

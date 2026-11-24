@@ -29,6 +29,327 @@ def fixture(name):
     return json.loads((FIXTURES / f"12436870_{name}.json").read_text(encoding="utf-8"))
 
 
+def coverage_reviews():
+    first = json.loads((FIXTURES / "coverage_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    second = json.loads((FIXTURES / "coverage_europe2_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    third = json.loads((FIXTURES / "coverage_europe3_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    return {key: first[key] + second[key] + third[key] for key in ("replacements", "unplayed_awards")}
+
+
+def curtailed_archive_reviews():
+    return json.loads((FIXTURES / "coverage_europe3_curtailed_seasons.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("review", curtailed_archive_reviews(), ids=lambda r: r["spec"]["name"])
+def test_reviewed_curtailments_keep_all_responses_and_queue_only_played_fixtures(tmp_path, review):
+    from scraping.sofascore.discovery import is_completed_event
+    from scraping.sofascore_web_v3.curtailed_archive import ARCHIVE_CURTAILMENTS
+    values, spec = review["events"], review["spec"]
+    standings = {int(t): n for t, n in review["standings"].items()}
+    before = deepcopy(review)
+    saved = prepare(tmp_path, [spec])
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, values, standings)
+        status = discovery.status(refresh=True)
+        assert status["ready_to_collect"]
+        count = ARCHIVE_CURTAILMENTS[spec["historical_curtailment_review"]]["matches"]
+        assert status["seasons"][0]["selected_matches"] == count
+        assert status["seasons"][0]["schedule_validation"] == "reviewed_curtailed_final_standings"
+        hashes = dict(discovery.db.execute("SELECT path,sha256 FROM responses"))
+        records, _ = discovery._records(spec, discovery._resolved(0))
+        expected = {r["id"] for r in records if is_completed_event(json.loads(r["payload"]))}
+        prepared = discovery.prepare_collection(campaign_base=tmp_path / "campaigns")
+        assert hashes == dict(discovery.db.execute("SELECT path,sha256 FROM responses"))
+        assert discovery.db.execute("SELECT COUNT(*) FROM events").fetchone()[0] == len(values)
+    config = json.loads((Path(prepared["directory"]) / "config.json").read_text(encoding="utf-8"))
+    assert {item["event_id"] for item in config["items"]} == expected
+    assert len(expected) == count and review == before
+
+
+@pytest.mark.parametrize("review", curtailed_archive_reviews(), ids=lambda r: r["spec"]["name"])
+@pytest.mark.parametrize("mutation", ["missing_played", "duplicate_played", "wrong_table", "foreign_season",
+    "foreign_competition", "changed_year", "after_cutoff", "outside_round", "live", "unknown",
+    "award", "wrong_code", "negative_score", "unreviewed_tag", "snapshot", "changed_format"])
+def test_reviewed_curtailments_reject_incomplete_or_changed_evidence(review, mutation):
+    from scraping.sofascore_web_v3.curtailed_archive import ARCHIVE_CURTAILMENTS
+    from scraping.sofascore_web_v3.discovery import select_regular_records
+    values = deepcopy(review["events"])
+    spec = deepcopy(review["spec"])
+    standings = {int(t): n for t, n in review["standings"].items()}
+    rows = [dict(id=e["id"], competition=e["tournament"]["uniqueTournament"]["id"],
+        season=e["season"]["id"], regular=1, payload=json.dumps(e)) for e in values]
+    selected, _ = select_regular_records(rows)
+    values = [json.loads(r["payload"]) for r in selected]
+    event = next(e for e in values if e["status"]["type"] == "finished")
+    assert validate_schedule(values, spec, standings) == []
+    if mutation == "missing_played": values.remove(event)
+    elif mutation == "duplicate_played":
+        duplicate = deepcopy(event); duplicate["id"] += 99999999; values.append(duplicate)
+    elif mutation == "wrong_table": standings[next(iter(standings))] -= 1
+    elif mutation == "foreign_season": event["season"]["id"] += 1
+    elif mutation == "foreign_competition": event["tournament"]["uniqueTournament"]["id"] += 1
+    elif mutation == "changed_year": event["season"]["year"] = "2000/2001"
+    elif mutation == "after_cutoff":
+        cutoff = ARCHIVE_CURTAILMENTS[spec["historical_curtailment_review"]]["cutoff"]
+        event["startTimestamp"] = int(datetime.fromisoformat(cutoff).replace(tzinfo=timezone.utc).timestamp())
+    elif mutation == "outside_round": event["roundInfo"]["round"] = 0
+    elif mutation == "live": event["status"] = {"type": "inprogress", "code": 7}
+    elif mutation == "unknown":
+        next(e for e in values if e["status"]["type"] != "finished")["status"] = {"type": "mystery"}
+    elif mutation == "award": event["isAwarded"] = True
+    elif mutation == "wrong_code": event["status"]["code"] = 90
+    elif mutation == "negative_score": event["homeScore"]["current"] = -1
+    elif mutation == "unreviewed_tag": spec["historical_curtailment_review"] = "unreviewed"
+    elif mutation == "snapshot": spec["snapshot"] = True
+    elif mutation == "changed_format": spec["meetings_per_pair"] += 1
+    assert validate_schedule(values, spec, standings)
+
+
+def test_resumed_mvv_roda_requires_exact_completed_record_and_preserves_scores():
+    from scraping.sofascore.discovery import event_status, is_completed_event, verified_finished_event
+    from scraping.sofascore.parsers import parse_match
+    review = json.loads((FIXTURES / "coverage_europe3_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    event = review["resumed_event"]
+    before = deepcopy(event)
+    assert verified_finished_event(event) and is_completed_event(event)
+    row = parse_match(event)
+    assert row["status"] == "finished" and row["status_code"] == 90
+    assert row["home_score_current"] == row["away_score_current"] == 1
+    for path in ("id", "tournament.uniqueTournament.id", "season.id", "season.year",
+                 "roundInfo.round", "homeTeam.id", "awayTeam.id", "startTimestamp",
+                 "status.type", "status.code", "status.description", "homeScore.current",
+                 "awayScore.current", "homeScore.display", "awayScore.display", "isAwarded"):
+        changed = deepcopy(event)
+        obj = changed
+        parts = path.split(".")
+        for key in parts[:-1]: obj = obj[key]
+        value = obj.get(parts[-1])
+        obj[parts[-1]] = value + 1 if type(value) is int else "unreviewed"
+        assert not verified_finished_event(changed), path
+    original = next(x["original"] for x in review["replacements"] if x["replacement"]["id"] == event["id"])
+    assert event_status(original) == "abandoned" and not is_completed_event(original)
+    assert event == before
+
+
+def test_new_replacement_reviews_reject_altered_codes_and_awards():
+    from scraping.sofascore_web_v3.historical_formats import verified_replacement_id
+    review = json.loads((FIXTURES / "coverage_europe3_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    for pair in review["replacements"]:
+        for side in ("original", "replacement"):
+            for field in ("code", "award"):
+                changed = deepcopy(pair)
+                if field == "code": changed[side]["status"]["code"] += 1
+                else: changed[side]["isAwarded"] = True
+                new = changed["replacement"]
+                assert verified_replacement_id(changed["original"], {new["id"]: new}) is None
+
+
+def test_resumed_match_can_publish_with_explicitly_unavailable_components(tmp_path):
+    from scraping.sofascore_web_v3.campaign import prepare_campaign
+    review = json.loads((FIXTURES / "coverage_europe3_reviewed_fixtures.json").read_text(encoding="utf-8"))
+    event = review["resumed_event"]
+    before = deepcopy(event)
+    eid, stem = event["id"], "Eerste_Divisie_21_22"
+    saved = prepare_campaign([eid], base=tmp_path / "campaigns", references={eid: {
+        "kind": "queue_identity", "event": event, "season_stem": stem, "observed_at": 1700000000}})
+    with Campaign(saved["directory"]) as campaign:
+        job = campaign.next_match()
+        for path, planned in campaign.jobs(eid).items():
+            is_event = planned.component == "event"
+            entry = {"startedDateTime": datetime.now(timezone.utc).isoformat(), "time": 10,
+                "request": {"method": "GET", "url": "https://www.sofascore.com/api/v1" + path},
+                "response": {"status": 200 if is_event else 404,
+                    "content": {"text": json.dumps({"event": event} if is_event else {"error": "Not Found"})}}}
+            campaign.observe(eid, job["lease"], entry)
+        assert campaign.finish(eid, job["lease"], page_event_id=eid)["state"] == "complete"
+    result = publish_captured_season(saved["directory"], stem, output=tmp_path / "published")
+    assert result["matches"] == 1 and result["publication_state"] == "published"
+    tables = read_tables(tmp_path / "published" / result["manifest"], verify_hashes=True)
+    assert tables["matches"][0]["status"] == "finished"
+    assert tables["matches"][0]["home_score_current"] == tables["matches"][0]["away_score_current"] == 1
+    assert not tables.get("statistics") and not tables.get("shots") and not tables.get("heatmap_points")
+    assert event == before
+
+
+@pytest.mark.parametrize("mutation", [None, "ambiguous_regular", "foreign_competition"])
+def test_captured_czech_standings_selects_regular_table_without_weakening_validation(tmp_path, mutation):
+    captured = json.loads((FIXTURES / "coverage_europe2_standings.json").read_text(encoding="utf-8"))
+    payload = {"standings": deepcopy(captured["standings"])}
+    if mutation == "ambiguous_regular":
+        payload["standings"].append(deepcopy(payload["standings"][-1]))
+    elif mutation == "foreign_competition":
+        payload["standings"][-1]["tournament"]["uniqueTournament"]["id"] = 173
+    before = deepcopy(payload)
+    saved = prepare(tmp_path, [_spec("Czech_First_League", 172, "2018/2019")])
+    with open_discovery(saved["directory"]) as discovery:
+        job = discovery.next_job()
+        observe(discovery, job, {"seasons": [{"id": 17475, "year": "18/19"}]})
+        job = discovery.next_job()
+        observe(discovery, job, {"rounds": [{"round": n} for n in range(1, 31)]})
+        job = discovery.next_job()
+        assert job["path"] == captured["source_path"]
+        if mutation:
+            with pytest.raises(ValueError, match="ambiguous|another competition"):
+                observe(discovery, job, payload)
+            assert not discovery.status()["ready_to_collect"]
+        else:
+            observe(discovery, job, payload)
+            teams = discovery._value("standings:0")
+            assert len(teams) == 16 and set(teams.values()) == {30}
+            assert discovery.db.execute("SELECT state FROM jobs WHERE path=?", (job["path"],)).fetchone()[0] == "complete"
+        raw = discovery.db.execute("SELECT body FROM responses WHERE path=?", (job["path"],)).fetchone()[0]
+        assert json.loads(raw) == before == payload
+
+
+def test_czech_championship_stages_are_excluded_but_championship_leagues_remain_regular():
+    from scraping.sofascore_web_v3.archive_formats import excluded_stage
+    from scraping.sofascore_web_v3.daily_expanded import regular
+    captured = json.loads((FIXTURES / "coverage_europe2_standings.json").read_text(encoding="utf-8"))
+    spec = _spec("Czech_First_League", 172, "2018/2019")
+    event = events([1, 2], year="18/19", cid=172, sid=17475)[0]
+    for table, expected in zip(captured["standings"], (False, False, True)):
+        value = deepcopy(event)
+        value["tournament"] = deepcopy(table["tournament"])
+        assert is_regular(value, spec) is expected
+        assert regular(value, spec) is expected
+        assert excluded_stage(table) is (not expected)
+    for name in ("Championship", "Scottish Championship"):
+        value = deepcopy(event)
+        value["tournament"] = {"name": name, "slug": name.lower().replace(" ", "-"), "isGroup": False,
+            "uniqueTournament": {"name": name, "slug": name.lower().replace(" ", "-")}}
+        assert is_regular(value, spec) and regular(value, spec)
+    table = deepcopy(captured["standings"][-1])
+    table["name"] = "Championship Round"
+    assert excluded_stage(table)
+
+
+@pytest.mark.parametrize("review", coverage_reviews()["replacements"],
+                         ids=lambda r: str(r["original"]["id"]))
+def test_coverage_replacements_require_exact_saved_pair_and_preserve_raw(review):
+    from scraping.sofascore_web_v3.historical_formats import verified_replacement_id
+    from scraping.sofascore_web_v3.discovery import select_regular_records
+    original, replacement = review["original"], review["replacement"]
+    before = deepcopy(review)
+    assert verified_replacement_id(original, {replacement["id"]: replacement}) == replacement["id"]
+    assert verified_replacement_id(original, {}) is None
+    rows = [{"id": e["id"], "competition": e["tournament"]["uniqueTournament"]["id"],
+             "season": e["season"]["id"], "regular": 1, "payload": json.dumps(e)}
+            for e in (original, replacement)]
+    selected, superseded = select_regular_records(rows)
+    assert [r["id"] for r in selected] == [replacement["id"]]
+    assert superseded[0]["event_id"] == original["id"]
+    for side in ("original", "replacement"):
+        for path in ("id", "tournament.uniqueTournament.id", "season.id", "season.year",
+                     "roundInfo.round", "homeTeam.id", "awayTeam.id", "startTimestamp",
+                     "status.type", "homeScore.current", "awayScore.current"):
+            changed = deepcopy(review)
+            obj = changed[side]
+            parts = path.split(".")
+            for key in parts[:-1]:
+                obj = obj[key]
+            value = obj.get(parts[-1])
+            obj[parts[-1]] = value + 1 if type(value) is int else 1 if value is None else "unreviewed"
+            assert verified_replacement_id(changed["original"],
+                {changed["replacement"]["id"]: changed["replacement"]}) is None, (side, path)
+    assert review == before
+
+
+@pytest.mark.parametrize("review", coverage_reviews()["unplayed_awards"],
+                         ids=lambda r: str(r["event"]["id"]))
+def test_coverage_unplayed_awards_resolve_schedule_without_becoming_captures(tmp_path, review):
+    from scraping.sofascore.discovery import is_completed_event
+    from scraping.sofascore_web_v3.historical_formats import verified_unplayed_award
+    award = review["event"]
+    before = deepcopy(award)
+    assert verified_unplayed_award(award) and not is_completed_event(award)
+    for path in ("id", "tournament.uniqueTournament.id", "season.id", "season.year",
+                 "roundInfo.round", "homeTeam.id", "awayTeam.id", "startTimestamp",
+                 "status.type", "status.code", "isAwarded", "homeScore.current", "awayScore.current"):
+        changed = deepcopy(award)
+        obj = changed
+        parts = path.split(".")
+        for key in parts[:-1]:
+            obj = obj[key]
+        value = obj.get(parts[-1])
+        obj[parts[-1]] = not value if type(value) is bool else value + 1 if type(value) is int else "unreviewed"
+        assert not verified_unplayed_award(changed), path
+    if "isAwarded" not in award:
+        for flag in (True, False):
+            assert not verified_unplayed_award({**award, "isAwarded": flag})
+    teams = [award["homeTeam"]["id"], award["awayTeam"]["id"], *range(1, 15)]
+    cid = award["tournament"]["uniqueTournament"]["id"]
+    values = events(teams, year=award["season"]["year"], cid=cid, sid=award["season"]["id"])
+    paired = next(e for e in values if (e["homeTeam"]["id"], e["awayTeam"]["id"]) == tuple(teams[:2]))
+    old_round, new_round = paired["roundInfo"]["round"], award["roundInfo"]["round"]
+    for e in values:
+        n = e["roundInfo"]["round"]
+        e["roundInfo"]["round"] = new_round if n == old_round else old_round if n == new_round else n
+    values[values.index(paired)] = deepcopy(award)
+    spec = _spec("Reviewed_Award_League", cid, award["season"]["year"], teams=16, rounds=30)
+    assert validate_schedule(values, spec) == []
+    saved = prepare(tmp_path, [spec])
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, values)
+        assert discovery.status()["ready_to_collect"]
+        prepared = discovery.prepare_collection(campaign_base=tmp_path / "campaigns")
+    config = json.loads((Path(prepared["directory"]) / "config.json").read_text(encoding="utf-8"))
+    assert len(config["items"]) == 239
+    assert award["id"] not in {item["event_id"] for item in config["items"]}
+    assert award == before
+
+
+def turkey_withdrawal_fixture():
+    captured = json.loads((FIXTURES / "coverage_europe2_withdrawals.json").read_text(encoding="utf-8"))
+    return captured, _spec("Super_Lig", 52, "2022/2023"), {int(t): n for t, n in captured["standings"].items()}
+
+
+def test_turkish_withdrawals_reconcile_only_official_awards_and_never_create_capture_rows(tmp_path):
+    from scraping.sofascore_web_v3.historical_formats import reviewed_withdrawal_awards
+    captured, spec, standings = turkey_withdrawal_fixture()
+    values = captured["events"]
+    before = deepcopy(values)
+    assert len(values) == 313 and validate_schedule(values, spec, standings) == []
+    assert reviewed_withdrawal_awards(values, spec, standings) == tuple(map(tuple, captured["official_unplayed_awards"]))
+    saved = prepare(tmp_path, [spec])
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, values, standings)
+        status = discovery.status(refresh=True)
+        assert status["ready_to_collect"]
+        cohort = status["seasons"][0]
+        assert cohort["schedule_validation"] == "reviewed_withdrawal_awards"
+        assert cohort["selected_matches"] == 313 and len(cohort["unplayed_official_awards"]) == 29
+        prepared = discovery.prepare_collection(campaign_base=tmp_path / "campaigns")
+    config = json.loads((Path(prepared["directory"]) / "config.json").read_text(encoding="utf-8"))
+    assert len(config["items"]) == 313
+    assert {x["event_id"] for x in config["items"]} == {e["id"] for e in values}
+    assert values == before
+
+
+@pytest.mark.parametrize("mutation", ["missing_played", "duplicate", "different_pair", "wrong_season",
+    "wrong_year", "wrong_competition", "after_withdrawal", "wrong_round", "unfinished", "awarded",
+    "wrong_standings", "wrong_spec", "missing_standings"])
+def test_turkish_withdrawal_exception_rejects_other_missing_games_or_changed_identity(mutation):
+    from scraping.sofascore_web_v3.historical_formats import reviewed_withdrawal_awards
+    captured, spec, standings = turkey_withdrawal_fixture()
+    values = deepcopy(captured["events"])
+    changed = next(e for e in values if {e["homeTeam"]["id"], e["awayTeam"]["id"]} & {3091, 5138})
+    if mutation == "missing_played": values.pop()
+    elif mutation == "duplicate": values.append(deepcopy(values[0]))
+    elif mutation == "different_pair": changed["awayTeam"]["id"] = 3061 if changed["homeTeam"]["id"] != 3061 else 3052
+    elif mutation == "wrong_season": changed["season"]["id"] += 1
+    elif mutation == "wrong_year": changed["season"]["year"] = "23/24"
+    elif mutation == "wrong_competition": changed["tournament"]["uniqueTournament"]["id"] = 53
+    elif mutation == "after_withdrawal": changed["startTimestamp"] = int(datetime(2023, 2, 7, tzinfo=timezone.utc).timestamp())
+    elif mutation == "wrong_round": changed["roundInfo"]["round"] = 24
+    elif mutation == "unfinished": changed["status"] = {"type": "notstarted", "code": 0}
+    elif mutation == "awarded": changed["isAwarded"] = True
+    elif mutation == "wrong_standings": standings[3091] = 35
+    elif mutation == "wrong_spec": spec["season"] = "2023/2024"
+    elif mutation == "missing_standings": standings = None
+    assert not reviewed_withdrawal_awards(values, spec, standings)
+    assert validate_schedule(values, spec, standings)
+
+
 def events(teams, *, year="2010", cid=196, sid=10, meetings=2, group=False, id_base=100):
     ring = list(teams) + ([None] if len(teams) % 2 else [])
     first = []
@@ -193,9 +514,10 @@ def test_reviewed_replacements_require_both_exact_records(original, played, expe
     assert len(select_regular_records([old, wrong_score])[0]) == 2
 
 
-@pytest.mark.parametrize("pair", json.loads((FIXTURES / "mexico_reviewed_duplicates.json").read_text(encoding="utf-8"))["pairs"],
+@pytest.mark.parametrize("pair", [pair for name in ("mexico_reviewed_duplicates", "brazil_reviewed_duplicates")
+    for pair in json.loads((FIXTURES / f"{name}.json").read_text(encoding="utf-8"))["pairs"]],
                          ids=lambda p: str(p["original"]["id"]))
-def test_mexico_reviewed_duplicates_preserve_raw_and_require_exact_evidence(pair):
+def test_reviewed_duplicates_preserve_raw_and_require_exact_evidence(pair):
     from scraping.sofascore_web_v3.discovery import select_regular_records
     from scraping.sofascore_web_v3.historical_formats import verified_replacement_id
     from scraping.sofascore.discovery import is_completed_event
@@ -229,6 +551,22 @@ def test_mexico_reviewed_duplicates_preserve_raw_and_require_exact_evidence(pair
         changed[side].setdefault("awayScore", {})["current"] = 99
         assert verified_replacement_id(changed["original"], {new["id"]: changed["replacement"]}) is None
     assert pair == before
+
+
+def test_brazil_rescheduled_fixture_keeps_the_distinct_finished_reverse_match():
+    from scraping.sofascore_web_v3.discovery import select_regular_records
+    from scraping.sofascore.discovery import is_completed_event
+    evidence = json.loads((FIXTURES / "brazil_reviewed_duplicates.json").read_text(encoding="utf-8"))
+    pair = evidence["pairs"][0]
+    values = [pair["original"], pair["replacement"], evidence["other_fixture"]]
+    before = deepcopy(values)
+    rows = [dict(id=e["id"], competition=325, season=87678, round=e["roundInfo"]["round"],
+                 regular=1, payload=json.dumps(e)) for e in values]
+    chosen, superseded = select_regular_records(rows)
+    assert {r["id"] for r in chosen} == {17449066, 15237895}
+    assert superseded == [dict(event_id=15235440, replacement_event_id=17449066, status="postponed")]
+    assert [r["id"] for r in chosen if is_completed_event(json.loads(r["payload"]))] == [15237895]
+    assert values == before
 
 
 def test_requested_scope_counts_and_chronology():
@@ -625,6 +963,65 @@ def test_mexico_shared_2010_source_has_two_complete_disjoint_cohorts(tmp_path):
         discovery._summaries.clear()
         assert not discovery.status()["ready_to_collect"]
     assert apertura + clausura == original
+
+
+def test_archive_updates_only_the_affected_season_summary(tmp_path, monkeypatch):
+    from scraping.sofascore_web_v3 import archive_discovery as module
+    specs = [_spec("J1", 196, str(y), teams=2, rounds=2) for y in (2010, 2011)]
+    values = events([1, 2]) + events([1, 2], year="2011", sid=11, id_base=200)
+    saved = prepare(tmp_path, specs)
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, values)
+        assert discovery.status()["ready_to_collect"]
+        checked = []
+        validate = module.validate_schedule
+        monkeypatch.setattr(module, "validate_schedule",
+            lambda events, spec, standings: (checked.append(spec["season"]), validate(events, spec, standings))[1])
+        changed = deepcopy(values[0])
+        changed["status"] = {"type": "notstarted"}
+        job = discovery.db.execute("SELECT * FROM jobs WHERE season=10 AND kind='events' AND round=1").fetchone()
+        discovery.process(job, {"events": [changed]}, 1)
+        incremental = discovery.status()
+        assert checked == ["2010"]
+        assert not incremental["ready_to_collect"]
+        assert incremental["seasons"][1]["schedule_verified"]
+        assert incremental == discovery.status(refresh=True)
+        assert checked == ["2010", "2010", "2011"]
+
+
+def test_archive_shared_provider_update_refreshes_both_views_only(tmp_path, monkeypatch):
+    from scraping.sofascore_web_v3 import archive_discovery as module
+    specs = requested_archives()["mexico-2010-2026"][:2] + [_spec("J1", 196, "2010", teams=2, rounds=2)]
+    apertura, clausura = mexico_halves()
+    saved = prepare(tmp_path, specs)
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, apertura + clausura + events([1, 2], id_base=10000))
+        assert discovery.status()["ready_to_collect"]
+        checked = []
+        validate = module.validate_schedule
+        monkeypatch.setattr(module, "validate_schedule",
+            lambda events, spec, standings: (checked.append(spec["name"]), validate(events, spec, standings))[1])
+        changed = deepcopy(clausura[0])
+        changed["status"] = {"type": "notstarted"}
+        job = discovery.db.execute("SELECT * FROM jobs WHERE competition=11621 AND kind='events' AND round=1").fetchone()
+        discovery.process(job, {"events": [changed]}, 1)
+        incremental = discovery.status()
+        assert checked == ["Liga_MX_Apertura", "Liga_MX_Clausura"]
+        assert [s["finished"] for s in incremental["seasons"]] == [153, 152, 2]
+        assert not incremental["ready_to_collect"]
+        assert incremental == discovery.status(refresh=True)
+
+
+def test_collection_preparation_revalidates_even_with_a_warm_summary(tmp_path):
+    saved = prepare(tmp_path, [_spec("J1", 196, "2010", teams=2, rounds=2)])
+    with open_discovery(saved["directory"]) as discovery:
+        drain(discovery, events([1, 2]))
+        assert discovery.status()["ready_to_collect"]
+        with discovery.db:
+            discovery.db.execute("DELETE FROM events WHERE id=100")
+        with pytest.raises(ValueError, match="every requested season"):
+            discovery.prepare_collection(campaign_base=tmp_path / "campaigns")
+        assert not (tmp_path / "campaigns").exists()
 
 
 @pytest.mark.parametrize("sid", [2771, 9999])

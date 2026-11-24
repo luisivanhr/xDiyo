@@ -1,0 +1,1052 @@
+[
+  {
+    "eventState": {},
+    "tournament": {
+      "name": "Liga de Primera",
+      "slug": "primera-division",
+      "category": {
+        "name": "Chile",
+        "slug": "chile",
+        "sport": {
+          "name": "Football",
+          "slug": "football",
+          "id": 1
+        },
+        "priority": 0,
+        "country": {
+          "alpha2": "CL",
+          "alpha3": "CHL",
+          "name": "Chile",
+          "slug": "chile"
+        },
+        "id": 49,
+        "flag": "chile",
+        "alpha2": "CL",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "تشيلي",
+            "ru": "Чили"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "Liga de Primera",
+        "slug": "primera-division",
+        "primaryColorHex": "#ed1b2d",
+        "secondaryColorHex": "#006bc4",
+        "category": {
+          "name": "Chile",
+          "slug": "chile",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "priority": 0,
+          "country": {
+            "alpha2": "CL",
+            "alpha3": "CHL",
+            "name": "Chile",
+            "slug": "chile"
+          },
+          "id": 49,
+          "flag": "chile",
+          "alpha2": "CL",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "تشيلي",
+              "ru": "Чили"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 21074,
+        "hasPerformanceGraphFeature": true,
+        "liveActivityEnabled": false,
+        "country": {},
+        "id": 11653,
+        "hasEventPlayerStatistics": true,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "دوري الدرجة الأولى",
+            "bn": "লীগা ডে প্রাইমার",
+            "hi": "लीगा डे प्राइमेरा",
+            "ru": "Лига Первой"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 300,
+      "isGroup": false,
+      "isLive": false,
+      "id": 64475,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "دوري الدرجة الأولى",
+          "bn": "লিগা ডি প্রাইমার",
+          "hi": "लीगा डे प्राइमेरा",
+          "ru": "Лига Примера"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "season": {
+      "name": "Primera División 2021",
+      "year": "2021",
+      "editor": false,
+      "id": 36048
+    },
+    "roundInfo": {
+      "round": 31
+    },
+    "customId": "anbsfnb",
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "winnerCode": 1,
+    "venue": {
+      "city": {
+        "name": "Santiago",
+        "country": {
+          "alpha2": "CL",
+          "alpha3": "CHL",
+          "name": "Chile",
+          "slug": "chile"
+        },
+        "id": 18004
+      },
+      "venueCoordinates": {
+        "latitude": -33.506475,
+        "longitude": -70.60492
+      },
+      "hidden": true,
+      "slug": "monumental-david-arellano",
+      "name": "Monumental David Arellano",
+      "capacity": 47000,
+      "country": {
+        "alpha2": "CL",
+        "alpha3": "CHL",
+        "name": "Chile",
+        "slug": "chile"
+      },
+      "id": 693,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "ملعب دافيد أريانو الأثري",
+          "hi": "मोनुमेंटल डेविड अरेलानो",
+          "bn": "মনুমেন্টাল ডেভিড আরেলানো",
+          "ru": "Монументальный стадион David Arellano"
+        },
+        "shortNameTranslation": {}
+      },
+      "stadium": {
+        "name": "Monumental David Arellano",
+        "capacity": 47000
+      }
+    },
+    "homeTeam": {
+      "name": "Colo-Colo",
+      "slug": "colo-colo",
+      "shortName": "Colo-Colo",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 103158,
+      "nameCode": "CC",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "CL",
+        "alpha3": "CHL",
+        "name": "Chile",
+        "slug": "chile"
+      },
+      "id": 3155,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#ffffff",
+        "secondary": "#ffffff",
+        "text": "#ffffff"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "كولو كولو",
+          "bn": "কোলো কোলো",
+          "hi": "कोलो कोलो",
+          "ru": "Коло Коло"
+        },
+        "shortNameTranslation": {
+          "hi": "कोलो-कोलो"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Santiago Wanderers",
+      "slug": "santiago-wanderers",
+      "shortName": "Wanderers",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 6716,
+      "nameCode": "SW",
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "CL",
+        "alpha3": "CHL",
+        "name": "Chile",
+        "slug": "chile"
+      },
+      "id": 3150,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#006600",
+        "secondary": "#006600",
+        "text": "#006600"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "سانتياغو ووندررز",
+          "hi": "सेंटिआगो वांडरर्स",
+          "ru": "Сантьяго Вондерерс"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "homeScore": {
+      "current": 3,
+      "display": 3,
+      "period1": 2,
+      "normaltime": 3
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 0,
+      "normaltime": 0
+    },
+    "coverage": 1,
+    "time": {
+      "injuryTime1": 1,
+      "injuryTime2": 4,
+      "currentPeriodStartTimestamp": 1636239740
+    },
+    "changes": {
+      "changes": [
+        "time.currentPeriodStart"
+      ],
+      "changeTimestamp": 1636388778
+    },
+    "hasGlobalHighlights": false,
+    "hasEventPlayerStatistics": true,
+    "hasEventPlayerHeatMap": true,
+    "detailId": 1,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 9927907,
+    "slug": "colo-colo-santiago-wanderers",
+    "startTimestamp": 1636232400,
+    "finalResultOnly": false,
+    "feedLocked": false,
+    "isEditor": false
+  },
+  {
+    "eventState": {},
+    "tournament": {
+      "name": "Primera A, Clausura",
+      "slug": "primera-a-clausura",
+      "category": {
+        "name": "Colombia",
+        "slug": "colombia",
+        "sport": {
+          "name": "Football",
+          "slug": "football",
+          "id": 1
+        },
+        "priority": 0,
+        "country": {
+          "alpha2": "CO",
+          "alpha3": "COL",
+          "name": "Colombia",
+          "slug": "colombia"
+        },
+        "id": 274,
+        "flag": "colombia",
+        "alpha2": "CO",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "كولومبيا",
+            "ru": "Колумбия"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "Primera A, Finalización",
+        "slug": "primera-a-clausura",
+        "primaryColorHex": "#002c6d",
+        "secondaryColorHex": "#00afcf",
+        "category": {
+          "name": "Colombia",
+          "slug": "colombia",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "priority": 0,
+          "country": {
+            "alpha2": "CO",
+            "alpha3": "COL",
+            "name": "Colombia",
+            "slug": "colombia"
+          },
+          "id": 274,
+          "flag": "colombia",
+          "alpha2": "CO",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "كولومبيا",
+              "ru": "Колумбия"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 17443,
+        "hasPerformanceGraphFeature": false,
+        "liveActivityEnabled": false,
+        "country": {},
+        "id": 11536,
+        "hasEventPlayerStatistics": true,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الدوري الأول، مرحلة الختام",
+            "bn": "প্রাইমেরা এ, ফাইনালিজা",
+            "hi": "प्रीमेरा ए, फिनालिज़ासियोन",
+            "ru": "Примера A, Финализация"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 295,
+      "isGroup": false,
+      "isLive": false,
+      "id": 19236,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "الدوري الكولومبي، مرحلة الإياب",
+          "bn": "প্রাইমারা এ, ক্লসুরা",
+          "hi": "प्राइमेरा ए, क्लॉसुरा",
+          "ru": "Первая A, Клаусура"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "season": {
+      "name": "Primera A 2021, Clausura",
+      "year": "2021",
+      "editor": false,
+      "id": 37473
+    },
+    "roundInfo": {
+      "round": 15
+    },
+    "customId": "pxcsgIK",
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "winnerCode": 1,
+    "venue": {
+      "city": {
+        "name": "Barrancabermeja",
+        "country": {
+          "alpha2": "CO",
+          "alpha3": "COL",
+          "name": "Colombia",
+          "slug": "colombia"
+        },
+        "id": 31737
+      },
+      "venueCoordinates": {
+        "latitude": 7.073211,
+        "longitude": -73.864681
+      },
+      "hidden": true,
+      "slug": "estadio-daniel-villa-zapata",
+      "name": "Estadio Daniel Villa Zapata",
+      "capacity": 10400,
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "id": 17473,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "ملعب دانيال فيا زاباتا",
+          "hi": "एस्टेडियो डैनियल विला ज़पाटा",
+          "bn": "এস্তাদিও ড্যানিয়েল ভিলা জাপাতা",
+          "ru": "Стадион Daniel Villa Zapata"
+        },
+        "shortNameTranslation": {}
+      },
+      "stadium": {
+        "name": "Estadio Daniel Villa Zapata",
+        "capacity": 10400
+      }
+    },
+    "homeTeam": {
+      "name": "Alianza Petrolera",
+      "slug": "alianza-petrolera",
+      "shortName": "Alianza Petrolera",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 1458,
+      "nameCode": "AP",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "id": 89156,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#fbd600",
+        "secondary": "#000000",
+        "text": "#000000"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "أليانزا بتروليرا",
+          "ru": "Алианца Петролера"
+        },
+        "shortNameTranslation": {
+          "ar": "أليانزا بتروليرا"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Independiente Medellín",
+      "slug": "independiente-medellin",
+      "shortName": "Ind. Medellín",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 41923,
+      "nameCode": "DIM",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "CO",
+        "alpha3": "COL",
+        "name": "Colombia",
+        "slug": "colombia"
+      },
+      "id": 6115,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#ffffff",
+        "secondary": "#000000",
+        "text": "#000000"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "إنديبندينتي ميديلين",
+          "ru": "Индепенденте Меделлин"
+        },
+        "shortNameTranslation": {
+          "ar": "إند. ميديلين"
+        }
+      }
+    },
+    "homeScore": {
+      "current": 3,
+      "display": 3,
+      "period1": 1,
+      "normaltime": 3
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 0,
+      "normaltime": 0
+    },
+    "coverage": -1,
+    "time": {
+      "injuryTime1": 2,
+      "injuryTime2": 3,
+      "currentPeriodStartTimestamp": 1635296123
+    },
+    "changes": {
+      "changes": [
+        "status.code",
+        "status.description",
+        "status.type",
+        "homeScore.normaltime",
+        "awayScore.normaltime"
+      ],
+      "changeTimestamp": 1635296133
+    },
+    "hasGlobalHighlights": false,
+    "hasEventPlayerStatistics": true,
+    "hasEventPlayerHeatMap": true,
+    "detailId": 1,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 9652499,
+    "slug": "alianza-petrolera-independiente-medellin",
+    "startTimestamp": 1635289200,
+    "finalResultOnly": false,
+    "feedLocked": false,
+    "isEditor": false
+  },
+  {
+    "eventState": {},
+    "tournament": {
+      "name": "LigaPro Serie A, Segunda Etapa",
+      "slug": "ligapro-serie-a-segunda-etapa",
+      "category": {
+        "name": "Ecuador",
+        "slug": "ecuador",
+        "sport": {
+          "name": "Football",
+          "slug": "football",
+          "id": 1
+        },
+        "priority": 0,
+        "country": {
+          "alpha2": "EC",
+          "alpha3": "ECU",
+          "name": "Ecuador",
+          "slug": "ecuador"
+        },
+        "id": 165,
+        "flag": "ecuador",
+        "alpha2": "EC",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الإكوادور",
+            "ru": "Эквадор"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "LigaPro Serie A",
+        "slug": "ligapro-serie-a",
+        "primaryColorHex": "#feca06",
+        "secondaryColorHex": "#025388",
+        "category": {
+          "name": "Ecuador",
+          "slug": "ecuador",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "priority": 0,
+          "country": {
+            "alpha2": "EC",
+            "alpha3": "ECU",
+            "name": "Ecuador",
+            "slug": "ecuador"
+          },
+          "id": 165,
+          "flag": "ecuador",
+          "alpha2": "EC",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الإكوادور",
+              "ru": "Эквадор"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 17626,
+        "hasPerformanceGraphFeature": false,
+        "liveActivityEnabled": false,
+        "country": {},
+        "id": 240,
+        "hasEventPlayerStatistics": true,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الدوري الإيطالي الدرجة الأولى",
+            "bn": "লিগাপ্রো সেরি এ",
+            "hi": "लिगाप्रो सीरी ए",
+            "ru": "ЛигаPro Серия A"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 245,
+      "isGroup": false,
+      "isLive": false,
+      "id": 1387,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "الدوري الإيطالي الدرجة الأولى، المرحلة الثانية",
+          "bn": "লিগাপ্রো সিরি এ,সেগুন্ডা এতাপা",
+          "hi": "लिगाप्रो सीरी ए, सेगुंडा एटापा",
+          "ru": "ЛигаPro Серия A, Вторая Этапа"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "season": {
+      "name": "LigaPro Primera A 2024",
+      "year": "2024",
+      "editor": false,
+      "id": 58043
+    },
+    "roundInfo": {
+      "round": 6
+    },
+    "customId": "QNisBZdb",
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "winnerCode": 3,
+    "venue": {
+      "city": {
+        "name": "Ambato",
+        "country": {
+          "alpha2": "EC",
+          "alpha3": "ECU",
+          "name": "Ecuador",
+          "slug": "ecuador"
+        },
+        "id": 22226
+      },
+      "venueCoordinates": {
+        "latitude": -1.244906,
+        "longitude": -78.623119
+      },
+      "hidden": true,
+      "slug": "estadio-bellavista",
+      "name": "Estadio Bellavista",
+      "capacity": 20000,
+      "country": {
+        "alpha2": "EC",
+        "alpha3": "ECU",
+        "name": "Ecuador",
+        "slug": "ecuador"
+      },
+      "id": 2966,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "ملعب بيلافيستا",
+          "hi": "एस्टेडियो बेलाविस्टा",
+          "bn": "বেলা ভিস্তা স্টেডিয়াম",
+          "ru": "Спортивный комплекс Estadio Bellavista"
+        },
+        "shortNameTranslation": {}
+      },
+      "stadium": {
+        "name": "Estadio Bellavista",
+        "capacity": 20000
+      }
+    },
+    "homeTeam": {
+      "name": "Técnico Universitario",
+      "slug": "tecnico-universitario",
+      "shortName": "Técnico U.",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 6385,
+      "nameCode": "TEC",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "EC",
+        "alpha3": "ECU",
+        "name": "Ecuador",
+        "slug": "ecuador"
+      },
+      "id": 21941,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#b80606",
+        "secondary": "#dfdfdf",
+        "text": "#dfdfdf"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "تيكنيكو يونيفيرسيتاريو",
+          "ru": "Текнико Университарио"
+        },
+        "shortNameTranslation": {
+          "ar": "تيكنيكو"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Mushuc Runa SC",
+      "slug": "mushuc-runa",
+      "shortName": "Mushuc Runa",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 10672,
+      "nameCode": "MUR",
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "EC",
+        "alpha3": "ECU",
+        "name": "Ecuador",
+        "slug": "ecuador"
+      },
+      "id": 134976,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#00e100",
+        "secondary": "#009933",
+        "text": "#009933"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "موشوك رونا",
+          "ru": "Мушук Руна"
+        },
+        "shortNameTranslation": {
+          "ar": "موشوك رونا"
+        }
+      }
+    },
+    "homeScore": {
+      "current": 2,
+      "display": 2,
+      "period1": 2,
+      "period2": 0,
+      "normaltime": 2
+    },
+    "awayScore": {
+      "current": 2,
+      "display": 2,
+      "period1": 2,
+      "period2": 0,
+      "normaltime": 2
+    },
+    "time": {
+      "injuryTime1": 5,
+      "injuryTime2": 6,
+      "currentPeriodStartTimestamp": 1727732219
+    },
+    "changes": {
+      "changes": [
+        "status.code",
+        "status.description",
+        "status.type"
+      ],
+      "changeTimestamp": 1727735285
+    },
+    "hasGlobalHighlights": false,
+    "hasEventPlayerStatistics": true,
+    "hasEventPlayerHeatMap": true,
+    "detailId": 1,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 12014145,
+    "slug": "mushuc-runa-tecnico-universitario",
+    "startTimestamp": 1727728200,
+    "finalResultOnly": false,
+    "feedLocked": true,
+    "isEditor": false
+  },
+  {
+    "eventState": {},
+    "tournament": {
+      "name": "Liga Profesional de Fútbol",
+      "slug": "liga-profesional",
+      "category": {
+        "name": "Argentina",
+        "slug": "argentina",
+        "sport": {
+          "name": "Football",
+          "slug": "football",
+          "id": 1
+        },
+        "priority": 0,
+        "country": {
+          "alpha2": "AR",
+          "alpha3": "ARG",
+          "name": "Argentina",
+          "slug": "argentina"
+        },
+        "id": 48,
+        "flag": "argentina",
+        "alpha2": "AR",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الأرجنتين",
+            "ru": "Аргентина"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "Liga Profesional de Fútbol",
+        "slug": "liga-profesional-de-futbol",
+        "primaryColorHex": "#0cbad8",
+        "secondaryColorHex": "#daa813",
+        "category": {
+          "name": "Argentina",
+          "slug": "argentina",
+          "sport": {
+            "name": "Football",
+            "slug": "football",
+            "id": 1
+          },
+          "priority": 0,
+          "country": {
+            "alpha2": "AR",
+            "alpha3": "ARG",
+            "name": "Argentina",
+            "slug": "argentina"
+          },
+          "id": 48,
+          "flag": "argentina",
+          "alpha2": "AR",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "الأرجنتين",
+              "ru": "Аргентина"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 63835,
+        "hasPerformanceGraphFeature": false,
+        "liveActivityEnabled": true,
+        "country": {},
+        "id": 155,
+        "hasEventPlayerStatistics": true,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "دوري كرة القدم للمحترفين",
+            "bn": "লীগা প্রোফেশনাল ডে ফুটবল",
+            "hi": "लीगा प्रोफेशनल डी फुटबॉल",
+            "ru": "Профессиональная лига футбола"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 435,
+      "isGroup": false,
+      "isLive": false,
+      "id": 68,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "الدوري الممتاز",
+          "bn": "লীগ প্রোফেশনাল",
+          "hi": "लीगा प्रोफेशनल",
+          "ru": "Профессиональная лига футбола"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "season": {
+      "name": "Liga Profesional 2022",
+      "year": "2022",
+      "editor": false,
+      "id": 41884
+    },
+    "customId": "cobsfob",
+    "status": {
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
+    },
+    "winnerCode": 2,
+    "venue": {
+      "city": {
+        "name": "La Plata",
+        "country": {
+          "alpha2": "AR",
+          "alpha3": "ARG",
+          "name": "Argentina",
+          "slug": "argentina"
+        },
+        "id": 20361
+      },
+      "venueCoordinates": {
+        "latitude": -34.91109,
+        "longitude": -57.933166
+      },
+      "hidden": true,
+      "slug": "estadio-juan-carmelo-zerillo",
+      "name": "Estadio Juan Carmelo Zerillo",
+      "capacity": 30973,
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "id": 12003,
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "ملعب خوان كارميلو زيريلو",
+          "hi": "एस्टेडियो जुआन कार्मेलो ज़ेरिलो",
+          "bn": "এস্তাদিও জুয়ান কারমেলো জেরিলো",
+          "ru": "Стадион Juan Carmelo Zerillo"
+        },
+        "shortNameTranslation": {}
+      },
+      "stadium": {
+        "name": "Estadio Juan Carmelo Zerillo",
+        "capacity": 30973
+      }
+    },
+    "homeTeam": {
+      "name": "Gimnasia y Esgrima",
+      "slug": "gimnasia-y-esgrima",
+      "shortName": "Gimnasia",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 16439,
+      "nameCode": "GLP",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "id": 3205,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#ffffff",
+        "secondary": "#000033",
+        "text": "#000033"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "خيميناسيا وإسغريما",
+          "ru": "Химнасия и Эсгрима Ла Плата"
+        },
+        "shortNameTranslation": {
+          "ar": "خيميناسيا"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Boca Juniors",
+      "slug": "boca-juniors",
+      "shortName": "Boca Juniors",
+      "gender": "M",
+      "sport": {
+        "name": "Football",
+        "slug": "football",
+        "id": 1
+      },
+      "userCount": 329824,
+      "nameCode": "BOC",
+      "disabled": false,
+      "national": false,
+      "type": 0,
+      "country": {
+        "alpha2": "AR",
+        "alpha3": "ARG",
+        "name": "Argentina",
+        "slug": "argentina"
+      },
+      "id": 3202,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#003399",
+        "secondary": "#ffcc66",
+        "text": "#ffcc66"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "بوكا جونيورز",
+          "hi": "बोका जूनियर्स",
+          "ru": "Бока Хуниорс"
+        },
+        "shortNameTranslation": {}
+      }
+    },
+    "homeScore": {
+      "current": 1,
+      "display": 1,
+      "period1": 0,
+      "period2": 1,
+      "normaltime": 1
+    },
+    "awayScore": {
+      "current": 2,
+      "display": 2,
+      "period1": 1,
+      "period2": 1,
+      "normaltime": 2
+    },
+    "coverage": -1,
+    "time": {
+      "injuryTime1": 3,
+      "injuryTime2": 4,
+      "currentPeriodStartTimestamp": 1666292701
+    },
+    "changes": {
+      "changes": [
+        "status.code",
+        "status.description",
+        "status.type"
+      ],
+      "changeTimestamp": 1666295360
+    },
+    "hasGlobalHighlights": false,
+    "hasEventPlayerStatistics": true,
+    "hasEventPlayerHeatMap": true,
+    "detailId": 6,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 10829731,
+    "slug": "gimnasia-y-esgrima-boca-juniors",
+    "startTimestamp": 1666288800,
+    "finalResultOnly": false,
+    "feedLocked": true,
+    "isEditor": false
+  }
+]

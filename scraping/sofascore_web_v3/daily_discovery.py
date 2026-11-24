@@ -169,7 +169,8 @@ class DailyDiscovery(Discovery):
         cohorts, references, queued = [], {}, []
         for cid, league in self.leagues.items():
             summary, records = self.season_selection(cid)
-            stem = f"{league['name']}_{years[0]%100:02d}_{years[1]%100:02d}"
+            season_years = summary.get("years", years)
+            stem = f"{league['name']}_{season_years[0]%100:02d}_{season_years[1]%100:02d}"
             events = [json.loads(r["payload"]) for r in records]
             reuse = plan_reuse(stem, events, self.config)
             by_id = {r["id"]: r for r in records}
@@ -181,7 +182,7 @@ class DailyDiscovery(Discovery):
                     "observed_at": by_id[eid]["observed"], "source": str(self.directory / "discovery.sqlite"),
                     "season_stem": stem, "route_source": "chrome_daily_discovery"}
                 queued.append(eid)
-            cohorts.append({**summary, "stem": stem, "event_ids": [e["id"] for e in events], **reuse})
+            cohorts.append({**summary, "years": season_years, "stem": stem, "event_ids": [e["id"] for e in events], **reuse})
         atomic_write(self.directory / "cohort.json", json_bytes({"discovery_id": self.config["discovery_id"],
             "created_at": time.time(), "profile": self.config["profile"], "years": years, "seasons": cohorts,
             "queued_ids": queued, "output_root": self.config["output_root"]}))

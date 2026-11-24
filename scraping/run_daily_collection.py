@@ -12,8 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scraping.sofascore_web_v3.daily import prepare_daily_run, watch_daily_run
 
-SEASON = "26/27"                 # Explicit: use "25/26" to update last season.
-LEAGUES = None                   # None = all 13 saved leagues; see README for selection.
+SEASON = "26/27"                 # Explicit split-year cycle.
+CALENDAR_SEASON = "2026"         # Calendar-year leagues; change independently at New Year.
+LEAGUES = None                   # Original 13 + all 32 new leagues. Or a list of catalog names.
+SEASON_OVERRIDES = {}            # Optional league-name -> explicit year/cycle.
+FIXTURE_WINDOW_DAYS = 14         # Future regular fixtures; lineups still use the shorter window.
 INCLUDE_LINEUPS = True
 RANDOM_DELAY_MAX_SECONDS = None  # Or T: an extra independent uniform wait from 0 to T.
 LINEUP_WINDOW_HOURS = 24          # Upcoming pregame/lineup requests inside this window.
@@ -26,6 +29,7 @@ def main():
     parser.add_argument("--once", action="store_true", help="Check once and publish if collection has finished")
     args = parser.parse_args()
     discovery_id = args.resume or prepare_daily_run(season=SEASON, leagues=LEAGUES,
+        calendar_season=CALENDAR_SEASON, season_overrides=SEASON_OVERRIDES, fixture_window_days=FIXTURE_WINDOW_DAYS,
         include_lineups=INCLUDE_LINEUPS, random_delay_max_seconds=RANDOM_DELAY_MAX_SECONDS,
         lineup_window_hours=LINEUP_WINDOW_HOURS)["discovery_id"]
     if args.prepare_only:

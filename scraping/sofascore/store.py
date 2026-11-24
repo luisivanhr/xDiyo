@@ -224,6 +224,8 @@ class Store:
             for event in events:
                 if not isinstance(event.get("id"), int):
                     raise ValueError("Discovered event has no integer ID")
+                if scope.event_ids and event["id"] not in scope.event_ids:
+                    raise ValueError("Event is outside the explicit saved-fixture scope")
                 season=match_season(event).get("id")
                 season_year=match_season(event).get("year")
                 competition=((event.get("tournament") or {}).get("uniqueTournament") or {}).get("id")

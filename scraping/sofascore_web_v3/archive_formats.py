@@ -9,8 +9,12 @@ import re
 
 from scraping.sofascore.discovery import event_status, is_completed_event
 from scraping.sofascore.event_round import match_round
+from scraping.sofascore.event_sides import match_team_ids
 from scraping.sofascore.store import season_year_pair
 from .discovery import STAGE
+from .historical_formats import verified_unplayed_award, reviewed_withdrawal_awards, reviewed_home_allocation
+from .source_gaps import reviewed_gaps
+from .curtailed_archive import validate_archive_curtailment
 
 J_HISTORY = "https://www.jleague.jp/corporate/about_competitions/tournament_history/"
 J_TRANSITION = "https://www.jleague.jp/news/article/29712/?mode=pc"
@@ -23,6 +27,26 @@ EUROPE_LEAGUES = (("Bundesliga", 35), ("Bundesliga_2", 44), ("Championship", 18)
 EXCLUDED = re.compile(STAGE.pattern
     + r"|championship[ -]stage|placement|ranking[ -]match|play[ -]?in|liguilla|repechaje"
     + r"|\bmatch[ -]for[ -]\d+(?:st|nd|rd|th)[ -]place\b", re.I)
+
+
+def excluded_stage(value):
+    """Read both table and tournament labels without excluding Championship leagues."""
+    tournament = value.get("tournament", value)
+    labels = " ".join(str(obj.get(k, "")) for obj in
+        (value, tournament, value.get("roundInfo", {})) for k in ("name", "slug", "prefix"))
+    if EXCLUDED.search(labels):
+        return True
+    # Sofascore also abbreviates the Czech championship round to the parent
+    # competition name plus ', Championship' (or its '-championship' slug).
+    # Require that parent label so an ordinary Scottish/English Championship
+    # tournament is not classified as a post-split stage by its league name.
+    parent = tournament.get("uniqueTournament", {})
+    for key, suffix in (("name", ", championship"), ("slug", "-championship")):
+        base, label = parent.get(key), tournament.get(key)
+        if isinstance(base, str) and base.strip() and isinstance(label, str):
+            if label.strip().casefold() == base.strip().casefold() + suffix:
+                return True
+    return False
 
 
 def _spec(name, cid, season, *, meetings=2, teams=None, rounds=None,
@@ -85,9 +109,8 @@ def requested_archives(*, japan_transition=None):
 
 
 def is_regular(event, spec):
-    tournament, info = event.get("tournament", {}), event.get("roundInfo", {})
-    labels = " ".join(str(obj.get(k, "")) for obj in (tournament, info) for k in ("name", "slug", "prefix"))
-    if EXCLUDED.search(labels):
+    tournament = event.get("tournament", {})
+    if excluded_stage(event):
         return False
     number = match_round(event)
     if spec["round_limit"] is not None and number > spec["round_limit"]:
@@ -101,6 +124,9 @@ def is_regular(event, spec):
 
 def validate_schedule(events, spec, standings=None):
     """Validate the complete inventory or a standings-reconciled current snapshot."""
+    curtailed = validate_archive_curtailment(events, spec, standings)
+    if curtailed is not None:
+        return curtailed
     issues = []
     teams = {e[side]["id"] for e in events for side in ("homeTeam", "awayTeam")}
     if standings is not None and teams != set(standings):
@@ -110,8 +136,19 @@ def validate_schedule(events, spec, standings=None):
         issues.append(f"Expected {expected_teams} teams; found {len(teams)}")
     meetings = spec["meetings_per_pair"]
     pairs = Counter(tuple(sorted((e["homeTeam"]["id"], e["awayTeam"]["id"]))) for e in events)
-    directed = Counter((e["homeTeam"]["id"], e["awayTeam"]["id"]) for e in events)
+    directed = Counter(match_team_ids(e) for e in events)
+    home_allocation = reviewed_home_allocation(events, spec, standings)
     schedule_rounds = {e["id"]: match_round(e) for e in events}
+    # Reconcile exact official nonplayed awards in counters only. They never
+    # become synthetic events, completed matches or collection queue items.
+    withdrawal_awards = reviewed_withdrawal_awards(events, spec, standings)
+    pairs.update(tuple(sorted((a, b))) for _, a, b in withdrawal_awards)
+    directed.update((a, b) for _, a, b in withdrawal_awards)
+    # Explicit user-approved missing provider captures. These independently
+    # verified played fixtures augment schedule counters only, never events.
+    source_gaps = reviewed_gaps(events, spec, standings)
+    pairs.update(tuple(sorted((a, b))) for _, a, b in source_gaps)
+    directed.update((a, b) for _, a, b in source_gaps)
     if (spec["competition_id"] == 196 and spec["season"] == "2016"
             and expected_teams == 18 and spec["round_limit"] == 34
             and meetings == 2 and spec["groups"] == 1):
@@ -133,7 +170,10 @@ def validate_schedule(events, spec, standings=None):
                            for eid, n in schedule_rounds.items()}
     round_teams = Counter((schedule_rounds[e["id"]], e[side]["id"])
                           for e in events for side in ("homeTeam", "awayTeam"))
-    if (any(n > meetings for n in pairs.values()) or any(n > (meetings+1)//2 for n in directed.values())
+    round_teams.update((number, team) for number, a, b in withdrawal_awards for team in (a, b))
+    round_teams.update((number, team) for number, a, b in source_gaps for team in (a, b))
+    if (any(n > meetings for n in pairs.values())
+            or any(n > home_allocation.get(pair, (meetings+1)//2) for pair, n in directed.items())
             or any(n > 1 for n in round_teams.values())):
         issues.append("Duplicate pairings or a team appears twice in one round")
     finished = [e for e in events if is_completed_event(e)]
@@ -172,12 +212,14 @@ def validate_schedule(events, spec, standings=None):
             issues.append("Missing teams or incorrect number/size of regular-season groups")
         if any(pairs[tuple(sorted((a, b)))] != meetings for group in components for a in group for b in group if a != b):
             issues.append("Incomplete regular-season pairings")
-        if meetings % 2 == 0 and any(directed[a, b] != meetings//2 for group in components for a in group for b in group if a != b):
+        if meetings % 2 == 0 and any(directed[a, b] != home_allocation.get((a, b), meetings//2)
+                                    for group in components for a in group for b in group if a != b):
             issues.append("Incomplete home/away pairings")
     rounds = spec["round_limit"] or ((expected_teams-1 if expected_teams % 2 == 0 else expected_teams) * meetings)
     if set(schedule_rounds.values()) != set(range(1, rounds+1)):
         issues.append("Regular-season round coverage is incomplete or outside the selected range")
-    if any(not is_completed_event(e) and event_status(e) not in {"abandoned", "cancelled", "awarded"} for e in events):
+    if any(not is_completed_event(e) and event_status(e) not in {"abandoned", "cancelled", "awarded"}
+           and not verified_unplayed_award(e) for e in events):
         issues.append("Historical season still contains unresolved unfinished fixtures")
     return issues
 
@@ -210,7 +252,7 @@ def reviewed_standings(events, spec, standings, payload):
         return standings
     selected = [s for s in payload.get("standings", []) if s.get("type") == "total"
         and s.get("tournament", {}).get("isGroup") is False
-        and not EXCLUDED.search(str(s.get("tournament", {}).get("name", "")))]
+        and not excluded_stage(s)]
     if (len(selected) != 1
             or selected[0].get("tournament", {}).get("uniqueTournament", {}).get("id") != 38):
         return standings

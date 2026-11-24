@@ -20,6 +20,7 @@ import uuid
 
 from scraping.sofascore.config import Profile, Scope
 from scraping.sofascore.event_round import match_round, match_season
+from .fixture_scope import saved_fixture_scope, event_scope_row
 from scraping.sofascore.export import normalize_store, publish_tables
 from scraping.sofascore.models import CollectionPaused, Job
 from scraping.sofascore.parsers import validate_payload
@@ -84,8 +85,8 @@ class WebsiteCapture:
         years = season_year_pair(match_season(self.event)["year"])
         if years is None:
             raise ValueError("Reference match needs an unambiguous season year pair")
-        self.scope = Scope(self.event["tournament"]["uniqueTournament"]["id"],
-                           match_season(self.event)["id"],(match_round(self.event),),
+        self.scope = saved_fixture_scope(self.event["tournament"]["uniqueTournament"]["id"],
+                           match_season(self.event)["id"], [event_scope_row(self.event, match_round(self.event), match_season(self.event))],
                            season_start=years[0],season_end=years[1])
         self.jobs = {job.path:job for job in component_jobs(self.event,profile,time.time())}
         self.event_job = Job(f"/event/{self.event['id']}","event",self.event["id"])
