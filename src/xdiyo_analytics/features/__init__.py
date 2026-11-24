@@ -7,6 +7,7 @@ from .expressions import (
 from .standings import DerivedStandings
 from .countdown import SeasonCountdown
 from .evaluation import evaluate_features
+from .inspector import HistoryInspector
 from .history import eligible_history_rows, league_season_team_counts
 from .ratings import BayesianFixture, BayesianRating, Rating, MatchResultGlicko, StatGlicko
 from .league import League, LeaveOneOut, LeaguePopulation
@@ -25,7 +26,7 @@ from .weighted import RollingWeightedMean
 
 __all__ = [
     "DerivedStandings", "SeasonCountdown",
-    "RollingWeightedMean",
+    "RollingWeightedMean", "HistoryInspector",
     "SpatialHistoricalDeviation", "SpatialFixtureDistance",
     "TeamMovement",
     "RegionMass", "SpatialPointSummary", "SpatialEntropy", "SpatialConcentration",

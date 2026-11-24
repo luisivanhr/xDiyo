@@ -40,7 +40,7 @@ def _frame(frame, rows):
     return result
 
 
-def split_training_rows(dataset, train_positions, validation=None, calibration=None, *, fold_metadata=None):
+def split_training_rows(dataset, train_positions, validation=None, calibration=None, *, fold_metadata=None, missing_fit_rows=None, feature_columns=None):
     """Return fitting/validation positions within an explicit training population.
 
     validation is None, original dataset positions, or an object such as
@@ -64,13 +64,24 @@ def split_training_rows(dataset, train_positions, validation=None, calibration=N
     for name, rows in (("fitting", fit), ("validation", valid)):
         if np.isin(codes, codes[rows]).sum() != len(rows):
             raise ValueError(f"{name} must retain whole matches.")
+    if missing_fit_rows is not None:
+        from .missing import MissingFitRows
+        if not isinstance(missing_fit_rows, MissingFitRows):
+            raise TypeError("missing_fit_rows must be MissingFitRows or None.")
+        fit, _ = missing_fit_rows.select(dataset, fit, feature_columns)
     return fit, valid
 
 
 def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fold_metadata,
                validation=None, control=None, observer=None, execution=None, execution_info=None, calibration=None,
-               weighting=None, observation_weights=None):
+               weighting=None, observation_weights=None, missing_fit_rows=None):
     fit, valid = split_training_rows(dataset, train, validation, calibration, fold_metadata=fold_metadata)
+    missing_audit = None
+    if missing_fit_rows is not None:
+        from .missing import MissingFitRows
+        if not isinstance(missing_fit_rows, MissingFitRows):
+            raise TypeError("missing_fit_rows must be MissingFitRows or None.")
+        fit, missing_audit = missing_fit_rows.select(dataset, fit, features)
     reserved, audit = np.array([], dtype=int), {}
     if calibration is not None:
         _, reserved, audit = calibration.partition(dataset, train, fold_metadata)
@@ -93,6 +104,9 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
     training.validation = context(valid) if len(valid) else None
     training.observer = observer
     model = model_factory()
+    if missing_fit_rows is not None:
+        from .missing import validate_fit_adapter
+        validate_fit_adapter(model)
     if calibration is not None:
         calibration.validate_model(model, dataset.y[targets].iloc[fit], dataset.y[targets].iloc[reserved])
     if training.sample_weight is not None and not getattr(model, "supports_sample_weight", False):
@@ -117,6 +131,8 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
             model.fit_controlled(training, control)
         else:
             model.fit(training)
+    if missing_audit is not None:
+        model.training_summary_ = {**getattr(model, "training_summary_", {}), "missing_fit_rows": missing_audit}
     if observation_weights is not None:
         model.training_summary_ = {**getattr(model, "training_summary_", {}),
                                    "class_balance": observation_weights.classes.to_dict("records"),
@@ -137,7 +153,7 @@ def _fit_model(dataset, train, model_factory, features, targets, *, fold_id, fol
 
 def fit_predict(dataset, fold, model_factory, *, fold_id=0,
                 feature_columns=None, target_columns=None, validation=None, control=None, observer=None, execution=None, calibration=None,
-                weighting=None, observation_weights=None):
+                weighting=None, observation_weights=None, missing_fit_rows=None):
     """Fit one fresh adapter and predict every test row of one supplied Fold.
 
     This is the reusable candidate-evaluation building block. The factory takes
@@ -148,7 +164,9 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
     belongs inside the adapter; precomputed feature timing remains upstream.
 
     Selected training targets must be nonmissing; test targets may be missing.
-    Features pass through as supplied, including NaNs. Whole matches must remain
+    Features pass through as supplied, including NaNs. An explicit MissingFitRows
+    policy filters only optimization matches before preprocessing; monitoring and
+    evaluation populations are unchanged. Whole matches must remain
     together in train/test/score. Empty score is valid, train/test are nonempty.
     Prediction DataFrames must preserve test row order/index exactly; positional
     arrays should be wrapped by an adapter such as EstimatorAdapter.
@@ -183,7 +201,7 @@ def fit_predict(dataset, fold, model_factory, *, fold_id=0,
                                       fold_id=fold_id, fold_metadata=fold_boundary(calibration, dataset, fold),
                                       validation=validation, control=control, observer=observer,
                                       execution=execution, execution_info=execution_info, calibration=calibration,
-                                      weighting=weighting, observation_weights=observation_weights)
+                                      weighting=weighting, observation_weights=observation_weights, missing_fit_rows=missing_fit_rows)
         outputs = model.predict(prediction)
     except Exception as error:
         error.add_note(f"Training/prediction failed in fold {fold_id}.")
@@ -237,6 +255,7 @@ class TrainingRunner:
     execution: object = None
     calibration: object = None
     weighting: object = None
+    missing_fit_rows: object = None
 
     def _validation_for(self, fold_id):
         if isinstance(self.validation, dict):
@@ -255,7 +274,8 @@ class TrainingRunner:
         for i, fold in enumerate(split_plan.folds):
             from .calibration_split import fold_boundary
             fit, _ = split_training_rows(dataset, fold.train, self._validation_for(i), self.calibration,
-                                          fold_metadata=fold_boundary(self.calibration, dataset, fold))
+                                          fold_metadata=fold_boundary(self.calibration, dataset, fold),
+                                          missing_fit_rows=self.missing_fit_rows, feature_columns=self.feature_columns)
             folds.append(Fold(fit, fold.test.copy(), fold.score.copy(), deepcopy(fold.metadata)))
         return SplitPlan(folds, split_plan.n_rows, split_plan.row_order.copy(), deepcopy(split_plan.paths))
 
@@ -318,7 +338,8 @@ class TrainingRunner:
                 selection = candidates[0]
                 from .calibration_split import fold_boundary
                 fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration,
-                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold))
+                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold),
+                                          missing_fit_rows=self.missing_fit_rows, feature_columns=self.feature_columns)
                 if selection.layout != dataset.layout or not np.isin(selection.row_positions, fitting_rows).all():
                     raise ValueError("Consumed feature selection must use only this fold's fitting training rows and layout; use selection_plan when reserving validation.")
                 features = selection.result.selection.columns
@@ -327,18 +348,21 @@ class TrainingRunner:
                 from ..weighting import report_weights
                 from .calibration_split import fold_boundary
                 fitting_rows, _ = split_training_rows(dataset, fold.train, validation, self.calibration,
-                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold))
+                                                      fold_metadata=fold_boundary(self.calibration, dataset, fold),
+                                          missing_fit_rows=self.missing_fit_rows, feature_columns=self.feature_columns)
                 weights = report_weights(analysis_report, weights_from, fold_id, fitting_rows, dataset.layout)
             jobs.append((fold_id, fold, features, validation, selection, weights))
         targets, control, execution = self.target_columns, self.control, self.execution
         calibration, weighting = self.calibration, self.weighting
+        missing_fit_rows = self.missing_fit_rows
 
         def fit_one(job, observer):
             fold_id, fold, features, validation, selection, weights = job
             result = fit_predict(dataset, fold, fresh_model, fold_id=fold_id,
                                  feature_columns=features, target_columns=targets,
                                  validation=validation, control=control, observer=observer, execution=execution,
-                                 calibration=calibration, weighting=weighting, observation_weights=weights)
+                                 calibration=calibration, weighting=weighting, observation_weights=weights,
+                                 missing_fit_rows=missing_fit_rows)
             result.selection = deepcopy(selection)
             return result
 

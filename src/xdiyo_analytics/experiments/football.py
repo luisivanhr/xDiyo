@@ -65,7 +65,7 @@ class RefitPolicy:
             rows = np.asarray(self.train_positions)
             plan = SplitPlan([Fold(rows, np.array([], dtype=int), np.array([], dtype=int))],
                              len(dataset.X), np.arange(len(dataset.X)))
-            runner = TrainingRunner(candidate.model_factory, validation=self.validation, calibration=candidate.calibration)
+            runner = TrainingRunner(candidate.model_factory, validation=self.validation, calibration=candidate.calibration, missing_fit_rows=candidate.missing_fit_rows)
             report = deepcopy(candidate.pre_analysis).run(dataset, split_plan=runner.selection_plan(dataset, plan))
             if candidate.features_from is not None:
                 studies = [study for study in report.studies if study.name == candidate.features_from]
@@ -79,7 +79,7 @@ class RefitPolicy:
         return refit_model(dataset, candidate.model_factory, train_positions=self.train_positions,
                            feature_columns=features, target_columns=candidate.target_columns,
                            validation=self.validation, control=self.control, observer=candidate.observer, execution=execution,
-                           calibration=candidate.calibration, observation_weights=weights)
+                           calibration=candidate.calibration, observation_weights=weights, missing_fit_rows=candidate.missing_fit_rows)
 
 
 @dataclass
@@ -398,7 +398,7 @@ class FootballExperiment:
                     "validation": signature(policy.validation), "control": signature(policy.control),
                     "fitting": signature({field: getattr(refit_candidate, field) for field in
                                           ("model_factory", "feature_columns", "target_columns",
-                                           "features_from", "pre_analysis")}),
+                                           "features_from", "pre_analysis", "missing_fit_rows")}),
                 }
             if checkpoint_policy is not None and refit_candidate is not None:
                 refit_candidate = replace(refit_candidate, model_factory=checkpoint_policy.wrap(
@@ -412,7 +412,7 @@ class FootballExperiment:
         candidates = [chosen] if chosen is not None else [part.winner.candidate for part in selection.selections.values()]
         settings["fitting"] = [signature({field: getattr(candidate, field) for field in
                                           ("feature_columns", "target_columns", "features_from", "weights_from", "pre_analysis",
-                                           "validation", "control", "calibration")}) for candidate in candidates]
+                                           "validation", "control", "calibration", "missing_fit_rows")}) for candidate in candidates]
         settings["definitions"] = signature(dataset.definitions)
         result = ExperimentResult(prepared, training, pre_report, post_report, selection, refit, {"name": display_name})
         result._renderers = renderers

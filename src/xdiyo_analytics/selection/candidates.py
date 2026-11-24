@@ -37,6 +37,7 @@ class Candidate:
     fit_statistics: object = None
     calibration: object = None
     weights_from: str | None = None
+    missing_fit_rows: object = None
 
     def __post_init__(self):
         if not isinstance(self.name, str) or not self.name.strip() or not callable(self.model_factory):

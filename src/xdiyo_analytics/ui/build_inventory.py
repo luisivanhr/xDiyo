@@ -220,6 +220,7 @@ DESCRIPTIONS = {
     'features.Lag': 'Take an earlier eligible observation. A lag of 1 gives the most recent completed match before the prediction cutoff.',
     'features.Abs': 'Absolute value of one feature or finite constant. Missing inputs stay missing and zeros stay zero. Can be used before or after historical reduction; these orders have different meanings.',
     'features.Product': 'Multiply two features, or a feature and a finite constant. Both operands must produce one column. Missing inputs and overflow remain missing. Nest Product to multiply more than two features.',
+    'features.HistoryInspector': 'Reset historical feature state after a gap in usable observations, without removing fixtures from chronology.',
     'features.RollingMean': 'Average the selected statistic over eligible past observations. A window of 5 uses up to five previous matches, excluding the match being predicted.',
     'features.RollingWeightedMean': 'Average one numeric feature using another nonnegative feature as its weight. Uses one fixed eligible-match window and paired available values. Minimum periods counts only finite pairs with positive weights.',
     'features.RollingSkewness': 'Measure asymmetry in earlier observations: positive means a longer upper tail, negative a longer lower tail. Uses population third and second central moments; at least three finite values and nonzero spread are required. Supports League, LeaveOneOut and SeededEMA warm starts.',
@@ -382,6 +383,18 @@ def build():
                 if name == 'show_badges': f['help'] = 'Embed the team’s local badge beside its name. Missing badges fall back to the team name.'
             if name == 'source' and key == 'features.League':f.update(components=['features.Stat','features.ForAgainst'],initial_component='features.Stat')
             if name == 'source' and key == 'features.WarmStart':f.update(components=['features.RollingMean','features.RollingStd','features.RollingSkewness','features.RollingZScore','features.MatchResultGlicko','features.StatGlicko'],initial_component='features.RollingMean')
+            if key == 'features.HistoryInspector':
+                if name == 'source':
+                    f.update(kind='component', components=['features.Lag', 'features.RollingMean',
+                        'features.RollingWeightedMean', 'features.RollingStd', 'features.RollingSkewness',
+                        'features.RollingZScore', 'features.EMA'], initial_component='features.RollingMean',
+                        help='Wrap one team-history operator. Its venue, H2H scope and match-window settings still apply.')
+                if name == 'gap_weeks':
+                    f.update(kind='number', min=0, step='any', primary=True,
+                        help='Positive elapsed weeks. Only a gap strictly longer than this value expires or restarts a history. An unbroken history has no maximum age.')
+                if name == 'evidence':
+                    f.update(kind='select', choices=['diagnostics', 'off', 'predictors'], primary=True,
+                        help='Diagnostics are excluded from predictors by default. Predictors explicitly adds numeric evidence columns for this named feature.')
             if key == 'features.RollingSkewness' and name == 'min_periods':
                 f.update(min=3, help='At least three finite observations are always required; increase this to require more. Constant windows remain missing. Skewness uses population moments without a small-sample correction.')
             if key == 'splits.TemporalSplit' and name == 'window':
@@ -575,6 +588,12 @@ def build():
                     component = 'features.SeededEMA' if name == 'warm_policy' else 'ratings.GlickoTransition'
                     f.update(kind='component', components=[component], initial_component=component, help='Add warmed copies while retaining every ordinary feature. Disabled omits these additional columns.')
                 elif name.startswith('include_'): f.update(help='Include '+name.removeprefix('include_').replace('_',' ')+' in the generated bank. Existing named features remain additional.')
+    for f in components['training.MissingFitRows']['fields']:
+        if f['name'] == 'required_features':
+            f.update(kind='multiselect', discovery='features', primary=True, help='Explicit constructed model columns required only for fitting. Drop whole fitting matches if any is missing, before imputation. Validation/calibration/test rows remain unchanged.')
+    for f in stages['candidate']['fields']:
+        if f['name'] == 'missing_fit_rows':
+            f.update(kind='component', components=['training.MissingFitRows'], initial_component='training.MissingFitRows', primary=True, help='Disabled keeps missing fitting rows. Enable only for an explicit required feature list; no blanket row removal.')
     # Shared, maintained scaler controls for predictor and target transforms.
     for f in stages['candidate']['fields']:
         if f['name'] == 'weights_from':

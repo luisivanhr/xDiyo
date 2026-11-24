@@ -244,7 +244,7 @@ def assemble_dataset(features, label, *, layout, feature_columns=None,
                      }),
                      "label": deepcopy(label.definition), "spatial_features":spatial,
                      **{key: deepcopy(features.attrs[key]) for key in
-                        ('data_selection', 'warm_start_input_hash', 'warm_start_audit', 'movement_evidence', 'spatial_point_audit', 'spatial_distribution_audit', 'spatial_distance_audit', 'weighted_history_audit')
+                        ('data_selection', 'warm_start_input_hash', 'warm_start_audit', 'movement_evidence', 'spatial_point_audit', 'spatial_distribution_audit', 'spatial_distance_audit', 'weighted_history_audit', 'history_inspection')
                         if features.attrs.get(key)}},
     )
 
