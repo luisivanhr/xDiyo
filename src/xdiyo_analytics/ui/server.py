@@ -84,7 +84,10 @@ def _frame(frame, limit=40):
 
 def _preparation_preview(prepared):
     """Actual assembled columns for inspection and reporter selection."""
-    return {'features': _frame(prepared.dataset.X), 'labels': _frame(prepared.dataset.y),
+    import pandas as pd
+
+    history_inspection = prepared.dataset.definitions.get('history_inspection', {})
+    result = {'features': _frame(prepared.dataset.X), 'labels': _frame(prepared.dataset.y),
             'spatial_features': sorted({s.get('family', name) for name,s in prepared.dataset.definitions.get('spatial_features', {}).items()}),
             'metadata': _frame(prepared.dataset.metadata),
             'classes': json.loads(prepared.dataset.y.stack().drop_duplicates().head(100).to_json(orient='values')),
@@ -92,6 +95,15 @@ def _preparation_preview(prepared):
             'folds': [{'fold': i, 'train': len(f.train), 'test': len(f.test), 'score': len(f.score),
                        'description': _fold_description(prepared.dataset.metadata, f)}
                       for i, f in enumerate(prepared.split_plan.folds)]}
+    if history_inspection:
+        records, count = [], 0
+        for name, inspections in history_inspection.items():
+            for inspection in inspections:
+                entries = inspection['records']
+                count += len(entries)
+                records.extend({'named_feature': name, **record} for record in entries[:max(0, 40 - len(records))])
+        result['history_inspection'] = {**_frame(pd.DataFrame.from_records(records)), 'count': count}
+    return result
 
 
 def _fold_description(metadata, fold):

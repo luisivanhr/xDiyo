@@ -203,11 +203,11 @@ class Catalog:
 def default_catalog():
     catalog = Catalog()
     groups = {
-        'features': ('feature', 'Stat MatchScore Heatmap SpatialPointSummary RegionMass SpatialEntropy SpatialConcentration SpatialHistoricalDeviation SpatialFixtureDistance ForAgainst H2H IsHome SeasonProgress SeasonCountdown TeamMovement DerivedStandings NormalizedStanding Lag RollingMean RollingWeightedMean RollingStd RollingSkewness RollingZScore EMA Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Abs Sum Product Difference Ratio'),
+        'features': ('feature', 'Stat MatchScore Heatmap SpatialPointSummary RegionMass SpatialEntropy SpatialConcentration SpatialHistoricalDeviation SpatialFixtureDistance ForAgainst H2H IsHome SeasonProgress SeasonCountdown TeamMovement DerivedStandings NormalizedStanding Lag RollingMean RollingWeightedMean RollingStd RollingSkewness RollingZScore EMA HistoryInspector Rating MatchResultGlicko StatGlicko BayesianRating BayesianFixture League LeaveOneOut WarmStart Constant Abs Sum Product Difference Ratio'),
         'labels': ('label', 'TeamValue MatchTotal MatchGoals Outcome Above BetOption'),
         'ratings': ('rating', 'Glicko2 GlickoTransition BayesianParameters BayesianConfig BayesianModel'),
         'splits': ('split', 'TemporalSplit MatchKFold GroupKFold CPCV Fold SplitPlan'),
-        'training': ('training', 'ProbabilityCalibrator TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
+        'training': ('training', 'MissingFitRows ProbabilityCalibrator TrainingControl EarlyStopping ReduceOnPlateau ValidationTail CheckpointPolicy ExecutionPolicy EstimatorAdapter PartialFitBackend IterativeAdapter DeviceAdapter'),
         'selection': ('selection', 'MetricSelection WeightedSelection ParsimonySelection FitStatistics'),
         'evaluation': ('evaluation', 'Metric BetSpec BetOffer TightestLine HighestExpectedProfit BinaryDrawThreshold Parlay BetSlip MultiBet AllCombinations'),
         'reporting': ('reporter', 'GATLossReporter GraphStatisticsReporter EmbeddingReporter GraphAttentionWeightReporter RatingReporter HeatmapReporter ClassWeightReporter FeatureDistributionReporter CorrelationAnalysis FeatureTimeline TopKCorrelationSelector PredictionReporter PerformanceReporter ResidualAnalysisReporter CalibrationReporter PredictionTimelineReporter PredictionDistributionReporter BetPerformanceReporter BetOutcomeReporter ExperimentLeaderboardReporter LearningCurveReporter CoefficientReporter CountClassificationReporter FeatureImportanceReporter MatchResultReporter TeamCatalog'),

@@ -143,7 +143,7 @@ class _FreshModels:
 def _fit_candidate(dataset, plan, candidate, guard, execution=None):
     _validate_preparation(candidate)
     runner = TrainingRunner(guard.factory(candidate), candidate.feature_columns, candidate.target_columns,
-                            candidate.control, candidate.validation, candidate.observer, execution, candidate.calibration)
+                            candidate.control, candidate.validation, candidate.observer, execution, candidate.calibration, missing_fit_rows=candidate.missing_fit_rows)
     report = None
     if candidate.pre_analysis is not None:
         report = deepcopy(candidate.pre_analysis).run(dataset, split_plan=runner.selection_plan(dataset, plan))
@@ -175,6 +175,9 @@ def _original_positions(training, positions):
             audit = getattr(fold.model.calibrator, 'split_audit_', {})
             for record in audit.get('purged', []):
                 record['row_position'] = int(positions[record['row_position']])
+        missing_audit = fold.training_summary.get('missing_fit_rows')
+        if missing_audit is not None:
+            missing_audit['excluded_positions'] = positions[np.asarray(missing_audit['excluded_positions'], dtype=int)].tolist()
         audit = fold.training_summary.get('calibration', {}).get('temporal_split') or {}
         for record in audit.get('purged', []):
             record['row_position'] = int(positions[record['row_position']])

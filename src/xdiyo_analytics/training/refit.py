@@ -95,7 +95,7 @@ class FittedModel:
 
 def refit_model(dataset, model_factory, *, train_positions, feature_columns=None,
                 target_columns=None, validation=None, control=None, observer=None, execution=None, calibration=None,
-                weighting=None, observation_weights=None):
+                weighting=None, observation_weights=None, missing_fit_rows=None):
     """Fit a fresh selected configuration on explicitly supplied development rows.
 
     No automatic winner selection, held-out evaluation or retraining schedule.
@@ -117,7 +117,7 @@ def refit_model(dataset, model_factory, *, train_positions, feature_columns=None
     model, fit, valid = _fit_model(dataset, train, model_factory, features, targets, fold_id=0,
                                   fold_metadata={"stage": "final_refit"}, validation=validation,
                                   control=control, observer=observer, execution=execution, execution_info=execution_info,
-                                  calibration=calibration, weighting=weighting, observation_weights=observation_weights)
+                                  calibration=calibration, weighting=weighting, observation_weights=observation_weights, missing_fit_rows=missing_fit_rows)
     return FittedModel(model, train, fit, valid, tuple(features), tuple(targets), dataset.layout,
                        tuple(dataset.identity_columns), tuple(dataset.match_columns), dataset.target_perspective,
                        deepcopy(dataset.definitions), execution_info, getattr(model, "calibration_positions_", np.array([], dtype=int)))

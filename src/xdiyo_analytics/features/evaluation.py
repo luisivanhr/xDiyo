@@ -5,7 +5,7 @@ from .history import availability_times
 from numbers import Integral, Real
 
 from .expressions import (
-    EMA, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
+    EMA, Expr, H2H, ForAgainst, IsHome, Lag, NormalizedStanding,
     RollingMean, RollingStd, RollingSkewness, RollingZScore, Stat, MatchScore,
 )
 from .history import eligible_history_rows, league_season_team_counts
@@ -23,6 +23,7 @@ from .movement import TeamMovement, movement_records, statistical_context
 from .standings import DerivedStandings
 from .countdown import SeasonCountdown, season_countdown
 from .weighted import RollingWeightedMean, weighted_values
+from .inspector import HistoryInspector, Inspection
 
 
 def evaluate_features(history, features, *, group_by=("team_id", "competition_id"),
@@ -57,6 +58,10 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
     Z-score uses the most recent eligible value and INCLUDES it in its window;
     missing latest values, insufficient data and zero spread give NaN. EMA skips
     missing measures without decay and starts at the first observed value.
+
+    HistoryInspector optionally restricts a reducer to its latest uninterrupted
+    run of usable observations. It changes only that reducer's candidates, not
+    fixture chronology or another feature's history.
 
     Nested temporal expressions evaluate their child at each historical row's
     own configured cutoff, then apply the outer operator to those past outputs.
@@ -216,6 +221,45 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             raise KeyError(f"Statistic is absent from the selected history: {node!r}")
         return history[columns].copy()
 
+    release_columns = {}
+    release_names = {col for col in history if isinstance(col, str) and col.startswith('available_at::')}
+
+    def raw_releases(node, h2h):
+        """Explicit release bounds for observed leaves; derived history has its own cutoff."""
+        if isinstance(node, H2H):
+            return raw_releases(node.source, True)
+        if isinstance(node, ARITHMETIC):
+            children = [raw_releases(child, h2h) for child in operands(node)]
+            return [tuple(bound for child in children for bound in child[0])]
+        if isinstance(node, (Stat, MatchScore)) or (
+                isinstance(node, ForAgainst) and isinstance(node.source, (Stat, MatchScore))):
+            from .history import aligned_times
+
+            frame, _ = evaluate(node, h2h)
+            bounds = []
+            for col in frame.columns:
+                name = f'available_at::{col}'
+                if name not in release_names:
+                    bounds.append(())
+                    continue
+                if name not in release_columns:
+                    times = aligned_times(history, name, default='kickoff_at')
+                    release_columns[name] = (times.astype('datetime64[ns, UTC]').astype('int64').to_numpy(),
+                                             times.notna().to_numpy())
+                bounds.append((release_columns[name],))
+            return bounds
+        # A guarded nested history already honors its own query cutoff. An
+        # unguarded history cannot be masked retroactively if it consumed a
+        # raw column with a later explicit release.
+        if release_names and not isinstance(node, HistoryInspector):
+            for field in ('source', 'weights', 'reference'):
+                child = getattr(node, field, None)
+                if isinstance(child, Expr) and any(raw_releases(child, h2h)):
+                    raise ValueError("HistoryInspector cannot apply explicit source release times to an unguarded "
+                                     "nested producer. Guard the reducer that consumes the observed source first.")
+        frame, _ = evaluate(node, h2h)
+        return [()] * frame.shape[1]
+
     def evaluate(node, h2h=False, rating_policy=None):
         # Track actual calls, including cache hits. Expression equality alone
         # cannot distinguish the same child evaluated in different H2H scopes.
@@ -233,6 +277,12 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         cache_key = (node, h2h, rating_policy)
         if cache_key in cache:
             return cache[cache_key]
+        inspector = node if isinstance(node, HistoryInspector) else None
+        if inspector is not None:
+            node = inspector.source
+            while isinstance(node, H2H):
+                h2h = True
+                node = node.source
         if isinstance(node, DerivedStandings):
             if h2h or rating_policy is not None:
                 raise ValueError("DerivedStandings owns league-wide season scope; H2H/warm starts do not apply.")
@@ -418,9 +468,13 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             weights, weight_scope = evaluate(node.weights, h2h)
             if source_scope != weight_scope:
                 raise ValueError('RollingWeightedMean inputs must use the same H2H scope; wrap the whole expression in H2H.')
-            result = (weighted_values(history, source, weights, history_rows(source_scope, node.venue),
-                                      node, cutoffs=cutoffs, available_at=available_at, group_by=group_by,
-                                      scope=source_scope), source_scope)
+            candidates = history_rows(source_scope, node.venue)
+            inspection = Inspection(inspector, history, candidates, ('value',)) if inspector is not None else None
+            bound = ((raw_releases(node.source, h2h)[0], raw_releases(node.weights, h2h)[0])
+                     if inspection is not None and release_names else ((), ()))
+            result = (weighted_values(history, source, weights, candidates, node, cutoffs=cutoffs,
+                                      available_at=available_at, group_by=group_by, scope=source_scope,
+                                      inspection=inspection, raw_release_bounds=bound), source_scope)
         elif isinstance(node, (Lag, RollingMean, RollingStd, RollingSkewness, RollingZScore, EMA)):
             if node.venue not in ('all', 'same', 'home', 'away'):
                 raise ValueError('Historical venue must be all, same, home or away.')
@@ -438,6 +492,10 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 return result
             source, scope = evaluate(node.source, h2h)
             candidates = history_rows(scope, node.venue)
+            inspection = Inspection(inspector, history, candidates, source.columns) if inspector is not None else None
+            operator_window = None if isinstance(node, EMA) else node.periods if isinstance(node, Lag) else node.window
+            bound = (raw_releases(node.source, h2h) if inspection is not None and release_names
+                     else [()] * source.shape[1])
             if isinstance(node, Lag):
                 positive(node.periods, "periods")
             else:
@@ -458,21 +516,23 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             reference = None
             if isinstance(node, RollingZScore) and node.reference is not None:
                 known_reference(node.reference)
+                if inspection is not None and release_names:
+                    raw_releases(node.reference, h2h)
                 reference, _ = evaluate(node.reference, h2h)
                 if reference.shape[1] != source.shape[1]:
                     raise ValueError("Z-score reference must match the source column count.")
                 reference = reference.to_numpy(dtype=float, na_value=np.nan)
-            ema_states = {}
+            ema_states, inspected_ema_states = {}, {}
             for row in range(len(candidates)):
-                positions = candidates.window(row, None if isinstance(node, EMA) else
-                                               node.periods if isinstance(node, Lag) else node.window)
-                if isinstance(node, Lag):
-                    if len(positions) >= node.periods:
-                        output[row] = values[positions[-node.periods]]
-                    continue
-                if not len(positions):
-                    continue
-                if (isinstance(node, EMA) and len(candidates.groups[candidates.row_group[row]][0]) > 64
+                positions = candidates.window(row, None if inspection is not None else operator_window)
+                if inspection is None:
+                    if isinstance(node, Lag):
+                        if len(positions) >= node.periods:
+                            output[row] = values[positions[-node.periods]]
+                        continue
+                    if not len(positions):
+                        continue
+                if (inspection is None and isinstance(node, EMA) and len(candidates.groups[candidates.row_group[row]][0]) > 64
                         and np.result_type(np.asarray(2 / (node.span + 1)).dtype, np.float64) == np.dtype('float64')):
                     group = candidates.row_group[row]
                     previous, means, counts = ema_states.get(group, (np.empty(0, dtype=int),
@@ -494,9 +554,37 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                             output[row, col] = means[col]
                     ema_states[group] = (positions, means, counts)
                     continue
-                sample = values[positions if isinstance(node, EMA) else positions[-node.window:]]
+                sample = values[positions]
                 for col in range(values.shape[1]):
                     series = sample[:, col]
+                    if inspection is not None:
+                        usable = inspection.usable(row, positions, series, bound[col])
+                        selected = inspection.select(row, positions, usable, source.columns[col], operator_window)
+                        selected_usable = usable[-len(selected):] if len(selected) else usable[:0]
+                        if isinstance(node, Lag):
+                            if len(selected) >= node.periods and selected_usable[-node.periods]:
+                                output[row, col] = values[selected[-node.periods], col]
+                            continue
+                        if (isinstance(node, EMA)
+                                and len(candidates.groups[candidates.row_group[row]][0]) > 64
+                                and np.result_type(np.asarray(2 / (node.span + 1)).dtype, np.float64) == np.dtype('float64')):
+                            # A late release can activate an existing slot
+                            # without changing the selected fixture prefix.
+                            selected = selected[selected_usable]
+                            key = (candidates.row_group[row], col)
+                            previous, mean, count = inspected_ema_states.get(key, (np.empty(0, dtype=int), np.nan, 0))
+                            if len(previous) > len(selected) or not np.array_equal(previous, selected[:len(previous)]):
+                                previous, mean, count = np.empty(0, dtype=int), np.nan, 0
+                            alpha = 2 / (node.span + 1)
+                            for value in values[selected[len(previous):], col]:
+                                if np.isfinite(value):
+                                    mean = value if count == 0 else alpha * value + (1 - alpha) * mean
+                                    count += 1
+                            if count >= node.min_periods:
+                                output[row, col] = mean
+                            inspected_ema_states[key] = (selected, mean, count)
+                            continue
+                        series = np.where(selected_usable, values[selected, col], np.nan)
                     observed = series[np.isfinite(series)]
                     if len(observed) < node.min_periods:
                         continue
@@ -526,7 +614,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 result[0].attrs['point_map_coverage'] = deepcopy(source.attrs['point_map_coverage'])
                 audit = []
                 source_ids = sorted({r['source_id'] for r in source.attrs['point_map_coverage']})
-                history_id = lineage_id(dict(expression=repr(node), h2h=bool(scope), source_ids=source_ids))
+                history_id = lineage_id(dict(expression=repr(inspector or node), h2h=bool(scope), source_ids=source_ids))
                 ids = [c for c in ('source_league','source_season','event_id','team_id') if c in history]
                 identities = history[ids].to_dict('records')
                 for row, positions in enumerate(candidates):
@@ -535,13 +623,24 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                     else:
                         selected = positions if isinstance(node, EMA) else positions[-node.window:]
                     for col, column in enumerate(source.columns):
+                        if inspection is None:
+                            usable_count = int(np.isfinite(values[selected, col]).sum())
+                        else:
+                            usable = inspection.usable(row, positions, values[positions, col], bound[col])
+                            active = inspection.select(row, positions, usable, column, operator_window, record=False)
+                            if isinstance(node, Lag):
+                                selected = [active[-node.periods]] if len(active) >= node.periods else []
+                                usable_count = int(usable[-node.periods]) if selected else 0
+                            else:
+                                selected = active
+                                usable_count = int(usable[-len(selected):].sum()) if len(selected) else 0
                         child_spec = next((s for s in source.attrs.get('spatial_features', {}).values()
                                            if column in s['columns']), {})
                         record = {**identities[row], 'column':column, 'history_id':history_id,
-                                      'expression':repr(node),
+                                      'expression':repr(inspector or node),
                                       'source_ids':[child_spec['source_id']] if 'source_id' in child_spec else source_ids,
                                       'eligible_matches':len(positions), 'window_matches':len(selected),
-                                      'usable_values':int(np.isfinite(values[selected, col]).sum())}
+                                      'usable_values':usable_count}
                         # Legacy raw-summary diagnostic: valid maps may still have
                         # undefined geometry (e.g. a zero-spread correlation).
                         if isinstance(node.source, SpatialPointSummary):
@@ -556,13 +655,15 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                     spec['calculation'] = dict(operator=type(node).__name__, window=getattr(node, 'window', None),
                         periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
                         min_periods=getattr(node, 'min_periods', None), venue=node.venue,
-                        ddof=getattr(node, 'ddof', None), h2h=bool(scope), expression=repr(node),
+                        ddof=getattr(node, 'ddof', None), h2h=bool(scope), expression=repr(inspector or node),
                         source=spec.get('calculation', {}))
                     spec['operators'].append(dict(operator=type(node).__name__, venue=node.venue,
                                                   window=getattr(node, 'window', None),
                                                   periods=getattr(node, 'periods', None), span=getattr(node, 'span', None),
                                                   min_periods=getattr(node, 'min_periods', None)))
                 result[0].attrs['spatial_features'] = specs
+            if inspection is not None:
+                inspection.attach(result[0])
         else:
             raise TypeError(f"Unsupported feature expression: {type(node).__name__}")
         cache[cache_key] = result
@@ -594,7 +695,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         return "team"
 
     outputs, spatial_metadata, warm_audits, feature_scopes = [], {}, {}, {}
-    point_audits, weighted_audits, standings_audits = {}, {}, {}
+    point_audits, weighted_audits, standings_audits, inspection_audits = {}, {}, {}, {}
     for name, node in features.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Feature names must be nonempty strings.")
@@ -616,6 +717,19 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                                      for key in weighted_descendants))
         if entries:
             weighted_audits[name] = entries
+        inspections = {}
+        for key in weighted_descendants:
+            evidence = cache[key][0].attrs.get('history_inspection')
+            if evidence is not None:
+                inspections[id(evidence)] = evidence
+        if inspections:
+            inspection_audits[name] = list(inspections.values())
+        features_with_evidence = [cache[key][0] for key in weighted_descendants
+                                  if 'history_inspection_predictors' in cache[key][0].attrs]
+        if any(child is not frame for child in features_with_evidence):
+            raise ValueError("HistoryInspector predictor evidence requires a named feature root (optionally wrapped in H2H). "
+                             "Use evidence='diagnostics' for an inspector nested inside another reducer.")
+        predictors = frame.attrs.get('history_inspection_predictors', {})
         derived_audits = [cache[key][0].attrs['standings_audit'] for key in weighted_descendants
                           if 'standings_audit' in cache[key][0].attrs]
         if derived_audits:
@@ -660,6 +774,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 spec.pop('scope', None)
         spatial_metadata.update(metadata)
         outputs.append(frame)
+        if predictors:
+            evidence_frame = pd.DataFrame({f'{name}::inspection::{key}': values
+                                           for key, values in predictors.items()}, index=history.index)
+            feature_scopes.update(dict.fromkeys(evidence_frame.columns, "team"))
+            outputs.append(evidence_frame)
     result = pd.concat(outputs, axis=1)
     if not result.columns.is_unique:
         raise ValueError("Feature names produce duplicate output columns.")
@@ -681,6 +800,8 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
         result.attrs['spatial_distance_audit'] = distance_audits
     if weighted_audits:
         result.attrs['weighted_history_audit'] = weighted_audits
+    if inspection_audits:
+        result.attrs['history_inspection'] = inspection_audits
     if point_sources or validated_grids:
         from .history import aligned_times
         from hashlib import sha256

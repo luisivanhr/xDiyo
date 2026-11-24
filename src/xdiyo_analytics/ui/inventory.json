@@ -1634,6 +1634,61 @@
       ],
       "accepts_extra": false
     },
+    "features.HistoryInspector": {
+      "id": "features.HistoryInspector",
+      "title": "HistoryInspector",
+      "category": "feature",
+      "description": "Reset historical feature state after a gap in usable observations, without removing fixtures from chronology.",
+      "fields": [
+        {
+          "name": "source",
+          "title": "Source",
+          "required": true,
+          "kind": "component",
+          "categories": [
+            "feature"
+          ],
+          "help": "Wrap one team-history operator. Its venue, H2H scope and match-window settings still apply.",
+          "components": [
+            "features.Lag",
+            "features.RollingMean",
+            "features.RollingWeightedMean",
+            "features.RollingStd",
+            "features.RollingSkewness",
+            "features.RollingZScore",
+            "features.EMA"
+          ],
+          "initial_component": "features.RollingMean",
+          "primary": true
+        },
+        {
+          "name": "gap_weeks",
+          "title": "Gap weeks",
+          "required": false,
+          "kind": "number",
+          "default": 26,
+          "help": "Positive elapsed weeks. Only a gap strictly longer than this value expires or restarts a history. An unbroken history has no maximum age.",
+          "step": "any",
+          "min": 0,
+          "primary": false
+        },
+        {
+          "name": "evidence",
+          "title": "Evidence",
+          "required": false,
+          "kind": "select",
+          "default": "diagnostics",
+          "help": "Diagnostics are excluded from predictors by default. Predictors explicitly adds numeric evidence columns for this named feature.",
+          "choices": [
+            "diagnostics",
+            "off",
+            "predictors"
+          ],
+          "primary": false
+        }
+      ],
+      "accepts_extra": false
+    },
     "features.Rating": {
       "id": "features.Rating",
       "title": "Rating",
@@ -3863,6 +3918,24 @@
               "decision_function"
             ]
           }
+        }
+      ],
+      "accepts_extra": false
+    },
+    "training.MissingFitRows": {
+      "id": "training.MissingFitRows",
+      "title": "MissingFitRows",
+      "category": "training",
+      "description": "Drop fitting matches missing any explicitly required constructed feature.",
+      "fields": [
+        {
+          "name": "required_features",
+          "title": "Required features",
+          "required": true,
+          "kind": "multiselect",
+          "help": "Explicit constructed model columns required only for fitting. Drop whole fitting matches if any is missing, before imputation. Validation/calibration/test rows remain unchanged.",
+          "primary": true,
+          "discovery": "features"
         }
       ],
       "accepts_extra": false
@@ -24541,6 +24614,19 @@
           "help": "Use observation weights from a named Class Weight Reporter in Fitted preparation. Weights are recalculated on each fit’s training rows, including inner search and final refit.",
           "discovery": "weight_reporters",
           "primary": true
+        },
+        {
+          "name": "missing_fit_rows",
+          "title": "Missing fit rows",
+          "required": false,
+          "kind": "component",
+          "default": null,
+          "help": "Disabled keeps missing fitting rows. Enable only for an explicit required feature list; no blanket row removal.",
+          "primary": true,
+          "components": [
+            "training.MissingFitRows"
+          ],
+          "initial_component": "training.MissingFitRows"
         }
       ],
       "accepts_extra": false

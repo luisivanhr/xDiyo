@@ -4,7 +4,7 @@ from dataclasses import fields, is_dataclass
 import numpy as np
 import pandas as pd
 
-SAFE={'MatchScore','IsHome','ForAgainst','H2H','Lag','RollingMean','RollingStd','RollingSkewness','RollingZScore','EMA',
+SAFE={'MatchScore','IsHome','ForAgainst','H2H','Lag','RollingMean','RollingStd','RollingSkewness','RollingZScore','EMA','HistoryInspector',
       'Constant','Column','Abs','Sum','Product','Difference','Ratio','RollingWeightedMean','Outcome','MatchTotal','TeamValue'}
 
 

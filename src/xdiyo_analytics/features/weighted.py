@@ -72,10 +72,11 @@ def stable_mean(values, weights):
     return float(np.clip(normalized, -1., 1.) * scale)
 
 
-def weighted_values(history, source, weights, candidates, node, *, cutoffs, available_at, group_by, scope):
+def weighted_values(history, source, weights, candidates, node, *, cutoffs, available_at, group_by, scope, inspection=None, raw_release_bounds=((), ())):
     import numpy as np
     import pandas as pd
     from .history import aligned_times
+    from .inspector import release_mask
     from .spatial_lineage import compose_spatial_metadata, distinct_records, lineage_id, calculation_for
 
     if source.shape[1] != 1 or weights.shape[1] != 1:
@@ -105,6 +106,10 @@ def weighted_values(history, source, weights, candidates, node, *, cutoffs, avai
         source=calculation_for(source, node.source), weights=calculation_for(weights, node.weights),
         units='source expression units', group_by=list(group_by),
         fixture_availability='kickoff_proxy' if available_at is None else 'explicit')
+    if inspection is not None:
+        definition['history_inspector'] = repr(inspection.inspector)
+        definition['source_release_bound_count'] = len(raw_release_bounds[0])
+        definition['weight_release_bound_count'] = len(raw_release_bounds[1])
     source_spec = next(iter(source.attrs.get('spatial_features', {}).values()), {})
     weight_spec = next(iter(weights.attrs.get('spatial_features', {}).values()), {})
     definition['units'] = source_spec.get('units', 'native source units (not declared)')
@@ -117,17 +122,33 @@ def weighted_values(history, source, weights, candidates, node, *, cutoffs, avai
     for name, release in zip(('value_available', 'weight_available'), releases):
         if release is not None:
             evidence[name] = release
+    for role, bounds in zip(('value', 'weight'), raw_release_bounds):
+        for i, (times, _) in enumerate(bounds):
+            evidence[f'{role}_raw_release_{i}'] = times
     digest = sha256(pd.util.hash_pandas_object(evidence, index=False).to_numpy().tobytes())
     digest.update(repr(history.attrs).encode())
     definition['input_sha256'] = digest.hexdigest()
     history_id = lineage_id(definition)
     for row, positions in enumerate(candidates):
+        def release_masks(indices):
+            return [release_mask(cutoff_ns[row], indices,
+                                 bounds if release is None else (*bounds, (release, valid)))
+                    for (release, valid), bounds in zip(availability, raw_release_bounds)]
+
         selected = positions[-node.window:]
-        masks = [np.ones(len(selected), dtype=bool) if r is None else valid[selected] & (r[selected] <= cutoff_ns[row])
-                 for r, valid in availability]
+        masks = release_masks(selected)
         a, b = z[selected], w[selected]
+        # A reset must not turn an invalid published weight into a missing
+        # observation and thereby hide a native input validation error.
         if np.any(masks[1] & np.isfinite(b) & (b < 0)):
             raise ValueError(f'RollingWeightedMean has a finite negative weight in the available selected window for {identities[row]}. Choose an explicitly nonnegative weighting feature.')
+        if inspection is not None:
+            value_known, weight_known = release_masks(positions)
+            values, importance = z[positions], w[positions]
+            usable = value_known & weight_known & np.isfinite(values) & np.isfinite(importance) & (importance > 0)
+            selected = inspection.select(row, positions, usable, 'value', node.window)
+            masks = release_masks(selected)
+            a, b = z[selected], w[selected]
         paired = masks[0] & masks[1] & np.isfinite(a) & np.isfinite(b)
         positive = paired & (b > 0)
         count = int(positive.sum())
@@ -167,4 +188,6 @@ def weighted_values(history, source, weights, candidates, node, *, cutoffs, avai
     result.attrs['weighted_history_audit'] = distinct_records(
         source.attrs.get('weighted_history_audit', []), weights.attrs.get('weighted_history_audit', []),
         [dict(definition=definition, records=audit)])
+    if inspection is not None:
+        inspection.attach(result)
     return result
