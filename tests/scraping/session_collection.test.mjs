@@ -340,3 +340,60 @@ test('session renewal rejects old Network candidates and accepts a new successfu
   listener(log.entries[0]);assert.equal(client.ready(),false);
   time+=10;listener(candidate(time));assert.equal(client.ready(),true);
 });
+
+const recentSessionEntry=()=>({startedDateTime:new Date(now).toISOString(),
+  request:{method:'GET',url:'https://www.sofascore.com/api/v1/event/999/lineups',
+    headers:[{name:'X-Requested-With',value:'test-client'}]},response:{status:200}});
+
+test('session cache expiry proceeds to renewal without rereading the growing Network log',async()=>{
+  let time=now,reads=0,listener;
+  const client=new ChromeSessionClient({devtools:{network:{
+    onRequestFinished:{addListener:f=>{listener=f;}},
+    getHAR:callback=>{reads++;callback({entries:[recentSessionEntry()]});}
+  }}},{now:()=>time});
+  await client.refresh();assert.equal(client.ready(),true);assert.equal(reads,1);
+  time+=121000;
+  await client.refresh();assert.equal(client.ready(),false);assert.equal(reads,1);
+  listener({...recentSessionEntry(),startedDateTime:new Date(time).toISOString()});
+  assert.equal(client.ready(),true);
+});
+
+test('a timed-out initial Network log read accepts no late log and requires fresh session evidence',async()=>{
+  let callback,listener;
+  const client=new ChromeSessionClient({devtools:{network:{
+    onRequestFinished:{addListener:f=>{listener=f;}},getHAR:f=>{callback=f;}
+  }}},{now:()=>now,readTimeoutMs:1});
+  await client.refresh();assert.equal(client.ready(),false);
+  callback({entries:[recentSessionEntry()]});await Promise.resolve();
+  assert.equal(client.ready(),false);
+  listener(recentSessionEntry());assert.equal(client.ready(),true);
+});
+
+test('a Network log timeout follows bounded collection renewal before sending components',async()=>{
+  for(const options of [{renewSucceeds:true},{renewSucceeds:false},{renewalChallenge:true}]) {
+    const env=setup({sessionReady:false,...options});
+    const client=new ChromeSessionClient({devtools:{network:{
+      onRequestFinished:{addListener:()=>{}},getHAR:()=>{}
+    }}},{readTimeoutMs:1});
+    env.control.session.refresh=()=>client.refresh();
+    await env.control.connect('test');await env.control.run();
+    assert.equal(env.actions.length,1);
+    if(options.renewSucceeds===true) {
+      assert.equal(env.control.state.phase,'finished');
+      assert.equal(env.requests.length,4);
+      assert.equal(env.calls.find(c=>c.op==='finish').page_evidence.session_renewal_count,1);
+    } else {
+      assert.equal(env.control.state.phase,'paused');
+      assert.equal(env.requests.length,0);
+      assert.equal(env.calls.filter(c=>c.op==='finish').length,0);
+    }
+  }
+});
+
+test('unexpected Network log errors still stop session refresh',async()=>{
+  const client=new ChromeSessionClient({devtools:{network:{
+    onRequestFinished:{addListener:()=>{}},getHAR:()=>{throw new Error('DevTools unavailable');}
+  }}},{readTimeoutMs:1});
+  await assert.rejects(client.refresh(),/DevTools unavailable/);
+  assert.equal(client.ready(),false);
+});

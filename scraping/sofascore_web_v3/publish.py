@@ -19,11 +19,14 @@ import time
 from scraping.sofascore.campaign import publish_season
 from scraping.sofascore.config import PARSER_VERSION, Profile, Scope
 from scraping.sofascore.export import read_tables
+from scraping.sofascore.event_sides import match_team_ids
 from scraping.sofascore.planner import component_jobs
 from scraping.sofascore.schema import SCHEMA_VERSION
 from scraping.sofascore.store import atomic_write, json_bytes, season_year_pair
 from .campaign import collector_lock
 from .awarded import SavedAwardedFlags
+from .source_gaps import campaign_supplements, supplemental_tables, verify_supplemental_tables
+from .fixture_scope import saved_fixture_scope
 
 ROOT = Path(__file__).resolve().parents[2]
 TERMINAL = {"success", "empty", "unavailable"}
@@ -108,8 +111,7 @@ def snapshot_season(campaign_directory, stem, *, published_output=None):
         if prior.get("profile") != asdict(profile):
             raise ValueError("Saved publication profile differs from the queue profile")
         expected = {item["event_id"]: (item["event_id"], item["competition_id"], item["season_id"],
-                    item["reference"]["event"]["homeTeam"]["id"],
-                    item["reference"]["event"]["awayTeam"]["id"]) for item in items}
+                    *match_team_ids(item["reference"]["event"])) for item in items}
         _bundle(output, stem, expected)
         lineage = read_json(contained_file(output / prior["reconciliation"]["source_lineage"], output))
         sources = lineage.get("sources", [])
@@ -149,13 +151,19 @@ def snapshot_season(campaign_directory, stem, *, published_output=None):
                         "report_sha256": hash_file(report_path), "manifest": str(manifest_path),
                         "manifest_sha256": hash_file(manifest_path), "feature_coverage": str(feature_path),
                         "feature_coverage_sha256": hash_file(feature_path), "tables": manifest["tables"]})
-    fingerprint = hashlib.sha256(json_bytes({"campaign_id": config["campaign_id"], "stem": stem,
-        "profile": asdict(profile), "identities": [competition_id, season_id, years], "sources": sources})).hexdigest()
+    fingerprint_input = {"campaign_id": config["campaign_id"], "stem": stem,
+        "profile": asdict(profile), "identities": [competition_id, season_id, years], "sources": sources}
+    if supplements := campaign_supplements(config, stem, items):
+        fingerprint_input["reviewed_source_gaps"] = supplements
+    fingerprint = hashlib.sha256(json_bytes(fingerprint_input)).hexdigest()
     return directory, config, profile, items, sources, fingerprint
 
 
 def publish_captured_season(campaign_directory, stem, *, output=ROOT / "data/xDiyo_data"):
     directory, config, profile, items, sources, fingerprint = snapshot_season(campaign_directory, stem, published_output=output)
+    supplements = campaign_supplements(config, stem, items)
+    additions = supplemental_tables(supplements) if supplements else {}
+    expected_ids = [item["event_id"] for item in items] + [r["event_id"] for r in additions.get("matches", [])]
     output = Path(output).resolve()
     season_path, report_path = output / f"{stem}.parquet", output / f"{stem}.manifest.json"
     # Separate from the live collection lock; only offline publishers share it.
@@ -173,10 +181,15 @@ def publish_captured_season(campaign_directory, stem, *, output=ROOT / "data/xDi
             lineage = read_json(lineage_path)
             if lineage.get("fingerprint") != fingerprint or lineage.get("sources") != sources:
                 raise ValueError("Existing source lineage mismatch")
+            if (lineage.get("reviewed_source_gaps") != supplements
+                    or prior["reconciliation"].get("reviewed_source_gaps") != supplements):
+                raise ValueError("Existing supplemental source lineage mismatch")
             canonical = contained_file(output / prior["manifest"], output)
             saved = read_tables(canonical, verify_hashes=True)
-            if [row["event_id"] for row in saved.get("matches", [])] != [item["event_id"] for item in items]:
+            if [row["event_id"] for row in saved.get("matches", [])] != expected_ids:
                 raise ValueError("Existing season export changed the captured cohort")
+            if supplements:
+                verify_supplemental_tables(saved, supplements)
             return {**prior, "publication_state": "already_published", "output": str(output)}
 
         tables, feature_counts = defaultdict(list), defaultdict(Counter)
@@ -191,7 +204,7 @@ def publish_captured_season(campaign_directory, stem, *, output=ROOT / "data/xDi
             match = captured["matches"][0]
             reference = item["reference"]["event"]
             if (match["event_id"], match["competition_id"], match["season_id"], match["home_id"], match["away_id"], match["status"]) != (
-                eid, item["competition_id"], item["season_id"], reference["homeTeam"]["id"], reference["awayTeam"]["id"], "finished"):
+                eid, item["competition_id"], item["season_id"], *match_team_ids(reference), "finished"):
                 raise ValueError(f"Captured fixture identity mismatch for {eid}")
             # Older schema-2 imports predate this additive field. Upgrade the
             # assembled row from saved metadata without rewriting its source.
@@ -207,12 +220,14 @@ def publish_captured_season(campaign_directory, stem, *, output=ROOT / "data/xDi
                 tables[name].extend(rows)
             for name, value in read_json(source["feature_coverage"])["features"].items():
                 feature_counts[name][value["status"]] += 1
+        for name, rows in additions.items():
+            tables[name].extend(rows)
         first = items[0]
         years = season_year_pair(first["season_year"])
-        scope = Scope(first["competition_id"], first["season_id"], tuple(row["round"] for row in tables["matches"]),
+        scope = saved_fixture_scope(first["competition_id"], first["season_id"], tables["matches"],
                       league_name=stem.rsplit("_", 2)[0], season_start=years[0], season_end=years[1])
         reconciliation = {"collection": "chrome_campaign", "campaign_id": config["campaign_id"],
-            "chrome_source_fingerprint": fingerprint, "expected_event_ids": [item["event_id"] for item in items],
+            "chrome_source_fingerprint": fingerprint, "expected_event_ids": expected_ids,
             "missing_expected_ids": [], "extra_event_ids": [], "verified_capture_imports": len(items),
             "scope": "Complete saved fixture cohort; provider-wide fixture discovery was not repeated.",
             "source_lineage": f"_collection/chrome_exports/{stem}.{fingerprint}.json",
@@ -241,12 +256,20 @@ def publish_captured_season(campaign_directory, stem, *, output=ROOT / "data/xDi
                 if cohort["snapshot"] else "Completed fixtures from the verified historical regular-season selection.")
             # Use the normal publication manifest; no extra columns or reports.
             reconciliation["archive_cohort"] = cohort
+        if supplements:
+            reconciliation.update(reviewed_source_gaps=supplements, source_capture_complete=False,
+                missing_sofascore_fixtures=3, supplemental_matches=3,
+                captured_event_ids=[item["event_id"] for item in items],
+                scope="179 verified Sofascore captures plus three separately identified Flashscore supplements; "
+                      "three Sofascore captures remain missing. Unobserved components are not imputed.")
         # Validate everything before creating the season artifact. Refuse even
         # an unexpected new output that appeared while inputs were checked.
         if season_path.exists() or report_path.exists():
             raise ValueError("A season output appeared during validation; it will not be replaced")
-        atomic_write(output / reconciliation["source_lineage"], json_bytes({
-            "campaign_directory": str(directory), "stem": stem, "fingerprint": fingerprint, "sources": sources}))
+        lineage = {"campaign_directory": str(directory), "stem": stem, "fingerprint": fingerprint, "sources": sources}
+        if supplements:
+            lineage["reviewed_source_gaps"] = supplements
+        atomic_write(output / reconciliation["source_lineage"], json_bytes(lineage))
         result = publish_season(dict(tables), output, scope, profile, stem, reconciliation)
         canonical = output / result["manifest"]
         published = read_tables(canonical, verify_hashes=True)

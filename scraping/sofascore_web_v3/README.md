@@ -4,7 +4,7 @@ For the requested 2015/16–2019/20 expansion (21 league-seasons), use
 [the prepared historical batch and operating guide](../HISTORICAL_EXPANSION_README.md).
 It contains five saved Discovery IDs and one resumable conversion runner.
 
-## Daily history and prediction fixtures (0.4.0)
+## Daily history and prediction fixtures
 
 Use [the daily runner](../run_daily_collection.py) and its
 [operating guide](../DAILY_COLLECTION_README.md) for ongoing seasons. It discovers

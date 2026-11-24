@@ -44,6 +44,19 @@ test('round zero requires an explicitly leased inspection',async()=>{
   assert.equal(p.calls.length,1);
 });
 
+test('season pages require an exact bounded page lease and never widen ordinary collection',async()=>{
+  const p=page(),path='/unique-tournament/17/season/900/events/last/0';
+  const lease={...spec,inspection_only:true,event_page_direction:'last',event_page_number:0};
+  await p.execute(null,path,headers,now+120000,now+10000,lease);
+  assert.equal(p.calls.length,1);
+  for(const changes of [{inspection_only:false},{event_page_number:1},{event_page_number:'0'},
+    {event_page_number:-1},{event_page_number:4096},{event_page_direction:'next'},{season_id:901},
+    {competition_id:18}])
+    await assert.rejects(p.execute(null,path,headers,now+120000,now+10000,{...lease,...changes}));
+  await assert.rejects(p.execute(null,path+'?page=1',headers,now+120000,now+10000,lease));
+  assert.equal(p.calls.length,1);
+});
+
 function setup({denial=false,pauseInFlight=false,unready=false,challenge=false,failRenewal=false,jitter=null}={}) {
   let time=now,index=0,ready=!unready;
   const calls=[],requests=[],renewals=[];

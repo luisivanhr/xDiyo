@@ -1,4 +1,17 @@
-# xDiyo Network Capture 0.3.0
+# xDiyo Network Capture
+
+## Network log timeout recovery
+
+Session collection and discovery reuse their live session-observation cache.
+When that evidence expires, they proceed to the existing bounded page renewal
+instead of rereading the entire accumulated DevTools Network log. The initial
+Network log lookup still has a ten-second limit; a timeout leaves access
+unconfirmed and allows the same renewal path to run. Fresh successful evidence
+is required before collection requests, and a failed renewal or visible
+challenge still pauses. Late log callbacks cannot restore stale evidence.
+Request spacing, season rests, capture validation and provider-denial rules are
+unchanged. Close and reopen DevTools to load this update, then reconnect and
+resume the same saved campaign.
 
 ## Season discovery
 

@@ -92,11 +92,18 @@ def prepare_discovery(*, season="25/26", leagues=None, include_lineups=True,
 
 
 def open_discovery(directory, *, read_only=False):
-    mode = read_json(Path(directory) / "config.json").get("mode")
+    config = read_json(Path(directory) / "config.json")
+    mode = config.get("mode")
+    if mode == "inventory":
+        from .inventory_discovery import InventoryDiscovery
+        return InventoryDiscovery(directory, read_only=read_only)
     if mode == "archive":
         from .archive_discovery import ArchiveDiscovery
         return ArchiveDiscovery(directory, read_only=read_only)
     if mode == "daily":
+        if config.get("daily_schema") == 2:
+            from .daily_expanded import ExpandedDailyDiscovery
+            return ExpandedDailyDiscovery(directory, read_only=read_only)
         from .daily_discovery import DailyDiscovery
         return DailyDiscovery(directory, read_only=read_only)
     return Discovery(directory, read_only=read_only)
@@ -180,6 +187,8 @@ def select_regular_records(rows):
 
 
 class Discovery:
+    terminal_job_states = ("complete",)
+
     def __init__(self, directory, *, read_only=False):
         self.directory = Path(directory).resolve()
         self.config = read_json(self.directory / "config.json")
@@ -199,6 +208,7 @@ class Discovery:
           CREATE TABLE IF NOT EXISTS responses(path TEXT PRIMARY KEY, observed REAL, body TEXT, sha256 TEXT);
           CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY, competition INTEGER, season INTEGER,
             round INTEGER, regular INTEGER, payload TEXT, observed REAL);
+          CREATE INDEX IF NOT EXISTS events_by_competition_season ON events(competition, season);
           CREATE TABLE IF NOT EXISTS state(key TEXT PRIMARY KEY,value TEXT);
           CREATE TABLE IF NOT EXISTS attempts(id INTEGER PRIMARY KEY, path TEXT, observed REAL,
             http_status INTEGER, error TEXT);
@@ -230,13 +240,18 @@ class Discovery:
             return {"paused": True, "reason": pause[0]}
         if self.current:
             return self.current
-        row = self.db.execute("SELECT * FROM jobs WHERE state!='complete' ORDER BY rowid LIMIT 1").fetchone()
+        placeholders = ",".join("?" for _ in self.terminal_job_states)
+        row = self.db.execute(f"SELECT * FROM jobs WHERE state NOT IN ({placeholders}) ORDER BY rowid LIMIT 1",
+                              self.terminal_job_states).fetchone()
         if row is None:
             return {"done": True, "summary": self.status()}
         self.current = {"path": row["path"], "competition_id": row["competition"],
                         "season_id": row["season"], "lease": uuid.uuid4().hex,
-                        "inspection_only": row["kind"] == "round_inspection",
+                        "inspection_only": row["kind"] in {"round_inspection", "event_pages_last", "event_pages_next"},
                         "policy": self.config["policy"], "label": self.leagues[row["competition"]]["name"]}
+        if row["kind"] in {"event_pages_last", "event_pages_next"}:
+            self.current.update(event_page_direction=row["kind"].removeprefix("event_pages_"),
+                                event_page_number=row["round"])
         with self.db:
             self.db.execute("UPDATE jobs SET state='running',lease=? WHERE path=?",
                             (self.current["lease"], row["path"]))

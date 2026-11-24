@@ -51,13 +51,18 @@ class Scope:
     league_name: str = ""
     season_start: int | None = None
     season_end: int | None = None
+    event_ids: tuple[int, ...] = ()
 
     def __post_init__(self):
         if self.league_id <= 0 or self.season_id <= 0:
             raise ValueError("Provider league and season IDs must be positive")
-        if not self.rounds or any(isinstance(r, bool) or r < 1 for r in self.rounds):
+        if (len(self.event_ids) != len(set(self.event_ids))
+                or any(type(eid) is not int or eid <= 0 for eid in self.event_ids)):
+            raise ValueError("Explicit fixture scope requires distinct positive event IDs")
+        if (not self.rounds and not self.event_ids) or any(type(r) is not int or r < 1 for r in self.rounds):
             raise ValueError("Supply actual round numbers, starting at 1")
         object.__setattr__(self, "rounds", tuple(sorted(set(self.rounds))))
+        object.__setattr__(self, "event_ids", tuple(sorted(self.event_ids)))
 
 
 @dataclass(frozen=True)

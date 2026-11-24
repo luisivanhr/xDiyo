@@ -17,6 +17,7 @@ import uuid
 from scraping.sofascore.config import Scope
 from scraping.sofascore.discovery import event_status, is_completed_event
 from scraping.sofascore.event_round import match_round, match_season
+from .fixture_scope import saved_fixture_scope, event_scope_row
 from scraping.sofascore.export import normalize_store, publish_tables
 from scraping.sofascore.models import Job
 from scraping.sofascore.parsers import validate_payload
@@ -165,8 +166,8 @@ def import_har(paths, *, event_id, reference=None, output_root=None, profile=PRO
     years = season_year_pair(match_season(event)["year"])
     if years is None:
         raise ValueError("Reference needs an unambiguous season year pair")
-    scope = Scope(event["tournament"]["uniqueTournament"]["id"], match_season(event)["id"],
-                  (match_round(event),), season_start=years[0], season_end=years[1])
+    scope = saved_fixture_scope(event["tournament"]["uniqueTournament"]["id"], match_season(event)["id"],
+                  [event_scope_row(event, match_round(event), match_season(event))], season_start=years[0], season_end=years[1])
     metadata_job = Job(metadata_path, "event", event_id)
     planning_time = reference["observed_at"] if profile.include_upcoming else time.time()
     jobs = {job.path:job for job in component_jobs(event, profile, planning_time)}

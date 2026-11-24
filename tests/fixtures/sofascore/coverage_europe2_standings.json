@@ -1,0 +1,228 @@
+{
+  "source_path": "/unique-tournament/172/season/17475/standings/total",
+  "response_sha256": "8a0ab58257702207c4e017bceb2ad7800c8a4e5c6d7359a273e9e1e5acea69d9",
+  "standings": [
+    {
+      "id": 58318,
+      "type": "total",
+      "name": "Championship Round",
+      "tournament": {
+        "id": 72498,
+        "name": "Czech First League, Championship",
+        "slug": "1-liga-championship",
+        "isGroup": false,
+        "uniqueTournament": {
+          "id": 172,
+          "name": "Czech First League",
+          "slug": "1-liga"
+        }
+      },
+      "rows": [
+        {
+          "team": {
+            "id": 2216
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 4502
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2218
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2205
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2204
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2219
+          },
+          "matches": 35
+        }
+      ]
+    },
+    {
+      "id": 58321,
+      "type": "total",
+      "name": "Relegation Round",
+      "tournament": {
+        "id": 72500,
+        "name": "Czech First League, Relegation",
+        "slug": "1-liga-relegation",
+        "isGroup": false,
+        "uniqueTournament": {
+          "id": 172,
+          "name": "Czech First League",
+          "slug": "1-liga"
+        }
+      },
+      "rows": [
+        {
+          "team": {
+            "id": 4871
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2215
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 6064
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 2213
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 23951
+          },
+          "matches": 35
+        },
+        {
+          "team": {
+            "id": 7739
+          },
+          "matches": 35
+        }
+      ]
+    },
+    {
+      "id": 33910,
+      "type": "total",
+      "name": "1. Liga",
+      "tournament": {
+        "id": 49,
+        "name": "Czech First League",
+        "slug": "1-liga",
+        "isGroup": false,
+        "uniqueTournament": {
+          "id": 172,
+          "name": "Czech First League",
+          "slug": "1-liga"
+        }
+      },
+      "rows": [
+        {
+          "team": {
+            "id": 2216
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 4502
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2218
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2205
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2204
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2219
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2224
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2207
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2220
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2208
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 6064
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 4871
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2215
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 2213
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 23951
+          },
+          "matches": 30
+        },
+        {
+          "team": {
+            "id": 7739
+          },
+          "matches": 30
+        }
+      ]
+    }
+  ]
+}

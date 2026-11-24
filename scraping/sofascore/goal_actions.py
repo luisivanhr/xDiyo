@@ -1,6 +1,8 @@
 """Goal-action capability boundary; no guessed provider routes or graph edges."""
 from __future__ import annotations
 
+from .event_sides import reviewed_reversed_sides
+
 CAPABILITY_STATUS = "bundled_in_incidents_observed_2026_09_12"
 
 
@@ -78,4 +80,8 @@ def parse_goal_sequences(payload, event, context, shots=()):
             for edge in derive_pass_edges([action]):
                 edges.append({**context, **edge, "sequence_id": sequence_id,
                               "evidence": action["recipient_evidence"]})
+    if reviewed_reversed_sides(event):
+        for action in actions:
+            if type(action.get("is_home")) is bool:
+                action["is_home"] = not action["is_home"]
     return {"goal_sequences": sequences, "goal_actions": actions, "passing_edges": edges}

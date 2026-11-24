@@ -17,10 +17,12 @@ import sqlite3
 from uuid import uuid4
 
 from scraping.sofascore.export import read_tables
+from scraping.sofascore.event_sides import match_team_ids
 from scraping.sofascore.store import json_bytes
 from .campaign import ROOT, collector_lock
 from .publish import hash_file, publish_captured_season, read_json, snapshot_season
 from .status_write import atomic_write_status
+from .source_gaps import publication_expected, verify_supplemental_tables
 
 IDENTITY = ("event_id", "competition_id", "season_id", "home_id", "away_id")
 
@@ -56,8 +58,7 @@ def _queue(directory, stem):
     if len(identities) != 1:
         raise ValueError("Season stem maps to multiple provider identities")
     expected = {i["event_id"]: (i["event_id"], i["competition_id"], i["season_id"],
-                i["reference"]["event"]["homeTeam"]["id"],
-                i["reference"]["event"]["awayTeam"]["id"]) for i in selected}
+                *match_team_ids(i["reference"]["event"])) for i in selected}
     unfinished = {eid: state for eid, state in rows.items() if state != "complete"}
     target_unfinished = {eid: rows[eid] for eid in expected if rows[eid] != "complete"}
     if hash_file(config_path) != digest:
@@ -74,6 +75,7 @@ def _bundle(root, stem, expected):
     outer_path = _path(root, f"{stem}.manifest.json")
     season_path = _path(root, f"{stem}.parquet")
     outer = read_json(outer_path)
+    expected = publication_expected(expected, stem, outer.get("reconciliation", {}))
     if outer.get("complete") is not True or outer.get("season_file") != season_path.name:
         raise ValueError("Existing season is not a complete named output pair")
     if hash_file(season_path) != outer.get("sha256"):
@@ -109,7 +111,13 @@ def _bundle(root, stem, expected):
         if hash_file(table) != info["sha256"] or pq.ParquetFile(table).metadata.num_rows != info["rows"]:
             raise ValueError("Relational table hash or row count mismatch")
         files.append(table)
-    matches = read_tables(canonical, names=["matches"], verify_hashes=True)["matches"]
+    supplements = outer.get("reconciliation", {}).get("reviewed_source_gaps")
+    tables = read_tables(canonical, names=None if supplements else ["matches"], verify_hashes=True)
+    if supplements:
+        if manifest.get("provenance", {}).get("reviewed_source_gaps") != supplements:
+            raise ValueError("Relational supplemental provenance differs from the season entry")
+        verify_supplemental_tables(tables, supplements)
+    matches = tables["matches"]
     actual = [tuple(r[k] for k in IDENTITY) for r in matches]
     if len(actual) != len(expected) or set(actual) != set(expected.values()):
         raise ValueError("Season fixture identities differ from the queued cohort")
@@ -206,9 +214,10 @@ def reconcile_publication(campaign_directory, stem, *, output=ROOT / "data/xDiyo
             outer = read_json(output / f"{stem}.manifest.json")
             lineage = read_json(_path(output, outer["reconciliation"]["source_lineage"]))
             matches = read_tables(_path(output, outer["manifest"]), names=["matches"], verify_hashes=True)["matches"]
+            expected_ids = list(publication_expected(expected, stem, outer["reconciliation"]))
             if (fingerprint != prior["chrome_source_fingerprint"] or lineage.get("fingerprint") != fingerprint or
                     lineage.get("sources") != sources or
-                    [r["event_id"] for r in matches] != [i["event_id"] for i in items]):
+                    [r["event_id"] for r in matches] != expected_ids):
                 raise ValueError("Existing Chrome publication has different source provenance")
             return {**result, "state": "already_published"}
         if expected_sha256 != prior["season_sha256"]:

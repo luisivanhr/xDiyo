@@ -10,6 +10,7 @@ from pathlib import Path
 import sqlite3
 
 from scraping.sofascore.parsers import awarded_flag, validate_payload
+from scraping.sofascore.event_sides import match_team_ids
 from .capture import api_path
 from .import_har import response_json, response_time
 
@@ -77,8 +78,7 @@ class SavedAwardedFlags:
                     continue
                 event = payload["event"]
                 actual = (event["id"], ((event.get("tournament") or {}).get("uniqueTournament") or {}).get("id"),
-                          (event.get("season") or {}).get("id"), (event.get("homeTeam") or {}).get("id"),
-                          (event.get("awayTeam") or {}).get("id"))
+                          (event.get("season") or {}).get("id"), *match_team_ids(event))
                 if actual != expected or any(type(value) is not int for value in actual):
                     raise ValueError(f"Captured fixture identity mismatch for {eid}")
                 if not math.isfinite(observed) or abs(response_time(entry) - observed) > 0.000001:

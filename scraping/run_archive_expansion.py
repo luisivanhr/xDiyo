@@ -2,6 +2,7 @@
 
 Default: local preparation/ID listing, no browser or provider traffic.
 --watch GROUP waits for discovery/collection and uses the existing converter.
+--watch-batch PATH watches an already prepared batch without preparing old groups.
 --status prints saved progress without starting a converter.
 """
 import argparse
@@ -44,38 +45,74 @@ def prepare_selected():
 
 def watch_archive(batch, *, sleep=time.sleep):
     previous = None
-    while True:
-        with open_discovery(batch["directory"], read_only=True) as discovery:
-            status = discovery.status()
-        state = (status["jobs"], status["ready_to_collect"], status.get("campaign"))
-        if state != previous:
-            print(f"Discovery {status['discovery_id']}: {status['jobs']}; ready={status['ready_to_collect']}", flush=True)
-            previous = state
-            if status["discovery_complete"] and not status["ready_to_collect"]:
-                for cohort in status["seasons"]:
-                    if cohort["validation_issues"]:
-                        print(f"Review {cohort['league']} {cohort['season']}: {cohort['validation_issues']}", flush=True)
-            elif status["ready_to_collect"] and not status["campaign"]:
-                print("Use Create collection campaign, then Start / resume in xDiyo.", flush=True)
-        if status["campaign"]:
-            campaign = status["campaign"]
-            print(f"Campaign ID: {campaign['campaign_id']}. Use Start / resume in xDiyo.", flush=True)
-            result = watch_publications(campaign["directory"], output=batch["settings"]["output_root"],
-                                        watch=True, interval_seconds=5)
-            if result["state"] == "finished":
-                expected = {s["stem"] for s in status["seasons"]}
-                if set(result["verified_in_this_run"]) != expected:
-                    raise ValueError("Published cohort list does not match this archive campaign")
-                print(f"All {len(expected)} selected outputs verified in data/xDiyo_data.", flush=True)
-            return result
-        sleep(5)
+    validated_version = None
+    with open_discovery(batch["directory"], read_only=True) as discovery:
+        while True:
+            # A stable connection makes data_version meaningful across polls.
+            # End each read transaction before sleeping or watching publication.
+            with discovery.db:
+                discovery.db.execute("BEGIN")
+                version = discovery.db.execute("PRAGMA data_version").fetchone()[0]
+                progress = discovery.progress()
+                if progress["discovery_complete"] or progress["campaign"]:
+                    if version != validated_version:
+                        status = discovery.status(refresh=True)
+                        validated_version = version
+                    else:
+                        status.update(progress)
+                else:
+                    status = dict(progress, ready_to_collect=False)
+                    validated_version = None
+            state = (status["jobs"], status["ready_to_collect"], status.get("campaign"))
+            if state != previous:
+                print(f"Discovery {status['discovery_id']}: {status['jobs']}; ready={status['ready_to_collect']}", flush=True)
+                previous = state
+                if status["discovery_complete"] and not status["ready_to_collect"]:
+                    for cohort in status["seasons"]:
+                        if cohort["validation_issues"]:
+                            print(f"Review {cohort['league']} {cohort['season']}: {cohort['validation_issues']}", flush=True)
+                elif status["ready_to_collect"] and not status["campaign"]:
+                    print("Use Create collection campaign, then Start / resume in xDiyo.", flush=True)
+            if status["campaign"]:
+                campaign = status["campaign"]
+                print(f"Campaign ID: {campaign['campaign_id']}. Use Start / resume in xDiyo.", flush=True)
+                result = watch_publications(campaign["directory"], output=batch["settings"]["output_root"],
+                                            watch=True, interval_seconds=5)
+                if result["state"] == "finished":
+                    expected = {s["stem"] for s in status["seasons"]}
+                    if set(result["verified_in_this_run"]) != expected:
+                        raise ValueError("Published cohort list does not match this archive campaign")
+                    print(f"All {len(expected)} selected outputs verified in data/xDiyo_data.", flush=True)
+                return result
+            sleep(5)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--watch", choices=list(requested_archives()))
+    watch = parser.add_mutually_exclusive_group()
+    watch.add_argument("--watch", choices=list(requested_archives()))
+    watch.add_argument("--watch-batch", type=Path)
     parser.add_argument("--status", action="store_true")
     args = parser.parse_args()
+    if args.watch_batch:
+        batch = json.loads(args.watch_batch.read_text(encoding="utf-8"))
+        with open_discovery(batch["directory"], read_only=True) as discovery:
+            config = discovery.config
+            if (config.get("mode") != "archive"
+                    or config.get("discovery_id") != batch["discovery_id"]
+                    or any(config[key] != batch["settings"][key]
+                           for key in ("name", "cohorts", "profile", "policy", "output_root"))):
+                raise ValueError("Prepared batch differs from its saved discovery")
+            if args.status:
+                status = discovery.status()
+        if args.status:
+            print(json.dumps(status, indent=2))
+            return
+        try:
+            watch_archive(batch)
+        except KeyboardInterrupt:
+            print("Converter watcher stopped. Chrome and the saved queue are unchanged.")
+        return
     batches = prepare_selected()
     if args.status:
         for name, batch in batches.items():

@@ -10,6 +10,7 @@ requires-python = ">=3.11"
 dependencies = ["pandas>=2.2,<4", "pyarrow>=17,<26"]
 
 [project.optional-dependencies]
+collector = ["selenium>=4,<5"]
 catboost = ["catboost>=1.2.10,<2"]
 graphs = ["torch>=2.2,<3"]
 test = ["pytest>=8,<10", "xgboost>=3,<4"]

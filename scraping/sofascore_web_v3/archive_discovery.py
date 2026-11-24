@@ -14,11 +14,17 @@ import uuid
 from scraping.sofascore.config import Profile
 from scraping.sofascore.discovery import event_status, is_completed_event
 from scraping.sofascore.event_round import match_round, match_season
+from scraping.sofascore.event_sides import reviewed_reversed_sides
 from scraping.sofascore.store import atomic_write, json_bytes, season_year_pair
-from .archive_formats import EXCLUDED, check_kickoff, is_regular, reviewed_standings, validate_schedule
+from .archive_formats import EXCLUDED, check_kickoff, excluded_stage, is_regular, reviewed_standings, validate_schedule
 from .campaign import ROOT, BASE, Campaign, campaign_path, collector_lock, prepare_campaign, read_json, validate_policy
 from .capture import PROFILE, match_url
 from .discovery import DISCOVERY_BASE, Discovery, normalize_leagues, positive, round_numbers, select_regular_records
+from .historical_formats import reviewed_withdrawal_awards, TURKEY_2022_WITHDRAWAL_SOURCE, TURKEY_2022_FIXTURE_SOURCE
+from .historical_formats import reviewed_home_allocation, EGYPT_2017_HOME_ALLOCATION_SOURCES
+from .source_gaps import reviewed_gaps, review_metadata
+from .curtailed_archive import ARCHIVE_CURTAILMENTS
+from .archive_selection import resolve_captured_season, validate_selector_identities
 
 ARCHIVE_BASE = ROOT / "data/website_capture_v3/batches"
 
@@ -40,7 +46,7 @@ def _mexico_window(spec):
 def validate_specs(cohorts):
     if not isinstance(cohorts, list) or not 1 <= len(cohorts) <= 200:
         raise ValueError("Select 1 to 200 explicit league-season cohorts")
-    identities, stems = set(), set()
+    stems = set()
     for spec in cohorts:
         normalize_leagues([spec])
         if type(spec.get("snapshot")) is not bool:
@@ -58,11 +64,11 @@ def validate_specs(cohorts):
             years = season_year_pair(alias)
             if years is None or years[1] not in (years[0], years[0]+1):
                 raise ValueError("Invalid calendar-year or two-year season")
-            identity = spec["competition_id"], years
             stem = f"{spec['name']}_{years[0]%100:02d}_{years[1]%100:02d}"
-            if identity in identities or stem in stems:
+            if stem in stems:
                 raise ValueError("Overlapping season selectors or duplicate output stems")
-            identities.add(identity); stems.add(stem)
+            stems.add(stem)
+    validate_selector_identities(cohorts)
     return cohorts
 
 
@@ -159,35 +165,35 @@ class ArchiveDiscovery(Discovery):
         if pending:
             return {"paused": True, "reason": "Scope decision required for " + ", ".join(pending)}
         result = super().next_job(resume=resume)
+        if result.get("done"):
+            result["summary"] = self.status(refresh=True)
         if result.get("season_id"):
             _, spec, _ = self._cohort(result["competition_id"], result["season_id"])
             result["label"] = f"{spec['name']} {spec['season']}"
         return result
 
     def process(self, job, payload, observed):
-        # A reviewed shared provider season can feed two distinct cohort views.
-        self._summaries.clear()
         cid, sid = job["competition"], job["season"]
         if job["kind"] == "seasons":
+            # Resolving identities can create or remove reviewed shared-season
+            # dependencies. These infrequent inventory responses refresh all.
+            self._summaries.clear()
             values = payload.get("seasons")
             if not isinstance(values, list):
                 raise ValueError("Missing season inventory")
             for i, spec in enumerate(self.specs):
                 if spec["competition_id"] != cid:
                     continue
-                aliases = {season_year_pair(x) for x in spec["aliases"]}
-                found = [s for s in values if isinstance(s, dict) and season_year_pair(s.get("year")) in aliases]
-                if not found:
+                found = resolve_captured_season(values, spec)
+                if found is None:
                     # Finish enumerating the other requested cohorts. This gap
                     # remains visible and prevents campaign creation; no season
                     # is dropped, substituted or declared successfully collected.
                     self._save(f"missing:{i}", "Requested season is absent from the captured provider inventory")
                     self._summaries.pop(i, None)
                     continue
-                if len(found) != 1:
-                    raise ValueError(f"{spec['name']} {spec['season']}: season ambiguous; no implicit fallback")
                 self.db.execute("DELETE FROM state WHERE key=?", (f"missing:{i}",))
-                sid, year = positive(found[0].get("id")), found[0]["year"]
+                sid, year = positive(found.get("id")), found["year"]
                 years = season_year_pair(year)
                 self._save(f"resolved:{i}", dict(season_id=sid, year=year, years=years,
                     stem=f"{spec['name']}_{years[0]%100:02d}_{years[1]%100:02d}"))
@@ -197,7 +203,12 @@ class ArchiveDiscovery(Discovery):
                     self.add_job(f"/unique-tournament/{cid}/season/{sid}/standings/total", cid, "standings", sid)
             return
         index, spec, resolved = self._cohort(cid, sid)
-        self._summaries.pop(index, None)
+        # Invalidate every view of this provider season, including Mexico's
+        # reviewed Apertura/Clausura alias, while retaining unrelated seasons.
+        for i, other in enumerate(self.specs):
+            source = self._resolved(i)
+            if source and (source.get("source_competition_id", other["competition_id"]), source["season_id"]) == (cid, sid):
+                self._summaries.pop(i, None)
         if job["kind"] == "rounds":
             values = payload.get("rounds")
             if not isinstance(values, list):
@@ -227,7 +238,7 @@ class ArchiveDiscovery(Discovery):
                 raise ValueError("Missing standings inventory")
             selected = [s for s in standings if s.get("type") == "total"
                 and s.get("tournament", {}).get("isGroup") is False
-                and not EXCLUDED.search(str(s.get("tournament", {}).get("name", "")))]
+                and not excluded_stage(s)]
             if len(selected) != 1:
                 raise ValueError("Regular-season standings missing or ambiguous")
             standing = selected[0]
@@ -302,6 +313,9 @@ class ArchiveDiscovery(Discovery):
             return [], []
         records = self.db.execute("SELECT * FROM events WHERE competition=? AND season=?",
             (resolved.get("source_competition_id", spec["competition_id"]), resolved["season_id"]))
+        if "fixture_contract" in spec:
+            # Distinct ordinary phases may reuse round numbers and opponents.
+            return [r for r in records if r["regular"]], []
         window = _mexico_window(spec)
         if window:
             start, end = window[:2] if spec["tournament"] == "Apertura" else window[1:]
@@ -310,18 +324,37 @@ class ArchiveDiscovery(Discovery):
 
     def _eligible_records(self, spec, resolved):
         rows, _ = self._records(spec, resolved)
+        if "fixture_contract" in spec:
+            from .paged_archive import validate_paged_cohort
+            ids = set(validate_paged_cohort(self.db, spec)["selected_ids"])
+            return sorted((r for r in rows if r["id"] in ids), key=lambda r: (json.loads(r["payload"])["startTimestamp"],r["id"]))
         rows = [r for r in rows if is_completed_event(json.loads(r["payload"]))]
         return sorted(rows, key=lambda r: (json.loads(r["payload"])["startTimestamp"], r["id"]))
 
-    def status(self):
+    def progress(self):
+        """Read queue progress without rebuilding season validation summaries."""
         counts = dict(self.db.execute("SELECT state,COUNT(*) FROM jobs GROUP BY state"))
         complete = bool(counts) and set(counts) == {"complete"}
+        return dict(discovery_id=self.config["discovery_id"], directory=str(self.directory), jobs=counts,
+            requests=self.db.execute("SELECT COUNT(*) FROM attempts").fetchone()[0],
+            discovery_complete=complete, campaign=self._value("campaign"), api_requests_sent_by_python=0)
+
+    def status(self, *, refresh=False):
+        if refresh:
+            self._summaries.clear()
+        progress = self.progress()
         seasons = []
         provider_identities = Counter((r.get("source_competition_id", spec["competition_id"]), r["season_id"])
             for i, spec in enumerate(self.specs) if (r := self._resolved(i)))
         for i, spec in enumerate(self.specs):
             if i in self._summaries:
                 seasons.append(self._summaries[i])
+                continue
+            if "fixture_contract" in spec:
+                from .paged_archive import paged_summary
+                summary = paged_summary(self, i, spec)
+                self._summaries[i] = summary
+                seasons.append(summary)
                 continue
             resolved = self._resolved(i)
             records, superseded = self._records(spec, resolved)
@@ -352,17 +385,35 @@ class ArchiveDiscovery(Discovery):
                 snapshot=spec["snapshot"], selection=spec.get("selection", "all"), format_source=spec.get("source"))
             if resolved and resolved.get("source_competition_id"):
                 summary.update(requested_competition_id=spec["competition_id"], format_source=resolved["source_review"])
+            if reviewed_sides := [e["id"] for e in events if reviewed_reversed_sides(e)]:
+                summary["reviewed_home_away_fixtures"] = sorted(reviewed_sides)
+            if not issues and (allocation := reviewed_home_allocation(events, spec, standings)):
+                summary.update(schedule_validation="reviewed_official_home_allocation",
+                    reviewed_home_allocation=[dict(home_team_id=a, away_team_id=b, matches=n)
+                                              for (a, b), n in sorted(allocation.items())],
+                    home_allocation_sources=list(EGYPT_2017_HOME_ALLOCATION_SOURCES))
+            if not issues and (rule := ARCHIVE_CURTAILMENTS.get(spec.get("historical_curtailment_review"))):
+                summary.update(schedule_validation="reviewed_curtailed_final_standings",
+                    curtailment_source=rule["source"], expected_played_matches=rule["matches"],
+                    unplayed_after_curtailment=sum(not is_completed_event(e) for e in events))
+            if awards := reviewed_withdrawal_awards(events, spec, standings):
+                summary.update(schedule_validation="reviewed_withdrawal_awards",
+                    unplayed_official_awards=[dict(round=n, home_team_id=a, away_team_id=b) for n, a, b in awards],
+                    withdrawal_source=TURKEY_2022_WITHDRAWAL_SOURCE, official_fixture_source=TURKEY_2022_FIXTURE_SOURCE)
+            if gaps := reviewed_gaps(events, spec, standings):
+                summary.update(schedule_validation="reviewed_explicit_source_gaps",
+                    source_capture_complete=False, missing_sofascore_fixtures=len(gaps),
+                    expected_dataset_matches=len(eligible) + len(gaps),
+                    reviewed_source_gaps=review_metadata())
             if resolved and provider_identities[source_cid, resolved["season_id"]] > 1:
                 summary["shared_provider_identity"] = True
             self._summaries[i] = summary
             seasons.append(summary)
-        return dict(discovery_id=self.config["discovery_id"], directory=str(self.directory), jobs=counts,
-            requests=self.db.execute("SELECT COUNT(*) FROM attempts").fetchone()[0],
-            discovery_complete=complete, ready_to_collect=complete and all(s["schedule_verified"] for s in seasons),
-            seasons=seasons, campaign=self._value("campaign"), api_requests_sent_by_python=0)
+        return dict(progress, ready_to_collect=progress["discovery_complete"] and all(s["schedule_verified"] for s in seasons),
+                    seasons=seasons)
 
     def prepare_collection(self, *, campaign_base=BASE):
-        snapshot = self.status()
+        snapshot = self.status(refresh=True)
         if snapshot["campaign"]:
             return snapshot["campaign"]
         if not snapshot["ready_to_collect"]:

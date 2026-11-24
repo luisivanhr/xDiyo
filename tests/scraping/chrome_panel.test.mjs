@@ -34,6 +34,35 @@ test('current panel renders its discovery and collection controls',()=>{
   assert.equal(elements.get('connect').disabled,true);
 });
 
+test('collection progress does not serialize or replace an unchanged large discovery preview',()=>{
+  const {window,elements}=panel(),app=application();
+  let serialized=0,writes=0,text='';
+  Object.defineProperty(elements.get('discovery-preview'),'textContent',{
+    get:()=>text,set:value=>{text=value;writes++;}
+  });
+  app.discovery.state.summary={discovery_id:'discover-88',ready_to_collect:true,
+    toJSON(){serialized++;return {seasons:Array.from({length:88},(_,i)=>({season:i,evidence:'x'.repeat(6000)}))};}};
+  window.attachXDiyo(app);
+  for(let i=0;i<40;i++) {
+    app.controller.running=true;
+    app.controller.state={phase:'running',message:`Request ${i}`,coverage:{observations:i}};
+    window.renderXDiyo(app);
+  }
+  assert.equal(serialized,1);
+  assert.equal(writes,1);
+  assert.match(elements.get('campaign-status').textContent,/Request 39/);
+  assert.deepEqual(JSON.parse(elements.get('coverage').textContent),{observations:39});
+  app.discovery.state.summary={discovery_id:'discover-new',ready_to_collect:false,validation_issues:['missing fixture']};
+  window.renderXDiyo(app);
+  assert.equal(writes,2);
+  assert.match(text,/missing fixture/);
+  assert.equal(elements.get('discovery-prepare').disabled,true);
+  app.discovery.state.summary=null;
+  window.renderXDiyo(app);
+  assert.equal(writes,3);
+  assert.equal(text,'No discovery yet.');
+});
+
 test('an older DevTools app without discovery shows reload guidance instead of crashing',async()=>{
   const {window,elements}=panel(),old=application();
   delete old.discovery;

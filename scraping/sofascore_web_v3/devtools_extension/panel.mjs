@@ -8,6 +8,7 @@ const ids=['version','campaign-id','connect','run','pause','campaign-status','co
   'event-id','start','existing','stop','export','status','warning','observed-matches','rows'];
 const el=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
 let app, reloadRequired=false;
+let renderedDiscoverySummary=Symbol('not-rendered');
 const reloadMessage='Reload xDiyo Network Capture at chrome://extensions, then close and reopen DevTools to finish updating the collection panel.';
 window.renderXDiyo = current => {
   const control=current?.controller;
@@ -27,7 +28,12 @@ window.renderXDiyo = current => {
   if(control.state.campaignId) el['campaign-id'].value=control.state.campaignId;
   el.disconnect.disabled=!control.connected || control.running;
   el['discovery-status'].textContent=`${discovery.state.phase}: ${discovery.state.message}`;
-  el['discovery-preview'].textContent=discovery.state.summary?JSON.stringify(discovery.state.summary,null,2):'No discovery yet.';
+  // Discovery replaces its summary only when new evidence arrives. Collection
+  // updates must not rebuild the unchanged, potentially very large preview.
+  if(discovery.state.summary!==renderedDiscoverySummary) {
+    el['discovery-preview'].textContent=discovery.state.summary?JSON.stringify(discovery.state.summary,null,2):'No discovery yet.';
+    renderedDiscoverySummary=discovery.state.summary;
+  }
   el['discovery-connect'].disabled=discovering || control.connected || control.running || current.probeRunning || Boolean(current.manual?.active);
   el['discovery-run'].disabled=!discovery.connected || discovery.running;
   el['discovery-pause'].disabled=!discovery.running;

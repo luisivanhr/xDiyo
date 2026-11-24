@@ -10,25 +10,39 @@ import time
 from .campaign import ROOT, campaign_path, collector_lock
 from .capture import PROFILE
 from .daily_storage import publish_daily_campaign
-from .discovery import DISCOVERY_BASE, open_discovery, prepare_discovery, league_catalog
+from .discovery import DISCOVERY_BASE, open_discovery, prepare_discovery
 from .publish import read_json
 from .status_write import atomic_write_status
-from scraping.sofascore.store import json_bytes
+from scraping.sofascore.store import json_bytes, season_year_pair
 
 OUTPUT = ROOT / "data/xDiyo_data"
 
 
 def prepare_daily_run(*, season, leagues=None, include_lineups=True, random_delay_max_seconds=None,
                       lineup_window_hours=24, history_root=None, output_root=None,
-                      discovery_base=DISCOVERY_BASE):
+                      discovery_base=DISCOVERY_BASE, calendar_season=None, season_overrides=None,
+                      fixture_window_days=14):
     """Reuse an unfinished run with exactly these settings; otherwise make a new run."""
     history_root = OUTPUT if history_root is None else Path(history_root)
     output_root = OUTPUT if output_root is None else Path(output_root)
+    if leagues is not None and (not isinstance(leagues, list) or not leagues or
+            any(not isinstance(v, (dict, str)) for v in leagues)):
+        raise ValueError("Select a nonempty list of daily league names or dictionaries")
     # These settings are a stable local key, not provider data or a queue mutation.
-    leagues = league_catalog() if leagues is None else leagues
+    years = season_year_pair(season)
+    expanded = (leagues is None or calendar_season is not None or season_overrides is not None or
+                fixture_window_days != 14 or (years is not None and years[0] == years[1]) or
+                any(isinstance(v, str) or "season_kind" in v or "schedule" in v or "season" in v for v in leagues))
+    if expanded:
+        from .daily_catalog import daily_selection
+        leagues = daily_selection(season, leagues, calendar_season=calendar_season, season_overrides=season_overrides)
+    if type(include_lineups) is not bool:
+        raise ValueError("include_lineups must be boolean")
     settings = {"season": season, "leagues": leagues, "include_lineups": include_lineups,
         "random_delay_max_seconds": random_delay_max_seconds, "lineup_window_hours": lineup_window_hours,
         "history_root": str(Path(history_root).resolve()), "output_root": str(Path(output_root).resolve())}
+    if expanded:
+        settings.update(daily_schema=2, fixture_window_days=fixture_window_days)
     output_root = Path(output_root).resolve()
     state = output_root / "_collection/last_run.json"
     with collector_lock(output_root / "_collection/daily_prepare.lock"):
@@ -38,11 +52,18 @@ def prepare_daily_run(*, season, leagues=None, include_lineups=True, random_dela
             if saved["settings"] == settings and not (directory / "publication.json").exists():
                 with open_discovery(directory, read_only=True) as discovery:
                     return discovery.status()
-        prepared = prepare_discovery(season=season, leagues=leagues, mode="daily",
-            collection_profile=replace(PROFILE, include_upcoming=True, include_lineups=include_lineups,
-                                       lineup_window_hours=lineup_window_hours),
-            random_delay_max_seconds=random_delay_max_seconds, history_root=history_root,
-            output_root=output_root, base=discovery_base)
+        profile = replace(PROFILE, include_upcoming=True, include_lineups=include_lineups,
+                          lineup_window_hours=lineup_window_hours)
+        if expanded:
+            from .daily_expanded import prepare_expanded_daily
+            prepared = prepare_expanded_daily(years=years, leagues=leagues,
+                profile=profile, fixture_window_days=fixture_window_days,
+                random_delay_max_seconds=random_delay_max_seconds, history_root=history_root,
+                output_root=output_root, base=discovery_base)
+        else:
+            prepared = prepare_discovery(season=season, leagues=leagues, mode="daily", collection_profile=profile,
+                random_delay_max_seconds=random_delay_max_seconds, history_root=history_root,
+                output_root=output_root, base=discovery_base)
         atomic_write_status(state, json_bytes({"discovery_id": prepared["discovery_id"], "settings": settings}))
         return prepared
 
