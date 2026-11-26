@@ -59,11 +59,18 @@ file for prior-day goals history.
   keep their source score basis: ISDB is reported but not regulation-certified,
   and archival coverage checks do not certify every kickoff or row. Source
   fixture identities and raw source date/clock are kept for traceability.
-- Only supplied dated, country-scoped reviewed aliases map external team IDs to
-  SofaScore. Case/Unicode normalization is not fuzzy matching. Unknown teams
-  keep source-scoped team keys and null native IDs; they cannot enter strict
-  replay. Unmapped ISDB leagues, predecessor competitions and known calendar
-  transitions stay in the review queue. There is no Footiqo data or odds join.
+- Team identity is determined at build time, within source, annual league and
+  season. The crosswalk uses dated reviewed aliases, exact names observed in
+  the same native league within five seasons, and repeated ordered fixture
+  matches against known opponents. For fixture evidence the score and ordered
+  opponent must agree, the date must be within one day, and a nomination must
+  have at least two distinct fixtures and two distinct opponents. No fuzzy
+  matching or dropped reserve suffixes. Conflicting nominations stay out.
+  `team_crosswalk.json` records each decision and supporting fixture IDs;
+  a data-backed match is not a manual review. Unknown teams keep source-scoped
+  keys and null SofaScore IDs; they cannot enter replay. Unmapped ISDB leagues,
+  predecessor competitions and known calendar transitions stay in the review
+  queue. There is no Footiqo data or odds join.
 
 ## Prior-day replay
 

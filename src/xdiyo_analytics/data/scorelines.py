@@ -17,6 +17,8 @@ from zoneinfo import ZoneInfo
 from ._source import _open_source
 from .catalogue.registry import name_key
 from .catalogue.reviewed_teams import load_reviewed_team_directory
+from .catalogue.team_identities import load_team_identity_decisions
+from .scoreline_identities import compile_crosswalk, identity_key
 from .loading import load_season
 
 # ISDB v2 competition identities. Unlisted codes are not inferred.
@@ -161,6 +163,8 @@ def read_native(root):
                 league_name=raw.get('competition_name') or league,season_name=raw.get('season_name'),
                 home_id=raw.get('home_id'),away_id=raw.get('away_id'),
                 home_team=raw.get('home_display_name') or raw.get('home_name'),
+                home_source_name=raw.get('home_name'),
+                away_source_name=raw.get('away_name'),
                 away_team=raw.get('away_display_name') or raw.get('away_name'),
                 home_goals=goals[0] if goals else None,away_goals=goals[1] if goals else None,
                 source='SofaScore',source_fixture_id=str(ident),source_url=None,
@@ -237,7 +241,7 @@ def read_external(path, historical):
                 source_url=None if historical else r['source_url'],score_basis=basis),hold
 
 
-def materialize(native, historical, archive, directory, reviews=()):
+def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None):
     """Return scorelines, accepted overlap links, and a review queue."""
     comp=defaultdict(set); seasons=defaultdict(set); names=defaultdict(set)
     observed=defaultdict(set); fingerprints=defaultdict(list); cells={}
@@ -278,6 +282,17 @@ def materialize(native, historical, archive, directory, reviews=()):
     def hold(r,reason):
         held.append(dict(r,reason=reason))
 
+    if crosswalk is not None:
+        historical,archive=list(historical),list(archive)
+        def approved(league, label, day):
+            return resolve(league,label,day)[0]
+        decisions, proof=compile_crosswalk(native,historical+archive,dated_aliases,approved)
+        crosswalk.extend(proof)
+        labels={r['team_id']:r['canonical_name'] for r in directory['teams']}
+        for r in dated_aliases:labels.setdefault(r['team_id'],r['canonical_name'])
+        for r in native:
+            for side in ('home','away'):
+                labels.setdefault(r[side+'_id'],r[side+'_team'])
     for source_rows in (historical,archive):
         seen=set()
         pending=defaultdict(list)
@@ -301,12 +316,17 @@ def materialize(native, historical, archive, directory, reviews=()):
             native_season=next(iter(season_ids)) if len(season_ids)==1 else (cid,None,None)
             hd,ht=resolve(r['league'],r['home_team'],str(r['source_reported_date']))
             ad,at=resolve(r['league'],r['away_team'],str(r['source_reported_date']))
+            if crosswalk is not None:
+                hd,ad=[decisions.get(identity_key(r,s)) for s in ('home','away')]
+                ht,at=labels.get(hd,r['home_team']),labels.get(ad,r['away_team'])
             if hd is not None and hd==ad:
                 hold(r,'mapped_teams_collapse')
                 continue
             r.update(competition_id=native_season[0],league_name=next(iter(ls)) if len(ls)==1 else r['league'],
                      season_id=native_season[1],season_name=native_season[2],home_id=hd,away_id=ad,
-                     home_team=ht,away_team=at,team_identity='reviewed' if hd is not None and ad is not None else 'needs_review')
+                     home_team=ht,away_team=at,team_identity=(
+                         ('crosswalk' if crosswalk is not None else 'reviewed')
+                         if hd is not None and ad is not None else 'needs_review'))
             if pair in cells:
                 matches=fingerprints[(*pair,hd,ad,r['source_reported_date'])] if hd and ad else []
                 if len(matches)==1 and all(matches[0][f]==r[f] for f in ('home_goals','away_goals')):
@@ -373,7 +393,7 @@ def materialize(native, historical, archive, directory, reviews=()):
             replay_basis='reviewed_completion_day'
         r['replay_basis']=replay_basis
         r['replay_available_at']=guarded
-        r['replay_eligible']=guarded is not None and r['team_identity'] in ('sofascore_native','reviewed')
+        r['replay_eligible']=guarded is not None and r['team_identity'] in ('sofascore_native','reviewed','crosswalk')
     return list(base.values()),links,held
 
 
@@ -410,7 +430,10 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
     if not isinstance(reviews,list):raise ValueError('Reviewed results must be a JSON array')
     directory=load_reviewed_team_directory(team_directory)
     native,pubs=read_native(sofa_root)
-    rows,links,held=materialize(native,read_external(isdb,True),read_external(archive,False),directory,reviews)
+    aliases=load_team_identity_decisions()
+    crosswalk=[]
+    rows,links,held=materialize(native,read_external(isdb,True),read_external(archive,False),directory,reviews,
+                                dated_aliases=aliases['records'],crosswalk=crosswalk)
     if {'isdb':sha(isdb),'archive':sha(archive)}!=input_hashes:
         raise RuntimeError('An external input changed during the build')
     if not rows:raise ValueError('No eligible goals in the selected inputs')
@@ -424,10 +447,14 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
         write_parquet(working/'scorelines_replay.parquet',[r for r in rows if r['replay_eligible']],DATA_FIELDS)
         write_parquet(working/'provenance.parquet',links,LINK_FIELDS)
         write_parquet(working/'review.parquet',held,HELD_FIELDS)
-        receipt=dict(schema_version=2,replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
+        (working/'team_crosswalk.json').write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        receipt=dict(schema_version=3,crosswalk_policy='dated_exact_and_ordered_fixture_v1',
+                     team_alias_decisions_sha256=aliases['sha256'],
+                     crosswalk_by_decision=Counter(r['decision'] for r in crosswalk),replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
                      reviewed_team_directory_sha256=directory['sha256'],inputs=input_hashes,
                      reviewed_result_sha256=hashlib.sha256(review_bytes).hexdigest() if review_bytes else None,
                      builder_sha256=sha(Path(__file__)),
+                     crosswalk_builder_sha256=sha(Path(__file__).with_name('scoreline_identities.py')),
                      rows_by_source=Counter(r['source'] for r in rows),
                      native_input_rows=len(native),review_by_reason=Counter(r['reason'] for r in held),
                      replay_rows=sum(r['replay_eligible'] for r in rows),linked_observations=len(links),

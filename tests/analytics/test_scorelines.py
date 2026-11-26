@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import json
 
 import pyarrow as pa
@@ -126,7 +126,67 @@ def test_cli_build_is_readonly_versioned_and_reproducible(export,tmp_path):
     assert export.snapshot()==before
     assert {(m['source'],m['event_id']) for m in pq.read_table(i/'scorelines.parquet').to_pylist()}=={
         ('SofaScore',2**53+1),('ISDBv2',None)}
-    assert pq.read_table(i/'scorelines_replay.parquet').num_rows==1
+    replay=pq.read_table(i/'scorelines_replay.parquet').to_pylist()
+    assert len(replay)==2
+    assert replay[0]['home_id']==replay[1]['home_id']==2**53+3
+    assert replay[0]['kickoff_utc'] is None
+    assert (i/'team_crosswalk.json').is_file()
     assert json.loads((i/'manifest.json').read_bytes())==json.loads((j/'manifest.json').read_bytes())
     with pytest.raises(ValueError,match='new output'):
         build(export.root,txt,arc,i)
+
+
+def test_crosswalk_uses_two_independent_ordered_fixtures_for_alias():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    second=DAY.replace(day=10)
+    natives=[native(),native(fixture_key='sofascore:124',source_reported_date=second+timedelta(days=1),
+                            away_id=3,away_team='Gamma')]
+    ext=[historical(home_team='Alias Alpha'),historical('archive:2',home_team='Alias Alpha',away_team='Gamma',
+                        source_away_key='gamma',source_reported_date=second)]
+    decisions,proof=compile_crosswalk(natives,ext,[],lambda *_:None)
+    k=('External','Premier_League','2023/2024','alpha')
+    assert decisions[k]==1
+    record=next(r for r in proof if r['source_team_key']=='alpha')
+    assert record['decision']=='repeated_ordered_fixture'
+    assert record['evidence_fixture_keys']==['sofascore:123','sofascore:124']
+
+    # A repeat against the same opponent doesn't independently identify a club.
+    natives[1].update(away_id=2,away_team='Beta')
+    ext[1][0].update(away_team='Beta',source_away_key='beta')
+    decisions,_=compile_crosswalk(natives,ext,[],lambda *_:None)
+    assert k not in decisions
+
+
+def test_crosswalk_preserves_reserve_name_and_holds_reused_names():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    old=native(fixture_key='sofascore:1',home_id=77,home_team='Alpha',season='2020/2021')
+    reserve=native(fixture_key='sofascore:2',home_id=9,home_team='Alpha B')
+    ext=[historical(),historical('archive:2',home_team='Alpha B',source_home_key='alpha_b',
+                                 source_reported_date=DAY.replace(day=12))]
+    # Put the external names out of fixture support so this checks fallback.
+    ext[0][0]['source_reported_date']=DAY.replace(day=11)
+    decisions,_=compile_crosswalk([native(),old,reserve],ext,[],lambda *_:None)
+    assert ('External','Premier_League','2023/2024','alpha') not in decisions
+    assert decisions['External','Premier_League','2023/2024','alpha_b']==9
+
+
+def test_crosswalk_holds_exact_name_when_ordered_fixture_contradicts_it():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    exact=native(fixture_key='sofascore:200',source_reported_date=DAY.replace(day=10))
+    other=native(home_id=12,home_team='Other Alpha')
+    decisions,proof=compile_crosswalk([exact,other],[historical()],[],lambda *_:None)
+    assert ('External','Premier_League','2023/2024','alpha') not in decisions
+    assert next(r for r in proof if r['source_team_key']=='alpha')['alternative_ids']==[1,12]
+
+
+def test_compiler_quarantines_two_source_keys_that_play_against_each_other():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    match=historical(home_team='Alpha',away_team='Alpha alias',source_away_key='alias',
+                     source_reported_date=DAY.replace(day=20))
+    decisions,proof=compile_crosswalk([native()], [match], [], lambda *args:1)
+    assert not decisions
+    assert {r['decision'] for r in proof}=={'opponents_collapse'}
