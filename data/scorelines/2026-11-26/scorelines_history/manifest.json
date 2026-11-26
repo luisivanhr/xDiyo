@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "scorelines_sha256": "d24c80e1eaf0309baa8e658b8a614bd647206d7156ccafb82add93c6d48f1d8d",
+  "parent_manifest_sha256": "61e773334a5cdc2044b6a18b26a842072f75e88e13faf1593b30558464bd8cf0",
+  "inventory_sha256": "422010a873dd4b45971068aea33af5e8f73be95d8b20c6332c30e466bcb61cd5",
+  "builder_sha256": "06c2ad2738b974316068b07c8d8bbe960a4b6996d561a27520060daab8e8e74e",
+  "fixtures_by_source": {
+    "SofaScore": 172013,
+    "ISDBv2": 25804,
+    "SoccerPunter": 3928,
+    "schochastics/football-data": 1766,
+    "FootyStats": 826,
+    "API-Football": 392,
+    "RSSSF": 252,
+    "Walfoot": 132
+  },
+  "team_rows": 410226,
+  "team_seasons": 14100,
+  "deferred_fixtures": 106053,
+  "movement_counts": {
+    "retained": 11500,
+    "promoted": 1505,
+    "unknown": 589,
+    "relegated": 478,
+    "other_entry": 28
+  },
+  "score_basis": "as_reported_not_regulation_certified",
+  "files": {
+    "deferred_fixtures.parquet": "b0a8133ed109c74a9e45a82b6c525f264a440250797dc8dca67b93d936fa0e3f",
+    "team_history.parquet": "f2fed0b461632788c82f955c7a25c03ea59f5a3d73a61b25c6fcf43a51514a2e",
+    "team_seasons.parquet": "9360e82446bc721e6e07184ee10e12bf245b3fd3b00376f6c95be189202880ef"
+  }
+}

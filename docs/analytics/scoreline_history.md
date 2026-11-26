@@ -1,13 +1,13 @@
 # Prepared scoreline history
 
-This is a private, immutable xDiyo input. It materializes paired goal rows and
+This is an immutable xDiyo input. It materializes paired goal rows and
 one movement record per competition, season and team. Reading the output does
 not join the original providers or fit a model.
 
 ```python
 from xdiyo_analytics.data.scoreline_history import load_scoreline_history
 
-history, team_seasons = load_scoreline_history("scorelines_history")
+history, team_seasons = load_scoreline_history("data/scorelines/2026-11-26/scorelines_history")
 inputs = {
     "history": history,
     "team_seasons": team_seasons,
@@ -53,5 +53,7 @@ python -m xdiyo_analytics.data.scoreline_history \
   --output data/scorelines/prepared-v1
 ```
 
-Keep generated parquet outside Git. The manifest pins the inputs and output
-bytes and the loader checks both consumed tables by default.
+Local builds are ignored by default. Publish only an explicitly approved,
+versioned snapshot; keep original provider exports and other artifacts private.
+The manifest pins the inputs and output bytes, and the loader checks both
+consumed tables by default.

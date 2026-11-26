@@ -1,0 +1,27 @@
+archive_team_id	entity_key	source	league	source_team_key	first_season	last_season	display_name	note
+2000000001	at:pasching-original	ISDBv2	Austrian_Bundesliga	FC Superfund	2002/2003	2006/2007	ASKÖ Pasching / FC Superfund	Original pre-relocation team.
+2000000002	at:austria-karnten	ISDBv2	Austrian_Bundesliga	FC Superfund	2007/2008	2009/2010	Austria Kärnten era	Separate era after the 2007 licence transfer; do not carry Pasching ratings forward. Evidence: https://editorial.uefa.com/resources/01c4-0f8425fa9809-6baf271304ae-1000/2007_08_clubs_de_premiere_division_en_europe.pdf
+2000000003	at:bregenz-original	ISDBv2	Austrian_Bundesliga	Schwarz Weiss Bregenz	2000/2001	2004/2005	Original Schwarz-Weiß Bregenz	Do not link the later Bregenz club.
+2000000004	cn:shanghai-united	ISDBv2	Chinese_Super_League	Shanghai United	2005/2005	2006/2006	Shanghai United	Pre-merger team, not Shanghai Shenhua.
+2000000005	cn:sichuan-guancheng	ISDBv2	Chinese_Super_League	Sichuan Guancheng	2004/2004	2005/2005	Sichuan Guancheng	Original top-flight club.
+2000000006	cn:wuhan-optics-valley	ISDBv2	Chinese_Super_League	Wuhan Optics Valley	2005/2005	2008/2008	Wuhan Optics Valley	Not Wuhan Zall or Wuhan Three Towns.
+2000000007	cn:xiamen-blue-lions	ISDBv2	Chinese_Super_League	Xiamen Lanshi	2006/2006	2007/2007	Xiamen Blue Lions	Not Xiamen Feilu.
+2000000008	dk:koge-bk	ISDBv2	Danish_Superliga	HB Koge	2002/2003	2002/2003	Køge BK	Pre-HB Køge entity.
+2000000009	gr:iraklis-pre-2011	ISDBv2	Greek_Super_League	Iraklis	2000/2001	2010/2011	Original Iraklis	Excluded from later Iraklis profile 81751.
+2000000010	mx:celaya-cuernavaca-2002	ISDBv2	Liga_MX	Atletico Celaya	2002/2003	2002/2003	Atlético Celaya / Colibríes de Cuernavaca	Same franchise relocated mid-season; raw labels are retained.
+2000000010	mx:celaya-cuernavaca-2002	ISDBv2	Liga_MX	Cuernavaca	2002/2003	2002/2003	Atlético Celaya / Colibríes de Cuernavaca	Same franchise relocated mid-season; raw labels are retained.
+2000000011	mx:veracruz-2002	ISDBv2	Liga_MX	Atletico San Luis	2002/2003	2007/2008	Tiburones Rojos de Veracruz	Corrected archive label. Never attach Atlético San Luis 1950 or later Veracruz 1942.
+2000000012	mx:irapuato-2003	ISDBv2	Liga_MX	Club Irapuato	2003/2004	2003/2004	Club Irapuato (2003/04)	Not modern Irapuato.
+2000000013	mx:queretaro-la-piedad	ISDBv2	Liga_MX	Gallos Blancos Queretaro FC	2002/2003	2003/2004	Querétaro (La Piedad-derived franchise)	Separate from the Zacatepec-derived club.
+2000000014	mx:queretaro-zacatepec	ISDBv2	Liga_MX	Gallos Blancos Queretaro FC	2006/2007	2009/2010	Querétaro (Zacatepec-derived franchise)	Limited to observed selected archive years; no inferred ID for gap seasons.
+2000000015	mx:san-luis-historic	ISDBv2	Liga_MX	San Luis FC	2002/2003	2009/2010	San Luis FC	Not modern Atlético San Luis or Veracruz.
+2000000016	pt:campomaiorense	ISDBv2	Liga_Portugal	Campomaiorense	2000/2001	2000/2001	SC Campomaiorense	Archived senior side.
+2000000017	fr:asoa-valence	ISDBv2	Ligue_2	Valence	2002/2003	2003/2004	ASOA Valence	Not Olympique de Valence.
+2000000018	gb:gretna-original	ISDBv2	Premiership	Gretna	2007/2008	2007/2008	Gretna FC	Same original club as the prior second-tier season; not Gretna 2008.
+2000000018	gb:gretna-original	ISDBv2	Scottish_Championship	Gretna	2006/2007	2006/2007	Gretna FC	Same original club across promotion; not Gretna 2008.
+2000000019	ru:lokomotiv-nizhny-original	ISDBv2	Russian_Premier_League	Lokomotiv Nizhni Novgorod	2000/2000	2000/2000	Lokomotiv Nizhny Novgorod	Not Pari Nizhny Novgorod.
+2000000020	ru:sokol-saratov-historic	ISDBv2	Russian_Premier_League	Sokol Saratov	2001/2001	2002/2002	Sokol Saratov (historical)	Do not infer continuity with later 2314.
+2000000021	ru:uralan-original	ISDBv2	Russian_Premier_League	Uralan Elista	2000/2000	2003/2003	Uralan Elista	Original senior professional side.
+2000000022	ch:lausanne-original	ISDBv2	Swiss_Super_League	Lausanne Sport	2000/2001	2001/2002	Original Lausanne-Sports	Not the 2003 club (2446).
+2000000023	si:primorje-original	schochastics/football-data	PrvaLiga	NK Primorje (Slovenia)	2010/2011	2010/2011	Original NK Primorje	Not later ND Primorje (2414).
+2000000024	rs:sevojno-archive-2010	schochastics/football-data	Serbian_Superliga	FK Sevojno (Serbia)	2010/2011	2013/2014	FK Sevojno (archived top-flight operation)	Do not join to present-day FK Sevojno or Sloboda provider histories by name.

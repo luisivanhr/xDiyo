@@ -1,6 +1,6 @@
 # Materialized scorelines
 
-`scorelines` is a private, immutable goals-only snapshot. It does not modify or
+`scorelines` is an immutable goals-only snapshot. It does not modify or
 replace the native SofaScore data, the historical scores inputs, or the existing
 catalogue. No adapter or fixture join runs during an experiment.
 For the paired xDiyo input and season-entry table, see
@@ -25,7 +25,9 @@ loads and verifies only the matches table of each native publication.
 It records exact native publication, manifest, and matches hashes, the
 team-directory digest, the two archive hashes and its own code hash. It refuses
 to overwrite an existing output or write inside SofaScore. Keep the inputs
-and generated files private, outside Git; do not publish licensed provider data.
+and local builds outside Git. Publish a consolidated snapshot only if its
+provider data may be redistributed. The approved 2026-11-26 snapshot is
+tracked separately from original provider exports.
 
 ## Read
 

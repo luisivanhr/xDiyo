@@ -1,0 +1,13 @@
+{
+  "fixtures": 205113,
+  "paired_rows": 410226,
+  "movement_rows": 14100,
+  "validation_fixture_samples": 2032,
+  "scope_count": 1016,
+  "original_source_columns_equal": true,
+  "exact_published_fixture_keys": true,
+  "exact_published_result_guards": true,
+  "complete_movement_context": true,
+  "calibration_run": false,
+  "rating_replay_run": false
+}
