@@ -52,3 +52,6 @@ docs/analytics/team_assets/collect_badges.py
 
 # Local audit scratch files, temporary Git indexes and private workbook extracts.
 /scratch/
+
+# Private, reproducibly generated scoreline snapshots.
+/data/scorelines/
