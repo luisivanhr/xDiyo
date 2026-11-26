@@ -208,3 +208,55 @@ def test_slug_pass_crosses_divisions_but_not_borders_or_reserve_qualifiers():
     assert decisions['External','Premier_League','2015/2016','alpha']==9
     assert ('External','Premier_League','2015/2016','reserve') not in decisions
     assert {r['team_id'] for r in idx if r['slug']=='etoile'}=={9,11}
+
+
+def test_reviewed_source_team_is_bounded_and_does_not_override_conflict():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    review=dict(source='External',league='Premier_League',season='2022/2023',
+                source_team_key='old',source_name='Former Alpha',sofascore_team_id=1,
+                evidence_urls=['https://league.example/old','https://provider.example/team/1'])
+    candidate=historical(season='2022/2023',source_home_key='old',home_team='Former Alpha')
+    nearby=historical('archive:2',season='2021/2022',source_home_key='old',home_team='Former Alpha')
+    args=([native()], [candidate,nearby], [])
+    resolver=lambda *_:None
+    decisions,proof=compile_crosswalk(*args,resolver,reviewed_source_teams=[review])
+    key=('External','Premier_League','2022/2023','old')
+    assert decisions[key]==1 and ('External','Premier_League','2021/2022','old') not in decisions
+    assert any(x['decision']=='reviewed_source_team' for x in proof)
+    conflict,_=compile_crosswalk(*args,lambda league,label,day:2 if label=='Former Alpha' else None,
+                                 reviewed_source_teams=[review])
+    assert key not in conflict
+
+
+@pytest.mark.parametrize(('overrides','match'),[
+    ({'source_name':'Different'},'name disagrees'),
+    ({'season':'2021/2022'},'not found'),
+    ({'sofascore_team_id':99},'evidence or target'),
+    ({'evidence_urls':['https://league.example/a','https://league.example/b']},'independent'),
+])
+def test_reviewed_source_team_rejects_stale_or_unscoped_input(overrides,match):
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+
+    review=dict(source='External',league='Premier_League',season='2022/2023',
+                source_team_key='old',source_name='Former Alpha',sofascore_team_id=1,
+                evidence_urls=['https://league.example/old','https://provider.example/team/1'])
+    review.update(overrides)
+    candidate=historical(season='2022/2023',source_home_key='old',home_team='Former Alpha')
+    with pytest.raises(ValueError,match=match):
+        compile_crosswalk([native()],[candidate],[],lambda *_:None,reviewed_source_teams=[review])
+
+
+def test_mens_porto_b_slug_uses_pinned_mens_competitions_only():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk
+    men=native(league='Liga_Portugal_2',home_team='FC Porto B',home_id=74469,
+               home_source_slug='fc-porto-b')
+    women=native(fixture_key='sofascore:456',league='Portugal_Feminina',
+                 home_team='FC Porto B',home_id=1164689,home_source_slug='fc-porto-b')
+    archive=historical(league='Liga_Portugal_2',season='2013/2014',home_team='FC Porto B',
+                       source_home_key='old-porto-b')
+    slug_index=[]
+    decisions,_=compile_crosswalk([men,women],[archive],[],lambda *_:None,
+                                  countries={'Liga_Portugal_2':'Portugal'},slug_index=slug_index)
+    assert decisions[('External','Liga_Portugal_2','2013/2014','old-porto-b')]==74469
+    assert [row['team_id'] for row in slug_index if row['slug']=='fc-porto-b']==[74469]

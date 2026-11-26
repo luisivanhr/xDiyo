@@ -243,7 +243,7 @@ def read_external(path, historical):
                 source_url=None if historical else r['source_url'],score_basis=basis),hold
 
 
-def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None, slug_index=None):
+def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None, slug_index=None, reviewed_source_teams=()):
     """Return scorelines, accepted overlap links, and a review queue."""
     comp=defaultdict(set); seasons=defaultdict(set); names=defaultdict(set)
     observed=defaultdict(set); fingerprints=defaultdict(list); cells={}
@@ -289,7 +289,8 @@ def materialize(native, historical, archive, directory, reviews=(), *, dated_ali
         def approved(league, label, day):
             return resolve(league,label,day)[0]
         decisions, proof=compile_crosswalk(native,historical+archive,dated_aliases,approved,
-                                           countries=COUNTRIES,slug_index=slug_index)
+                                           countries=COUNTRIES,slug_index=slug_index,
+                                           reviewed_source_teams=reviewed_source_teams)
         crosswalk.extend(proof)
         labels={r['team_id']:r['canonical_name'] for r in directory['teams']}
         for r in dated_aliases:labels.setdefault(r['team_id'],r['canonical_name'])
@@ -422,7 +423,7 @@ def write_parquet(path,rows,columns):
     pq.write_table(pa.Table.from_pylist(rows,schema=schema),path,compression='zstd')
 
 
-def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,reviewed_results=None):
+def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,reviewed_results=None,reviewed_source_teams=None):
     sofa_root,isdb,archive,out=(Path(p).resolve() for p in (sofa_root,isdb,archive,out))
     if out.exists() or out.is_relative_to(sofa_root):
         raise ValueError('Choose a new output directory outside the SofaScore source')
@@ -431,12 +432,16 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
     review_bytes=review_path.read_bytes() if review_path else None
     reviews=json.loads(review_bytes) if review_bytes else []
     if not isinstance(reviews,list):raise ValueError('Reviewed results must be a JSON array')
+    team_review_bytes=Path(reviewed_source_teams).read_bytes() if reviewed_source_teams else None
+    team_reviews=json.loads(team_review_bytes) if team_review_bytes is not None else []
+    if not isinstance(team_reviews,list):raise ValueError('Reviewed source teams must be a JSON array')
     directory=load_reviewed_team_directory(team_directory)
     native,pubs=read_native(sofa_root)
     aliases=load_team_identity_decisions()
     crosswalk=[]; slug_index=[]
     rows,links,held=materialize(native,read_external(isdb,True),read_external(archive,False),directory,reviews,
-                                dated_aliases=aliases['records'],crosswalk=crosswalk,slug_index=slug_index)
+                                dated_aliases=aliases['records'],crosswalk=crosswalk,slug_index=slug_index,
+                                reviewed_source_teams=team_reviews)
     if {'isdb':sha(isdb),'archive':sha(archive)}!=input_hashes:
         raise RuntimeError('An external input changed during the build')
     if not rows:raise ValueError('No eligible goals in the selected inputs')
@@ -452,7 +457,8 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
         write_parquet(working/'review.parquet',held,HELD_FIELDS)
         (working/'team_crosswalk.json').write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         (working/'team_slug_index.json').write_text(json.dumps(slug_index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        receipt=dict(schema_version=4,crosswalk_policy='dated_country_slug_and_ordered_fixture_v2',
+        receipt=dict(schema_version=4,crosswalk_policy='dated_country_slug_and_ordered_fixture_v3',
+                     reviewed_source_teams_sha256=hashlib.sha256(team_review_bytes).hexdigest() if team_review_bytes is not None else None,
                      team_alias_decisions_sha256=aliases['sha256'],
                      crosswalk_by_decision=Counter(r['decision'] for r in crosswalk),replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
                      reviewed_team_directory_sha256=directory['sha256'],inputs=input_hashes,
@@ -478,10 +484,12 @@ def main(argv=None):
         parser.add_argument('--'+f,required=True,type=Path)
     parser.add_argument('--reviewed-team-directory',type=Path)
     parser.add_argument('--reviewed-results',type=Path)
+    parser.add_argument('--reviewed-source-teams',type=Path)
     parser.add_argument('--native-revision',help='Optional Git commit or pinned data release used as input')
     args=parser.parse_args(argv)
     r=build(args.sofascore_root,args.isdb,args.archive,args.output,team_directory=args.reviewed_team_directory,
-            source_revision=args.native_revision,reviewed_results=args.reviewed_results)
+            source_revision=args.native_revision,reviewed_results=args.reviewed_results,
+            reviewed_source_teams=args.reviewed_source_teams)
     print(json.dumps({k:r[k] for k in ('rows_by_source','replay_rows','review_by_reason','linked_observations')},indent=2))
 
 

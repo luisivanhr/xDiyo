@@ -1,6 +1,7 @@
 """Deterministic scoreline team crosswalk for a pinned build, never fuzzy."""
 from collections import defaultdict
 from datetime import timedelta
+from urllib.parse import urlsplit
 import re
 import unicodedata
 
@@ -22,7 +23,33 @@ def slug_key(value):
 HISTORICAL_SLUG_HOLDS={('Bulgaria','cska-sofia'):2017}
 
 
-def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug_index=None):
+def index_reviewed_source_teams(records, native):
+    """Validate bounded, source-specific human-reviewed nominations."""
+    league_ids=defaultdict(set)
+    for row in native:
+        league_ids[row['league']].update((row['home_id'],row['away_id']))
+    index={}
+    for row in records:
+        fields=('source','league','season','source_team_key','source_name')
+        if not isinstance(row,dict) or any(not isinstance(row.get(f),str) or not row[f].strip() for f in fields):
+            raise ValueError('Invalid reviewed source team scope')
+        key=tuple(row[f] for f in fields[:-1])
+        tid=row.get('sofascore_team_id')
+        urls=row.get('evidence_urls')
+        if (type(tid) is not int or tid<=0 or tid not in league_ids[row['league']] or
+            not isinstance(urls,list) or len(urls)<2 or any(not isinstance(u,str) for u in urls)):
+            raise ValueError(f'Invalid reviewed source team evidence or target: {key}')
+        parts=[urlsplit(u) for u in urls]
+        if (len({u.hostname.removeprefix('www.') for u in parts if u.hostname})<2 or
+            any(u.scheme!='https' or not u.hostname or u.username or u.password or u.query for u in parts)):
+            raise ValueError(f'Expected two independent public HTTPS evidence hosts: {key}')
+        if key in index:
+            raise ValueError(f'Duplicate reviewed source team scope: {key}')
+        index[key]=(row['source_name'],tid)
+    return index
+
+
+def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug_index=None, reviewed_source_teams=()):
     """Use dated reviews, exact names in native seasons, and fixture evidence.
 
     One source key can refer to different teams in different seasons. Conflicts
@@ -32,6 +59,8 @@ def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug
     evidence. It requires two distinct fixtures and two already-known rivals.
     """
     countries=countries or {}
+    reviewed_index=index_reviewed_source_teams(reviewed_source_teams,native)
+    reviews_seen=set()
     slugs=defaultdict(lambda: defaultdict(set))
     teams_by_slug={}
     comps=defaultdict(set)
@@ -80,6 +109,12 @@ def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug
         yr=int(r['season'][:4]); day=str(r['source_reported_date'])
         for side in ('home','away'):
             name=r[f'{side}_team']; norm=name_key(name); k=identity_key(r,side); scope.add(k)
+            if k in reviewed_index:
+                reviewed_name, reviewed_id=reviewed_index[k]
+                if name!=reviewed_name:
+                    raise ValueError(f'Reviewed source team name disagrees with input: {k}')
+                reviews_seen.add(k)
+                support[k].setdefault(reviewed_id,set()).add('reviewed_source_team')
             exact=raw_names[league,norm]
             ids=set()
             reviewed=lookup(league,name,day)
@@ -99,6 +134,9 @@ def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug
                 tid,years=next(iter(hits.items()))
                 if min(abs(y-yr) for y in years)<=10:
                     support[k].setdefault(tid,set()).add('exact_country_slug')
+    if reviews_seen!=set(reviewed_index):
+        missing=sorted(set(reviewed_index)-reviews_seen)
+        raise ValueError(f'Reviewed source teams not found in eligible build inputs: {missing[:5]}')
     seeds={k:next(iter(v)) for k,v in support.items() if len(v)==1}
     voted=defaultdict(lambda: defaultdict(lambda: defaultdict(set)))
     for r,hold in external:

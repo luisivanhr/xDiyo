@@ -113,3 +113,21 @@ country, league, season and a bounded shortlist of SofaScore identifiers and
 labels, not fixtures, goals, keys from the source datasets, or raw rows.
 Each decision can abstain. A returned ID is only a proposal for review;
 no output from this helper is automatically imported into the crosswalk.
+
+## Applying independently reviewed archive team identities
+
+Pass `--reviewed-source-teams /private/reviewed_source_teams.json` when building
+a new snapshot. The file is an array of scoped nominations. Each nomination
+contains `source`, `league`, the canonical two-year `season`,
+`source_team_key`, the verbatim `source_name`, `sofascore_team_id`, and
+`evidence_urls` (public HTTPS references on at least two distinct hosts). Use
+dated league or fixture evidence as well as the team identity evidence. URLs
+are provenance only; building is offline and does not fetch them.
+
+A nomination applies only to that source, league, season and team key. A name
+drift, duplicate scope, missing input key or target not observed in the pinned
+native league fails the build. Conflicting native, alias or fixture evidence
+still holds the identity rather than overriding it. A confirmed decision
+includes `reviewed_source_team` in the crosswalk; the manifest records the
+SHA-256 of the supplied JSON. Keep the reviewed file with private build inputs.
+A Decisions API suggestion is not sufficient evidence to create a nomination.
