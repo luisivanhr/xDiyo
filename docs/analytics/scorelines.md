@@ -37,8 +37,8 @@ replay = pd.read_parquet(snapshot / "scorelines_replay.parquet")
 ```
 
 Pin the snapshot (and its manifest digest) in experiment configuration, not a
-mutable `latest` path. The files have the same columns. The broad score file is
-for coverage and exploratory work, not trusted point-in-time training.
+mutable `latest` path. The files have the same columns. The broad score file includes unresolved team identities. Use the replay
+file for prior-day goals history.
 
 - `league` is the stable xDiyo/annual league key. `season` is always two four-digit
   years, including `2025/2025` for calendar leagues. Provider display names and
@@ -65,23 +65,25 @@ for coverage and exploratory work, not trusted point-in-time training.
   replay. Unmapped ISDB leagues, predecessor competitions and known calendar
   transitions stay in the review queue. There is no Footiqo data or odds join.
 
-## Point-in-time gate
+## Prior-day replay
 
-A date-only source never populates `kickoff_utc`, and an unverified external
-clock is retained only in `source_kickoff_utc`. An explicitly recorded native
-`result_available_at` takes effect no earlier than the next UTC analysis day.
-No completion time is inferred from first kickoff.
+For an ordinary completed fixture whose source reports result day D, its
+score is usable starting on analysis day D+1. Use a daily cutoff consistent
+with the match-day labels; `replay_available_at` encodes the inclusive UTC
+analysis-day boundary, not an observed result-publication timestamp. A recorded
+publication timestamp does not gate history. Filter on
+`replay_available_at <= prediction_day at 00:00 UTC`. Do not infer exact
+kickoff from a date-only row, or mix this daily policy with intraday predictions.
+An external source-reported date is still a source assertion, not independent
+proof about postponements or local timezones.
 
-For historical matches with independently reviewed completion dates and
-regulation scores, optionally pass `--reviewed-results /private/results.json`.
-It is a JSON array, each entry containing `fixture_key`, `completion_date`
-(ISO date), `timezone` (IANA name), `regulation_verified` set to true, and
-`evidence` (citation to the review). The gate rounds the end of the documented
-local completion day up to a UTC-day boundary. This is deliberately
-conservative for sessions that span time zones. Date-only approved rows can
-supply history at or after `replay_available_at`, not a target requiring exact
-kickoff. Missing timing or identity evidence leaves rows out.
-
-Do not substitute `scorelines.parquet` if the replay file is small or empty.
-The build makes the missing evidence visible rather than turning it into an
-optimistic availability assumption.
+Known interrupted or resumed native fixtures without a reviewed completion
+day are held out. For exceptions, optionally pass
+`--reviewed-results /private/results.json`: a JSON array whose entries contain
+`fixture_key`, `completion_date` (ISO date), `timezone` (IANA name),
+`regulation_verified` set to true, and `evidence` (citation to the review).
+The review uses the end of the documented local completion day, rounded up to a
+UTC-day boundary. This can delay admission by an extra day. Archived rows in
+which the source bundle already replaced the first kickoff day with the known
+completion day keep that completion day. Missing or ambiguous team IDs still
+keep records out of the joined replay; score-basis labels are preserved.

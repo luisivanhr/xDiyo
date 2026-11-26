@@ -44,7 +44,7 @@ def test_native_wins_only_identical_confirmed_overlap():
     assert [r['fixture_key'] for r in rows]==['sofascore:123']
     assert [r['source_key'] for r in links]==['archive:1']
     assert {r['reason'] for r in held}=={'native_overlap_score_conflict','native_overlap_needs_review'}
-    assert rows[0]['replay_eligible'] is False
+    assert rows[0]['replay_eligible'] is True
 
 
 def test_native_excluded_result_is_not_backfilled_by_an_archive():
@@ -74,10 +74,24 @@ def test_reviewed_completion_uses_utc_day_guard_without_fabricating_kickoff():
                     [dict(review,completion_date='2024-01-01')])
 
 
-def test_explicit_result_availability_waits_past_completion_day():
+def test_publication_timestamp_does_not_override_prior_day_policy():
     r=native(result_available_at=datetime(2024,1,4,9,tzinfo=UTC))
     rows,_,_=materialize([r],[],[],DIRECTORY)
-    assert rows[0]['replay_available_at']==datetime(2024,1,5,tzinfo=UTC)
+    assert rows[0]['replay_available_at']==datetime(2024,1,4,tzinfo=UTC)
+    assert rows[0]['replay_basis']=='source_reported_prior_day'
+
+
+def test_known_resumption_without_completion_evidence_is_held_from_replay():
+    rows,_,_=materialize([native(completion_needs_review=True)],[],[],DIRECTORY)
+    assert not rows[0]['replay_eligible']
+    assert rows[0]['replay_basis']=='completion_day_needs_review'
+
+
+def test_date_only_result_with_reviewed_identity_can_supply_prior_day_history():
+    rows,_,_=materialize([native()],[],[historical(season='2022/2023')],DIRECTORY)
+    ext=next(r for r in rows if r['source']=='External')
+    assert ext['replay_eligible'] and ext['kickoff_utc'] is None
+    assert ext['replay_available_at']==datetime(2024,1,4,tzinfo=UTC)
 
 
 @pytest.mark.parametrize('changes',[dict(is_awarded=True),dict(is_awarded=None),
@@ -112,7 +126,7 @@ def test_cli_build_is_readonly_versioned_and_reproducible(export,tmp_path):
     assert export.snapshot()==before
     assert {(m['source'],m['event_id']) for m in pq.read_table(i/'scorelines.parquet').to_pylist()}=={
         ('SofaScore',2**53+1),('ISDBv2',None)}
-    assert pq.read_table(i/'scorelines_replay.parquet').num_rows==0
+    assert pq.read_table(i/'scorelines_replay.parquet').num_rows==1
     assert json.loads((i/'manifest.json').read_bytes())==json.loads((j/'manifest.json').read_bytes())
     with pytest.raises(ValueError,match='new output'):
         build(export.root,txt,arc,i)

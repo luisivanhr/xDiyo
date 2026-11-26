@@ -167,6 +167,8 @@ def read_native(root):
                 source_reported_date=k.date() if k else None,source_kickoff_utc=k,kickoff_utc=k,
                 source_manifest=stem,source_season=provider_annual,score_basis='native_current_no_extra_time_evidence',
                 result_available_at=release,
+                completion_needs_review=bool(re.search(r'resum|suspend|interrupt',
+                                                       str(raw.get('play_status') or ''),re.I)),
                 date_precision='second' if k else 'unknown',
                 fixture_key=f'sofascore:{ident}',team_identity='sofascore_native'))
     return records,pins
@@ -345,10 +347,14 @@ def materialize(native, historical, archive, directory, reviews=()):
     for r in base.values():
         r['home_team_key']=f"sofascore:{r['home_id']}" if r.get('home_id') is not None else f"{r['source']}:{r['league']}:{r['source_home_key']}"
         r['away_team_key']=f"sofascore:{r['away_id']}" if r.get('away_id') is not None else f"{r['source']}:{r['league']}:{r['source_away_key']}"
-        release=r.get('result_available_at')
+        # The ordinary result is usable on the following analysis day, not
+        # the fixture's day. Publication or ingestion timestamps are metadata.
+        day=r.get('source_reported_date')
         guarded=None
-        if release is not None and r.get('kickoff_utc') is not None:
-            guarded=next_utc_day(release)
+        replay_basis='completion_day_needs_review' if r.get('completion_needs_review') else 'missing_result_day'
+        if day is not None and not r.get('completion_needs_review'):
+            guarded=datetime.combine(day+timedelta(days=1),datetime.min.time(),timezone.utc)
+            replay_basis='source_reported_prior_day'
         review=review_map.get(r['fixture_key'])
         if review:
             day=date.fromisoformat(review['completion_date'])
@@ -363,7 +369,9 @@ def materialize(native, historical, archive, directory, reviews=()):
             bound=end if end==end.replace(hour=0,minute=0,second=0,microsecond=0) else next_utc_day(end)
             r.update(completion_date=day,completion_timezone=review['timezone'],
                      review_evidence=str(review['evidence']),score_basis='reviewed_regulation')
-            guarded=max(guarded,bound) if guarded else bound
+            guarded=bound
+            replay_basis='reviewed_completion_day'
+        r['replay_basis']=replay_basis
         r['replay_available_at']=guarded
         r['replay_eligible']=guarded is not None and r['team_identity'] in ('sofascore_native','reviewed')
     return list(base.values()),links,held
@@ -373,7 +381,7 @@ DATA_FIELDS=(
     'fixture_key league league_name competition_id season season_id season_name phase event_id home_id away_id '
     'home_team away_team home_team_key away_team_key home_goals away_goals source source_fixture_id source_url '
     'source_home_key source_away_key source_competition source_season source_manifest source_reported_date '
-    'source_kickoff_utc kickoff_utc date_precision result_available_at completion_date completion_timezone review_evidence replay_available_at replay_eligible score_basis team_identity'
+    'source_kickoff_utc kickoff_utc date_precision result_available_at completion_date completion_timezone review_evidence replay_basis replay_available_at replay_eligible score_basis team_identity'
 ).split()
 HELD_FIELDS=[*DATA_FIELDS,'reason']
 LINK_FIELDS='fixture_key source_key source source_fixture_id source_reported_date source_manifest decision'.split()
@@ -416,7 +424,7 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
         write_parquet(working/'scorelines_replay.parquet',[r for r in rows if r['replay_eligible']],DATA_FIELDS)
         write_parquet(working/'provenance.parquet',links,LINK_FIELDS)
         write_parquet(working/'review.parquet',held,HELD_FIELDS)
-        receipt=dict(schema_version=1,native_revision=source_revision,native_publications=pubs,
+        receipt=dict(schema_version=2,replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
                      reviewed_team_directory_sha256=directory['sha256'],inputs=input_hashes,
                      reviewed_result_sha256=hashlib.sha256(review_bytes).hexdigest() if review_bytes else None,
                      builder_sha256=sha(Path(__file__)),
