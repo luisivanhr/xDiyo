@@ -131,3 +131,16 @@ still holds the identity rather than overriding it. A confirmed decision
 includes `reviewed_source_team` in the crosswalk; the manifest records the
 SHA-256 of the supplied JSON. Keep the reviewed file with private build inputs.
 A Decisions API suggestion is not sufficient evidence to create a nomination.
+
+## Correcting an archive team label or storing an awarded-result hold
+
+Use `--reviewed-isdb-corrections /private/corrections.json` for independently
+verified ISDB label errors. Each JSON record targets a single fixture key and
+gives the exact expected league, season, both original labels, score and
+source-reported day. Only the selected side's working label changes: the raw
+provider keys, fixture key, and original day are preserved. The evidence
+URL is recorded, and the immutable build copies and hashes the correction
+file. A row explicitly marked `awarded` is retained in review, not in the
+scorelines or replay. For separate verified completion-day evidence use
+`--reviewed-results`. Neither input approves identity continuity to a later
+provider team ID.

@@ -260,3 +260,22 @@ def test_mens_porto_b_slug_uses_pinned_mens_competitions_only():
                                   countries={'Liga_Portugal_2':'Portugal'},slug_index=slug_index)
     assert decisions[('External','Liga_Portugal_2','2013/2014','old-porto-b')]==74469
     assert [row['team_id'] for row in slug_index if row['slug']=='fc-porto-b']==[74469]
+
+
+def test_reviewed_isdb_correction_preserves_raw_identity_and_holds_award():
+    from xdiyo_analytics.data.scorelines import apply_isdb_corrections
+    row,_=historical(source='ISDBv2',home_team='Mislabel',source_home_key='Mislabel')
+    expected={k:row[k] for k in ('league','season','home_team','away_team','home_goals','away_goals')}
+    expected['source_reported_date']=str(row['source_reported_date'])
+    correction=dict(fixture_key=row['fixture_key'],expected=expected,side='home',
+                    corrected_label='Actual team',awarded=False,evidence_url='https://archive.example/season')
+    [(fixed,held)]=apply_isdb_corrections([(row,None)],[correction])
+    assert held is None and fixed['home_team']=='Actual team' and row['home_team']=='Mislabel'
+    assert fixed['fixture_key']==row['fixture_key'] and fixed['source_home_key']=='Mislabel'
+    assert fixed['source_reported_date']==row['source_reported_date']
+    [(awarded,held)]=apply_isdb_corrections([(row,None)],[dict(correction,awarded=True)])
+    assert held=='reviewed_awarded_not_played' and awarded['home_team']=='Actual team'
+    with pytest.raises(ValueError,match='signature differs'):
+        list(apply_isdb_corrections([(dict(row,away_goals=99),None)],[correction]))
+    with pytest.raises(ValueError,match='not found'):
+        list(apply_isdb_corrections([], [correction]))

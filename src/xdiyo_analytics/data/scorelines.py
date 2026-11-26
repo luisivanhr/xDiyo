@@ -243,6 +243,37 @@ def read_external(path, historical):
                 source_url=None if historical else r['source_url'],score_basis=basis),hold
 
 
+def apply_isdb_corrections(source_rows, corrections):
+    """Apply fixture-scoped external evidence without changing raw provider keys."""
+    scopes=('league','season','home_team','away_team','home_goals','away_goals','source_reported_date')
+    index={}
+    for c in corrections:
+        if (not isinstance(c,dict) or set(c)!={'fixture_key','expected','side','corrected_label','awarded','evidence_url'}
+            or not isinstance(c['fixture_key'],str) or c['fixture_key'] in index
+            or not isinstance(c['expected'],dict) or set(c['expected'])!=set(scopes)
+            or c['side'] not in ('home','away') or type(c['awarded']) is not bool
+            or not isinstance(c['corrected_label'],str) or not c['corrected_label'].strip()
+            or not isinstance(c['evidence_url'],str)):
+            raise ValueError('Invalid reviewed ISDB correction')
+        u=urlsplit(c['evidence_url'])
+        if u.scheme!='https' or not u.hostname or u.username or u.password or u.query:
+            raise ValueError('Reviewed correction needs a public HTTPS evidence URL')
+        index[c['fixture_key']]=c
+    for row,hold in source_rows:
+        c=index.pop(row['fixture_key'],None)
+        if c is None:
+            yield row,hold
+            continue
+        observed={k:row[k] for k in scopes}
+        observed['source_reported_date']=str(observed['source_reported_date'])
+        if row['source']!='ISDBv2' or hold or c['expected']!=observed:
+            raise ValueError(f"Reviewed correction signature differs: {row['fixture_key']}")
+        corrected=dict(row,**{c['side']+'_team':c['corrected_label']},review_evidence=c['evidence_url'])
+        yield corrected,'reviewed_awarded_not_played' if c['awarded'] else None
+    if index:
+        raise ValueError(f'Reviewed corrections not found in ISDB input: {sorted(index)[:5]}')
+
+
 def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None, slug_index=None, reviewed_source_teams=()):
     """Return scorelines, accepted overlap links, and a review queue."""
     comp=defaultdict(set); seasons=defaultdict(set); names=defaultdict(set)
@@ -423,7 +454,8 @@ def write_parquet(path,rows,columns):
     pq.write_table(pa.Table.from_pylist(rows,schema=schema),path,compression='zstd')
 
 
-def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,reviewed_results=None,reviewed_source_teams=None):
+def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,reviewed_results=None,reviewed_source_teams=None,
+          reviewed_isdb_corrections=None):
     sofa_root,isdb,archive,out=(Path(p).resolve() for p in (sofa_root,isdb,archive,out))
     if out.exists() or out.is_relative_to(sofa_root):
         raise ValueError('Choose a new output directory outside the SofaScore source')
@@ -435,11 +467,15 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
     team_review_bytes=Path(reviewed_source_teams).read_bytes() if reviewed_source_teams else None
     team_reviews=json.loads(team_review_bytes) if team_review_bytes is not None else []
     if not isinstance(team_reviews,list):raise ValueError('Reviewed source teams must be a JSON array')
+    correction_bytes=Path(reviewed_isdb_corrections).read_bytes() if reviewed_isdb_corrections else None
+    corrections=json.loads(correction_bytes) if correction_bytes is not None else []
+    if not isinstance(corrections,list):raise ValueError('Reviewed ISDB corrections must be a JSON array')
     directory=load_reviewed_team_directory(team_directory)
     native,pubs=read_native(sofa_root)
     aliases=load_team_identity_decisions()
     crosswalk=[]; slug_index=[]
-    rows,links,held=materialize(native,read_external(isdb,True),read_external(archive,False),directory,reviews,
+    historical=apply_isdb_corrections(read_external(isdb,True),corrections)
+    rows,links,held=materialize(native,historical,read_external(archive,False),directory,reviews,
                                 dated_aliases=aliases['records'],crosswalk=crosswalk,slug_index=slug_index,
                                 reviewed_source_teams=team_reviews)
     if {'isdb':sha(isdb),'archive':sha(archive)}!=input_hashes:
@@ -457,7 +493,10 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
         write_parquet(working/'review.parquet',held,HELD_FIELDS)
         (working/'team_crosswalk.json').write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         (working/'team_slug_index.json').write_text(json.dumps(slug_index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        receipt=dict(schema_version=4,crosswalk_policy='dated_country_slug_and_ordered_fixture_v3',
+        if correction_bytes is not None:
+            (working/'reviewed_isdb_corrections.json').write_bytes(correction_bytes)
+        receipt=dict(schema_version=4,reviewed_isdb_corrections_sha256=(
+                     hashlib.sha256(correction_bytes).hexdigest() if correction_bytes is not None else None),crosswalk_policy='dated_country_slug_and_ordered_fixture_v3',
                      reviewed_source_teams_sha256=hashlib.sha256(team_review_bytes).hexdigest() if team_review_bytes is not None else None,
                      team_alias_decisions_sha256=aliases['sha256'],
                      crosswalk_by_decision=Counter(r['decision'] for r in crosswalk),replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
@@ -485,11 +524,13 @@ def main(argv=None):
     parser.add_argument('--reviewed-team-directory',type=Path)
     parser.add_argument('--reviewed-results',type=Path)
     parser.add_argument('--reviewed-source-teams',type=Path)
+    parser.add_argument('--reviewed-isdb-corrections',type=Path)
     parser.add_argument('--native-revision',help='Optional Git commit or pinned data release used as input')
     args=parser.parse_args(argv)
     r=build(args.sofascore_root,args.isdb,args.archive,args.output,team_directory=args.reviewed_team_directory,
             source_revision=args.native_revision,reviewed_results=args.reviewed_results,
-            reviewed_source_teams=args.reviewed_source_teams)
+            reviewed_source_teams=args.reviewed_source_teams,
+            reviewed_isdb_corrections=args.reviewed_isdb_corrections)
     print(json.dumps({k:r[k] for k in ('rows_by_source','replay_rows','review_by_reason','linked_observations')},indent=2))
 
 
