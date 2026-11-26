@@ -3,6 +3,8 @@
 `scorelines` is a private, immutable goals-only snapshot. It does not modify or
 replace the native SofaScore data, the historical scores inputs, or the existing
 catalogue. No adapter or fixture join runs during an experiment.
+For the paired xDiyo input and season-entry table, see
+[Prepared scoreline history](scoreline_history.md).
 
 ## Build
 
