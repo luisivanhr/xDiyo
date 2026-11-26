@@ -190,3 +190,21 @@ def test_compiler_quarantines_two_source_keys_that_play_against_each_other():
     decisions,proof=compile_crosswalk([native()], [match], [], lambda *args:1)
     assert not decisions
     assert {r['decision'] for r in proof}=={'opponents_collapse'}
+
+
+def test_slug_pass_crosses_divisions_but_not_borders_or_reserve_qualifiers():
+    from xdiyo_analytics.data.scoreline_identities import compile_crosswalk, slug_key
+
+    assert slug_key('São Paulo B')=='sao-paulo-b'
+    assert slug_key('Łódź II')=='lodz-ii'
+    top=native(home_team='Current name',home_source_slug='alpha',away_source_slug='beta')
+    lower=native(fixture_key='sofascore:124',league='Championship',home_id=9,home_team='Étoile',home_source_slug='etoile')
+    abroad=native(fixture_key='sofascore:125',league='Ligue_1',home_id=11,home_team='Étoile',home_source_slug='etoile')
+    countries={'Premier_League':'England','Championship':'England','Ligue_1':'France'}
+    ext=[historical(season='2015/2016',home_team='Étoile'),historical('archive:2',season='2015/2016',
+                           home_team='Étoile B',source_home_key='reserve')]
+    idx=[]
+    decisions,_=compile_crosswalk([top,lower,abroad],ext,[],lambda *_:None,countries=countries,slug_index=idx)
+    assert decisions['External','Premier_League','2015/2016','alpha']==9
+    assert ('External','Premier_League','2015/2016','reserve') not in decisions
+    assert {r['team_id'] for r in idx if r['slug']=='etoile'}=={9,11}

@@ -164,6 +164,8 @@ def read_native(root):
                 home_id=raw.get('home_id'),away_id=raw.get('away_id'),
                 home_team=raw.get('home_display_name') or raw.get('home_name'),
                 home_source_name=raw.get('home_name'),
+                home_source_slug=raw.get('home_slug'),
+                away_source_slug=raw.get('away_slug'),
                 away_source_name=raw.get('away_name'),
                 away_team=raw.get('away_display_name') or raw.get('away_name'),
                 home_goals=goals[0] if goals else None,away_goals=goals[1] if goals else None,
@@ -241,7 +243,7 @@ def read_external(path, historical):
                 source_url=None if historical else r['source_url'],score_basis=basis),hold
 
 
-def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None):
+def materialize(native, historical, archive, directory, reviews=(), *, dated_aliases=(), crosswalk=None, slug_index=None):
     """Return scorelines, accepted overlap links, and a review queue."""
     comp=defaultdict(set); seasons=defaultdict(set); names=defaultdict(set)
     observed=defaultdict(set); fingerprints=defaultdict(list); cells={}
@@ -286,7 +288,8 @@ def materialize(native, historical, archive, directory, reviews=(), *, dated_ali
         historical,archive=list(historical),list(archive)
         def approved(league, label, day):
             return resolve(league,label,day)[0]
-        decisions, proof=compile_crosswalk(native,historical+archive,dated_aliases,approved)
+        decisions, proof=compile_crosswalk(native,historical+archive,dated_aliases,approved,
+                                           countries=COUNTRIES,slug_index=slug_index)
         crosswalk.extend(proof)
         labels={r['team_id']:r['canonical_name'] for r in directory['teams']}
         for r in dated_aliases:labels.setdefault(r['team_id'],r['canonical_name'])
@@ -431,9 +434,9 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
     directory=load_reviewed_team_directory(team_directory)
     native,pubs=read_native(sofa_root)
     aliases=load_team_identity_decisions()
-    crosswalk=[]
+    crosswalk=[]; slug_index=[]
     rows,links,held=materialize(native,read_external(isdb,True),read_external(archive,False),directory,reviews,
-                                dated_aliases=aliases['records'],crosswalk=crosswalk)
+                                dated_aliases=aliases['records'],crosswalk=crosswalk,slug_index=slug_index)
     if {'isdb':sha(isdb),'archive':sha(archive)}!=input_hashes:
         raise RuntimeError('An external input changed during the build')
     if not rows:raise ValueError('No eligible goals in the selected inputs')
@@ -448,7 +451,8 @@ def build(sofa_root,isdb,archive,out,*,team_directory=None,source_revision=None,
         write_parquet(working/'provenance.parquet',links,LINK_FIELDS)
         write_parquet(working/'review.parquet',held,HELD_FIELDS)
         (working/'team_crosswalk.json').write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        receipt=dict(schema_version=3,crosswalk_policy='dated_exact_and_ordered_fixture_v1',
+        (working/'team_slug_index.json').write_text(json.dumps(slug_index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        receipt=dict(schema_version=4,crosswalk_policy='dated_country_slug_and_ordered_fixture_v2',
                      team_alias_decisions_sha256=aliases['sha256'],
                      crosswalk_by_decision=Counter(r['decision'] for r in crosswalk),replay_policy='prior_result_day_v1',native_revision=source_revision,native_publications=pubs,
                      reviewed_team_directory_sha256=directory['sha256'],inputs=input_hashes,

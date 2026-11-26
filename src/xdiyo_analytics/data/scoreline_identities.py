@@ -1,6 +1,8 @@
 """Deterministic scoreline team crosswalk for a pinned build, never fuzzy."""
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import timedelta
+import re
+import unicodedata
 
 from .catalogue.registry import name_key
 
@@ -9,7 +11,18 @@ def identity_key(row, side):
     return (row['source'], row['league'], row['season'], row[f'source_{side}_key'])
 
 
-def compile_crosswalk(native, external, aliases, lookup):
+def slug_key(value):
+    """Normalize presentation only; never strip team or reserve qualifiers."""
+    text=value.casefold().translate(str.maketrans({'ł':'l','ø':'o','đ':'d','ı':'i','æ':'ae','œ':'oe'}))
+    text=''.join(c for c in unicodedata.normalize('NFKD',text) if not unicodedata.combining(c))
+    return re.sub(r'[^a-z0-9]+','-',text).strip('-') if text.isascii() else ''
+
+
+# The predecessor and successor share this name; current slug alone isn't proof.
+HISTORICAL_SLUG_HOLDS={('Bulgaria','cska-sofia'):2017}
+
+
+def compile_crosswalk(native, external, aliases, lookup, *, countries=None, slug_index=None):
     """Use dated reviews, exact names in native seasons, and fixture evidence.
 
     One source key can refer to different teams in different seasons. Conflicts
@@ -18,6 +31,9 @@ def compile_crosswalk(native, external, aliases, lookup):
     Fixture propagation uses a fixed seed set, not its own suggestions as
     evidence. It requires two distinct fixtures and two already-known rivals.
     """
+    countries=countries or {}
+    slugs=defaultdict(lambda: defaultdict(set))
+    teams_by_slug={}
     comps=defaultdict(set)
     raw_names=defaultdict(lambda: defaultdict(set))
     native_by_rival=defaultdict(list)
@@ -25,9 +41,17 @@ def compile_crosswalk(native, external, aliases, lookup):
     for r in native:
         league=r['league']; year=int(r['season'][:4])
         comps[league].add(r['competition_id'])
+        country=countries.get(league)
         for side in ('home','away'):
             tid=r[f'{side}_id']
             name=r[f'{side}_team']
+            slug=r.get(f'{side}_source_slug')
+            if country and tid and name and isinstance(slug,str) and re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',slug):
+                slugs[country,slug][tid].add(year)
+                key=(country,slug,tid)
+                entry=teams_by_slug.setdefault(key,dict(country=country,slug=slug,team_id=tid,names=set(),seasons=set()))
+                entry['names'].add(name)
+                entry['seasons'].add(r['season'])
             if tid and name:
                 for label in {name,r.get(f'{side}_source_name') or name}:
                     raw_names[league,name_key(label)][tid].add(year)
@@ -39,6 +63,9 @@ def compile_crosswalk(native, external, aliases, lookup):
         for side,other in (('home','away'),('away','home')):
             k=(league,r['season'],r['source_reported_date'],r['home_goals'],r['away_goals'],side,r[f'{other}_id'])
             native_by_rival[k].append(r)
+    if slug_index is not None:
+        slug_index.extend(dict(row,names=sorted(row['names']),seasons=sorted(row['seasons']))
+                          for _,row in sorted(teams_by_slug.items()))
     COMP=defaultdict(list)
     for r in aliases:
         COMP[r['competition_id'],name_key(r['name'])].append(r)
@@ -66,6 +93,12 @@ def compile_crosswalk(native, external, aliases, lookup):
                 for i in ids:support[k].setdefault(i,set()).add('dated_review')
             if len(exact)==1 or ids:
                 for i in nearby:support[k].setdefault(i,set()).add('exact_native_name')
+            country=countries.get(league); slug=slug_key(name)
+            slot=(country,slug); hits=slugs.get(slot,{})
+            if len(hits)==1 and yr>=HISTORICAL_SLUG_HOLDS.get(slot,0):
+                tid,years=next(iter(hits.items()))
+                if min(abs(y-yr) for y in years)<=10:
+                    support[k].setdefault(tid,set()).add('exact_country_slug')
     seeds={k:next(iter(v)) for k,v in support.items() if len(v)==1}
     voted=defaultdict(lambda: defaultdict(lambda: defaultdict(set)))
     for r,hold in external:

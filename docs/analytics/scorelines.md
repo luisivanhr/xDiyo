@@ -61,8 +61,9 @@ file for prior-day goals history.
   fixture identities and raw source date/clock are kept for traceability.
 - Team identity is determined at build time, within source, annual league and
   season. The crosswalk uses dated reviewed aliases, exact names observed in
-  the same native league within five seasons, and repeated ordered fixture
-  matches against known opponents. For fixture evidence the score and ordered
+  the same native league within five seasons, unambiguous native slugs across
+  divisions in the same country within ten seasons, and repeated ordered
+  fixture matches against known opponents. For fixture evidence the score and ordered
   opponent must agree, the date must be within one day, and a nomination must
   have at least two distinct fixtures and two distinct opponents. No fuzzy
   matching or dropped reserve suffixes. Conflicting nominations stay out.
@@ -94,3 +95,21 @@ UTC-day boundary. This can delay admission by an extra day. Archived rows in
 which the source bundle already replaced the first kickoff day with the known
 completion day keep that completion day. Missing or ambiguous team IDs still
 keep records out of the joined replay; score-basis labels are preserved.
+
+## Optional Decisions API review
+
+The build writes `team_slug_index.json` from captured SofaScore team names,
+slugs and IDs. The mapping handoff includes `unresolved_teams_ranked.csv`.
+Prepare a small offline shortlist first:
+
+```sh
+python -m xdiyo_analytics.data.scoreline_decisions   --queue /private/unresolved_teams_ranked.csv   --slug-index /private/team_slug_index.json   --limit 25 --output /private/team_shortlist.json
+```
+
+To make one paid request, set `OPENAI_API_KEY` privately and add `--execute`
+with a new output filename. This uses OpenAI's [Decisions API](https://developers.openai.com/api/docs/guides/decisions)
+(`POST /v1/decisions`, `gpt-6-luna`), not Responses. It submits club names,
+country, league, season and a bounded shortlist of SofaScore identifiers and
+labels, not fixtures, goals, keys from the source datasets, or raw rows.
+Each decision can abstain. A returned ID is only a proposal for review;
+no output from this helper is automatically imported into the crosswalk.
