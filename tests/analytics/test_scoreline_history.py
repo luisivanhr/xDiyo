@@ -94,3 +94,44 @@ def test_no_predecessor_pointer_for_club_held_out_of_prepared_history():
     assert club.movement == 'relegated'
     assert pd.isna(club.previous_season_id) and pd.isna(club.previous_competition_id)
     TransitionContext(history, cutoffs='prediction_at', team_seasons=moves)
+
+
+def test_unified_phase_ratings_preserve_results_and_apply_only_annual_discount():
+    from xdiyo_analytics.data.rating_league_ids import unify_rating_leagues
+    from xdiyo_analytics.ratings import build_bayesian_ratings
+
+    archive = _fixture(90, 'Liga_MX', 2018, '2018-08-01', 11, 12, competition=11621)
+    archive['competition_id'] = None
+    apertura = _fixture(91, 'Liga_MX', 2019, '2019-08-01', 11, 12, native=True, competition=11621)
+    clausura = _fixture(92, 'Liga_MX', 2019, '2020-01-06', 11, 12, native=True, competition=11620)
+    apertura['phase'], clausura['phase'] = 'Apertura', 'Clausura'
+    gap = _fixture(93, 'Liga_MX', 2021, '2021-08-01', 11, 12, native=True, competition=11621)
+    history, moves, _ = prepare(pd.DataFrame([archive, apertura, clausura, gap]), {}, {'Liga_MX': ('mx', 1)})
+    original = history.copy(deep=True)
+    unified, movements, crosswalk = unify_rating_leagues(history, moves)
+
+    pd.testing.assert_frame_equal(history, original)
+    assert unified.competition_id.unique().tolist() == [11621]
+    original_payload = ['fixture_key', 'event_id', 'phase', 'team_id', 'opponent_id',
+                        'goals_for', 'goals_against', 'kickoff_at', 'prediction_at', 'replay_available_at']
+    for f in (history, unified):
+        assert not f.duplicated(['fixture_key', 'side']).any()
+    pd.testing.assert_frame_equal(history.sort_values(['fixture_key','side'])[original_payload].reset_index(drop=True),
+                                  unified.sort_values(['fixture_key','side'])[original_payload].reset_index(drop=True))
+    assert len(crosswalk) == 4
+    home = unified.loc[unified.side.eq('home')].set_index('fixture_key')
+    assert home.loc['fixture:91', 'season_id'] == home.loc['fixture:92', 'season_id']
+    assert home.loc['fixture:92', 'source_competition_id'] == 11620
+    rec = movements.loc[movements.team_id.eq(11)].set_index('season_id')
+    assert rec.loc[home.loc['fixture:91','season_id'], 'movement'] == 'retained'
+    assert rec.loc[home.loc['fixture:91','season_id'], 'previous_season_id'] == home.loc['fixture:90','season_id']
+    assert rec.loc[home.loc['fixture:93','season_id'], 'movement'] == 'unknown'
+    assert pd.isna(rec.loc[home.loc['fixture:93','season_id'], 'previous_season_id'])
+
+    run = build_bayesian_ratings(unified, available_at='replay_available_at',
+                                 cutoffs='prediction_at', team_seasons=movements)
+    club = run.snapshots.loc[run.snapshots.team_id.eq(11)]
+    assert len(run.predictions) == 4
+    assert club.snapshot_kind.eq('retained').sum() == 1
+    assert not club.recorded_at.eq(pd.Timestamp('2020-01-06', tz='UTC')).any()
+    assert club.loc[club.snapshot_kind.eq('result'), 'games_seen'].tolist() == [1, 2, 3, 1]

@@ -57,3 +57,32 @@ Local builds are ignored by default. Publish only an explicitly approved,
 versioned snapshot; keep original provider exports and other artifacts private.
 The manifest pins the inputs and output bytes, and the loader checks both
 consumed tables by default.
+
+## Optional unified rating identities for split-phase leagues
+
+For calibration and replay that should share club ratings across phases,
+materialize an analysis view **before** selecting calibration windows:
+
+```python
+from xdiyo_analytics.data.rating_league_ids import unify_rating_leagues
+
+rating_history, rating_movements, rating_id_crosswalk = unify_rating_leagues(
+    history, team_seasons,
+)
+```
+
+Liga MX uses rating competition ID `11621`, and Colombia Primera A
+uses `11539`. Their archive, Apertura, and Clausura fixtures use a single
+rating season ID per canonical year pair. The phase remains fixture metadata:
+the transition within the same annual season does not reset the team or apply
+season discount. Annual crossings still use the ordinary season-entry rule.
+A retained-state predecessor requires a match result available by entry in
+the immediately preceding annual season. A missing year does not imply
+continuity; explicit entry flags are preserved unless they conflict with
+the available membership evidence, in which case the view fails closed.
+
+This opt-in view does not modify the prepared snapshot or change scores,
+team IDs, fixture keys, dates, or result availability. Use the original
+`source_competition_id` and `provider_season_id` fields (or the canonical
+`fixture_key`) when joining back to provider data, and keep the crosswalk
+with saved ratings. Other competitions retain their keys.
