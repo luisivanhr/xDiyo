@@ -238,14 +238,15 @@ class NativeLibrary:
         return current
 
     def load(self, *, query=None, selection=None, tables=('matches',), record_dir=None,
-             verify_hashes=False, include_awarded=False):
+             verify_hashes=False, include_awarded=False, allow_missing_statistics=False):
         from .loading import _load_selected
         from .native_formats import apply_native_scopes
         chosen = self.validate_selection(selection, query) if selection is not None else self.select(**(query or {}))
         pubs = {p['stem']:p for p in self.publications}
         selected = [(pubs[x['stem']]['source_season'],pubs[x['stem']]['source_league'],x['stem']) for x in chosen['publications']]
         data = _load_selected(self.root, selected, tables=tables, record_dir=record_dir,
-                              verify_hashes=verify_hashes, include_awarded=include_awarded)
+                              verify_hashes=verify_hashes, include_awarded=include_awarded,
+                              allow_missing_statistics=allow_missing_statistics)
         for item in chosen['publications']:
             if _pin(_open_source(self.root,item['stem']).record) != item['record']:
                 raise ValueError('Native publication changed while loading')

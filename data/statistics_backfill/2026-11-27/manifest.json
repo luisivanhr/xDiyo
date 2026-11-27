@@ -1,0 +1,47 @@
+{
+  "version": "statistics-20261127-omiya",
+  "partitions": [
+    {
+      "path": "ballPossession.jsonl.gz",
+      "keys": [
+        "ballPossession"
+      ],
+      "sha256": "de3ed275221fffb2a86d290bb2ec042d23bd4610e1fa6737ec83c31c00bf2342"
+    },
+    {
+      "path": "cornerKicks.jsonl.gz",
+      "keys": [
+        "cornerKicks"
+      ],
+      "sha256": "8896a327273a188ab15a504e1e6bfd21ce0aeb081db8a1e89c6058d5b9d3fd0b"
+    },
+    {
+      "path": "expectedGoals.jsonl.gz",
+      "keys": [
+        "expectedGoals"
+      ],
+      "sha256": "38f3ae4d4fd3fe01fd74f2f4fccb780d4ff8ea641ff52862dddf7933865ed2a2"
+    },
+    {
+      "path": "shotsOffGoal.jsonl.gz",
+      "keys": [
+        "shotsOffGoal"
+      ],
+      "sha256": "0318e054a96d15541c4e431c00e9edcd8aa4bff180e8abbc72898ff22f705444"
+    },
+    {
+      "path": "shotsOnGoal.jsonl.gz",
+      "keys": [
+        "shotsOnGoal"
+      ],
+      "sha256": "a7f89361e00fa925cc80e203ef66c6ea15863f1769afa419285529ac3fe8cc9f"
+    },
+    {
+      "path": "totalShotsOnGoal.jsonl.gz",
+      "keys": [
+        "totalShotsOnGoal"
+      ],
+      "sha256": "d2a3568e1c106728e9e6dfb429533950bde68a76037aec2771892927364ea6ad"
+    }
+  ]
+}

@@ -25,3 +25,5 @@ __all__ += ["list_datasets", "inspect_coverage", "select_data", "resolve_selecti
 
 from .fixture_rounds import FixtureRounds, load_fixture_rounds, assign_fixture_rounds, load_round_enriched_matches
 __all__ += ["FixtureRounds", "load_fixture_rounds", "assign_fixture_rounds", "load_round_enriched_matches"]
+from .statistics_overlay import backfill_corners, backfill_shots, backfill_possession, backfill_expected_goals, backfill_xg, backfill_statistics
+__all__ += ['backfill_corners', 'backfill_shots', 'backfill_possession', 'backfill_expected_goals', 'backfill_xg', 'backfill_statistics']

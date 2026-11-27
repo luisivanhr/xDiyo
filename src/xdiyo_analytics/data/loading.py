@@ -113,6 +113,8 @@ def _check_statistics(frame, matches=None):
     _require(frame, [*grain, "value"], "statistics")
     if frame[grain].isna().any().any() or frame.duplicated(grain).any():
         raise ValueError("Statistics have missing identities or duplicate match/period/group/key/side entries")
+    if frame.empty:
+        return
     if len(frame) and (not pd.api.types.is_integer_dtype(frame.event_id.dtype) or frame.event_id.le(0).any()):
         raise ValueError("Statistics need positive integer match IDs")
     if not frame.side.isin(["home", "away"]).all():
@@ -133,7 +135,7 @@ def _check_statistics(frame, matches=None):
 
 
 def load_season(data_root, season_stem, *, tables=("matches",), record_path=None,
-                verify_hashes=False, include_awarded=False) -> SeasonData:
+                verify_hashes=False, include_awarded=False, allow_missing_statistics=False) -> SeasonData:
     """Load selected tables from one season version; no joins or normalization.
 
     Pass a table name or a list/tuple of names. Returns separate DataFrames with
@@ -166,14 +168,23 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
         raise ValueError("Choose each table only once")
     source = _open_source(data_root, season_stem, record_path)
     enrichment = None
+    missing_statistics = allow_missing_statistics and 'statistics' in tables and 'statistics' not in source.manifest['tables']
     for name in tables:
+        if name == 'statistics' and missing_statistics:
+            continue
         if name == 'team_seasons' and name not in source.manifest['tables']:
             from .movements import _read_movements
             enrichment = _read_movements(data_root, season_stem, source)
         else:
             source.table_path(name)
-    frames = {name: enrichment[0] if name == 'team_seasons' and enrichment is not None
-              else _read_table(source, name, verify_hashes) for name in tables}
+    def read_requested(name):
+        if name == 'statistics' and missing_statistics:
+            import pandas as pd
+            import pyarrow as pa
+            from .statistics_backfill import statistics_schema
+            return pa.Table.from_batches([], schema=statistics_schema()).to_pandas(types_mapper=pd.ArrowDtype)
+        return enrichment[0] if name == 'team_seasons' and enrichment is not None else _read_table(source, name, verify_hashes)
+    frames = {name: read_requested(name) for name in tables}
     if "matches" in frames:
         _check_matches(frames["matches"], source.manifest["scope"])
     if "statistics" in frames:
@@ -201,6 +212,8 @@ def load_season(data_root, season_stem, *, tables=("matches",), record_path=None
                 "manifest_path": str(source.path), "tables": tuple(tables),
                 "include_awarded": include_awarded, "excluded_awarded_event_ids": excluded,
                 "awarded_flag_available": matches is not None and "is_awarded" in matches}
+    if allow_missing_statistics:
+        provenance["missing_statistics_table"] = missing_statistics
     if integration:
         provenance['native_integration'] = {k:integration[k] for k in
             ('policy','competition','season','rules','coverage','availability') if k in integration}
@@ -278,7 +291,7 @@ def _discover_seasons(root, seasons, leagues):
 
 def load_seasons(data_root, seasons=None, *, leagues=None, tables=("matches",),
                  record_dir=None, verify_hashes=False, include_awarded=False,
-                 query=None, native_selection=None) -> SeasonData:
+                 query=None, native_selection=None, allow_missing_statistics=False) -> SeasonData:
     """Load available league-season publications and combine each table separately.
 
     seasons is a label or list/tuple such as ['22_23', '23_24', '24_25'].
@@ -305,7 +318,8 @@ def load_seasons(data_root, seasons=None, *, leagues=None, tables=("matches",),
             raise ValueError('Use either a SofaScore query or legacy seasons/leagues, not both.')
         from .native_query import NativeLibrary
         return NativeLibrary(data_root).load(query=query, selection=native_selection, tables=tables,
-            record_dir=record_dir, verify_hashes=verify_hashes, include_awarded=include_awarded)
+            record_dir=record_dir, verify_hashes=verify_hashes, include_awarded=include_awarded,
+            allow_missing_statistics=allow_missing_statistics)
 
     seasons, leagues, tables = _validate_season_options(seasons, leagues, tables, include_awarded)
 
@@ -319,11 +333,11 @@ def load_seasons(data_root, seasons=None, *, leagues=None, tables=("matches",),
 
     return _load_selected(root, selected, tables=tables, record_dir=records,
                           verify_hashes=verify_hashes, include_awarded=include_awarded,
-                          seasons=seasons)
+                          seasons=seasons, allow_missing_statistics=allow_missing_statistics)
 
 
 def _load_selected(root, selected, *, tables, record_dir=None, verify_hashes=False,
-                   include_awarded=False, seasons=None):
+                   include_awarded=False, seasons=None, allow_missing_statistics=False):
     """Shared physical loading, with discovery/resolution performed by the caller."""
     import pandas as pd
     if isinstance(tables, str):
@@ -338,7 +352,8 @@ def _load_selected(root, selected, *, tables, record_dir=None, verify_hashes=Fal
     for season, league, stem in selected:
         loaded = load_season(root, stem, tables=tables,
                              record_path=records / f"{stem}.json" if records else None,
-                             verify_hashes=verify_hashes, include_awarded=include_awarded)
+                             verify_hashes=verify_hashes, include_awarded=include_awarded,
+                             allow_missing_statistics=allow_missing_statistics)
         for name, frame in loaded.tables.items():
             if {"source_league", "source_season"} & set(frame.columns):
                 raise ValueError(f"{stem}/{name} already contains reserved source_league/source_season columns")

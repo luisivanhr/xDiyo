@@ -23,7 +23,7 @@ def default_recipe(data_root='data/xDiyo_data'):
         'version': 1, 'name': 'Corners experiment', 'output_dir': 'experiments', 'config': {}, 'team_badges': None,
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
-        'data_selection': None, 'dataset_migration': None, 'native_preprocessing': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
+        'statistics_overlay': None, 'data_selection': None, 'dataset_migration': None, 'native_preprocessing': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
         'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
         'identity_features': None, 'numeric_features': None,
         'ratings': {}, 'features': {'corners_mean': node('features.RollingMean', source=stat, window=5),
@@ -66,6 +66,9 @@ def validate_recipe(recipe):
     from .countdown_migration import reject_obsolete_countdown
     reject_obsolete_countdown(recipe)
     recipe = deepcopy(recipe)
+    if recipe.get('statistics_overlay') is not None:
+        from ..data.statistics_overlay import normalize_overlay_selection
+        recipe['statistics_overlay'] = normalize_overlay_selection(recipe['statistics_overlay'])
     # Older UI recipes predate the badge toggle. Preserve an explicit opt-out.
     for reporter in [*recipe.get('post_reporters', {}).values(), *recipe.get('pre_reporters', {}).values()]:
         if isinstance(reporter, dict) and reporter.get('component') in ('reporting.MatchResultReporter', 'reporting.BetOutcomeReporter', 'reporting.HeatmapReporter', 'reporting.RatingReporter', 'reporting.EmbeddingReporter', 'reporting.GraphAttentionWeightReporter'):
@@ -186,6 +189,19 @@ def _recipe_split_plan(dataset, splitter, options, cutoff_hours):
     return create_split_plan(dataset, splitter, **options)
 
 
+def _verify_overlay_selection(recipe, definitions):
+    """Reuse prepared data and fitted artifacts only with matching overlay semantics."""
+    selected = recipe.get('statistics_overlay')
+    saved = definitions.get('statistics_overlay')
+    if selected is None and saved is None:
+        return
+    if (selected is None or saved is None
+            or saved.get('mode', 'retrospective') != 'retrospective' or saved.get('as_of') is not None
+            or selected['manifest_sha256'] != saved.get('manifest_sha256')
+            or sorted(selected['keys']) != saved.get('applied_keys')):
+        raise ValueError('Statistics overlay selection differs from the prepared dataset or fitted model')
+
+
 def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=None):
     from ..data import load_seasons, select_stats
     from ..histories import build_team_history
@@ -200,6 +216,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     from ..reporting import TeamCatalog
     recipe = validate_recipe(recipe)
     catalog = catalog or catalog_for_ui()
+    if prediction and preparation_state is not None:
+        _verify_overlay_selection(recipe, preparation_state)
     named_data = None
     if recipe.get('data_selection'):
         if prediction: raise ValueError('Named historical selections are not live future-fixture inputs')
@@ -207,6 +225,14 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         named_data, named_history = named_recipe_data(recipe)
     data_options = catalog.build(recipe['data'])
     native_query = data_options.get('query') is not None or data_options.get('native_selection') is not None
+    overlay = recipe.get('statistics_overlay')
+    if overlay is not None:
+        if named_data is not None:
+            raise ValueError('Statistics backfill requires native SofaScore publications')
+        tables = data_options.get('tables', ['matches'])
+        tables = [tables] if isinstance(tables, str) else tables
+        data_options['tables'] = list(dict.fromkeys([*tables, 'matches', 'statistics']))
+        data_options['allow_missing_statistics'] = True
     native_report = None
     if recipe.get('native_preprocessing') is not None and not native_query:
         raise ValueError('Native preprocessing requires an explicit SofaScore query/selection; legacy recipes remain unchanged')
@@ -287,6 +313,13 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
             tables.append('team_seasons')
         countdown_data = load_recipe_data(**{**data_options, 'tables': tables, 'include_awarded': True})
     data = named_data if named_data is not None else load_recipe_data(**data_options)
+    if overlay is not None:
+        from ..data.statistics_overlay import backfill_statistics
+        overlay_options = dict(overlay)
+        overlay_keys = overlay_options.pop('keys')
+        data, overlay_receipt = backfill_statistics(data, overlay_options, keys=overlay_keys)
+    else:
+        overlay_receipt = None
     if native_query:
         from ..data.native_preflight import preflight_loaded, validate_preprocessing
         native_settings = validate_preprocessing(recipe.get('native_preprocessing'))
@@ -468,6 +501,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         dataset.y=dataset.y.loc[selected].reset_index(drop=True)
         dataset.metadata=dataset.metadata.loc[selected].reset_index(drop=True)
         dataset.definitions['native_preprocessing']=native_report
+    if overlay_receipt is not None:
+        dataset.definitions['statistics_overlay'] = overlay_receipt
     if named_data is not None:
         from ..data.catalogue.integration import select_targets
         dataset = select_targets(dataset, data.provenance['data_selection'])
@@ -708,6 +743,8 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
                         f'Select at least one column, or disable {title_field} to {disabled}. '
                         'Discover feature columns first if the choices are not loaded.')
     catalog = catalog or catalog_for_ui()
+    if prepared is not None:
+        _verify_overlay_selection(recipe, prepared.dataset.definitions)
     prepared = prepared or prepare_recipe(recipe, catalog=catalog)
     context = {**prepared.outputs, 'dataset': prepared.dataset}
     experiment = FootballExperiment(recipe['name'], output_dir=recipe.get('output_dir', 'experiments'), config=recipe.get('config'))

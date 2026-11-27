@@ -1,5 +1,7 @@
 # Missing statistics backfill
 
+For the November 2026 published, missing-only recipe input, see [experiment statistics overlay](experiment_statistics_overlay.md).
+
 The Mexican expansion is documented in [Mexico enrichment](mexico_enrichment.md),
 including short-tournament matching and reviewed cross-midnight exceptions.
 
