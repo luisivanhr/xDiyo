@@ -89,7 +89,7 @@ def _native_scoped(history):
                     for rule in history.native_standings_rule.dropna().unique()))
 
 
-def _canonical(history, roster, available_at, *, timing='available_at_cutoff', meetings_per_pair=None,
+def _canonical(history, roster, available_at, *, timing='available_at_cutoff', league_timezones=None, meetings_per_pair=None,
                allow_incomplete_schedule=False):
     if 'native_standings_rule' in history:
         from ..data.native_integration import native_rule
@@ -129,6 +129,14 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
             available_at = available_at.fillna(pd.to_datetime(history['standings_result_available_at'], utc=True))
     frame["_available"] = (aligned_times(history, None, default='kickoff_at') if timing == 'kickoff_day'
                            else availability_times(history, available_at)).to_numpy()
+    if league_timezones is not None:
+        from ..data.league_day import day_boundary
+        release = day_boundary(history, aligned_times(history, None, default='kickoff_at'),
+                               league_timezones, after_match=True)
+        if available_at is not None:
+            constraint = aligned_times(history, available_at, default='kickoff_at')
+            release = release.where(constraint.notna()).mask(release.lt(constraint), constraint)
+        frame['_available'] = availability_times(history, release).to_numpy()
     frame["kickoff_at"] = aligned_times(history, None, default="kickoff_at").to_numpy()
     for c in (*scope, "event_id", "team_id", "opponent_id"):
         frame[c] = pd.Series([_id(v) for v in frame[c].tolist()], index=frame.index, dtype=object)
@@ -191,7 +199,7 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
         if special and not explicit:
             release_requirement = ' and known standings_result_available_at' if timing != 'kickoff_day' else ''
             raise ValueError(f"Awarded/revised result {key} needs approved standings_goals_for/against{release_requirement}.")
-        if explicit and timing != 'kickoff_day':
+        if explicit and (timing != 'kickoff_day' or (league_timezones is not None and pd.notna(home.get('standings_result_available_at')))):
             release = home.get('standings_result_available_at')
             if pd.isna(release):
                 raise ValueError("Approved standings scores need a known ruling/result release time.")
@@ -272,6 +280,8 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
     canonical = sorted((json.dumps(r, default=str, sort_keys=True) for r in frame.to_dict('records')))
     policy = _policy(timing, any('home_points' in m for m in fixtures.values()))
     identity_fields = dict(rows=canonical, members=sorted((str(k), sorted(map(str,v))) for k,v in members.items()), policy=policy)
+    if league_timezones is not None:
+        identity_fields['league_calendar_v1'] = league_timezones
     if meetings_per_pair is not None:
         identity_fields['meetings_per_pair'] = meetings_per_pair
     if allow_incomplete_schedule:
@@ -280,8 +290,13 @@ def _canonical(history, roster, available_at, *, timing='available_at_cutoff', m
     return scope, members, scopes, fixtures, skipped, identity
 
 
-def _query_keys(history, scope, fixtures, cutoffs, *, timing='available_at_cutoff'):
+def _query_keys(history, scope, fixtures, cutoffs, *, timing='available_at_cutoff', league_timezones=None):
     times = aligned_times(history, cutoffs, default='kickoff_at')
+    if league_timezones is not None:
+        from ..data.league_day import day_boundary
+        if (times > aligned_times(history, None, default='kickoff_at')).any():
+            raise ValueError('Standings prediction cutoff cannot follow target kickoff')
+        times = day_boundary(history, times, league_timezones)
     anchors = {}
     for match in fixtures.values():
         key = (*match['scope'], match['round'])
@@ -299,7 +314,9 @@ def _query_keys(history, scope, fixtures, cutoffs, *, timing='available_at_cutof
         q = (kick if timing == 'kickoff_day' else anchors[(*skey, match['round'])]) if cutoffs is None else requested
         if pd.isna(q) or q > kick:
             raise ValueError('Standings requires known prediction cutoffs no later than target kickoff.')
-        if timing == 'kickoff_day':
+        if league_timezones is not None:
+            q = requested
+        elif timing == 'kickoff_day':
             if q.normalize() != kick.normalize():
                 raise ValueError('Kickoff-day standings require a forecast on the target kickoff calendar date.')
             q = kick.normalize()
@@ -345,7 +362,8 @@ class StandingsRun:
         if set(venues) - set(self._metadata.get('venues', ['all'])):
             raise ValueError('Requested venues are absent from saved standings; rebuild the required venue tables.')
         queries = _query_keys(history, scope, self._fixtures, cutoffs,
-                              timing=self._metadata.get('timing', 'available_at_cutoff'))
+                              timing=self._metadata.get('timing', 'available_at_cutoff'),
+                              league_timezones=self._metadata.get('league_timezones'))
         if self._lookup is None:
             self._lookup = {tuple(r[c] for c in (*scope, 'recorded_at', 'team_id', 'window')) + (r.get('venue', 'all'),):r
                             for r in self._snapshots.to_dict('records')}
@@ -390,7 +408,10 @@ class StandingsRun:
             fixtures.append(r)
         versions = {POLICY: 3, DAILY_POLICY: 4, REVIEWED_POLICY: 5, REVIEWED_DAILY_POLICY: 6,
                     VERSIONED_POLICY: 7, VERSIONED_DAILY_POLICY: 8}
-        body = dict(version=versions.get(self._metadata.get('policy'), 2 if 'venues' in self._metadata else 1), metadata=self.metadata, publications=self.publications, fixtures=fixtures)
+        version = versions.get(self._metadata.get('policy'), 2 if 'venues' in self._metadata else 1)
+        if 'league_timezones' in self._metadata:
+            version = {4: 9, 6: 10, 8: 11}[version]
+        body = dict(version=version, metadata=self.metadata, publications=self.publications, fixtures=fixtures)
         payload = json.dumps(body, default=_json_scalar, allow_nan=False, indent=2)
         self._snapshots.to_parquet(path/'snapshots.parquet', index=False, compression='zstd')
         (path/'standings.json').write_text(payload+'\n', encoding='utf-8')
@@ -399,6 +420,14 @@ class StandingsRun:
     def load(cls, directory):
         path = Path(directory)
         body = json.loads((path/'standings.json').read_text(encoding='utf-8'))
+        if body['version'] in (9, 10, 11):
+            from ..data.league_day import league_zones
+            league_zones(body['metadata'].get('league_timezones'))
+            if body['metadata'].get('calendar_policy') != 'league_day_v1':
+                raise ValueError('Invalid daily standings calendar policy')
+            body['version'] = {9: 4, 10: 6, 11: 8}[body['version']]
+        elif 'league_timezones' in body['metadata'] or 'calendar_policy' in body['metadata']:
+            raise ValueError('Legacy standings artifacts cannot specify a league calendar')
         if (body['version'], body['metadata']['policy']) not in ((1, LEGACY_POLICY), (2, LEGACY_POLICY), (3, POLICY), (4, DAILY_POLICY), (5, REVIEWED_POLICY), (6, REVIEWED_DAILY_POLICY), (7, VERSIONED_POLICY), (8, VERSIONED_DAILY_POLICY)):
             raise ValueError('Unsupported standings artifact version/policy.')
         fixtures = {}
@@ -433,7 +462,7 @@ class StandingsRun:
         return cls(snapshots, body['publications'], body['metadata'], fixtures)
 
 
-def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff', meetings_per_pair=None, allow_incomplete_schedule=False, result_versions=None):
+def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=None, cutoffs=None, available_at=None, venues=('all',), timing='available_at_cutoff', meetings_per_pair=None, allow_incomplete_schedule=False, result_versions=None, league_timezones=None):
     """Build complete tables once per distinct scope/cutoff, without fitting.
 
     By default history must include the complete schedule/results; the reviewed
@@ -484,15 +513,20 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     from ..features.standings import DerivedStandings
     from .standings_reviews import apply_known_standings_reviews
     history = apply_known_standings_reviews(history)
+    if league_timezones is not None:
+        from ..data.league_day import league_zones
+        league_timezones = league_zones(league_timezones)
+        if timing != 'kickoff_day':
+            raise ValueError('League calendar standings require kickoff_day timing')
     if result_versions is not None:
         from .standings_versions import build_versioned_standings
         return build_versioned_standings(history, team_seasons=team_seasons, result_versions=result_versions,
             normalized_ranks=normalized_ranks, queries=queries, cutoffs=cutoffs, available_at=available_at,
-            venues=venues, timing=timing, meetings_per_pair=meetings_per_pair,
+            venues=venues, timing=timing, league_timezones=league_timezones, meetings_per_pair=meetings_per_pair,
             allow_incomplete_schedule=allow_incomplete_schedule)
     if timing not in TIMINGS:
         raise ValueError('Standings timing must be available_at_cutoff or kickoff_day.')
-    if timing == 'kickoff_day' and available_at is not None:
+    if timing == 'kickoff_day' and available_at is not None and league_timezones is None:
         raise ValueError('Kickoff-day timing defines retrospective availability; do not supply available_at.')
     if type(allow_incomplete_schedule) is not bool:
         raise ValueError('allow_incomplete_schedule must be a boolean.')
@@ -520,12 +554,12 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
             members['standings_table_id'] = key[2]
             rows.append(members)
         team_seasons = pd.concat(rows, ignore_index=True)
-    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing, meetings_per_pair=meetings_per_pair,
+    scope, members, groups, fixtures, skipped, identity = _canonical(history, team_seasons, available_at, timing=timing, league_timezones=league_timezones, meetings_per_pair=meetings_per_pair,
         allow_incomplete_schedule=allow_incomplete_schedule)
     reviewed = [m for m in fixtures.values() if 'home_points' in m]
     policy = _policy(timing, bool(reviewed))
     queries = history if queries is None else queries
-    query_rows = _query_keys(queries, scope, fixtures, cutoffs, timing=timing)
+    query_rows = _query_keys(queries, scope, fixtures, cutoffs, timing=timing, league_timezones=league_timezones)
     requested = {}
     for skey, q, _, _ in query_rows:
         requested.setdefault(skey, set()).add(q)
@@ -595,6 +629,8 @@ def build_standings(history, *, team_seasons, normalized_ranks=(5,), queries=Non
     if _native_scoped(history):
         metadata['schedule'] = 'verified_native_independent_table_scopes'
         metadata['native_scope_rules'] = sorted(history.native_standings_rule.dropna().unique().tolist())
+    if league_timezones is not None:
+        metadata.update(calendar_policy='league_day_v1', league_timezones=league_timezones, availability='prior_league_completion_day')
     if reviewed:
         metadata['points_rule'] = 'reviewed_fixture_points_else_score_3_1_0'
         metadata['reviewed_points'] = [dict(scope=list(m['scope']), event=m['event'],

@@ -159,6 +159,9 @@ class BuilderState:
         # Resolve known paths without chdir (which would affect notebook threads).
         recipe['data']['data_root'] = str(self.resolve(recipe['data']['data_root']))
         recipe['output_dir'] = str(self.resolve(recipe.get('output_dir', 'experiments')))
+        if recipe.get('statistics_overlay'):
+            selection = recipe['statistics_overlay']
+            selection['manifest_path'] = str(self.resolve(selection['manifest_path']))
         if recipe.get('data_selection'):
             recipe['data_selection']['root'] = str(self.resolve(recipe['data_selection']['root']))
         if recipe.get('team_badges'):

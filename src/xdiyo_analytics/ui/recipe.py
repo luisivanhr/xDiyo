@@ -17,12 +17,13 @@ def node(component, **params):
     return {'component': component, 'params': params}
 
 
-def default_recipe(data_root='data/xDiyo_data'):
+def default_recipe(data_root='data/xDiyo_data', *, league_timezones=None):
     stat = node('features.Stat', period='ALL', group='Match overview', key='cornerKicks')
     return {
         'version': 1, 'name': 'Corners experiment', 'output_dir': 'experiments', 'config': {}, 'team_badges': None,
         'data': {'data_root': str(data_root), 'seasons': ['22_23', '23_24', '24_25'],
                  'leagues': None, 'tables': ['matches', 'statistics', 'pregame'], 'include_awarded': False},
+        **({'league_timezones': league_timezones} if league_timezones is not None else {}),
         'statistics_overlay': None, 'data_selection': None, 'dataset_migration': None, 'native_preprocessing': None, 'stat_selection': None, 'history': {}, 'feature_options': {}, 'cutoff_hours': None,
         'feature_preset': None, 'preset_seasons': None, 'derived_features': {}, 'context_features': {},
         'identity_features': None, 'numeric_features': None,
@@ -53,7 +54,7 @@ def validate_recipe(recipe):
         raise ValueError('Choose a version 1 experiment recipe.')
     if not isinstance(recipe.get('name'), str) or not recipe['name'].strip():
         raise ValueError('Give the experiment a name.')
-    unknown = set(recipe) - set(default_recipe())
+    unknown = set(recipe) - set(default_recipe()) - {'league_timezones'}
     if recipe.get('dataset_migration'):
         from ..data.catalogue.migration import validate_migration_envelope
         unknown -= validate_migration_envelope(recipe)
@@ -66,6 +67,9 @@ def validate_recipe(recipe):
     from .countdown_migration import reject_obsolete_countdown
     reject_obsolete_countdown(recipe)
     recipe = deepcopy(recipe)
+    if recipe.get('league_timezones') is not None:
+        from ..data.league_day import league_zones
+        recipe['league_timezones'] = league_zones(recipe['league_timezones'])
     if recipe.get('statistics_overlay') is not None:
         from ..data.statistics_overlay import normalize_overlay_selection
         recipe['statistics_overlay'] = normalize_overlay_selection(recipe['statistics_overlay'])
@@ -179,13 +183,23 @@ def catalog_for_ui():
     return catalog
 
 
-def _recipe_split_plan(dataset, splitter, options, cutoff_hours):
+def _recipe_split_plan(dataset, splitter, options, cutoff_hours, league_timezones=None):
     from ..splits import create_split_plan, TemporalSplit
     options = dict(options)
     if isinstance(splitter, TemporalSplit) and cutoff_hours is not None and 'cutoffs' not in options:
         # Assembly and search subsets can pivot or drop history rows. Use their
         # aligned timestamps; explicit cutoffs (including None) take precedence.
         options['cutoffs'] = dataset.metadata.kickoff_at - pd.Timedelta(hours=float(cutoff_hours))
+    if isinstance(splitter, TemporalSplit) and league_timezones is not None:
+        from ..splits.core import _times
+        options['league_timezones'] = league_timezones
+        current = dataset.metadata['league_day_issue_at']
+        if options.get('cutoffs') is not None:
+            requested = _times(dataset, options['cutoffs'], 'cutoffs')
+            if requested.isna().any() or (requested > dataset.metadata.kickoff_at).any():
+                raise ValueError('Invalid daily fold issuance cutoff')
+            current = current.mask(requested.lt(current), requested)
+        options['cutoffs'] = current
     return create_split_plan(dataset, splitter, **options)
 
 
@@ -218,6 +232,9 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
     catalog = catalog or catalog_for_ui()
     if prediction and preparation_state is not None:
         _verify_overlay_selection(recipe, preparation_state)
+    zones = recipe.get('league_timezones')
+    if prediction and preparation_state is not None and zones != preparation_state.get('league_timezones'):
+        raise ValueError('League calendar differs from fitted model')
     named_data = None
     if recipe.get('data_selection'):
         if prediction: raise ValueError('Named historical selections are not live future-fixture inputs')
@@ -418,6 +435,18 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         options['cutoffs'] = history_cutoffs(graph_store, graph_spec.config, history)
         context['graph_store'] = graph_store
     labels = create_labels(history, catalog.build(recipe['labels']))
+    if zones is not None:
+        from ..features.history import aligned_times
+        options['league_timezones'] = zones
+        issued = aligned_times(history, options.get('cutoffs'), default='kickoff_at')
+        if issued.isna().any() or (issued > history.kickoff_at).any():
+            raise ValueError('Invalid daily recipe issuance cutoff')
+        ids = ['competition_id', 'season_id', 'event_id']
+        if issued.groupby([history[k] for k in ids],sort=False).nunique().gt(1).any():
+            raise ValueError('Daily recipe needs one issuance per fixture')
+        for label in labels.values():
+            label.metadata['league_day_issue_at'] = issued.loc[label.metadata.index]
+
     if native_query and native_settings['entry_information']=='explicit':
         from ..data.native_preflight import validate_entry_cutoffs
         validate_entry_cutoffs(history,data['team_seasons'],options.get('cutoffs'))
@@ -449,7 +478,7 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
                 raise ValueError('Native training labels must use result_available_at evidence')
             split_options['available_at']='result_available_at'
         plan = (splitter if isinstance(splitter, SplitPlan) else
-                _recipe_split_plan(frame, splitter, split_options, hours))
+                _recipe_split_plan(frame, splitter, split_options, hours, zones))
         if recipe.get('fold_ids') is not None:
             plan = SplitPlan([plan.folds[int(i)] for i in recipe['fold_ids']], plan.n_rows, plan.row_order, paths=None)
         if named_data is not None:
@@ -501,6 +530,8 @@ def prepare_recipe(recipe, *, catalog=None, prediction=False, preparation_state=
         dataset.y=dataset.y.loc[selected].reset_index(drop=True)
         dataset.metadata=dataset.metadata.loc[selected].reset_index(drop=True)
         dataset.definitions['native_preprocessing']=native_report
+    if zones is not None:
+        dataset.definitions['league_timezones'] = zones
     if overlay_receipt is not None:
         dataset.definitions['statistics_overlay'] = overlay_receipt
     if named_data is not None:
@@ -684,9 +715,10 @@ class InnerPlan:
     options: dict
     catalog: object
     cutoff_hours: object = None
+    league_timezones: object = None
 
     def __call__(self, dataset):
-        return _recipe_split_plan(dataset, self.catalog.build(self.spec), self.catalog.build(self.options), self.cutoff_hours)
+        return _recipe_split_plan(dataset, self.catalog.build(self.spec), self.catalog.build(self.options), self.cutoff_hours, self.league_timezones)
 
 
 def _grid_candidates(recipe, search, catalog, context):
@@ -720,6 +752,27 @@ def _grid_candidates(recipe, search, catalog, context):
     return candidates
 
 
+def _preparation_settings(recipe, catalog):
+    fields = ('data', 'data_selection', 'dataset_migration', 'native_preprocessing', 'league_timezones',
+              'stat_selection', 'history', 'feature_options', 'cutoff_hours', 'feature_preset',
+              'preset_seasons', 'derived_features', 'context_features', 'identity_features',
+              'numeric_features', 'ratings', 'features', 'labels', 'target', 'assembly',
+              'split', 'split_options', 'fold_ids', 'team_badges')
+    settings = {name: recipe.get(name) for name in fields}
+    # Mapping order determines the public feature matrix column order.
+    for name in ('features', 'derived_features', 'context_features'):
+        settings[name] = tuple((recipe.get(name) or {}).items())
+    if recipe['model'].get('component') == 'graphs.TemporalGraphModel':
+        from ..graphs.spatial import grid_identity
+        graph = catalog.build(recipe['model'])
+        settings['graph inputs'] = dict(membership=graph.membership_policy, members=graph.memberships_path,
+            phase=graph.phase_context_path, stage=graph.round_stage_column,
+            phase_features=graph.config.phase_rank_features, timezone=graph.config.timezone,
+            policy=graph.config.forecast_policy, round_keys=graph.config.round_keys,
+            grid=grid_identity(graph.config.heatmaps) if graph.config.heatmaps is not None else None)
+    return settings
+
+
 def run_recipe(recipe, *, prepared=None, catalog=None):
     from ..experiments.football import FootballExperiment, RefitPolicy
     from ..analysis import PreTrainingAnalysis, PostTrainingAnalysis
@@ -745,6 +798,15 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
     catalog = catalog or catalog_for_ui()
     if prepared is not None:
         _verify_overlay_selection(recipe, prepared.dataset.definitions)
+        original = prepared.config.get('recipe')
+        if original is None:
+            raise ValueError('Cannot verify prepared recipe inputs. Use prepare_recipe to rebuild them.')
+        from ..experiments.recovery import signature
+        old = _preparation_settings(original, catalog)
+        new = _preparation_settings(recipe, catalog)
+        changed = [k for k in sorted(old.keys() | new.keys()) if signature(old.get(k)) != signature(new.get(k))]
+        if changed:
+            raise ValueError('Prepared recipe inputs changed: ' + ', '.join(changed) + '. Run prepare_recipe again.')
     prepared = prepared or prepare_recipe(recipe, catalog=catalog)
     context = {**prepared.outputs, 'dataset': prepared.dataset}
     experiment = FootballExperiment(recipe['name'], output_dir=recipe.get('output_dir', 'experiments'), config=recipe.get('config'))
@@ -774,7 +836,7 @@ def run_recipe(recipe, *, prepared=None, catalog=None):
         candidates = (catalog.build(search['candidate_source'], context) if search.get('candidate_source') is not None
                       else _grid_candidates(recipe, search, catalog, context))
         options['model_selection'] = ModelSelection(candidates, **catalog.build(search.get('options', {}), context))
-        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog, recipe.get('cutoff_hours'))
+        inner = InnerPlan(search['split'], search.get('split_options', {}), catalog, recipe.get('cutoff_hours'), recipe.get('league_timezones'))
         if search.get('nested', False):
             options['inner_plan_factory'] = inner
         else:

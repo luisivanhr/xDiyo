@@ -95,3 +95,63 @@ def test_ui_refresh_endpoint_preserves_settings(export, tmp_path):
         assert result['changes'][0]['season'] == STEM
     finally:
         state.executor.shutdown()
+
+
+def test_refresh_query_addition_and_missing_existing_pin(export,tmp_path):
+    from test_native_query_preflight import publication, recipe
+    import pyarrow as pa
+
+    publication(export)
+    original = recipe(export, query={'competitions': 17})
+    first = refresh_recipe_data(original, tmp_path/'first.json')['recipe']
+    # A genuinely new season of the same competition starts matching the saved query.
+    extra = type(export)(export.root)
+    extra.version = export.version.parent.parent.parent/'season=70000'/'versions'/'v1'
+    extra.version.mkdir(parents=True)
+    extra.manifest_path = extra.version/'manifest.json'
+    extra.publication_path = export.root/'Premier_League_25_26.manifest.json'
+    manifest = export.manifest()
+    manifest['scope'].update(season_id=70000,season_start=2025,season_end=2026)
+    manifest['native_integration']['season'].update(id=70000,name='Premier League 25/26',year='25/26')
+    manifest['season_calendar'].update(season_id=70000,annual_season='2025/2026')
+    manifest['tables'] = {}
+    extra.manifest_path.write_text(json.dumps(manifest))
+    for table in ('matches','team_seasons'):
+        rows = export.table(table).to_pylist()
+        for row in rows:
+            row['season_id']=70000
+            if table=='matches':
+                row['event_id']+=1000
+        extra.replace(table,pa.Table.from_pylist(rows))
+    pub = json.loads(export.publication_path.read_bytes())
+    pub.update(season_file='Premier_League_25_26.parquet',
+               manifest=extra.manifest_path.relative_to(export.root).as_posix(),
+               native_integration=manifest['native_integration'],season_calendar=manifest['season_calendar'])
+    extra.publication_path.write_text(json.dumps(pub))
+    result = refresh_recipe_data(first,tmp_path/'second.json')
+    assert [(v['season'],v['change_kind']) for v in result['changes'] if v['change_kind']=='new_selection'] == [
+        ('Premier_League_25_26','new_selection')]
+    assert json.loads(Path(result['report_path']).read_bytes())['native_selection']['added'] == ['Premier_League_25_26']
+    (Path(first['data']['record_dir'])/(STEM+'.json')).unlink()
+    with pytest.raises(FileNotFoundError,match='Missing previous selection record'):
+        refresh_recipe_data(first,tmp_path/'third.json')
+
+
+def test_refresh_checks_overlay_without_repinning(export,tmp_path):
+    from hashlib import sha256
+    part=tmp_path/'corners.jsonl'
+    part.write_bytes(b'')
+    manifest=tmp_path/'overlay.json'
+    manifest.write_text(json.dumps(dict(version='test',partitions=[dict(path=part.name,
+        keys=['cornerKicks'],sha256=sha256(part.read_bytes()).hexdigest())])))
+    r=default_recipe(str(export.root))
+    r['data'].update(seasons=['24_25'],tables=['matches'])
+    r['statistics_overlay']=dict(manifest_path=manifest.name,manifest_sha256=sha256(manifest.read_bytes()).hexdigest(),
+                                 keys=['cornerKicks'])
+    result=refresh_recipe_data(r,'v2.json',workspace=tmp_path,dry_run=True)
+    assert result['report']['verified_statistics_overlay']==r['statistics_overlay']
+    part.write_bytes(b'changed')
+    for preview in (True, False):
+        with pytest.raises(ValueError,match='partition hash mismatch'):
+            refresh_recipe_data(r,'v2.json',workspace=tmp_path,dry_run=preview)
+    assert not (tmp_path/'v2.json').exists()

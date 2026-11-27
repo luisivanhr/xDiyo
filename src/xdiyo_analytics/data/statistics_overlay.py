@@ -54,8 +54,7 @@ def _positive_id(value, field):
     return value
 
 
-def _backfill(data, config, requested):
-    """Fill missing cells by competition, season, fixture, team, period and statistic."""
+def _read_release(config, requested, *, load_payloads):
     config = normalize_overlay_selection(config)
     if set(config) != {'manifest_path', 'manifest_sha256'}:
         raise ValueError('Overlay requires manifest_path and manifest_sha256')
@@ -86,10 +85,27 @@ def _backfill(data, config, requested):
         raw = path.read_bytes()
         if hashlib.sha256(raw).hexdigest() != part['sha256']:
             raise ValueError('Overlay partition hash mismatch')
-        payloads.append((part, gzip.decompress(raw) if path.suffix == '.gz' else raw))
+        if load_payloads:
+            payloads.append((part, gzip.decompress(raw) if path.suffix == '.gz' else raw))
     requested = set(requested)
     if not requested or requested - set(STAT_KEYS) or requested - covered:
         raise ValueError('Requested keys must be present in the overlay manifest')
+    return version, expected, payloads
+
+
+def verify_overlay_selection(selection, workspace):
+    config = normalize_overlay_selection(selection)
+    keys = config.pop('keys', None)
+    if not isinstance(keys, (list, tuple)) or not keys:
+        raise ValueError('Statistics overlay requires a nonempty selection of keys')
+    config['manifest_path'] = Path(workspace) / config['manifest_path']
+    _read_release(config, keys, load_payloads=False)
+
+
+def _backfill(data, config, requested):
+    """Fill missing cells by competition, season, fixture, team, period and statistic."""
+    requested = set(requested)
+    version, expected, payloads = _read_release(config, requested, load_payloads=True)
     previous = data.provenance.get('statistics_overlay')
     if previous:
         normalize_overlay_selection(previous)

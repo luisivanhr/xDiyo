@@ -75,7 +75,7 @@ def _journal(history, versions):
 
 def build_versioned_standings(history, *, team_seasons, result_versions, normalized_ranks,
                               queries, cutoffs, available_at, venues, timing,
-                              meetings_per_pair, allow_incomplete_schedule):
+                              meetings_per_pair, allow_incomplete_schedule, league_timezones=None):
     """Resolve each version at the query cutoff, retaining original event order.
 
     A supplied journal enables strict administrative provenance: every awarded
@@ -87,7 +87,7 @@ def build_versioned_standings(history, *, team_seasons, result_versions, normali
     from ..features.standings import DerivedStandings
     if timing not in native.TIMINGS:
         raise ValueError('Unsupported result-version standings timing.')
-    if timing == 'kickoff_day' and available_at is not None:
+    if timing == 'kickoff_day' and available_at is not None and league_timezones is None:
         raise ValueError('Kickoff-day ordinary results do not accept available_at; journal releases remain explicit.')
     if type(allow_incomplete_schedule) is not bool:
         raise ValueError('allow_incomplete_schedule must be a boolean.')
@@ -129,9 +129,9 @@ def build_versioned_standings(history, *, team_seasons, result_versions, normali
         structural.loc[mask, 'standings_result_available_at'] = versions[-1]['available_at']
         structural.loc[mask, 'result_review_json'] = json.dumps(dict(reviewed=True, source=versions[-1]['source'], policy='explicit_publication_version_journal'))
     scope, members, groups, fixtures, skipped, identity = native._canonical(structural, team_seasons, available_at,
-        timing=timing, meetings_per_pair=meetings_per_pair, allow_incomplete_schedule=allow_incomplete_schedule)
+        timing=timing, league_timezones=league_timezones, meetings_per_pair=meetings_per_pair, allow_incomplete_schedule=allow_incomplete_schedule)
     windows = DerivedStandings(normalized_ranks, include_raw=True).normalized_ranks
-    query_rows = native._query_keys(history if queries is None else queries, scope, fixtures, cutoffs, timing=timing)
+    query_rows = native._query_keys(history if queries is None else queries, scope, fixtures, cutoffs, timing=timing, league_timezones=league_timezones)
     requested = {}
     for skey, q, _, _ in query_rows:
         requested.setdefault(skey, set()).add(q)
@@ -208,6 +208,8 @@ def build_versioned_standings(history, *, team_seasons, result_versions, normali
         metadata['schedule'] = 'verified_independent_triple_round_robin_2_1_venues'
     if allow_incomplete_schedule:
         metadata.update(schedule='explicit_independent_regular_incomplete_schedule', allow_incomplete_schedule=True)
+    if league_timezones is not None:
+        metadata.update(calendar_policy='league_day_v1', league_timezones=league_timezones)
     return native.StandingsRun(pd.DataFrame(snapshots), publications, metadata, fixtures)
 
 

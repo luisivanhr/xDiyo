@@ -47,10 +47,17 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
         raise FileNotFoundError(f'Data directory does not exist: {root}')
     native_before = deepcopy(config.get('native_selection'))
     native_after = None
+    previous_pins = None
+    overlay = updated.get('statistics_overlay')
+    if overlay is not None:
+        from ..data.statistics_overlay import verify_overlay_selection
+        verify_overlay_selection(overlay, base)
+    allow_missing_stats = overlay is not None or config.get('allow_missing_statistics', False)
     if config.get('query') is not None or native_before is not None:
         from ..data.native_query import NativeLibrary, validate_selection_envelope
         if native_before is not None:
             validate_selection_envelope(native_before)
+            previous_pins = {p['stem']: p['record'] for p in native_before['publications']}
         if config.get('seasons') is not None or config.get('leagues') is not None:
             raise ValueError('Choose native query or legacy seasons/leagues, not both')
         query = config.get('query')
@@ -64,7 +71,8 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
         selected = [(by_stem[p['stem']]['source_season'],by_stem[p['stem']]['source_league'],p['stem']) for p in native_after['publications']]
         config['native_selection'] = native_after
         # Validate filtered scope construction as well as each underlying file.
-        library.load(query=query,tables=tables,verify_hashes=True,include_awarded=config.get('include_awarded',False))
+        library.load(query=query, tables=tables, verify_hashes=True, include_awarded=config.get('include_awarded', False),
+                     allow_missing_statistics=allow_missing_stats)
     else:
         seasons, leagues, tables = _validate_season_options(config['seasons'], config.get('leagues'),
             config.get('tables', ['matches']), config.get('include_awarded', False))
@@ -93,6 +101,8 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
     for _, _, stem in selected:
         source = _open_source(root, stem)
         for table in tables:
+            if table == 'statistics' and allow_missing_stats and table not in source.manifest['tables']:
+                continue
             if table == 'team_seasons' and table not in source.manifest['tables']:
                 from ..data.movements import _read_movements
                 _read_movements(root, stem, source)
@@ -104,11 +114,14 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
                 if digest != source.manifest['tables'][table]['sha256']:
                     raise ValueError(f'{stem}/{table}: fingerprint mismatch during recipe refresh.')
         previous = None
-        if config.get('record_dir'):
+        if config.get('record_dir') and (previous_pins is None or stem in previous_pins):
             old_path = resolve(config['record_dir']) / f'{stem}.json'
             if not old_path.is_file():
                 raise FileNotFoundError(f'Missing previous selection record: {old_path}')
             previous = json.loads(old_path.read_text(encoding='utf-8'))
+            if previous_pins is not None and any(previous.get(field) != pin
+                    for field, pin in previous_pins[stem].items()):
+                raise ValueError(f'Previous record disagrees with the pinned native selection: {old_path}')
             if previous.get('season_stem') != stem:
                 raise ValueError(f'Selection record belongs to another season: {old_path}')
             try:
@@ -125,7 +138,7 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
                 raise ValueError(f'Invalid previous selection: {old_path}') from exc
         # Validate readable tables, identities, calendar/rule metadata and joins,
         # independently of the old recipe's optional verify_hashes setting.
-        load_season(root, stem, tables=tables, verify_hashes=True,
+        load_season(root, stem, tables=tables, verify_hashes=True, allow_missing_statistics=allow_missing_stats,
                     include_awarded=config.get('include_awarded', False))
         if _open_source(root, stem).record != source.record:
             raise ValueError(f'Publication changed during refresh validation: {stem}')
@@ -159,6 +172,8 @@ def refresh_recipe_data(recipe, output_path, *, workspace=None, data_root=None,
                   original_recipe_sha256=(hashlib.sha256(original_path.read_bytes()).hexdigest() if original_path else None),
                   output_recipe=str(output), changes=changes,
                   warning='Refresh creates a new input identity; previous experiment results are not migrated. Manifest-only changes can change feature semantics.')
+    if overlay is not None:
+        report['verified_statistics_overlay'] = deepcopy(overlay)
     if native_after is not None:
         report['native_selection'] = dict(previous=native_before,current=native_after,
             added=sorted({p['stem'] for p in native_after['publications']}-{p['stem'] for p in (native_before or {}).get('publications',[])}),

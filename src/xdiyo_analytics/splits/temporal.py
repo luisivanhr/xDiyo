@@ -65,7 +65,7 @@ class TemporalSplit(Splitter):
     allow_partial_test: bool = False
     gap_unit: object = None
 
-    def folds(self, dataset, *, cutoffs=None, available_at=None):
+    def folds(self, dataset, *, cutoffs=None, available_at=None, league_timezones=None):
         for name in ("train_size", "test_size"):
             _integer(getattr(self, name), name)
         for name in ("gap", "score_start"):
@@ -95,6 +95,14 @@ class TemporalSplit(Splitter):
             raise ValueError("Prediction cutoffs cannot be later than kickoff.")
         from ..data.availability import respect_result_availability
         raw = _times(dataset, "kickoff_at" if available_at is None else available_at, "available_at")
+        if league_timezones is not None:
+            from ..data.league_day import day_boundary, league_zones
+            league_timezones = league_zones(league_timezones)
+            issued = pd.Series(predict, index=matches.meta.index)
+            predict = pd.DatetimeIndex(day_boundary(matches.meta, issued, league_timezones))
+            kickoff = _times(dataset, 'kickoff_at', 'kickoff_at')
+            next_day = day_boundary(dataset.metadata, kickoff, league_timezones, after_match=True)
+            raw = raw.mask(raw.lt(next_day), next_day)
         raw = respect_result_availability(dataset.metadata, raw)
         available = pd.to_datetime([
             raw.iloc[rows].max() if raw.iloc[rows].notna().all() else pd.NaT
@@ -166,14 +174,18 @@ class TemporalSplit(Splitter):
                     "scheme": "temporal", "retrospective": False,
                     "calendar": calendar_key, "calendar_by": calendar_by,
                     "block_by": block_by, "unit": self.unit, "window": self.window,
+                    **({"calendar_policy": "league_day_v1", "league_timezones": dict(league_timezones)}
+                       if league_timezones is not None else {}),
                     "fit_at": fit_at, "training_boundary": boundary,
                     "train_blocks": tuple(keys[train_begin:train_end]),
                     "test_blocks": tuple(keys[test_begin:test_end]),
                     "gap": self.gap, "gap_unit": gap_unit,
                     "gap_rows": matches.rows(gap_matches),
                     "excluded_train": matches.rows(candidate[~eligible]),
-                    "availability": "kickoff_proxy" if available_at is None else "explicit",
-                    "cutoffs": "kickoff" if cutoffs is None else "explicit",
+                    "availability": ("prior_league_completion_day" if league_timezones is not None else
+                                     "kickoff_proxy" if available_at is None else "explicit"),
+                    "cutoffs": ("league_day" if league_timezones is not None else
+                                "kickoff" if cutoffs is None else "explicit"),
                 }, score))
         if not folds:
             raise ValueError("No complete fold fits the requested calendar/spans.")

@@ -30,7 +30,7 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                       cutoffs=None, available_at=None, team_counts=None, ratings=None,
                       team_seasons=None, season_starts=None, keyed=False, heatmaps=None,
                       rating_runs=None, standings_history=None, standings_available_at=None,
-                      standings_run=None, schedule_history=None):
+                      standings_run=None, schedule_history=None, league_timezones=None):
     """Evaluate a mapping of output names to expressions; preserve row/index order.
 
     rating_runs optionally receives the RatingRun objects used by this evaluation
@@ -132,6 +132,11 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
             while key in retained_ratings:
                 key += ":rating"
             retained_ratings[key] = run
+    if league_timezones is not None:
+        from ..data.league_day import league_zones
+        league_timezones = league_zones(league_timezones)
+        if standings_run is not None and standings_run.metadata.get('league_timezones') != league_timezones:
+            raise ValueError('Saved standings use a different league calendar')
     standings_producer = standings_run
     standings_windows = []
     standings_venues = []
@@ -291,7 +296,9 @@ def evaluate_features(history, features, *, group_by=("team_id", "competition_id
                 source = history if standings_history is None else standings_history
                 release = available_at if standings_history is None else standings_available_at
                 standings_producer = build_standings(source, team_seasons=team_seasons,
-                    normalized_ranks=standings_windows, queries=history, cutoffs=cutoffs, available_at=release, venues=standings_venues)
+                    normalized_ranks=standings_windows, queries=history, cutoffs=cutoffs, available_at=release, venues=standings_venues,
+                    timing='kickoff_day' if league_timezones is not None else 'available_at_cutoff',
+                    league_timezones=league_timezones)
             result = (standings_producer.features(history, node, cutoffs=cutoffs), h2h)
         elif isinstance(node, TeamMovement):
             if movement_evidence is None:
